@@ -33,6 +33,12 @@ public class LineMapData {
     private Boolean terminal2Connected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

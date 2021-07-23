@@ -36,6 +36,15 @@ public class ThreeWindingsTransformerMapData {
     private Boolean terminal3Connected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

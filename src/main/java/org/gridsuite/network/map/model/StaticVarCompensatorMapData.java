@@ -31,6 +31,9 @@ public class StaticVarCompensatorMapData {
     private StaticVarCompensator.RegulationMode regulationMode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

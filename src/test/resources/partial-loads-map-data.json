@@ -4,6 +4,7 @@
     "name": "LOAD",
     "type": "UNDEFINED",
     "voltageLevelId": "VLLOAD",
+    "nominalVoltage": 150.0,
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0

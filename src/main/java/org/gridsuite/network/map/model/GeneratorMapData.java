@@ -28,6 +28,9 @@ public class GeneratorMapData {
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

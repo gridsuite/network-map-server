@@ -28,6 +28,9 @@ public class ShuntCompensatorMapData {
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
