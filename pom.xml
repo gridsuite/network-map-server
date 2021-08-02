@@ -45,7 +45,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <gridsuite-dependencies.version>9</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>10</gridsuite-dependencies.version>
         <equalsverifier.version>3.5</equalsverifier.version>
     </properties>
 
@@ -103,10 +103,6 @@
             <artifactId>powsybl-network-store-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -114,16 +110,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
 
         <!-- Runtime dependencies -->
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-config-classic</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
