@@ -2,10 +2,6 @@ spring:
   application:
     name: network-map-server
 
-springdoc:
-  swagger-ui:
-    path: swagger-ui.html
-
 server:
   port: 5006
   forward-headers-strategy: framework
