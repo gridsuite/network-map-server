@@ -45,6 +45,7 @@ class NetworkMapService {
             .name(voltageLevel.getNameOrId())
             .id(voltageLevel.getId())
             .nominalVoltage(voltageLevel.getNominalV())
+            .topologyKind(voltageLevel.getTopologyKind())
             .build();
     }
 
