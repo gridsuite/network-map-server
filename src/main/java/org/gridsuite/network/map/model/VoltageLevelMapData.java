@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map.model;
 
+import com.powsybl.iidm.network.TopologyKind;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,4 +24,6 @@ public class VoltageLevelMapData {
     private String name;
 
     private double nominalVoltage;
+
+    private TopologyKind topologyKind;
 }

@@ -8,17 +8,20 @@
         {
           "id": "VLGEN",
           "name": "VLGEN",
-          "nominalVoltage": 24.0
+          "nominalVoltage": 24.0,
+          "topologyKind": "BUS_BREAKER"
         },
         {
           "id": "VLHV1",
           "name": "VLHV1",
-          "nominalVoltage": 380.0
+          "nominalVoltage": 380.0,
+          "topologyKind": "BUS_BREAKER"
         },
         {
           "id": "VLNEW2",
           "name": "VLNEW2",
-          "nominalVoltage": 225.0
+          "nominalVoltage": 225.0,
+          "topologyKind": "BUS_BREAKER"
         }
       ]
     },
@@ -29,12 +32,14 @@
         {
           "id": "VLHV2",
           "name": "VLHV2",
-          "nominalVoltage": 380.0
+          "nominalVoltage": 380.0,
+          "topologyKind": "BUS_BREAKER"
         },
         {
           "id": "VLLOAD",
           "name": "VLLOAD",
-          "nominalVoltage": 150.0
+          "nominalVoltage": 150.0,
+          "topologyKind": "BUS_BREAKER"
         }
       ]
     },
@@ -46,7 +51,8 @@
         {
           "id": "VLGEN3",
           "name": "VLGEN3",
-          "nominalVoltage": 24.0
+          "nominalVoltage": 24.0,
+          "topologyKind": "BUS_BREAKER"
         }
       ]
     }
