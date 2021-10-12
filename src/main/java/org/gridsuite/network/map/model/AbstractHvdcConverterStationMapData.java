@@ -30,6 +30,9 @@ public abstract class AbstractHvdcConverterStationMapData {
     private String hvdcLineId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

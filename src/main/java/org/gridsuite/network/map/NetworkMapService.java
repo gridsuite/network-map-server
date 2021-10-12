@@ -66,7 +66,9 @@ class NetworkMapService {
             .terminal1Connected(terminal1.isConnected())
             .terminal2Connected(terminal2.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
-            .voltageLevelId2(terminal2.getVoltageLevel().getId());
+            .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
+            .nominalVoltage2(terminal2.getVoltageLevel().getNominalV());
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -108,6 +110,7 @@ class NetworkMapService {
             .id(generator.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .targetP(generator.getTargetP())
             .minP(generator.getMinP())
             .maxP(generator.getMaxP());
@@ -130,6 +133,8 @@ class NetworkMapService {
             .terminal2Connected(terminal2.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
+            .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
             .phaseTapChanger(toMapData(transformer.getPhaseTapChanger()))
             .ratioTapChanger(toMapData(transformer.getRatioTapChanger()));
         if (!Double.isNaN(terminal1.getP())) {
@@ -193,7 +198,10 @@ class NetworkMapService {
             .terminal3Connected(terminal3.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .voltageLevelId3(terminal3.getVoltageLevel().getId());
+            .voltageLevelId3(terminal3.getVoltageLevel().getId())
+            .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
+            .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+            .nominalVoltage3(terminal3.getVoltageLevel().getNominalV());
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -272,6 +280,7 @@ class NetworkMapService {
             .id(battery.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .p0(battery.getP0())
             .q0(battery.getQ0());
         if (!Double.isNaN(terminal.getP())) {
@@ -290,6 +299,7 @@ class NetworkMapService {
             .id(danglingLine.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .ucteXnodeCode(danglingLine.getUcteXnodeCode())
             .p0(danglingLine.getP0())
             .q0(danglingLine.getQ0());
@@ -319,6 +329,7 @@ class NetworkMapService {
             .name(lccConverterStation.getNameOrId())
             .id(lccConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .terminalConnected(terminal.isConnected())
             .lossFactor(lccConverterStation.getLossFactor())
             .powerFactor(lccConverterStation.getPowerFactor());
@@ -340,6 +351,7 @@ class NetworkMapService {
             .name(vscConverterStation.getNameOrId())
             .id(vscConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .terminalConnected(terminal.isConnected())
             .lossFactor(vscConverterStation.getLossFactor());
         if (vscConverterStation.getHvdcLine() != null) {
@@ -362,6 +374,7 @@ class NetworkMapService {
             .type(load.getLoadType())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .p0(load.getP0())
             .q0(load.getQ0());
         if (!Double.isNaN(terminal.getP())) {
@@ -379,7 +392,8 @@ class NetworkMapService {
             .name(shuntCompensator.getNameOrId())
             .id(shuntCompensator.getId())
             .terminalConnected(terminal.isConnected())
-            .voltageLevelId(terminal.getVoltageLevel().getId());
+            .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV());
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
@@ -399,6 +413,7 @@ class NetworkMapService {
             .id(staticVarCompensator.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .regulationMode(staticVarCompensator.getRegulationMode());
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());

@@ -28,6 +28,9 @@ public class DanglingLineMapData {
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String ucteXnodeCode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -3,6 +3,7 @@
     "id": "VSC1",
     "name": "VSC1",
     "voltageLevelId": "VLNEW2",
+    "nominalVoltage": 225.0,
     "terminalConnected": true,
     "hvdcLineId": "HVDC1",
     "p": 10.0,
@@ -13,6 +14,7 @@
     "id": "VSC2",
     "name": "VSC2",
     "voltageLevelId": "VLGEN3",
+    "nominalVoltage": 24.0,
     "terminalConnected": true,
     "hvdcLineId": null,
     "lossFactor": 1.0
