@@ -8,7 +8,8 @@
         {
           "id": "VLGEN3",
           "name": "VLGEN3",
-          "nominalVoltage": 24.0
+          "nominalVoltage": 24.0,
+          "topologyKind": "BUS_BREAKER"
         }
       ]
     }
