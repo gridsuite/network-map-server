@@ -1,9 +1,0 @@
-spring:
-  profiles:
-    active: default,local
-
-  application:
-    name: network-map-server
-
-server:
-  forward-headers-strategy: framework
