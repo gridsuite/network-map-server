@@ -23,17 +23,21 @@ import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import com.powsybl.iidm.network.TopologyKind;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
+import com.powsybl.iidm.network.VariantManagerConstants;
 import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.iidm.network.VscConverterStation;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
 import com.powsybl.sld.iidm.extensions.BranchStatusAdder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,9 +45,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -65,6 +71,9 @@ public class NetworkMapControllerTest {
 
     private static final UUID NOT_FOUND_NETWORK_ID = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
+    private static final String VARIANT_ID = "variant_1";
+    private static final String VARIANT_ID_NOT_FOUND = "variant_notFound";
+
     @Autowired
     private MockMvc mvc;
 
@@ -75,7 +84,7 @@ public class NetworkMapControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        Network network = EurostagTutorialExample1Factory.create();
+        Network network = EurostagTutorialExample1Factory.create(new NetworkFactoryImpl());
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
                 .setQ(2.2);
@@ -344,6 +353,30 @@ public class NetworkMapControllerTest {
                 .setBus("NNEW2")
                 .add();
 
+        // Add new variant
+        network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
+        network.getVariantManager().setWorkingVariant(VARIANT_ID);
+
+        // Create a shunt compensator only in variant VARIANT_ID
+        ShuntCompensator shunt3 = vlgen3.newShuntCompensator()
+            .setId("SHUNT3")
+            .setName("SHUNT3")
+            .newLinearModel()
+            .setMaximumSectionCount(3)
+            .setBPerSection(1)
+            .setGPerSection(2)
+            .add()
+            .setSectionCount(2)
+            .setTargetV(225)
+            .setVoltageRegulatorOn(true)
+            .setTargetDeadband(10)
+            .setConnectableBus("NGEN3")
+            .setBus("NGEN3")
+            .add();
+        shunt3.getTerminal().setQ(90);
+
+        network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
@@ -470,395 +503,369 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(getClass().getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
+    private String buildUrl(String equipments, String variantId, List<String> substationsIds) {
+        final String[] url = {"/v1/" + equipments + "/{networkUuid}"};
+        if (variantId != null) {
+            url[0] += "?variantId=" + variantId;
+        }
+        if (substationsIds != null) {
+            if (variantId == null) {
+                url[0] += "?";
+            } else {
+                url[0] += "&";
+            }
+            url[0] += "substationId=" + substationsIds.stream().findFirst().orElse("");
+            substationsIds.stream().skip(1).forEach(id -> url[0] += "&substationId=" + id);
+        }
+        return url[0];
+    }
+
+    private void failingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
+        mvc.perform(get(buildUrl(equipments, variantId, substationsIds), networkUuid))
+            .andExpect(status().isNotFound());
+    }
+
+    private void succeedingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrl(equipments, variantId, substationsIds), networkUuid))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/substations-map-data.json"), true));
+        succeedingTest("substations", NETWORK_UUID, null, null, resourceToString("/substations-map-data.json"));
+        succeedingTest("substations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/substations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapData() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("substations", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnSubstationsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-substations-map-data.json"), true));
+        succeedingTest("substations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
+        succeedingTest("substations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}?substationId=P1&substationId=P2", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("substations", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTest("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
     public void shouldReturnLinesMapData() throws Exception {
-        mvc.perform(get("/v1/lines/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/lines-map-data.json"), true));
+        succeedingTest("lines", NETWORK_UUID, null, null, resourceToString("/lines-map-data.json"));
+        succeedingTest("lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapData() throws Exception {
-        mvc.perform(get("/v1/lines/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("lines", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnLinesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/lines/{networkUuid}?substationId=P3", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-lines-map-data.json"), true));
+        succeedingTest("lines", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-lines-map-data.json"));
+        succeedingTest("lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/lines/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnGeneratorsMapData() throws Exception {
-        mvc.perform(get("/v1/generators/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/generators-map-data.json"), true));
+        succeedingTest("generators", NETWORK_UUID, null, null, resourceToString("/generators-map-data.json"));
+        succeedingTest("generators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/generators-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfGeneratorsMapData() throws Exception {
-        mvc.perform(get("/v1/generators/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("generators", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("generators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnGeneratorsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/generators/{networkUuid}?substationId=P2", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("[]", true));
+        succeedingTest("generators", NETWORK_UUID, null, List.of("P2"), "[]");
+        succeedingTest("generators", NETWORK_UUID, VARIANT_ID, List.of("P2"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfGeneratorsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/generators/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("generators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("generators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnTwoWindingsTransformersMapData() throws Exception {
-        mvc.perform(get("/v1/2-windings-transformers/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/2-windings-transformers-map-data.json"), true));
+        succeedingTest("2-windings-transformers", NETWORK_UUID, null, null, resourceToString("/2-windings-transformers-map-data.json"));
+        succeedingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/2-windings-transformers-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersMapData() throws Exception {
-        mvc.perform(get("/v1/2-windings-transformers/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnTwoWindingsTransformersMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/2-windings-transformers/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-2-windings-transformers-map-data.json"), true));
+        succeedingTest("2-windings-transformers", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
+        succeedingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/2-windings-transformers/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnThreeWindingsTransformersMapData() throws Exception {
-        mvc.perform(get("/v1/3-windings-transformers/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/3-windings-transformers-map-data.json"), true));
+        succeedingTest("3-windings-transformers", NETWORK_UUID, null, null, resourceToString("/3-windings-transformers-map-data.json"));
+        succeedingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/3-windings-transformers-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersMapData() throws Exception {
-        mvc.perform(get("/v1/3-windings-transformers/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("3-windings-transformers", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnThreeWindingsTransformersMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/3-windings-transformers/{networkUuid}?substationId=P3", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("[]", true));
+        succeedingTest("3-windings-transformers", NETWORK_UUID, null, List.of("P3"), "[]");
+        succeedingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P3"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/3-windings-transformers/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("3-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnAllMapData() throws Exception {
-        mvc.perform(get("/v1/all/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/all-map-data.json"), true));
+        succeedingTest("all", NETWORK_UUID, null, null, resourceToString("/all-map-data.json"));
+        succeedingTest("all", NETWORK_UUID, VARIANT_ID, null, resourceToString("/all-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfAllMapData() throws Exception {
-        mvc.perform(get("/v1/all/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("all", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("all", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnAllMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/all/{networkUuid}?substationId=P3", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-all-map-data.json"), true));
+        succeedingTest("all", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-all-map-data.json"));
+        succeedingTest("all", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-all-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfAllMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/all/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("all", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("all", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnBatteriesMapData() throws Exception {
-        mvc.perform(get("/v1/batteries/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/batteries-map-data.json"), true));
+        succeedingTest("batteries", NETWORK_UUID, null, null, resourceToString("/batteries-map-data.json"));
+        succeedingTest("batteries", NETWORK_UUID, VARIANT_ID, null, resourceToString("/batteries-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfBatteriesMapData() throws Exception {
-        mvc.perform(get("/v1/batteries/{networkUuid}", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("batteries", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnBatteriesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/batteries/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-batteries-map-data.json"), true));
+        succeedingTest("batteries", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
+        succeedingTest("batteries", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfBatteriesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/batteries/{networkUuid}?substationId=P1&substationId=P2", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("batteries", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTest("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
     public void shouldReturnDanglingLinesMapData() throws Exception {
-        mvc.perform(get("/v1/dangling-lines/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/dangling-lines-map-data.json"), true));
+        succeedingTest("dangling-lines", NETWORK_UUID, null, null, resourceToString("/dangling-lines-map-data.json"));
+        succeedingTest("dangling-lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/dangling-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfDanglingLinesMapData() throws Exception {
-        mvc.perform(get("/v1/dangling-lines/{networkUuid}", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("dangling-lines", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("dangling-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnDanglingLinesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/dangling-lines/{networkUuid}?substationId=P2", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("[]", true));
+        succeedingTest("dangling-lines", NETWORK_UUID, null, List.of("P2"), "[]");
+        succeedingTest("dangling-lines", NETWORK_UUID, VARIANT_ID, List.of("P2"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfDanglingLinesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/dangling-lines/{networkUuid}?substationId=P1&substationId=P2", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("dangling-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTest("dangling-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
     public void shouldReturnLoadsMapData() throws Exception {
-        mvc.perform(get("/v1/loads/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/loads-map-data.json"), true));
+        succeedingTest("loads", NETWORK_UUID, null, null, resourceToString("/loads-map-data.json"));
+        succeedingTest("loads", NETWORK_UUID, VARIANT_ID, null, resourceToString("/loads-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLoadsMapData() throws Exception {
-        mvc.perform(get("/v1/loads/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("loads", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnLoadsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/loads/{networkUuid}?substationId=P2", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-loads-map-data.json"), true));
+        succeedingTest("loads", NETWORK_UUID, null, List.of("P2"), resourceToString("/partial-loads-map-data.json"));
+        succeedingTest("loads", NETWORK_UUID, VARIANT_ID, List.of("P2"), resourceToString("/partial-loads-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLoadsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/loads/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("loads", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnShuntCompensatorsMapData() throws Exception {
-        mvc.perform(get("/v1/shunt-compensators/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/shunt-compensators-map-data.json"), true));
+        succeedingTest("shunt-compensators", NETWORK_UUID, null, null, resourceToString("/shunt-compensators-map-data.json"));
+        succeedingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/shunt-compensators-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfShuntCompensatorsMapData() throws Exception {
-        mvc.perform(get("/v1/shunt-compensators/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("shunt-compensators", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnShuntCompensatorsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/shunt-compensators/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-shunt-compensators-map-data.json"), true));
+        succeedingTest("shunt-compensators", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-shunt-compensators-map-data.json"));
+        succeedingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1", "P3"), resourceToString("/partial-shunt-compensators-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfShuntCompensatorsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/shunt-compensators/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("shunt-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnStaticVarCompensatorsMapData() throws Exception {
-        mvc.perform(get("/v1/static-var-compensators/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/static-var-compensators-map-data.json"), true));
+        succeedingTest("static-var-compensators", NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"));
+        succeedingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/static-var-compensators-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapData() throws Exception {
-        mvc.perform(get("/v1/static-var-compensators/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("static-var-compensators", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnStaticVarCompensatorsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/static-var-compensators/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-static-var-compensators-map-data.json"), true));
+        succeedingTest("static-var-compensators", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
+        succeedingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/static-var-compensators/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("static-var-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnLccConverterStationsMapData() throws Exception {
-        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/lcc-converter-stations-map-data.json"), true));
+        succeedingTest("lcc-converter-stations", NETWORK_UUID, null, null, resourceToString("/lcc-converter-stations-map-data.json"));
+        succeedingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lcc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLccConverterStationsMapData() throws Exception {
-        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnLccConverterStationsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-lcc-converter-stations-map-data.json"), true));
+        succeedingTest("lcc-converter-stations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
+        succeedingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLccConverterStationsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnVscConverterStationsMapData() throws Exception {
-        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/vsc-converter-stations-map-data.json"), true));
+        succeedingTest("vsc-converter-stations", NETWORK_UUID, null, null, resourceToString("/vsc-converter-stations-map-data.json"));
+        succeedingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/vsc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfVscConverterStationsMapData() throws Exception {
-        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("vsc-converter-stations", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnVscConverterStationsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}?substationId=P1", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/partial-vsc-converter-stations-map-data.json"), true));
+        succeedingTest("vsc-converter-stations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
+        succeedingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfVscConverterStationsMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("vsc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnHvdcLinesMapData() throws Exception {
-        mvc.perform(get("/v1/hvdc-lines/{networkUuid}/", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/hvdc-lines-map-data.json"), true));
+        succeedingTest("hvdc-lines", NETWORK_UUID, null, null, resourceToString("/hvdc-lines-map-data.json"));
+        succeedingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/hvdc-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfHvdcLinesMapData() throws Exception {
-        mvc.perform(get("/v1/hvdc-lines/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("hvdc-lines", NOT_FOUND_NETWORK_ID, null, null);
+        failingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnHvdcLinesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/hvdc-lines/{networkUuid}?substationId=P3", NETWORK_UUID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("[]", true));
+        succeedingTest("hvdc-lines", NETWORK_UUID, null, List.of("P3"), "[]");
+        succeedingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfHvdcLinesMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/hvdc-lines/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNotFound());
+        failingTest("hvdc-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 }

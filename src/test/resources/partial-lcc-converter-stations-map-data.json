@@ -3,6 +3,8 @@
     "id": "LCC1",
     "name": "LCC1",
     "voltageLevelId": "VLGEN",
+    "p": 0.0,
+    "q": 0.0,
     "terminalConnected": true,
     "hvdcLineId": null,
     "powerFactor": 0.5,
