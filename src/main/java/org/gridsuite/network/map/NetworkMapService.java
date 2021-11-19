@@ -48,6 +48,7 @@ class NetworkMapService {
         return VoltageLevelMapData.builder()
             .name(voltageLevel.getNameOrId())
             .id(voltageLevel.getId())
+            .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
             .nominalVoltage(voltageLevel.getNominalV())
             .topologyKind(voltageLevel.getTopologyKind())
             .build();

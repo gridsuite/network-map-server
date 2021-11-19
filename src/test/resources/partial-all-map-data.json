@@ -8,6 +8,7 @@
         {
           "id": "VLGEN3",
           "name": "VLGEN3",
+          "substationId": "P3",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER"
         }
@@ -58,8 +59,8 @@
       "name": "SHUNT2",
       "voltageLevelId": "VLGEN3",
       "terminalConnected": true,
-      "targetV": 225.0,
       "q": 0.0,
+      "targetV": 225.0,
       "targetDeadband": 10.0
     }
   ],

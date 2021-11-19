@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.TopologyKind;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -22,6 +23,9 @@ public class VoltageLevelMapData {
     private String id;
 
     private String name;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
 
     private double nominalVoltage;
 
