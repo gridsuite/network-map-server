@@ -420,6 +420,20 @@ class NetworkMapService {
         return builder.build();
     }
 
+    private static BusMapData toMapData(Bus bus) {
+        return BusMapData.builder()
+            .name(bus.getNameOrId())
+            .id(bus.getId())
+            .build();
+    }
+
+    private static BusbarSectionMapData toMapData(BusbarSection busbarSection) {
+        return BusbarSectionMapData.builder()
+            .name(busbarSection.getNameOrId())
+            .id(busbarSection.getId())
+            .build();
+    }
+
     public List<SubstationMapData> getSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
@@ -706,5 +720,30 @@ class NetworkMapService {
                     v.getConnectables(VscConverterStation.class).forEach(s -> res.add(toMapData(s)))));
             return res.stream().collect(Collectors.toList());
         }
+    }
+
+    public List<VoltageLevelMapData> getVoltageLevels(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
+        if (substationsId == null) {
+            return network.getVoltageLevelStream()
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
+        } else {
+            Set<VoltageLevelMapData> res = new LinkedHashSet<>();
+            substationsId.stream().forEach(id ->
+                network.getSubstation(id).getVoltageLevelStream().forEach(v -> res.add(toMapData(v))));
+            return res.stream().collect(Collectors.toList());
+        }
+    }
+
+    public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
+            .map(NetworkMapService::toMapData).collect(Collectors.toList());
+    }
+
+    public List<BusbarSectionMapData> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
+            .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 }

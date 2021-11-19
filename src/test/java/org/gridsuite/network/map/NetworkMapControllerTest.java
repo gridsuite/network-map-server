@@ -353,6 +353,23 @@ public class NetworkMapControllerTest {
                 .setBus("NNEW2")
                 .add();
 
+        Substation p4 = network.newSubstation()
+            .setId("P4")
+            .setCountry(Country.FR)
+            .setTso("RTE")
+            .setGeographicalTags("A")
+            .add();
+        VoltageLevel vlgen4 = p4.newVoltageLevel()
+            .setId("VLGEN4")
+            .setNominalV(24.0)
+            .setTopologyKind(TopologyKind.NODE_BREAKER)
+            .add();
+        vlgen4.getNodeBreakerView().newBusbarSection()
+            .setId("NGEN4")
+            .setName("NGEN4")
+            .setNode(0)
+            .add();
+
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
         network.getVariantManager().setWorkingVariant(VARIANT_ID);
@@ -527,6 +544,57 @@ public class NetworkMapControllerTest {
 
     private void succeedingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrl(equipments, variantId, substationsIds), networkUuid))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private String buildUrlVoltageLevels(String equipments, String variantId, List<String> substationsIds) {
+        final String[] url = {"/v1/networks/{networkUuid}/" + equipments};
+        if (variantId != null) {
+            url[0] += "?variantId=" + variantId;
+        }
+        if (substationsIds != null) {
+            if (variantId == null) {
+                url[0] += "?";
+            } else {
+                url[0] += "&";
+            }
+            url[0] += "substationId=" + substationsIds.stream().findFirst().orElse("");
+            substationsIds.stream().skip(1).forEach(id -> url[0] += "&substationId=" + id);
+        }
+        return url[0];
+    }
+
+    private void failingVoltageLevelsTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
+        mvc.perform(get(buildUrlVoltageLevels(equipments, variantId, substationsIds), networkUuid))
+            .andExpect(status().isNotFound());
+    }
+
+    private void succeedingVoltageLevelsTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlVoltageLevels(equipments, variantId, substationsIds), networkUuid))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private String buildUrlBusOrBusbarSection(String equipments, String variantId) {
+        final String[] url = {"/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/" + equipments};
+        if (variantId != null) {
+            url[0] += "?variantId=" + variantId;
+        }
+        return url[0];
+    }
+
+    private void failingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId) throws Exception {
+        mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
+            .andExpect(status().isNotFound());
+    }
+
+    private void succeedingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andReturn();
@@ -867,5 +935,53 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfHvdcLinesMapDataFromIds() throws Exception {
         failingTest("hvdc-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
         failingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+    }
+
+    @Test
+    public void shouldReturnVoltageLevelsMapData() throws Exception {
+        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, null, null, resourceToString("/voltage-levels-map-data.json"));
+        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID, null, resourceToString("/voltage-levels-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfVoltageLevelsMapData() throws Exception {
+        failingVoltageLevelsTest("voltage-levels", NOT_FOUND_NETWORK_ID, null, null);
+        failingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+    }
+
+    @Test
+    public void shouldReturnVoltageLevelsMapDataFromIds() throws Exception {
+        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfVoltageLevelsMapDataFromIds() throws Exception {
+        failingVoltageLevelsTest("voltage-levels", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+    }
+
+    @Test
+    public void shouldReturnBusesMapData() throws Exception {
+        succeedingBusOrBusbarSectionTest("configured-buses", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-map-data.json"));
+        succeedingBusOrBusbarSectionTest("configured-buses", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfBusesMapData() throws Exception {
+        failingBusOrBusbarSectionTest("configured-buses", NOT_FOUND_NETWORK_ID, "VLGEN", null);
+        failingBusOrBusbarSectionTest("configured-buses", NETWORK_UUID, "VLGEN", VARIANT_ID_NOT_FOUND);
+    }
+
+    @Test
+    public void shouldReturnBusbarSectionsMapData() throws Exception {
+        succeedingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-map-data.json"));
+        succeedingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
+        failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
+        failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
     }
 }
