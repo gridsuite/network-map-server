@@ -32,11 +32,15 @@ class NetworkMapService {
     @Autowired
     private NetworkStoreService networkStoreService;
 
-    private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy) {
+    private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy, String variantId) {
         try {
-            return networkStoreService.getNetwork(networkUuid, strategy);
+            Network network = networkStoreService.getNetwork(networkUuid, strategy);
+            if (variantId != null) {
+                network.getVariantManager().setWorkingVariant(variantId);
+            }
+            return network;
         } catch (PowsyblException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Network '" + networkUuid + "' not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
@@ -416,8 +420,8 @@ class NetworkMapService {
         return builder.build();
     }
 
-    public List<SubstationMapData> getSubstations(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<SubstationMapData> getSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getSubstationStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -428,8 +432,8 @@ class NetworkMapService {
         }
     }
 
-    public List<LineMapData> getLines(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<LineMapData> getLines(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getLineStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -442,8 +446,8 @@ class NetworkMapService {
         }
     }
 
-    public List<GeneratorMapData> getGenerators(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<GeneratorMapData> getGenerators(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getGeneratorStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -456,8 +460,8 @@ class NetworkMapService {
         }
     }
 
-    public List<TwoWindingsTransformerMapData> getTwoWindingsTransformers(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<TwoWindingsTransformerMapData> getTwoWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getTwoWindingsTransformerStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -470,8 +474,8 @@ class NetworkMapService {
         }
     }
 
-    public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getThreeWindingsTransformerStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -484,8 +488,8 @@ class NetworkMapService {
         }
     }
 
-    public AllMapData getAll(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public AllMapData getAll(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
         if (substationsId == null) {
             return AllMapData.builder()
@@ -587,8 +591,8 @@ class NetworkMapService {
         }
     }
 
-    public List<BatteryMapData> getBatteries(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<BatteryMapData> getBatteries(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getBatteryStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -601,8 +605,8 @@ class NetworkMapService {
         }
     }
 
-    public List<DanglingLineMapData> getDanglingLines(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<DanglingLineMapData> getDanglingLines(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getDanglingLineStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -615,8 +619,8 @@ class NetworkMapService {
         }
     }
 
-    public List<HvdcLineMapData> getHvdcLines(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<HvdcLineMapData> getHvdcLines(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getHvdcLineStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -634,8 +638,8 @@ class NetworkMapService {
         }
     }
 
-    public List<LccConverterStationMapData> getLccConverterStations(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<LccConverterStationMapData> getLccConverterStations(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getLccConverterStationStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -648,8 +652,8 @@ class NetworkMapService {
         }
     }
 
-    public List<LoadMapData> getLoads(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<LoadMapData> getLoads(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getLoadStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -662,8 +666,8 @@ class NetworkMapService {
         }
     }
 
-    public List<ShuntCompensatorMapData> getShuntCompensators(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<ShuntCompensatorMapData> getShuntCompensators(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getShuntCompensatorStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -676,8 +680,8 @@ class NetworkMapService {
         }
     }
 
-    public List<StaticVarCompensatorMapData> getStaticVarCompensators(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<StaticVarCompensatorMapData> getStaticVarCompensators(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getStaticVarCompensatorStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
@@ -690,8 +694,8 @@ class NetworkMapService {
         }
     }
 
-    public List<VscConverterStationMapData> getVscConverterStations(UUID networkUuid, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+    public List<VscConverterStationMapData> getVscConverterStations(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
             return network.getVscConverterStationStream()
                 .map(NetworkMapService::toMapData).collect(Collectors.toList());
