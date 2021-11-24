@@ -550,8 +550,8 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private String buildUrlVoltageLevels(String equipments, String variantId, List<String> substationsIds) {
-        final String[] url = {"/v1/networks/{networkUuid}/" + equipments};
+    private String buildUrlVoltageLevels(String variantId, List<String> substationsIds) {
+        final String[] url = {"/v1/networks/{networkUuid}/voltage-levels"};
         if (variantId != null) {
             url[0] += "?variantId=" + variantId;
         }
@@ -567,13 +567,13 @@ public class NetworkMapControllerTest {
         return url[0];
     }
 
-    private void failingVoltageLevelsTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
-        mvc.perform(get(buildUrlVoltageLevels(equipments, variantId, substationsIds), networkUuid))
+    private void failingVoltageLevelsTest(UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
+        mvc.perform(get(buildUrlVoltageLevels(variantId, substationsIds), networkUuid))
             .andExpect(status().isNotFound());
     }
 
-    private void succeedingVoltageLevelsTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlVoltageLevels(equipments, variantId, substationsIds), networkUuid))
+    private void succeedingVoltageLevelsTest(UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlVoltageLevels(variantId, substationsIds), networkUuid))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andReturn();
@@ -939,26 +939,26 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelsMapData() throws Exception {
-        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, null, null, resourceToString("/voltage-levels-map-data.json"));
-        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID, null, resourceToString("/voltage-levels-map-data.json"));
+        succeedingVoltageLevelsTest(NETWORK_UUID, null, null, resourceToString("/voltage-levels-map-data.json"));
+        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, null, resourceToString("/voltage-levels-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfVoltageLevelsMapData() throws Exception {
-        failingVoltageLevelsTest("voltage-levels", NOT_FOUND_NETWORK_ID, null, null);
-        failingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingVoltageLevelsTest(NOT_FOUND_NETWORK_ID, null, null);
+        failingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnVoltageLevelsMapDataFromIds() throws Exception {
-        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
-        succeedingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+        succeedingVoltageLevelsTest(NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfVoltageLevelsMapDataFromIds() throws Exception {
-        failingVoltageLevelsTest("voltage-levels", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
-        failingVoltageLevelsTest("voltage-levels", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+        failingVoltageLevelsTest(NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
