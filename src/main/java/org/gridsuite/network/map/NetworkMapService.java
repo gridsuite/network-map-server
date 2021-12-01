@@ -725,15 +725,9 @@ class NetworkMapService {
 
     public List<VoltageLevelMapData> getVoltageLevels(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
-        if (substationsId == null) {
-            return network.getVoltageLevelStream()
-                .map(NetworkMapService::toMapData).collect(Collectors.toList());
-        } else {
-            Set<VoltageLevelMapData> res = new LinkedHashSet<>();
-            substationsId.stream().forEach(id ->
-                network.getSubstation(id).getVoltageLevelStream().forEach(v -> res.add(toMapData(v))));
-            return res.stream().collect(Collectors.toList());
-        }
+        return substationsId == null ?
+            network.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()) :
+            substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(NetworkMapService::toMapData)).collect(Collectors.toList());
     }
 
     public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {

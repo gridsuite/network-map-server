@@ -52,6 +52,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -520,21 +521,18 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(getClass().getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private String buildUrl(String equipments, String variantId, List<String> substationsIds) {
-        final String[] url = {"/v1/" + equipments + "/{networkUuid}"};
-        if (variantId != null) {
-            url[0] += "?variantId=" + variantId;
+    private String buildUrl(String equipments, String variantId, List<String> immutableListSubstationIds) {
+        List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
+        StringBuffer url = new StringBuffer("/v1/" + equipments + "/{networkUuid}");
+        if (variantId == null && substationsIds.isEmpty()) {
+            return url.toString();
         }
-        if (substationsIds != null) {
-            if (variantId == null) {
-                url[0] += "?";
-            } else {
-                url[0] += "&";
-            }
-            url[0] += "substationId=" + substationsIds.stream().findFirst().orElse("");
-            substationsIds.stream().skip(1).forEach(id -> url[0] += "&substationId=" + id);
-        }
-        return url[0];
+
+        url.append("?");
+        url.append(variantId != null ? "variantId=" + variantId : "substationId=" + substationsIds.remove(0));
+        url.append(String.join("", substationsIds.stream().map(id -> String.format("&substationId=%s", id)).collect(Collectors.toList())));
+
+        return url.toString();
     }
 
     private void failingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
@@ -550,21 +548,18 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private String buildUrlVoltageLevels(String variantId, List<String> substationsIds) {
-        final String[] url = {"/v1/networks/{networkUuid}/voltage-levels"};
-        if (variantId != null) {
-            url[0] += "?variantId=" + variantId;
+    private String buildUrlVoltageLevels(String variantId, List<String> immutableListSubstationIds) {
+        List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels");
+        if (variantId == null && substationsIds.isEmpty()) {
+            return url.toString();
         }
-        if (substationsIds != null) {
-            if (variantId == null) {
-                url[0] += "?";
-            } else {
-                url[0] += "&";
-            }
-            url[0] += "substationId=" + substationsIds.stream().findFirst().orElse("");
-            substationsIds.stream().skip(1).forEach(id -> url[0] += "&substationId=" + id);
-        }
-        return url[0];
+
+        url.append("?");
+        url.append(variantId != null ? "variantId=" + variantId : "substationId=" + substationsIds.remove(0));
+        url.append(String.join("", substationsIds.stream().map(id -> String.format("&substationId=%s", id)).collect(Collectors.toList())));
+
+        return url.toString();
     }
 
     private void failingVoltageLevelsTest(UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
@@ -581,11 +576,12 @@ public class NetworkMapControllerTest {
     }
 
     private String buildUrlBusOrBusbarSection(String equipments, String variantId) {
-        final String[] url = {"/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/" + equipments};
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
+        url.append(equipments);
         if (variantId != null) {
-            url[0] += "?variantId=" + variantId;
+            url.append("?variantId=" + variantId);
         }
-        return url[0];
+        return url.toString();
     }
 
     private void failingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId) throws Exception {
