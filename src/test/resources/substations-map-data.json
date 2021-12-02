@@ -7,18 +7,21 @@
       {
         "id": "VLGEN",
         "name": "VLGEN",
+        "substationId": "P1",
         "nominalVoltage": 24.0,
         "topologyKind": "BUS_BREAKER"
       },
       {
         "id": "VLHV1",
         "name": "VLHV1",
+        "substationId": "P1",
         "nominalVoltage": 380.0,
         "topologyKind": "BUS_BREAKER"
       },
       {
         "id": "VLNEW2",
         "name": "VLNEW2",
+        "substationId": "P1",
         "nominalVoltage": 225.0,
         "topologyKind": "BUS_BREAKER"
       }
@@ -31,12 +34,14 @@
       {
         "id": "VLHV2",
         "name": "VLHV2",
+        "substationId": "P2",
         "nominalVoltage": 380.0,
         "topologyKind": "BUS_BREAKER"
       },
       {
         "id": "VLLOAD",
         "name": "VLLOAD",
+        "substationId": "P2",
         "nominalVoltage": 150.0,
         "topologyKind": "BUS_BREAKER"
       }
@@ -50,8 +55,23 @@
       {
         "id": "VLGEN3",
         "name": "VLGEN3",
+        "substationId": "P3",
         "nominalVoltage": 24.0,
         "topologyKind": "BUS_BREAKER"
+      }
+    ]
+  },
+  {
+    "id": "P4",
+    "name": "P4",
+    "countryName": "FRANCE",
+    "voltageLevels": [
+      {
+        "id": "VLGEN4",
+        "name": "VLGEN4",
+        "substationId": "P4",
+        "nominalVoltage": 24.0,
+        "topologyKind": "NODE_BREAKER"
       }
     ]
   }

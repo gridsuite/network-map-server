@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.model.AllMapData;
 import org.gridsuite.network.map.model.BatteryMapData;
+import org.gridsuite.network.map.model.BusMapData;
+import org.gridsuite.network.map.model.BusbarSectionMapData;
 import org.gridsuite.network.map.model.DanglingLineMapData;
 import org.gridsuite.network.map.model.GeneratorMapData;
 import org.gridsuite.network.map.model.HvdcLineMapData;
@@ -24,6 +26,7 @@ import org.gridsuite.network.map.model.StaticVarCompensatorMapData;
 import org.gridsuite.network.map.model.SubstationMapData;
 import org.gridsuite.network.map.model.ThreeWindingsTransformerMapData;
 import org.gridsuite.network.map.model.TwoWindingsTransformerMapData;
+import org.gridsuite.network.map.model.VoltageLevelMapData;
 import org.gridsuite.network.map.model.VscConverterStationMapData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -173,5 +176,32 @@ public class NetworkMapController {
                                                                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                                   @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getVscConverterStations(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get voltage levels description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage levels description")})
+    public @ResponseBody List<VoltageLevelMapData> getVoltageLevels(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                    @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                    @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getVoltageLevels(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get buses description for a voltage level")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})
+    public @ResponseBody List<BusMapData> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                               @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                               @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelBuses(networkUuid, voltageLevelId, variantId);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/busbar-sections", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get busbar sections description for a voltage level")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Busbar section description")})
+    public @ResponseBody List<BusbarSectionMapData> getVoltageLevelBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                  @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                                                  @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 }
