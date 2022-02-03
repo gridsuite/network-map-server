@@ -5,8 +5,6 @@
     "voltageLevelId": "VLGEN",
     "terminalConnected": true,
     "hvdcLineId": null,
-    "p": 0.0,
-    "q": 0.0,
     "powerFactor": 0.5,
     "lossFactor": 1.0
   },

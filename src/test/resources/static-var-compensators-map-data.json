@@ -16,8 +16,6 @@
     "voltageLevelId": "VLNEW2",
     "terminalConnected": true,
     "regulationMode": "VOLTAGE",
-    "p": 0.0,
-    "q": 0.0,
     "voltageSetpoint": 200.0,
     "reactivePowerSetpoint": 100.0
   }
