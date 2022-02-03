@@ -14,7 +14,6 @@
     "voltageLevelId": "VLGEN3",
     "terminalConnected": true,
     "targetV": 225.0,
-    "q": 0.0,
     "targetDeadband": 10.0
   },
   {

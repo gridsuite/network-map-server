@@ -59,7 +59,6 @@
       "name": "SHUNT2",
       "voltageLevelId": "VLGEN3",
       "terminalConnected": true,
-      "q": 0.0,
       "targetV": 225.0,
       "targetDeadband": 10.0
     },
@@ -81,8 +80,6 @@
       "voltageLevelId": "VLGEN3",
       "terminalConnected": true,
       "hvdcLineId": null,
-      "p": 0.0,
-      "q": 0.0,
       "lossFactor": 1.0
     }
   ]
