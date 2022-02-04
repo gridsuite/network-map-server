@@ -523,7 +523,7 @@ public class NetworkMapControllerTest {
 
     private String buildUrl(String equipments, String variantId, List<String> immutableListSubstationIds) {
         List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
-        StringBuffer url = new StringBuffer("/v1/" + equipments + "/{networkUuid}");
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/" + equipments);
         if (variantId == null && substationsIds.isEmpty()) {
             return url.toString();
         }
