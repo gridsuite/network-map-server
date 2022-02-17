@@ -151,6 +151,15 @@ public class NetworkMapController {
         return networkMapService.getLoads(networkUuid, variantId, substationsIds);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/loads/{loadId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get loads description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Loads description")})
+    public @ResponseBody LoadMapData getLoad(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                    @Parameter(description = "Load id") @PathVariable("loadId") String loadId,
+                                                    @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getLoad(networkUuid, variantId, loadId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/shunt-compensators", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get shunt compensators description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Shunt compensators description")})

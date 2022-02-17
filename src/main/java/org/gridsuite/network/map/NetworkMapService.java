@@ -681,6 +681,14 @@ class NetworkMapService {
         }
     }
 
+    public LoadMapData getLoad(UUID networkUuid, String variantId, String loadId) {
+        Load load = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getLoad(loadId);
+        if (load == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(load);
+    }
+
     public List<ShuntCompensatorMapData> getShuntCompensators(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {

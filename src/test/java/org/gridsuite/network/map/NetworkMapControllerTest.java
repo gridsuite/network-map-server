@@ -521,7 +521,7 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(getClass().getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private String buildUrl(String equipments, String variantId, List<String> immutableListSubstationIds) {
+    private String buildUrlForList(String equipments, String variantId, List<String> immutableListSubstationIds) {
         List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
         StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/" + equipments);
         if (variantId == null && substationsIds.isEmpty()) {
@@ -535,17 +535,44 @@ public class NetworkMapControllerTest {
         return url.toString();
     }
 
+    private String buildUrlForElement(String equipments, String variantId, List<String> immutableListSubstationIds) {
+        List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/" + equipments + "/{elementId}");
+        if (variantId == null && substationsIds.isEmpty()) {
+            return url.toString();
+        }
+
+        url.append("?");
+        url.append(variantId != null ? "variantId=" + variantId : "substationId=" + substationsIds.remove(0));
+        url.append(String.join("", substationsIds.stream().map(id -> String.format("&substationId=%s", id)).collect(Collectors.toList())));
+
+        return url.toString();
+    }
+
     private void failingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
-        mvc.perform(get(buildUrl(equipments, variantId, substationsIds), networkUuid))
+        mvc.perform(get(buildUrlForList(equipments, variantId, substationsIds), networkUuid))
             .andExpect(status().isNotFound());
     }
 
     private void succeedingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrl(equipments, variantId, substationsIds), networkUuid))
+        MvcResult res = mvc.perform(get(buildUrlForList(equipments, variantId, substationsIds), networkUuid))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andReturn();
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestForElement(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void failingTestForElement(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId) throws Exception {
+        mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
+                .andExpect(status().isNotFound());
     }
 
     private String buildUrlVoltageLevels(String variantId, List<String> immutableListSubstationIds) {
@@ -811,6 +838,18 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfLoadsMapDataFromIds() throws Exception {
         failingTest("loads", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
         failingTest("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnLoadMapData() throws Exception {
+        succeedingTestForElement("loads", NETWORK_UUID, null, null, "LOAD", resourceToString("/load-map-data.json"));
+        succeedingTestForElement("loads", NETWORK_UUID, VARIANT_ID, null, "LOAD", resourceToString("/load-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfLoadMapData() throws Exception {
+        failingTestForElement("loads", NETWORK_UUID, null, null, "LOAD2ef");
+        failingTestForElement("loads", NETWORK_UUID, VARIANT_ID, null, "LOAD2dqs");
     }
 
     @Test
