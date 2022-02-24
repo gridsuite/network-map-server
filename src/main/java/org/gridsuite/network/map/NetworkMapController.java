@@ -152,8 +152,8 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/loads/{loadId}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get loads description")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Loads description")})
+    @Operation(summary = "Get load description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Load description")})
     public @ResponseBody LoadMapData getLoad(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                     @Parameter(description = "Load id") @PathVariable("loadId") String loadId,
                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {

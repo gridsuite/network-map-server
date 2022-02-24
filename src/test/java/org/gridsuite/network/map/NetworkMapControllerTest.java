@@ -549,12 +549,12 @@ public class NetworkMapControllerTest {
         return url.toString();
     }
 
-    private void failingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
+    private void failingTestForList(String equipments, UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
         mvc.perform(get(buildUrlForList(equipments, variantId, substationsIds), networkUuid))
             .andExpect(status().isNotFound());
     }
 
-    private void succeedingTest(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
+    private void succeedingTestForList(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrlForList(equipments, variantId, substationsIds), networkUuid))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -626,218 +626,218 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
-        succeedingTest("substations", NETWORK_UUID, null, null, resourceToString("/substations-map-data.json"));
-        succeedingTest("substations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForList("substations", NETWORK_UUID, null, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForList("substations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/substations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapData() throws Exception {
-        failingTest("substations", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("substations", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnSubstationsMapDataFromIds() throws Exception {
-        succeedingTest("substations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
-        succeedingTest("substations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
+        succeedingTestForList("substations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
+        succeedingTestForList("substations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapDataFromIds() throws Exception {
-        failingTest("substations", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
-        failingTest("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+        failingTestForList("substations", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTestForList("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
     public void shouldReturnLinesMapData() throws Exception {
-        succeedingTest("lines", NETWORK_UUID, null, null, resourceToString("/lines-map-data.json"));
-        succeedingTest("lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lines-map-data.json"));
+        succeedingTestForList("lines", NETWORK_UUID, null, null, resourceToString("/lines-map-data.json"));
+        succeedingTestForList("lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapData() throws Exception {
-        failingTest("lines", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("lines", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnLinesMapDataFromIds() throws Exception {
-        succeedingTest("lines", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-lines-map-data.json"));
-        succeedingTest("lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-lines-map-data.json"));
+        succeedingTestForList("lines", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-lines-map-data.json"));
+        succeedingTestForList("lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapDataFromIds() throws Exception {
-        failingTest("lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnGeneratorsMapData() throws Exception {
-        succeedingTest("generators", NETWORK_UUID, null, null, resourceToString("/generators-map-data.json"));
-        succeedingTest("generators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/generators-map-data.json"));
+        succeedingTestForList("generators", NETWORK_UUID, null, null, resourceToString("/generators-map-data.json"));
+        succeedingTestForList("generators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/generators-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfGeneratorsMapData() throws Exception {
-        failingTest("generators", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("generators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("generators", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("generators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnGeneratorsMapDataFromIds() throws Exception {
-        succeedingTest("generators", NETWORK_UUID, null, List.of("P2"), "[]");
-        succeedingTest("generators", NETWORK_UUID, VARIANT_ID, List.of("P2"), "[]");
+        succeedingTestForList("generators", NETWORK_UUID, null, List.of("P2"), "[]");
+        succeedingTestForList("generators", NETWORK_UUID, VARIANT_ID, List.of("P2"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfGeneratorsMapDataFromIds() throws Exception {
-        failingTest("generators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("generators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("generators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("generators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnTwoWindingsTransformersMapData() throws Exception {
-        succeedingTest("2-windings-transformers", NETWORK_UUID, null, null, resourceToString("/2-windings-transformers-map-data.json"));
-        succeedingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/2-windings-transformers-map-data.json"));
+        succeedingTestForList("2-windings-transformers", NETWORK_UUID, null, null, resourceToString("/2-windings-transformers-map-data.json"));
+        succeedingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/2-windings-transformers-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersMapData() throws Exception {
-        failingTest("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnTwoWindingsTransformersMapDataFromIds() throws Exception {
-        succeedingTest("2-windings-transformers", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
-        succeedingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
+        succeedingTestForList("2-windings-transformers", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
+        succeedingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersMapDataFromIds() throws Exception {
-        failingTest("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnThreeWindingsTransformersMapData() throws Exception {
-        succeedingTest("3-windings-transformers", NETWORK_UUID, null, null, resourceToString("/3-windings-transformers-map-data.json"));
-        succeedingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/3-windings-transformers-map-data.json"));
+        succeedingTestForList("3-windings-transformers", NETWORK_UUID, null, null, resourceToString("/3-windings-transformers-map-data.json"));
+        succeedingTestForList("3-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/3-windings-transformers-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersMapData() throws Exception {
-        failingTest("3-windings-transformers", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("3-windings-transformers", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("3-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnThreeWindingsTransformersMapDataFromIds() throws Exception {
-        succeedingTest("3-windings-transformers", NETWORK_UUID, null, List.of("P3"), "[]");
-        succeedingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P3"), "[]");
+        succeedingTestForList("3-windings-transformers", NETWORK_UUID, null, List.of("P3"), "[]");
+        succeedingTestForList("3-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P3"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersMapDataFromIds() throws Exception {
-        failingTest("3-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("3-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("3-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("3-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnAllMapData() throws Exception {
-        succeedingTest("all", NETWORK_UUID, null, null, resourceToString("/all-map-data.json"));
-        succeedingTest("all", NETWORK_UUID, VARIANT_ID, null, resourceToString("/all-map-data-in-variant.json"));
+        succeedingTestForList("all", NETWORK_UUID, null, null, resourceToString("/all-map-data.json"));
+        succeedingTestForList("all", NETWORK_UUID, VARIANT_ID, null, resourceToString("/all-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfAllMapData() throws Exception {
-        failingTest("all", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("all", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("all", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("all", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnAllMapDataFromIds() throws Exception {
-        succeedingTest("all", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-all-map-data.json"));
-        succeedingTest("all", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-all-map-data-in-variant.json"));
+        succeedingTestForList("all", NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-all-map-data.json"));
+        succeedingTestForList("all", NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-all-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfAllMapDataFromIds() throws Exception {
-        failingTest("all", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("all", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("all", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("all", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnBatteriesMapData() throws Exception {
-        succeedingTest("batteries", NETWORK_UUID, null, null, resourceToString("/batteries-map-data.json"));
-        succeedingTest("batteries", NETWORK_UUID, VARIANT_ID, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForList("batteries", NETWORK_UUID, null, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForList("batteries", NETWORK_UUID, VARIANT_ID, null, resourceToString("/batteries-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfBatteriesMapData() throws Exception {
-        failingTest("batteries", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("batteries", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnBatteriesMapDataFromIds() throws Exception {
-        succeedingTest("batteries", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
-        succeedingTest("batteries", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
+        succeedingTestForList("batteries", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
+        succeedingTestForList("batteries", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfBatteriesMapDataFromIds() throws Exception {
-        failingTest("batteries", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
-        failingTest("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+        failingTestForList("batteries", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTestForList("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
     public void shouldReturnDanglingLinesMapData() throws Exception {
-        succeedingTest("dangling-lines", NETWORK_UUID, null, null, resourceToString("/dangling-lines-map-data.json"));
-        succeedingTest("dangling-lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/dangling-lines-map-data.json"));
+        succeedingTestForList("dangling-lines", NETWORK_UUID, null, null, resourceToString("/dangling-lines-map-data.json"));
+        succeedingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/dangling-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfDanglingLinesMapData() throws Exception {
-        failingTest("dangling-lines", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("dangling-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("dangling-lines", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnDanglingLinesMapDataFromIds() throws Exception {
-        succeedingTest("dangling-lines", NETWORK_UUID, null, List.of("P2"), "[]");
-        succeedingTest("dangling-lines", NETWORK_UUID, VARIANT_ID, List.of("P2"), "[]");
+        succeedingTestForList("dangling-lines", NETWORK_UUID, null, List.of("P2"), "[]");
+        succeedingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID, List.of("P2"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfDanglingLinesMapDataFromIds() throws Exception {
-        failingTest("dangling-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
-        failingTest("dangling-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+        failingTestForList("dangling-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
     public void shouldReturnLoadsMapData() throws Exception {
-        succeedingTest("loads", NETWORK_UUID, null, null, resourceToString("/loads-map-data.json"));
-        succeedingTest("loads", NETWORK_UUID, VARIANT_ID, null, resourceToString("/loads-map-data.json"));
+        succeedingTestForList("loads", NETWORK_UUID, null, null, resourceToString("/loads-map-data.json"));
+        succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, null, resourceToString("/loads-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLoadsMapData() throws Exception {
-        failingTest("loads", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("loads", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnLoadsMapDataFromIds() throws Exception {
-        succeedingTest("loads", NETWORK_UUID, null, List.of("P2"), resourceToString("/partial-loads-map-data.json"));
-        succeedingTest("loads", NETWORK_UUID, VARIANT_ID, List.of("P2"), resourceToString("/partial-loads-map-data.json"));
+        succeedingTestForList("loads", NETWORK_UUID, null, List.of("P2"), resourceToString("/partial-loads-map-data.json"));
+        succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, List.of("P2"), resourceToString("/partial-loads-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLoadsMapDataFromIds() throws Exception {
-        failingTest("loads", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("loads", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("loads", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
@@ -854,122 +854,122 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnShuntCompensatorsMapData() throws Exception {
-        succeedingTest("shunt-compensators", NETWORK_UUID, null, null, resourceToString("/shunt-compensators-map-data.json"));
-        succeedingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/shunt-compensators-map-data-in-variant.json"));
+        succeedingTestForList("shunt-compensators", NETWORK_UUID, null, null, resourceToString("/shunt-compensators-map-data.json"));
+        succeedingTestForList("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/shunt-compensators-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfShuntCompensatorsMapData() throws Exception {
-        failingTest("shunt-compensators", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("shunt-compensators", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("shunt-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnShuntCompensatorsMapDataFromIds() throws Exception {
-        succeedingTest("shunt-compensators", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-shunt-compensators-map-data.json"));
-        succeedingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1", "P3"), resourceToString("/partial-shunt-compensators-map-data-in-variant.json"));
+        succeedingTestForList("shunt-compensators", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-shunt-compensators-map-data.json"));
+        succeedingTestForList("shunt-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1", "P3"), resourceToString("/partial-shunt-compensators-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfShuntCompensatorsMapDataFromIds() throws Exception {
-        failingTest("shunt-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("shunt-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("shunt-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("shunt-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnStaticVarCompensatorsMapData() throws Exception {
-        succeedingTest("static-var-compensators", NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"));
-        succeedingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/static-var-compensators-map-data.json"));
+        succeedingTestForList("static-var-compensators", NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"));
+        succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/static-var-compensators-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapData() throws Exception {
-        failingTest("static-var-compensators", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("static-var-compensators", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnStaticVarCompensatorsMapDataFromIds() throws Exception {
-        succeedingTest("static-var-compensators", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
-        succeedingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
+        succeedingTestForList("static-var-compensators", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
+        succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapDataFromIds() throws Exception {
-        failingTest("static-var-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("static-var-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnLccConverterStationsMapData() throws Exception {
-        succeedingTest("lcc-converter-stations", NETWORK_UUID, null, null, resourceToString("/lcc-converter-stations-map-data.json"));
-        succeedingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lcc-converter-stations-map-data.json"));
+        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, null, null, resourceToString("/lcc-converter-stations-map-data.json"));
+        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lcc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLccConverterStationsMapData() throws Exception {
-        failingTest("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnLccConverterStationsMapDataFromIds() throws Exception {
-        succeedingTest("lcc-converter-stations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
-        succeedingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
+        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
+        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLccConverterStationsMapDataFromIds() throws Exception {
-        failingTest("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnVscConverterStationsMapData() throws Exception {
-        succeedingTest("vsc-converter-stations", NETWORK_UUID, null, null, resourceToString("/vsc-converter-stations-map-data.json"));
-        succeedingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/vsc-converter-stations-map-data.json"));
+        succeedingTestForList("vsc-converter-stations", NETWORK_UUID, null, null, resourceToString("/vsc-converter-stations-map-data.json"));
+        succeedingTestForList("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/vsc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfVscConverterStationsMapData() throws Exception {
-        failingTest("vsc-converter-stations", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("vsc-converter-stations", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("vsc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnVscConverterStationsMapDataFromIds() throws Exception {
-        succeedingTest("vsc-converter-stations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
-        succeedingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
+        succeedingTestForList("vsc-converter-stations", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
+        succeedingTestForList("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfVscConverterStationsMapDataFromIds() throws Exception {
-        failingTest("vsc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
-        failingTest("vsc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+        failingTestForList("vsc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("vsc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
     public void shouldReturnHvdcLinesMapData() throws Exception {
-        succeedingTest("hvdc-lines", NETWORK_UUID, null, null, resourceToString("/hvdc-lines-map-data.json"));
-        succeedingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/hvdc-lines-map-data.json"));
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, null, null, resourceToString("/hvdc-lines-map-data.json"));
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/hvdc-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfHvdcLinesMapData() throws Exception {
-        failingTest("hvdc-lines", NOT_FOUND_NETWORK_ID, null, null);
-        failingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+        failingTestForList("hvdc-lines", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
 
     @Test
     public void shouldReturnHvdcLinesMapDataFromIds() throws Exception {
-        succeedingTest("hvdc-lines", NETWORK_UUID, null, List.of("P3"), "[]");
-        succeedingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), "[]");
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, null, List.of("P3"), "[]");
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), "[]");
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfHvdcLinesMapDataFromIds() throws Exception {
-        failingTest("hvdc-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
-        failingTest("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+        failingTestForList("hvdc-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
+        failingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
     }
 
     @Test
