@@ -58,4 +58,22 @@ public class LineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
+
+    //todo delete: series resistance
+    private Double r;
+
+    //todo delete: series reactance
+    private Double x;
+
+    //todo delete: shunt conductance 1
+    private Double g1;
+
+    //todo delete: shunt susceptance 1
+    private Double b1;
+
+    //todo delete: shunt conductance 2
+    private Double g2;
+
+    //todo delete: shunt susceptance 2
+    private Double b2;
 }

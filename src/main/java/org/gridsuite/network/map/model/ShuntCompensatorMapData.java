@@ -35,4 +35,11 @@ public class ShuntCompensatorMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetDeadband;
+
+    private Integer sectionCount;
+
+    //todo delete: suceptence per section
+    private Double bPerSection;
+
+    private Integer maximumSectionCount;
 }

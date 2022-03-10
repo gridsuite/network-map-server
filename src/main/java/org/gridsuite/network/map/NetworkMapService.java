@@ -72,25 +72,19 @@ class NetworkMapService {
             .terminal1Connected(terminal1.isConnected())
             .terminal2Connected(terminal2.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
-            .voltageLevelId2(terminal2.getVoltageLevel().getId());
-        if (!Double.isNaN(terminal1.getP())) {
-            builder.p1(terminal1.getP());
-        }
-        if (!Double.isNaN(terminal1.getQ())) {
-            builder.q1(terminal1.getQ());
-        }
-        if (!Double.isNaN(terminal2.getP())) {
-            builder.p2(terminal2.getP());
-        }
-        if (!Double.isNaN(terminal2.getQ())) {
-            builder.q2(terminal2.getQ());
-        }
-        if (!Double.isNaN(terminal1.getI())) {
-            builder.i1(terminal1.getI());
-        }
-        if (!Double.isNaN(terminal2.getI())) {
-            builder.i2(terminal2.getI());
-        }
+            .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .p1(!Double.isNaN(terminal1.getP()) ? terminal1.getP() : null)
+            .q1(!Double.isNaN(terminal1.getQ()) ? terminal1.getQ() : null)
+            .p2(!Double.isNaN(terminal2.getP()) ? terminal2.getP() : null)
+            .q2(!Double.isNaN(terminal2.getQ()) ? terminal2.getQ() : null)
+            .i1(!Double.isNaN(terminal1.getI()) ? terminal1.getI() : null)
+            .i2(!Double.isNaN(terminal2.getI()) ? terminal2.getI() : null)
+            .r(line.getR())
+            .x(line.getX())
+            .g1(line.getG1())
+            .b1(line.getB1())
+            .g2(line.getG2())
+            .b2(line.getB2());
         CurrentLimits limits1 = line.getCurrentLimits1();
         CurrentLimits limits2 = line.getCurrentLimits2();
 
@@ -110,19 +104,21 @@ class NetworkMapService {
     private static GeneratorMapData toMapData(Generator generator) {
         Terminal terminal = generator.getTerminal();
         GeneratorMapData.GeneratorMapDataBuilder builder = GeneratorMapData.builder()
-            .name(generator.getNameOrId())
-            .id(generator.getId())
-            .terminalConnected(terminal.isConnected())
-            .voltageLevelId(terminal.getVoltageLevel().getId())
-            .targetP(generator.getTargetP())
-            .minP(generator.getMinP())
-            .maxP(generator.getMaxP());
-        if (!Double.isNaN(terminal.getP())) {
-            builder.p(terminal.getP());
-        }
-        if (!Double.isNaN(terminal.getQ())) {
-            builder.q(terminal.getQ());
-        }
+                .name(generator.getNameOrId())
+                .id(generator.getId())
+                .terminalConnected(terminal.isConnected())
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .targetP(generator.getTargetP())
+                .targetQ(!Double.isNaN(generator.getTargetQ()) ? generator.getTargetQ() : null)
+                .targetV(!Double.isNaN(generator.getTargetV()) ? generator.getTargetV() : null)
+                .minP(generator.getMinP())
+                .maxP(generator.getMaxP())
+                .ratedS(!Double.isNaN(generator.getRatedS()) ? generator.getRatedS() : null)
+                .energySource(generator.getEnergySource())
+                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+                .p(!Double.isNaN(terminal.getP()) ? terminal.getP() : null)
+                .q(!Double.isNaN(terminal.getQ()) ? terminal.getQ() : null);
+
         return builder.build();
     }
 
@@ -130,14 +126,21 @@ class NetworkMapService {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
         TwoWindingsTransformerMapData.TwoWindingsTransformerMapDataBuilder builder = TwoWindingsTransformerMapData.builder()
-            .name(transformer.getNameOrId())
-            .id(transformer.getId())
-            .terminal1Connected(terminal1.isConnected())
-            .terminal2Connected(terminal2.isConnected())
-            .voltageLevelId1(terminal1.getVoltageLevel().getId())
-            .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .phaseTapChanger(toMapData(transformer.getPhaseTapChanger()))
-            .ratioTapChanger(toMapData(transformer.getRatioTapChanger()));
+                .name(transformer.getNameOrId())
+                .id(transformer.getId())
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .phaseTapChanger(toMapData(transformer.getPhaseTapChanger()))
+                .ratioTapChanger(toMapData(transformer.getRatioTapChanger()))
+                .r(transformer.getR())
+                .x(transformer.getX())
+                .b(transformer.getB())
+                .g(transformer.getG())
+                .ratedU1(transformer.getRatedU1())
+                .ratedU2(transformer.getRatedU2());
+
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -382,10 +385,13 @@ class NetworkMapService {
     private static ShuntCompensatorMapData toMapData(ShuntCompensator shuntCompensator) {
         Terminal terminal = shuntCompensator.getTerminal();
         ShuntCompensatorMapData.ShuntCompensatorMapDataBuilder builder = ShuntCompensatorMapData.builder()
-            .name(shuntCompensator.getNameOrId())
-            .id(shuntCompensator.getId())
-            .terminalConnected(terminal.isConnected())
-            .voltageLevelId(terminal.getVoltageLevel().getId());
+                .name(shuntCompensator.getNameOrId())
+                .id(shuntCompensator.getId())
+                .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
+                .bPerSection(shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection())
+                .sectionCount(shuntCompensator.getSectionCount())
+                .terminalConnected(terminal.isConnected())
+                .voltageLevelId(terminal.getVoltageLevel().getId());
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
@@ -447,6 +453,14 @@ class NetworkMapService {
         }
     }
 
+    public SubstationMapData getSubstation(UUID networkUuid, String variantId, String substationId) {
+        Substation substation = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getSubstation(substationId);
+        if (substation == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(substation);
+    }
+
     public List<LineMapData> getLines(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
@@ -459,6 +473,14 @@ class NetworkMapService {
                     v.getConnectables(Line.class).forEach(l -> res.add(toMapData(l)))));
             return res.stream().collect(Collectors.toList());
         }
+    }
+
+    public LineMapData getLine(UUID networkUuid, String variantId, String lineId) {
+        Line line = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getLine(lineId);
+        if (line == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(line);
     }
 
     public List<GeneratorMapData> getGenerators(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -475,6 +497,14 @@ class NetworkMapService {
         }
     }
 
+    public GeneratorMapData getGenerator(UUID networkUuid, String variantId, String generatorId) {
+        Generator generator = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getGenerator(generatorId);
+        if (generator == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(generator);
+    }
+
     public List<TwoWindingsTransformerMapData> getTwoWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
         if (substationsId == null) {
@@ -487,6 +517,14 @@ class NetworkMapService {
                     v.getConnectables(TwoWindingsTransformer.class).forEach(t -> res.add(toMapData(t)))));
             return res.stream().collect(Collectors.toList());
         }
+    }
+
+    public TwoWindingsTransformerMapData getTwoWindingsTransformer(UUID networkUuid, String variantId, String twoWindingsTransformerId) {
+        TwoWindingsTransformer twoWindingsTransformer = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getTwoWindingsTransformer(twoWindingsTransformerId);
+        if (twoWindingsTransformer == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(twoWindingsTransformer);
     }
 
     public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -701,6 +739,14 @@ class NetworkMapService {
                     v.getConnectables(ShuntCompensator.class).forEach(s -> res.add(toMapData(s)))));
             return res.stream().collect(Collectors.toList());
         }
+    }
+
+    public ShuntCompensatorMapData getShuntCompensator(UUID networkUuid, String variantId, String shuntCompensatorId) {
+        ShuntCompensator shuntCompensator = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getShuntCompensator(shuntCompensatorId);
+        if (shuntCompensator == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(shuntCompensator);
     }
 
     public List<StaticVarCompensatorMapData> getStaticVarCompensators(UUID networkUuid, String variantId, List<String> substationsId) {

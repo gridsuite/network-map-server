@@ -7,7 +7,12 @@
     "p": 25,
     "q": 32,
     "targetP": 28,
+    "targetQ":301.0,
+    "targetV":24.5,
     "maxP" : 9999.99,
-    "minP" : -9999.99
+    "minP" : -9999.99,
+    "ratedS": 27,
+    "energySource":"OTHER",
+    "voltageRegulatorOn":true
   }
 ]

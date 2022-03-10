@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.EnergySource;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,11 +34,28 @@ public class GeneratorMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    //todo delete : active power setpoint
     private Double targetP;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    //todo delete : reactive power setpoint
+    private Double targetQ;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    //todo delete : Voltage setpoint
+    private Double targetV;
 
     private Double minP;
 
     private Double maxP;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private EnergySource energySource;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    //todo delete : rated nominal power
+    private Double ratedS;
+
+    private boolean voltageRegulatorOn;
 
 }

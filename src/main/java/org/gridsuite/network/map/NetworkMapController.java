@@ -61,6 +61,15 @@ public class NetworkMapController {
         return networkMapService.getSubstations(networkUuid, variantId, substationsIds);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/substations/{substationId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get substation description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Substation description")})
+    public @ResponseBody SubstationMapData getSubstation(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                         @Parameter(description = "Substation id") @PathVariable(name = "substationId") String substationId,
+                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getSubstation(networkUuid, variantId, substationId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/lines", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get lines description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Lines description")})
@@ -68,6 +77,15 @@ public class NetworkMapController {
                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                     @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getLines(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/lines/{lineId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get line description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Line description")})
+    public @ResponseBody LineMapData getLine(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                             @Parameter(description = "Line id") @PathVariable("lineId") String lineId,
+                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getLine(networkUuid, variantId, lineId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/generators", produces = APPLICATION_JSON_VALUE)
@@ -79,6 +97,15 @@ public class NetworkMapController {
         return networkMapService.getGenerators(networkUuid, variantId, substationsIds);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/generators/{generatorId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get generator description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Generator description")})
+    public @ResponseBody GeneratorMapData getGenerator(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                             @Parameter(description = "Generator id") @PathVariable("generatorId") String generatorId,
+                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getGenerator(networkUuid, variantId, generatorId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/2-windings-transformers", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get 2 windings transformers description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "2 windings transformers description")})
@@ -86,6 +113,15 @@ public class NetworkMapController {
                                                                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                                         @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getTwoWindingsTransformers(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/2-windings-transformers/{twoWindingsTransformerId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get 2 windings transformer description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "2 windings transformer description")})
+    public @ResponseBody TwoWindingsTransformerMapData getTwoWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                 @Parameter(description = "Two windings transformer id") @PathVariable("twoWindingsTransformerId") String twoWindingsTransformerId,
+                                                                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getTwoWindingsTransformer(networkUuid, variantId, twoWindingsTransformerId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/3-windings-transformers", produces = APPLICATION_JSON_VALUE)
@@ -167,6 +203,15 @@ public class NetworkMapController {
                                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                             @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getShuntCompensators(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/shunt-compensators/{shuntCompensatorId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get shunt compensator description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Shunt compensator description")})
+    public @ResponseBody ShuntCompensatorMapData getShuntCompensator(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                             @Parameter(description = "Shunt compensator id") @PathVariable("shuntCompensatorId") String shuntCompensatorId,
+                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getShuntCompensator(networkUuid, variantId, shuntCompensatorId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/static-var-compensators", produces = APPLICATION_JSON_VALUE)

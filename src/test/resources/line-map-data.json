@@ -1,0 +1,20 @@
+{
+  "id": "NHV1_NHV2_1",
+  "voltageLevelId1": "VLHV1",
+  "voltageLevelId2": "VLHV2",
+  "name": "NHV1_NHV2_1",
+  "terminal1Connected": true,
+  "terminal2Connected": true,
+  "p1": 1.1,
+  "q1": 2.2,
+  "p2": 3.33,
+  "q2": 4.44,
+  "permanentLimit1": 700.4,
+  "permanentLimit2": 800.8,
+  "r": 9.0,
+  "x": 10.0,
+  "g1": 7.0,
+  "b1": 5.0,
+  "g2": 8.0,
+  "b2": 6.0
+}
