@@ -38,7 +38,6 @@ public class ShuntCompensatorMapData {
 
     private Integer sectionCount;
 
-    //todo delete: suceptence per section
     private Double bPerSection;
 
     private Integer maximumSectionCount;

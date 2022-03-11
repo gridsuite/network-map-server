@@ -67,16 +67,12 @@ public class TwoWindingsTransformerMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData ratioTapChanger;
 
-    //todo delete: MagnetizingConductance
     private Double g;
 
-    //todo delete: MagnetizingSusceptance
     private Double b;
 
-    //todo delete: SeriesResistance
     private Double r;
 
-    //todo delete: SeriesReactance
     private Double x;
 
     private Double ratedU1;

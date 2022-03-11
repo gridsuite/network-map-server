@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
@@ -30,4 +32,8 @@ public class VoltageLevelMapData {
     private double nominalVoltage;
 
     private TopologyKind topologyKind;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<BusbarSectionMapData> busbarSections;
+
 }

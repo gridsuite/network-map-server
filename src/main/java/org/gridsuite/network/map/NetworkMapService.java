@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
+import com.powsybl.sld.iidm.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -45,13 +46,16 @@ class NetworkMapService {
     }
 
     private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
-        return VoltageLevelMapData.builder()
+        var builder = VoltageLevelMapData.builder()
             .name(voltageLevel.getNameOrId())
             .id(voltageLevel.getId())
             .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
             .nominalVoltage(voltageLevel.getNominalV())
-            .topologyKind(voltageLevel.getTopologyKind())
-            .build();
+            .topologyKind(voltageLevel.getTopologyKind());
+        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
+            builder.busbarSections(voltageLevel.getNodeBreakerView().getBusbarSectionStream().map(NetworkMapService::toMapData).collect(Collectors.toList()));
+        }
+        return builder.build();
     }
 
     private static SubstationMapData toMapData(Substation substation) {
@@ -435,10 +439,16 @@ class NetworkMapService {
     }
 
     private static BusbarSectionMapData toMapData(BusbarSection busbarSection) {
-        return BusbarSectionMapData.builder()
+        BusbarSectionMapData.BusbarSectionMapDataBuilder builder = BusbarSectionMapData.builder()
             .name(busbarSection.getNameOrId())
-            .id(busbarSection.getId())
-            .build();
+            .id(busbarSection.getId());
+        var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
+        if (busbarSectionPosition != null) {
+            builder
+                .vertPos(busbarSectionPosition.getBusbarIndex())
+                .horizPos(busbarSectionPosition.getSectionIndex());
+        }
+        return builder.build();
     }
 
     public List<SubstationMapData> getSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -782,6 +792,14 @@ class NetworkMapService {
         return substationsId == null ?
             network.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()) :
             substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(NetworkMapService::toMapData)).collect(Collectors.toList());
+    }
+
+    public VoltageLevelMapData getVoltageLevel(UUID networkUuid, String variantId, String voltageLevelId) {
+        VoltageLevel voltageLevel = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getVoltageLevel(voltageLevelId);
+        if (voltageLevel == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toMapData(voltageLevel);
     }
 
     public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {

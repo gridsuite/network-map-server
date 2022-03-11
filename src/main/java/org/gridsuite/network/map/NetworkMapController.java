@@ -241,6 +241,15 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevels(networkUuid, variantId, substationsIds);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get voltage level description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level description")})
+    public @ResponseBody VoltageLevelMapData getVoltageLevel(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                     @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevel(networkUuid, variantId, voltageLevelId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})

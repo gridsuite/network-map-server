@@ -34,15 +34,12 @@ public class GeneratorMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q;
 
-    //todo delete : active power setpoint
     private Double targetP;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    //todo delete : reactive power setpoint
     private Double targetQ;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    //todo delete : Voltage setpoint
     private Double targetV;
 
     private Double minP;
@@ -53,7 +50,6 @@ public class GeneratorMapData {
     private EnergySource energySource;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    //todo delete : rated nominal power
     private Double ratedS;
 
     private boolean voltageRegulatorOn;

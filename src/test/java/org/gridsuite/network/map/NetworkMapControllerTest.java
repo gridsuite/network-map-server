@@ -32,6 +32,7 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
 import com.powsybl.sld.iidm.extensions.BranchStatusAdder;
+import com.powsybl.sld.iidm.extensions.BusbarSectionPositionAdder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -373,6 +374,12 @@ public class NetworkMapControllerTest {
             .setName("NGEN4")
             .setNode(0)
             .add();
+        vlgen4.getNodeBreakerView()
+                .getBusbarSection("NGEN4")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(1)
+                .withSectionIndex(2)
+                .add();
 
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
