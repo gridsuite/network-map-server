@@ -769,6 +769,18 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTwoWindingsTransformerMapData() throws Exception {
+        succeedingTestForElement("2-windings-transformers", NETWORK_UUID, null, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+        succeedingTestForElement("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfTwoWindingsTransformerMapData() throws Exception {
+        failingTestForElement("2-windings-transformers", NETWORK_UUID, null, null, "NOT_EXISTING_2WT");
+        failingTestForElement("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_2WT");
+    }
+
+    @Test
     public void shouldReturnThreeWindingsTransformersMapData() throws Exception {
         succeedingTestForList("3-windings-transformers", NETWORK_UUID, null, null, resourceToString("/3-windings-transformers-map-data.json"));
         succeedingTestForList("3-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/3-windings-transformers-map-data.json"));
@@ -925,6 +937,18 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnShuntCompensatorMapData() throws Exception {
+        succeedingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "SHUNT1", resourceToString("/shunt-compensator-map-data.json"));
+        succeedingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "SHUNT1", resourceToString("/shunt-compensator-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfShuntCompensatorMapData() throws Exception {
+        failingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "NOT_EXISTING_SC");
+        failingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_SC");
+    }
+
+    @Test
     public void shouldReturnStaticVarCompensatorsMapData() throws Exception {
         succeedingTestForList("static-var-compensators", NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"));
         succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/static-var-compensators-map-data.json"));
@@ -1042,6 +1066,18 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfVoltageLevelsMapDataFromIds() throws Exception {
         failingVoltageLevelsTest(NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
         failingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+    }
+
+    @Test
+    public void shouldReturnVotlageLevelMapData() throws Exception {
+        succeedingTestForElement("voltage-levels", NETWORK_UUID, null, null, "VLGEN4", resourceToString("/voltage-level-map-data.json"));
+        succeedingTestForElement("voltage-levels", NETWORK_UUID, VARIANT_ID, null, "VLGEN4", resourceToString("/voltage-level-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfVotlageLevelMapData() throws Exception {
+        failingTestForElement("voltage-levels", NETWORK_UUID, null, null, "NOT_EXISTING_VL");
+        failingTestForElement("voltage-levels", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_VL");
     }
 
     @Test
