@@ -38,6 +38,7 @@ public class ShuntCompensatorMapData {
 
     private Integer sectionCount;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double bPerSection;
 
     private Integer maximumSectionCount;

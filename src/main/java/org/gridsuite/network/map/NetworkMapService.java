@@ -77,12 +77,12 @@ class NetworkMapService {
             .terminal2Connected(terminal2.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .p1(!Double.isNaN(terminal1.getP()) ? terminal1.getP() : null)
-            .q1(!Double.isNaN(terminal1.getQ()) ? terminal1.getQ() : null)
-            .p2(!Double.isNaN(terminal2.getP()) ? terminal2.getP() : null)
-            .q2(!Double.isNaN(terminal2.getQ()) ? terminal2.getQ() : null)
-            .i1(!Double.isNaN(terminal1.getI()) ? terminal1.getI() : null)
-            .i2(!Double.isNaN(terminal2.getI()) ? terminal2.getI() : null)
+            .p1(Double.isNaN(terminal1.getP()) ?  null : terminal1.getP())
+            .q1(Double.isNaN(terminal1.getQ()) ? null : terminal1.getQ())
+            .p2(Double.isNaN(terminal2.getP()) ? null : terminal2.getP())
+            .q2(Double.isNaN(terminal2.getQ()) ? null : terminal2.getQ())
+            .i1(Double.isNaN(terminal1.getI()) ? null : terminal1.getI())
+            .i2(Double.isNaN(terminal2.getI()) ? null : terminal2.getI())
             .r(line.getR())
             .x(line.getX())
             .g1(line.getG1())
@@ -113,15 +113,15 @@ class NetworkMapService {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(generator.getTargetP())
-                .targetQ(!Double.isNaN(generator.getTargetQ()) ? generator.getTargetQ() : null)
-                .targetV(!Double.isNaN(generator.getTargetV()) ? generator.getTargetV() : null)
+                .targetQ(Double.isNaN(generator.getTargetQ()) ? null : generator.getTargetQ())
+                .targetV(Double.isNaN(generator.getTargetV()) ? null : generator.getTargetV())
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
-                .ratedS(!Double.isNaN(generator.getRatedS()) ? generator.getRatedS() : null)
+                .ratedS(Double.isNaN(generator.getRatedS()) ? null : generator.getRatedS())
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
-                .p(!Double.isNaN(terminal.getP()) ? terminal.getP() : null)
-                .q(!Double.isNaN(terminal.getQ()) ? terminal.getQ() : null);
+                .p(Double.isNaN(terminal.getP()) ? null : terminal.getP())
+                .q(Double.isNaN(terminal.getQ()) ? null : terminal.getQ());
 
         return builder.build();
     }
@@ -392,10 +392,13 @@ class NetworkMapService {
                 .name(shuntCompensator.getNameOrId())
                 .id(shuntCompensator.getId())
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
-                .bPerSection(shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection())
                 .sectionCount(shuntCompensator.getSectionCount())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId());
+        if (shuntCompensator.getModel() instanceof  ShuntCompensatorLinearModel) {
+            builder.bPerSection(shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection());
+        }
+        //TODO handle shuntCompensator non linear model
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }

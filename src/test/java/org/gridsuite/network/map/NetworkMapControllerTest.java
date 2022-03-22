@@ -569,8 +569,6 @@ public class NetworkMapControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
-        System.out.println(expectedJson);
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
