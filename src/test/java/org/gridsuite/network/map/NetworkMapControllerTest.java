@@ -32,6 +32,7 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
 import com.powsybl.sld.iidm.extensions.BranchStatusAdder;
+import com.powsybl.sld.iidm.extensions.BusbarSectionPositionAdder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,6 +92,8 @@ public class NetworkMapControllerTest {
                 .setQ(2.2);
         l1.getTerminal2().setP(3.33)
                 .setQ(4.44);
+        l1.setB1(5).setB2(6).setG1(7).setG2(8);
+        l1.setR(9).setX(10);
         l1.newCurrentLimits1().setPermanentLimit(700.4).add();
         l1.newCurrentLimits2().setPermanentLimit(800.8).add();
         network.getSubstation("P2").setCountry(null);
@@ -140,6 +143,7 @@ public class NetworkMapControllerTest {
         gen.getTerminal().setP(25);
         gen.getTerminal().setQ(32);
         gen.setTargetP(28);
+        gen.setRatedS(27);
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()
@@ -299,11 +303,11 @@ public class NetworkMapControllerTest {
                 .setId("SHUNT1")
                 .setName("SHUNT1")
                 .newLinearModel()
-                .setMaximumSectionCount(3)
-                .setBPerSection(1)
+                .setMaximumSectionCount(8)
+                .setBPerSection(5)
                 .setGPerSection(2)
                 .add()
-                .setSectionCount(2)
+                .setSectionCount(4)
                 .setTargetV(225)
                 .setVoltageRegulatorOn(true)
                 .setTargetDeadband(10)
@@ -370,6 +374,12 @@ public class NetworkMapControllerTest {
             .setName("NGEN4")
             .setNode(0)
             .add();
+        vlgen4.getNodeBreakerView()
+                .getBusbarSection("NGEN4")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(1)
+                .withSectionIndex(2)
+                .add();
 
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
@@ -649,6 +659,18 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnSubstationMapData() throws Exception {
+        succeedingTestForElement("substations", NETWORK_UUID, null, null, "P4", resourceToString("/substation-map-data.json"));
+        succeedingTestForElement("substations", NETWORK_UUID, VARIANT_ID, null, "P4", resourceToString("/substation-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfSubstationMapData() throws Exception {
+        failingTestForElement("substations", NOT_FOUND_NETWORK_ID, null, null, "NOT_EXISTING_SUBSTATION");
+        failingTestForElement("substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, "NOT_EXISTING_SUBSTATION");
+    }
+
+    @Test
     public void shouldReturnLinesMapData() throws Exception {
         succeedingTestForList("lines", NETWORK_UUID, null, null, resourceToString("/lines-map-data.json"));
         succeedingTestForList("lines", NETWORK_UUID, VARIANT_ID, null, resourceToString("/lines-map-data.json"));
@@ -670,6 +692,18 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfLinesMapDataFromIds() throws Exception {
         failingTestForList("lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
         failingTestForList("lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnLineMapData() throws Exception {
+        succeedingTestForElement("lines", NETWORK_UUID, null, null, "NHV1_NHV2_1", resourceToString("/line-map-data.json"));
+        succeedingTestForElement("lines", NETWORK_UUID, VARIANT_ID, null, "NHV1_NHV2_1", resourceToString("/line-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfLineMapData() throws Exception {
+        failingTestForElement("lines", NETWORK_UUID, null, null, "NOT_EXISTING_LINE");
+        failingTestForElement("lines", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_LINE");
     }
 
     @Test
@@ -697,6 +731,18 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnGeneratorMapData() throws Exception {
+        succeedingTestForElement("generators", NETWORK_UUID, null, null, "GEN", resourceToString("/generator-map-data.json"));
+        succeedingTestForElement("generators", NETWORK_UUID, VARIANT_ID, null, "GEN", resourceToString("/generator-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfGeneratorMapData() throws Exception {
+        failingTestForElement("generators", NETWORK_UUID, null, null, "NOT_EXISTING_GEN");
+        failingTestForElement("generators", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_GEN");
+    }
+
+    @Test
     public void shouldReturnTwoWindingsTransformersMapData() throws Exception {
         succeedingTestForList("2-windings-transformers", NETWORK_UUID, null, null, resourceToString("/2-windings-transformers-map-data.json"));
         succeedingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, resourceToString("/2-windings-transformers-map-data.json"));
@@ -718,6 +764,18 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersMapDataFromIds() throws Exception {
         failingTestForList("2-windings-transformers", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
         failingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnTwoWindingsTransformerMapData() throws Exception {
+        succeedingTestForElement("2-windings-transformers", NETWORK_UUID, null, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+        succeedingTestForElement("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfTwoWindingsTransformerMapData() throws Exception {
+        failingTestForElement("2-windings-transformers", NETWORK_UUID, null, null, "NOT_EXISTING_2WT");
+        failingTestForElement("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_2WT");
     }
 
     @Test
@@ -877,6 +935,18 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnShuntCompensatorMapData() throws Exception {
+        succeedingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "SHUNT1", resourceToString("/shunt-compensator-map-data.json"));
+        succeedingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "SHUNT1", resourceToString("/shunt-compensator-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfShuntCompensatorMapData() throws Exception {
+        failingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "NOT_EXISTING_SC");
+        failingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_SC");
+    }
+
+    @Test
     public void shouldReturnStaticVarCompensatorsMapData() throws Exception {
         succeedingTestForList("static-var-compensators", NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"));
         succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, resourceToString("/static-var-compensators-map-data.json"));
@@ -994,6 +1064,18 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfVoltageLevelsMapDataFromIds() throws Exception {
         failingVoltageLevelsTest(NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"));
         failingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"));
+    }
+
+    @Test
+    public void shouldReturnVotlageLevelMapData() throws Exception {
+        succeedingTestForElement("voltage-levels", NETWORK_UUID, null, null, "VLGEN4", resourceToString("/voltage-level-map-data.json"));
+        succeedingTestForElement("voltage-levels", NETWORK_UUID, VARIANT_ID, null, "VLGEN4", resourceToString("/voltage-level-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorinsteadOfVotlageLevelMapData() throws Exception {
+        failingTestForElement("voltage-levels", NETWORK_UUID, null, null, "NOT_EXISTING_VL");
+        failingTestForElement("voltage-levels", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_VL");
     }
 
     @Test
