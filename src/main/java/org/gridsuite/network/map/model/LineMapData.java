@@ -58,4 +58,16 @@ public class LineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
+
+    private Double r;
+
+    private Double x;
+
+    private Double g1;
+
+    private Double b1;
+
+    private Double g2;
+
+    private Double b2;
 }

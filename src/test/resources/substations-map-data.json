@@ -71,7 +71,14 @@
         "name": "VLGEN4",
         "substationId": "P4",
         "nominalVoltage": 24.0,
-        "topologyKind": "NODE_BREAKER"
+        "topologyKind": "NODE_BREAKER",
+        "busbarSections":
+        [{
+          "id": "NGEN4",
+          "name": "NGEN4",
+          "vertPos": 1,
+          "horizPos": 2
+        }]
       }
     ]
   }

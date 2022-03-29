@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,4 +22,10 @@ public class BusbarSectionMapData {
     private String id;
 
     private String name;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer vertPos;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer horizPos;
 }
