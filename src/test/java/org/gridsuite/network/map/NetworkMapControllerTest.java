@@ -26,6 +26,7 @@ import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.VariantManagerConstants;
 import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.iidm.network.VscConverterStation;
+import com.powsybl.iidm.network.extensions.ActivePowerControlAdder;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
@@ -144,6 +145,8 @@ public class NetworkMapControllerTest {
         gen.getTerminal().setQ(32);
         gen.setTargetP(28);
         gen.setRatedS(27);
+        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).add();
+        gen.setRegulatingTerminal(l1.getTerminal1());
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()

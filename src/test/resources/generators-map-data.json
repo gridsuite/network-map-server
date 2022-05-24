@@ -3,6 +3,8 @@
     "id": "GEN",
     "name": "GEN",
     "voltageLevelId": "VLGEN",
+    "regulatingTerminal":"VLHV1",
+    "activePowerControlOn":true,
     "terminalConnected": true,
     "p": 25,
     "q": 32,
