@@ -87,7 +87,7 @@ public class NetworkMapControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        Network network = EurostagTutorialExample1Factory.create(new NetworkFactoryImpl());
+        Network network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
                 .setQ(2.2);
@@ -147,6 +147,10 @@ public class NetworkMapControllerTest {
         gen.setRatedS(27);
         gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).add();
         gen.setRegulatingTerminal(l1.getTerminal1());
+
+        Generator gen2 = network.getGenerator("GEN2");
+        //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
+        gen2.setRegulatingTerminal(gen2.getTerminal());
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()

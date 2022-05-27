@@ -291,6 +291,19 @@
       "energySource":"OTHER",
       "ratedS": 27,
       "voltageRegulatorOn":true
+    },
+    {
+      "id": "GEN2",
+      "name": "GEN2",
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "targetP": 607.0,
+      "targetQ": 301.0,
+      "targetV": 24.5,
+      "minP": -9999.99,
+      "maxP": 9999.99,
+      "energySource": "OTHER",
+      "voltageRegulatorOn": true
     }
   ],
   "batteries": [
