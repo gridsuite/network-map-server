@@ -67,6 +67,21 @@ public class TwoWindingsTransformerMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData ratioTapChanger;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean loadTapChangingCapabilities;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingMode;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulating;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double regulatingValue;
+
     private Double g;
 
     private Double b;
