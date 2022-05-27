@@ -222,10 +222,10 @@
         "highTap": 2
       },
       "regulatingMode1" : "CURRENT_LIMITER",
-      "regulating1" : true,
+      "regulatingPhase1" : true,
       "regulatingValue1" : 25.0,
       "loadTapChanging3Capabilities": false,
-      "regulating3" : false,
+      "regulatingRatio3" : false,
       "targetV3" : 220.0
     },
     {
@@ -256,10 +256,10 @@
         "highTap": 2
       },
       "regulatingMode2" : "CURRENT_LIMITER",
-      "regulating2" : true,
+      "regulatingPhase2" : true,
       "regulatingValue2" : 25.0,
       "loadTapChanging1Capabilities": false,
-      "regulating1" : false,
+      "regulatingRatio1" : false,
       "targetV1" : 220.0
     },
     {
@@ -290,10 +290,10 @@
         "highTap": 2
       },
       "regulatingMode3" : "CURRENT_LIMITER",
-      "regulating3" : true,
+      "regulatingPhase3" : true,
       "regulatingValue3" : 25.0,
       "loadTapChanging2Capabilities": false,
-      "regulating2" : false,
+      "regulatingRatio2" : false,
       "targetV2" : 220.0
     }
   ],

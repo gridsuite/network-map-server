@@ -203,11 +203,9 @@ class NetworkMapService {
         ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
         ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
         ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
-
         Terminal terminal1 = leg1.getTerminal();
         Terminal terminal2 = leg2.getTerminal();
         Terminal terminal3 = leg3.getTerminal();
-
         ThreeWindingsTransformerMapData.ThreeWindingsTransformerMapDataBuilder builder = ThreeWindingsTransformerMapData.builder()
             .name(transformer.getNameOrId())
             .id(transformer.getId())
@@ -244,11 +242,9 @@ class NetworkMapService {
         if (!Double.isNaN(terminal3.getI())) {
             builder.i3(terminal3.getI());
         }
-
         CurrentLimits limits1 = leg1.getCurrentLimits();
         CurrentLimits limits2 = leg2.getCurrentLimits();
         CurrentLimits limits3 = leg3.getCurrentLimits();
-
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }
@@ -258,12 +254,11 @@ class NetworkMapService {
         if (limits3 != null && !Double.isNaN(limits3.getPermanentLimit())) {
             builder.permanentLimit3(limits3.getPermanentLimit());
         }
-
         if (leg1.hasRatioTapChanger()) {
             builder.ratioTapChanger1Position(leg1.getRatioTapChanger().getTapPosition())
                     .ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
                     .loadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .regulating1(leg1.getRatioTapChanger().isRegulating());
+                    .regulatingRatio1(leg1.getRatioTapChanger().isRegulating());
             if (!Double.isNaN(leg1.getRatioTapChanger().getTargetV())) {
                 builder.targetV1(leg1.getRatioTapChanger().getTargetV());
             }
@@ -272,7 +267,7 @@ class NetworkMapService {
             builder.ratioTapChanger2Position(leg2.getRatioTapChanger().getTapPosition())
                     .ratioTapChanger2(toMapData(leg2.getRatioTapChanger()))
                     .loadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .regulating2(leg2.getRatioTapChanger().isRegulating());
+                    .regulatingRatio2(leg2.getRatioTapChanger().isRegulating());
             if (!Double.isNaN(leg2.getRatioTapChanger().getTargetV())) {
                 builder.targetV2(leg2.getRatioTapChanger().getTargetV());
             }
@@ -281,7 +276,7 @@ class NetworkMapService {
             builder.ratioTapChanger3Position(leg3.getRatioTapChanger().getTapPosition())
                     .ratioTapChanger3(toMapData(leg3.getRatioTapChanger()))
                     .loadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .regulating3(leg3.getRatioTapChanger().isRegulating());
+                    .regulatingRatio3(leg3.getRatioTapChanger().isRegulating());
             if (!Double.isNaN(leg3.getRatioTapChanger().getTargetV())) {
                 builder.targetV3(leg3.getRatioTapChanger().getTargetV());
             }
@@ -290,7 +285,7 @@ class NetworkMapService {
             builder.phaseTapChanger1Position(leg1.getPhaseTapChanger().getTapPosition())
                     .phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()))
                     .regulatingMode1(leg1.getPhaseTapChanger().getRegulationMode().name())
-                    .regulating1(leg1.getPhaseTapChanger().isRegulating());
+                    .regulatingPhase1(leg1.getPhaseTapChanger().isRegulating());
             if (!Double.isNaN(leg1.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue1(leg1.getPhaseTapChanger().getRegulationValue());
             }
@@ -299,7 +294,7 @@ class NetworkMapService {
             builder.phaseTapChanger2Position(leg2.getPhaseTapChanger().getTapPosition())
                     .phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()))
                     .regulatingMode2(leg2.getPhaseTapChanger().getRegulationMode().name())
-                    .regulating2(leg2.getPhaseTapChanger().isRegulating());
+                    .regulatingPhase2(leg2.getPhaseTapChanger().isRegulating());
             if (!Double.isNaN(leg2.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue2(leg2.getPhaseTapChanger().getRegulationValue());
             }
@@ -308,12 +303,11 @@ class NetworkMapService {
             builder.phaseTapChanger3Position(leg3.getPhaseTapChanger().getTapPosition())
                     .phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()))
                     .regulatingMode3(leg3.getPhaseTapChanger().getRegulationMode().name())
-                    .regulating3(leg3.getPhaseTapChanger().isRegulating());
+                    .regulatingPhase3(leg3.getPhaseTapChanger().isRegulating());
             if (!Double.isNaN(leg3.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
             }
         }
-
         return builder.build();
     }
 

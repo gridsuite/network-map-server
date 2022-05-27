@@ -135,13 +135,22 @@ public class ThreeWindingsTransformerMapData {
     private String regulatingMode3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulating1;
+    private Boolean regulatingRatio1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulating2;
+    private Boolean regulatingRatio2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulating3;
+    private Boolean regulatingRatio3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingPhase1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingPhase2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingPhase3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double regulatingValue1;
