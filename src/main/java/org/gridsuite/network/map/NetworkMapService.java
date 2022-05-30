@@ -354,7 +354,8 @@ class NetworkMapService {
             .id(vscConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
             .terminalConnected(terminal.isConnected())
-            .lossFactor(vscConverterStation.getLossFactor());
+            .lossFactor(vscConverterStation.getLossFactor())
+            .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
         if (vscConverterStation.getHvdcLine() != null) {
             builder.hvdcLineId(vscConverterStation.getHvdcLine().getId());
         }
@@ -363,6 +364,12 @@ class NetworkMapService {
         }
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
+        }
+        if (!Double.isNaN(vscConverterStation.getVoltageSetpoint())) {
+            builder.voltageSetpoint(vscConverterStation.getVoltageSetpoint());
+        }
+        if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
+            builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
         }
         return builder.build();
     }

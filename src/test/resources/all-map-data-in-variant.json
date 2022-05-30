@@ -444,7 +444,10 @@
       "hvdcLineId": "HVDC1",
       "p": 10.0,
       "q": 30.0,
-      "lossFactor": 1.0
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0
     },
     {
       "id": "VSC2",
@@ -452,7 +455,10 @@
       "voltageLevelId": "VLGEN3",
       "terminalConnected": true,
       "hvdcLineId": null,
-      "lossFactor": 1.0
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0
     }
   ]
 }
