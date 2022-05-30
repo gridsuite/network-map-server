@@ -133,7 +133,7 @@ class NetworkMapService {
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
         if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminal(generator.getRegulatingTerminal().getVoltageLevel().getNameOrId());
+            builder.regulatingTerminal(regulatingTerminal.getVoltageLevel().getNameOrId());
         }
 
         return builder.build();
