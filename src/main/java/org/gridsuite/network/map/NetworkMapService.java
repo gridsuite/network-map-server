@@ -170,9 +170,6 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
-        if (!Double.isNaN(terminal1.getP())) {
-            builder.p1(terminal1.getP());
-        }
         if (transformer.hasRatioTapChanger()) {
             builder.ratioTapChangerPosition(transformer.getRatioTapChanger().getTapPosition())
                     .regulating(transformer.getRatioTapChanger().isRegulating())
