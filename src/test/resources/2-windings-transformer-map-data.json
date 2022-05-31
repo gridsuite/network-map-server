@@ -21,5 +21,8 @@
   "r": 0.26658461538461536,
   "x": 11.104492831516762,
   "ratedU1": 24.0,
-  "ratedU2": 400.0
+  "ratedU2": 400.0,
+  "regulatingMode" : "CURRENT_LIMITER",
+  "regulating" : true,
+  "regulatingValue" : 10.0
 }

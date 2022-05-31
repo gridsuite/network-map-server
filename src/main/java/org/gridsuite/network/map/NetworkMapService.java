@@ -144,7 +144,6 @@ class NetworkMapService {
                 .g(transformer.getG())
                 .ratedU1(transformer.getRatedU1())
                 .ratedU2(transformer.getRatedU2());
-
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -165,19 +164,27 @@ class NetworkMapService {
         }
         CurrentLimits limits1 = transformer.getCurrentLimits1();
         CurrentLimits limits2 = transformer.getCurrentLimits2();
-
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
-
         if (transformer.hasRatioTapChanger()) {
-            builder.ratioTapChangerPosition(transformer.getRatioTapChanger().getTapPosition());
+            builder.ratioTapChangerPosition(transformer.getRatioTapChanger().getTapPosition())
+                    .regulating(transformer.getRatioTapChanger().isRegulating())
+                    .loadTapChangingCapabilities(transformer.getRatioTapChanger().hasLoadTapChangingCapabilities());
+            if (!Double.isNaN(transformer.getRatioTapChanger().getTargetV())) {
+                builder.targetV(transformer.getRatioTapChanger().getTargetV());
+            }
         }
         if (transformer.hasPhaseTapChanger()) {
-            builder.phaseTapChangerPosition(transformer.getPhaseTapChanger().getTapPosition());
+            builder.phaseTapChangerPosition(transformer.getPhaseTapChanger().getTapPosition())
+                    .regulatingMode(transformer.getPhaseTapChanger().getRegulationMode().name())
+                    .regulating(transformer.getPhaseTapChanger().isRegulating());
+            if (!Double.isNaN(transformer.getPhaseTapChanger().getRegulationValue())) {
+                builder.regulatingValue(transformer.getPhaseTapChanger().getRegulationValue());
+            }
         }
         return builder.build();
     }
@@ -193,11 +200,9 @@ class NetworkMapService {
         ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
         ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
         ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
-
         Terminal terminal1 = leg1.getTerminal();
         Terminal terminal2 = leg2.getTerminal();
         Terminal terminal3 = leg3.getTerminal();
-
         ThreeWindingsTransformerMapData.ThreeWindingsTransformerMapDataBuilder builder = ThreeWindingsTransformerMapData.builder()
             .name(transformer.getNameOrId())
             .id(transformer.getId())
@@ -234,11 +239,9 @@ class NetworkMapService {
         if (!Double.isNaN(terminal3.getI())) {
             builder.i3(terminal3.getI());
         }
-
         CurrentLimits limits1 = leg1.getCurrentLimits();
         CurrentLimits limits2 = leg2.getCurrentLimits();
         CurrentLimits limits3 = leg3.getCurrentLimits();
-
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }
@@ -248,33 +251,60 @@ class NetworkMapService {
         if (limits3 != null && !Double.isNaN(limits3.getPermanentLimit())) {
             builder.permanentLimit3(limits3.getPermanentLimit());
         }
-
         if (leg1.hasRatioTapChanger()) {
-            builder.ratioTapChanger1Position(leg1.getRatioTapChanger().getTapPosition());
-            builder.ratioTapChanger1(toMapData(leg1.getRatioTapChanger()));
+            builder.ratioTapChanger1Position(leg1.getRatioTapChanger().getTapPosition())
+                    .ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
+                    .loadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
+                    .regulatingRatio1(leg1.getRatioTapChanger().isRegulating());
+            if (!Double.isNaN(leg1.getRatioTapChanger().getTargetV())) {
+                builder.targetV1(leg1.getRatioTapChanger().getTargetV());
+            }
         }
         if (leg2.hasRatioTapChanger()) {
-            builder.ratioTapChanger2Position(leg2.getRatioTapChanger().getTapPosition());
-            builder.ratioTapChanger2(toMapData(leg2.getRatioTapChanger()));
+            builder.ratioTapChanger2Position(leg2.getRatioTapChanger().getTapPosition())
+                    .ratioTapChanger2(toMapData(leg2.getRatioTapChanger()))
+                    .loadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
+                    .regulatingRatio2(leg2.getRatioTapChanger().isRegulating());
+            if (!Double.isNaN(leg2.getRatioTapChanger().getTargetV())) {
+                builder.targetV2(leg2.getRatioTapChanger().getTargetV());
+            }
         }
         if (leg3.hasRatioTapChanger()) {
-            builder.ratioTapChanger3Position(leg3.getRatioTapChanger().getTapPosition());
-            builder.ratioTapChanger3(toMapData(leg3.getRatioTapChanger()));
+            builder.ratioTapChanger3Position(leg3.getRatioTapChanger().getTapPosition())
+                    .ratioTapChanger3(toMapData(leg3.getRatioTapChanger()))
+                    .loadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
+                    .regulatingRatio3(leg3.getRatioTapChanger().isRegulating());
+            if (!Double.isNaN(leg3.getRatioTapChanger().getTargetV())) {
+                builder.targetV3(leg3.getRatioTapChanger().getTargetV());
+            }
         }
-
         if (leg1.hasPhaseTapChanger()) {
-            builder.phaseTapChanger1Position(leg1.getPhaseTapChanger().getTapPosition());
-            builder.phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()));
+            builder.phaseTapChanger1Position(leg1.getPhaseTapChanger().getTapPosition())
+                    .phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()))
+                    .regulatingMode1(leg1.getPhaseTapChanger().getRegulationMode().name())
+                    .regulatingPhase1(leg1.getPhaseTapChanger().isRegulating());
+            if (!Double.isNaN(leg1.getPhaseTapChanger().getRegulationValue())) {
+                builder.regulatingValue1(leg1.getPhaseTapChanger().getRegulationValue());
+            }
         }
         if (leg2.hasPhaseTapChanger()) {
-            builder.phaseTapChanger2Position(leg2.getPhaseTapChanger().getTapPosition());
-            builder.phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()));
+            builder.phaseTapChanger2Position(leg2.getPhaseTapChanger().getTapPosition())
+                    .phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()))
+                    .regulatingMode2(leg2.getPhaseTapChanger().getRegulationMode().name())
+                    .regulatingPhase2(leg2.getPhaseTapChanger().isRegulating());
+            if (!Double.isNaN(leg2.getPhaseTapChanger().getRegulationValue())) {
+                builder.regulatingValue2(leg2.getPhaseTapChanger().getRegulationValue());
+            }
         }
         if (leg3.hasPhaseTapChanger()) {
-            builder.phaseTapChanger3Position(leg3.getPhaseTapChanger().getTapPosition());
-            builder.phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()));
+            builder.phaseTapChanger3Position(leg3.getPhaseTapChanger().getTapPosition())
+                    .phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()))
+                    .regulatingMode3(leg3.getPhaseTapChanger().getRegulationMode().name())
+                    .regulatingPhase3(leg3.getPhaseTapChanger().isRegulating());
+            if (!Double.isNaN(leg3.getPhaseTapChanger().getRegulationValue())) {
+                builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
+            }
         }
-
         return builder.build();
     }
 

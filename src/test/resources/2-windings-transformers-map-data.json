@@ -22,7 +22,10 @@
     "r": 0.26658461538461536,
     "x": 11.104492831516762,
     "ratedU1": 24.0,
-    "ratedU2": 400.0
+    "ratedU2": 400.0,
+    "regulatingMode" : "CURRENT_LIMITER",
+    "regulating" : true,
+    "regulatingValue" : 10.0
   },
   {
     "id": "NHV2_NLOAD",
@@ -47,6 +50,9 @@
     "r": 0.04724999999999999,
     "x": 4.049724365620455,
     "ratedU1": 400.0,
-    "ratedU2": 158.0
+    "ratedU2": 158.0,
+    "loadTapChangingCapabilities": true,
+    "regulating" : true,
+    "targetV" : 158.0
   }
 ]
