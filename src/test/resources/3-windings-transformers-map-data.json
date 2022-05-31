@@ -25,7 +25,13 @@
     "ratioTapChanger3": {
       "lowTap": 0,
       "highTap": 2
-    }
+    },
+    "regulatingMode1" : "CURRENT_LIMITER",
+    "regulatingPhase1" : true,
+    "regulatingValue1" : 25.0,
+    "loadTapChanging3Capabilities": false,
+    "regulatingRatio3" : false,
+    "targetV3" : 220.0
   },
   {
     "id": "TWT21",
@@ -53,7 +59,13 @@
     "phaseTapChanger2": {
       "lowTap": 0,
       "highTap": 2
-    }
+    },
+    "regulatingMode2" : "CURRENT_LIMITER",
+    "regulatingPhase2" : true,
+    "regulatingValue2" : 25.0,
+    "loadTapChanging1Capabilities": false,
+    "regulatingRatio1" : false,
+    "targetV1" : 220.0
   },
   {
     "id": "TWT32",
@@ -81,6 +93,12 @@
     "phaseTapChanger3": {
       "lowTap": 0,
       "highTap": 2
-    }
+    },
+    "regulatingMode3" : "CURRENT_LIMITER",
+    "regulatingPhase3" : true,
+    "regulatingValue3" : 25.0,
+    "loadTapChanging2Capabilities": false,
+    "regulatingRatio2" : false,
+    "targetV2" : 220.0
   }
 ]

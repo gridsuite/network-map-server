@@ -107,5 +107,57 @@ public class ThreeWindingsTransformerMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData ratioTapChanger3;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean loadTapChanging1Capabilities;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean loadTapChanging2Capabilities;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean loadTapChanging3Capabilities;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingMode1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingMode2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingMode3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingRatio1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingRatio2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingRatio3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingPhase1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingPhase2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulatingPhase3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double regulatingValue1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double regulatingValue2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double regulatingValue3;
 }
