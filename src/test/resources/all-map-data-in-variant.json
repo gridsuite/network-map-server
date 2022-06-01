@@ -159,7 +159,10 @@
       "r": 0.26658461538461536,
       "x": 11.104492831516762,
       "ratedU1": 24.0,
-      "ratedU2": 400.0
+      "ratedU2": 400.0,
+      "regulatingMode" : "CURRENT_LIMITER",
+      "regulating" : true,
+      "regulatingValue" : 10.0
     },
     {
       "id": "NHV2_NLOAD",
@@ -184,7 +187,10 @@
       "r": 0.04724999999999999,
       "x": 4.049724365620455,
       "ratedU1": 400.0,
-      "ratedU2": 158.0
+      "ratedU2": 158.0,
+      "loadTapChangingCapabilities": true,
+      "regulating" : true,
+      "targetV" : 158.0
     }
   ],
   "threeWindingsTransformers": [
@@ -214,7 +220,13 @@
       "ratioTapChanger3": {
         "lowTap": 0,
         "highTap": 2
-      }
+      },
+      "regulatingMode1" : "CURRENT_LIMITER",
+      "regulatingPhase1" : true,
+      "regulatingValue1" : 25.0,
+      "loadTapChanging3Capabilities": false,
+      "regulatingRatio3" : false,
+      "targetV3" : 220.0
     },
     {
       "id": "TWT21",
@@ -242,7 +254,13 @@
       "phaseTapChanger2": {
         "lowTap": 0,
         "highTap": 2
-      }
+      },
+      "regulatingMode2" : "CURRENT_LIMITER",
+      "regulatingPhase2" : true,
+      "regulatingValue2" : 25.0,
+      "loadTapChanging1Capabilities": false,
+      "regulatingRatio1" : false,
+      "targetV1" : 220.0
     },
     {
       "id": "TWT32",
@@ -270,7 +288,13 @@
       "phaseTapChanger3": {
         "lowTap": 0,
         "highTap": 2
-      }
+      },
+      "regulatingMode3" : "CURRENT_LIMITER",
+      "regulatingPhase3" : true,
+      "regulatingValue3" : 25.0,
+      "loadTapChanging2Capabilities": false,
+      "regulatingRatio2" : false,
+      "targetV2" : 220.0
     }
   ],
   "generators": [
@@ -278,6 +302,8 @@
       "id": "GEN",
       "name": "GEN",
       "voltageLevelId": "VLGEN",
+      "regulatingTerminal":"VLHV1",
+      "activePowerControlOn":true,
       "terminalConnected": true,
       "p": 25.0,
       "q": 32.0,
@@ -289,6 +315,19 @@
       "ratedS": 27,
       "energySource":"OTHER",
       "voltageRegulatorOn":true
+    },
+    {
+      "id": "GEN2",
+      "name": "GEN2",
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "targetP": 607.0,
+      "targetQ": 301.0,
+      "targetV": 24.5,
+      "minP": -9999.99,
+      "maxP": 9999.99,
+      "energySource": "OTHER",
+      "voltageRegulatorOn": true
     }
   ],
   "batteries": [
