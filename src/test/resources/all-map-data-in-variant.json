@@ -341,6 +341,22 @@
       "converterStationId1": "VSC1",
       "converterStationId2": "LCC2",
       "activePowerSetpoint": 500.0
+    },
+    {
+      "id": "HVDC3",
+      "name": "HVDC3",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC3",
+      "converterStationId2": "VSC4",
+      "activePowerSetpoint": 500.0
+    },
+    {
+      "id": "HVDC4",
+      "name": "HVDC4",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC5",
+      "converterStationId2": "VSC6",
+      "activePowerSetpoint": 500.0
     }
   ],
   "lccConverterStations": [
@@ -459,6 +475,54 @@
       "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
       "reactivePowerSetpoint": 40.0
+    },
+    {
+      "id": "VSC3",
+      "name": "VSC3",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC3",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": false,
+      "reactivePowerSetpoint": 40.0
+    },
+    {
+      "id": "VSC4",
+      "name": "VSC4",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC3",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": false,
+      "reactivePowerSetpoint": 40.0
+    },
+    {
+      "id": "VSC5",
+      "name": "VSC5",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC4",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0
+    },
+    {
+      "id": "VSC6",
+      "name": "VSC6",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC4",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0
     }
   ]
 }

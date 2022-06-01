@@ -6,5 +6,21 @@
     "converterStationId1": "VSC1",
     "converterStationId2": "LCC2",
     "activePowerSetpoint": 500.0
+  },
+  {
+    "id": "HVDC3",
+    "name": "HVDC3",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "VSC3",
+    "converterStationId2": "VSC4",
+    "activePowerSetpoint": 500.0
+  },
+  {
+    "id": "HVDC4",
+    "name": "HVDC4",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "VSC5",
+    "converterStationId2": "VSC6",
+    "activePowerSetpoint": 500.0
   }
 ]
