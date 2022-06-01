@@ -27,10 +27,15 @@ import com.powsybl.iidm.network.VariantManagerConstants;
 import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.iidm.network.VscConverterStation;
 import com.powsybl.iidm.network.extensions.ActivePowerControlAdder;
+import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
+import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import com.powsybl.network.store.iidm.impl.HvdcLineImpl;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
+import com.powsybl.network.store.iidm.impl.extensions.HvdcAngleDroopActivePowerControlImpl;
+import com.powsybl.network.store.iidm.impl.extensions.HvdcOperatorActivePowerRangeImpl;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
 import com.powsybl.sld.iidm.extensions.BranchStatusAdder;
 import com.powsybl.sld.iidm.extensions.BusbarSectionPositionAdder;
@@ -305,6 +310,21 @@ public class NetworkMapControllerTest {
                 .setConverterStationId1("VSC1")
                 .setConverterStationId2("LCC2")
                 .add();
+
+        HvdcLine hvdcLineWithExtension = network.newHvdcLine()
+                .setId("HVDC2")
+                .setName("HVDC2")
+                .setR(1)
+                .setMaxP(100)
+                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+                .setNominalV(225)
+                .setActivePowerSetpoint(500)
+                .setConverterStationId1("VSC1")
+                .setConverterStationId2("LCC2")
+                .add();
+
+        hvdcLineWithExtension.addExtension(HvdcOperatorActivePowerRange.class, new HvdcOperatorActivePowerRangeImpl((HvdcLineImpl) hvdcLineWithExtension, 1000F, 900F));
+        hvdcLineWithExtension.addExtension(HvdcAngleDroopActivePowerControl.class, new HvdcAngleDroopActivePowerControlImpl((HvdcLineImpl) hvdcLineWithExtension, 190F, 180F, true));
 
         ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
                 .setId("SHUNT1")
