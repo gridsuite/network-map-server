@@ -26,6 +26,12 @@ public class GeneratorMapData {
 
     private String voltageLevelId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminal;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean activePowerControlOn;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

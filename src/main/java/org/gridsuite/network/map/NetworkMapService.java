@@ -8,6 +8,7 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.ActivePowerControl;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
@@ -107,6 +108,7 @@ class NetworkMapService {
 
     private static GeneratorMapData toMapData(Generator generator) {
         Terminal terminal = generator.getTerminal();
+
         GeneratorMapData.GeneratorMapDataBuilder builder = GeneratorMapData.builder()
                 .name(generator.getNameOrId())
                 .id(generator.getId())
@@ -122,6 +124,17 @@ class NetworkMapService {
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(Double.isNaN(terminal.getP()) ? null : terminal.getP())
                 .q(Double.isNaN(terminal.getQ()) ? null : terminal.getQ());
+
+        ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
+        if (activePowerControl != null) {
+            builder.activePowerControlOn(activePowerControl.isParticipate());
+        }
+
+        Terminal regulatingTerminal = generator.getRegulatingTerminal();
+        //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
+        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+            builder.regulatingTerminal(regulatingTerminal.getVoltageLevel().getNameOrId());
+        }
 
         return builder.build();
     }
