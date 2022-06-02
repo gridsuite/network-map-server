@@ -9,6 +9,8 @@ package org.gridsuite.network.map;
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ActivePowerControl;
+import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
+import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
@@ -359,13 +361,28 @@ class NetworkMapService {
     }
 
     private static HvdcLineMapData toMapData(HvdcLine hvdcLine) {
+        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
+        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
         HvdcLineMapData.HvdcLineMapDataBuilder builder = HvdcLineMapData.builder()
             .name(hvdcLine.getNameOrId())
             .id(hvdcLine.getId())
             .convertersMode(hvdcLine.getConvertersMode())
             .converterStationId1(hvdcLine.getConverterStation1().getId())
             .converterStationId2(hvdcLine.getConverterStation2().getId())
+            .maxP(hvdcLine.getMaxP())
+            .r(hvdcLine.getR())
             .activePowerSetpoint(hvdcLine.getActivePowerSetpoint());
+
+        if (hvdcAngleDroopActivePowerControl != null) {
+            builder.k(hvdcAngleDroopActivePowerControl.getDroop())
+                   .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
+                   .p0(hvdcAngleDroopActivePowerControl.getP0());
+        }
+
+        if (hvdcOperatorActivePowerRange != null) {
+            builder.oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
+                   .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1());
+        }
         return builder.build();
     }
 
