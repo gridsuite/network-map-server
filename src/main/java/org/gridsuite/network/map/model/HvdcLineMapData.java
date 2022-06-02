@@ -41,4 +41,19 @@ public class HvdcLineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double maxP;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float k;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isEnabled;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float p0;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float oprFromCS1toCS2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float oprFromCS2toCS1;
 }
