@@ -397,6 +397,26 @@
       "oprFromCS1toCS2": 1000,
       "oprFromCS2toCS1": 900,
       "isEnabled": true
+    },
+    {
+      "id": "HVDC3",
+      "name": "HVDC3",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC3",
+      "converterStationId2": "VSC4",
+      "activePowerSetpoint": 500.0,
+      "r": 1,
+      "maxP": 100
+    },
+    {
+      "id": "HVDC4",
+      "name": "HVDC4",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC5",
+      "converterStationId2": "VSC6",
+      "activePowerSetpoint": 500.0,
+      "r": 1,
+      "maxP": 100
     }
   ],
   "lccConverterStations": [
@@ -500,7 +520,10 @@
       "hvdcLineId": "HVDC1",
       "p": 10.0,
       "q": 30.0,
-      "lossFactor": 1.0
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0
     },
     {
       "id": "VSC2",
@@ -508,7 +531,58 @@
       "voltageLevelId": "VLGEN3",
       "terminalConnected": true,
       "hvdcLineId": null,
-      "lossFactor": 1.0
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0
+    },
+    {
+      "id": "VSC3",
+      "name": "VSC3",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC3",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": false,
+      "reactivePowerSetpoint": 40.0
+    },
+    {
+      "id": "VSC4",
+      "name": "VSC4",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC3",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": false,
+      "reactivePowerSetpoint": 40.0
+    },
+    {
+      "id": "VSC5",
+      "name": "VSC5",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC4",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0
+    },
+    {
+      "id": "VSC6",
+      "name": "VSC6",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC4",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0
     }
   ]
 }

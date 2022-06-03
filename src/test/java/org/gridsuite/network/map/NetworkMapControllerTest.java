@@ -268,6 +268,55 @@ public class NetworkMapControllerTest {
         vsc1.getTerminal().setP(10);
         vsc1.getTerminal().setQ(30);
 
+        VscConverterStation vsc3 = vlnew2.newVscConverterStation()
+                .setId("VSC3")
+                .setName("VSC3")
+                .setLossFactor(1)
+                .setReactivePowerSetpoint(40)
+                .setVoltageRegulatorOn(false)
+                .setVoltageSetpoint(Double.NaN)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        vsc3.getTerminal().setP(10);
+        vsc3.getTerminal().setQ(30);
+
+        VscConverterStation vsc4 = vlnew2.newVscConverterStation()
+                .setId("VSC4")
+                .setName("VSC4")
+                .setLossFactor(1)
+                .setReactivePowerSetpoint(40)
+                .setVoltageRegulatorOn(false)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        vsc4.getTerminal().setP(10);
+        vsc4.getTerminal().setQ(30);
+
+        VscConverterStation vsc5 = vlnew2.newVscConverterStation()
+                .setId("VSC5")
+                .setName("VSC5")
+                .setLossFactor(1)
+                .setReactivePowerSetpoint(Double.NaN)
+                .setVoltageRegulatorOn(true)
+                .setVoltageSetpoint(150)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        vsc5.getTerminal().setP(10);
+        vsc5.getTerminal().setQ(30);
+
+        VscConverterStation vsc6 = vlnew2.newVscConverterStation()
+                .setId("VSC6")
+                .setName("VSC6")
+                .setLossFactor(1)
+                .setVoltageRegulatorOn(true)
+                .setVoltageSetpoint(150)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        vsc6.getTerminal().setP(10);
+        vsc6.getTerminal().setQ(30);
         vlgen3.newVscConverterStation()
                 .setId("VSC2")
                 .setName("VSC2")
@@ -309,6 +358,28 @@ public class NetworkMapControllerTest {
                 .setActivePowerSetpoint(500)
                 .setConverterStationId1("VSC1")
                 .setConverterStationId2("LCC2")
+                .add();
+        network.newHvdcLine()
+                .setId("HVDC3")
+                .setName("HVDC3")
+                .setR(1)
+                .setMaxP(100)
+                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+                .setNominalV(225)
+                .setActivePowerSetpoint(500)
+                .setConverterStationId1("VSC3")
+                .setConverterStationId2("VSC4")
+                .add();
+        network.newHvdcLine()
+                .setId("HVDC4")
+                .setName("HVDC4")
+                .setR(1)
+                .setMaxP(100)
+                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+                .setNominalV(225)
+                .setActivePowerSetpoint(500)
+                .setConverterStationId1("VSC5")
+                .setConverterStationId2("VSC6")
                 .add();
 
         HvdcLine hvdcLineWithExtension = network.newHvdcLine()

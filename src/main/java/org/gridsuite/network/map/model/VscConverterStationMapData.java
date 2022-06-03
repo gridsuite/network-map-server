@@ -20,4 +20,13 @@ import lombok.experimental.SuperBuilder;
 public class VscConverterStationMapData extends AbstractHvdcConverterStationMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float lossFactor;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double voltageSetpoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double reactivePowerSetpoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean voltageRegulatorOn;
 }
