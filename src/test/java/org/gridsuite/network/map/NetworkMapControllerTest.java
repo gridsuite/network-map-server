@@ -1199,4 +1199,16 @@ public class NetworkMapControllerTest {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
     }
+
+    @Test
+    public void shouldReturnVoltageLevelsAndEquipments() throws Exception {
+        succeedingTestForList("voltage-levels-equipments", NETWORK_UUID, null, null, resourceToString("/voltage-levels-equipments-map-data.json"));
+        succeedingTestForList("voltage-levels-equipments", NETWORK_UUID, VARIANT_ID, null, resourceToString("/voltage-levels-equipments-map-data-in-variant.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfVoltageLevelsEquipmentsMapData() throws Exception {
+        failingTestForList("voltage-levels-equipments", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("voltage-levels-equipments", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+    }
 }

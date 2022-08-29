@@ -59,5 +59,4 @@ public class GeneratorMapData {
     private Double ratedS;
 
     private boolean voltageRegulatorOn;
-
 }
