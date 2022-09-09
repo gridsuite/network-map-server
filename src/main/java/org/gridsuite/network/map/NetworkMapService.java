@@ -61,6 +61,14 @@ class NetworkMapService {
         return builder.build();
     }
 
+    private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
+        return VoltageLevelConnectableMapData.builder()
+                .id(connectable.getId())
+                .name(connectable.getNameOrId())
+                .type(connectable.getType())
+                .build();
+    }
+
     private static SubstationMapData toMapData(Substation substation) {
         return SubstationMapData.builder()
             .name(substation.getNameOrId())
@@ -862,6 +870,19 @@ class NetworkMapService {
         return substationsId == null ?
             network.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()) :
             substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(NetworkMapService::toMapData)).collect(Collectors.toList());
+    }
+
+    public List<VoltageLevelsEquipmentsMapData> getVoltageLevelsAndConnectable(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
+        List<VoltageLevel> voltageLevels =  substationsId == null ?
+                network.getVoltageLevelStream().collect(Collectors.toList()) :
+                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream()).collect(Collectors.toList());
+
+        return voltageLevels.stream().map(vl -> {
+            List<VoltageLevelConnectableMapData> equipments = new ArrayList<>();
+            vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
+            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
+        }).collect(Collectors.toList());
     }
 
     public VoltageLevelMapData getVoltageLevel(UUID networkUuid, String variantId, String voltageLevelId) {
