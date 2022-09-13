@@ -11,11 +11,18 @@
     "targetP": 28,
     "targetQ":301.0,
     "targetV":24.5,
-    "maxP" : 9999.99,
     "minP" : -9999.99,
-    "ratedS": 27,
+    "maxP" : 9999.99,
     "energySource":"OTHER",
-    "voltageRegulatorOn":true
+    "ratedS": 27,
+    "voltageRegulatorOn":true,
+    "minimumReactivePower": -500,
+    "maximumReactivePower": 500,
+    "droop": 4,
+    "regulatingTerminalId": "NHV1_NHV2_1",
+    "regulatingTerminalType": "LINE",
+    "regulatingTerminalVlId": "VLHV1",
+    "reactiveCapabilityCurve": false
   },
   {
     "id": "GEN2",
@@ -28,6 +35,24 @@
     "minP": -9999.99,
     "maxP": 9999.99,
     "energySource": "OTHER",
-    "voltageRegulatorOn": true
+    "voltageRegulatorOn": true,
+    "points": [
+      {
+        "p": 0.0,
+        "qminP": 6.0,
+        "qmaxP": 7.0
+      },
+      {
+        "p": 1.0,
+        "qminP": 4.0,
+        "qmaxP": 5.0
+      },
+      {
+        "p": 3.0,
+        "qminP": 4.0,
+        "qmaxP": 5.0
+      }
+    ],
+    "reactiveCapabilityCurve": true
   }
 ]

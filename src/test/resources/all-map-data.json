@@ -314,7 +314,14 @@
       "maxP": 9999.99,
       "energySource":"OTHER",
       "ratedS": 27,
-      "voltageRegulatorOn":true
+      "voltageRegulatorOn":true,
+      "minimumReactivePower": -500,
+      "maximumReactivePower": 500,
+      "droop": 4,
+      "regulatingTerminalId": "NHV1_NHV2_1",
+      "regulatingTerminalType": "LINE",
+      "regulatingTerminalVlId": "VLHV1",
+      "reactiveCapabilityCurve": false
     },
     {
       "id": "GEN2",
@@ -327,7 +334,25 @@
       "minP": -9999.99,
       "maxP": 9999.99,
       "energySource": "OTHER",
-      "voltageRegulatorOn": true
+      "voltageRegulatorOn": true,
+      "points": [
+        {
+          "p": 0.0,
+          "qminP": 6.0,
+          "qmaxP": 7.0
+        },
+        {
+          "p": 1.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        },
+        {
+          "p": 3.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        }
+      ],
+      "reactiveCapabilityCurve": true
     }
   ],
   "batteries": [

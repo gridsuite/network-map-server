@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
@@ -59,4 +61,40 @@ public class GeneratorMapData {
     private Double ratedS;
 
     private boolean voltageRegulatorOn;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double marginalCost;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double minimumReactivePower;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double maximumReactivePower;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ReactiveCapabilityCurveMapData> points;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean participate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float droop;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double transientReactance;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double stepUpTransformerReactance;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean reactiveCapabilityCurve;
 }

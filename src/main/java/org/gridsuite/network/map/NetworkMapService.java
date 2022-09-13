@@ -9,10 +9,13 @@ package org.gridsuite.network.map;
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ActivePowerControl;
+import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
+import com.powsybl.iidm.network.extensions.GeneratorStartup;
 import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
 import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
 import com.powsybl.sld.iidm.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.model.*;
@@ -138,15 +141,55 @@ class NetworkMapService {
         ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
             builder.activePowerControlOn(activePowerControl.isParticipate());
+            builder.droop(activePowerControl.getDroop());
+        }
+
+        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
+        if (generatorShortCircuit != null) {
+            builder.transientReactance(generatorShortCircuit.getDirectTransX());
+            builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
+        }
+
+        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
+        if (generatorStartup != null) {
+            builder.marginalCost(generatorStartup.getMarginalCost());
         }
 
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
         if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
             builder.regulatingTerminal(regulatingTerminal.getVoltageLevel().getNameOrId());
+            builder.regulatingTerminalId(regulatingTerminal.getConnectable().getId());
+            builder.regulatingTerminalType(regulatingTerminal.getConnectable().getType().name());
+            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+        }
+
+        ReactiveLimits reactiveLimits = generator.getReactiveLimits();
+        if (reactiveLimits != null) {
+            ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
+            if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
+                MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
+                builder.maximumReactivePower(minMaxReactiveLimits.getMaxQ());
+                builder.minimumReactivePower(minMaxReactiveLimits.getMinQ());
+                builder.reactiveCapabilityCurve(false);
+            } else if (limitsKind == ReactiveLimitsKind.CURVE) {
+                ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
+                builder.points(toMapData(capabilityCurve.getPoints()));
+                builder.reactiveCapabilityCurve(true);
+            }
         }
 
         return builder.build();
+    }
+
+    private static List<ReactiveCapabilityCurveMapData> toMapData(Collection<ReactiveCapabilityCurve.Point> points) {
+        return  points.stream()
+                .map(point -> ReactiveCapabilityCurveMapData.builder()
+                        .p(point.getP())
+                        .qmaxP(point.getMaxQ())
+                        .qminP(point.getMinQ())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {

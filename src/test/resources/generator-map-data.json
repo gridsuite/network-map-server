@@ -14,5 +14,12 @@
   "minP" : -9999.99,
   "ratedS": 27,
   "energySource":"OTHER",
-  "voltageRegulatorOn":true
+  "voltageRegulatorOn":true,
+  "minimumReactivePower": -500,
+  "maximumReactivePower": 500,
+  "droop": 4,
+  "regulatingTerminalId": "NHV1_NHV2_1",
+  "regulatingTerminalType": "LINE",
+  "regulatingTerminalVlId": "VLHV1",
+  "reactiveCapabilityCurve": false
 }
