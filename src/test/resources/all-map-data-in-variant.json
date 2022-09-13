@@ -302,7 +302,7 @@
       "id": "GEN",
       "name": "GEN",
       "voltageLevelId": "VLGEN",
-      "regulatingTerminal":"VLHV1",
+      "regulatingTerminalVlName":"VLHV1",
       "activePowerControlOn":true,
       "terminalConnected": true,
       "p": 25.0,
@@ -312,16 +312,17 @@
       "targetV":24.5,
       "minP": -9999.99,
       "maxP": 9999.99,
-      "ratedS": 27,
       "energySource":"OTHER",
+      "ratedS": 27,
       "voltageRegulatorOn":true,
-      "minimumReactivePower": -500,
-      "maximumReactivePower": 500,
+      "minMaxReactiveLimits": {
+        "minimumReactivePower": -500,
+        "maximumReactivePower": 500
+      },
       "droop": 4,
-      "regulatingTerminalId": "NHV1_NHV2_1",
-      "regulatingTerminalType": "LINE",
-      "regulatingTerminalVlId": "VLHV1",
-      "reactiveCapabilityCurve": false
+      "regulatingTerminalConnectableId": "NHV1_NHV2_1",
+      "regulatingTerminalConnectableType": "LINE",
+      "regulatingTerminalVlId": "VLHV1"
     },
     {
       "id": "GEN2",
@@ -351,8 +352,7 @@
           "qminP": 4.0,
           "qmaxP": 5.0
         }
-      ],
-      "reactiveCapabilityCurve": true
+      ]
     }
   ],
   "batteries": [

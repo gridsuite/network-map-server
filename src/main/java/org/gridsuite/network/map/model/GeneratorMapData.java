@@ -29,7 +29,7 @@ public class GeneratorMapData {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminal;
+    private String regulatingTerminalVlName;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean activePowerControlOn;
@@ -66,10 +66,7 @@ public class GeneratorMapData {
     private Double marginalCost;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double minimumReactivePower;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double maximumReactivePower;
+    private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ReactiveCapabilityCurveMapData> points;
@@ -87,14 +84,11 @@ public class GeneratorMapData {
     private Double stepUpTransformerReactance;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminalId;
+    private String regulatingTerminalConnectableId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminalType;
+    private String regulatingTerminalConnectableType;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean reactiveCapabilityCurve;
 }
