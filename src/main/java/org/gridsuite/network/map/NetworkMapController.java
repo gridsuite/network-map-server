@@ -267,4 +267,13 @@ public class NetworkMapController {
                                                                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBusbarSections(networkUuid, voltageLevelId, variantId);
     }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels-equipments", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get voltage level and its equipments description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level and its equipments description")})
+    public @ResponseBody List<org.gridsuite.network.map.model.VoltageLevelsEquipmentsMapData> getVoltageLevelsAndEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                                                                            @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getVoltageLevelsAndConnectable(networkUuid, variantId, substationsIds);
+    }
 }
