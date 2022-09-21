@@ -175,7 +175,7 @@ class NetworkMapService {
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
-                builder.points(toMapData(capabilityCurve.getPoints()));
+                builder.reactiveCapabilityCurvePoints(toMapData(capabilityCurve.getPoints()));
             }
         }
 

@@ -336,7 +336,7 @@
       "maxP": 9999.99,
       "energySource": "OTHER",
       "voltageRegulatorOn": true,
-      "points": [
+      "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
           "qminP": 6.0,

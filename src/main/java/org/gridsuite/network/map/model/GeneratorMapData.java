@@ -69,7 +69,7 @@ public class GeneratorMapData {
     private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<ReactiveCapabilityCurveMapData> points;
+    private List<ReactiveCapabilityCurveMapData> reactiveCapabilityCurvePoints;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean participate;
