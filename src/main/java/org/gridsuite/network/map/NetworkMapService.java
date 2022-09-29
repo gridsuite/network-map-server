@@ -25,7 +25,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -103,8 +108,8 @@ class NetworkMapService {
             .b1(line.getB1())
             .g2(line.getG2())
             .b2(line.getB2());
-        CurrentLimits limits1 = line.getCurrentLimits1();
-        CurrentLimits limits2 = line.getCurrentLimits2();
+        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
 
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
@@ -228,8 +233,8 @@ class NetworkMapService {
         if (!Double.isNaN(terminal2.getI())) {
             builder.i2(terminal2.getI());
         }
-        CurrentLimits limits1 = transformer.getCurrentLimits1();
-        CurrentLimits limits2 = transformer.getCurrentLimits2();
+        CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }
@@ -305,9 +310,9 @@ class NetworkMapService {
         if (!Double.isNaN(terminal3.getI())) {
             builder.i3(terminal3.getI());
         }
-        CurrentLimits limits1 = leg1.getCurrentLimits();
-        CurrentLimits limits2 = leg2.getCurrentLimits();
-        CurrentLimits limits3 = leg3.getCurrentLimits();
+        CurrentLimits limits1 = leg1.getCurrentLimits().orElse(null);
+        CurrentLimits limits2 = leg2.getCurrentLimits().orElse(null);
+        CurrentLimits limits3 = leg3.getCurrentLimits().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }

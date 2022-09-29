@@ -45,7 +45,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <gridsuite-dependencies.version>18</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>19</gridsuite-dependencies.version>
         <equalsverifier.version>3.5</equalsverifier.version>
     </properties>
 
@@ -101,10 +101,6 @@
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-network-store-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.powsybl</groupId>
-            <artifactId>powsybl-single-line-diagram-iidm-extensions</artifactId>
         </dependency>
 
         <dependency>
