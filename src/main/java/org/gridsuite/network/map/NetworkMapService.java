@@ -8,16 +8,10 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ActivePowerControl;
-import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
-import com.powsybl.iidm.network.extensions.GeneratorStartup;
-import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
-import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
+import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
-import com.powsybl.sld.iidm.extensions.BranchStatus;
-import com.powsybl.sld.iidm.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
