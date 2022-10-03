@@ -145,12 +145,31 @@ public class NetworkMapControllerTest {
         gen.getTerminal().setQ(32);
         gen.setTargetP(28);
         gen.setRatedS(27);
-        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).add();
-        gen.setRegulatingTerminal(l1.getTerminal1());
+        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).add();
+        gen.setRegulatingTerminal(network.getLine("NHV1_NHV2_1").getTerminal("VLHV1"));
+        gen.newMinMaxReactiveLimits().setMinQ(-500)
+                .setMaxQ(500)
+                .add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
         gen2.setRegulatingTerminal(gen2.getTerminal());
+        gen2.newReactiveCapabilityCurve().beginPoint()
+                .setP(0)
+                .setMinQ(6)
+                .setMaxQ(7)
+                .endPoint()
+                .beginPoint()
+                .setP(1)
+                .setMaxQ(5)
+                .setMinQ(4)
+                .endPoint()
+                .beginPoint()
+                .setP(3)
+                .setMinQ(4)
+                .setMaxQ(5)
+                .endPoint()
+                .add();
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()
