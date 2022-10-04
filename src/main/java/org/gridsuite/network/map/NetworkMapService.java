@@ -8,13 +8,10 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ActivePowerControl;
-import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
-import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
+import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import com.powsybl.sld.iidm.extensions.BranchStatus;
-import com.powsybl.sld.iidm.extensions.BusbarSectionPosition;
+import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -100,8 +97,8 @@ class NetworkMapService {
             .b1(line.getB1())
             .g2(line.getG2())
             .b2(line.getB2());
-        CurrentLimits limits1 = line.getCurrentLimits1();
-        CurrentLimits limits2 = line.getCurrentLimits2();
+        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
 
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
@@ -138,15 +135,55 @@ class NetworkMapService {
         ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
             builder.activePowerControlOn(activePowerControl.isParticipate());
+            builder.droop(activePowerControl.getDroop());
+        }
+
+        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
+        if (generatorShortCircuit != null) {
+            builder.transientReactance(generatorShortCircuit.getDirectTransX());
+            builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
+        }
+
+        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
+        if (generatorStartup != null) {
+            builder.marginalCost(generatorStartup.getMarginalCost());
         }
 
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
         if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminal(regulatingTerminal.getVoltageLevel().getNameOrId());
+            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getNameOrId());
+            builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
+            builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
+            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+        }
+
+        ReactiveLimits reactiveLimits = generator.getReactiveLimits();
+        if (reactiveLimits != null) {
+            ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
+            if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
+                MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
+                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
+                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
+                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .build());
+            } else if (limitsKind == ReactiveLimitsKind.CURVE) {
+                ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
+                builder.reactiveCapabilityCurvePoints(toMapData(capabilityCurve.getPoints()));
+            }
         }
 
         return builder.build();
+    }
+
+    private static List<ReactiveCapabilityCurveMapData> toMapData(Collection<ReactiveCapabilityCurve.Point> points) {
+        return  points.stream()
+                .map(point -> ReactiveCapabilityCurveMapData.builder()
+                        .p(point.getP())
+                        .qmaxP(point.getMaxQ())
+                        .qminP(point.getMinQ())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {
@@ -185,8 +222,8 @@ class NetworkMapService {
         if (!Double.isNaN(terminal2.getI())) {
             builder.i2(terminal2.getI());
         }
-        CurrentLimits limits1 = transformer.getCurrentLimits1();
-        CurrentLimits limits2 = transformer.getCurrentLimits2();
+        CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }
@@ -262,9 +299,9 @@ class NetworkMapService {
         if (!Double.isNaN(terminal3.getI())) {
             builder.i3(terminal3.getI());
         }
-        CurrentLimits limits1 = leg1.getCurrentLimits();
-        CurrentLimits limits2 = leg2.getCurrentLimits();
-        CurrentLimits limits3 = leg3.getCurrentLimits();
+        CurrentLimits limits1 = leg1.getCurrentLimits().orElse(null);
+        CurrentLimits limits2 = leg2.getCurrentLimits().orElse(null);
+        CurrentLimits limits3 = leg3.getCurrentLimits().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }

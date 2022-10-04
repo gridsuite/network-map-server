@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
@@ -27,7 +29,7 @@ public class GeneratorMapData {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminal;
+    private String regulatingTerminalVlName;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean activePowerControlOn;
@@ -59,4 +61,34 @@ public class GeneratorMapData {
     private Double ratedS;
 
     private boolean voltageRegulatorOn;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double marginalCost;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ReactiveCapabilityCurveMapData> reactiveCapabilityCurvePoints;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean participate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float droop;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double transientReactance;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double stepUpTransformerReactance;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlId;
 }
