@@ -203,7 +203,9 @@ class NetworkMapService {
                 .b(transformer.getB())
                 .g(transformer.getG())
                 .ratedU1(transformer.getRatedU1())
-                .ratedU2(transformer.getRatedU2());
+                .ratedU2(transformer.getRatedU2())
+                .ratedS(transformer.getRatedS());
+
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -249,11 +251,41 @@ class NetworkMapService {
         return builder.build();
     }
 
-    private static TapChangerData toMapData(TapChanger<?, ?> tapChanger) {
+    private static TapChangerData toMapData(RatioTapChanger tapChanger) {
+        if (tapChanger == null) {
+            return null;
+        }
+
+        TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
+                .lowTap(tapChanger.getLowTapPosition())
+                .highTap(tapChanger.getHighTapPosition())
+                .voltageRegulation(tapChanger.isRegulating())
+                .loadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
+                .targetVoltage(tapChanger.getTargetV())
+                .targetDeadBand(tapChanger.getTargetDeadband())
+                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null);
+
+        return builder.build();
+    }
+
+    private static TapChangerData toMapData(PhaseTapChanger tapChanger) {
+        if (tapChanger == null) {
+            return null;
+        }
+
         return tapChanger == null ? null : TapChangerData.builder()
-            .lowTap(tapChanger.getLowTapPosition())
-            .highTap(tapChanger.getHighTapPosition())
-            .build();
+                .lowTap(tapChanger.getLowTapPosition())
+                .highTap(tapChanger.getHighTapPosition())
+                .voltageRegulation(tapChanger.isRegulating())
+                .regulationMode(tapChanger.getRegulationMode())
+                .regulationValue(tapChanger.getRegulationValue())
+                .targetDeadBand(tapChanger.getTargetDeadband())
+                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
+                .build();
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer) {

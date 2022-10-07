@@ -93,4 +93,6 @@ public class TwoWindingsTransformerMapData {
     private Double ratedU1;
 
     private Double ratedU2;
+
+    private Double ratedS;
 }
