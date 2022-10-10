@@ -296,9 +296,9 @@ class NetworkMapService {
 
     private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
-            return null;
+            return List.of();
         }
-        List<TapChangerStepData> tapChangerSteps = new ArrayList();
+        List<TapChangerStepData> tapChangerSteps = new ArrayList<>();
         Set<Integer> indexes = tapChangerStep.keySet();
 
         TapChangerStepData.TapChangerStepDataBuilder tapChangerStepDataBuilder = TapChangerStepData.builder();
@@ -320,9 +320,9 @@ class NetworkMapService {
 
     private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
-            return null;
+            return List.of();
         }
-        List<TapChangerStepData> tapChangerSteps = new ArrayList();
+        List<TapChangerStepData> tapChangerSteps = new ArrayList<>();
         Set<Integer> indexes = tapChangerStep.keySet();
 
         TapChangerStepData.TapChangerStepDataBuilder tapChangerStepDataBuilder = TapChangerStepData.builder();
