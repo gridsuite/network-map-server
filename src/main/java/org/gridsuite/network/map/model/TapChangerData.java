@@ -41,7 +41,7 @@ public class TapChangerData {
     private PhaseTapChanger.RegulationMode regulationMode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double regulationValue;
+    private Double regulatingValue;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalConnectableId;
