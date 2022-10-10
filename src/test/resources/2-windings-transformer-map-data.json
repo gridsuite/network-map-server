@@ -14,7 +14,10 @@
   "phaseTapChangerPosition": 1,
   "phaseTapChanger": {
     "lowTap": 0,
-    "highTap": 1
+    "highTap": 1,
+    "voltageRegulation": true,
+    "regulationMode": "CURRENT_LIMITER",
+    "regulationValue": 30.0
   },
   "g": 0.0,
   "b": 0.0,
@@ -22,6 +25,7 @@
   "x": 11.104492831516762,
   "ratedU1": 24.0,
   "ratedU2": 400.0,
+  "ratedS": 30.0,
   "regulatingMode" : "CURRENT_LIMITER",
   "regulating" : true,
   "regulatingValue" : 10.0

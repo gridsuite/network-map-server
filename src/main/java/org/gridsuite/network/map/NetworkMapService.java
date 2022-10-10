@@ -189,6 +189,7 @@ class NetworkMapService {
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
+
         TwoWindingsTransformerMapData.TwoWindingsTransformerMapDataBuilder builder = TwoWindingsTransformerMapData.builder()
                 .name(transformer.getNameOrId())
                 .id(transformer.getId())
@@ -203,8 +204,11 @@ class NetworkMapService {
                 .b(transformer.getB())
                 .g(transformer.getG())
                 .ratedU1(transformer.getRatedU1())
-                .ratedU2(transformer.getRatedU2())
-                .ratedS(transformer.getRatedS());
+                .ratedU2(transformer.getRatedU2());
+
+        if (!Double.isNaN(transformer.getRatedS())) {
+            builder.ratedS(transformer.getRatedS());
+        }
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
@@ -232,22 +236,6 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
-        if (transformer.hasRatioTapChanger()) {
-            builder.ratioTapChangerPosition(transformer.getRatioTapChanger().getTapPosition())
-                    .regulating(transformer.getRatioTapChanger().isRegulating())
-                    .loadTapChangingCapabilities(transformer.getRatioTapChanger().hasLoadTapChangingCapabilities());
-            if (!Double.isNaN(transformer.getRatioTapChanger().getTargetV())) {
-                builder.targetV(transformer.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (transformer.hasPhaseTapChanger()) {
-            builder.phaseTapChangerPosition(transformer.getPhaseTapChanger().getTapPosition())
-                    .regulatingMode(transformer.getPhaseTapChanger().getRegulationMode().name())
-                    .regulating(transformer.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(transformer.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue(transformer.getPhaseTapChanger().getRegulationValue());
-            }
-        }
         return builder.build();
     }
 
@@ -259,13 +247,21 @@ class NetworkMapService {
         TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
                 .lowTap(tapChanger.getLowTapPosition())
                 .highTap(tapChanger.getHighTapPosition())
+                .tapPosition(tapChanger.getTapPosition())
                 .voltageRegulation(tapChanger.isRegulating())
                 .loadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
-                .targetVoltage(tapChanger.getTargetV())
-                .targetDeadBand(tapChanger.getTargetDeadband())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null);
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
+                .ratioTapSteps(toMapDataRatioStep(tapChanger.getAllSteps()));
+
+        if (!Double.isNaN(tapChanger.getTargetV())) {
+            builder.targetVoltage(tapChanger.getTargetV());
+        }
+
+        if (!Double.isNaN(tapChanger.getTargetDeadband())) {
+            builder.targetDeadBand(tapChanger.getTargetDeadband());
+        }
 
         return builder.build();
     }
@@ -275,9 +271,10 @@ class NetworkMapService {
             return null;
         }
 
-        return tapChanger == null ? null : TapChangerData.builder()
+        TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
                 .lowTap(tapChanger.getLowTapPosition())
                 .highTap(tapChanger.getHighTapPosition())
+                .tapPosition(tapChanger.getTapPosition())
                 .voltageRegulation(tapChanger.isRegulating())
                 .regulationMode(tapChanger.getRegulationMode())
                 .regulationValue(tapChanger.getRegulationValue())
@@ -285,7 +282,63 @@ class NetworkMapService {
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
-                .build();
+                .phaseTapSteps(toMapDataPhaseStep(tapChanger.getAllSteps()));
+
+        if (!Double.isNaN(tapChanger.getRegulationValue())) {
+            builder.targetVoltage(tapChanger.getRegulationValue());
+        }
+
+        if (!Double.isNaN(tapChanger.getTargetDeadband())) {
+            builder.targetDeadBand(tapChanger.getTargetDeadband());
+        }
+        return builder.build();
+    }
+
+    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+        if (tapChangerStep == null) {
+            return null;
+        }
+        List<TapChangerStepData> tapChangerSteps = new ArrayList();
+        Set<Integer> indexes = tapChangerStep.keySet();
+
+        TapChangerStepData.TapChangerStepDataBuilder tapChangerStepDataBuilder = TapChangerStepData.builder();
+
+        indexes.stream().forEach(index -> {
+            tapChangerStepDataBuilder.index(index)
+                    .g(tapChangerStep.get(index).getG())
+                    .b(tapChangerStep.get(index).getB())
+                    .r(tapChangerStep.get(index).getR())
+                    .x(tapChangerStep.get(index).getX())
+                    .rho(tapChangerStep.get(index).getRho())
+                    .alpha(tapChangerStep.get(index).getAlpha());
+
+            tapChangerSteps.add(tapChangerStepDataBuilder.build());
+        });
+
+        return tapChangerSteps;
+    }
+
+    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+        if (tapChangerStep == null) {
+            return null;
+        }
+        List<TapChangerStepData> tapChangerSteps = new ArrayList();
+        Set<Integer> indexes = tapChangerStep.keySet();
+
+        TapChangerStepData.TapChangerStepDataBuilder tapChangerStepDataBuilder = TapChangerStepData.builder();
+
+        indexes.stream().forEach(index -> {
+            tapChangerStepDataBuilder.index(index)
+                    .g(tapChangerStep.get(index).getG())
+                    .b(tapChangerStep.get(index).getB())
+                    .r(tapChangerStep.get(index).getR())
+                    .x(tapChangerStep.get(index).getX())
+                    .rho(tapChangerStep.get(index).getRho());
+
+            tapChangerSteps.add(tapChangerStepDataBuilder.build());
+        });
+
+        return tapChangerSteps;
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer) {
