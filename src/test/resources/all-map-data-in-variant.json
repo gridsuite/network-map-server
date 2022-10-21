@@ -469,7 +469,7 @@
   "loads": [
     {
       "id": "LOAD",
-      "name": "LOAD",
+      "name": "",
       "type": "UNDEFINED",
       "voltageLevelId": "VLLOAD",
       "terminalConnected": true,

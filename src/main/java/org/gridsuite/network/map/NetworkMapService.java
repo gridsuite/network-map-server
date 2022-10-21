@@ -482,7 +482,7 @@ class NetworkMapService {
     private static LoadMapData toMapData(Load load) {
         Terminal terminal = load.getTerminal();
         LoadMapData.LoadMapDataBuilder builder = LoadMapData.builder()
-            .name(String.valueOf(load.getOptionalName()))
+            .name(load.getOptionalName().isPresent() ? load.getOptionalName().get() : "")
             .id(load.getId())
             .type(load.getLoadType())
             .terminalConnected(terminal.isConnected())
