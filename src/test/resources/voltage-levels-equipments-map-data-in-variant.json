@@ -216,6 +216,11 @@
         "id": "TWT32",
         "name": "TWT32",
         "type": "THREE_WINDINGS_TRANSFORMER"
+      },
+      {
+        "id": "LOAD_WITH_NULL_NAME",
+        "name": "LOAD_WITH_NULL_NAME",
+        "type": "LOAD"
       }
     ]
   },

@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -482,7 +483,7 @@ class NetworkMapService {
     private static LoadMapData toMapData(Load load) {
         Terminal terminal = load.getTerminal();
         LoadMapData.LoadMapDataBuilder builder = LoadMapData.builder()
-            .name(load.getOptionalName().isPresent() ? load.getOptionalName().get() : "")
+            .name(load.getOptionalName().orElse(StringUtils.EMPTY))
             .id(load.getId())
             .type(load.getLoadType())
             .terminalConnected(terminal.isConnected())

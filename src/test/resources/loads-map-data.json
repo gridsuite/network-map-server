@@ -7,5 +7,14 @@
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0
+  },
+  {
+    "id": "LOAD_WITH_NULL_NAME",
+    "name": "",
+    "type": "UNDEFINED",
+    "voltageLevelId": "VLNEW2",
+    "terminalConnected": true,
+    "p0": 600.0,
+    "q0": 200.0
   }
 ]
