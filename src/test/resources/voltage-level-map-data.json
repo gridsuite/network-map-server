@@ -1,6 +1,6 @@
 {
   "id": "VLGEN4",
-  "name": "VLGEN4",
+  "name": null,
   "substationId": "P4",
   "nominalVoltage": 24.0,
   "topologyKind": "NODE_BREAKER",

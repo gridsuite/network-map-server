@@ -1,6 +1,6 @@
 {
     "id": "LOAD",
-    "name": "",
+    "name": null,
     "type": "UNDEFINED",
     "voltageLevelId": "VLLOAD",
     "terminalConnected": true,

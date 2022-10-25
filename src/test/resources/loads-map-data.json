@@ -1,7 +1,7 @@
 [
   {
     "id": "LOAD",
-    "name": "",
+    "name": null,
     "type": "UNDEFINED",
     "voltageLevelId": "VLLOAD",
     "terminalConnected": true,
@@ -10,7 +10,7 @@
   },
   {
     "id": "LOAD_WITH_NULL_NAME",
-    "name": "",
+    "name": null,
     "type": "UNDEFINED",
     "voltageLevelId": "VLNEW2",
     "terminalConnected": true,

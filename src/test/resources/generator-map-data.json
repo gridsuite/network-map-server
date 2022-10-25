@@ -1,6 +1,6 @@
 {
   "id": "GEN",
-  "name": "GEN",
+  "name": null,
   "voltageLevelId": "VLGEN",
   "regulatingTerminalVlName":"VLHV1",
   "activePowerControlOn":true,
