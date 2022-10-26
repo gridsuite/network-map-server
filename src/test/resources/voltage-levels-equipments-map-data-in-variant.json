@@ -221,6 +221,11 @@
         "id": "LOAD_WITH_NULL_NAME",
         "name": null,
         "type": "LOAD"
+      },
+      {
+        "id": "LOAD_ID_NAME",
+        "name": "LOAD_NAME",
+        "type": "LOAD"
       }
     ]
   },

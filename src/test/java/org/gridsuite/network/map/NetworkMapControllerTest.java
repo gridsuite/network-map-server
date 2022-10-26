@@ -494,6 +494,7 @@ public class NetworkMapControllerTest {
                 .add();
 
         vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
+        vlnew2.newLoad().setId("LOAD_ID_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
         network.getVariantManager().setWorkingVariant(VARIANT_ID);
@@ -1029,6 +1030,7 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnNameOrEmpty() throws Exception {
         succeedingTestForElementNameOrEmpty("loads", NETWORK_UUID, null, null, "LOAD_WITH_NULL_NAME", resourceToString("/load-map-data-test-null-name.json"));
+        succeedingTestForElementNameOrEmpty("loads", NETWORK_UUID, null, null, "LOAD_ID_NAME", resourceToString("/load-map-data-not-null-name.json"));
     }
 
     @Test
