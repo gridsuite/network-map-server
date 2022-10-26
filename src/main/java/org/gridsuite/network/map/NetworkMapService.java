@@ -13,6 +13,7 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.model.*;
+import org.gridsuite.network.map.model.network.map.MapEquipmentsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -940,5 +941,24 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
+    }
+
+    public MapEquipmentsData getMapEquipmentsData(UUID networkUuid, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        return MapEquipmentsData.builder()
+                .lines(network.getLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                .build();
+
+        /*if (substationsId == null) {
+            return network.getLineStream()
+                    .map(NetworkMapService::toMapData).collect(Collectors.toList());
+        } else {
+            Set<LineMapData> res = new LinkedHashSet<>();
+            substationsId.stream().forEach(id ->
+                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
+                            v.getConnectables(Line.class).forEach(l -> res.add(toMapData(l)))));
+            return res.stream().collect(Collectors.toList());
+        }*/
     }
 }
