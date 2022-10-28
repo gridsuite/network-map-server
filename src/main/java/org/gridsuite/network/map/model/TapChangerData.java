@@ -19,11 +19,11 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 public class TapChangerData {
-    private Integer lowTap;
+    private Integer lowTapPosition;
 
     private Integer tapPosition;
 
-    private Integer highTap;
+    private Integer highTapPosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean voltageRegulation;
@@ -32,7 +32,7 @@ public class TapChangerData {
     private Boolean loadTapChangingCapabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetVoltage;
+    private Double targetV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetDeadBand;
@@ -53,10 +53,7 @@ public class TapChangerData {
     private String regulatingTerminalVlId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<TapChangerStepData> ratioTapSteps;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<TapChangerStepData> phaseTapSteps;
+    private List<TapChangerStepData> steps;
 
 }
 

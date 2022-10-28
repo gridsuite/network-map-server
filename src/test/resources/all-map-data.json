@@ -150,10 +150,10 @@
       "permanentLimit1": 750.4,
       "permanentLimit2": 780.6,
       "phaseTapChanger": {
-        "lowTap": 0,
-        "highTap": 1,
+        "lowTapPosition": 0,
+        "highTapPosition": 1,
         "tapPosition": 1,
-        "targetVoltage": 10.0,
+        "targetV": 10.0,
         "voltageRegulation": true,
         "targetDeadBand": 0.0,
         "regulationMode" : "CURRENT_LIMITER",
@@ -161,7 +161,7 @@
         "regulatingTerminalConnectableId": "NGEN_NHV1",
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLGEN",
-        "phaseTapSteps": [{
+        "steps": [{
           "r": 0.0,
           "x": 0.0,
           "g": 0.0,
@@ -200,17 +200,17 @@
       "permanentLimit1": 900.5,
       "permanentLimit2": 950.5,
       "ratioTapChanger": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 2,
         "targetDeadBand": 0.0,
-        "targetVoltage": 158.0,
+        "targetV": 158.0,
         "loadTapChangingCapabilities": true,
         "voltageRegulation": true,
         "regulatingTerminalConnectableId": "NHV2_NLOAD",
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLLOAD",
-        "ratioTapSteps": [{
+        "steps": [{
           "r": 0.0,
           "x": 0.0,
           "g": 0.0,
@@ -260,10 +260,10 @@
       "permanentLimit1": 25.0,
       "permanentLimit3": 54.0,
       "phaseTapChanger1": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 1,
-        "targetVoltage": 25.0,
+        "targetV": 25.0,
         "voltageRegulation": true,
         "targetDeadBand": 22.0,
         "regulationMode" : "CURRENT_LIMITER",
@@ -271,7 +271,7 @@
         "regulatingTerminalConnectableId": "TWT",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "phaseTapSteps": [{
+        "steps": [{
           "r": 1,
           "x": 4,
           "g": 0.5,
@@ -298,17 +298,17 @@
         }]
       },
       "ratioTapChanger3": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 2,
         "targetDeadBand": 22.0,
-        "targetVoltage": 220.0,
+        "targetV": 220.0,
         "loadTapChangingCapabilities": false,
         "voltageRegulation": false,
         "regulatingTerminalConnectableId": "TWT",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "ratioTapSteps": [
+        "steps": [
           {
             "r": 1,
             "b": 1.5,
@@ -335,8 +335,6 @@
           }
         ]
       },
-      "ratioTapChanger3Position": 2,
-      "phaseTapChanger1Position": 1,
       "regulatingMode1" : "CURRENT_LIMITER",
       "regulatingPhase1" : true,
       "regulatingValue1" : 25.0,
@@ -361,20 +359,18 @@
       "q3": 18.0,
       "permanentLimit1": 54.0,
       "permanentLimit2": 25.0,
-      "ratioTapChanger1Position": 2,
-      "phaseTapChanger2Position": 1,
       "ratioTapChanger1": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 2,
         "targetDeadBand": 22.0,
-        "targetVoltage": 220.0,
+        "targetV": 220.0,
         "loadTapChangingCapabilities": false,
         "voltageRegulation": false,
         "regulatingTerminalConnectableId": "TWT21",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "ratioTapSteps": [
+        "steps": [
           {
             "r": 1,
             "b": 1.5,
@@ -402,10 +398,10 @@
         ]
       },
       "phaseTapChanger2": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 1,
-        "targetVoltage": 25.0,
+        "targetV": 25.0,
         "voltageRegulation": true,
         "targetDeadBand": 22.0,
         "regulationMode" : "CURRENT_LIMITER",
@@ -413,7 +409,7 @@
         "regulatingTerminalConnectableId": "TWT21",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "phaseTapSteps": [{
+        "steps": [{
           "r": 1,
           "x": 4,
           "g": 0.5,
@@ -463,20 +459,18 @@
       "q3": 18.0,
       "permanentLimit2": 54.0,
       "permanentLimit3": 25.0,
-      "ratioTapChanger2Position": 2,
-      "phaseTapChanger3Position": 1,
       "ratioTapChanger2": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 2,
         "targetDeadBand": 22.0,
-        "targetVoltage": 220.0,
+        "targetV": 220.0,
         "loadTapChangingCapabilities": false,
         "voltageRegulation": false,
         "regulatingTerminalConnectableId": "TWT32",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "ratioTapSteps": [
+        "steps": [
           {
             "r": 1,
             "b": 1.5,
@@ -504,10 +498,10 @@
         ]
       },
       "phaseTapChanger3": {
-        "lowTap": 0,
-        "highTap": 2,
+        "lowTapPosition": 0,
+        "highTapPosition": 2,
         "tapPosition": 1,
-        "targetVoltage": 25.0,
+        "targetV": 25.0,
         "voltageRegulation": true,
         "targetDeadBand": 22.0,
         "regulationMode" : "CURRENT_LIMITER",
@@ -515,7 +509,7 @@
         "regulatingTerminalConnectableId": "TWT32",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "phaseTapSteps": [{
+        "steps": [{
           "r": 1,
           "x": 4,
           "g": 0.5,

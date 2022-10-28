@@ -13,10 +13,10 @@
     "permanentLimit1": 750.4,
     "permanentLimit2": 780.6,
     "phaseTapChanger": {
-      "lowTap": 0,
-      "highTap": 1,
+      "lowTapPosition": 0,
+      "highTapPosition": 1,
       "tapPosition": 1,
-      "targetVoltage": 10.0,
+      "targetV": 10.0,
       "voltageRegulation": true,
       "targetDeadBand": 0.0,
       "regulationMode" : "CURRENT_LIMITER",
@@ -24,7 +24,7 @@
       "regulatingTerminalConnectableId": "NGEN_NHV1",
       "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
       "regulatingTerminalVlId": "VLGEN",
-      "phaseTapSteps": [{
+      "steps": [{
         "r": 0.0,
         "x": 0.0,
         "g": 0.0,
@@ -63,17 +63,17 @@
     "permanentLimit1": 900.5,
     "permanentLimit2": 950.5,
     "ratioTapChanger": {
-      "lowTap": 0,
-      "highTap": 2,
+      "lowTapPosition": 0,
+      "highTapPosition": 2,
       "tapPosition": 2,
       "targetDeadBand": 0.0,
-      "targetVoltage": 158.0,
+      "targetV": 158.0,
       "loadTapChangingCapabilities": true,
       "voltageRegulation": true,
       "regulatingTerminalConnectableId": "NHV2_NLOAD",
       "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
       "regulatingTerminalVlId": "VLLOAD",
-      "ratioTapSteps": [{
+      "steps": [{
         "r": 0.0,
         "x": 0.0,
         "g": 0.0,
