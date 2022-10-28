@@ -186,6 +186,10 @@ class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
+    private static Double nanIsNull(double d) {
+        return Double.isNaN(d) ? null : d;
+    }
+
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
@@ -206,28 +210,14 @@ class NetworkMapService {
                 .ratedU1(transformer.getRatedU1())
                 .ratedU2(transformer.getRatedU2());
 
-        if (!Double.isNaN(transformer.getRatedS())) {
-            builder.ratedS(transformer.getRatedS());
-        }
+        builder.ratedS(nanIsNull(transformer.getRatedS()));
+        builder.p1(nanIsNull(terminal1.getP()));
+        builder.q1(nanIsNull(terminal1.getQ()));
+        builder.p2(nanIsNull(terminal2.getP()));
+        builder.q2(nanIsNull(terminal2.getQ()));
+        builder.i1(nanIsNull(terminal1.getI()));
+        builder.i2(nanIsNull(terminal2.getI()));
 
-        if (!Double.isNaN(terminal1.getP())) {
-            builder.p1(terminal1.getP());
-        }
-        if (!Double.isNaN(terminal1.getQ())) {
-            builder.q1(terminal1.getQ());
-        }
-        if (!Double.isNaN(terminal2.getP())) {
-            builder.p2(terminal2.getP());
-        }
-        if (!Double.isNaN(terminal2.getQ())) {
-            builder.q2(terminal2.getQ());
-        }
-        if (!Double.isNaN(terminal1.getI())) {
-            builder.i1(terminal1.getI());
-        }
-        if (!Double.isNaN(terminal2.getI())) {
-            builder.i2(terminal2.getI());
-        }
         CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
@@ -255,14 +245,8 @@ class NetworkMapService {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
 
-        if (!Double.isNaN(tapChanger.getTargetV())) {
-            builder.targetV(tapChanger.getTargetV());
-        }
-
-        if (!Double.isNaN(tapChanger.getTargetDeadband())) {
-            builder.targetDeadBand(tapChanger.getTargetDeadband());
-        }
-
+        builder.targetV(nanIsNull(tapChanger.getTargetV()));
+        builder.targetDeadBand(nanIsNull(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
@@ -284,13 +268,8 @@ class NetworkMapService {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
-        if (!Double.isNaN(tapChanger.getRegulationValue())) {
-            builder.targetV(tapChanger.getRegulationValue());
-        }
-
-        if (!Double.isNaN(tapChanger.getTargetDeadband())) {
-            builder.targetDeadBand(tapChanger.getTargetDeadband());
-        }
+        builder.targetV(nanIsNull(tapChanger.getRegulationValue()));
+        builder.targetDeadBand(nanIsNull(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
@@ -298,47 +277,37 @@ class NetworkMapService {
         if (tapChangerStep == null) {
             return List.of();
         }
-        List<TapChangerStepData> tapChangerSteps = new ArrayList<>();
-        Set<Integer> indexes = tapChangerStep.keySet();
+        return tapChangerStep.entrySet().stream().map(p -> {
+            Integer index = p.getKey();
+            PhaseTapChangerStep v = p.getValue();
 
-        TapChangerStepData.TapChangerStepDataBuilder tapChangerStepDataBuilder = TapChangerStepData.builder();
-
-        indexes.stream().forEach(index -> {
-            tapChangerStepDataBuilder.index(index)
-                    .g(tapChangerStep.get(index).getG())
-                    .b(tapChangerStep.get(index).getB())
-                    .r(tapChangerStep.get(index).getR())
-                    .x(tapChangerStep.get(index).getX())
-                    .rho(tapChangerStep.get(index).getRho())
-                    .alpha(tapChangerStep.get(index).getAlpha());
-
-            tapChangerSteps.add(tapChangerStepDataBuilder.build());
-        });
-
-        return tapChangerSteps;
+            return TapChangerStepData.builder().index(index)
+                    .g(v.getG())
+                    .b(v.getB())
+                    .r(v.getR())
+                    .x(v.getX())
+                    .rho(v.getRho())
+                    .alpha(v.getAlpha())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
-        List<TapChangerStepData> tapChangerSteps = new ArrayList<>();
-        Set<Integer> indexes = tapChangerStep.keySet();
+        return tapChangerStep.entrySet().stream().map(p -> {
+            Integer index = p.getKey();
+            RatioTapChangerStep v = p.getValue();
 
-        TapChangerStepData.TapChangerStepDataBuilder tapChangerStepDataBuilder = TapChangerStepData.builder();
-
-        indexes.stream().forEach(index -> {
-            tapChangerStepDataBuilder.index(index)
-                    .g(tapChangerStep.get(index).getG())
-                    .b(tapChangerStep.get(index).getB())
-                    .r(tapChangerStep.get(index).getR())
-                    .x(tapChangerStep.get(index).getX())
-                    .rho(tapChangerStep.get(index).getRho());
-
-            tapChangerSteps.add(tapChangerStepDataBuilder.build());
-        });
-
-        return tapChangerSteps;
+            return TapChangerStepData.builder().index(index)
+                    .g(v.getG())
+                    .b(v.getB())
+                    .r(v.getR())
+                    .x(v.getX())
+                    .rho(v.getRho())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer) {
