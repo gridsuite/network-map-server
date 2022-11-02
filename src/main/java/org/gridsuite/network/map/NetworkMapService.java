@@ -375,8 +375,8 @@ class NetworkMapService {
             .id(battery.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
-            .p0(battery.getP0())
-            .q0(battery.getQ0());
+            .targetP(battery.getTargetP())
+            .targetQ(battery.getTargetQ());
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
         }

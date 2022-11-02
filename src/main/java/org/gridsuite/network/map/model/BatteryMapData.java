@@ -28,10 +28,10 @@ public class BatteryMapData {
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p0;
+    private Double targetP;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q0;
+    private Double targetQ;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
