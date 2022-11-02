@@ -8,6 +8,7 @@ package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.EnergySource;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -91,4 +92,8 @@ public class GeneratorMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
+
+    private String connectionName;
+
+    private ConnectablePosition.Direction connectionDirection;
 }

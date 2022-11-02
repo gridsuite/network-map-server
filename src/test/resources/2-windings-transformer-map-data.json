@@ -24,5 +24,9 @@
   "ratedU2": 400.0,
   "regulatingMode" : "CURRENT_LIMITER",
   "regulating" : true,
-  "regulatingValue" : 10.0
+  "regulatingValue" : 10.0,
+  "connectionName1": null,
+  "connectionDirection1": null,
+  "connectionName2": null,
+  "connectionDirection2": null
 }

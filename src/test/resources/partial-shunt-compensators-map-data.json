@@ -9,6 +9,8 @@
     "targetDeadband": 10.0,
     "sectionCount": 4,
     "maximumSectionCount": 8,
-    "bperSection": 5.0
+    "bperSection": 5.0,
+    "connectionName": null,
+    "connectionDirection": null
   }
 ]

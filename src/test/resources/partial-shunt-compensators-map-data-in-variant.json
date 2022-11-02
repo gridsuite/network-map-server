@@ -9,7 +9,9 @@
     "targetDeadband": 10.0,
     "sectionCount":4,
     "maximumSectionCount":8,
-    "bperSection":5.0
+    "bperSection":5.0,
+    "connectionName": null,
+    "connectionDirection": null
   },
   {
     "id": "SHUNT2",
@@ -20,7 +22,9 @@
     "targetDeadband": 10.0,
     "sectionCount":2,
     "maximumSectionCount":3,
-    "bperSection":1.0
+    "bperSection":1.0,
+    "connectionName": null,
+    "connectionDirection": null
   },
   {
     "id": "SHUNT3",
@@ -32,6 +36,8 @@
     "targetDeadband": 10.0,
     "sectionCount":2,
     "maximumSectionCount":3,
-    "bperSection":1.0
+    "bperSection":1.0,
+    "connectionName": null,
+    "connectionDirection": null
   }
 ]

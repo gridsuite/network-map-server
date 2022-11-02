@@ -25,7 +25,11 @@
     "ratedU2": 400.0,
     "regulatingMode" : "CURRENT_LIMITER",
     "regulating" : true,
-    "regulatingValue" : 10.0
+    "regulatingValue" : 10.0,
+    "connectionName1": null,
+    "connectionDirection1": null,
+    "connectionName2": null,
+    "connectionDirection2": null
   },
   {
     "id": "NHV2_NLOAD",
@@ -53,6 +57,10 @@
     "ratedU2": 158.0,
     "loadTapChangingCapabilities": true,
     "regulating" : true,
-    "targetV" : 158.0
+    "targetV" : 158.0,
+    "connectionName1": null,
+    "connectionDirection1": null,
+    "connectionName2": null,
+    "connectionDirection2": null
   }
 ]

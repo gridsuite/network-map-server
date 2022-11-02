@@ -103,7 +103,11 @@
       "g1": 7.0,
       "b1": 5.0,
       "g2": 8.0,
-      "b2": 6.0
+      "b2": 6.0,
+      "connectionName1": null,
+      "connectionDirection1": null,
+      "connectionName2": null,
+      "connectionDirection2": null
     },
     {
       "id": "NHV1_NHV2_2",
@@ -117,7 +121,11 @@
       "g1":0.0,
       "b1":1.93E-4,
       "g2":0.0,
-      "b2":1.93E-4
+      "b2":1.93E-4,
+      "connectionName1": null,
+      "connectionDirection1": null,
+      "connectionName2": null,
+      "connectionDirection2": null
     },
     {
       "id": "LINE3",
@@ -132,7 +140,11 @@
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93E-4
+      "b2": 1.93E-4,
+      "connectionName1": null,
+      "connectionDirection1": null,
+      "connectionName2": null,
+      "connectionDirection2": null
     }
   ],
   "twoWindingsTransformers": [
@@ -162,7 +174,11 @@
       "ratedU2": 400.0,
       "regulatingMode" : "CURRENT_LIMITER",
       "regulating" : true,
-      "regulatingValue" : 10.0
+      "regulatingValue" : 10.0,
+      "connectionName1": null,
+      "connectionDirection1": null,
+      "connectionName2": null,
+      "connectionDirection2": null
     },
     {
       "id": "NHV2_NLOAD",
@@ -190,7 +206,11 @@
       "ratedU2": 158.0,
       "loadTapChangingCapabilities": true,
       "regulating" : true,
-      "targetV" : 158.0
+      "targetV" : 158.0,
+      "connectionName1": null,
+      "connectionDirection1": null,
+      "connectionName2": null,
+      "connectionDirection2": null
     }
   ],
   "threeWindingsTransformers": [
@@ -322,7 +342,9 @@
       "droop": 4,
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
-      "regulatingTerminalVlId": "VLHV1"
+      "regulatingTerminalVlId": "VLHV1",
+      "connectionName": null,
+      "connectionDirection": null
     },
     {
       "id": "GEN2",
@@ -352,7 +374,9 @@
           "qminP": 4.0,
           "qmaxP": 5.0
         }
-      ]
+      ],
+      "connectionName": null,
+      "connectionDirection": null
     }
   ],
   "batteries": [
@@ -474,7 +498,9 @@
       "voltageLevelId": "VLLOAD",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionName": null,
+      "connectionDirection": null
     }
   ],
   "shuntCompensators": [
@@ -488,7 +514,9 @@
       "targetDeadband": 10.0,
       "sectionCount":4,
       "maximumSectionCount":8,
-      "bperSection":5.0
+      "bperSection":5.0,
+      "connectionName": null,
+      "connectionDirection": null
     },
     {
       "id": "SHUNT2",
@@ -499,7 +527,9 @@
       "targetDeadband": 10.0,
       "sectionCount":2,
       "maximumSectionCount":3,
-      "bperSection":1.0
+      "bperSection":1.0,
+      "connectionName": null,
+      "connectionDirection": null
     }
   ],
   "staticVarCompensators": [

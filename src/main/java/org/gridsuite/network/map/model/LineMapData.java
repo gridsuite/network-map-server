@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -70,4 +71,12 @@ public class LineMapData {
     private Double g2;
 
     private Double b2;
+
+    private String connectionName1;
+
+    private ConnectablePosition.Direction connectionDirection1;
+
+    private String connectionName2;
+
+    private ConnectablePosition.Direction connectionDirection2;
 }
