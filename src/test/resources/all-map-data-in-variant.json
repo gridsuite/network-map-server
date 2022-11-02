@@ -385,8 +385,8 @@
       "name": "BATTERY1",
       "voltageLevelId": "VLNEW2",
       "terminalConnected": false,
-      "p0": 1.0,
-      "q0": 1.0,
+      "targetP": 1.0,
+      "targetQ": 1.0,
       "p": 50.0,
       "q": 70.0
     },
@@ -395,8 +395,8 @@
       "name": "BATTERY2",
       "voltageLevelId": "VLGEN3",
       "terminalConnected": false,
-      "p0": 1.0,
-      "q0": 1.0
+      "targetP": 1.0,
+      "targetQ": 1.0
     }
   ],
   "danglingLines": [
