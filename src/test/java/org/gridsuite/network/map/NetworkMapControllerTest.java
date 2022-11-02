@@ -221,8 +221,8 @@ public class NetworkMapControllerTest {
                 .setName("BATTERY1")
                 .setMinP(0)
                 .setMaxP(10)
-                .setP0(1)
-                .setQ0(1)
+                .setTargetP(1)
+                .setTargetQ(1)
                 .setConnectableBus("NNEW2")
                 .add();
         b1.getTerminal().setP(50);
@@ -233,8 +233,8 @@ public class NetworkMapControllerTest {
                 .setName("BATTERY2")
                 .setMinP(0)
                 .setMaxP(10)
-                .setP0(1)
-                .setQ0(1)
+                .setTargetP(1)
+                .setTargetQ(1)
                 .setConnectableBus("NGEN3")
                 .add();
 
