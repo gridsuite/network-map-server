@@ -17,8 +17,8 @@
   "b1": 5.0,
   "g2": 8.0,
   "b2": 6.0,
-  "connectionName1": null,
-  "connectionDirection1": null,
-  "connectionName2": null,
-  "connectionDirection2": null
+  "connectionName1": "feederName1",
+  "connectionDirection1": "TOP",
+  "connectionName2": "feederName2",
+  "connectionDirection2": "BOTTOM"
 }

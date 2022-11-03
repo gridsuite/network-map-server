@@ -8,24 +8,7 @@ package org.gridsuite.network.map;
 
 import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
-import com.powsybl.iidm.network.Battery;
-import com.powsybl.iidm.network.Country;
-import com.powsybl.iidm.network.DanglingLine;
-import com.powsybl.iidm.network.Generator;
-import com.powsybl.iidm.network.HvdcLine;
-import com.powsybl.iidm.network.LccConverterStation;
-import com.powsybl.iidm.network.Line;
-import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.PhaseTapChanger;
-import com.powsybl.iidm.network.ShuntCompensator;
-import com.powsybl.iidm.network.StaticVarCompensator;
-import com.powsybl.iidm.network.Substation;
-import com.powsybl.iidm.network.ThreeWindingsTransformer;
-import com.powsybl.iidm.network.TopologyKind;
-import com.powsybl.iidm.network.TwoWindingsTransformer;
-import com.powsybl.iidm.network.VariantManagerConstants;
-import com.powsybl.iidm.network.VoltageLevel;
-import com.powsybl.iidm.network.VscConverterStation;
+import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
@@ -97,6 +80,16 @@ public class NetworkMapControllerTest {
         l1.setR(9).setX(10);
         l1.newCurrentLimits1().setPermanentLimit(700.4).add();
         l1.newCurrentLimits2().setPermanentLimit(800.8).add();
+        l1.newExtension(ConnectablePositionAdder.class)
+                .newFeeder1()
+                .withName("feederName1")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .newFeeder2()
+                .withName("feederName2")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+                .add();
         network.getSubstation("P2").setCountry(null);
 
         TwoWindingsTransformer t1 = network.getTwoWindingsTransformer("NHV2_NLOAD");
@@ -107,6 +100,16 @@ public class NetworkMapControllerTest {
         t1.newCurrentLimits1().setPermanentLimit(900.5).add();
         t1.newCurrentLimits2().setPermanentLimit(950.5).add();
         t1.getRatioTapChanger().setTapPosition(2);
+        t1.newExtension(ConnectablePositionAdder.class)
+                .newFeeder1()
+                .withName("feederName1")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .newFeeder2()
+                .withName("feederName2")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+                .add();
 
         TwoWindingsTransformer t2 = network.getTwoWindingsTransformer("NGEN_NHV1");
         t2.getTerminal1().setP(11.1)
@@ -139,17 +142,36 @@ public class NetworkMapControllerTest {
                 .setRegulationTerminal(t2.getTerminal1())
                 .setTargetDeadband(0)
                 .add();
-
+        t2.newExtension(ConnectablePositionAdder.class)
+                .newFeeder1()
+                .withName("feederName1")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .newFeeder2()
+                .withName("feederName2")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+                .add();
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
         gen.getTerminal().setQ(32);
         gen.setTargetP(28);
         gen.setRatedS(27);
         gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).add();
+        gen.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
         gen.setRegulatingTerminal(network.getLine("NHV1_NHV2_1").getTerminal("VLHV1"));
         gen.newMinMaxReactiveLimits().setMinQ(-500)
                 .setMaxQ(500)
                 .add();
+        gen.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
@@ -170,6 +192,11 @@ public class NetworkMapControllerTest {
                 .setMaxQ(5)
                 .endPoint()
                 .add();
+        gen2.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()
@@ -215,7 +242,16 @@ public class NetworkMapControllerTest {
                 .setB2(386E-6 / 2)
             .add();
         line3.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
-
+        line3.newExtension(ConnectablePositionAdder.class)
+                .newFeeder1()
+                .withName("feederName1")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .newFeeder2()
+                .withName("feederName2")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+                .add();
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
                 .setName("BATTERY1")
@@ -427,8 +463,13 @@ public class NetworkMapControllerTest {
                 .setBus("NNEW2")
                 .add();
         shunt1.getTerminal().setQ(90);
+        shunt1.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
 
-        vlgen3.newShuntCompensator()
+        var shunt2 = vlgen3.newShuntCompensator()
                 .setId("SHUNT2")
                 .setName("SHUNT2")
                 .newLinearModel()
@@ -443,6 +484,11 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
+        shunt2.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
 
         StaticVarCompensator svc1 = vl1.newStaticVarCompensator()
                 .setId("SVC1")
@@ -514,8 +560,20 @@ public class NetworkMapControllerTest {
             .setBus("NGEN3")
             .add();
         shunt3.getTerminal().setQ(90);
+        shunt3.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+
+        network.getLoad("LOAD")
+                .newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
 
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);

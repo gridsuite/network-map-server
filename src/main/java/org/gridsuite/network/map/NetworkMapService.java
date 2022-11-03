@@ -110,6 +110,14 @@ class NetworkMapService {
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
         }
+        var connectablePosition = line.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                    .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                    .connectionName1(connectablePosition.getFeeder1().getName())
+                    .connectionName2(connectablePosition.getFeeder2().getName());
+        }
         return builder.build();
     }
 
@@ -171,6 +179,13 @@ class NetworkMapService {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(toMapData(capabilityCurve.getPoints()));
             }
+        }
+
+        var connectablePosition = generator.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName());
         }
 
         return builder.build();
@@ -245,6 +260,14 @@ class NetworkMapService {
             if (!Double.isNaN(transformer.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue(transformer.getPhaseTapChanger().getRegulationValue());
             }
+        }
+        var connectablePosition = transformer.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                    .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                    .connectionName1(connectablePosition.getFeeder1().getName())
+                    .connectionName2(connectablePosition.getFeeder2().getName());
         }
         return builder.build();
     }
@@ -495,6 +518,14 @@ class NetworkMapService {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
+
+        var connectablePosition = load.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName());
+        }
+
         return builder.build();
     }
 
@@ -520,6 +551,20 @@ class NetworkMapService {
         if (!Double.isNaN(shuntCompensator.getTargetDeadband())) {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
+
+//        var connectablePosition = shuntCompensator.getExtension(ConnectablePosition.class);
+//        if (connectablePosition != null) {
+//            builder
+//                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+//                    .connectionName(connectablePosition.getFeeder().getName());
+//        }
+
+        shuntCompensator.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add();
+
         return builder.build();
     }
 
