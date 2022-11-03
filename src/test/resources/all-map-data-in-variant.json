@@ -343,8 +343,8 @@
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     },
     {
       "id": "GEN2",
@@ -375,8 +375,8 @@
           "qmaxP": 5.0
         }
       ],
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     }
   ],
   "batteries": [
@@ -499,8 +499,8 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     }
   ],
   "shuntCompensators": [
@@ -515,8 +515,8 @@
       "sectionCount": 4,
       "maximumSectionCount": 8,
       "bperSection": 5.0,
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     },
     {
       "id": "SHUNT2",
@@ -528,8 +528,8 @@
       "sectionCount": 2,
       "maximumSectionCount": 3,
       "bperSection": 1.0,
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     },
     {
       "id": "SHUNT3",
@@ -542,8 +542,8 @@
       "sectionCount": 2,
       "maximumSectionCount": 3,
       "bperSection": 1.0,
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     }
   ],
   "staticVarCompensators": [

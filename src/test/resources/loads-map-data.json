@@ -7,7 +7,7 @@
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0,
-    "connectionName": null,
-    "connectionDirection": null
+    "connectionName": "feederName",
+    "connectionDirection": "TOP"
   }
 ]

@@ -24,8 +24,8 @@
     "regulatingTerminalConnectableId": "NHV1_NHV2_1",
     "regulatingTerminalConnectableType": "LINE",
     "regulatingTerminalVlId": "VLHV1",
-    "connectionName": null,
-    "connectionDirection": null
+    "connectionName": "feederName",
+    "connectionDirection": "TOP"
   },
   {
     "id": "GEN2",
@@ -56,7 +56,7 @@
         "qmaxP": 5.0
       }
     ],
-    "connectionName": null,
-    "connectionDirection": null
+    "connectionName": "feederName",
+    "connectionDirection": "TOP"
   }
 ]

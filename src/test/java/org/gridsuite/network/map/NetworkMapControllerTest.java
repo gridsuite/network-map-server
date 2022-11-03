@@ -162,7 +162,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
         gen.setRegulatingTerminal(network.getLine("NHV1_NHV2_1").getTerminal("VLHV1"));
         gen.newMinMaxReactiveLimits().setMinQ(-500)
                 .setMaxQ(500)
@@ -171,7 +172,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
@@ -196,7 +198,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()
@@ -467,7 +470,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
 
         var shunt2 = vlgen3.newShuntCompensator()
                 .setId("SHUNT2")
@@ -488,7 +492,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
 
         StaticVarCompensator svc1 = vl1.newStaticVarCompensator()
                 .setId("SVC1")
@@ -564,7 +569,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
@@ -573,7 +579,8 @@ public class NetworkMapControllerTest {
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
 
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);

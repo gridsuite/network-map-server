@@ -552,18 +552,12 @@ class NetworkMapService {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
-//        var connectablePosition = shuntCompensator.getExtension(ConnectablePosition.class);
-//        if (connectablePosition != null) {
-//            builder
-//                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-//                    .connectionName(connectablePosition.getFeeder().getName());
-//        }
-
-        shuntCompensator.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add();
+        var connectablePosition = shuntCompensator.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName());
+        }
 
         return builder.build();
     }

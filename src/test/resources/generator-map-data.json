@@ -23,6 +23,6 @@
   "regulatingTerminalConnectableId": "NHV1_NHV2_1",
   "regulatingTerminalConnectableType": "LINE",
   "regulatingTerminalVlId": "VLHV1",
-  "connectionName": null,
-  "connectionDirection": null
+  "connectionName": "feederName",
+  "connectionDirection": "TOP"
 }

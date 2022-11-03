@@ -74,8 +74,8 @@
       "sectionCount": 2,
       "maximumSectionCount": 3,
       "bperSection": 1.0,
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     },
     {
       "id": "SHUNT3",
@@ -88,8 +88,8 @@
       "sectionCount":2,
       "maximumSectionCount":3,
       "bperSection":1.0,
-      "connectionName": null,
-      "connectionDirection": null
+      "connectionName": "feederName",
+      "connectionDirection": "TOP"
     }
   ],
   "staticVarCompensators": [],
