@@ -17,7 +17,9 @@
     "voltageLevelId": "VLNEW2",
     "terminalConnected": true,
     "p0": 600.0,
-    "q0": 200.0
+    "q0": 200.0,
+    "connectionName": null,
+    "connectionDirection": null
   },
   {
     "id": "LOAD_ID",
@@ -26,6 +28,8 @@
     "voltageLevelId": "VLNEW2",
     "terminalConnected": true,
     "p0": 600.0,
-    "q0": 200.0
+    "q0": 200.0,
+    "connectionName": null,
+    "connectionDirection": null
   }
 ]
