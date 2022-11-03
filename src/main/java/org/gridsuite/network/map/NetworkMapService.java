@@ -186,7 +186,7 @@ class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
-    private static Double nanIsNull(double d) {
+    private static Double nullIfNan(double d) {
         return Double.isNaN(d) ? null : d;
     }
 
@@ -210,13 +210,13 @@ class NetworkMapService {
                 .ratedU1(transformer.getRatedU1())
                 .ratedU2(transformer.getRatedU2());
 
-        builder.ratedS(nanIsNull(transformer.getRatedS()));
-        builder.p1(nanIsNull(terminal1.getP()));
-        builder.q1(nanIsNull(terminal1.getQ()));
-        builder.p2(nanIsNull(terminal2.getP()));
-        builder.q2(nanIsNull(terminal2.getQ()));
-        builder.i1(nanIsNull(terminal1.getI()));
-        builder.i2(nanIsNull(terminal2.getI()));
+        builder.ratedS(nullIfNan(transformer.getRatedS()));
+        builder.p1(nullIfNan(terminal1.getP()));
+        builder.q1(nullIfNan(terminal1.getQ()));
+        builder.p2(nullIfNan(terminal2.getP()));
+        builder.q2(nullIfNan(terminal2.getQ()));
+        builder.i1(nullIfNan(terminal1.getI()));
+        builder.i2(nullIfNan(terminal2.getI()));
 
         CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
@@ -245,8 +245,8 @@ class NetworkMapService {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
 
-        builder.targetV(nanIsNull(tapChanger.getTargetV()));
-        builder.targetDeadBand(nanIsNull(tapChanger.getTargetDeadband()));
+        builder.targetV(nullIfNan(tapChanger.getTargetV()));
+        builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
@@ -268,8 +268,8 @@ class NetworkMapService {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
-        builder.targetV(nanIsNull(tapChanger.getRegulationValue()));
-        builder.targetDeadBand(nanIsNull(tapChanger.getTargetDeadband()));
+        builder.targetV(nullIfNan(tapChanger.getRegulationValue()));
+        builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
