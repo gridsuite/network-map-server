@@ -48,7 +48,7 @@ class NetworkMapService {
 
     private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
         var builder = VoltageLevelMapData.builder()
-            .name(voltageLevel.getNameOrId())
+            .name(voltageLevel.getOptionalName().orElse(null))
             .id(voltageLevel.getId())
             .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
             .nominalVoltage(voltageLevel.getNominalV())
@@ -62,14 +62,14 @@ class NetworkMapService {
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
         return VoltageLevelConnectableMapData.builder()
                 .id(connectable.getId())
-                .name(connectable.getNameOrId())
+                .name(connectable.getOptionalName().orElse(null))
                 .type(connectable.getType())
                 .build();
     }
 
     private static SubstationMapData toMapData(Substation substation) {
         return SubstationMapData.builder()
-            .name(substation.getNameOrId())
+            .name(substation.getOptionalName().orElse(null))
             .id(substation.getId())
             .countryName(substation.getCountry().map(Country::getName).orElse(null))
             .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
@@ -80,7 +80,7 @@ class NetworkMapService {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
         LineMapData.LineMapDataBuilder builder = LineMapData.builder()
-            .name(line.getNameOrId())
+            .name(line.getOptionalName().orElse(null))
             .id(line.getId())
             .terminal1Connected(terminal1.isConnected())
             .terminal2Connected(terminal2.isConnected())
@@ -118,7 +118,7 @@ class NetworkMapService {
         Terminal terminal = generator.getTerminal();
 
         GeneratorMapData.GeneratorMapDataBuilder builder = GeneratorMapData.builder()
-                .name(generator.getNameOrId())
+                .name(generator.getOptionalName().orElse(null))
                 .id(generator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
@@ -153,7 +153,7 @@ class NetworkMapService {
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
         if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getNameOrId());
+            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
             builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
             builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
             builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
@@ -191,7 +191,7 @@ class NetworkMapService {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
         TwoWindingsTransformerMapData.TwoWindingsTransformerMapDataBuilder builder = TwoWindingsTransformerMapData.builder()
-                .name(transformer.getNameOrId())
+                .name(transformer.getOptionalName().orElse(null))
                 .id(transformer.getId())
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
@@ -265,7 +265,7 @@ class NetworkMapService {
         Terminal terminal2 = leg2.getTerminal();
         Terminal terminal3 = leg3.getTerminal();
         ThreeWindingsTransformerMapData.ThreeWindingsTransformerMapDataBuilder builder = ThreeWindingsTransformerMapData.builder()
-            .name(transformer.getNameOrId())
+            .name(transformer.getOptionalName().orElse(null))
             .id(transformer.getId())
             .terminal1Connected(terminal1.isConnected())
             .terminal2Connected(terminal2.isConnected())
@@ -372,12 +372,12 @@ class NetworkMapService {
     private static BatteryMapData toMapData(Battery battery) {
         Terminal terminal = battery.getTerminal();
         BatteryMapData.BatteryMapDataBuilder builder = BatteryMapData.builder()
-            .name(battery.getNameOrId())
+            .name(battery.getOptionalName().orElse(null))
             .id(battery.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
-            .p0(battery.getP0())
-            .q0(battery.getQ0());
+            .targetP(battery.getTargetP())
+            .targetQ(battery.getTargetQ());
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
         }
@@ -390,7 +390,7 @@ class NetworkMapService {
     private static DanglingLineMapData toMapData(DanglingLine danglingLine) {
         Terminal terminal = danglingLine.getTerminal();
         DanglingLineMapData.DanglingLineMapDataBuilder builder = DanglingLineMapData.builder()
-            .name(danglingLine.getNameOrId())
+            .name(danglingLine.getOptionalName().orElse(null))
             .id(danglingLine.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
@@ -410,7 +410,7 @@ class NetworkMapService {
         HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
         HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
         HvdcLineMapData.HvdcLineMapDataBuilder builder = HvdcLineMapData.builder()
-            .name(hvdcLine.getNameOrId())
+            .name(hvdcLine.getOptionalName().orElse(null))
             .id(hvdcLine.getId())
             .convertersMode(hvdcLine.getConvertersMode())
             .converterStationId1(hvdcLine.getConverterStation1().getId())
@@ -435,7 +435,7 @@ class NetworkMapService {
     private static LccConverterStationMapData toMapData(LccConverterStation lccConverterStation) {
         Terminal terminal = lccConverterStation.getTerminal();
         LccConverterStationMapData.LccConverterStationMapDataBuilder builder = LccConverterStationMapData.builder()
-            .name(lccConverterStation.getNameOrId())
+            .name(lccConverterStation.getOptionalName().orElse(null))
             .id(lccConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
             .terminalConnected(terminal.isConnected())
@@ -456,7 +456,7 @@ class NetworkMapService {
     private static VscConverterStationMapData toMapData(VscConverterStation vscConverterStation) {
         Terminal terminal = vscConverterStation.getTerminal();
         VscConverterStationMapData.VscConverterStationMapDataBuilder builder = VscConverterStationMapData.builder()
-            .name(vscConverterStation.getNameOrId())
+            .name(vscConverterStation.getOptionalName().orElse(null))
             .id(vscConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
             .terminalConnected(terminal.isConnected())
@@ -483,7 +483,7 @@ class NetworkMapService {
     private static LoadMapData toMapData(Load load) {
         Terminal terminal = load.getTerminal();
         LoadMapData.LoadMapDataBuilder builder = LoadMapData.builder()
-            .name(load.getNameOrId())
+            .name(load.getOptionalName().orElse(null))
             .id(load.getId())
             .type(load.getLoadType())
             .terminalConnected(terminal.isConnected())
@@ -502,7 +502,7 @@ class NetworkMapService {
     private static ShuntCompensatorMapData toMapData(ShuntCompensator shuntCompensator) {
         Terminal terminal = shuntCompensator.getTerminal();
         ShuntCompensatorMapData.ShuntCompensatorMapDataBuilder builder = ShuntCompensatorMapData.builder()
-                .name(shuntCompensator.getNameOrId())
+                .name(shuntCompensator.getOptionalName().orElse(null))
                 .id(shuntCompensator.getId())
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
                 .sectionCount(shuntCompensator.getSectionCount())
@@ -527,7 +527,7 @@ class NetworkMapService {
     private static StaticVarCompensatorMapData toMapData(StaticVarCompensator staticVarCompensator) {
         Terminal terminal = staticVarCompensator.getTerminal();
         StaticVarCompensatorMapData.StaticVarCompensatorMapDataBuilder builder = StaticVarCompensatorMapData.builder()
-            .name(staticVarCompensator.getNameOrId())
+            .name(staticVarCompensator.getOptionalName().orElse(null))
             .id(staticVarCompensator.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
@@ -549,14 +549,14 @@ class NetworkMapService {
 
     private static BusMapData toMapData(Bus bus) {
         return BusMapData.builder()
-            .name(bus.getNameOrId())
+            .name(bus.getOptionalName().orElse(null))
             .id(bus.getId())
             .build();
     }
 
     private static BusbarSectionMapData toMapData(BusbarSection busbarSection) {
         BusbarSectionMapData.BusbarSectionMapDataBuilder builder = BusbarSectionMapData.builder()
-            .name(busbarSection.getNameOrId())
+            .name(busbarSection.getOptionalName().orElse(null))
             .id(busbarSection.getId());
         var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
         if (busbarSectionPosition != null) {

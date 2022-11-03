@@ -221,8 +221,8 @@ public class NetworkMapControllerTest {
                 .setName("BATTERY1")
                 .setMinP(0)
                 .setMaxP(10)
-                .setP0(1)
-                .setQ0(1)
+                .setTargetP(1)
+                .setTargetQ(1)
                 .setConnectableBus("NNEW2")
                 .add();
         b1.getTerminal().setP(50);
@@ -233,8 +233,8 @@ public class NetworkMapControllerTest {
                 .setName("BATTERY2")
                 .setMinP(0)
                 .setMaxP(10)
-                .setP0(1)
-                .setQ0(1)
+                .setTargetP(1)
+                .setTargetQ(1)
                 .setConnectableBus("NGEN3")
                 .add();
 
@@ -493,6 +493,9 @@ public class NetworkMapControllerTest {
                 .withSectionIndex(2)
                 .add();
 
+        vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
+        vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
+
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
         network.getVariantManager().setWorkingVariant(VARIANT_ID);
@@ -689,6 +692,15 @@ public class NetworkMapControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestForElementNameOrEmpty(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1014,6 +1026,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnLoadMapData() throws Exception {
         succeedingTestForElement("loads", NETWORK_UUID, null, null, "LOAD", resourceToString("/load-map-data.json"));
         succeedingTestForElement("loads", NETWORK_UUID, VARIANT_ID, null, "LOAD", resourceToString("/load-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnNameOrEmpty() throws Exception {
+        succeedingTestForElementNameOrEmpty("loads", NETWORK_UUID, null, null, "LOAD_WITH_NULL_NAME", resourceToString("/load-map-data-test-null-name.json"));
+        succeedingTestForElementNameOrEmpty("loads", NETWORK_UUID, null, null, "LOAD_ID", resourceToString("/load-map-data-not-null-name.json"));
     }
 
     @Test

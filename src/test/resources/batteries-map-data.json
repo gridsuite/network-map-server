@@ -6,15 +6,15 @@
     "terminalConnected": false,
     "p": 50.0,
     "q": 70.0,
-    "p0": 1.0,
-    "q0": 1.0
+    "targetP": 1.0,
+    "targetQ": 1.0
   },
   {
     "id": "BATTERY2",
     "name": "BATTERY2",
     "voltageLevelId": "VLGEN3",
     "terminalConnected": false,
-    "p0": 1.0,
-    "q0": 1.0
+    "targetP": 1.0,
+    "targetQ": 1.0
   }
 ]

@@ -1,26 +1,26 @@
 [
   {
     "id": "P1",
-    "name": "P1",
+    "name": null,
     "countryName": "FRANCE",
     "voltageLevels": [
       {
         "id": "VLGEN",
-        "name": "VLGEN",
+        "name": null,
         "substationId": "P1",
         "nominalVoltage": 24.0,
         "topologyKind": "BUS_BREAKER"
       },
       {
         "id": "VLHV1",
-        "name": "VLHV1",
+        "name": null,
         "substationId": "P1",
         "nominalVoltage": 380.0,
         "topologyKind": "BUS_BREAKER"
       },
       {
         "id": "VLNEW2",
-        "name": "VLNEW2",
+        "name": null,
         "substationId": "P1",
         "nominalVoltage": 225.0,
         "topologyKind": "BUS_BREAKER"
