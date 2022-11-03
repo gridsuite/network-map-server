@@ -2,7 +2,7 @@
   {
     "voltageLevel": {
       "id": "VLGEN",
-      "name": "VLGEN",
+      "name": null,
       "substationId": "P1",
       "nominalVoltage": 24,
       "topologyKind": "BUS_BREAKER"
@@ -10,12 +10,12 @@
     "equipments": [
       {
         "id": "GEN",
-        "name": "GEN",
+        "name": null,
         "type": "GENERATOR"
       },
       {
         "id": "GEN2",
-        "name": "GEN2",
+        "name": null,
         "type": "GENERATOR"
       },
       {
@@ -30,7 +30,7 @@
       },
       {
         "id": "NGEN_NHV1",
-        "name": "NGEN_NHV1",
+        "name": null,
         "type": "TWO_WINDINGS_TRANSFORMER"
       },
       {
@@ -55,7 +55,7 @@
       },
       {
         "id": "LINE3",
-        "name": "LINE3",
+        "name": null,
         "type": "LINE"
       }
     ]
@@ -63,7 +63,7 @@
   {
     "voltageLevel": {
       "id": "VLHV1",
-      "name": "VLHV1",
+      "name": null,
       "substationId": "P1",
       "nominalVoltage": 380,
       "topologyKind": "BUS_BREAKER"
@@ -71,7 +71,7 @@
     "equipments": [
       {
         "id": "NGEN_NHV1",
-        "name": "NGEN_NHV1",
+        "name": null,
         "type": "TWO_WINDINGS_TRANSFORMER"
       },
       {
@@ -91,12 +91,12 @@
       },
       {
         "id": "NHV1_NHV2_1",
-        "name": "NHV1_NHV2_1",
+        "name": null,
         "type": "LINE"
       },
       {
         "id": "NHV1_NHV2_2",
-        "name": "NHV1_NHV2_2",
+        "name": null,
         "type": "LINE"
       }
     ]
@@ -104,7 +104,7 @@
   {
     "voltageLevel": {
       "id": "VLHV2",
-      "name": "VLHV2",
+      "name": null,
       "substationId": "P2",
       "nominalVoltage": 380,
       "topologyKind": "BUS_BREAKER"
@@ -112,17 +112,17 @@
     "equipments": [
       {
         "id": "NHV2_NLOAD",
-        "name": "NHV2_NLOAD",
+        "name": null,
         "type": "TWO_WINDINGS_TRANSFORMER"
       },
       {
         "id": "NHV1_NHV2_1",
-        "name": "NHV1_NHV2_1",
+        "name": null,
         "type": "LINE"
       },
       {
         "id": "NHV1_NHV2_2",
-        "name": "NHV1_NHV2_2",
+        "name": null,
         "type": "LINE"
       }
     ]
@@ -130,7 +130,7 @@
   {
     "voltageLevel": {
       "id": "VLLOAD",
-      "name": "VLLOAD",
+      "name": null,
       "substationId": "P2",
       "nominalVoltage": 150,
       "topologyKind": "BUS_BREAKER"
@@ -138,12 +138,12 @@
     "equipments": [
       {
         "id": "LOAD",
-        "name": "LOAD",
+        "name": null,
         "type": "LOAD"
       },
       {
         "id": "NHV2_NLOAD",
-        "name": "NHV2_NLOAD",
+        "name": null,
         "type": "TWO_WINDINGS_TRANSFORMER"
       }
     ]
@@ -151,7 +151,7 @@
   {
     "voltageLevel": {
       "id": "VLNEW2",
-      "name": "VLNEW2",
+      "name": null,
       "substationId": "P1",
       "nominalVoltage": 225,
       "topologyKind": "BUS_BREAKER"
@@ -216,13 +216,23 @@
         "id": "TWT32",
         "name": "TWT32",
         "type": "THREE_WINDINGS_TRANSFORMER"
+      },
+      {
+        "id": "LOAD_WITH_NULL_NAME",
+        "name": null,
+        "type": "LOAD"
+      },
+      {
+        "id": "LOAD_ID",
+        "name": "LOAD_NAME",
+        "type": "LOAD"
       }
     ]
   },
   {
     "voltageLevel": {
       "id": "VLGEN3",
-      "name": "VLGEN3",
+      "name": null,
       "substationId": "P3",
       "nominalVoltage": 24,
       "topologyKind": "BUS_BREAKER"
@@ -250,7 +260,7 @@
       },
       {
         "id": "LINE3",
-        "name": "LINE3",
+        "name": null,
         "type": "LINE"
       }
     ]
@@ -258,7 +268,7 @@
   {
     "voltageLevel": {
       "id": "VLGEN4",
-      "name": "VLGEN4",
+      "name": null,
       "substationId": "P4",
       "nominalVoltage": 24,
       "topologyKind": "NODE_BREAKER",
