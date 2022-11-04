@@ -12,20 +12,41 @@
     "q2": 14.44,
     "permanentLimit1": 750.4,
     "permanentLimit2": 780.6,
-    "phaseTapChangerPosition": 1,
     "phaseTapChanger": {
-      "lowTap": 0,
-      "highTap": 1
+      "lowTapPosition": 0,
+      "highTapPosition": 1,
+      "tapPosition": 1,
+      "regulating": true,
+      "targetDeadBand": 0.0,
+      "regulationMode" : "CURRENT_LIMITER",
+      "regulatingValue" : 10.0,
+      "regulatingTerminalConnectableId": "NGEN_NHV1",
+      "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLGEN",
+      "steps": [{
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 0.8500000238418579,
+        "alpha": 1,
+        "index": 0
+      }, {
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 0.8999999761581421,
+        "alpha": 1,
+        "index": 1
+      }]
     },
     "g": 0.0,
     "b": 0.0,
     "r": 0.26658461538461536,
     "x": 11.104492831516762,
     "ratedU1": 24.0,
-    "ratedU2": 400.0,
-    "regulatingMode" : "CURRENT_LIMITER",
-    "regulating" : true,
-    "regulatingValue" : 10.0
+    "ratedU2": 400.0
   },
   {
     "id": "NHV2_NLOAD",
@@ -40,19 +61,45 @@
     "q2": 8.88,
     "permanentLimit1": 900.5,
     "permanentLimit2": 950.5,
-    "ratioTapChangerPosition": 2,
     "ratioTapChanger": {
-      "lowTap": 0,
-      "highTap": 2
+      "lowTapPosition": 0,
+      "highTapPosition": 2,
+      "tapPosition": 2,
+      "targetDeadBand": 0.0,
+      "targetV": 158.0,
+      "loadTapChangingCapabilities": true,
+      "regulating": true,
+      "regulatingTerminalConnectableId": "NHV2_NLOAD",
+      "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLLOAD",
+      "steps": [{
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 0.8505666905244191,
+        "index": 0
+      }, {
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 1.0006666666666666,
+        "index": 1
+      }, {
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 1.150766642808914,
+        "index": 2
+      }]
     },
     "g": 0.0,
     "b": 0.0,
     "r": 0.04724999999999999,
     "x": 4.049724365620455,
     "ratedU1": 400.0,
-    "ratedU2": 158.0,
-    "loadTapChangingCapabilities": true,
-    "regulating" : true,
-    "targetV" : 158.0
+    "ratedU2": 158.0
   }
 ]

@@ -11,18 +11,39 @@
   "q2": 14.44,
   "permanentLimit1": 750.4,
   "permanentLimit2": 780.6,
-  "phaseTapChangerPosition": 1,
   "phaseTapChanger": {
-    "lowTap": 0,
-    "highTap": 1
+    "lowTapPosition": 0,
+    "highTapPosition": 1,
+    "tapPosition": 1,
+    "regulating": true,
+    "targetDeadBand": 0.0,
+    "regulationMode" : "CURRENT_LIMITER",
+    "regulatingValue" : 10.0,
+    "regulatingTerminalConnectableId": "NGEN_NHV1",
+    "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
+    "regulatingTerminalVlId": "VLGEN",
+    "steps": [{
+      "r": 0.0,
+      "x": 0.0,
+      "g": 0.0,
+      "b": 0.0,
+      "rho": 0.8500000238418579,
+      "alpha": 1,
+      "index": 0
+    }, {
+      "r": 0.0,
+      "x": 0.0,
+      "g": 0.0,
+      "b": 0.0,
+      "rho": 0.8999999761581421,
+      "alpha": 1,
+      "index": 1
+    }]
   },
   "g": 0.0,
   "b": 0.0,
   "r": 0.26658461538461536,
   "x": 11.104492831516762,
   "ratedU1": 24.0,
-  "ratedU2": 400.0,
-  "regulatingMode" : "CURRENT_LIMITER",
-  "regulating" : true,
-  "regulatingValue" : 10.0
+  "ratedU2": 400.0
 }

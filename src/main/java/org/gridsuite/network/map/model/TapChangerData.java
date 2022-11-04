@@ -6,9 +6,11 @@
  */
 package org.gridsuite.network.map.model;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.PhaseTapChanger;
+import lombok.*;
+
+import java.util.List;
 
 /**
  * @author Jacques Borsenberger <jacques.borsenberger at rte-france.com>
@@ -17,6 +19,41 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 public class TapChangerData {
-    Integer lowTap;
-    Integer highTap;
+    private Integer lowTapPosition;
+
+    private Integer tapPosition;
+
+    private Integer highTapPosition;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean regulating;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean loadTapChangingCapabilities;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetDeadBand;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private PhaseTapChanger.RegulationMode regulationMode;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double regulatingValue;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<TapChangerStepData> steps;
+
 }
+
