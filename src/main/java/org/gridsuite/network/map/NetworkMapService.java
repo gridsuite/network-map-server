@@ -269,15 +269,6 @@ class NetworkMapService {
         if (tapChanger == null) {
             return null;
         }
-        
-        var connectablePosition = transformer.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                    .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                    .connectionName1(connectablePosition.getFeeder1().getName())
-                    .connectionName2(connectablePosition.getFeeder2().getName());
-        }
 
         TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
                 .lowTapPosition(tapChanger.getLowTapPosition())
