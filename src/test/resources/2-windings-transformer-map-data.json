@@ -15,7 +15,6 @@
     "lowTapPosition": 0,
     "highTapPosition": 1,
     "tapPosition": 1,
-    "targetV": 10.0,
     "voltageRegulation": true,
     "targetDeadBand": 0.0,
     "regulationMode" : "CURRENT_LIMITER",

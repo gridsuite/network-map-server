@@ -268,7 +268,6 @@ class NetworkMapService {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
-        builder.targetV(nullIfNan(tapChanger.getRegulationValue()));
         builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();
     }
