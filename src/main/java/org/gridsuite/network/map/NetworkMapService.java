@@ -241,6 +241,14 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
+        var connectablePosition = transformer.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                    .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                    .connectionName1(connectablePosition.getFeeder1().getName())
+                    .connectionName2(connectablePosition.getFeeder2().getName());
+        }
         return builder.build();
     }
 
