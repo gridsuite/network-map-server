@@ -6,6 +6,8 @@
     "voltageLevelId": "VLLOAD",
     "terminalConnected": true,
     "p0": 600.0,
-    "q0": 200.0
+    "q0": 200.0,
+    "connectionName": "feederName",
+    "connectionDirection": "TOP"
   }
 ]

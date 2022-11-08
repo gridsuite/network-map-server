@@ -21,5 +21,7 @@
   "droop": 4,
   "regulatingTerminalConnectableId": "NHV1_NHV2_1",
   "regulatingTerminalConnectableType": "LINE",
-  "regulatingTerminalVlId": "VLHV1"
+  "regulatingTerminalVlId": "VLHV1",
+  "connectionName": "feederName",
+  "connectionDirection": "TOP"
 }

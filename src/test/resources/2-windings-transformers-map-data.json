@@ -46,7 +46,11 @@
     "r": 0.26658461538461536,
     "x": 11.104492831516762,
     "ratedU1": 24.0,
-    "ratedU2": 400.0
+    "ratedU2": 400.0,
+    "connectionName1": "feederName1",
+    "connectionDirection1": "TOP",
+    "connectionName2": "feederName2",
+    "connectionDirection2": "BOTTOM"
   },
   {
     "id": "NHV2_NLOAD",
@@ -100,6 +104,10 @@
     "r": 0.04724999999999999,
     "x": 4.049724365620455,
     "ratedU1": 400.0,
-    "ratedU2": 158.0
+    "ratedU2": 158.0,
+    "connectionName1": "feederName1",
+    "connectionDirection1": "TOP",
+    "connectionName2": "feederName2",
+    "connectionDirection2": "BOTTOM"
   }
 ]
