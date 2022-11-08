@@ -56,31 +56,10 @@ public class TwoWindingsTransformerMapData {
     private Double permanentLimit2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer ratioTapChangerPosition;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer phaseTapChangerPosition;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData phaseTapChanger;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData ratioTapChanger;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChangingCapabilities;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetV;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulating;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double regulatingValue;
 
     private Double g;
 
@@ -93,4 +72,7 @@ public class TwoWindingsTransformerMapData {
     private Double ratedU1;
 
     private Double ratedU2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double ratedS;
 }
