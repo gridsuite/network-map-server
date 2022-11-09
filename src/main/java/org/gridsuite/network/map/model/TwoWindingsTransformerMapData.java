@@ -77,10 +77,12 @@ public class TwoWindingsTransformerMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double ratedS;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName1;
 
     private ConnectablePosition.Direction connectionDirection1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName2;
 
     private ConnectablePosition.Direction connectionDirection2;

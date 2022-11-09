@@ -43,6 +43,7 @@ public class LoadMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q0;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName;
 
     private ConnectablePosition.Direction connectionDirection;

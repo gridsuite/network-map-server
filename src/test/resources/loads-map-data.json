@@ -18,7 +18,6 @@
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0,
-    "connectionName": null,
     "connectionDirection": null
   },
   {
@@ -29,7 +28,6 @@
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0,
-    "connectionName": null,
     "connectionDirection": null
   }
 ]
