@@ -44,6 +44,7 @@ public class ShuntCompensatorMapData {
 
     private Integer maximumSectionCount;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName;
 
     private ConnectablePosition.Direction connectionDirection;

@@ -93,6 +93,7 @@ public class GeneratorMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName;
 
     private ConnectablePosition.Direction connectionDirection;
