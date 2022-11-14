@@ -262,8 +262,8 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/map-equipments-data", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get lines description")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Lines description")})
+    @Operation(summary = "Get substations and lines description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Substations and lines description to render network map")})
     public @ResponseBody MapEquipmentsData getMapEquipmentsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                            @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
