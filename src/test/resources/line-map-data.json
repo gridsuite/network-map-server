@@ -16,5 +16,9 @@
   "g1": 7.0,
   "b1": 5.0,
   "g2": 8.0,
-  "b2": 6.0
+  "b2": 6.0,
+  "connectionName1": "feederName1",
+  "connectionDirection1": "TOP",
+  "connectionName2": "feederName2",
+  "connectionDirection2": "BOTTOM"
 }

@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,4 +43,9 @@ public class ShuntCompensatorMapData {
     private Double bPerSection;
 
     private Integer maximumSectionCount;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String connectionName;
+
+    private ConnectablePosition.Direction connectionDirection;
 }
