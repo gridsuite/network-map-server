@@ -1320,4 +1320,16 @@ public class NetworkMapControllerTest {
         failingTestForList("map-equipments-data", NOT_FOUND_NETWORK_ID, null, null);
         failingTestForList("map-equipments-data", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
+
+    @Test
+    public void shouldReturnMapEquipmentsDataFromSubstationId() throws Exception {
+        succeedingTestForList("map-equipments-data", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-map-equipments-data.json"));
+        succeedingTestForList("map-equipments-data", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-map-equipments-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfMapEquipmentsDataFromSubstationId() throws Exception {
+        failingTestForList("map-equipments-data", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("map-equipments-data", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+    }
 }
