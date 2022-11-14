@@ -1314,4 +1314,10 @@ public class NetworkMapControllerTest {
         succeedingTestForList("map-equipments-data", NETWORK_UUID, null, null, resourceToString("/map-equipments-data.json"));
         succeedingTestForList("map-equipments-data", NETWORK_UUID, VARIANT_ID, null, resourceToString("/map-equipments-data.json"));
     }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfMapEquipmentsData() throws Exception {
+        failingTestForList("map-equipments-data", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("map-equipments-data", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+    }
 }
