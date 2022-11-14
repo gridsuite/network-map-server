@@ -13,7 +13,7 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.model.*;
-import org.gridsuite.network.map.model.network.map.MapEquipmentsData;
+import org.gridsuite.network.map.model.MapEquipmentsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -110,6 +110,31 @@ class NetworkMapService {
         BranchStatus branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
+        }
+        return builder.build();
+    }
+
+    private static LineMapData toBasicMapData(Line line) {
+        Terminal terminal1 = line.getTerminal1();
+        Terminal terminal2 = line.getTerminal2();
+        LineMapData.LineMapDataBuilder builder = LineMapData.builder()
+                .name(line.getOptionalName().orElse(null))
+                .id(line.getId())
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .i1(Double.isNaN(terminal1.getI()) ? null : terminal1.getI())
+                .i2(Double.isNaN(terminal2.getI()) ? null : terminal2.getI());
+
+        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
+
+        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
+            builder.permanentLimit1(limits1.getPermanentLimit());
+        }
+        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
+            builder.permanentLimit2(limits2.getPermanentLimit());
         }
         return builder.build();
     }
@@ -990,22 +1015,28 @@ class NetworkMapService {
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public MapEquipmentsData getMapEquipmentsData(UUID networkUuid, String variantId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        return MapEquipmentsData.builder()
-                .lines(network.getLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
-                .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
-                .build();
+    public MapEquipmentsData getMapEquipmentsData(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
-        /*if (substationsId == null) {
-            return network.getLineStream()
-                    .map(NetworkMapService::toMapData).collect(Collectors.toList());
-        } else {
-            Set<LineMapData> res = new LinkedHashSet<>();
-            substationsId.stream().forEach(id ->
-                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                            v.getConnectables(Line.class).forEach(l -> res.add(toMapData(l)))));
-            return res.stream().collect(Collectors.toList());
-        }*/
+        if (substationsId == null) {
+            return MapEquipmentsData.builder()
+                    .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
+                    .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .build();
+        }
+
+        Set<LineMapData> lines = new LinkedHashSet<>();
+        substationsId.stream().forEach(id ->
+                network.getSubstation(id).getVoltageLevelStream().forEach(v ->
+                        v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
+        System.out.println(lines.stream().findFirst().get());
+
+        List<SubstationMapData> substations = new ArrayList<>();
+        substationsId.stream().forEach(id -> substations.add(toMapData(network.getSubstation(id))));
+
+        return MapEquipmentsData.builder()
+                .lines(lines.stream().collect(Collectors.toList()))
+                .substations(substations)
+                .build();
     }
 }

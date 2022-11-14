@@ -1,4 +1,4 @@
-package org.gridsuite.network.map.model.network.map;
+package org.gridsuite.network.map.model;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
