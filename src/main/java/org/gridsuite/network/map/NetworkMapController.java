@@ -28,7 +28,6 @@ import org.gridsuite.network.map.model.ThreeWindingsTransformerMapData;
 import org.gridsuite.network.map.model.TwoWindingsTransformerMapData;
 import org.gridsuite.network.map.model.VoltageLevelMapData;
 import org.gridsuite.network.map.model.VscConverterStationMapData;
-import org.gridsuite.network.map.model.MapEquipmentsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -281,7 +280,7 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/map-equipments-data", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get lines description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Lines description")})
-    public @ResponseBody MapEquipmentsData getMapEquipmentsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public @ResponseBody AllMapData getMapEquipmentsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                 @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getMapEquipmentsData(networkUuid, variantId, substationsIds);

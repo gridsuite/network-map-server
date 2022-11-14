@@ -13,7 +13,6 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.model.*;
-import org.gridsuite.network.map.model.MapEquipmentsData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -1054,11 +1053,11 @@ class NetworkMapService {
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public MapEquipmentsData getMapEquipmentsData(UUID networkUuid, String variantId, List<String> substationsId) {
+    public AllMapData getMapEquipmentsData(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
         if (substationsId == null) {
-            return MapEquipmentsData.builder()
+            return AllMapData.builder()
                     .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
                     .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                     .build();
@@ -1068,12 +1067,11 @@ class NetworkMapService {
         substationsId.stream().forEach(id ->
                 network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                         v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
-        System.out.println(lines.stream().findFirst().get());
 
         List<SubstationMapData> substations = new ArrayList<>();
         substationsId.stream().forEach(id -> substations.add(toMapData(network.getSubstation(id))));
 
-        return MapEquipmentsData.builder()
+        return AllMapData.builder()
                 .lines(lines.stream().collect(Collectors.toList()))
                 .substations(substations)
                 .build();
