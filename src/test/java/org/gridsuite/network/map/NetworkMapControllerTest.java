@@ -1308,4 +1308,10 @@ public class NetworkMapControllerTest {
         failingTestForList("voltage-levels-equipments", NOT_FOUND_NETWORK_ID, null, null);
         failingTestForList("voltage-levels-equipments", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
+
+    @Test
+    public void shouldReturnMapEquipmentsData() throws Exception {
+        succeedingTestForList("map-equipments-data", NETWORK_UUID, null, null, resourceToString("/map-equipments-data.json"));
+        succeedingTestForList("map-equipments-data", NETWORK_UUID, VARIANT_ID, null, resourceToString("/map-equipments-data.json"));
+    }
 }

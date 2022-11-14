@@ -1053,11 +1053,11 @@ class NetworkMapService {
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public AllMapData getMapEquipmentsData(UUID networkUuid, String variantId, List<String> substationsId) {
+    public MapEquipmentsData getMapEquipmentsData(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
         if (substationsId == null) {
-            return AllMapData.builder()
+            return MapEquipmentsData.builder()
                     .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
                     .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                     .build();
@@ -1071,7 +1071,7 @@ class NetworkMapService {
         List<SubstationMapData> substations = new ArrayList<>();
         substationsId.stream().forEach(id -> substations.add(toMapData(network.getSubstation(id))));
 
-        return AllMapData.builder()
+        return MapEquipmentsData.builder()
                 .lines(lines.stream().collect(Collectors.toList()))
                 .substations(substations)
                 .build();
