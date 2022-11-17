@@ -7,8 +7,10 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.powsybl.iidm.network.EnergySource;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -95,6 +97,11 @@ public class GeneratorMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("qPercent")
+    @Getter(AccessLevel.NONE)
+    private double qPercent;
 
     private ConnectablePosition.Direction connectionDirection;
 }

@@ -163,6 +163,11 @@ class NetworkMapService {
             builder.marginalCost(generatorStartup.getMarginalCost());
         }
 
+        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
+        if (coordinatedReactiveControl != null) {
+            builder.qPercent(coordinatedReactiveControl.getQPercent());
+        }
+
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
         if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
