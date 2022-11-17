@@ -112,11 +112,17 @@ class NetworkMapService {
         }
         var connectablePosition = line.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
-            builder
-                    .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                    .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                    .connectionName1(connectablePosition.getFeeder1().getName())
-                    .connectionName2(connectablePosition.getFeeder2().getName());
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                        .connectionName1(connectablePosition.getFeeder1().getName());
+            }
+
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                        .connectionName2(connectablePosition.getFeeder2().getName());
+            }
         }
         return builder.build();
     }
@@ -243,11 +249,17 @@ class NetworkMapService {
         }
         var connectablePosition = transformer.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
-            builder
-                    .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                    .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                    .connectionName1(connectablePosition.getFeeder1().getName())
-                    .connectionName2(connectablePosition.getFeeder2().getName());
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                        .connectionName1(connectablePosition.getFeeder1().getName());
+            }
+
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                        .connectionName2(connectablePosition.getFeeder2().getName());
+            }
         }
         return builder.build();
     }
