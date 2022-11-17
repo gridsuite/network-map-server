@@ -118,7 +118,7 @@ class NetworkMapService {
                         .connectionName1(connectablePosition.getFeeder1().getName());
             }
 
-            if (connectablePosition.getFeeder1() != null) {
+            if (connectablePosition.getFeeder2() != null) {
                 builder
                         .connectionDirection2(connectablePosition.getFeeder2().getDirection())
                         .connectionName2(connectablePosition.getFeeder2().getName());
@@ -255,7 +255,7 @@ class NetworkMapService {
                         .connectionName1(connectablePosition.getFeeder1().getName());
             }
 
-            if (connectablePosition.getFeeder1() != null) {
+            if (connectablePosition.getFeeder2() != null) {
                 builder
                         .connectionDirection2(connectablePosition.getFeeder2().getDirection())
                         .connectionName2(connectablePosition.getFeeder2().getName());
