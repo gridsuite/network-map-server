@@ -57,6 +57,7 @@
       }
     ],
     "connectionName": "feederName",
-    "connectionDirection": "TOP"
+    "connectionDirection": "TOP",
+    "qPercent": 10.0
   }
 ]
