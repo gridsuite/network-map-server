@@ -203,9 +203,6 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
-        gen2.newExtension(CoordinatedReactiveControlAdder.class)
-                .withQPercent(10.0)
-                .add();
 
         Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()
