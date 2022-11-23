@@ -301,7 +301,7 @@ class NetworkMapService {
                 .tapPosition(tapChanger.getTapPosition())
                 .regulating(tapChanger.isRegulating())
                 .regulationMode(tapChanger.getRegulationMode())
-                .regulatingValue(tapChanger.getRegulationValue())
+                .regulationValue(tapChanger.getRegulationValue())
                 .targetDeadBand(tapChanger.getTargetDeadband())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
