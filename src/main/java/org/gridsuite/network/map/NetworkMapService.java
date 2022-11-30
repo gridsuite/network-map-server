@@ -1061,19 +1061,19 @@ class NetworkMapService {
                     .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
                     .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                     .build();
+        } else {
+            Set<LineMapData> lines = new LinkedHashSet<>();
+            substationsId.stream().forEach(id ->
+                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
+                            v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
+
+            List<SubstationMapData> substations = new ArrayList<>();
+            substationsId.stream().forEach(id -> substations.add(toMapData(network.getSubstation(id))));
+
+            return MapEquipmentsData.builder()
+                    .lines(lines.stream().collect(Collectors.toList()))
+                    .substations(substations)
+                    .build();
         }
-
-        Set<LineMapData> lines = new LinkedHashSet<>();
-        substationsId.stream().forEach(id ->
-                network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                        v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
-
-        List<SubstationMapData> substations = new ArrayList<>();
-        substationsId.stream().forEach(id -> substations.add(toMapData(network.getSubstation(id))));
-
-        return MapEquipmentsData.builder()
-                .lines(lines.stream().collect(Collectors.toList()))
-                .substations(substations)
-                .build();
     }
 }
