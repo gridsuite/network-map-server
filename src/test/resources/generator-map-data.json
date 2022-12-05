@@ -23,5 +23,6 @@
   "regulatingTerminalConnectableType": "LINE",
   "regulatingTerminalVlId": "VLHV1",
   "connectionName": "feederName",
-  "connectionDirection": "TOP"
+  "connectionDirection": "TOP",
+  "qPercent": 10.0
 }

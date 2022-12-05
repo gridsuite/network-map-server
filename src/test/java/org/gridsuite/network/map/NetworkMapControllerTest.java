@@ -174,6 +174,9 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
+        gen.newExtension(CoordinatedReactiveControlAdder.class)
+                .withQPercent(10.0)
+                .add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
@@ -199,6 +202,9 @@ public class NetworkMapControllerTest {
                 .withName("feederName")
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+        gen2.newExtension(CoordinatedReactiveControlAdder.class)
+                .withQPercent(10.0)
                 .add();
 
         Substation p1 = network.getSubstation("P1");
