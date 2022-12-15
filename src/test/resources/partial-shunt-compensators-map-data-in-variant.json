@@ -11,7 +11,8 @@
     "maximumSectionCount":8,
     "bperSection":5.0,
     "connectionName": "feederName",
-    "connectionDirection": "TOP"
+    "connectionDirection": "TOP",
+    "connectionPosition": 0
   },
   {
     "id": "SHUNT2",
@@ -24,7 +25,8 @@
     "maximumSectionCount":3,
     "bperSection":1.0,
     "connectionName": "feederName",
-    "connectionDirection": "TOP"
+    "connectionDirection": "TOP",
+    "connectionPosition": 0
   },
   {
     "id": "SHUNT3",
@@ -38,6 +40,7 @@
     "maximumSectionCount":3,
     "bperSection":1.0,
     "connectionName": "feederName",
-    "connectionDirection": "TOP"
+    "connectionDirection": "TOP",
+    "connectionPosition": 0
   }
 ]

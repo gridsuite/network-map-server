@@ -584,7 +584,8 @@
       "regulatingTerminalVlId": "VLHV1",
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "qPercent": 10.0
+      "qPercent": 10.0,
+      "connectionPosition": 0
     },
     {
       "id": "GEN2",
@@ -617,7 +618,8 @@
       ],
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "qPercent": 10.0
+      "qPercent": 10.0,
+      "connectionPosition": 0
     }
   ],
   "batteries": [
@@ -741,7 +743,8 @@
       "p0": 600.0,
       "q0": 200.0,
       "connectionName": "feederName",
-      "connectionDirection": "TOP"
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -777,7 +780,8 @@
       "maximumSectionCount":8,
       "bperSection":5.0,
       "connectionName": "feederName",
-      "connectionDirection": "TOP"
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     },
     {
       "id": "SHUNT2",
@@ -790,7 +794,8 @@
       "maximumSectionCount":3,
       "bperSection":1.0,
       "connectionName": "feederName",
-      "connectionDirection": "TOP"
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     }
   ],
   "staticVarCompensators": [

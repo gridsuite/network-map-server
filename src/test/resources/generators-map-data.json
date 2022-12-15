@@ -25,7 +25,8 @@
     "regulatingTerminalVlId": "VLHV1",
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "qPercent": 10.0
+    "qPercent": 10.0,
+    "connectionPosition": 0
   },
   {
     "id": "GEN2",
@@ -58,6 +59,7 @@
     ],
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "qPercent": 10.0
+    "qPercent": 10.0,
+    "connectionPosition": 0
   }
 ]

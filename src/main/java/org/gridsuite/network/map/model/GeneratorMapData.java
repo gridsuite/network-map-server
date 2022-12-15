@@ -106,4 +106,7 @@ public class GeneratorMapData {
     private double qPercent;
 
     private ConnectablePosition.Direction connectionDirection;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition;
 }
