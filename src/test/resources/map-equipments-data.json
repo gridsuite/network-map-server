@@ -94,6 +94,8 @@
       "terminal2Connected": true,
       "permanentLimit1": 700.4,
       "permanentLimit2": 800.8,
+      "p1": 1.1,
+      "p2": 3.33,
       "r": null,
       "x": null,
       "g1": null,

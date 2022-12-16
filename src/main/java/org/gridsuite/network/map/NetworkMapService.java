@@ -138,7 +138,9 @@ class NetworkMapService {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()));
+                .i2(nullIfNan(terminal2.getI()))
+                .p1(nullIfNan(terminal1.getP()))
+                .p2(nullIfNan(terminal2.getP()));
 
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
