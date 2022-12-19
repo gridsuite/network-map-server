@@ -115,13 +115,15 @@ class NetworkMapService {
             if (connectablePosition.getFeeder1() != null) {
                 builder
                         .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName());
+                        .connectionName1(connectablePosition.getFeeder1().getName())
+                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
             }
 
             if (connectablePosition.getFeeder2() != null) {
                 builder
                         .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName());
+                        .connectionName2(connectablePosition.getFeeder2().getName())
+                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
             }
         }
         return builder.build();
@@ -258,13 +260,15 @@ class NetworkMapService {
             if (connectablePosition.getFeeder1() != null) {
                 builder
                         .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName());
+                        .connectionName1(connectablePosition.getFeeder1().getName())
+                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
             }
 
             if (connectablePosition.getFeeder2() != null) {
                 builder
                         .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName());
+                        .connectionName2(connectablePosition.getFeeder2().getName())
+                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
             }
         }
         return builder.build();

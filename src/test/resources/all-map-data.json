@@ -107,7 +107,9 @@
       "connectionName1": "feederName1",
       "connectionDirection1": "TOP",
       "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM"
+      "connectionDirection2": "BOTTOM",
+      "connectionPosition1": 0,
+      "connectionPosition2": 0
     },
     {
       "id": "NHV1_NHV2_2",
@@ -142,7 +144,9 @@
       "connectionName1": "feederName1",
       "connectionDirection1": "TOP",
       "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM"
+      "connectionDirection2": "BOTTOM",
+      "connectionPosition1": 0,
+      "connectionPosition2": 0
     }
   ],
   "twoWindingsTransformers": [
@@ -197,7 +201,9 @@
       "connectionName1": "feederName1",
       "connectionDirection1": "TOP",
       "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM"
+      "connectionDirection2": "BOTTOM",
+      "connectionPosition1": 0,
+      "connectionPosition2": 0
     },
     {
       "id": "NHV2_NLOAD",
@@ -255,7 +261,9 @@
       "connectionName1": "feederName1",
       "connectionDirection1": "TOP",
       "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM"
+      "connectionDirection2": "BOTTOM",
+      "connectionPosition1": 0,
+      "connectionPosition2": 0
     }
   ],
   "threeWindingsTransformers": [

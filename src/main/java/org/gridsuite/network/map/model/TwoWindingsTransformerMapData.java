@@ -87,4 +87,9 @@ public class TwoWindingsTransformerMapData {
 
     private ConnectablePosition.Direction connectionDirection2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition2;
 }
