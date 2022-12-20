@@ -17,7 +17,11 @@
     "g1": 7.0,
     "b1": 5.0,
     "g2": 8.0,
-    "b2": 6.0
+    "b2": 6.0,
+    "connectionName1": "feederName1",
+    "connectionDirection1": "TOP",
+    "connectionName2": "feederName2",
+    "connectionDirection2": "BOTTOM"
   },
   {
     "id": "NHV1_NHV2_2",
@@ -31,7 +35,9 @@
     "g1":0.0,
     "b1":1.93E-4,
     "g2":0.0,
-    "b2":1.93E-4
+    "b2":1.93E-4,
+    "connectionDirection1": null,
+    "connectionDirection2": null
   },
   {
     "id": "LINE3",
@@ -46,6 +52,10 @@
     "g1": 0.0,
     "b1": 1.93E-4,
     "g2": 0.0,
-    "b2": 1.93E-4
+    "b2": 1.93E-4,
+    "connectionName1": "feederName1",
+    "connectionDirection1": "TOP",
+    "connectionName2": "feederName2",
+    "connectionDirection2": "BOTTOM"
   }
 ]

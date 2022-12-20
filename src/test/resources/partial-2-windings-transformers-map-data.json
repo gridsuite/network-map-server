@@ -19,7 +19,7 @@
       "regulating": true,
       "targetDeadBand": 0.0,
       "regulationMode" : "CURRENT_LIMITER",
-      "regulatingValue" : 10.0,
+      "regulationValue" : 10.0,
       "regulatingTerminalConnectableId": "NGEN_NHV1",
       "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
       "regulatingTerminalVlId": "VLGEN",
@@ -46,6 +46,10 @@
     "r": 0.26658461538461536,
     "x": 11.104492831516762,
     "ratedU1": 24.0,
-    "ratedU2": 400.0
+    "ratedU2": 400.0,
+    "connectionName1": "feederName1",
+    "connectionDirection1": "TOP",
+    "connectionName2": "feederName2",
+    "connectionDirection2": "BOTTOM"
   }
 ]

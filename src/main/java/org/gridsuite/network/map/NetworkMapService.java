@@ -85,12 +85,12 @@ class NetworkMapService {
             .terminal2Connected(terminal2.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .p1(Double.isNaN(terminal1.getP()) ?  null : terminal1.getP())
-            .q1(Double.isNaN(terminal1.getQ()) ? null : terminal1.getQ())
-            .p2(Double.isNaN(terminal2.getP()) ? null : terminal2.getP())
-            .q2(Double.isNaN(terminal2.getQ()) ? null : terminal2.getQ())
-            .i1(Double.isNaN(terminal1.getI()) ? null : terminal1.getI())
-            .i2(Double.isNaN(terminal2.getI()) ? null : terminal2.getI())
+            .p1(nullIfNan(terminal1.getP()))
+            .q1(nullIfNan(terminal1.getQ()))
+            .p2(nullIfNan(terminal2.getP()))
+            .q2(nullIfNan(terminal2.getQ()))
+            .i1(nullIfNan(terminal1.getI()))
+            .i2(nullIfNan(terminal2.getI()))
             .r(line.getR())
             .x(line.getX())
             .g1(line.getG1())
@@ -110,6 +110,20 @@ class NetworkMapService {
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
         }
+        var connectablePosition = line.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                        .connectionName1(connectablePosition.getFeeder1().getName());
+            }
+
+            if (connectablePosition.getFeeder2() != null) {
+                builder
+                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                        .connectionName2(connectablePosition.getFeeder2().getName());
+            }
+        }
         return builder.build();
     }
 
@@ -122,15 +136,15 @@ class NetworkMapService {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(generator.getTargetP())
-                .targetQ(Double.isNaN(generator.getTargetQ()) ? null : generator.getTargetQ())
-                .targetV(Double.isNaN(generator.getTargetV()) ? null : generator.getTargetV())
+                .targetQ(nullIfNan(generator.getTargetQ()))
+                .targetV(nullIfNan(generator.getTargetV()))
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
-                .ratedS(Double.isNaN(generator.getRatedS()) ? null : generator.getRatedS())
+                .ratedS(nullIfNan(generator.getRatedS()))
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
-                .p(Double.isNaN(terminal.getP()) ? null : terminal.getP())
-                .q(Double.isNaN(terminal.getQ()) ? null : terminal.getQ());
+                .p(nullIfNan(terminal.getP()))
+                .q(nullIfNan(terminal.getQ()));
 
         ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
@@ -147,6 +161,11 @@ class NetworkMapService {
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
         if (generatorStartup != null) {
             builder.marginalCost(generatorStartup.getMarginalCost());
+        }
+
+        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
+        if (coordinatedReactiveControl != null) {
+            builder.qPercent(coordinatedReactiveControl.getQPercent());
         }
 
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
@@ -171,6 +190,14 @@ class NetworkMapService {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(toMapData(capabilityCurve.getPoints()));
             }
+        }
+
+        var connectablePosition = generator.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
@@ -226,6 +253,20 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
+        var connectablePosition = transformer.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                        .connectionName1(connectablePosition.getFeeder1().getName());
+            }
+
+            if (connectablePosition.getFeeder2() != null) {
+                builder
+                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                        .connectionName2(connectablePosition.getFeeder2().getName());
+            }
+        }
         return builder.build();
     }
 
@@ -261,7 +302,7 @@ class NetworkMapService {
                 .tapPosition(tapChanger.getTapPosition())
                 .regulating(tapChanger.isRegulating())
                 .regulationMode(tapChanger.getRegulationMode())
-                .regulatingValue(tapChanger.getRegulationValue())
+                .regulationValue(tapChanger.getRegulationValue())
                 .targetDeadBand(tapChanger.getTargetDeadband())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
@@ -542,6 +583,15 @@ class NetworkMapService {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
+
+        var connectablePosition = load.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
+        }
+
         return builder.build();
     }
 
@@ -567,6 +617,15 @@ class NetworkMapService {
         if (!Double.isNaN(shuntCompensator.getTargetDeadband())) {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
+
+        var connectablePosition = shuntCompensator.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
+        }
+
         return builder.build();
     }
 

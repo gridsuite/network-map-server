@@ -103,7 +103,11 @@
       "g1": 7.0,
       "b1": 5.0,
       "g2": 8.0,
-      "b2": 6.0
+      "b2": 6.0,
+      "connectionName1": "feederName1",
+      "connectionDirection1": "TOP",
+      "connectionName2": "feederName2",
+      "connectionDirection2": "BOTTOM"
     },
     {
       "id": "NHV1_NHV2_2",
@@ -117,7 +121,9 @@
       "g1":0.0,
       "b1":1.93E-4,
       "g2":0.0,
-      "b2":1.93E-4
+      "b2":1.93E-4,
+      "connectionDirection1": null,
+      "connectionDirection2": null
     },
     {
       "id": "LINE3",
@@ -132,7 +138,11 @@
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93E-4
+      "b2": 1.93E-4,
+      "connectionName1": "feederName1",
+      "connectionDirection1": "TOP",
+      "connectionName2": "feederName2",
+      "connectionDirection2": "BOTTOM"
     }
   ],
   "twoWindingsTransformers": [
@@ -156,7 +166,7 @@
         "regulating": true,
         "targetDeadBand": 0.0,
         "regulationMode" : "CURRENT_LIMITER",
-        "regulatingValue" : 10.0,
+        "regulationValue" : 10.0,
         "regulatingTerminalConnectableId": "NGEN_NHV1",
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLGEN",
@@ -183,7 +193,11 @@
       "r": 0.26658461538461536,
       "x": 11.104492831516762,
       "ratedU1": 24.0,
-      "ratedU2": 400.0
+      "ratedU2": 400.0,
+      "connectionName1": "feederName1",
+      "connectionDirection1": "TOP",
+      "connectionName2": "feederName2",
+      "connectionDirection2": "BOTTOM"
     },
     {
       "id": "NHV2_NLOAD",
@@ -237,7 +251,11 @@
       "r": 0.04724999999999999,
       "x": 4.049724365620455,
       "ratedU1": 400.0,
-      "ratedU2": 158.0
+      "ratedU2": 158.0,
+      "connectionName1": "feederName1",
+      "connectionDirection1": "TOP",
+      "connectionName2": "feederName2",
+      "connectionDirection2": "BOTTOM"
     }
   ],
   "threeWindingsTransformers": [
@@ -265,7 +283,7 @@
         "regulating": true,
         "targetDeadBand": 22.0,
         "regulationMode" : "CURRENT_LIMITER",
-        "regulatingValue" : 25.0,
+        "regulationValue" : 25.0,
         "regulatingTerminalConnectableId": "TWT",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
@@ -402,7 +420,7 @@
         "regulating": true,
         "targetDeadBand": 22.0,
         "regulationMode" : "CURRENT_LIMITER",
-        "regulatingValue" : 25.0,
+        "regulationValue" : 25.0,
         "regulatingTerminalConnectableId": "TWT21",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
@@ -501,7 +519,7 @@
         "regulating": true,
         "targetDeadBand": 22.0,
         "regulationMode" : "CURRENT_LIMITER",
-        "regulatingValue" : 25.0,
+        "regulationValue" : 25.0,
         "regulatingTerminalConnectableId": "TWT32",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
@@ -563,7 +581,11 @@
       "droop": 4,
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
-      "regulatingTerminalVlId": "VLHV1"
+      "regulatingTerminalVlId": "VLHV1",
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "qPercent": 10.0,
+      "connectionPosition": 0
     },
     {
       "id": "GEN2",
@@ -593,7 +615,11 @@
           "qminP": 4.0,
           "qmaxP": 5.0
         }
-      ]
+      ],
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "qPercent": 10.0,
+      "connectionPosition": 0
     }
   ],
   "batteries": [
@@ -715,7 +741,10 @@
       "voltageLevelId": "VLLOAD",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -724,7 +753,8 @@
       "voltageLevelId": "VLNEW2",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionDirection": null
     },
     {
       "id": "LOAD_ID",
@@ -733,7 +763,8 @@
       "voltageLevelId": "VLNEW2",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionDirection": null
     }
   ],
   "shuntCompensators": [
@@ -747,7 +778,10 @@
       "targetDeadband": 10.0,
       "sectionCount": 4,
       "maximumSectionCount": 8,
-      "bperSection": 5.0
+      "bperSection": 5.0,
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     },
     {
       "id": "SHUNT2",
@@ -758,7 +792,10 @@
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
-      "bperSection": 1.0
+      "bperSection": 1.0,
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     },
     {
       "id": "SHUNT3",
@@ -770,7 +807,10 @@
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
-      "bperSection": 1.0
+      "bperSection": 1.0,
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     }
   ],
   "staticVarCompensators": [
