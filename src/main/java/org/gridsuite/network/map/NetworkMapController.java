@@ -261,12 +261,12 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelsAndConnectable(networkUuid, variantId, substationsIds);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/map-equipments-data", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/map-equipments", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get substations and lines description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Substations and lines description to render network map")})
     public @ResponseBody MapEquipmentsData getMapEquipmentsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                            @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
-        return networkMapService.getMapEquipmentsData(networkUuid, variantId, substationsIds);
+        return networkMapService.getMapEquipments(networkUuid, variantId, substationsIds);
     }
 }

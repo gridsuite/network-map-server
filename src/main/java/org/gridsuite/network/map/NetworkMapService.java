@@ -1075,7 +1075,7 @@ class NetworkMapService {
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public MapEquipmentsData getMapEquipmentsData(UUID networkUuid, String variantId, List<String> substationsId) {
+    public MapEquipmentsData getMapEquipments(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
         if (substationsId == null) {
