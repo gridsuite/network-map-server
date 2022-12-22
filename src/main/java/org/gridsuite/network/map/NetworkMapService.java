@@ -127,6 +127,8 @@ class NetworkMapService {
         return builder.build();
     }
 
+    //Method which enables us to generate a light version of the LineMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
     private static LineMapData toBasicMapData(Line line) {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
