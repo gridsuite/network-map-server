@@ -1091,9 +1091,7 @@ class NetworkMapService {
                     network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                             v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
 
-            List<SubstationMapData> substations = new ArrayList<>();
-            substationsId.stream().forEach(id -> substations.add(toMapData(network.getSubstation(id))));
-
+            List<SubstationMapData> substations = substationsId.stream().map(id -> toMapData(network.getSubstation(id))).collect(Collectors.toList());
             return MapEquipmentsData.builder()
                     .lines(lines.stream().collect(Collectors.toList()))
                     .substations(substations)
