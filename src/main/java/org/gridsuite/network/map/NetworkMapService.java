@@ -127,6 +127,35 @@ class NetworkMapService {
         return builder.build();
     }
 
+    //Method which enables us to generate a light version of the LineMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
+    private static LineMapData toBasicMapData(Line line) {
+        Terminal terminal1 = line.getTerminal1();
+        Terminal terminal2 = line.getTerminal2();
+        LineMapData.LineMapDataBuilder builder = LineMapData.builder()
+                .name(line.getOptionalName().orElse(null))
+                .id(line.getId())
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .i1(nullIfNan(terminal1.getI()))
+                .i2(nullIfNan(terminal2.getI()))
+                .p1(nullIfNan(terminal1.getP()))
+                .p2(nullIfNan(terminal2.getP()));
+
+        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
+
+        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
+            builder.permanentLimit1(limits1.getPermanentLimit());
+        }
+        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
+            builder.permanentLimit2(limits2.getPermanentLimit());
+        }
+        return builder.build();
+    }
+
     private static GeneratorMapData toMapData(Generator generator) {
         Terminal terminal = generator.getTerminal();
 
@@ -1046,5 +1075,27 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
+    }
+
+    public MapEquipmentsData getMapEquipments(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
+
+        if (substationsId == null) {
+            return MapEquipmentsData.builder()
+                    .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
+                    .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .build();
+        } else {
+            Set<LineMapData> lines = new LinkedHashSet<>();
+            substationsId.stream().forEach(id ->
+                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
+                            v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
+
+            List<SubstationMapData> substations = substationsId.stream().map(id -> toMapData(network.getSubstation(id))).collect(Collectors.toList());
+            return MapEquipmentsData.builder()
+                    .lines(lines.stream().collect(Collectors.toList()))
+                    .substations(substations)
+                    .build();
+        }
     }
 }

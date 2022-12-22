@@ -1314,4 +1314,28 @@ public class NetworkMapControllerTest {
         failingTestForList("voltage-levels-equipments", NOT_FOUND_NETWORK_ID, null, null);
         failingTestForList("voltage-levels-equipments", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
     }
+
+    @Test
+    public void shouldReturnMapEquipmentsData() throws Exception {
+        succeedingTestForList("map-equipments", NETWORK_UUID, null, null, resourceToString("/map-equipments-data.json"));
+        succeedingTestForList("map-equipments", NETWORK_UUID, VARIANT_ID, null, resourceToString("/map-equipments-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfMapEquipmentsData() throws Exception {
+        failingTestForList("map-equipments", NOT_FOUND_NETWORK_ID, null, null);
+        failingTestForList("map-equipments", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null);
+    }
+
+    @Test
+    public void shouldReturnMapEquipmentsDataFromSubstationId() throws Exception {
+        succeedingTestForList("map-equipments", NETWORK_UUID, null, List.of("P1"), resourceToString("/partial-map-equipments-data.json"));
+        succeedingTestForList("map-equipments", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/partial-map-equipments-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfMapEquipmentsDataFromSubstationId() throws Exception {
+        failingTestForList("map-equipments", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("map-equipments", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+    }
 }
