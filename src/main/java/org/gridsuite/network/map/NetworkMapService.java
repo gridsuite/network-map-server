@@ -224,6 +224,7 @@ class NetworkMapService {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
                     .connectionName(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
@@ -615,6 +616,7 @@ class NetworkMapService {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
                     .connectionName(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
@@ -648,6 +650,7 @@ class NetworkMapService {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
                     .connectionName(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();

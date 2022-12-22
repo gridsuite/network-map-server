@@ -11,6 +11,7 @@
     "maximumSectionCount": 8,
     "bperSection": 5.0,
     "connectionName": "feederName",
-    "connectionDirection": "TOP"
+    "connectionDirection": "TOP",
+    "connectionPosition": 0
   }
 ]
