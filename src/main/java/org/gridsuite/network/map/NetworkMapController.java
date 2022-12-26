@@ -11,23 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.gridsuite.network.map.model.AllMapData;
-import org.gridsuite.network.map.model.BatteryMapData;
-import org.gridsuite.network.map.model.BusMapData;
-import org.gridsuite.network.map.model.BusbarSectionMapData;
-import org.gridsuite.network.map.model.DanglingLineMapData;
-import org.gridsuite.network.map.model.GeneratorMapData;
-import org.gridsuite.network.map.model.HvdcLineMapData;
-import org.gridsuite.network.map.model.LccConverterStationMapData;
-import org.gridsuite.network.map.model.LineMapData;
-import org.gridsuite.network.map.model.LoadMapData;
-import org.gridsuite.network.map.model.ShuntCompensatorMapData;
-import org.gridsuite.network.map.model.StaticVarCompensatorMapData;
-import org.gridsuite.network.map.model.SubstationMapData;
-import org.gridsuite.network.map.model.ThreeWindingsTransformerMapData;
-import org.gridsuite.network.map.model.TwoWindingsTransformerMapData;
-import org.gridsuite.network.map.model.VoltageLevelMapData;
-import org.gridsuite.network.map.model.VscConverterStationMapData;
+import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -275,5 +259,14 @@ public class NetworkMapController {
                                                                                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                                                                             @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getVoltageLevelsAndConnectable(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/map-equipments", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get substations and lines description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Substations and lines description to render network map")})
+    public @ResponseBody MapEquipmentsData getMapEquipmentsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                           @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                           @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getMapEquipments(networkUuid, variantId, substationsIds);
     }
 }
