@@ -1,5 +1,7 @@
 server:
   port: 5006
 
-network-store-server:
-  base-uri: http://localhost:8080
+powsybl:
+  services:
+    network-store-server:
+      base-uri: http://localhost:8080
