@@ -66,7 +66,19 @@ public class GeneratorMapData {
     private boolean voltageRegulatorOn;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double plannedActivePowerSetPoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double startupCost;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double marginalCost;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double plannedOutageRate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double forcedOutageRate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MinMaxReactiveLimitsMapData minMaxReactiveLimits;

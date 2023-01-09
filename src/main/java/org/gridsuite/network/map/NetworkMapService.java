@@ -191,7 +191,11 @@ class NetworkMapService {
 
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
         if (generatorStartup != null) {
-            builder.marginalCost(generatorStartup.getMarginalCost());
+            builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
+            builder.startupCost(nullIfNan(generatorStartup.getStartupCost()));
+            builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
+            builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
+            builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
         }
 
         CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
