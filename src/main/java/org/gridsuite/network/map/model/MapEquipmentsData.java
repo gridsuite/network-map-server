@@ -18,5 +18,5 @@ import java.util.List;
 @Getter
 public class MapEquipmentsData {
     private List<LineMapData> lines;
-    private List<SubstationMapData> substations;
+    private List<VoltageLevelMapData> voltageLevels;
 }

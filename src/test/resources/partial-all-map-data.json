@@ -2,12 +2,10 @@
   "substations": [
     {
       "id": "P3",
-      "name": null,
       "countryName": "FRANCE",
       "voltageLevels": [
         {
           "id": "VLGEN3",
-          "name": null,
           "substationId": "P3",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER"

@@ -831,8 +831,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
-        succeedingTestForList("substations", NETWORK_UUID, null, null, resourceToString("/substations-map-data.json"));
-        succeedingTestForList("substations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForList("substations", NETWORK_UUID, null, null, resourceToString("/substations-data.json"));
+        succeedingTestForList("substations", NETWORK_UUID, VARIANT_ID, null, resourceToString("/substations-data.json"));
     }
 
     @Test
@@ -855,8 +855,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationMapData() throws Exception {
-        succeedingTestForElement("substations", NETWORK_UUID, null, null, "P4", resourceToString("/substation-map-data.json"));
-        succeedingTestForElement("substations", NETWORK_UUID, VARIANT_ID, null, "P4", resourceToString("/substation-map-data.json"));
+        succeedingTestForElement("substations", NETWORK_UUID, null, null, "P4", resourceToString("/substation-data.json"));
+        succeedingTestForElement("substations", NETWORK_UUID, VARIANT_ID, null, "P4", resourceToString("/substation-data.json"));
     }
 
     @Test
@@ -1337,5 +1337,17 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfMapEquipmentsDataFromSubstationId() throws Exception {
         failingTestForList("map-equipments", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
         failingTestForList("map-equipments", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnMapSubstationsDataFromSubstationId() throws Exception {
+        succeedingTestForList("map-substations", NETWORK_UUID, null, List.of("P1"), resourceToString("/substations-map-data.json"));
+        succeedingTestForList("map-substations", NETWORK_UUID, VARIANT_ID, List.of("P1"), resourceToString("/substations-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfSubstationsEquipmentsDataFromSubstationId() throws Exception {
+        failingTestForList("map-substations", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        failingTestForList("map-substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 }

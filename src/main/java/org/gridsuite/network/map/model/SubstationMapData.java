@@ -23,10 +23,12 @@ public class SubstationMapData {
 
     private String id;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String countryName;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<VoltageLevelMapData> voltageLevels;
 }

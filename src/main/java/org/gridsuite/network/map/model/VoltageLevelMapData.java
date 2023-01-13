@@ -24,6 +24,7 @@ public class VoltageLevelMapData {
 
     private String id;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -31,6 +32,7 @@ public class VoltageLevelMapData {
 
     private double nominalVoltage;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

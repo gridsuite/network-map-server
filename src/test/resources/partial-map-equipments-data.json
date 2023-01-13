@@ -1,34 +1,4 @@
 {
-  "substations": [
-    {
-      "id": "P1",
-      "name": null,
-      "countryName": "FRANCE",
-      "voltageLevels": [
-        {
-          "id": "VLGEN",
-          "name": null,
-          "substationId": "P1",
-          "nominalVoltage": 24.0,
-          "topologyKind": "BUS_BREAKER"
-        },
-        {
-          "id": "VLHV1",
-          "name": null,
-          "substationId": "P1",
-          "nominalVoltage": 380.0,
-          "topologyKind": "BUS_BREAKER"
-        },
-        {
-          "id": "VLNEW2",
-          "name": null,
-          "substationId": "P1",
-          "nominalVoltage": 225.0,
-          "topologyKind": "BUS_BREAKER"
-        }
-      ]
-    }
-  ],
   "lines": [
     {
       "id": "NHV1_NHV2_1",
@@ -81,6 +51,23 @@
       "b2": null,
       "connectionDirection1": null,
       "connectionDirection2": null
+    }
+  ],
+  "voltageLevels" : [
+    {
+      "id":"VLGEN",
+      "substationId":"P1",
+      "nominalVoltage":24.0
+    },
+    {
+      "id":"VLHV1",
+      "substationId":"P1",
+      "nominalVoltage":380.0
+    },
+    {
+      "id":"VLNEW2",
+      "substationId":"P1",
+      "nominalVoltage":225.0
     }
   ]
 }

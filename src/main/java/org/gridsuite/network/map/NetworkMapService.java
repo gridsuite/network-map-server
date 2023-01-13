@@ -158,6 +158,24 @@ class NetworkMapService {
         return builder.build();
     }
 
+    //Method which enables us to generate a light version of the SubstationMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
+    private static SubstationMapData toBasicMapData(Substation substation) {
+        return SubstationMapData.builder()
+                .id(substation.getId())
+                .name(substation.getOptionalName().orElse(null)).build();
+    }
+
+    //Method which enables us to generate a light version of the VoltageLevelMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
+    private static VoltageLevelMapData toBasicMapData(VoltageLevel voltageLevel) {
+        return VoltageLevelMapData.builder()
+                .id(voltageLevel.getId())
+                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
+                .nominalVoltage(voltageLevel.getNominalV())
+                .build();
+    }
+
     private static GeneratorMapData toMapData(Generator generator) {
         Terminal terminal = generator.getTerminal();
 
@@ -1087,19 +1105,33 @@ class NetworkMapService {
         if (substationsId == null) {
             return MapEquipmentsData.builder()
                     .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
-                    .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .voltageLevels(network.getVoltageLevelStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
                     .build();
         } else {
             Set<LineMapData> lines = new LinkedHashSet<>();
+            Set<VoltageLevelMapData> voltageLevels = new LinkedHashSet<>();
             substationsId.stream().forEach(id ->
-                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                            v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
+                    network.getSubstation(id).getVoltageLevelStream().forEach(v -> {
+                        voltageLevels.add(toBasicMapData(v));
+                        v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)));
+                    }));
 
-            List<SubstationMapData> substations = substationsId.stream().map(id -> toMapData(network.getSubstation(id))).collect(Collectors.toList());
             return MapEquipmentsData.builder()
-                    .lines(lines.stream().collect(Collectors.toList()))
-                    .substations(substations)
+                    .lines(new ArrayList<>(lines))
+                    .voltageLevels(new ArrayList<>(voltageLevels))
                     .build();
+        }
+    }
+
+    public List<SubstationMapData> getMapSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
+        if (substationsId == null) {
+            return network.getSubstationStream()
+                    .map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
+        } else {
+            List<SubstationMapData> res = new ArrayList<>();
+            substationsId.stream().forEach(id -> res.add(toBasicMapData(network.getSubstation(id))));
+            return res;
         }
     }
 }
