@@ -262,20 +262,11 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/map-equipments", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get voltage levels and lines description")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage levels and lines description to render network map")})
+    @Operation(summary = "Get substations and lines description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Substations and lines description to render network map")})
     public @ResponseBody MapEquipmentsData getMapEquipmentsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                            @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getMapEquipments(networkUuid, variantId, substationsIds);
-    }
-
-    @GetMapping(value = "/networks/{networkUuid}/map-substations", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get substations description")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Substations description to render network map")})
-    public @ResponseBody List<SubstationMapData> getMapSubstationsData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                      @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                                      @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
-        return networkMapService.getMapSubstations(networkUuid, variantId, substationsIds);
     }
 }
