@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -27,6 +28,9 @@ public class SubstationMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String countryName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> properties;
 
     private List<VoltageLevelMapData> voltageLevels;
 }
