@@ -1129,9 +1129,7 @@ class NetworkMapService {
             return network.getSubstationStream()
                     .map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
         } else {
-            List<SubstationMapData> res = new ArrayList<>();
-            substationsId.stream().forEach(id -> res.add(toBasicMapData(network.getSubstation(id))));
-            return res;
+            return substationsId.stream().map(id -> toBasicMapData(network.getSubstation(id))).collect(Collectors.toList());
         }
     }
 }
