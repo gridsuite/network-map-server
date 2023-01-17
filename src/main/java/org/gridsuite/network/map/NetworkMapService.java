@@ -67,10 +67,15 @@ class NetworkMapService {
     }
 
     private static SubstationMapData toMapData(Substation substation) {
+        Map<String, String> properties = substation.getPropertyNames().stream()
+            .map(name -> Map.entry(name, substation.getProperty(name)))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
         return SubstationMapData.builder()
             .name(substation.getOptionalName().orElse(null))
             .id(substation.getId())
             .countryName(substation.getCountry().map(Country::getName).orElse(null))
+            .properties(properties.isEmpty() ? null : properties)
             .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
             .build();
     }
