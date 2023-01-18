@@ -145,6 +145,10 @@ class NetworkMapService {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .i1(nullIfNan(terminal1.getI()))
+                .i2(nullIfNan(terminal2.getI()))
+                .p1(nullIfNan(terminal1.getP()))
+                .p2(nullIfNan(terminal2.getP()))
                 .build();
     }
 
