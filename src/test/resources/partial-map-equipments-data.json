@@ -36,7 +36,9 @@
       "terminal1Connected":true,
       "terminal2Connected":true,
       "p1":1.1,
-      "p2":3.33
+      "p2":3.33,
+      "permanentLimit1":700.4,
+      "permanentLimit2":800.8
     },
     {
       "id":"NHV1_NHV2_2",

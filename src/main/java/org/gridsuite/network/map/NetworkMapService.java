@@ -139,7 +139,7 @@ class NetworkMapService {
     private static LineMapData toBasicMapData(Line line) {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        return LineMapData.builder()
+        LineMapData.LineMapDataBuilder builder = LineMapData.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
@@ -149,8 +149,18 @@ class NetworkMapService {
                 .i1(nullIfNan(terminal1.getI()))
                 .i2(nullIfNan(terminal2.getI()))
                 .p1(nullIfNan(terminal1.getP()))
-                .p2(nullIfNan(terminal2.getP()))
-                .build();
+                .p2(nullIfNan(terminal2.getP()));
+
+        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
+
+        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
+            builder.permanentLimit1(limits1.getPermanentLimit());
+        }
+        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
+            builder.permanentLimit2(limits2.getPermanentLimit());
+        }
+        return builder.build();
     }
 
     //Method which enables us to generate a light version of the SubstationMapData object in order to optimize transfers
