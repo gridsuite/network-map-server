@@ -24,6 +24,7 @@ public class SubstationMapData {
 
     private String id;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -32,5 +33,6 @@ public class SubstationMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> properties;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<VoltageLevelMapData> voltageLevels;
 }

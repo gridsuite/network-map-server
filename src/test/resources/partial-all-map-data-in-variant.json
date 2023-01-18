@@ -2,12 +2,10 @@
   "substations": [
     {
       "id": "P3",
-      "name": null,
       "countryName": "FRANCE",
       "voltageLevels": [
         {
           "id": "VLGEN3",
-          "name": null,
           "substationId": "P3",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER"
@@ -20,7 +18,6 @@
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
       "voltageLevelId2": "VLGEN3",
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "branchStatus": "PLANNED_OUTAGE",

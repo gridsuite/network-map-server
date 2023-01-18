@@ -1,141 +1,86 @@
 {
-  "substations": [
+  "lines":[
     {
-      "id": "P1",
-      "name": null,
-      "countryName": "FRANCE",
-      "voltageLevels": [
-        {
-          "id": "VLGEN",
-          "name": null,
-          "substationId": "P1",
-          "nominalVoltage": 24.0,
-          "topologyKind": "BUS_BREAKER"
-        },
-        {
-          "id": "VLHV1",
-          "name": null,
-          "substationId": "P1",
-          "nominalVoltage": 380.0,
-          "topologyKind": "BUS_BREAKER"
-        },
-        {
-          "id": "VLNEW2",
-          "name": null,
-          "substationId": "P1",
-          "nominalVoltage": 225.0,
-          "topologyKind": "BUS_BREAKER"
-        }
-      ]
+      "id":"NHV1_NHV2_1",
+      "voltageLevelId1":"VLHV1",
+      "voltageLevelId2":"VLHV2",
+      "terminal1Connected":true,
+      "terminal2Connected":true,
+      "p1":1.1,
+      "p2":3.33,
+      "permanentLimit1":700.4,
+      "permanentLimit2":800.8
     },
     {
-      "id": "P2",
-      "name": null,
-      "voltageLevels": [
-        {
-          "id": "VLHV2",
-          "name": null,
-          "substationId": "P2",
-          "nominalVoltage": 380.0,
-          "topologyKind": "BUS_BREAKER"
-        },
-        {
-          "id": "VLLOAD",
-          "name": null,
-          "substationId": "P2",
-          "nominalVoltage": 150.0,
-          "topologyKind": "BUS_BREAKER"
-        }
-      ]
+      "id":"NHV1_NHV2_2",
+      "voltageLevelId1":"VLHV1",
+      "voltageLevelId2":"VLHV2",
+      "terminal1Connected":true,
+      "terminal2Connected":true
     },
     {
-      "id": "P3",
-      "name": null,
-      "countryName": "FRANCE",
-      "voltageLevels": [
-        {
-          "id": "VLGEN3",
-          "name": null,
-          "substationId": "P3",
-          "nominalVoltage": 24.0,
-          "topologyKind": "BUS_BREAKER"
-        }
-      ]
-    },
-    {
-      "id": "P4",
-      "name": null,
-      "countryName": "FRANCE",
-      "voltageLevels": [
-        {
-          "id": "VLGEN4",
-          "name": null,
-          "substationId": "P4",
-          "nominalVoltage": 24.0,
-          "topologyKind": "NODE_BREAKER",
-          "busbarSections":
-          [{
-            "id": "NGEN4",
-            "name": "NGEN4",
-            "vertPos": 1,
-            "horizPos": 2
-          }]
-        }
-      ]
+      "id":"LINE3",
+      "voltageLevelId1":"VLGEN",
+      "voltageLevelId2":"VLGEN3",
+      "terminal1Connected":true,
+      "terminal2Connected":true
     }
   ],
-  "lines": [
+  "substations":[
     {
-      "id": "NHV1_NHV2_1",
-      "voltageLevelId1": "VLHV1",
-      "voltageLevelId2": "VLHV2",
-      "name": null,
-      "terminal1Connected": true,
-      "terminal2Connected": true,
-      "permanentLimit1": 700.4,
-      "permanentLimit2": 800.8,
-      "p1": 1.1,
-      "p2": 3.33,
-      "r": null,
-      "x": null,
-      "g1": null,
-      "b1": null,
-      "g2": null,
-      "b2": null,
-      "connectionDirection1": null,
-      "connectionDirection2": null
+      "id":"P1",
+      "voltageLevels":[
+        {
+          "id":"VLGEN",
+          "substationId":"P1",
+          "nominalVoltage":24.0
+        },
+        {
+          "id":"VLHV1",
+          "substationId":"P1",
+          "nominalVoltage":380.0
+        },
+        {
+          "id":"VLNEW2",
+          "substationId":"P1",
+          "nominalVoltage":225.0
+        }
+      ]
     },
     {
-      "id": "NHV1_NHV2_2",
-      "voltageLevelId1": "VLHV1",
-      "voltageLevelId2": "VLHV2",
-      "name": null,
-      "terminal1Connected": true,
-      "terminal2Connected": true,
-      "r":null,
-      "x":null,
-      "g1":null,
-      "b1":null,
-      "g2":null,
-      "b2":null,
-      "connectionDirection1": null,
-      "connectionDirection2": null
+      "id":"P2",
+      "voltageLevels":[
+        {
+          "id":"VLHV2",
+          "substationId":"P2",
+          "nominalVoltage":380.0
+        },
+        {
+          "id":"VLLOAD",
+          "substationId":"P2",
+          "nominalVoltage":150.0
+        }
+      ]
     },
     {
-      "id": "LINE3",
-      "voltageLevelId1": "VLGEN",
-      "voltageLevelId2": "VLGEN3",
-      "name": null,
-      "terminal1Connected": true,
-      "terminal2Connected": true,
-      "r": null,
-      "x": null,
-      "g1": null,
-      "b1": null,
-      "g2": null,
-      "b2": null,
-      "connectionDirection1": null,
-      "connectionDirection2": null
+      "id":"P3",
+      "voltageLevels":[
+        {
+          "id":"VLGEN3",
+          "substationId":"P3",
+          "nominalVoltage":24.0
+        }
+      ]
+    },
+    {
+      "id":"P4",
+      "voltageLevels":[
+        {
+          "id":"VLGEN4",
+          "substationId":"P4",
+          "nominalVoltage":24.0
+        }
+      ]
     }
   ]
 }

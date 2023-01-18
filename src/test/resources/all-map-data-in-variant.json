@@ -2,26 +2,22 @@
   "substations": [
     {
       "id": "P1",
-      "name": null,
       "countryName": "FRANCE",
       "voltageLevels": [
         {
           "id": "VLNEW2",
-          "name": null,
           "substationId": "P1",
           "nominalVoltage": 225.0,
           "topologyKind": "BUS_BREAKER"
         },
         {
           "id": "VLGEN",
-          "name": null,
           "substationId": "P1",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER"
         },
         {
           "id": "VLHV1",
-          "name": null,
           "substationId": "P1",
           "nominalVoltage": 380.0,
           "topologyKind": "BUS_BREAKER"
@@ -30,18 +26,15 @@
     },
     {
       "id": "P2",
-      "name": null,
       "voltageLevels": [
         {
           "id": "VLHV2",
-          "name": null,
           "substationId": "P2",
           "nominalVoltage": 380.0,
           "topologyKind": "BUS_BREAKER"
         },
         {
           "id": "VLLOAD",
-          "name": null,
           "substationId": "P2",
           "nominalVoltage": 150.0,
           "topologyKind": "BUS_BREAKER"
@@ -50,12 +43,10 @@
     },
     {
       "id": "P3",
-      "name": null,
       "countryName": "FRANCE",
       "voltageLevels": [
         {
           "id": "VLGEN3",
-          "name": null,
           "substationId": "P3",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER"
@@ -64,12 +55,10 @@
     },
     {
       "id": "P4",
-      "name": null,
       "countryName": "FRANCE",
       "voltageLevels": [
         {
           "id": "VLGEN4",
-          "name": null,
           "substationId": "P4",
           "nominalVoltage": 24.0,
           "topologyKind": "NODE_BREAKER",
@@ -89,7 +78,6 @@
       "id": "NHV1_NHV2_1",
       "voltageLevelId1": "VLHV1",
       "voltageLevelId2": "VLHV2",
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 1.1,
@@ -115,7 +103,6 @@
       "id": "NHV1_NHV2_2",
       "voltageLevelId1": "VLHV1",
       "voltageLevelId2": "VLHV2",
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "r":3.0,
@@ -123,15 +110,12 @@
       "g1":0.0,
       "b1":1.93E-4,
       "g2":0.0,
-      "b2":1.93E-4,
-      "connectionDirection1": null,
-      "connectionDirection2": null
+      "b2":1.93E-4
     },
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
       "voltageLevelId2": "VLGEN3",
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "branchStatus": "PLANNED_OUTAGE",
