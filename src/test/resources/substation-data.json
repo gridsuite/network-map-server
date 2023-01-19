@@ -1,11 +1,9 @@
 {
   "id": "P4",
-  "name": null,
   "countryName": "FRANCE",
   "voltageLevels": [
     {
       "id": "VLGEN4",
-      "name": null,
       "substationId": "P4",
       "nominalVoltage": 24.0,
       "topologyKind": "NODE_BREAKER",

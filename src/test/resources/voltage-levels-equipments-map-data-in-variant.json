@@ -2,7 +2,6 @@
   {
     "voltageLevel": {
       "id": "VLGEN",
-      "name": null,
       "substationId": "P1",
       "nominalVoltage": 24,
       "topologyKind": "BUS_BREAKER"
@@ -63,7 +62,6 @@
   {
     "voltageLevel": {
       "id": "VLHV1",
-      "name": null,
       "substationId": "P1",
       "nominalVoltage": 380,
       "topologyKind": "BUS_BREAKER"
@@ -104,7 +102,6 @@
   {
     "voltageLevel": {
       "id": "VLHV2",
-      "name": null,
       "substationId": "P2",
       "nominalVoltage": 380,
       "topologyKind": "BUS_BREAKER"
@@ -130,7 +127,6 @@
   {
     "voltageLevel": {
       "id": "VLLOAD",
-      "name": null,
       "substationId": "P2",
       "nominalVoltage": 150,
       "topologyKind": "BUS_BREAKER"
@@ -151,7 +147,6 @@
   {
     "voltageLevel": {
       "id": "VLNEW2",
-      "name": null,
       "substationId": "P1",
       "nominalVoltage": 225,
       "topologyKind": "BUS_BREAKER"
@@ -232,7 +227,6 @@
   {
     "voltageLevel": {
       "id": "VLGEN3",
-      "name": null,
       "substationId": "P3",
       "nominalVoltage": 24,
       "topologyKind": "BUS_BREAKER"
@@ -273,7 +267,6 @@
   {
     "voltageLevel": {
       "id": "VLGEN4",
-      "name": null,
       "substationId": "P4",
       "nominalVoltage": 24,
       "topologyKind": "NODE_BREAKER",

@@ -27,6 +27,7 @@ public class LineMapData {
 
     private String voltageLevelId2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
 
     private Boolean terminal1Connected;
@@ -60,26 +61,34 @@ public class LineMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double x;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double g1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double g2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private ConnectablePosition.Direction connectionDirection1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private ConnectablePosition.Direction connectionDirection2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

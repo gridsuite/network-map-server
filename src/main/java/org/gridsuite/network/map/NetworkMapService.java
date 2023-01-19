@@ -67,10 +67,15 @@ class NetworkMapService {
     }
 
     private static SubstationMapData toMapData(Substation substation) {
+        Map<String, String> properties = substation.getPropertyNames().stream()
+            .map(name -> Map.entry(name, substation.getProperty(name)))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
         return SubstationMapData.builder()
             .name(substation.getOptionalName().orElse(null))
             .id(substation.getId())
             .countryName(substation.getCountry().map(Country::getName).orElse(null))
+            .properties(properties.isEmpty() ? null : properties)
             .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
             .build();
     }
@@ -135,8 +140,8 @@ class NetworkMapService {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
         LineMapData.LineMapDataBuilder builder = LineMapData.builder()
-                .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
+                .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
@@ -156,6 +161,26 @@ class NetworkMapService {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
         return builder.build();
+    }
+
+    //Method which enables us to generate a light version of the SubstationMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
+    private static SubstationMapData toBasicMapData(Substation substation) {
+        return SubstationMapData.builder()
+                .id(substation.getId())
+                .name(substation.getOptionalName().orElse(null))
+                .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
+                .build();
+    }
+
+    //Method which enables us to generate a light version of the VoltageLevelMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
+    private static VoltageLevelMapData toBasicMapData(VoltageLevel voltageLevel) {
+        return VoltageLevelMapData.builder()
+                .id(voltageLevel.getId())
+                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
+                .nominalVoltage(voltageLevel.getNominalV())
+                .build();
     }
 
     private static GeneratorMapData toMapData(Generator generator) {
@@ -1091,7 +1116,7 @@ class NetworkMapService {
         if (substationsId == null) {
             return MapEquipmentsData.builder()
                     .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
-                    .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .substations(network.getSubstationStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
                     .build();
         } else {
             Set<LineMapData> lines = new LinkedHashSet<>();
@@ -1099,9 +1124,9 @@ class NetworkMapService {
                     network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                             v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
 
-            List<SubstationMapData> substations = substationsId.stream().map(id -> toMapData(network.getSubstation(id))).collect(Collectors.toList());
+            List<SubstationMapData> substations = substationsId.stream().map(id -> toBasicMapData(network.getSubstation(id))).collect(Collectors.toList());
             return MapEquipmentsData.builder()
-                    .lines(lines.stream().collect(Collectors.toList()))
+                    .lines(new ArrayList<>(lines))
                     .substations(substations)
                     .build();
         }
