@@ -309,6 +309,10 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
+        BranchStatus branchStatus = transformer.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
         var connectablePosition = transformer.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
             if (connectablePosition.getFeeder1() != null) {

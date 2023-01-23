@@ -92,4 +92,7 @@ public class TwoWindingsTransformerMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectionPosition2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String branchStatus;
 }
