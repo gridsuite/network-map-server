@@ -269,4 +269,13 @@ public class NetworkMapController {
                                            @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getMapEquipments(networkUuid, variantId, substationsIds);
     }
+
+    @GetMapping(value = "/networks/{networkUuid}/branches/{branchId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get branch status and branch light description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "branch description")})
+    public @ResponseBody BranchMapData getBranch(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                 @Parameter(description = "Branch id") @PathVariable("branchId") String branchId,
+                                                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getBranch(networkUuid, variantId, branchId);
+    }
 }

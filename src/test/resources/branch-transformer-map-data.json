@@ -1,0 +1,8 @@
+{
+  "id": "NGEN_NHV1",
+  "voltageLevel1Name": "VLGEN",
+  "voltageLevel2Name": "VLHV1",
+  "terminal1Connected": true,
+  "terminal2Connected": true,
+  "branchStatus": "PLANNED_OUTAGE"
+}
