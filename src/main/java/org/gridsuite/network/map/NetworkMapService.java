@@ -216,7 +216,11 @@ class NetworkMapService {
 
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
         if (generatorStartup != null) {
-            builder.marginalCost(generatorStartup.getMarginalCost());
+            builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
+            builder.startupCost(nullIfNan(generatorStartup.getStartupCost()));
+            builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
+            builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
+            builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
         }
 
         CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
@@ -1132,25 +1136,28 @@ class NetworkMapService {
             .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public MapEquipmentsData getMapEquipments(UUID networkUuid, String variantId, List<String> substationsId) {
+    public List<SubstationMapData> getMapSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
         if (substationsId == null) {
-            return MapEquipmentsData.builder()
-                    .lines(network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
-                    .substations(network.getSubstationStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
-                    .build();
+            return network.getSubstationStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
+        } else {
+            return substationsId.stream().map(id -> toBasicMapData(network.getSubstation(id))).collect(Collectors.toList());
+        }
+    }
+
+    public List<LineMapData> getMapLines(UUID networkUuid, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
+
+        if (substationsId == null) {
+            return network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
         } else {
             Set<LineMapData> lines = new LinkedHashSet<>();
-            substationsId.stream().forEach(id ->
+            substationsId.forEach(id ->
                     network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                             v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
+            return new ArrayList<>(lines);
 
-            List<SubstationMapData> substations = substationsId.stream().map(id -> toBasicMapData(network.getSubstation(id))).collect(Collectors.toList());
-            return MapEquipmentsData.builder()
-                    .lines(new ArrayList<>(lines))
-                    .substations(substations)
-                    .build();
         }
     }
 }
