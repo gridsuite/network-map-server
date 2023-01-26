@@ -25,7 +25,11 @@ public class LineMapData {
 
     private String voltageLevelId1;
 
+    private String voltageLevelName1;
+
     private String voltageLevelId2;
+
+    private String voltageLevelName2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;

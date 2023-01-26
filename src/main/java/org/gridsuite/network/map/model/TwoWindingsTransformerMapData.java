@@ -24,7 +24,11 @@ public class TwoWindingsTransformerMapData {
 
     private String voltageLevelId1;
 
+    private String voltageLevelName1;
+
     private String voltageLevelId2;
+
+    private String voltageLevelName2;
 
     private String name;
 
