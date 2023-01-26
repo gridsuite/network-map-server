@@ -1364,16 +1364,4 @@ public class NetworkMapControllerTest {
         failingTestForList("map-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"));
         failingTestForList("map-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
-
-    @Test
-    public void shouldReturnBranchMapData() throws Exception {
-        succeedingTestForElement("branches", NETWORK_UUID, null, null, "NGEN_NHV1", resourceToString("/branch-transformer-map-data.json"));
-        succeedingTestForElement("branches", NETWORK_UUID, null, null, "LINE3", resourceToString("/branch-line-map-data.json"));
-    }
-
-    @Test
-    public void shouldReturnAnErrorInsteadOfBranchMapData() throws Exception {
-        failingTestForElement("branches", NETWORK_UUID, null, null, "NOT_EXISTING_BRANCH");
-        failingTestForElement("branches", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_BRANCH");
-    }
 }

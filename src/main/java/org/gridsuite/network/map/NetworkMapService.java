@@ -842,28 +842,6 @@ class NetworkMapService {
         }
     }
 
-    public BranchMapData getBranch(UUID networkUuid, String variantId, String branchId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        Branch<?> branch = network.getBranch(branchId);
-        if (branch == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        Terminal terminal1 = branch.getTerminal1();
-        Terminal terminal2 = branch.getTerminal2();
-        BranchMapData.BranchMapDataBuilder builder = BranchMapData.builder()
-                .id(branch.getId())
-                .voltageLevel1Name(terminal1.getVoltageLevel().getNameOrId())
-                .voltageLevel2Name(terminal2.getVoltageLevel().getNameOrId())
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected());
-        BranchStatus branchStatus = branch.getExtensionByName("branchStatus");
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
-        return builder.build();
-    }
-
     public AllMapData getAll(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE, variantId);
 
