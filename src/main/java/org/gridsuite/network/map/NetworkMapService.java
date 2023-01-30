@@ -113,7 +113,7 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
-        BranchStatus branchStatus = line.getExtension(BranchStatus.class);
+        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
         }
@@ -317,7 +317,7 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
-        BranchStatus branchStatus = transformer.getExtension(BranchStatus.class);
+        BranchStatus<TwoWindingsTransformer> branchStatus = transformer.getExtension(BranchStatus.class);
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
         }
@@ -969,7 +969,7 @@ class NetworkMapService {
             substationsId.stream().forEach(id ->
                 network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                     v.getConnectables(DanglingLine.class).forEach(d -> res.add(toMapData(d)))));
-            return res.stream().collect(Collectors.toList());
+            return res.stream().collect(Collectors.toCollection(ArrayList::new));
         }
     }
 
