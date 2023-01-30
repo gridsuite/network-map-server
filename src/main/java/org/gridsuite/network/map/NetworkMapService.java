@@ -89,7 +89,9 @@ class NetworkMapService {
             .terminal1Connected(terminal1.isConnected())
             .terminal2Connected(terminal2.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
+            .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
             .p1(nullIfNan(terminal1.getP()))
             .q1(nullIfNan(terminal1.getQ()))
             .p2(nullIfNan(terminal2.getP()))
@@ -111,7 +113,7 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
-        BranchStatus branchStatus = line.getExtension(BranchStatus.class);
+        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
         }
@@ -287,7 +289,9 @@ class NetworkMapService {
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .phaseTapChanger(toMapData(transformer.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(transformer.getRatioTapChanger()))
                 .r(transformer.getR())
@@ -312,6 +316,10 @@ class NetworkMapService {
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
+        }
+        BranchStatus<TwoWindingsTransformer> branchStatus = transformer.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
         }
         var connectablePosition = transformer.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
@@ -961,7 +969,7 @@ class NetworkMapService {
             substationsId.stream().forEach(id ->
                 network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                     v.getConnectables(DanglingLine.class).forEach(d -> res.add(toMapData(d)))));
-            return res.stream().collect(Collectors.toList());
+            return res.stream().collect(Collectors.toCollection(ArrayList::new));
         }
     }
 
