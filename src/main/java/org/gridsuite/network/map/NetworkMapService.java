@@ -733,6 +733,7 @@ class NetworkMapService {
         }
         return builder.build();
     }
+
     private PreloadingStrategy getPreloadingStrategy(List<String> substationsIds) {
         return substationsIds == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE;
     }
@@ -1258,12 +1259,11 @@ class NetworkMapService {
         }
     }
 
-
     public List<VoltageLevelMapData> getVoltageLevels(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         return substationsId == null ?
-            network.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()) :
-            substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(NetworkMapService::toMapData)).collect(Collectors.toList());
+                network.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()) :
+                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(NetworkMapService::toMapData)).collect(Collectors.toList());
     }
 
     public List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, List<String> substationsIds) {
@@ -1284,6 +1284,18 @@ class NetworkMapService {
             vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
             return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
         }).collect(Collectors.toList());
+    }
+
+    public List<VoltageLevelConnectableMapData> getVoltageLevelEquipements(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
+        List<VoltageLevel> voltageLevels = substationsId == null ?
+                network.getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId())).collect(Collectors.toList()) :
+                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId()))).collect(Collectors.toList());
+
+        return voltageLevels.stream()
+                .flatMap(vl -> vl.getConnectableStream())
+                .map(NetworkMapService::toMapData)
+                .collect(Collectors.toList());
     }
 
     public VoltageLevelMapData getVoltageLevel(UUID networkUuid, String variantId, String voltageLevelId) {
