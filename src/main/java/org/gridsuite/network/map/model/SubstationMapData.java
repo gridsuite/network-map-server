@@ -31,6 +31,9 @@ public class SubstationMapData {
     private String countryName;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String countryCode;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> properties;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

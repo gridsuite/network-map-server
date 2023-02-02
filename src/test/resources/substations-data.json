@@ -1,5 +1,6 @@
 [
   {
+    "countryCode": "FR",
     "id": "P1",
     "countryName": "FRANCE",
     "voltageLevels": [
@@ -41,6 +42,7 @@
     ]
   },
   {
+    "countryCode": "FR",
     "id": "P3",
     "countryName": "FRANCE",
     "voltageLevels": [
@@ -53,6 +55,7 @@
     ]
   },
   {
+    "countryCode": "FR",
     "id": "P4",
     "countryName": "FRANCE",
     "voltageLevels": [
