@@ -1293,7 +1293,7 @@ class NetworkMapService {
                 substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId()))).collect(Collectors.toList());
 
         return voltageLevels.stream()
-                .flatMap(vl -> vl.getConnectableStream())
+                .flatMap(VoltageLevel::getConnectableStream)
                 .map(NetworkMapService::toMapData)
                 .collect(Collectors.toList());
     }
