@@ -750,17 +750,10 @@ class NetworkMapService {
         }
     }
 
-    public List<String> getSubstationsIds(UUID networkUuid, String variantId, List<String> substationsIds) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-        if (substationsIds == null) {
-            return network.getSubstationStream()
-                    .map(Substation::getId).collect(Collectors.toList());
-        } else {
-            return substationsIds.stream()
-                    .map(substationsId -> network.getSubstation(substationsId))
-                    .map(Substation::getId)
-                    .collect(Collectors.toList());
-        }
+    public List<String> getSubstationsIds(UUID networkUuid, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
+        return network.getSubstationStream()
+                .map(Substation::getId).collect(Collectors.toList());
     }
 
     public SubstationMapData getSubstation(UUID networkUuid, String variantId, String substationId) {
@@ -868,6 +861,7 @@ class NetworkMapService {
                     .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
                     .flatMap(voltageLevel -> voltageLevel.getConnectableStream(TwoWindingsTransformer.class))
                     .map(TwoWindingsTransformer::getId)
+                    .distinct()
                     .collect(Collectors.toList());
 
         }
@@ -1099,6 +1093,7 @@ class NetworkMapService {
                     .filter(hvdcConverterStation -> hvdcConverterStation.getHvdcLine() != null)
                     .map(HvdcConverterStation::getHvdcLine)
                     .map(HvdcLine::getId)
+                    .distinct()
                     .collect(Collectors.toList());
         }
     }

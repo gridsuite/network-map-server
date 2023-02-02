@@ -881,6 +881,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnLinesIds() throws Exception {
         succeedingTestForList("lines", NETWORK_UUID, null, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
         succeedingTestForList("lines", NETWORK_UUID, VARIANT_ID, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
+        succeedingTestForList("lines", NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
     }
 
     @Test
@@ -929,6 +930,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnGeneratorsIds() throws Exception {
         succeedingTestForList("generators", NETWORK_UUID, null, null, true, List.of("GEN", "GEN2").toString());
         succeedingTestForList("generators", NETWORK_UUID, VARIANT_ID, null, true, List.of("GEN", "GEN2").toString());
+        succeedingTestForList("generators", NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("GEN", "GEN2").toString());
     }
 
     @Test
@@ -977,6 +979,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnTwoWindingsTransformersIds() throws Exception {
         succeedingTestForList("2-windings-transformers", NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
         succeedingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
+        succeedingTestForList("2-windings-transformers", NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NGEN_NHV1").toString());
     }
 
     @Test
@@ -1085,6 +1088,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnBatteriesIds() throws Exception {
         succeedingTestForList("batteries", NETWORK_UUID, null, null, true, List.of("BATTERY1", "BATTERY2").toString());
         succeedingTestForList("batteries", NETWORK_UUID, VARIANT_ID, null, true, List.of("BATTERY1", "BATTERY2").toString());
+        succeedingTestForList("batteries", NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("BATTERY1").toString());
     }
 
     @Test
@@ -1121,6 +1125,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnDanglingIds() throws Exception {
         succeedingTestForList("dangling-lines", NETWORK_UUID, null, null, true, List.of("DL1", "DL2").toString());
         succeedingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID, null, true, List.of("DL1", "DL2").toString());
+        succeedingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID, List.of("P1", "P3"), true, List.of("DL1", "DL2").toString());
     }
 
     @Test
@@ -1157,6 +1162,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnLoadsIds() throws Exception {
         succeedingTestForList("loads", NETWORK_UUID, null, null, true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
         succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, null, true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
+        succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
     }
 
     @Test
@@ -1211,6 +1217,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnShuntCompensatorsIds() throws Exception {
         succeedingTestForList("shunt-compensators", NETWORK_UUID, null, null, true, List.of("SHUNT1", "SHUNT2").toString());
         succeedingTestForList("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
+        succeedingTestForList("shunt-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3"), true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
     }
 
     @Test
@@ -1259,6 +1266,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnStaticVarCompensatorsIds() throws Exception {
         succeedingTestForList("static-var-compensators", NETWORK_UUID, null, null, true, List.of("SVC1", "SVC2").toString());
         succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, true, List.of("SVC1", "SVC2").toString());
+        succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("SVC1", "SVC2").toString());
     }
 
     @Test
@@ -1295,6 +1303,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnLccConverterStationsIds() throws Exception {
         succeedingTestForList("lcc-converter-stations", NETWORK_UUID, null, null, true, List.of("LCC1", "LCC2").toString());
         succeedingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, null, true, List.of("LCC1", "LCC2").toString());
+        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("LCC1", "LCC2").toString());
     }
 
     @Test
@@ -1331,6 +1340,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnVscConverterStationsIds() throws Exception {
         succeedingTestForList("vsc-converter-stations", NETWORK_UUID, null, null, true, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString());
         succeedingTestForList("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, null, true, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString());
+        succeedingTestForList("vsc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4"), true, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString());
     }
 
     @Test
@@ -1367,6 +1377,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnHvdcLinesIds() throws Exception {
         succeedingTestForList("hvdc-lines", NETWORK_UUID, null, null, true, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString());
         succeedingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID, null, true, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString());
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P1", "P3", "P4"), true, List.of("HVDC1", "HVDC3", "HVDC4").toString());
     }
 
     @Test
@@ -1403,6 +1414,7 @@ public class NetworkMapControllerTest {
     public void shouldReturnVoltageLevelsIds() throws Exception {
         succeedingVoltageLevelsTest(NETWORK_UUID, null, null, true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4").toString());
         succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, null, true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4").toString());
+        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4"), true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4").toString());
     }
 
     @Test
