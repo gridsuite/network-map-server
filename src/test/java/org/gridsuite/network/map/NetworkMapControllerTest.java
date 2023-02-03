@@ -798,7 +798,7 @@ public class NetworkMapControllerTest {
         url.append("?");
         if (variantId == null && substationsIds.isEmpty()) {
             if (onlyIds) {
-                url.append("equipmentType=" + IdentifiableType.VOLTAGE_LEVEL);
+                url.append("equipmentType=" + EquipmentType.VOLTAGE_LEVEL);
             }
             return url.toString();
         }
@@ -806,7 +806,7 @@ public class NetworkMapControllerTest {
         url.append(variantId != null ? "variantId=" + variantId : "substationId=" + substationsIds.remove(0));
         url.append(String.join("", substationsIds.stream().map(id -> String.format("&substationId=%s", id)).collect(Collectors.toList())));
         if (onlyIds) {
-            url.append("&equipmentType=" + IdentifiableType.VOLTAGE_LEVEL);
+            url.append("&equipmentType=" + EquipmentType.VOLTAGE_LEVEL);
         }
         return url.toString();
     }
@@ -854,8 +854,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsIds() throws Exception {
-        succeedingTestForList(IdentifiableType.SUBSTATION.toString(), NETWORK_UUID, null, null, true, List.of("P1", "P2", "P3", "P4").toString());
-        succeedingTestForList(IdentifiableType.SUBSTATION.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("P1", "P2", "P3", "P4").toString());
+        succeedingTestForList(EquipmentType.SUBSTATION.toString(), NETWORK_UUID, null, null, true, List.of("P1", "P2", "P3", "P4").toString());
+        succeedingTestForList(EquipmentType.SUBSTATION.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("P1", "P2", "P3", "P4").toString());
     }
 
     @Test
@@ -896,9 +896,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLinesIds() throws Exception {
-        succeedingTestForList(IdentifiableType.LINE.name(), NETWORK_UUID, null, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
-        succeedingTestForList(IdentifiableType.LINE.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
-        succeedingTestForList(IdentifiableType.LINE.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
+        succeedingTestForList(EquipmentType.LINE.name(), NETWORK_UUID, null, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
+        succeedingTestForList(EquipmentType.LINE.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
+        succeedingTestForList(EquipmentType.LINE.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
     }
 
     @Test
@@ -909,8 +909,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesIds() throws Exception {
-        failingTestForList(IdentifiableType.LINE.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.LINE.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.LINE.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.LINE.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -945,9 +945,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnGeneratorsIds() throws Exception {
-        succeedingTestForList(IdentifiableType.GENERATOR.toString(), NETWORK_UUID, null, null, true, List.of("GEN", "GEN2").toString());
-        succeedingTestForList(IdentifiableType.GENERATOR.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("GEN", "GEN2").toString());
-        succeedingTestForList(IdentifiableType.GENERATOR.toString(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("GEN", "GEN2").toString());
+        succeedingTestForList(EquipmentType.GENERATOR.toString(), NETWORK_UUID, null, null, true, List.of("GEN", "GEN2").toString());
+        succeedingTestForList(EquipmentType.GENERATOR.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("GEN", "GEN2").toString());
+        succeedingTestForList(EquipmentType.GENERATOR.toString(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("GEN", "GEN2").toString());
     }
 
     @Test
@@ -958,8 +958,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfGeneratorsIds() throws Exception {
-        failingTestForList(IdentifiableType.GENERATOR.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.GENERATOR.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.GENERATOR.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.GENERATOR.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -994,9 +994,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnTwoWindingsTransformersIds() throws Exception {
-        succeedingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
-        succeedingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
-        succeedingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NGEN_NHV1").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NGEN_NHV1").toString());
     }
 
     @Test
@@ -1007,8 +1007,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersIds() throws Exception {
-        failingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1043,8 +1043,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnThreeWindingsTransformersIds() throws Exception {
-        succeedingTestForList(IdentifiableType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("TWT", "TWT21", "TWT32").toString());
-        succeedingTestForList(IdentifiableType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("TWT", "TWT21", "TWT32").toString());
+        succeedingTestForList(EquipmentType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("TWT", "TWT21", "TWT32").toString());
+        succeedingTestForList(EquipmentType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("TWT", "TWT21", "TWT32").toString());
     }
 
     @Test
@@ -1055,8 +1055,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersIds() throws Exception {
-        failingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.THREE_WINDINGS_TRANSFORMER.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1103,9 +1103,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnBatteriesIds() throws Exception {
-        succeedingTestForList(IdentifiableType.BATTERY.name(), NETWORK_UUID, null, null, true, List.of("BATTERY1", "BATTERY2").toString());
-        succeedingTestForList(IdentifiableType.BATTERY.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("BATTERY1", "BATTERY2").toString());
-        succeedingTestForList(IdentifiableType.BATTERY.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("BATTERY1").toString());
+        succeedingTestForList(EquipmentType.BATTERY.name(), NETWORK_UUID, null, null, true, List.of("BATTERY1", "BATTERY2").toString());
+        succeedingTestForList(EquipmentType.BATTERY.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("BATTERY1", "BATTERY2").toString());
+        succeedingTestForList(EquipmentType.BATTERY.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("BATTERY1").toString());
     }
 
     @Test
@@ -1116,8 +1116,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfBatteriesIds() throws Exception {
-        failingTestForList(IdentifiableType.BATTERY.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.BATTERY.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.BATTERY.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.BATTERY.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1140,9 +1140,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnDanglingIds() throws Exception {
-        succeedingTestForList(IdentifiableType.DANGLING_LINE.name(), NETWORK_UUID, null, null, true, List.of("DL1", "DL2").toString());
-        succeedingTestForList(IdentifiableType.DANGLING_LINE.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("DL1", "DL2").toString());
-        succeedingTestForList(IdentifiableType.DANGLING_LINE.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P3"), true, List.of("DL1", "DL2").toString());
+        succeedingTestForList(EquipmentType.DANGLING_LINE.name(), NETWORK_UUID, null, null, true, List.of("DL1", "DL2").toString());
+        succeedingTestForList(EquipmentType.DANGLING_LINE.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("DL1", "DL2").toString());
+        succeedingTestForList(EquipmentType.DANGLING_LINE.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P3"), true, List.of("DL1", "DL2").toString());
     }
 
     @Test
@@ -1153,8 +1153,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfDanglingLinesIds() throws Exception {
-        failingTestForList(IdentifiableType.DANGLING_LINE.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.DANGLING_LINE.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.DANGLING_LINE.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.DANGLING_LINE.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1177,9 +1177,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadsIds() throws Exception {
-        succeedingTestForList(IdentifiableType.LOAD.name(), NETWORK_UUID, null, null, true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
-        succeedingTestForList(IdentifiableType.LOAD.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
-        succeedingTestForList(IdentifiableType.LOAD.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
+        succeedingTestForList(EquipmentType.LOAD.name(), NETWORK_UUID, null, null, true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
+        succeedingTestForList(EquipmentType.LOAD.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
+        succeedingTestForList(EquipmentType.LOAD.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
     }
 
     @Test
@@ -1190,8 +1190,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfLoadsIds() throws Exception {
-        failingTestForList(IdentifiableType.LOAD.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.LOAD.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.LOAD.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.LOAD.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1232,9 +1232,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnShuntCompensatorsIds() throws Exception {
-        succeedingTestForList(IdentifiableType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, true, List.of("SHUNT1", "SHUNT2").toString());
-        succeedingTestForList(IdentifiableType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
-        succeedingTestForList(IdentifiableType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3"), true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
+        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, true, List.of("SHUNT1", "SHUNT2").toString());
+        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
+        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3"), true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
     }
 
     @Test
@@ -1245,8 +1245,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfShuntCompensatorsIds() throws Exception {
-        failingTestForList(IdentifiableType.SHUNT_COMPENSATOR.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1281,9 +1281,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnStaticVarCompensatorsIds() throws Exception {
-        succeedingTestForList(IdentifiableType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, null, null, true, List.of("SVC1", "SVC2").toString());
-        succeedingTestForList(IdentifiableType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("SVC1", "SVC2").toString());
-        succeedingTestForList(IdentifiableType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("SVC1", "SVC2").toString());
+        succeedingTestForList(EquipmentType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, null, null, true, List.of("SVC1", "SVC2").toString());
+        succeedingTestForList(EquipmentType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("SVC1", "SVC2").toString());
+        succeedingTestForList(EquipmentType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2"), true, List.of("SVC1", "SVC2").toString());
     }
 
     @Test
@@ -1294,8 +1294,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsIds() throws Exception {
-        failingTestForList(IdentifiableType.STATIC_VAR_COMPENSATOR.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.STATIC_VAR_COMPENSATOR.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
@@ -1368,8 +1368,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfVscConverterStationsIds() throws Exception {
-        failingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NOT_FOUND_NETWORK_ID, null, null, true);
-        failingTestForList(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
+        failingTestForList(EquipmentType.VSC_CONVERTER_STATION.name(), NOT_FOUND_NETWORK_ID, null, null, true);
+        failingTestForList(EquipmentType.VSC_CONVERTER_STATION.name(), NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, true);
     }
 
     @Test
