@@ -2,20 +2,25 @@ package org.gridsuite.network.map;
 
 public class MapConstant {
 
-    public enum EquipmentType {
-        GENERATOR,
-        LINE,
+    public enum IdentifiableType {
+        NETWORK,
         SUBSTATION,
-        TWT,
-        THWT,
-        BATTERY,
-        DANGLING_LINE,
+        VOLTAGE_LEVEL,
         HVDC_LINE,
-        LCC_CONVERTER_STATION,
+        BUS,
+        SWITCH,
+        BUSBAR_SECTION,
+        LINE,
+        TWO_WINDINGS_TRANSFORMER,
+        THREE_WINDINGS_TRANSFORMER,
+        GENERATOR,
+        BATTERY,
         LOAD,
         SHUNT_COMPENSATOR,
+        DANGLING_LINE,
         STATIC_VAR_COMPENSATOR,
-        VSC_CONVERTER_STATION,
-        VOLTAGE_LEVEL;
+        HVDC_CONVERTER_STATION,
+        LCC_CONVERTER_STATION,
+        VSC_CONVERTER_STATION;
     }
 }

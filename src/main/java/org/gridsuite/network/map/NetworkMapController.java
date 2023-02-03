@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.model.*;
+import org.gridsuite.network.map.utils.EquipmentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -81,49 +82,15 @@ public class NetworkMapController {
         return networkMapService.getGenerators(networkUuid, variantId, substationsIds);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/equipments_ids", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/equipments-ids", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get equipments ids")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Equipments ids")})
     public @ResponseBody List<String> getEquipmentsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                        @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds,
-                                                       @Parameter(description = "equipment type") @RequestParam(name = "equipmentType", required = true) MapConstant.EquipmentType equipmentType) {
-        return getIds(networkUuid, variantId, substationsIds, equipmentType);
+                                                       @Parameter(description = "equipment type") @RequestParam(name = "equipmentType", required = true) EquipmentType equipmentType) {
+        return networkMapService.getEquipmentsIds(networkUuid, variantId, substationsIds, equipmentType);
 
-    }
-
-    private List<String> getIds(UUID networkUuid, String variantId, List<String> substationsIds, MapConstant.EquipmentType equipmentType) {
-        switch (equipmentType) {
-            case GENERATOR:
-                return networkMapService.getGeneratorsIds(networkUuid, variantId, substationsIds);
-            case LINE:
-                return networkMapService.getLinesIds(networkUuid, variantId, substationsIds);
-            case SUBSTATION:
-                return  networkMapService.getSubstationsIds(networkUuid, variantId);
-            case TWT:
-                return  networkMapService.getTwoWindingsTransformersIds(networkUuid, variantId, substationsIds);
-            case THWT:
-                return networkMapService.getThreeWindingsTransformersIds(networkUuid, variantId, substationsIds);
-            case BATTERY:
-                return networkMapService.getBatteriesIds(networkUuid, variantId, substationsIds);
-            case DANGLING_LINE:
-                return networkMapService.getDanglingLinesIds(networkUuid, variantId, substationsIds);
-            case HVDC_LINE:
-                return networkMapService.getHvdcLinesIds(networkUuid, variantId, substationsIds);
-            case LCC_CONVERTER_STATION:
-                return networkMapService.getLccConverterStationsIds(networkUuid, variantId, substationsIds);
-            case LOAD:
-                return networkMapService.getLoadsIds(networkUuid, variantId, substationsIds);
-            case SHUNT_COMPENSATOR:
-                return networkMapService.getShuntCompensatorsIds(networkUuid, variantId, substationsIds);
-            case STATIC_VAR_COMPENSATOR:
-                return networkMapService.getStaticVarCompensatorsIds(networkUuid, variantId, substationsIds);
-            case VSC_CONVERTER_STATION:
-                return networkMapService.getVscConverterStationsIds(networkUuid, variantId, substationsIds);
-            case VOLTAGE_LEVEL:
-                return networkMapService.getVoltageLevelsIds(networkUuid, variantId, substationsIds);
-        }
-        return List.of();
     }
 
     @GetMapping(value = "/networks/{networkUuid}/generators/{generatorId}", produces = APPLICATION_JSON_VALUE)
