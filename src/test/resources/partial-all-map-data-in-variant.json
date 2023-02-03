@@ -1,6 +1,7 @@
 {
   "substations": [
     {
+      "countryCode": "FR",
       "id": "P3",
       "countryName": "FRANCE",
       "voltageLevels": [

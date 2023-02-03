@@ -75,6 +75,7 @@ class NetworkMapService {
             .name(substation.getOptionalName().orElse(null))
             .id(substation.getId())
             .countryName(substation.getCountry().map(Country::getName).orElse(null))
+            .countryCode(substation.getCountry().map(Country::name).orElse(null))
             .properties(properties.isEmpty() ? null : properties)
             .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
             .build();
