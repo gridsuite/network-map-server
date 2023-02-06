@@ -101,6 +101,7 @@ public class NetworkMapControllerTest {
         t1.newCurrentLimits1().setPermanentLimit(900.5).add();
         t1.newCurrentLimits2().setPermanentLimit(950.5).add();
         t1.getRatioTapChanger().setTapPosition(2);
+        t1.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
         t1.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
@@ -143,6 +144,7 @@ public class NetworkMapControllerTest {
                 .setRegulationTerminal(t2.getTerminal1())
                 .setTargetDeadband(0)
                 .add();
+        t2.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
         t2.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
