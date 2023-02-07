@@ -22,9 +22,9 @@ public enum EquipmentType {
 
     private String typeName;
 
-    private Class typeClass;
+    private Class<? extends Identifiable> typeClass;
 
-    public Class getTypeClass() {
+    public Class<? extends Identifiable> getTypeClass() {
         return typeClass;
     }
 
@@ -32,7 +32,7 @@ public enum EquipmentType {
         return typeName;
     }
 
-    private EquipmentType(String typeName, Class typeClass) {
+    private EquipmentType(String typeName, Class<? extends Identifiable> typeClass) {
         this.typeName = typeName;
         this.typeClass = typeClass;
     }

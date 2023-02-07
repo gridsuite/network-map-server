@@ -1225,7 +1225,7 @@ class NetworkMapService {
             case LOAD:
             case SHUNT_COMPENSATOR:
             case STATIC_VAR_COMPENSATOR:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, equipmentType.getTypeClass());
+                return getEquipmentsIds(networkUuid, variantId, substationsIds, (Class<? extends Connectable>) equipmentType.getTypeClass());
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId);
             case HVDC_LINE:
