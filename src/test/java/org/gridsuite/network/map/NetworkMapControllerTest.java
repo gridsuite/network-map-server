@@ -17,7 +17,7 @@ import com.powsybl.network.store.iidm.impl.HvdcLineImpl;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import com.powsybl.network.store.iidm.impl.extensions.HvdcAngleDroopActivePowerControlImpl;
 import com.powsybl.network.store.iidm.impl.extensions.HvdcOperatorActivePowerRangeImpl;
-import org.gridsuite.network.map.utils.EquipmentType;
+import org.gridsuite.network.map.model.EquipmentType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -720,15 +720,14 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(getClass().getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private String buildUrlForList(String equipment, String variantId, List<String> immutableListSubstationIds, boolean onlyIds) {
+    private String buildUrlForList(String equipmentsType, String variantId, List<String> immutableListSubstationIds, boolean onlyIds) {
         List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
-        //StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/" + equipments + (onlyIds ? "/ids" : ""));
         StringBuffer url =
                 onlyIds ? new StringBuffer("/v1/networks/{networkUuid}"  + "/equipments-ids") :
-                        new StringBuffer("/v1/networks/{networkUuid}/" + equipment);
+                        new StringBuffer("/v1/networks/{networkUuid}/" + equipmentsType);
         if (variantId == null && substationsIds.isEmpty()) {
             if (onlyIds) {
-                url.append("?equipmentType=" + equipment);
+                url.append("?equipmentType=" + equipmentsType);
             }
             return url.toString();
         }
@@ -737,7 +736,7 @@ public class NetworkMapControllerTest {
         url.append(variantId != null ? "variantId=" + variantId : "substationId=" + substationsIds.remove(0));
         url.append(String.join("", substationsIds.stream().map(id -> String.format("&substationId=%s", id)).collect(Collectors.toList())));
         if (onlyIds) {
-            url.append("&equipmentType=" + equipment);
+            url.append("&equipmentType=" + equipmentsType);
         }
         return url.toString();
     }
@@ -793,7 +792,6 @@ public class NetworkMapControllerTest {
 
     private String buildUrlVoltageLevels(String variantId, List<String> immutableListSubstationIds, boolean onlyIds) {
         List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
-        //StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels" + (onlyids ? "/ids" : ""));
         StringBuffer url =
                 onlyIds ? new StringBuffer("/v1/networks/{networkUuid}" + "/equipments-ids") :
                         new StringBuffer("/v1/networks/{networkUuid}/voltage-levels");
@@ -1504,7 +1502,6 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelEquipments() throws Exception {
-
         succeedingTestForList("voltage-level-equipments/VLGEN", NETWORK_UUID, null, null, false, resourceToString("/voltage-level-VLGEN-equipments.json"));
         succeedingTestForList("voltage-level-equipments/VLGEN", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/voltage-level-VLGEN-equipments.json"));
     }

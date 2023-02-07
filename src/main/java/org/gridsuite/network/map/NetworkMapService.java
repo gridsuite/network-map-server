@@ -13,7 +13,7 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.model.*;
-import org.gridsuite.network.map.utils.EquipmentType;
+import org.gridsuite.network.map.model.EquipmentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -1215,35 +1215,25 @@ class NetworkMapService {
     public List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, EquipmentType equipmentType) {
         switch (equipmentType) {
             case GENERATOR:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, Generator.class);
             case LINE:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, Line.class);
-            case SUBSTATION:
-                return  getSubstationsIds(networkUuid, variantId);
             case TWO_WINDINGS_TRANSFORMER:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, TwoWindingsTransformer.class);
             case THREE_WINDINGS_TRANSFORMER:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, ThreeWindingsTransformer.class);
             case BATTERY:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, Battery.class);
             case DANGLING_LINE:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, DanglingLine.class);
+            case LCC_CONVERTER_STATION:
+            case VSC_CONVERTER_STATION:
+            case LOAD:
+            case SHUNT_COMPENSATOR:
+            case STATIC_VAR_COMPENSATOR:
+                return getEquipmentsIds(networkUuid, variantId, substationsIds, equipmentType.getTypeClass());
+            case SUBSTATION:
+                return getSubstationsIds(networkUuid, variantId);
             case HVDC_LINE:
                 return getHvdcLinesIds(networkUuid, variantId, substationsIds);
-            case LCC_CONVERTER_STATION:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, LccConverterStation.class);
-            case VSC_CONVERTER_STATION:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, VscConverterStation.class);
-            case LOAD:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, Load.class);
-            case SHUNT_COMPENSATOR:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, ShuntCompensator.class);
-            case STATIC_VAR_COMPENSATOR:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, StaticVarCompensator.class);
             case VOLTAGE_LEVEL:
                 return getVoltageLevelsIds(networkUuid, variantId, substationsIds);
-            default:  return List.of();
+            default:
+                return List.of();
         }
-
     }
 }

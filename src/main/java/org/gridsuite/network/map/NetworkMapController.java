@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.model.*;
-import org.gridsuite.network.map.utils.EquipmentType;
+import org.gridsuite.network.map.model.EquipmentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
