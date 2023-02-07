@@ -28,6 +28,7 @@
     "voltageLevelName1": null,
     "voltageLevelName2": null,
     "terminal1Connected":true,
-    "terminal2Connected":true
+    "terminal2Connected":true,
+    "branchStatus": "PLANNED_OUTAGE"
   }
 ]
