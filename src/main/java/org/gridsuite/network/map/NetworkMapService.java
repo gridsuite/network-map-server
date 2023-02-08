@@ -163,6 +163,10 @@ class NetworkMapService {
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
         }
+        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
         return builder.build();
     }
 
