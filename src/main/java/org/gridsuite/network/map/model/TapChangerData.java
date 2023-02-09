@@ -44,16 +44,9 @@ public class TapChangerData {
     private Double regulationValue;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminalConnectableId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminalConnectableType;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingTerminalVlId;
+    private RegulatingTerminalData regulatingTerminal;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TapChangerStepData> steps;
-
 }
 

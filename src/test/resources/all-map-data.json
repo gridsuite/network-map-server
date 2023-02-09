@@ -1,9 +1,9 @@
 {
   "substations": [
     {
-      "countryCode": "FR",
       "id": "P1",
       "countryName": "FRANCE",
+      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN",
@@ -43,9 +43,9 @@
       ]
     },
     {
-      "countryCode": "FR",
       "id": "P3",
       "countryName": "FRANCE",
+      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN3",
@@ -56,22 +56,23 @@
       ]
     },
     {
-      "countryCode": "FR",
       "id": "P4",
       "countryName": "FRANCE",
+      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN4",
           "substationId": "P4",
           "nominalVoltage": 24.0,
           "topologyKind": "NODE_BREAKER",
-          "busbarSections":
-          [{
-            "id": "NGEN4",
-            "name": "NGEN4",
-            "vertPos": 1,
-            "horizPos": 2
-          }]
+          "busbarSections": [
+            {
+              "id": "NGEN4",
+              "name": "NGEN4",
+              "vertPos": 1,
+              "horizPos": 2
+            }
+          ]
         }
       ]
     }
@@ -80,8 +81,8 @@
     {
       "id": "NHV1_NHV2_1",
       "voltageLevelId1": "VLHV1",
-      "voltageLevelId2": "VLHV2",
       "voltageLevelName1": null,
+      "voltageLevelId2": "VLHV2",
       "voltageLevelName2": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
@@ -89,41 +90,49 @@
       "q1": 2.2,
       "p2": 3.33,
       "q2": 4.44,
-      "permanentLimit1": 700.4,
-      "permanentLimit2": 800.8,
+      "currentLimits1": {
+        "permanentLimit": 700.4
+      },
+      "currentLimits2": {
+        "permanentLimit": 800.8
+      },
       "r": 9.0,
       "x": 10.0,
       "g1": 7.0,
       "b1": 5.0,
       "g2": 8.0,
       "b2": 6.0,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "position1": {
+        "label": "feederName1",
+        "order": 0,
+        "direction": "TOP"
+      },
+      "position2": {
+        "label": "feederName2",
+        "order": 0,
+        "direction": "BOTTOM"
+      }
     },
     {
       "id": "NHV1_NHV2_2",
       "voltageLevelId1": "VLHV1",
-      "voltageLevelId2": "VLHV2",
       "voltageLevelName1": null,
+      "voltageLevelId2": "VLHV2",
       "voltageLevelName2": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "r":3.0,
-      "x":33.0,
-      "g1":0.0,
-      "b1":1.93E-4,
-      "g2":0.0,
-      "b2":1.93E-4
+      "r": 3.0,
+      "x": 33.0,
+      "g1": 0.0,
+      "b1": 1.93E-4,
+      "g2": 0.0,
+      "b2": 1.93E-4
     },
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
-      "voltageLevelId2": "VLGEN3",
       "voltageLevelName1": null,
+      "voltageLevelId2": "VLGEN3",
       "voltageLevelName2": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
@@ -134,59 +143,71 @@
       "b1": 1.93E-4,
       "g2": 0.0,
       "b2": 1.93E-4,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "position1": {
+        "label": "feederName1",
+        "order": 0,
+        "direction": "TOP"
+      },
+      "position2": {
+        "label": "feederName2",
+        "order": 0,
+        "direction": "BOTTOM"
+      }
     }
   ],
   "twoWindingsTransformers": [
     {
       "id": "NGEN_NHV1",
       "voltageLevelId1": "VLGEN",
-      "voltageLevelId2": "VLHV1",
       "voltageLevelName1": null,
+      "voltageLevelId2": "VLHV1",
       "voltageLevelName2": null,
       "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "branchStatus": "PLANNED_OUTAGE",
       "p1": 11.1,
       "q1": 12.2,
       "p2": 13.33,
       "q2": 14.44,
-      "permanentLimit1": 750.4,
-      "permanentLimit2": 780.6,
+      "currentLimits1": {
+        "permanentLimit": 750.4
+      },
+      "currentLimits2": {
+        "permanentLimit": 780.6
+      },
       "phaseTapChanger": {
         "lowTapPosition": 0,
-        "highTapPosition": 1,
         "tapPosition": 1,
+        "highTapPosition": 1,
         "regulating": true,
         "targetDeadBand": 0.0,
-        "regulationMode" : "CURRENT_LIMITER",
-        "regulationValue" : 10.0,
-        "regulatingTerminalConnectableId": "NGEN_NHV1",
-        "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLGEN",
-        "steps": [{
-          "r": 0.0,
-          "x": 0.0,
-          "g": 0.0,
-          "b": 0.0,
-          "rho": 0.8500000238418579,
-          "alpha": 1,
-          "index": 0
-        }, {
-          "r": 0.0,
-          "x": 0.0,
-          "g": 0.0,
-          "b": 0.0,
-          "rho": 0.8999999761581421,
-          "alpha": 1,
-          "index": 1
-        }]
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 10.0,
+        "regulatingTerminal": {
+          "id": "NGEN_NHV1",
+          "type": "TWO_WINDINGS_TRANSFORMER",
+          "vlId": "VLGEN"
+        },
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.8500000238418579,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "alpha": 1.0
+          },
+          {
+            "index": 1,
+            "rho": 0.8999999761581421,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "alpha": 1.0
+          }
+        ]
       },
       "g": 0.0,
       "b": 0.0,
@@ -194,62 +215,76 @@
       "x": 11.104492831516762,
       "ratedU1": 24.0,
       "ratedU2": 400.0,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "position1": {
+        "label": "feederName1",
+        "order": 0,
+        "direction": "TOP"
+      },
+      "position2": {
+        "label": "feederName2",
+        "order": 0,
+        "direction": "BOTTOM"
+      },
+      "branchStatus": "PLANNED_OUTAGE"
     },
     {
       "id": "NHV2_NLOAD",
       "voltageLevelId1": "VLHV2",
-      "voltageLevelId2": "VLLOAD",
       "voltageLevelName1": null,
+      "voltageLevelId2": "VLLOAD",
       "voltageLevelName2": null,
       "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "branchStatus": "PLANNED_OUTAGE",
       "p1": 5.5,
       "q1": 6.6,
       "p2": 7.77,
       "q2": 8.88,
-      "permanentLimit1": 900.5,
-      "permanentLimit2": 950.5,
+      "currentLimits1": {
+        "permanentLimit": 900.5
+      },
+      "currentLimits2": {
+        "permanentLimit": 950.5
+      },
       "ratioTapChanger": {
         "lowTapPosition": 0,
-        "highTapPosition": 2,
         "tapPosition": 2,
-        "targetDeadBand": 0.0,
-        "targetV": 158.0,
-        "loadTapChangingCapabilities": true,
+        "highTapPosition": 2,
         "regulating": true,
-        "regulatingTerminalConnectableId": "NHV2_NLOAD",
-        "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLLOAD",
-        "steps": [{
-          "r": 0.0,
-          "x": 0.0,
-          "g": 0.0,
-          "b": 0.0,
-          "rho": 0.8505666905244191,
-          "index": 0
-        }, {
-          "r": 0.0,
-          "x": 0.0,
-          "g": 0.0,
-          "b": 0.0,
-          "rho": 1.0006666666666666,
-          "index": 1
-        }, {
-          "r": 0.0,
-          "x": 0.0,
-          "g": 0.0,
-          "b": 0.0,
-          "rho": 1.150766642808914,
-          "index": 2
-        }]
+        "loadTapChangingCapabilities": true,
+        "targetV": 158.0,
+        "targetDeadBand": 0.0,
+        "regulatingTerminal": {
+          "id": "NHV2_NLOAD",
+          "type": "TWO_WINDINGS_TRANSFORMER",
+          "vlId": "VLLOAD"
+        },
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.8505666905244191,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0006666666666666,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.150766642808914,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          }
+        ]
       },
       "g": 0.0,
       "b": 0.0,
@@ -257,12 +292,17 @@
       "x": 4.049724365620455,
       "ratedU1": 400.0,
       "ratedU2": 158.0,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "position1": {
+        "label": "feederName1",
+        "order": 0,
+        "direction": "TOP"
+      },
+      "position2": {
+        "label": "feederName2",
+        "order": 0,
+        "direction": "BOTTOM"
+      },
+      "branchStatus": "PLANNED_OUTAGE"
     }
   ],
   "threeWindingsTransformers": [
@@ -285,85 +325,93 @@
       "permanentLimit3": 54.0,
       "phaseTapChanger1": {
         "lowTapPosition": 0,
-        "highTapPosition": 2,
         "tapPosition": 1,
+        "highTapPosition": 2,
         "regulating": true,
         "targetDeadBand": 22.0,
-        "regulationMode" : "CURRENT_LIMITER",
-        "regulationValue" : 25.0,
-        "regulatingTerminalConnectableId": "TWT",
-        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLHV1",
-        "steps": [{
-          "r": 1,
-          "x": 4,
-          "g": 0.5,
-          "b": 1.5,
-          "rho": 0.99,
-          "alpha": -10.0,
-          "index": 0
-        }, {
-          "r": 1.2,
-          "x": 4.2,
-          "g": 0.7,
-          "b": 1.7,
-          "rho": 1.01,
-          "alpha": 10.0,
-          "index": 2
-        }, {
-          "r": 1.1,
-          "x": 4.1,
-          "g": 0.6,
-          "b": 1.6,
-          "rho": 1.0,
-          "alpha": 0.0,
-          "index": 1
-        }]
-      },
-      "ratioTapChanger3": {
-        "lowTapPosition": 0,
-        "highTapPosition": 2,
-        "tapPosition": 2,
-        "targetDeadBand": 22.0,
-        "targetV": 220.0,
-        "loadTapChangingCapabilities": false,
-        "regulating": false,
-        "regulatingTerminalConnectableId": "TWT",
-        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLHV1",
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 25.0,
+        "regulatingTerminal": {
+          "id": "TWT",
+          "type": "THREE_WINDINGS_TRANSFORMER",
+          "vlId": "VLHV1"
+        },
         "steps": [
           {
-            "r": 1,
-            "b": 1.5,
-            "g": 0.5,
+            "index": 0,
             "rho": 0.99,
-            "x": 4,
-            "index": 0
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5,
+            "alpha": -10.0
           },
           {
+            "index": 1,
+            "rho": 1.0,
             "r": 1.1,
-            "b": 1.6,
-            "g": 0.6,
-            "rho": 1,
             "x": 4.1,
-            "index": 1
+            "g": 0.6,
+            "b": 1.6,
+            "alpha": 0.0
           },
           {
+            "index": 2,
+            "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
             "b": 1.7,
-            "rho": 1.01,
-            "index": 2
+            "alpha": 10.0
           }
         ]
       },
-      "regulatingMode1" : "CURRENT_LIMITER",
-      "regulatingPhase1" : true,
-      "regulatingValue1" : 25.0,
+      "ratioTapChanger3": {
+        "lowTapPosition": 0,
+        "tapPosition": 2,
+        "highTapPosition": 2,
+        "regulating": false,
+        "loadTapChangingCapabilities": false,
+        "targetV": 220.0,
+        "targetDeadBand": 22.0,
+        "regulatingTerminal": {
+          "id": "TWT",
+          "type": "THREE_WINDINGS_TRANSFORMER",
+          "vlId": "VLHV1"
+        },
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7
+          }
+        ]
+      },
       "loadTapChanging3Capabilities": false,
-      "regulatingRatio3" : false,
-      "targetV3" : 220.0
+      "targetV3": 220.0,
+      "regulatingMode1": "CURRENT_LIMITER",
+      "regulatingRatio3": false,
+      "regulatingPhase1": true,
+      "regulatingValue1": 25.0
     },
     {
       "id": "TWT21",
@@ -384,85 +432,93 @@
       "permanentLimit2": 25.0,
       "ratioTapChanger1": {
         "lowTapPosition": 0,
-        "highTapPosition": 2,
         "tapPosition": 2,
-        "targetDeadBand": 22.0,
-        "targetV": 220.0,
-        "loadTapChangingCapabilities": false,
+        "highTapPosition": 2,
         "regulating": false,
-        "regulatingTerminalConnectableId": "TWT21",
-        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLHV1",
+        "loadTapChangingCapabilities": false,
+        "targetV": 220.0,
+        "targetDeadBand": 22.0,
+        "regulatingTerminal": {
+          "id": "TWT21",
+          "type": "THREE_WINDINGS_TRANSFORMER",
+          "vlId": "VLHV1"
+        },
         "steps": [
           {
-            "r": 1,
-            "b": 1.5,
-            "g": 0.5,
+            "index": 0,
             "rho": 0.99,
-            "x": 4,
-            "index": 0
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5
           },
           {
+            "index": 1,
+            "rho": 1.0,
             "r": 1.1,
-            "b": 1.6,
-            "g": 0.6,
-            "rho": 1,
             "x": 4.1,
-            "index": 1
+            "g": 0.6,
+            "b": 1.6
           },
           {
+            "index": 2,
+            "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
-            "b": 1.7,
-            "rho": 1.01,
-            "index": 2
+            "b": 1.7
           }
         ]
       },
       "phaseTapChanger2": {
         "lowTapPosition": 0,
-        "highTapPosition": 2,
         "tapPosition": 1,
+        "highTapPosition": 2,
         "regulating": true,
         "targetDeadBand": 22.0,
-        "regulationMode" : "CURRENT_LIMITER",
-        "regulationValue" : 25.0,
-        "regulatingTerminalConnectableId": "TWT21",
-        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLHV1",
-        "steps": [{
-          "r": 1,
-          "x": 4,
-          "g": 0.5,
-          "b": 1.5,
-          "rho": 0.99,
-          "alpha": -10.0,
-          "index": 0
-        }, {
-          "r": 1.2,
-          "x": 4.2,
-          "g": 0.7,
-          "b": 1.7,
-          "rho": 1.01,
-          "alpha": 10.0,
-          "index": 2
-        }, {
-          "r": 1.1,
-          "x": 4.1,
-          "g": 0.6,
-          "b": 1.6,
-          "rho": 1.0,
-          "alpha": 0.0,
-          "index": 1
-        }]
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 25.0,
+        "regulatingTerminal": {
+          "id": "TWT21",
+          "type": "THREE_WINDINGS_TRANSFORMER",
+          "vlId": "VLHV1"
+        },
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5,
+            "alpha": -10.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6,
+            "alpha": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7,
+            "alpha": 10.0
+          }
+        ]
       },
-      "regulatingMode2" : "CURRENT_LIMITER",
-      "regulatingPhase2" : true,
-      "regulatingValue2" : 25.0,
       "loadTapChanging1Capabilities": false,
-      "regulatingRatio1" : false,
-      "targetV1" : 220.0
+      "targetV1": 220.0,
+      "regulatingMode2": "CURRENT_LIMITER",
+      "regulatingRatio1": false,
+      "regulatingPhase2": true,
+      "regulatingValue2": 25.0
     },
     {
       "id": "TWT32",
@@ -483,85 +539,93 @@
       "permanentLimit3": 25.0,
       "ratioTapChanger2": {
         "lowTapPosition": 0,
-        "highTapPosition": 2,
         "tapPosition": 2,
-        "targetDeadBand": 22.0,
-        "targetV": 220.0,
-        "loadTapChangingCapabilities": false,
+        "highTapPosition": 2,
         "regulating": false,
-        "regulatingTerminalConnectableId": "TWT32",
-        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLHV1",
+        "loadTapChangingCapabilities": false,
+        "targetV": 220.0,
+        "targetDeadBand": 22.0,
+        "regulatingTerminal": {
+          "id": "TWT32",
+          "type": "THREE_WINDINGS_TRANSFORMER",
+          "vlId": "VLHV1"
+        },
         "steps": [
           {
-            "r": 1,
-            "b": 1.5,
-            "g": 0.5,
+            "index": 0,
             "rho": 0.99,
-            "x": 4,
-            "index": 0
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5
           },
           {
+            "index": 1,
+            "rho": 1.0,
             "r": 1.1,
-            "b": 1.6,
-            "g": 0.6,
-            "rho": 1,
             "x": 4.1,
-            "index": 1
+            "g": 0.6,
+            "b": 1.6
           },
           {
+            "index": 2,
+            "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
-            "b": 1.7,
-            "rho": 1.01,
-            "index": 2
+            "b": 1.7
           }
         ]
       },
       "phaseTapChanger3": {
         "lowTapPosition": 0,
-        "highTapPosition": 2,
         "tapPosition": 1,
+        "highTapPosition": 2,
         "regulating": true,
         "targetDeadBand": 22.0,
-        "regulationMode" : "CURRENT_LIMITER",
-        "regulationValue" : 25.0,
-        "regulatingTerminalConnectableId": "TWT32",
-        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-        "regulatingTerminalVlId": "VLHV1",
-        "steps": [{
-          "r": 1,
-          "x": 4,
-          "g": 0.5,
-          "b": 1.5,
-          "rho": 0.99,
-          "alpha": -10.0,
-          "index": 0
-        }, {
-          "r": 1.2,
-          "x": 4.2,
-          "g": 0.7,
-          "b": 1.7,
-          "rho": 1.01,
-          "alpha": 10.0,
-          "index": 2
-        }, {
-          "r": 1.1,
-          "x": 4.1,
-          "g": 0.6,
-          "b": 1.6,
-          "rho": 1.0,
-          "alpha": 0.0,
-          "index": 1
-        }]
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 25.0,
+        "regulatingTerminal": {
+          "id": "TWT32",
+          "type": "THREE_WINDINGS_TRANSFORMER",
+          "vlId": "VLHV1"
+        },
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5,
+            "alpha": -10.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6,
+            "alpha": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7,
+            "alpha": 10.0
+          }
+        ]
       },
-      "regulatingMode3" : "CURRENT_LIMITER",
-      "regulatingPhase3" : true,
-      "regulatingValue3" : 25.0,
       "loadTapChanging2Capabilities": false,
-      "regulatingRatio2" : false,
-      "targetV2" : 220.0
+      "targetV2": 220.0,
+      "regulatingMode3": "CURRENT_LIMITER",
+      "regulatingRatio2": false,
+      "regulatingPhase3": true,
+      "regulatingValue3": 25.0
     }
   ],
   "generators": [
@@ -569,30 +633,30 @@
       "id": "GEN",
       "name": null,
       "voltageLevelId": "VLGEN",
-      "activePowerControlOn":true,
+      "activePowerControlOn": true,
       "terminalConnected": true,
       "p": 25.0,
       "q": 32.0,
       "targetP": 28.0,
-      "targetQ":301.0,
-      "targetV":24.5,
+      "targetQ": 301.0,
+      "targetV": 24.5,
       "minP": -9999.99,
       "maxP": 9999.99,
-      "energySource":"OTHER",
-      "ratedS": 27,
-      "voltageRegulatorOn":true,
+      "energySource": "OTHER",
+      "ratedS": 27.0,
+      "voltageRegulatorOn": true,
       "minMaxReactiveLimits": {
-        "minimumReactivePower": -500,
-        "maximumReactivePower": 500
+        "minimumReactivePower": -500.0,
+        "maximumReactivePower": 500.0
       },
-      "droop": 4,
+      "droop": 4.0,
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "qPercent": 10.0,
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "qPercent": 10.0
     },
     {
       "id": "GEN2",
@@ -625,8 +689,8 @@
       ],
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "qPercent": 10.0,
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "qPercent": 10.0
     }
   ],
   "batteries": [
@@ -678,24 +742,9 @@
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "VSC1",
       "converterStationId2": "LCC2",
+      "r": 1.0,
       "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100
-    },
-    {
-      "id": "HVDC2",
-      "name": "HVDC2",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC1",
-      "converterStationId2": "LCC2",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100,
-      "k": 180,
-      "p0": 190,
-      "oprFromCS1toCS2": 1000,
-      "oprFromCS2toCS1": 900,
-      "isEnabled": true
+      "maxP": 100.0
     },
     {
       "id": "HVDC3",
@@ -703,9 +752,9 @@
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "VSC3",
       "converterStationId2": "VSC4",
+      "r": 1.0,
       "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100
+      "maxP": 100.0
     },
     {
       "id": "HVDC4",
@@ -713,9 +762,24 @@
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "VSC5",
       "converterStationId2": "VSC6",
+      "r": 1.0,
       "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100
+      "maxP": 100.0
+    },
+    {
+      "id": "HVDC2",
+      "name": "HVDC2",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC1",
+      "converterStationId2": "LCC2",
+      "r": 1.0,
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0,
+      "k": 180.0,
+      "isEnabled": true,
+      "p0": 190.0,
+      "oprFromCS1toCS2": 1000.0,
+      "oprFromCS2toCS1": 900.0
     }
   ],
   "lccConverterStations": [
@@ -783,12 +847,12 @@
       "q": 90.0,
       "targetV": 225.0,
       "targetDeadband": 10.0,
-      "sectionCount":4,
-      "maximumSectionCount":8,
-      "bperSection":5.0,
+      "sectionCount": 4,
+      "maximumSectionCount": 8,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "bperSection": 5.0
     },
     {
       "id": "SHUNT2",
@@ -797,12 +861,12 @@
       "terminalConnected": true,
       "targetV": 225.0,
       "targetDeadband": 10.0,
-      "sectionCount":2,
-      "maximumSectionCount":3,
-      "bperSection":1.0,
+      "sectionCount": 2,
+      "maximumSectionCount": 3,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "bperSection": 1.0
     }
   ],
   "staticVarCompensators": [
@@ -837,20 +901,9 @@
       "p": 10.0,
       "q": 30.0,
       "lossFactor": 1.0,
-      "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
-    },
-    {
-      "id": "VSC2",
-      "name": "VSC2",
-      "voltageLevelId": "VLGEN3",
-      "terminalConnected": true,
-      "hvdcLineId": null,
-      "lossFactor": 1.0,
-      "voltageRegulatorOn": true,
-      "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": true
     },
     {
       "id": "VSC3",
@@ -861,8 +914,8 @@
       "p": 10.0,
       "q": 30.0,
       "lossFactor": 1.0,
-      "voltageRegulatorOn": false,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": false
     },
     {
       "id": "VSC4",
@@ -873,8 +926,8 @@
       "p": 10.0,
       "q": 30.0,
       "lossFactor": 1.0,
-      "voltageRegulatorOn": false,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": false
     },
     {
       "id": "VSC5",
@@ -885,8 +938,8 @@
       "p": 10.0,
       "q": 30.0,
       "lossFactor": 1.0,
-      "voltageRegulatorOn": true,
-      "voltageSetpoint": 150.0
+      "voltageSetpoint": 150.0,
+      "voltageRegulatorOn": true
     },
     {
       "id": "VSC6",
@@ -897,8 +950,19 @@
       "p": 10.0,
       "q": 30.0,
       "lossFactor": 1.0,
-      "voltageRegulatorOn": true,
-      "voltageSetpoint": 150.0
+      "voltageSetpoint": 150.0,
+      "voltageRegulatorOn": true
+    },
+    {
+      "id": "VSC2",
+      "name": "VSC2",
+      "voltageLevelId": "VLGEN3",
+      "terminalConnected": true,
+      "hvdcLineId": null,
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": true
     }
   ]
 }

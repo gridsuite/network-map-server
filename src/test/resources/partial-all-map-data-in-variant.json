@@ -1,9 +1,9 @@
 {
   "substations": [
     {
-      "countryCode": "FR",
       "id": "P3",
       "countryName": "FRANCE",
+      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN3",
@@ -18,8 +18,8 @@
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
-      "voltageLevelId2": "VLGEN3",
       "voltageLevelName1": null,
+      "voltageLevelId2": "VLGEN3",
       "voltageLevelName2": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
@@ -30,12 +30,16 @@
       "b1": 1.93E-4,
       "g2": 0.0,
       "b2": 1.93E-4,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "position1": {
+        "label": "feederName1",
+        "order": 0,
+        "direction": "TOP"
+      },
+      "position2": {
+        "label": "feederName2",
+        "order": 0,
+        "direction": "BOTTOM"
+      }
     }
   ],
   "twoWindingsTransformers": [],
@@ -75,10 +79,10 @@
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
-      "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "bperSection": 1.0
     },
     {
       "id": "SHUNT3",
@@ -88,12 +92,12 @@
       "q": 90.0,
       "targetV": 225.0,
       "targetDeadband": 10.0,
-      "sectionCount":2,
-      "maximumSectionCount":3,
-      "bperSection":1.0,
+      "sectionCount": 2,
+      "maximumSectionCount": 3,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "bperSection": 1.0
     }
   ],
   "staticVarCompensators": [],
@@ -105,9 +109,9 @@
       "terminalConnected": true,
       "hvdcLineId": null,
       "lossFactor": 1.0,
-      "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": true
     }
   ]
 }
