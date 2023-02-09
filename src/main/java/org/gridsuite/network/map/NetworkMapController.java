@@ -90,7 +90,6 @@ public class NetworkMapController {
                                                        @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds,
                                                        @Parameter(description = "equipment type") @RequestParam(name = "equipmentType", required = true) EquipmentType equipmentType) {
         return networkMapService.getEquipmentsIds(networkUuid, variantId, substationsIds, equipmentType);
-
     }
 
     @GetMapping(value = "/networks/{networkUuid}/generators/{generatorId}", produces = APPLICATION_JSON_VALUE)
@@ -235,6 +234,15 @@ public class NetworkMapController {
                                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                     @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getVoltageLevels(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels-topology", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get voltage levels description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage levels description")})
+    public @ResponseBody List<VoltageLevelMapData> getVoltageLevelIdsAndTopology(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                    @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                    @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getVoltageLevelsIdAndTopology(networkUuid, variantId, substationsIds);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}", produces = APPLICATION_JSON_VALUE)

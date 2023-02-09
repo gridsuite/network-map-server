@@ -1,40 +1,48 @@
+/**
+ * Copyright (c) 2021, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package org.gridsuite.network.map.model;
 
 import com.powsybl.iidm.network.*;
 
+
+
 public enum EquipmentType {
-    NETWORK(IdentifiableType.NETWORK.name(), Network.class),
-    SUBSTATION(IdentifiableType.NETWORK.name(), Substation.class),
-    VOLTAGE_LEVEL(IdentifiableType.VOLTAGE_LEVEL.name(), VoltageLevel.class),
-    HVDC_LINE(IdentifiableType.HVDC_LINE.name(), HvdcLine.class),
-    BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION.name(), BusbarSection.class),
-    LINE(IdentifiableType.LINE.name(), Line.class),
-    TWO_WINDINGS_TRANSFORMER(IdentifiableType.TWO_WINDINGS_TRANSFORMER.name(), TwoWindingsTransformer.class),
-    THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER.name(), ThreeWindingsTransformer.class),
-    GENERATOR(IdentifiableType.GENERATOR.name(), Generator.class),
-    BATTERY(IdentifiableType.BATTERY.name(), Battery.class),
-    LOAD(IdentifiableType.LOAD.name(), Load.class),
-    SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR.name(), ShuntCompensator.class),
-    DANGLING_LINE(IdentifiableType.DANGLING_LINE.name(), DanglingLine.class),
-    STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR.name(), StaticVarCompensator.class),
-    LCC_CONVERTER_STATION("LCC_CONVERTER_STATION", LccConverterStation.class),
-    VSC_CONVERTER_STATION("VSC_CONVERTER_STATION", VscConverterStation.class);
+    NETWORK(IdentifiableType.NETWORK, Network.class),
+    SUBSTATION(IdentifiableType.NETWORK, Substation.class),
+    VOLTAGE_LEVEL(IdentifiableType.VOLTAGE_LEVEL, VoltageLevel.class),
+    HVDC_LINE(IdentifiableType.HVDC_LINE, HvdcLine.class),
+    BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class),
+    LINE(IdentifiableType.LINE, Line.class),
+    TWO_WINDINGS_TRANSFORMER(IdentifiableType.TWO_WINDINGS_TRANSFORMER, TwoWindingsTransformer.class),
+    THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER, ThreeWindingsTransformer.class),
+    GENERATOR(IdentifiableType.GENERATOR, Generator.class),
+    BATTERY(IdentifiableType.BATTERY, Battery.class),
+    LOAD(IdentifiableType.LOAD, Load.class),
+    SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR, ShuntCompensator.class),
+    DANGLING_LINE(IdentifiableType.DANGLING_LINE, DanglingLine.class),
+    STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR, StaticVarCompensator.class),
+    LCC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, LccConverterStation.class),
+    VSC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, VscConverterStation.class);
 
-    private String typeName;
+    private final IdentifiableType identifiableType;
 
-    private Class<? extends Identifiable> typeClass;
+    private final Class<? extends Identifiable> typeClass;
+
+    public IdentifiableType getIdentifiableType() {
+        return identifiableType;
+    }
 
     public Class<? extends Identifiable> getTypeClass() {
         return typeClass;
     }
 
-    public String getName() {
-        return typeName;
-    }
-
-    private EquipmentType(String typeName, Class<? extends Identifiable> typeClass) {
-        this.typeName = typeName;
+    EquipmentType(IdentifiableType identifiableType, Class<? extends Identifiable> typeClass) {
+        this.identifiableType = identifiableType;
         this.typeClass = typeClass;
     }
-
 }
+
