@@ -102,7 +102,9 @@
       "connectionName2": "feederName2",
       "connectionDirection2": "BOTTOM",
       "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "connectionPosition2": 0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NHV2"
     },
     {
       "id": "NHV1_NHV2_2",
@@ -117,7 +119,9 @@
       "g1":0.0,
       "b1":1.93E-4,
       "g2":0.0,
-      "b2":1.93E-4
+      "b2":1.93E-4,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NHV2"
     },
     {
       "id": "LINE3",
@@ -139,7 +143,9 @@
       "connectionName2": "feederName2",
       "connectionDirection2": "BOTTOM",
       "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "connectionPosition2": 0,
+      "busOrBusbarSectionId1": "NGEN",
+      "busOrBusbarSectionId2": "NGEN3"
     }
   ],
   "twoWindingsTransformers": [
@@ -199,7 +205,9 @@
       "connectionName2": "feederName2",
       "connectionDirection2": "BOTTOM",
       "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "connectionPosition2": 0,
+      "busOrBusbarSectionId1": "NGEN",
+      "busOrBusbarSectionId2": "NHV1"
     },
     {
       "id": "NHV2_NLOAD",
@@ -262,7 +270,9 @@
       "connectionName2": "feederName2",
       "connectionDirection2": "BOTTOM",
       "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "connectionPosition2": 0,
+      "busOrBusbarSectionId1": "NHV2",
+      "busOrBusbarSectionId2": "NLOAD"
     }
   ],
   "threeWindingsTransformers": [
@@ -592,7 +602,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "qPercent": 10.0,
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN"
     },
     {
       "id": "GEN2",
@@ -626,7 +637,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "qPercent": 10.0,
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN"
     }
   ],
   "batteries": [
@@ -751,7 +763,8 @@
       "q0": 200.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NLOAD"
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -761,7 +774,8 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null
+      "connectionDirection": null,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "LOAD_ID",
@@ -771,7 +785,8 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null
+      "connectionDirection": null,
+      "busOrBusbarSectionId": "NNEW2"
     }
   ],
   "shuntCompensators": [
@@ -788,7 +803,8 @@
       "bperSection": 5.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "SHUNT2",
@@ -802,7 +818,8 @@
       "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3"
     },
     {
       "id": "SHUNT3",
@@ -817,7 +834,8 @@
       "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "staticVarCompensators": [
@@ -830,7 +848,8 @@
       "p": 120.0,
       "q": 43.0,
       "voltageSetpoint": 200.0,
-      "reactivePowerSetpoint": 100.0
+      "reactivePowerSetpoint": 100.0,
+      "busOrBusbarSectionId": "NGEN"
     },
     {
       "id": "SVC2",
@@ -839,7 +858,8 @@
       "terminalConnected": true,
       "regulationMode": "VOLTAGE",
       "voltageSetpoint": 200.0,
-      "reactivePowerSetpoint": 100.0
+      "reactivePowerSetpoint": 100.0,
+      "busOrBusbarSectionId": "NNEW2"
     }
   ],
   "vscConverterStations": [

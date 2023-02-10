@@ -55,7 +55,9 @@
     "connectionName2": "feederName2",
     "connectionDirection2": "BOTTOM",
     "connectionPosition1": 0,
-    "connectionPosition2": 0
+    "connectionPosition2": 0,
+    "busOrBusbarSectionId1": "NGEN",
+    "busOrBusbarSectionId2": "NHV1"
   },
   {
     "id": "NHV2_NLOAD",
@@ -118,6 +120,8 @@
     "connectionName2": "feederName2",
     "connectionDirection2": "BOTTOM",
     "connectionPosition1": 0,
-    "connectionPosition2": 0
+    "connectionPosition2": 0,
+    "busOrBusbarSectionId1": "NHV2",
+    "busOrBusbarSectionId2": "NLOAD"
   }
 ]

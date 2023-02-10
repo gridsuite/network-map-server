@@ -9,6 +9,7 @@ package org.gridsuite.network.map;
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.math.graph.TraverseResult;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
@@ -81,6 +82,68 @@ class NetworkMapService {
             .build();
     }
 
+    private static class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser {
+
+        private final boolean onlyConnectedBbs;
+
+        private String firstTraversedBbsId;
+
+        BusbarSectionFinderTraverser(boolean onlyConnectedBbs) {
+            this.onlyConnectedBbs = onlyConnectedBbs;
+
+        }
+
+        @Override
+        public TraverseResult traverse(Terminal terminal, boolean connected) {
+            if (terminal.getConnectable().getType() == IdentifiableType.BUSBAR_SECTION) {
+                firstTraversedBbsId = terminal.getConnectable().getId();
+                return TraverseResult.TERMINATE_TRAVERSER;
+            }
+            return TraverseResult.CONTINUE;
+        }
+
+        @Override
+        public TraverseResult traverse(Switch aSwitch) {
+            if (onlyConnectedBbs && aSwitch.isOpen()) {
+                return TraverseResult.TERMINATE_PATH;
+            }
+            return TraverseResult.CONTINUE;
+        }
+
+        public String getFirstTraversedBbsId() {
+            return firstTraversedBbsId;
+        }
+    }
+
+    private static String getBusOrBusbarSection(Terminal terminal) {
+        String busOrBusbarSectionId;
+        if (terminal.getVoltageLevel().getTopologyKind().equals(TopologyKind.BUS_BREAKER)) {
+            if (terminal.isConnected()) {
+                busOrBusbarSectionId = terminal.getBusBreakerView().getBus().getId();
+            } else {
+                busOrBusbarSectionId = terminal.getBusBreakerView().getConnectableBus().getId();
+            }
+        } else {
+            busOrBusbarSectionId = getBusbarSectionId(terminal);
+        }
+        return busOrBusbarSectionId;
+    }
+
+    private static String getBusbarSectionId(Terminal terminal) {
+        String bbsId;
+        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(true);
+        terminal.traverse(connectedBusbarSectionFinder);
+        bbsId = connectedBusbarSectionFinder.getFirstTraversedBbsId();
+
+        if (bbsId == null) {
+            BusbarSectionFinderTraverser disconnectedBusbarSectionFinder = new BusbarSectionFinderTraverser(false);
+            terminal.traverse(disconnectedBusbarSectionFinder);
+            bbsId = disconnectedBusbarSectionFinder.getFirstTraversedBbsId();
+        }
+
+        return bbsId;
+    }
+
     private static LineMapData toMapData(Line line) {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -105,6 +168,10 @@ class NetworkMapService {
             .b1(line.getB1())
             .g2(line.getG2())
             .b2(line.getB2());
+
+        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
+        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
+
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
 
@@ -153,6 +220,9 @@ class NetworkMapService {
                 .i2(nullIfNan(terminal2.getI()))
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()));
+
+        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
+        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
@@ -208,6 +278,8 @@ class NetworkMapService {
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
@@ -305,6 +377,9 @@ class NetworkMapService {
                 .g(transformer.getG())
                 .ratedU1(transformer.getRatedU1())
                 .ratedU2(transformer.getRatedU2());
+
+        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
+        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         builder.ratedS(nullIfNan(transformer.getRatedS()));
         builder.p1(nullIfNan(terminal1.getP()));
@@ -659,6 +734,8 @@ class NetworkMapService {
             builder.q(terminal.getQ());
         }
 
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
         var connectablePosition = load.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
             builder
@@ -679,6 +756,9 @@ class NetworkMapService {
                 .sectionCount(shuntCompensator.getSectionCount())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId());
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
         if (shuntCompensator.getModel() instanceof  ShuntCompensatorLinearModel) {
             builder.bPerSection(shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection());
         }
@@ -712,6 +792,9 @@ class NetworkMapService {
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
             .regulationMode(staticVarCompensator.getRegulationMode());
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
         }

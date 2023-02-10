@@ -35,7 +35,9 @@
       "connectionName2": "feederName2",
       "connectionDirection2": "BOTTOM",
       "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "connectionPosition2": 0,
+      "busOrBusbarSectionId1": "NGEN",
+      "busOrBusbarSectionId2": "NGEN3"
     }
   ],
   "twoWindingsTransformers": [],
@@ -78,7 +80,8 @@
       "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3"
     },
     {
       "id": "SHUNT3",
@@ -93,7 +96,8 @@
       "bperSection":1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "staticVarCompensators": [],
