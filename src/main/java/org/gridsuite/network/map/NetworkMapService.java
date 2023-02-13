@@ -1218,11 +1218,12 @@ class NetworkMapService {
             return substationsIds.stream()
                     .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
                     .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
-                    .filter(hvdcConverterStation -> hvdcConverterStation.getHvdcLine() != null)
                     .map(HvdcConverterStation::getHvdcLine)
+                    .filter(Objects::nonNull)
                     .map(HvdcLine::getId)
                     .distinct()
                     .collect(Collectors.toList());
+
         }
     }
 
