@@ -147,6 +147,8 @@ class NetworkMapService {
             .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
             .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+            .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+            .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
             .p1(nullIfNan(terminal1.getP()))
             .q1(nullIfNan(terminal1.getQ()))
             .p2(nullIfNan(terminal2.getP()))
@@ -159,9 +161,6 @@ class NetworkMapService {
             .b1(line.getB1())
             .g2(line.getG2())
             .b2(line.getB2());
-
-        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
-        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
@@ -207,13 +206,12 @@ class NetworkMapService {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
                 .i1(nullIfNan(terminal1.getI()))
                 .i2(nullIfNan(terminal2.getI()))
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()));
-
-        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
-        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
@@ -259,6 +257,7 @@ class NetworkMapService {
                 .id(generator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .targetP(generator.getTargetP())
                 .targetQ(nullIfNan(generator.getTargetQ()))
                 .targetV(nullIfNan(generator.getTargetV()))
@@ -269,8 +268,6 @@ class NetworkMapService {
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
@@ -360,6 +357,8 @@ class NetworkMapService {
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+                .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
                 .phaseTapChanger(toMapData(transformer.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(transformer.getRatioTapChanger()))
                 .r(transformer.getR())
@@ -368,9 +367,6 @@ class NetworkMapService {
                 .g(transformer.getG())
                 .ratedU1(transformer.getRatedU1())
                 .ratedU2(transformer.getRatedU2());
-
-        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
-        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         builder.ratedS(nullIfNan(transformer.getRatedS()));
         builder.p1(nullIfNan(terminal1.getP()));
@@ -506,11 +502,10 @@ class NetworkMapService {
             .terminal3Connected(terminal3.isConnected())
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .voltageLevelId3(terminal3.getVoltageLevel().getId());
-
-        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
-        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
-        builder.busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
+            .voltageLevelId3(terminal3.getVoltageLevel().getId())
+            .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+            .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
+            .busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
@@ -627,11 +622,10 @@ class NetworkMapService {
             .id(danglingLine.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
             .ucteXnodeCode(danglingLine.getUcteXnodeCode())
             .p0(danglingLine.getP0())
             .q0(danglingLine.getQ0());
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
@@ -674,11 +668,10 @@ class NetworkMapService {
             .name(lccConverterStation.getOptionalName().orElse(null))
             .id(lccConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
             .terminalConnected(terminal.isConnected())
             .lossFactor(lccConverterStation.getLossFactor())
             .powerFactor(lccConverterStation.getPowerFactor());
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         if (lccConverterStation.getHvdcLine() != null) {
             builder.hvdcLineId(lccConverterStation.getHvdcLine().getId());
@@ -698,11 +691,10 @@ class NetworkMapService {
             .name(vscConverterStation.getOptionalName().orElse(null))
             .id(vscConverterStation.getId())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
             .terminalConnected(terminal.isConnected())
             .lossFactor(vscConverterStation.getLossFactor())
             .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         if (vscConverterStation.getHvdcLine() != null) {
             builder.hvdcLineId(vscConverterStation.getHvdcLine().getId());
@@ -730,6 +722,7 @@ class NetworkMapService {
             .type(load.getLoadType())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
             .p0(load.getP0())
             .q0(load.getQ0());
         if (!Double.isNaN(terminal.getP())) {
@@ -738,8 +731,6 @@ class NetworkMapService {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         var connectablePosition = load.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
@@ -760,9 +751,8 @@ class NetworkMapService {
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
                 .sectionCount(shuntCompensator.getSectionCount())
                 .terminalConnected(terminal.isConnected())
-                .voltageLevelId(terminal.getVoltageLevel().getId());
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         if (shuntCompensator.getModel() instanceof  ShuntCompensatorLinearModel) {
             builder.bPerSection(shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection());
@@ -796,9 +786,8 @@ class NetworkMapService {
             .id(staticVarCompensator.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
             .regulationMode(staticVarCompensator.getRegulationMode());
-
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
