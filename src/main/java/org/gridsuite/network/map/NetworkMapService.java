@@ -1097,7 +1097,7 @@ class NetworkMapService {
                     .map(NetworkMapService::toMapData).collect(Collectors.toList());
         } else {
             Set<HvdcLineMapData> res = new LinkedHashSet<>();
-            substationsId.stream().forEach(id ->
+            substationsId.forEach(id ->
                     network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                             v.getConnectables(HvdcConverterStation.class).forEach(h -> {
                                 HvdcLine hvdcLine = h.getHvdcLine();
