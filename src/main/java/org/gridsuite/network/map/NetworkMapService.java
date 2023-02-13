@@ -130,18 +130,9 @@ class NetworkMapService {
     }
 
     private static String getBusbarSectionId(Terminal terminal) {
-        String bbsId;
-        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(true);
+        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
         terminal.traverse(connectedBusbarSectionFinder);
-        bbsId = connectedBusbarSectionFinder.getFirstTraversedBbsId();
-
-        if (bbsId == null) {
-            BusbarSectionFinderTraverser disconnectedBusbarSectionFinder = new BusbarSectionFinderTraverser(false);
-            terminal.traverse(disconnectedBusbarSectionFinder);
-            bbsId = disconnectedBusbarSectionFinder.getFirstTraversedBbsId();
-        }
-
-        return bbsId;
+        return connectedBusbarSectionFinder.getFirstTraversedBbsId();
     }
 
     private static LineMapData toMapData(Line line) {

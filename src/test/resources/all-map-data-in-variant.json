@@ -849,6 +849,19 @@
       "connectionDirection": "TOP",
       "connectionPosition": 0,
       "busOrBusbarSectionId": "NGEN3"
+    },
+    {
+      "id": "SHUNT_VLNB",
+      "name": "SHUNT_VLNB",
+      "voltageLevelId": "VLGEN4",
+      "terminalConnected": false,
+      "targetV": 225.0,
+      "targetDeadband": 10.0,
+      "sectionCount":2,
+      "maximumSectionCount":3,
+      "bperSection":1.0,
+      "connectionDirection": null,
+      "busOrBusbarSectionId": "NGEN4"
     }
   ],
   "staticVarCompensators": [

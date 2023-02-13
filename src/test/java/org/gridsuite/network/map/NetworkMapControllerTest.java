@@ -583,6 +583,23 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
 
+        // Create a disconnected shunt compensator in variant VARIANT_ID on a NODE_BREAKER voltage level
+        vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
+                .setName("SHUNT_VLNB")
+                .newLinearModel()
+                .setMaximumSectionCount(3)
+                .setBPerSection(1)
+                .setGPerSection(2)
+                .add()
+                .setSectionCount(2)
+                .setTargetV(225)
+                .setVoltageRegulatorOn(true)
+                .setTargetDeadband(10)
+                .setNode(2)
+                .add();
+        createSwitch(vlgen4, "VL4_BBS_SHUNT_DISCONNECTOR", SwitchKind.DISCONNECTOR, true, 0, 1);
+        createSwitch(vlgen4, "VL4_SHUNT_BREAKER", SwitchKind.BREAKER, false, 1, 2);
+
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         network.getLoad("LOAD")
@@ -597,6 +614,19 @@ public class NetworkMapControllerTest {
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
+    }
+
+    private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
+        vl.getNodeBreakerView().newSwitch()
+                .setId(id)
+                .setName(id)
+                .setKind(kind)
+                .setRetained(kind.equals(SwitchKind.BREAKER))
+                .setOpen(open)
+                .setFictitious(false)
+                .setNode1(node1)
+                .setNode2(node2)
+                .add();
     }
 
     private void make3WindingsTransformer(Substation p1, String id,
