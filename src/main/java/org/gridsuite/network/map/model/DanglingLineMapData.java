@@ -41,4 +41,7 @@ public class DanglingLineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q0;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
 }

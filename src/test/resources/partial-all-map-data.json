@@ -61,7 +61,8 @@
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "hvdcLines": [],
@@ -95,7 +96,8 @@
       "lossFactor": 1.0,
       "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ]
 }

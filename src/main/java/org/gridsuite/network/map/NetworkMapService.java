@@ -516,6 +516,11 @@ class NetworkMapService {
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
             .voltageLevelId3(terminal3.getVoltageLevel().getId());
+
+        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1));
+        builder.busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
+        builder.busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
+
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -634,6 +639,9 @@ class NetworkMapService {
             .ucteXnodeCode(danglingLine.getUcteXnodeCode())
             .p0(danglingLine.getP0())
             .q0(danglingLine.getQ0());
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
         }
@@ -678,6 +686,9 @@ class NetworkMapService {
             .terminalConnected(terminal.isConnected())
             .lossFactor(lccConverterStation.getLossFactor())
             .powerFactor(lccConverterStation.getPowerFactor());
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
         if (lccConverterStation.getHvdcLine() != null) {
             builder.hvdcLineId(lccConverterStation.getHvdcLine().getId());
         }
@@ -699,6 +710,9 @@ class NetworkMapService {
             .terminalConnected(terminal.isConnected())
             .lossFactor(vscConverterStation.getLossFactor())
             .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
         if (vscConverterStation.getHvdcLine() != null) {
             builder.hvdcLineId(vscConverterStation.getHvdcLine().getId());
         }

@@ -373,7 +373,10 @@
       "regulatingValue1" : 25.0,
       "loadTapChanging3Capabilities": false,
       "regulatingRatio3" : false,
-      "targetV3" : 220.0
+      "targetV3" : 220.0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NNEW2",
+      "busOrBusbarSectionId3": "NGEN"
     },
     {
       "id": "TWT21",
@@ -472,7 +475,10 @@
       "regulatingValue2" : 25.0,
       "loadTapChanging1Capabilities": false,
       "regulatingRatio1" : false,
-      "targetV1" : 220.0
+      "targetV1" : 220.0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NNEW2",
+      "busOrBusbarSectionId3": "NGEN"
     },
     {
       "id": "TWT32",
@@ -571,7 +577,10 @@
       "regulatingValue3" : 25.0,
       "loadTapChanging2Capabilities": false,
       "regulatingRatio2" : false,
-      "targetV2" : 220.0
+      "targetV2" : 220.0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NNEW2",
+      "busOrBusbarSectionId3": "NGEN"
     }
   ],
   "generators": [
@@ -671,7 +680,8 @@
       "p": 45.0,
       "q": 75.0,
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "busOrBusbarSectionId": "NGEN"
     },
     {
       "id": "DL2",
@@ -680,7 +690,8 @@
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "hvdcLines": [
@@ -738,7 +749,8 @@
       "terminalConnected": true,
       "hvdcLineId": null,
       "powerFactor": 0.5,
-      "lossFactor": 1.0
+      "lossFactor": 1.0,
+      "busOrBusbarSectionId": "NGEN"
     },
     {
       "id": "LCC2",
@@ -749,7 +761,8 @@
       "p": 110.0,
       "q": 310.0,
       "powerFactor": 0.5,
-      "lossFactor": 1.0
+      "lossFactor": 1.0,
+      "busOrBusbarSectionId": "NNEW2"
     }
   ],
   "loads": [
@@ -858,7 +871,8 @@
       "lossFactor": 1.0,
       "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "VSC2",
@@ -869,7 +883,8 @@
       "lossFactor": 1.0,
       "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "busOrBusbarSectionId": "NGEN3"
     },
     {
       "id": "VSC3",
@@ -881,7 +896,8 @@
       "q": 30.0,
       "lossFactor": 1.0,
       "voltageRegulatorOn": false,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "VSC4",
@@ -893,7 +909,8 @@
       "q": 30.0,
       "lossFactor": 1.0,
       "voltageRegulatorOn": false,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "VSC5",
@@ -905,7 +922,8 @@
       "q": 30.0,
       "lossFactor": 1.0,
       "voltageRegulatorOn": true,
-      "voltageSetpoint": 150.0
+      "voltageSetpoint": 150.0,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "VSC6",
@@ -917,7 +935,8 @@
       "q": 30.0,
       "lossFactor": 1.0,
       "voltageRegulatorOn": true,
-      "voltageSetpoint": 150.0
+      "voltageSetpoint": 150.0,
+      "busOrBusbarSectionId": "NNEW2"
     }
   ]
 }

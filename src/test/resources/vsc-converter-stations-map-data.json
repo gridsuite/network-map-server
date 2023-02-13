@@ -10,7 +10,8 @@
     "lossFactor": 1.0,
     "voltageRegulatorOn": true,
     "voltageSetpoint": 150.0,
-    "reactivePowerSetpoint": 40.0
+    "reactivePowerSetpoint": 40.0,
+    "busOrBusbarSectionId": "NNEW2"
   },
   {
     "id": "VSC2",
@@ -21,7 +22,8 @@
     "lossFactor": 1.0,
     "voltageRegulatorOn": true,
     "voltageSetpoint": 150.0,
-    "reactivePowerSetpoint": 40.0
+    "reactivePowerSetpoint": 40.0,
+    "busOrBusbarSectionId": "NGEN3"
   },
   {
     "id": "VSC3",
@@ -33,7 +35,8 @@
     "q": 30.0,
     "lossFactor": 1.0,
     "voltageRegulatorOn": false,
-    "reactivePowerSetpoint": 40.0
+    "reactivePowerSetpoint": 40.0,
+    "busOrBusbarSectionId": "NNEW2"
   },
   {
     "id": "VSC4",
@@ -45,7 +48,8 @@
     "q": 30.0,
     "lossFactor": 1.0,
     "voltageRegulatorOn": false,
-    "reactivePowerSetpoint": 40.0
+    "reactivePowerSetpoint": 40.0,
+    "busOrBusbarSectionId": "NNEW2"
   },
   {
     "id": "VSC5",
@@ -57,7 +61,8 @@
     "q": 30.0,
     "lossFactor": 1.0,
     "voltageRegulatorOn": true,
-    "voltageSetpoint": 150.0
+    "voltageSetpoint": 150.0,
+    "busOrBusbarSectionId": "NNEW2"
   },
   {
     "id": "VSC6",
@@ -69,6 +74,7 @@
     "q": 30.0,
     "lossFactor": 1.0,
     "voltageRegulatorOn": true,
-    "voltageSetpoint": 150.0
+    "voltageSetpoint": 150.0,
+    "busOrBusbarSectionId": "NNEW2"
   }
 ]
