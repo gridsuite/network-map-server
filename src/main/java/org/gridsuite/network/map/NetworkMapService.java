@@ -90,7 +90,6 @@ class NetworkMapService {
 
         BusbarSectionFinderTraverser(boolean onlyConnectedBbs) {
             this.onlyConnectedBbs = onlyConnectedBbs;
-
         }
 
         @Override
