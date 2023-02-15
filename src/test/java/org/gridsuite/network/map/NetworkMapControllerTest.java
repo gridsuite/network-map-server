@@ -1265,8 +1265,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnShuntCompensatorsIds() throws Exception {
-        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, true, List.of("SHUNT1", "SHUNT2").toString());
-        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
+        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, true, List.of("SHUNT1", "SHUNT2", "SHUNT_VLNB").toString());
+        succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("SHUNT1", "SHUNT2", "SHUNT3", "SHUNT_VLNB").toString());
         succeedingTestForList(EquipmentType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3"), true, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString());
     }
 
