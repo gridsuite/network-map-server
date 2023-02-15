@@ -23,5 +23,7 @@
   "connectionName2": "feederName2",
   "connectionDirection2": "BOTTOM",
   "connectionPosition1": 0,
-  "connectionPosition2": 0
+  "connectionPosition2": 0,
+  "busOrBusbarSectionId1": "NHV1",
+  "busOrBusbarSectionId2": "NHV2"
 }

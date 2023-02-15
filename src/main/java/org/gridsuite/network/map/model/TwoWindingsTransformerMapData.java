@@ -98,5 +98,11 @@ public class TwoWindingsTransformerMapData {
     private Integer connectionPosition2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
 }
