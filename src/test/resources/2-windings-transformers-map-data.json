@@ -68,7 +68,9 @@
       "order": 0,
       "direction": "BOTTOM"
     },
-    "branchStatus": "PLANNED_OUTAGE"
+    "branchStatus": "PLANNED_OUTAGE",
+    "busOrBusbarSectionId1": "NGEN",
+    "busOrBusbarSectionId2": "NHV1"
   },
   {
     "id": "NHV2_NLOAD",
@@ -145,6 +147,8 @@
       "order": 0,
       "direction": "BOTTOM"
     },
-    "branchStatus": "PLANNED_OUTAGE"
+    "branchStatus": "PLANNED_OUTAGE",
+    "busOrBusbarSectionId1": "NHV2",
+    "busOrBusbarSectionId2": "NLOAD"
   }
 ]

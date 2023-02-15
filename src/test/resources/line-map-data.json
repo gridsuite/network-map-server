@@ -31,5 +31,7 @@
     "label": "feederName2",
     "order": 0,
     "direction": "BOTTOM"
-  }
+  },
+  "busOrBusbarSectionId1": "NHV1",
+  "busOrBusbarSectionId2": "NHV2"
 }

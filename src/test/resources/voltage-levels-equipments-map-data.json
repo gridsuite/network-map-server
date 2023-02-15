@@ -279,6 +279,11 @@
         "id": "NGEN4",
         "name": "NGEN4",
         "type": "BUSBAR_SECTION"
+      },
+      {
+        "id": "SHUNT_VLNB",
+        "name": "SHUNT_VLNB",
+        "type": "SHUNT_COMPENSATOR"
       }
     ]
   }

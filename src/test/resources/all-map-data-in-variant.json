@@ -111,7 +111,9 @@
         "label": "feederName2",
         "order": 0,
         "direction": "BOTTOM"
-      }
+      },
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NHV2"
     },
     {
       "id": "NHV1_NHV2_2",
@@ -126,7 +128,9 @@
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93E-4
+      "b2": 1.93E-4,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NHV2"
     },
     {
       "id": "LINE3",
@@ -152,7 +156,9 @@
         "label": "feederName2",
         "order": 0,
         "direction": "BOTTOM"
-      }
+      },
+      "busOrBusbarSectionId1": "NGEN",
+      "busOrBusbarSectionId2": "NGEN3"
     }
   ],
   "twoWindingsTransformers": [
@@ -225,6 +231,8 @@
         "order": 0,
         "direction": "BOTTOM"
       },
+      "busOrBusbarSectionId1": "NGEN",
+      "busOrBusbarSectionId2": "NHV1",
       "branchStatus": "PLANNED_OUTAGE"
     },
     {
@@ -302,6 +310,8 @@
         "order": 0,
         "direction": "BOTTOM"
       },
+      "busOrBusbarSectionId1": "NHV2",
+      "busOrBusbarSectionId2": "NLOAD",
       "branchStatus": "PLANNED_OUTAGE"
     }
   ],
@@ -411,7 +421,10 @@
       "regulatingMode1": "CURRENT_LIMITER",
       "regulatingRatio3": false,
       "regulatingPhase1": true,
-      "regulatingValue1": 25.0
+      "regulatingValue1": 25.0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NNEW2",
+      "busOrBusbarSectionId3": "NGEN"
     },
     {
       "id": "TWT21",
@@ -518,7 +531,10 @@
       "regulatingMode2": "CURRENT_LIMITER",
       "regulatingRatio1": false,
       "regulatingPhase2": true,
-      "regulatingValue2": 25.0
+      "regulatingValue2": 25.0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NNEW2",
+      "busOrBusbarSectionId3": "NGEN"
     },
     {
       "id": "TWT32",
@@ -625,7 +641,10 @@
       "regulatingMode3": "CURRENT_LIMITER",
       "regulatingRatio2": false,
       "regulatingPhase3": true,
-      "regulatingValue3": 25.0
+      "regulatingValue3": 25.0,
+      "busOrBusbarSectionId1": "NHV1",
+      "busOrBusbarSectionId2": "NNEW2",
+      "busOrBusbarSectionId3": "NGEN"
     }
   ],
   "generators": [
@@ -656,6 +675,7 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN",
       "qPercent": 10.0
     },
     {
@@ -690,6 +710,7 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN",
       "qPercent": 10.0
     }
   ],
@@ -723,7 +744,8 @@
       "p": 45.0,
       "q": 75.0,
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "busOrBusbarSectionId": "NGEN"
     },
     {
       "id": "DL2",
@@ -732,7 +754,8 @@
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "hvdcLines": [
@@ -789,6 +812,7 @@
       "voltageLevelId": "VLGEN",
       "terminalConnected": true,
       "hvdcLineId": null,
+      "busOrBusbarSectionId": "NGEN",
       "powerFactor": 0.5,
       "lossFactor": 1.0
     },
@@ -800,6 +824,7 @@
       "hvdcLineId": "HVDC1",
       "p": 110.0,
       "q": 310.0,
+      "busOrBusbarSectionId": "NNEW2",
       "powerFactor": 0.5,
       "lossFactor": 1.0
     }
@@ -815,7 +840,8 @@
       "q0": 200.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NLOAD"
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -825,7 +851,8 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null
+      "connectionDirection": null,
+      "busOrBusbarSectionId": "NNEW2"
     },
     {
       "id": "LOAD_ID",
@@ -835,7 +862,8 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null
+      "connectionDirection": null,
+      "busOrBusbarSectionId": "NNEW2"
     }
   ],
   "shuntCompensators": [
@@ -852,6 +880,7 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
+      "busOrBusbarSectionId": "NNEW2",
       "bperSection": 5.0
     },
     {
@@ -866,6 +895,20 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3",
+      "bperSection": 1.0
+    },
+    {
+      "id": "SHUNT_VLNB",
+      "name": "SHUNT_VLNB",
+      "voltageLevelId": "VLGEN4",
+      "terminalConnected": false,
+      "targetV": 225.0,
+      "targetDeadband": 10.0,
+      "sectionCount": 2,
+      "maximumSectionCount": 3,
+      "connectionDirection": null,
+      "busOrBusbarSectionId": "NGEN4",
       "bperSection": 1.0
     },
     {
@@ -881,6 +924,7 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3",
       "bperSection": 1.0
     }
   ],
@@ -894,7 +938,8 @@
       "p": 120.0,
       "q": 43.0,
       "voltageSetpoint": 200.0,
-      "reactivePowerSetpoint": 100.0
+      "reactivePowerSetpoint": 100.0,
+      "busOrBusbarSectionId": "NGEN"
     },
     {
       "id": "SVC2",
@@ -903,7 +948,8 @@
       "terminalConnected": true,
       "regulationMode": "VOLTAGE",
       "voltageSetpoint": 200.0,
-      "reactivePowerSetpoint": 100.0
+      "reactivePowerSetpoint": 100.0,
+      "busOrBusbarSectionId": "NNEW2"
     }
   ],
   "vscConverterStations": [
@@ -915,6 +961,7 @@
       "hvdcLineId": "HVDC1",
       "p": 10.0,
       "q": 30.0,
+      "busOrBusbarSectionId": "NNEW2",
       "lossFactor": 1.0,
       "voltageSetpoint": 150.0,
       "reactivePowerSetpoint": 40.0,
@@ -928,6 +975,7 @@
       "hvdcLineId": "HVDC3",
       "p": 10.0,
       "q": 30.0,
+      "busOrBusbarSectionId": "NNEW2",
       "lossFactor": 1.0,
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": false
@@ -940,6 +988,7 @@
       "hvdcLineId": "HVDC3",
       "p": 10.0,
       "q": 30.0,
+      "busOrBusbarSectionId": "NNEW2",
       "lossFactor": 1.0,
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": false
@@ -952,6 +1001,7 @@
       "hvdcLineId": "HVDC4",
       "p": 10.0,
       "q": 30.0,
+      "busOrBusbarSectionId": "NNEW2",
       "lossFactor": 1.0,
       "voltageSetpoint": 150.0,
       "voltageRegulatorOn": true
@@ -964,6 +1014,7 @@
       "hvdcLineId": "HVDC4",
       "p": 10.0,
       "q": 30.0,
+      "busOrBusbarSectionId": "NNEW2",
       "lossFactor": 1.0,
       "voltageSetpoint": 150.0,
       "voltageRegulatorOn": true
@@ -974,6 +1025,7 @@
       "voltageLevelId": "VLGEN3",
       "terminalConnected": true,
       "hvdcLineId": null,
+      "busOrBusbarSectionId": "NGEN3",
       "lossFactor": 1.0,
       "voltageSetpoint": 150.0,
       "reactivePowerSetpoint": 40.0,

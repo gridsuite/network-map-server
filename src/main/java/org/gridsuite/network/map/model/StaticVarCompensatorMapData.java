@@ -41,4 +41,7 @@ public class StaticVarCompensatorMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double reactivePowerSetpoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
 }

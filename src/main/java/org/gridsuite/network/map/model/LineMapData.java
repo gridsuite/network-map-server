@@ -87,4 +87,10 @@ public class LineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ConnectablePositionData position2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId2;
 }

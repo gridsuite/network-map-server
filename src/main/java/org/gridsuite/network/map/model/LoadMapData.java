@@ -50,4 +50,7 @@ public class LoadMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectionPosition;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
 }

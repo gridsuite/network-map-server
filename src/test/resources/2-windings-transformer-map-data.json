@@ -67,5 +67,7 @@
     "order": 0,
     "direction": "BOTTOM"
   },
-  "branchStatus": "PLANNED_OUTAGE"
+  "branchStatus": "PLANNED_OUTAGE",
+  "busOrBusbarSectionId1": "NGEN",
+  "busOrBusbarSectionId2": "NHV1"
 }

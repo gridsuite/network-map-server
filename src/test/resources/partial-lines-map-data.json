@@ -23,6 +23,8 @@
       "label": "feederName2",
       "order": 0,
       "direction": "BOTTOM"
-    }
+    },
+    "busOrBusbarSectionId1": "NGEN",
+    "busOrBusbarSectionId2": "NGEN3"
   }
 ]
