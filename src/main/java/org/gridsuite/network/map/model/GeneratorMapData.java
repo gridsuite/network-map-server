@@ -121,4 +121,7 @@ public class GeneratorMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectionPosition;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
 }

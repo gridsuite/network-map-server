@@ -10,7 +10,9 @@
     "p1":1.1,
     "p2":3.33,
     "permanentLimit1":700.4,
-    "permanentLimit2":800.8
+    "permanentLimit2":800.8,
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NHV2"
   },
   {
     "id":"NHV1_NHV2_2",
@@ -19,7 +21,9 @@
     "voltageLevelName1": null,
     "voltageLevelName2": null,
     "terminal1Connected":true,
-    "terminal2Connected":true
+    "terminal2Connected":true,
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NHV2"
   },
   {
     "id":"LINE3",
@@ -29,6 +33,8 @@
     "voltageLevelName2": null,
     "terminal1Connected":true,
     "terminal2Connected":true,
-    "branchStatus": "PLANNED_OUTAGE"
+    "branchStatus": "PLANNED_OUTAGE",
+    "busOrBusbarSectionId1": "NGEN",
+    "busOrBusbarSectionId2": "NGEN3"
   }
 ]

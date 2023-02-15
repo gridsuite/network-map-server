@@ -35,7 +35,9 @@
       "connectionName2": "feederName2",
       "connectionDirection2": "BOTTOM",
       "connectionPosition1": 0,
-      "connectionPosition2": 0
+      "connectionPosition2": 0,
+      "busOrBusbarSectionId1": "NGEN",
+      "busOrBusbarSectionId2": "NGEN3"
     }
   ],
   "twoWindingsTransformers": [],
@@ -59,7 +61,8 @@
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "hvdcLines": [],
@@ -78,7 +81,8 @@
       "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ],
   "staticVarCompensators": [],
@@ -92,7 +96,8 @@
       "lossFactor": 1.0,
       "voltageRegulatorOn": true,
       "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0
+      "reactivePowerSetpoint": 40.0,
+      "busOrBusbarSectionId": "NGEN3"
     }
   ]
 }

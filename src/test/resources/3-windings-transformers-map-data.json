@@ -96,7 +96,10 @@
     "regulatingValue1" : 25.0,
     "loadTapChanging3Capabilities": false,
     "regulatingRatio3" : false,
-    "targetV3" : 220.0
+    "targetV3" : 220.0,
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NNEW2",
+    "busOrBusbarSectionId3": "NGEN"
   },
   {
     "id": "TWT21",
@@ -195,7 +198,10 @@
     "regulatingValue2" : 25.0,
     "loadTapChanging1Capabilities": false,
     "regulatingRatio1" : false,
-    "targetV1" : 220.0
+    "targetV1" : 220.0,
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NNEW2",
+    "busOrBusbarSectionId3": "NGEN"
   },
   {
     "id": "TWT32",
@@ -294,6 +300,9 @@
     "regulatingValue3" : 25.0,
     "loadTapChanging2Capabilities": false,
     "regulatingRatio2" : false,
-    "targetV2" : 220.0
+    "targetV2" : 220.0,
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NNEW2",
+    "busOrBusbarSectionId3": "NGEN"
   }
 ]

@@ -26,7 +26,8 @@
     "connectionName": "feederName",
     "connectionDirection": "TOP",
     "qPercent": 10.0,
-    "connectionPosition": 0
+    "connectionPosition": 0,
+    "busOrBusbarSectionId": "NGEN"
   },
   {
     "id": "GEN2",
@@ -60,6 +61,7 @@
     "connectionName": "feederName",
     "connectionDirection": "TOP",
     "qPercent": 10.0,
-    "connectionPosition": 0
+    "connectionPosition": 0,
+    "busOrBusbarSectionId": "NGEN"
   }
 ]

@@ -34,4 +34,7 @@ public abstract class AbstractHvdcConverterStationMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
 }

@@ -553,12 +553,32 @@ public class NetworkMapControllerTest {
                 .withSectionIndex(2)
                 .add();
 
+        // Create a connected shunt compensator in variant VARIANT_ID on a NODE_BREAKER voltage level
+        vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
+                .setName("SHUNT_VLNB")
+                .newLinearModel()
+                .setMaximumSectionCount(3)
+                .setBPerSection(1)
+                .setGPerSection(2)
+                .add()
+                .setSectionCount(2)
+                .setTargetV(225)
+                .setVoltageRegulatorOn(true)
+                .setTargetDeadband(10)
+                .setNode(2)
+                .add();
+        createSwitch(vlgen4, "VL4_BBS_SHUNT_DISCONNECTOR", SwitchKind.DISCONNECTOR, false, 0, 1);
+        createSwitch(vlgen4, "VL4_SHUNT_BREAKER", SwitchKind.BREAKER, false, 1, 2);
+
         vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
         vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
 
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
         network.getVariantManager().setWorkingVariant(VARIANT_ID);
+
+        // Disconnect shunt compensator "SHUNT_VLNB" in variant VARIANT_ID to test SJB retrieval even if equipment disconnected
+        network.getSwitch("VL4_SHUNT_BREAKER").setOpen(true);
 
         // Create a shunt compensator only in variant VARIANT_ID
         ShuntCompensator shunt3 = vlgen3.newShuntCompensator()
@@ -598,6 +618,19 @@ public class NetworkMapControllerTest {
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
+    }
+
+    private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
+        vl.getNodeBreakerView().newSwitch()
+                .setId(id)
+                .setName(id)
+                .setKind(kind)
+                .setRetained(kind.equals(SwitchKind.BREAKER))
+                .setOpen(open)
+                .setFictitious(false)
+                .setNode1(node1)
+                .setNode2(node2)
+                .add();
     }
 
     private void make3WindingsTransformer(Substation p1, String id,
