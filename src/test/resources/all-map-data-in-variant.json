@@ -838,9 +838,11 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "position": {
+        "label": "feederName",
+        "direction": "TOP",
+        "order": 0
+      },
       "busOrBusbarSectionId": "NLOAD"
     },
     {
@@ -851,7 +853,6 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null,
       "busOrBusbarSectionId": "NNEW2"
     },
     {
@@ -862,7 +863,6 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null,
       "busOrBusbarSectionId": "NNEW2"
     }
   ],

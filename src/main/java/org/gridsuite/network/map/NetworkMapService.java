@@ -749,10 +749,12 @@ class NetworkMapService {
 
         var connectablePosition = load.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
+            ConnectablePositionData.ConnectablePositionDataBuilder positionDataBuilder = ConnectablePositionData.builder()
+                    .direction(connectablePosition.getFeeder().getDirection())
+                    .label(connectablePosition.getFeeder().getName());
+            connectablePosition.getFeeder().getOrder().ifPresent(positionDataBuilder::order);
+
+            builder.position(positionDataBuilder.build());
         }
 
         return builder.build();
