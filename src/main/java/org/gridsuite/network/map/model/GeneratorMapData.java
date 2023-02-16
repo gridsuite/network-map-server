@@ -90,7 +90,7 @@ public class GeneratorMapData {
     private Boolean participate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float droop;
+    private Double droop;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double transientReactance;

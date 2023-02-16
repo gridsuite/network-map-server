@@ -183,14 +183,14 @@ class NetworkMapService {
             if (connectablePosition.getFeeder1() != null) {
                 builder
                         .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName())
+                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
                         .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
             }
 
             if (connectablePosition.getFeeder2() != null) {
                 builder
                         .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName())
+                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
                         .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
             }
         }
@@ -326,7 +326,7 @@ class NetworkMapService {
         if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
@@ -396,14 +396,14 @@ class NetworkMapService {
             if (connectablePosition.getFeeder1() != null) {
                 builder
                         .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName())
+                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
                         .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
             }
 
             if (connectablePosition.getFeeder2() != null) {
                 builder
                         .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName())
+                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
                         .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
             }
         }
@@ -739,7 +739,7 @@ class NetworkMapService {
         if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
@@ -775,7 +775,7 @@ class NetworkMapService {
         if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
