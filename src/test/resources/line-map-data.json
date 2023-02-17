@@ -1,8 +1,8 @@
 {
   "id": "NHV1_NHV2_1",
   "voltageLevelId1": "VLHV1",
-  "voltageLevelId2": "VLHV2",
   "voltageLevelName1": null,
+  "voltageLevelId2": "VLHV2",
   "voltageLevelName2": null,
   "terminal1Connected": true,
   "terminal2Connected": true,
@@ -10,20 +10,28 @@
   "q1": 2.2,
   "p2": 3.33,
   "q2": 4.44,
-  "permanentLimit1": 700.4,
-  "permanentLimit2": 800.8,
+  "currentLimits1": {
+    "permanentLimit": 700.4
+  },
+  "currentLimits2": {
+    "permanentLimit": 800.8
+  },
   "r": 9.0,
   "x": 10.0,
   "g1": 7.0,
   "b1": 5.0,
   "g2": 8.0,
   "b2": 6.0,
-  "connectionName1": "feederName1",
-  "connectionDirection1": "TOP",
-  "connectionName2": "feederName2",
-  "connectionDirection2": "BOTTOM",
-  "connectionPosition1": 0,
-  "connectionPosition2": 0,
+  "position1": {
+    "label": "feederName1",
+    "order": 0,
+    "direction": "TOP"
+  },
+  "position2": {
+    "label": "feederName2",
+    "order": 0,
+    "direction": "BOTTOM"
+  },
   "busOrBusbarSectionId1": "NHV1",
   "busOrBusbarSectionId2": "NHV2"
 }

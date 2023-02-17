@@ -2,47 +2,55 @@
   {
     "id": "NGEN_NHV1",
     "voltageLevelId1": "VLGEN",
-    "voltageLevelId2": "VLHV1",
     "voltageLevelName1": null,
+    "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,
     "name": null,
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "branchStatus": "PLANNED_OUTAGE",
     "p1": 11.1,
     "q1": 12.2,
     "p2": 13.33,
     "q2": 14.44,
-    "permanentLimit1": 750.4,
-    "permanentLimit2": 780.6,
+    "currentLimits1": {
+      "permanentLimit": 750.4
+    },
+    "currentLimits2": {
+      "permanentLimit": 780.6
+    },
     "phaseTapChanger": {
       "lowTapPosition": 0,
-      "highTapPosition": 1,
       "tapPosition": 1,
+      "highTapPosition": 1,
       "regulating": true,
       "targetDeadBand": 0.0,
-      "regulationMode" : "CURRENT_LIMITER",
-      "regulationValue" : 10.0,
-      "regulatingTerminalConnectableId": "NGEN_NHV1",
-      "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLGEN",
-      "steps": [{
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 0.8500000238418579,
-        "alpha": 1,
-        "index": 0
-      }, {
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 0.8999999761581421,
-        "alpha": 1,
-        "index": 1
-      }]
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 10.0,
+      "regulatingTerminal": {
+        "id": "NGEN_NHV1",
+        "type": "TWO_WINDINGS_TRANSFORMER",
+        "vlId": "VLGEN"
+      },
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.8500000238418579,
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0,
+          "alpha": 1.0
+        },
+        {
+          "index": 1,
+          "rho": 0.8999999761581421,
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0,
+          "alpha": 1.0
+        }
+      ]
     },
     "g": 0.0,
     "b": 0.0,
@@ -50,64 +58,78 @@
     "x": 11.104492831516762,
     "ratedU1": 24.0,
     "ratedU2": 400.0,
-    "connectionName1": "feederName1",
-    "connectionDirection1": "TOP",
-    "connectionName2": "feederName2",
-    "connectionDirection2": "BOTTOM",
-    "connectionPosition1": 0,
-    "connectionPosition2": 0,
+    "position1": {
+      "label": "feederName1",
+      "order": 0,
+      "direction": "TOP"
+    },
+    "position2": {
+      "label": "feederName2",
+      "order": 0,
+      "direction": "BOTTOM"
+    },
+    "branchStatus": "PLANNED_OUTAGE",
     "busOrBusbarSectionId1": "NGEN",
     "busOrBusbarSectionId2": "NHV1"
   },
   {
     "id": "NHV2_NLOAD",
     "voltageLevelId1": "VLHV2",
-    "voltageLevelId2": "VLLOAD",
     "voltageLevelName1": null,
+    "voltageLevelId2": "VLLOAD",
     "voltageLevelName2": null,
     "name": null,
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "branchStatus": "PLANNED_OUTAGE",
     "p1": 5.5,
     "q1": 6.6,
     "p2": 7.77,
     "q2": 8.88,
-    "permanentLimit1": 900.5,
-    "permanentLimit2": 950.5,
+    "currentLimits1": {
+      "permanentLimit": 900.5
+    },
+    "currentLimits2": {
+      "permanentLimit": 950.5
+    },
     "ratioTapChanger": {
       "lowTapPosition": 0,
-      "highTapPosition": 2,
       "tapPosition": 2,
-      "targetDeadBand": 0.0,
-      "targetV": 158.0,
-      "loadTapChangingCapabilities": true,
+      "highTapPosition": 2,
       "regulating": true,
-      "regulatingTerminalConnectableId": "NHV2_NLOAD",
-      "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLLOAD",
-      "steps": [{
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 0.8505666905244191,
-        "index": 0
-      }, {
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 1.0006666666666666,
-        "index": 1
-      }, {
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 1.150766642808914,
-        "index": 2
-      }]
+      "loadTapChangingCapabilities": true,
+      "targetV": 158.0,
+      "targetDeadBand": 0.0,
+      "regulatingTerminal": {
+        "id": "NHV2_NLOAD",
+        "type": "TWO_WINDINGS_TRANSFORMER",
+        "vlId": "VLLOAD"
+      },
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.8505666905244191,
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0
+        },
+        {
+          "index": 1,
+          "rho": 1.0006666666666666,
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0
+        },
+        {
+          "index": 2,
+          "rho": 1.150766642808914,
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0
+        }
+      ]
     },
     "g": 0.0,
     "b": 0.0,
@@ -115,12 +137,17 @@
     "x": 4.049724365620455,
     "ratedU1": 400.0,
     "ratedU2": 158.0,
-    "connectionName1": "feederName1",
-    "connectionDirection1": "TOP",
-    "connectionName2": "feederName2",
-    "connectionDirection2": "BOTTOM",
-    "connectionPosition1": 0,
-    "connectionPosition2": 0,
+    "position1": {
+      "label": "feederName1",
+      "order": 0,
+      "direction": "TOP"
+    },
+    "position2": {
+      "label": "feederName2",
+      "order": 0,
+      "direction": "BOTTOM"
+    },
+    "branchStatus": "PLANNED_OUTAGE",
     "busOrBusbarSectionId1": "NHV2",
     "busOrBusbarSectionId2": "NLOAD"
   }

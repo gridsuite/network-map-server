@@ -169,10 +169,12 @@ class NetworkMapService {
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
 
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
+            builder.currentLimits1(CurrentLimitsData.builder()
+                .permanentLimit(limits1.getPermanentLimit()).build());
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
+            builder.currentLimits2(CurrentLimitsData.builder()
+                .permanentLimit(limits2.getPermanentLimit()).build());
         }
         BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
@@ -182,16 +184,18 @@ class NetworkMapService {
         if (connectablePosition != null) {
             if (connectablePosition.getFeeder1() != null) {
                 builder
-                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
-                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
+                    .position1(ConnectablePositionData.builder()
+                        .direction(connectablePosition.getFeeder1().getDirection())
+                        .label(connectablePosition.getFeeder1().getName().orElse(null))
+                        .order(connectablePosition.getFeeder1().getOrder().orElse(null)).build());
             }
 
             if (connectablePosition.getFeeder2() != null) {
                 builder
-                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
-                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
+                    .position2(ConnectablePositionData.builder()
+                        .direction(connectablePosition.getFeeder2().getDirection())
+                        .label(connectablePosition.getFeeder2().getName().orElse(null))
+                        .order(connectablePosition.getFeeder2().getOrder().orElse(null)).build());
             }
         }
         return builder.build();
@@ -220,10 +224,12 @@ class NetworkMapService {
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
 
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
+            builder.currentLimits1(CurrentLimitsData.builder()
+                .permanentLimit(limits1.getPermanentLimit()).build());
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
+            builder.currentLimits2(CurrentLimitsData.builder()
+                .permanentLimit(limits2.getPermanentLimit()).build());
         }
         BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
@@ -334,13 +340,13 @@ class NetworkMapService {
     }
 
     private static List<ReactiveCapabilityCurveMapData> toMapData(Collection<ReactiveCapabilityCurve.Point> points) {
-        return  points.stream()
-                .map(point -> ReactiveCapabilityCurveMapData.builder()
-                        .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
-                        .build())
-                .collect(Collectors.toList());
+        return points.stream()
+            .map(point -> ReactiveCapabilityCurveMapData.builder()
+                .p(point.getP())
+                .qmaxP(point.getMaxQ())
+                .qminP(point.getMinQ())
+                .build())
+            .collect(Collectors.toList());
     }
 
     private static Double nullIfNan(double d) {
@@ -382,10 +388,12 @@ class NetworkMapService {
         CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
+            builder.currentLimits1(CurrentLimitsData.builder()
+                .permanentLimit(limits1.getPermanentLimit()).build());
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
+            builder.currentLimits2(CurrentLimitsData.builder()
+                .permanentLimit(limits2.getPermanentLimit()).build());
         }
         BranchStatus<TwoWindingsTransformer> branchStatus = transformer.getExtension(BranchStatus.class);
         if (branchStatus != null) {
@@ -395,16 +403,18 @@ class NetworkMapService {
         if (connectablePosition != null) {
             if (connectablePosition.getFeeder1() != null) {
                 builder
-                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
-                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
+                    .position1(ConnectablePositionData.builder()
+                        .direction(connectablePosition.getFeeder1().getDirection())
+                        .label(connectablePosition.getFeeder1().getName().orElse(null))
+                        .order(connectablePosition.getFeeder1().getOrder().orElse(null)).build());
             }
 
             if (connectablePosition.getFeeder2() != null) {
                 builder
-                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
-                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
+                    .position2(ConnectablePositionData.builder()
+                        .direction(connectablePosition.getFeeder2().getDirection())
+                        .label(connectablePosition.getFeeder2().getName().orElse(null))
+                        .order(connectablePosition.getFeeder2().getOrder().orElse(null)).build());
             }
         }
         return builder.build();
@@ -416,15 +426,18 @@ class NetworkMapService {
         }
 
         TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
-                .lowTapPosition(tapChanger.getLowTapPosition())
-                .highTapPosition(tapChanger.getHighTapPosition())
-                .tapPosition(tapChanger.getTapPosition())
-                .regulating(tapChanger.isRegulating())
-                .loadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
-                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
-                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
-                .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
+            .lowTapPosition(tapChanger.getLowTapPosition())
+            .highTapPosition(tapChanger.getHighTapPosition())
+            .tapPosition(tapChanger.getTapPosition())
+            .regulating(tapChanger.isRegulating())
+            .loadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
+            .regulatingTerminal(tapChanger.getRegulationTerminal() != null ? RegulatingTerminalData.builder()
+                .id(tapChanger.getRegulationTerminal().getConnectable().getId())
+                .vlId(tapChanger.getRegulationTerminal().getVoltageLevel().getId())
+                .type(tapChanger.getRegulationTerminal().getConnectable().getType().name())
+                .build()
+                : null)
+            .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
 
         builder.targetV(nullIfNan(tapChanger.getTargetV()));
         builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
@@ -437,17 +450,20 @@ class NetworkMapService {
         }
 
         TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
-                .lowTapPosition(tapChanger.getLowTapPosition())
-                .highTapPosition(tapChanger.getHighTapPosition())
-                .tapPosition(tapChanger.getTapPosition())
-                .regulating(tapChanger.isRegulating())
-                .regulationMode(tapChanger.getRegulationMode())
-                .regulationValue(tapChanger.getRegulationValue())
-                .targetDeadBand(tapChanger.getTargetDeadband())
-                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
-                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
-                .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
+            .lowTapPosition(tapChanger.getLowTapPosition())
+            .highTapPosition(tapChanger.getHighTapPosition())
+            .tapPosition(tapChanger.getTapPosition())
+            .regulating(tapChanger.isRegulating())
+            .regulationMode(tapChanger.getRegulationMode())
+            .regulationValue(tapChanger.getRegulationValue())
+            .targetDeadBand(tapChanger.getTargetDeadband())
+            .regulatingTerminal(tapChanger.getRegulationTerminal() != null ? RegulatingTerminalData.builder()
+                .id(tapChanger.getRegulationTerminal().getConnectable().getId())
+                .vlId(tapChanger.getRegulationTerminal().getVoltageLevel().getId())
+                .type(tapChanger.getRegulationTerminal().getConnectable().getType().name())
+                .build()
+                : null)
+            .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
         builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();

@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -57,10 +56,10 @@ public class LineMapData {
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double permanentLimit1;
+    private CurrentLimitsData currentLimits1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double permanentLimit2;
+    private CurrentLimitsData currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
@@ -84,22 +83,10 @@ public class LineMapData {
     private Double b2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String connectionName1;
+    private ConnectablePositionData position1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ConnectablePosition.Direction connectionDirection1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String connectionName2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ConnectablePosition.Direction connectionDirection2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer connectionPosition1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer connectionPosition2;
+    private ConnectablePositionData position2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId1;

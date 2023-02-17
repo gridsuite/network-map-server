@@ -18,85 +18,93 @@
     "permanentLimit3": 54.0,
     "phaseTapChanger1": {
       "lowTapPosition": 0,
-      "highTapPosition": 2,
       "tapPosition": 1,
+      "highTapPosition": 2,
       "regulating": true,
       "targetDeadBand": 22.0,
-      "regulationMode" : "CURRENT_LIMITER",
-      "regulationValue" : 25.0,
-      "regulatingTerminalConnectableId": "TWT",
-      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLHV1",
-      "steps": [{
-        "r": 1,
-        "x": 4,
-        "g": 0.5,
-        "b": 1.5,
-        "rho": 0.99,
-        "alpha": -10.0,
-        "index": 0
-      }, {
-        "r": 1.2,
-        "x": 4.2,
-        "g": 0.7,
-        "b": 1.7,
-        "rho": 1.01,
-        "alpha": 10.0,
-        "index": 2
-      }, {
-        "r": 1.1,
-        "x": 4.1,
-        "g": 0.6,
-        "b": 1.6,
-        "rho": 1.0,
-        "alpha": 0.0,
-        "index": 1
-      }]
-    },
-    "ratioTapChanger3": {
-      "lowTapPosition": 0,
-      "highTapPosition": 2,
-      "tapPosition": 2,
-      "targetDeadBand": 22.0,
-      "targetV": 220.0,
-      "loadTapChangingCapabilities": false,
-      "regulating": false,
-      "regulatingTerminalConnectableId": "TWT",
-      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLHV1",
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 25.0,
+      "regulatingTerminal": {
+        "id": "TWT",
+        "type": "THREE_WINDINGS_TRANSFORMER",
+        "vlId": "VLHV1"
+      },
       "steps": [
         {
-          "r": 1,
-          "b": 1.5,
-          "g": 0.5,
+          "index": 0,
           "rho": 0.99,
-          "x": 4,
-          "index": 0
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5,
+          "alpha": -10.0
         },
         {
+          "index": 1,
+          "rho": 1.0,
           "r": 1.1,
-          "b": 1.6,
-          "g": 0.6,
-          "rho": 1,
           "x": 4.1,
-          "index": 1
+          "g": 0.6,
+          "b": 1.6,
+          "alpha": 0.0
         },
         {
+          "index": 2,
+          "rho": 1.01,
           "r": 1.2,
           "x": 4.2,
           "g": 0.7,
           "b": 1.7,
-          "rho": 1.01,
-          "index": 2
+          "alpha": 10.0
         }
       ]
     },
-    "regulatingMode1" : "CURRENT_LIMITER",
-    "regulatingPhase1" : true,
-    "regulatingValue1" : 25.0,
+    "ratioTapChanger3": {
+      "lowTapPosition": 0,
+      "tapPosition": 2,
+      "highTapPosition": 2,
+      "regulating": false,
+      "loadTapChangingCapabilities": false,
+      "targetV": 220.0,
+      "targetDeadBand": 22.0,
+      "regulatingTerminal": {
+        "id": "TWT",
+        "type": "THREE_WINDINGS_TRANSFORMER",
+        "vlId": "VLHV1"
+      },
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7
+        }
+      ]
+    },
     "loadTapChanging3Capabilities": false,
-    "regulatingRatio3" : false,
-    "targetV3" : 220.0,
+    "targetV3": 220.0,
+    "regulatingMode1": "CURRENT_LIMITER",
+    "regulatingRatio3": false,
+    "regulatingPhase1": true,
+    "regulatingValue1": 25.0,
     "busOrBusbarSectionId1": "NHV1",
     "busOrBusbarSectionId2": "NNEW2",
     "busOrBusbarSectionId3": "NGEN"
@@ -120,85 +128,93 @@
     "permanentLimit2": 25.0,
     "ratioTapChanger1": {
       "lowTapPosition": 0,
-      "highTapPosition": 2,
       "tapPosition": 2,
-      "targetDeadBand": 22.0,
-      "targetV": 220.0,
-      "loadTapChangingCapabilities": false,
+      "highTapPosition": 2,
       "regulating": false,
-      "regulatingTerminalConnectableId": "TWT21",
-      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLHV1",
+      "loadTapChangingCapabilities": false,
+      "targetV": 220.0,
+      "targetDeadBand": 22.0,
+      "regulatingTerminal": {
+        "id": "TWT21",
+        "type": "THREE_WINDINGS_TRANSFORMER",
+        "vlId": "VLHV1"
+      },
       "steps": [
         {
-          "r": 1,
-          "b": 1.5,
-          "g": 0.5,
+          "index": 0,
           "rho": 0.99,
-          "x": 4,
-          "index": 0
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5
         },
         {
+          "index": 1,
+          "rho": 1.0,
           "r": 1.1,
-          "b": 1.6,
-          "g": 0.6,
-          "rho": 1,
           "x": 4.1,
-          "index": 1
+          "g": 0.6,
+          "b": 1.6
         },
         {
+          "index": 2,
+          "rho": 1.01,
           "r": 1.2,
           "x": 4.2,
           "g": 0.7,
-          "b": 1.7,
-          "rho": 1.01,
-          "index": 2
+          "b": 1.7
         }
       ]
     },
     "phaseTapChanger2": {
       "lowTapPosition": 0,
-      "highTapPosition": 2,
       "tapPosition": 1,
+      "highTapPosition": 2,
       "regulating": true,
       "targetDeadBand": 22.0,
-      "regulationMode" : "CURRENT_LIMITER",
-      "regulationValue" : 25.0,
-      "regulatingTerminalConnectableId": "TWT21",
-      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLHV1",
-      "steps": [{
-        "r": 1,
-        "x": 4,
-        "g": 0.5,
-        "b": 1.5,
-        "rho": 0.99,
-        "alpha": -10.0,
-        "index": 0
-      }, {
-        "r": 1.2,
-        "x": 4.2,
-        "g": 0.7,
-        "b": 1.7,
-        "rho": 1.01,
-        "alpha": 10.0,
-        "index": 2
-      }, {
-        "r": 1.1,
-        "x": 4.1,
-        "g": 0.6,
-        "b": 1.6,
-        "rho": 1.0,
-        "alpha": 0.0,
-        "index": 1
-      }]
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 25.0,
+      "regulatingTerminal": {
+        "id": "TWT21",
+        "type": "THREE_WINDINGS_TRANSFORMER",
+        "vlId": "VLHV1"
+      },
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5,
+          "alpha": -10.0
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6,
+          "alpha": 0.0
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7,
+          "alpha": 10.0
+        }
+      ]
     },
-    "regulatingMode2" : "CURRENT_LIMITER",
-    "regulatingPhase2" : true,
-    "regulatingValue2" : 25.0,
     "loadTapChanging1Capabilities": false,
-    "regulatingRatio1" : false,
-    "targetV1" : 220.0,
+    "targetV1": 220.0,
+    "regulatingMode2": "CURRENT_LIMITER",
+    "regulatingRatio1": false,
+    "regulatingPhase2": true,
+    "regulatingValue2": 25.0,
     "busOrBusbarSectionId1": "NHV1",
     "busOrBusbarSectionId2": "NNEW2",
     "busOrBusbarSectionId3": "NGEN"
@@ -222,85 +238,93 @@
     "permanentLimit3": 25.0,
     "ratioTapChanger2": {
       "lowTapPosition": 0,
-      "highTapPosition": 2,
       "tapPosition": 2,
-      "targetDeadBand": 22.0,
-      "targetV": 220.0,
-      "loadTapChangingCapabilities": false,
+      "highTapPosition": 2,
       "regulating": false,
-      "regulatingTerminalConnectableId": "TWT32",
-      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLHV1",
+      "loadTapChangingCapabilities": false,
+      "targetV": 220.0,
+      "targetDeadBand": 22.0,
+      "regulatingTerminal": {
+        "id": "TWT32",
+        "type": "THREE_WINDINGS_TRANSFORMER",
+        "vlId": "VLHV1"
+      },
       "steps": [
         {
-          "r": 1,
-          "b": 1.5,
-          "g": 0.5,
+          "index": 0,
           "rho": 0.99,
-          "x": 4,
-          "index": 0
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5
         },
         {
+          "index": 1,
+          "rho": 1.0,
           "r": 1.1,
-          "b": 1.6,
-          "g": 0.6,
-          "rho": 1,
           "x": 4.1,
-          "index": 1
+          "g": 0.6,
+          "b": 1.6
         },
         {
+          "index": 2,
+          "rho": 1.01,
           "r": 1.2,
           "x": 4.2,
           "g": 0.7,
-          "b": 1.7,
-          "rho": 1.01,
-          "index": 2
+          "b": 1.7
         }
       ]
     },
     "phaseTapChanger3": {
       "lowTapPosition": 0,
-      "highTapPosition": 2,
       "tapPosition": 1,
+      "highTapPosition": 2,
       "regulating": true,
       "targetDeadBand": 22.0,
-      "regulationMode" : "CURRENT_LIMITER",
-      "regulationValue" : 25.0,
-      "regulatingTerminalConnectableId": "TWT32",
-      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
-      "regulatingTerminalVlId": "VLHV1",
-      "steps": [{
-        "r": 1,
-        "x": 4,
-        "g": 0.5,
-        "b": 1.5,
-        "rho": 0.99,
-        "alpha": -10.0,
-        "index": 0
-      }, {
-        "r": 1.2,
-        "x": 4.2,
-        "g": 0.7,
-        "b": 1.7,
-        "rho": 1.01,
-        "alpha": 10.0,
-        "index": 2
-      }, {
-        "r": 1.1,
-        "x": 4.1,
-        "g": 0.6,
-        "b": 1.6,
-        "rho": 1.0,
-        "alpha": 0.0,
-        "index": 1
-      }]
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 25.0,
+      "regulatingTerminal": {
+        "id": "TWT32",
+        "type": "THREE_WINDINGS_TRANSFORMER",
+        "vlId": "VLHV1"
+      },
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5,
+          "alpha": -10.0
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6,
+          "alpha": 0.0
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7,
+          "alpha": 10.0
+        }
+      ]
     },
-    "regulatingMode3" : "CURRENT_LIMITER",
-    "regulatingPhase3" : true,
-    "regulatingValue3" : 25.0,
     "loadTapChanging2Capabilities": false,
-    "regulatingRatio2" : false,
-    "targetV2" : 220.0,
+    "targetV2": 220.0,
+    "regulatingMode3": "CURRENT_LIMITER",
+    "regulatingRatio2": false,
+    "regulatingPhase3": true,
+    "regulatingValue3": 25.0,
     "busOrBusbarSectionId1": "NHV1",
     "busOrBusbarSectionId2": "NNEW2",
     "busOrBusbarSectionId3": "NGEN"
