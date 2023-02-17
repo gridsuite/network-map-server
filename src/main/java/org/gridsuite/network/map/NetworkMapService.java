@@ -209,8 +209,6 @@ class NetworkMapService {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
-                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
                 .i1(nullIfNan(terminal1.getI()))
                 .i2(nullIfNan(terminal2.getI()))
                 .p1(nullIfNan(terminal1.getP()))
