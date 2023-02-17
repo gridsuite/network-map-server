@@ -553,7 +553,7 @@ public class NetworkMapControllerTest {
                 .withSectionIndex(2)
                 .add();
 
-        // Create a connected shunt compensator in variant VARIANT_ID on a NODE_BREAKER voltage level
+        // Create a connected shunt compensator on a NODE_BREAKER voltage level
         vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
                 .setName("SHUNT_VLNB")
                 .newLinearModel()
@@ -1296,8 +1296,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnShuntCompensatorMapData() throws Exception {
-        succeedingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "SHUNT1", resourceToString("/shunt-compensator-map-data.json"));
-        succeedingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "SHUNT1", resourceToString("/shunt-compensator-map-data.json"));
+        succeedingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data.json"));
+        succeedingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data-in-variant.json"));
     }
 
     @Test

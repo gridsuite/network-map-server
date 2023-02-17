@@ -8,8 +8,7 @@
     "p": 45.0,
     "q": 75.0,
     "p0": 50.0,
-    "q0": 30.0,
-    "busOrBusbarSectionId": "NGEN"
+    "q0": 30.0
   },
   {
     "id": "DL2",
@@ -18,7 +17,6 @@
     "terminalConnected": true,
     "ucteXnodeCode": "xnode1",
     "p0": 50.0,
-    "q0": 30.0,
-    "busOrBusbarSectionId": "NGEN3"
+    "q0": 30.0
   }
 ]
