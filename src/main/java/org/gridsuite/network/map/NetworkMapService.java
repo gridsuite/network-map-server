@@ -186,7 +186,7 @@ class NetworkMapService {
                 builder
                     .position1(ConnectablePositionData.builder()
                         .direction(connectablePosition.getFeeder1().getDirection())
-                        .label(connectablePosition.getFeeder1().getName())
+                        .label(connectablePosition.getFeeder1().getName().orElse(null))
                         .order(connectablePosition.getFeeder1().getOrder().orElse(null)).build());
             }
 
@@ -194,7 +194,7 @@ class NetworkMapService {
                 builder
                     .position2(ConnectablePositionData.builder()
                         .direction(connectablePosition.getFeeder2().getDirection())
-                        .label(connectablePosition.getFeeder2().getName())
+                        .label(connectablePosition.getFeeder2().getName().orElse(null))
                         .order(connectablePosition.getFeeder2().getOrder().orElse(null)).build());
             }
         }
@@ -332,7 +332,7 @@ class NetworkMapService {
         if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
@@ -405,7 +405,7 @@ class NetworkMapService {
                 builder
                     .position1(ConnectablePositionData.builder()
                         .direction(connectablePosition.getFeeder1().getDirection())
-                        .label(connectablePosition.getFeeder1().getName())
+                        .label(connectablePosition.getFeeder1().getName().orElse(null))
                         .order(connectablePosition.getFeeder1().getOrder().orElse(null)).build());
             }
 
@@ -413,7 +413,7 @@ class NetworkMapService {
                 builder
                     .position2(ConnectablePositionData.builder()
                         .direction(connectablePosition.getFeeder2().getDirection())
-                        .label(connectablePosition.getFeeder2().getName())
+                        .label(connectablePosition.getFeeder2().getName().orElse(null))
                         .order(connectablePosition.getFeeder2().getOrder().orElse(null)).build());
             }
         }
@@ -755,7 +755,7 @@ class NetworkMapService {
         if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
@@ -791,7 +791,7 @@ class NetworkMapService {
         if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName());
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
