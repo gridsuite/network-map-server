@@ -757,8 +757,13 @@ class NetworkMapService {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
-        if (shuntCompensator.getModel() instanceof  ShuntCompensatorLinearModel) {
-            builder.bPerSection(shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection());
+        Double bPerSection = null;
+        if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {
+            bPerSection = shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection();
+        }
+        if (bPerSection != null) {
+            builder.bPerSection(bPerSection);
+            builder.qAtNominalV(Math.abs(terminal.getVoltageLevel().getNominalV() * terminal.getVoltageLevel().getNominalV() * bPerSection));
         }
         //TODO handle shuntCompensator non linear model
         if (!Double.isNaN(terminal.getQ())) {
