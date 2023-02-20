@@ -817,7 +817,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "busOrBusbarSectionId": "NNEW2"
+      "busOrBusbarSectionId": "NNEW2",
+      "qatNominalV": 253125.0
     },
     {
       "id": "SHUNT2",
@@ -832,7 +833,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "busOrBusbarSectionId": "NGEN3"
+      "busOrBusbarSectionId": "NGEN3",
+      "qatNominalV": 576.0
     },
     {
       "id": "SHUNT3",
@@ -848,7 +850,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "busOrBusbarSectionId": "NGEN3"
+      "busOrBusbarSectionId": "NGEN3",
+      "qatNominalV": 576.0
     },
     {
       "id": "SHUNT_VLNB",
@@ -861,7 +864,8 @@
       "maximumSectionCount":3,
       "bperSection":1.0,
       "connectionDirection": null,
-      "busOrBusbarSectionId": "NGEN4"
+      "busOrBusbarSectionId": "NGEN4",
+      "qatNominalV": 576.0
     }
   ],
   "staticVarCompensators": [

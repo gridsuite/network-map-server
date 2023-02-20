@@ -82,7 +82,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "busOrBusbarSectionId": "NGEN3"
+      "busOrBusbarSectionId": "NGEN3",
+      "qatNominalV": 576.0
     },
     {
       "id": "SHUNT3",
@@ -98,7 +99,8 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "busOrBusbarSectionId": "NGEN3"
+      "busOrBusbarSectionId": "NGEN3",
+      "qatNominalV": 576.0
     }
   ],
   "staticVarCompensators": [],

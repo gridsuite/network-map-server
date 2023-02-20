@@ -12,6 +12,7 @@
   "connectionName": "feederName",
   "connectionDirection": "TOP",
   "connectionPosition": 0,
-  "busOrBusbarSectionId": "NNEW2"
+  "busOrBusbarSectionId": "NNEW2",
+  "qatNominalV": 253125.0
 }
 
