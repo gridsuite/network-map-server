@@ -12,8 +12,7 @@
     "bperSection":5.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "connectionPosition": 0,
-    "busOrBusbarSectionId": "NNEW2"
+    "connectionPosition": 0
   },
   {
     "id": "SHUNT2",
@@ -27,8 +26,7 @@
     "bperSection":1.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "connectionPosition": 0,
-    "busOrBusbarSectionId": "NGEN3"
+    "connectionPosition": 0
   },
   {
     "id": "SHUNT3",
@@ -43,7 +41,6 @@
     "bperSection":1.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "connectionPosition": 0,
-    "busOrBusbarSectionId": "NGEN3"
+    "connectionPosition": 0
   }
 ]

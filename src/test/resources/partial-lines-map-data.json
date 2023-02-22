@@ -19,8 +19,6 @@
     "connectionName2": "feederName2",
     "connectionDirection2": "BOTTOM",
     "connectionPosition1": 0,
-    "connectionPosition2": 0,
-    "busOrBusbarSectionId1": "NGEN",
-    "busOrBusbarSectionId2": "NGEN3"
+    "connectionPosition2": 0
   }
 ]

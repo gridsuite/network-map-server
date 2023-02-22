@@ -12,7 +12,6 @@
     "bperSection": 5.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "connectionPosition": 0,
-    "busOrBusbarSectionId": "NNEW2"
+    "connectionPosition": 0
   }
 ]
