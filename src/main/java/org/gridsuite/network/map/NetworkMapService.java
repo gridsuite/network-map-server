@@ -1381,6 +1381,23 @@ class NetworkMapService {
         }
     }
 
+    public Object getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        Line line = network.getLine(equipmentId);
+        if (line != null) {
+            return toMapData(line, true);
+        }
+        TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
+        if (twoWT != null) {
+            return toMapData(twoWT, true);
+        }
+        ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
+        if (threeWT != null) {
+            return toMapData(threeWT, true);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
     public List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, EquipmentType equipmentType) {
         switch (equipmentType) {
             case GENERATOR:
