@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -86,6 +87,45 @@ class NetworkMapService {
             .build();
     }
 
+    private static String traverseInWidth(Terminal origin) {
+        Set<Terminal> terminalsToTraverse = new LinkedHashSet<>();
+        terminalsToTraverse.add(origin);
+        boolean isConnected = origin.isConnected();
+        Set<Terminal> traversedTerminals = new HashSet<>();
+        Terminal maybeBusBar = null;
+        while (!terminalsToTraverse.isEmpty()) {
+            Terminal t = terminalsToTraverse.stream().findFirst().get(); // never empty
+            terminalsToTraverse.remove(t);
+            if (traversedTerminals.contains(t)) {
+                continue;
+            }
+            Bus terminalBus = t.getBusView().getBus();
+            if (terminalBus == null) {
+                continue;
+            }
+            List<Terminal> listTerminals = StreamSupport.stream(terminalBus.getConnectedTerminals().spliterator(), false).collect(Collectors.toList());
+            terminalsToTraverse.addAll(listTerminals.stream()
+                    .filter(terminal -> canTraverse(terminal, isConnected))
+                    .collect(Collectors.toList()));
+            if (t.getConnectable().getType() == IdentifiableType.BUSBAR_SECTION) {
+                if (t.isConnected()) {
+                    return t.getConnectable().getId();
+                } else if (maybeBusBar == null) {
+                    maybeBusBar = t;
+                }
+            }
+            traversedTerminals.add(t);
+        }
+        return maybeBusBar != null ? maybeBusBar.getConnectable().getId() : "";
+    }
+
+    private static boolean canTraverse(Terminal t, boolean isConnected) {
+        if (!isConnected) {
+            return true;
+        }
+        return t.getConnectable().getType() != IdentifiableType.SWITCH || !((Switch) t.getConnectable()).isOpen();
+    }
+
     private static class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser {
 
         private final boolean onlyConnectedBbs;
@@ -127,6 +167,7 @@ class NetworkMapService {
                 busOrBusbarSectionId = terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
+            // busOrBusbarSectionId = traverseInWidth(terminal)
             busOrBusbarSectionId = getBusbarSectionId(terminal);
         }
         return busOrBusbarSectionId;
