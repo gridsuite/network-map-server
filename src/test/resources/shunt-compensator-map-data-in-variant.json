@@ -9,6 +9,7 @@
   "maximumSectionCount":3,
   "bperSection":1.0,
   "connectionDirection": null,
-  "busOrBusbarSectionId": "NGEN4"
+  "busOrBusbarSectionId": "NGEN4",
+  "qatNominalV": 576.0
 }
 
