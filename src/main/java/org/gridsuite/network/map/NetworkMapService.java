@@ -334,7 +334,7 @@ class NetworkMapService {
     }
 
     private static List<ReactiveCapabilityCurveMapData> toMapData(Collection<ReactiveCapabilityCurve.Point> points) {
-        return  points.stream()
+        return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
                         .qmaxP(point.getMaxQ())
@@ -763,7 +763,7 @@ class NetworkMapService {
         }
         if (bPerSection != null) {
             builder.bPerSection(bPerSection);
-            builder.qAtNominalV(Math.abs(terminal.getVoltageLevel().getNominalV() * terminal.getVoltageLevel().getNominalV() * bPerSection));
+            builder.qAtNominalV(Math.abs(Math.pow(terminal.getVoltageLevel().getNominalV(), 2) * bPerSection));
         }
         //TODO handle shuntCompensator non linear model
         if (!Double.isNaN(terminal.getQ())) {
