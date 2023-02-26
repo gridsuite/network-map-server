@@ -8,8 +8,7 @@
     "p": 120.0,
     "q": 43.0,
     "voltageSetpoint": 200.0,
-    "reactivePowerSetpoint": 100.0,
-    "busOrBusbarSectionId": "NGEN"
+    "reactivePowerSetpoint": 100.0
   },
   {
     "id": "SVC2",
@@ -18,7 +17,6 @@
     "terminalConnected": true,
     "regulationMode": "VOLTAGE",
     "voltageSetpoint": 200.0,
-    "reactivePowerSetpoint": 100.0,
-    "busOrBusbarSectionId": "NNEW2"
+    "reactivePowerSetpoint": 100.0
   }
 ]

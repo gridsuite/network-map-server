@@ -9,8 +9,7 @@
     "q0": 200.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "connectionPosition": 0,
-    "busOrBusbarSectionId": "NLOAD"
+    "connectionPosition": 0
   },
   {
     "id": "LOAD_WITH_NULL_NAME",
@@ -20,8 +19,7 @@
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0,
-    "connectionDirection": null,
-    "busOrBusbarSectionId": "NNEW2"
+    "connectionDirection": null
   },
   {
     "id": "LOAD_ID",
@@ -31,7 +29,6 @@
     "terminalConnected": true,
     "p0": 600.0,
     "q0": 200.0,
-    "connectionDirection": null,
-    "busOrBusbarSectionId": "NNEW2"
+    "connectionDirection": null
   }
 ]

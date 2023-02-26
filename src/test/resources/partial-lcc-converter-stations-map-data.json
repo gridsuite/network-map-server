@@ -6,8 +6,7 @@
     "terminalConnected": true,
     "hvdcLineId": null,
     "powerFactor": 0.5,
-    "lossFactor": 1.0,
-    "busOrBusbarSectionId": "NGEN"
+    "lossFactor": 1.0
   },
   {
     "id": "LCC2",
@@ -18,7 +17,6 @@
     "p": 110.0,
     "q": 310.0,
     "powerFactor": 0.5,
-    "lossFactor": 1.0,
-    "busOrBusbarSectionId": "NNEW2"
+    "lossFactor": 1.0
   }
 ]

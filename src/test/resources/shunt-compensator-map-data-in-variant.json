@@ -2,14 +2,13 @@
   "id": "SHUNT_VLNB",
   "name": "SHUNT_VLNB",
   "voltageLevelId": "VLGEN4",
-  "terminalConnected": true,
+  "terminalConnected": false,
   "targetV": 225.0,
   "targetDeadband": 10.0,
   "sectionCount":2,
   "maximumSectionCount":3,
   "bperSection":1.0,
   "connectionDirection": null,
-  "busOrBusbarSectionId": "NGEN4",
-  "qatNominalV": 253125.0
+  "busOrBusbarSectionId": "NGEN4"
 }
 
