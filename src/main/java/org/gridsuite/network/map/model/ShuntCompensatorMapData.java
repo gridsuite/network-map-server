@@ -42,6 +42,9 @@ public class ShuntCompensatorMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double bPerSection;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double qAtNominalV;
+
     private Integer maximumSectionCount;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
