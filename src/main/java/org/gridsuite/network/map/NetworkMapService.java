@@ -514,12 +514,9 @@ class NetworkMapService {
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection) {
-        ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
-        ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
-        ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
-        Terminal terminal1 = leg1.getTerminal();
-        Terminal terminal2 = leg2.getTerminal();
-        Terminal terminal3 = leg3.getTerminal();
+        Terminal terminal1 = transformer.getLeg1().getTerminal();
+        Terminal terminal2 = transformer.getLeg2().getTerminal();
+        Terminal terminal3 = transformer.getLeg3().getTerminal();
         ThreeWindingsTransformerMapData.ThreeWindingsTransformerMapDataBuilder builder = ThreeWindingsTransformerMapData.builder()
             .name(transformer.getOptionalName().orElse(null))
             .id(transformer.getId())
@@ -563,9 +560,17 @@ class NetworkMapService {
         if (!Double.isNaN(terminal3.getI())) {
             builder.i3(terminal3.getI());
         }
-        CurrentLimits limits1 = leg1.getCurrentLimits().orElse(null);
-        CurrentLimits limits2 = leg2.getCurrentLimits().orElse(null);
-        CurrentLimits limits3 = leg3.getCurrentLimits().orElse(null);
+        mapThreeWindingsTransformerRatioTapChangers(builder, transformer);
+        mapThreeWindingsTransformerPermanentLimits(builder, transformer);
+        return builder.build();
+    }
+
+    private static void mapThreeWindingsTransformerPermanentLimits(
+            ThreeWindingsTransformerMapData.ThreeWindingsTransformerMapDataBuilder builder,
+            ThreeWindingsTransformer transformer) {
+        CurrentLimits limits1 = transformer.getLeg1().getCurrentLimits().orElse(null);
+        CurrentLimits limits2 = transformer.getLeg2().getCurrentLimits().orElse(null);
+        CurrentLimits limits3 = transformer.getLeg3().getCurrentLimits().orElse(null);
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
             builder.permanentLimit1(limits1.getPermanentLimit());
         }
@@ -575,6 +580,14 @@ class NetworkMapService {
         if (limits3 != null && !Double.isNaN(limits3.getPermanentLimit())) {
             builder.permanentLimit3(limits3.getPermanentLimit());
         }
+    }
+
+    private static void mapThreeWindingsTransformerRatioTapChangers(
+            ThreeWindingsTransformerMapData.ThreeWindingsTransformerMapDataBuilder builder,
+            ThreeWindingsTransformer transformer) {
+        ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
+        ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
+        ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
         if (leg1.hasRatioTapChanger()) {
             builder.ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
                     .loadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
@@ -623,7 +636,6 @@ class NetworkMapService {
                 builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
             }
         }
-        return builder.build();
     }
 
     private static BatteryMapData toMapData(Battery battery) {
