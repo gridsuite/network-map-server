@@ -8,7 +8,6 @@ package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
@@ -16,7 +15,6 @@ import lombok.Getter;
  */
 @Builder
 @Getter
-@EqualsAndHashCode
 public class TemporaryLimitData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
