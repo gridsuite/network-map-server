@@ -12,6 +12,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -61,6 +63,12 @@ public class LineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double permanentLimit2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<TemporaryLimitData> temporaryLimits1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<TemporaryLimitData> temporaryLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
