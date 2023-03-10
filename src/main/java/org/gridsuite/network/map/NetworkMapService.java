@@ -146,8 +146,8 @@ class NetworkMapService {
         return limits.stream()
                 .map(l -> TemporaryLimitData.builder()
                         .name(l.getName())
-                        .acceptableDuration(l.getAcceptableDuration())
-                        .value(l.getValue())
+                        .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
+                        .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -189,7 +189,7 @@ class NetworkMapService {
             if (!Double.isNaN(limits1.getPermanentLimit())) {
                 builder.permanentLimit1(limits1.getPermanentLimit());
             }
-            if (!limits1.getTemporaryLimits().isEmpty()) {
+            if (limits1.getTemporaryLimits() != null && !limits1.getTemporaryLimits().isEmpty()) {
                 builder.temporaryLimits1(toMapDataTemporaryLimit(limits1.getTemporaryLimits()));
             }
         }
@@ -197,7 +197,7 @@ class NetworkMapService {
             if (!Double.isNaN(limits2.getPermanentLimit())) {
                 builder.permanentLimit2(limits2.getPermanentLimit());
             }
-            if (!limits2.getTemporaryLimits().isEmpty()) {
+            if (limits2.getTemporaryLimits() != null && !limits2.getTemporaryLimits().isEmpty()) {
                 builder.temporaryLimits2(toMapDataTemporaryLimit(limits2.getTemporaryLimits()));
             }
         }
