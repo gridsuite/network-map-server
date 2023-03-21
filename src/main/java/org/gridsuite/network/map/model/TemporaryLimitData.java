@@ -20,9 +20,9 @@ public class TemporaryLimitData {
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer acceptableDuration;
+    private Double value;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double value;
+    private Integer acceptableDuration;
 }
 
