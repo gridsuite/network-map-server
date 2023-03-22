@@ -10,18 +10,19 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * @author David Braquart <david.braquart at rte-france.com>
  */
 @Builder
 @Getter
-public class TemporaryLimitData {
-    private String name;
+public class CurrentLimitsData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double value;
+    private Double permanentLimit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer acceptableDuration;
+    private List<TemporaryLimitData> temporaryLimits;
 }
 
