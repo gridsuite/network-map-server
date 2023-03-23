@@ -1321,7 +1321,7 @@ class NetworkMapService {
     public List<VoltageLevelConnectableMapData> getVoltageLevelEquipements(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         List<VoltageLevel> voltageLevels = substationsId == null ?
-                network.getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId())).collect(Collectors.toList()) :
+                List.of(network.getVoltageLevel(voltageLevelId)) :
                 substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId()))).collect(Collectors.toList());
 
         return voltageLevels.stream()
