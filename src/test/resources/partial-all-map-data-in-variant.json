@@ -78,7 +78,8 @@
       "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "qatNominalV": 576.0
     },
     {
       "id": "SHUNT3",
@@ -93,7 +94,8 @@
       "bperSection":1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "qatNominalV": 576.0
     }
   ],
   "staticVarCompensators": [],
