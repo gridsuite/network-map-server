@@ -72,6 +72,9 @@ public class NetworkMapControllerTest {
         MockitoAnnotations.initMocks(this);
 
         Network network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
+        Line l2 = network.getLine("NHV1_NHV2_2");
+        l2.newCurrentLimits1().setPermanentLimit(Double.NaN).add();
+        l2.newCurrentLimits2().setPermanentLimit(Double.NaN).add();
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
                 .setQ(2.2);
@@ -79,8 +82,25 @@ public class NetworkMapControllerTest {
                 .setQ(4.44);
         l1.setB1(5).setB2(6).setG1(7).setG2(8);
         l1.setR(9).setX(10);
-        l1.newCurrentLimits1().setPermanentLimit(700.4).add();
-        l1.newCurrentLimits2().setPermanentLimit(800.8).add();
+        l1.newCurrentLimits1().setPermanentLimit(700.4)
+                .beginTemporaryLimit()
+                .setName("IT5")
+                .setValue(250.0)
+                .setAcceptableDuration(300)
+                .endTemporaryLimit()
+                .add();
+        l1.newCurrentLimits2().setPermanentLimit(800.8)
+                .beginTemporaryLimit()
+                .setName("IT10")
+                .setValue(200.0)
+                .setAcceptableDuration(600)
+                .endTemporaryLimit()
+                .beginTemporaryLimit()
+                .setName("IT20")
+                .setValue(300.0)
+                .setAcceptableDuration(1200)
+                .endTemporaryLimit()
+                .add();
         l1.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
