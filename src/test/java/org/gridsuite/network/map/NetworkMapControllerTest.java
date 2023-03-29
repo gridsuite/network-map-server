@@ -118,25 +118,6 @@ public class NetworkMapControllerTest {
                 .setQ(6.6);
         t1.getTerminal2().setP(7.77)
                 .setQ(8.88);
-        t1.newCurrentLimits1().setPermanentLimit(900.5)
-                .beginTemporaryLimit()
-                .setName("IT5")
-                .setValue(300)
-                .setAcceptableDuration(2087)
-                .endTemporaryLimit()
-                .add();
-        t1.newCurrentLimits2().setPermanentLimit(950.5)
-                .beginTemporaryLimit()
-                .setName("N/A")
-                .setValue(2147483647)
-                .setAcceptableDuration(664)
-                .endTemporaryLimit()
-                .beginTemporaryLimit()
-                .setName("IT20")
-                .setValue(1200)
-                .setAcceptableDuration(961)
-                .endTemporaryLimit()
-                .add();
         t1.getRatioTapChanger().setTapPosition(2);
         t1.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
         t1.newExtension(ConnectablePositionAdder.class)
