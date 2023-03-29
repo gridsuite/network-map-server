@@ -194,7 +194,6 @@ public class NetworkMapControllerTest {
         Substation p1 = network.getSubstation("P1");
         make2WindingsTransformer(p1, "NGEN_NHV2");
 
-
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
         gen.getTerminal().setQ(32);
@@ -673,16 +672,15 @@ public class NetworkMapControllerTest {
     }
 
     private void make2WindingsTransformer(Substation p1, String id) {
-        TwoWindingsTransformer nhv2Nload = ((TwoWindingsTransformerAdder)((TwoWindingsTransformerAdder)((TwoWindingsTransformerAdder)((TwoWindingsTransformerAdder)((TwoWindingsTransformerAdder)((TwoWindingsTransformerAdder)((TwoWindingsTransformerAdder)
-                p1.newTwoWindingsTransformer()
-                        .setId(id))
-                .setVoltageLevel1("VLGEN"))
-                .setBus1("NGEN"))
-                .setConnectableBus1("NGEN"))
+        TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
+        twoWindingsTransformerAdder.setId(id)
+                .setVoltageLevel1("VLGEN")
+                .setBus1("NGEN")
+                .setConnectableBus1("NGEN")
                 .setRatedU1(400.)
-                .setVoltageLevel2("VLHV1"))
-                .setBus2("NHV1"))
-                .setConnectableBus2("NHV1"))
+                .setVoltageLevel2("VLHV1")
+                .setBus2("NHV1")
+                .setConnectableBus2("NHV1")
                 .setRatedU2(158.)
                 .setR(47)
                 .setG(27)
