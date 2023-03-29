@@ -73,6 +73,8 @@
     "r": 47.0,
     "x": 23.0,
     "connectionDirection1": null,
-    "connectionDirection2": null
+    "connectionDirection2": null,
+    "currentLimits1": {"permanentLimit":300.4, "temporaryLimits":[{"name":"IT20","acceptableDuration":87,"value":400}]},
+    "currentLimits2": {"permanentLimit":280.6, "temporaryLimits":[{"name":"N/A","acceptableDuration":34,"value":98}]}
   }
 ]

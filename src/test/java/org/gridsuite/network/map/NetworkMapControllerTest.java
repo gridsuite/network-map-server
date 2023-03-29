@@ -192,7 +192,38 @@ public class NetworkMapControllerTest {
                 .add();
 
         Substation p1 = network.getSubstation("P1");
-        make2WindingsTransformer(p1, "NGEN_NHV2");
+
+        TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
+        twoWindingsTransformerAdder.setId("NGEN_NHV2")
+                .setVoltageLevel1("VLGEN")
+                .setBus1("NGEN")
+                .setConnectableBus1("NGEN")
+                .setRatedU1(400.)
+                .setVoltageLevel2("VLHV1")
+                .setBus2("NHV1")
+                .setConnectableBus2("NHV1")
+                .setRatedU2(158.)
+                .setR(47)
+                .setG(27)
+                .setB(17)
+                .setX(23)
+                .add();
+
+        TwoWindingsTransformer t3 = network.getTwoWindingsTransformer("NGEN_NHV2");
+        t3.newCurrentLimits1().setPermanentLimit(300.4)
+                .beginTemporaryLimit()
+                .setName("IT20")
+                .setValue(400)
+                .setAcceptableDuration(87)
+                .endTemporaryLimit()
+                .add();
+        t3.newCurrentLimits2().setPermanentLimit(280.6)
+                .beginTemporaryLimit()
+                .setName("N/A")
+                .setValue(98)
+                .setAcceptableDuration(34)
+                .endTemporaryLimit()
+                .add();
 
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
@@ -668,24 +699,6 @@ public class NetworkMapControllerTest {
                 .setFictitious(false)
                 .setNode1(node1)
                 .setNode2(node2)
-                .add();
-    }
-
-    private void make2WindingsTransformer(Substation p1, String id) {
-        TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
-        twoWindingsTransformerAdder.setId(id)
-                .setVoltageLevel1("VLGEN")
-                .setBus1("NGEN")
-                .setConnectableBus1("NGEN")
-                .setRatedU1(400.)
-                .setVoltageLevel2("VLHV1")
-                .setBus2("NHV1")
-                .setConnectableBus2("NHV1")
-                .setRatedU2(158.)
-                .setR(47)
-                .setG(27)
-                .setB(17)
-                .setX(23)
                 .add();
     }
 
