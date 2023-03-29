@@ -13,8 +13,8 @@
     "q1": 12.2,
     "p2": 13.33,
     "q2": 14.44,
-    "permanentLimit1": 750.4,
-    "permanentLimit2": 780.6,
+    "currentLimits1": {"permanentLimit":750.4, "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}]},
+    "currentLimits2": {"permanentLimit":780.6, "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}]},
     "phaseTapChanger": {
       "lowTapPosition": 0,
       "highTapPosition": 1,
@@ -71,8 +71,8 @@
     "q1": 6.6,
     "p2": 7.77,
     "q2": 8.88,
-    "permanentLimit1": 900.5,
-    "permanentLimit2": 950.5,
+    "currentLimits1": {"permanentLimit":900.5, "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}]},
+    "currentLimits2": {"permanentLimit":950.5, "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}]},
     "ratioTapChanger": {
       "lowTapPosition": 0,
       "highTapPosition": 2,

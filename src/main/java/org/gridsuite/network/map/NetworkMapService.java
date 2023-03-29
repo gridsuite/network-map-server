@@ -423,11 +423,11 @@ class NetworkMapService {
 
         CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
         }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
         }
         BranchStatus<TwoWindingsTransformer> branchStatus = transformer.getExtension(BranchStatus.class);
         if (branchStatus != null) {
