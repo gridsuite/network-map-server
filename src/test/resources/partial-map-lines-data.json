@@ -9,8 +9,8 @@
     "terminal2Connected":true,
     "p1":1.1,
     "p2":3.33,
-    "permanentLimit1":700.4,
-    "permanentLimit2":800.8
+    "currentLimits1": {"permanentLimit":700.4, "temporaryLimits":[{"name":"IT5","value":250.0,"acceptableDuration":300}]},
+    "currentLimits2": {"permanentLimit":800.8, "temporaryLimits":[{"name":"IT20","value":300.0,"acceptableDuration":1200},{"name":"IT10","value":200.0,"acceptableDuration":600}]}
   },
   {
     "id":"NHV1_NHV2_2",

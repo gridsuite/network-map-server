@@ -57,10 +57,10 @@ public class LineMapData {
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double permanentLimit1;
+    private CurrentLimitsData currentLimits1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double permanentLimit2;
+    private CurrentLimitsData currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;

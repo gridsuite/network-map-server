@@ -142,6 +142,30 @@ class NetworkMapService {
         return toMapData(line, false);
     }
 
+    private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
+        return limits.stream()
+                .map(l -> TemporaryLimitData.builder()
+                        .name(l.getName())
+                        .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
+                        .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {
+        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
+        boolean empty = true;
+        if (!Double.isNaN(limits.getPermanentLimit())) {
+            builder.permanentLimit(limits.getPermanentLimit());
+            empty = false;
+        }
+        if (limits.getTemporaryLimits() != null && !limits.getTemporaryLimits().isEmpty()) {
+            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
+            empty = false;
+        }
+        return empty ? null : builder.build();
+    }
+
     private static LineMapData toMapData(Line line, boolean withBusOrBusbarSection) {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -174,13 +198,13 @@ class NetworkMapService {
 
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
+        }
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
+        }
 
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
-        }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
-        }
         BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
             builder.branchStatus(branchStatus.getStatus().name());
@@ -223,12 +247,11 @@ class NetworkMapService {
 
         CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
-
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
         }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
         }
         BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
         if (branchStatus != null) {
@@ -400,11 +423,11 @@ class NetworkMapService {
 
         CurrentLimits limits1 = transformer.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = transformer.getCurrentLimits2().orElse(null);
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
         }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
         }
         BranchStatus<TwoWindingsTransformer> branchStatus = transformer.getExtension(BranchStatus.class);
         if (branchStatus != null) {
