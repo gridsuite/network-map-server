@@ -9,19 +9,43 @@
           "id": "VLGEN",
           "substationId": "P1",
           "nominalVoltage": 24.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 0,
+          "sectionCount": 0,
+          "switchKinds": null,
+          "isPartiallyCopied": null
         },
         {
           "id": "VLHV1",
           "substationId": "P1",
           "nominalVoltage": 380.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 0,
+          "sectionCount": 0,
+          "switchKinds": null,
+          "isPartiallyCopied": null
         },
         {
           "id": "VLNEW2",
           "substationId": "P1",
           "nominalVoltage": 225.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 0,
+          "sectionCount": 0,
+          "switchKinds": null,
+          "isPartiallyCopied": null
         }
       ]
     },
@@ -32,13 +56,29 @@
           "id": "VLHV2",
           "substationId": "P2",
           "nominalVoltage": 380.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 0,
+          "sectionCount": 0,
+          "switchKinds": null,
+          "isPartiallyCopied": null
         },
         {
           "id": "VLLOAD",
           "substationId": "P2",
           "nominalVoltage": 150.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 0,
+          "sectionCount": 0,
+          "switchKinds": null,
+          "isPartiallyCopied": null
         }
       ]
     },
@@ -51,7 +91,15 @@
           "id": "VLGEN3",
           "substationId": "P3",
           "nominalVoltage": 24.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 0,
+          "sectionCount": 0,
+          "switchKinds": null,
+          "isPartiallyCopied": null
         }
       ]
     },
@@ -65,13 +113,14 @@
           "substationId": "P4",
           "nominalVoltage": 24.0,
           "topologyKind": "NODE_BREAKER",
-          "busbarSections":
-          [{
-            "id": "NGEN4",
-            "name": "NGEN4",
-            "vertPos": 1,
-            "horizPos": 2
-          }]
+          "lowVoltageLimit": "NaN",
+          "highVoltageLimit": "NaN",
+          "ipMin": null,
+          "ipMax": null,
+          "busbarCount": 1,
+          "sectionCount": 2,
+          "switchKinds": ["DISCONNECTOR"],
+          "isPartiallyCopied": false
         }
       ]
     }

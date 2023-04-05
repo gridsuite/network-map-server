@@ -8,13 +8,14 @@
       "substationId": "P4",
       "nominalVoltage": 24.0,
       "topologyKind": "NODE_BREAKER",
-      "busbarSections":
-      [{
-        "id": "NGEN4",
-        "name": "NGEN4",
-        "vertPos": 1,
-        "horizPos": 2
-      }]
+      "lowVoltageLimit": "NaN",
+      "highVoltageLimit": "NaN",
+      "ipMin": null,
+      "ipMax": null,
+      "busbarCount": 1,
+      "sectionCount": 2,
+      "switchKinds": ["DISCONNECTOR"],
+      "isPartiallyCopied": false
     }
   ]
 }

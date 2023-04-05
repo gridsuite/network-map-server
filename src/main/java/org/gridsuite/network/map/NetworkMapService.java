@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -51,16 +53,55 @@ class NetworkMapService {
         VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
                 .id(voltageLevel.getId())
                 .topologyKind(voltageLevel.getTopologyKind());
+
         if (includeDetails) {
             builder.name(voltageLevel.getOptionalName().orElse(null))
                     .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                    .nominalVoltage(voltageLevel.getNominalV());
-
+                    .nominalVoltage(voltageLevel.getNominalV())
+                    .lowVoltageLimit(voltageLevel.getLowVoltageLimit())
+                    .highVoltageLimit(voltageLevel.getHighVoltageLimit());
             if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-                builder.busbarSections(voltageLevel.getNodeBreakerView().getBusbarSectionStream().map(NetworkMapService::toMapData).collect(Collectors.toList()));
+                mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
+            }
+            IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+            if (identifiableShortCircuit != null) {
+                builder.ipMin(identifiableShortCircuit.getIpMin());
+                builder.ipMax(identifiableShortCircuit.getIpMax());
             }
         }
         return builder.build();
+    }
+
+    private static void mapVoltageLevelSwitchKindsAndSectionCount(
+            VoltageLevelMapData.VoltageLevelMapDataBuilder builder, VoltageLevel voltageLevel) {
+        AtomicInteger busbarCount = new AtomicInteger(1);
+        AtomicInteger sectionCount = new AtomicInteger(1);
+        AtomicBoolean warning = new AtomicBoolean(false);
+        voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
+            var pos = bbs.getExtension(BusbarSectionPosition.class);
+            if (pos != null) {
+                if (pos.getBusbarIndex() > busbarCount.get()) {
+                    busbarCount.set(pos.getBusbarIndex());
+                }
+                if (pos.getSectionIndex() > sectionCount.get()) {
+                    sectionCount.set(pos.getSectionIndex());
+                }
+            } else {
+                warning.set(true);
+            }
+        });
+        builder.isPartiallyCopied(warning.get());
+        if (!warning.get()) {
+            builder.busbarCount(busbarCount.get());
+            builder.sectionCount(sectionCount.get());
+            SwitchKind[] switchKinds = new SwitchKind[sectionCount.get() - 1];
+            Arrays.fill(switchKinds, SwitchKind.DISCONNECTOR);
+            builder.switchKinds(Arrays.asList(switchKinds));
+        } else {
+            builder.busbarCount(1);
+            builder.sectionCount(1);
+            builder.switchKinds(Collections.emptyList());
+        }
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {

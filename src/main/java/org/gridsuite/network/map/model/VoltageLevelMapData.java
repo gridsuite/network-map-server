@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.SwitchKind;
 import com.powsybl.iidm.network.TopologyKind;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -32,10 +33,23 @@ public class VoltageLevelMapData {
 
     private double nominalVoltage;
 
+    private double lowVoltageLimit;
+
+    private double highVoltageLimit;
+
+    private Double ipMin;
+
+    private Double ipMax;
+
+    private int busbarCount;
+
+    private int sectionCount;
+
+    private List<SwitchKind> switchKinds;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<BusbarSectionMapData> busbarSections;
+    private Boolean isPartiallyCopied;
 
 }
