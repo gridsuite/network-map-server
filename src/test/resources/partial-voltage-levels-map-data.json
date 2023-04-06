@@ -3,14 +3,6 @@
     "id": "VLGEN3",
     "substationId": "P3",
     "nominalVoltage": 24.0,
-    "topologyKind": "BUS_BREAKER",
-    "lowVoltageLimit": "NaN",
-    "highVoltageLimit": "NaN",
-    "ipMin": null,
-    "ipMax": null,
-    "busbarCount": 0,
-    "sectionCount": 0,
-    "switchKinds": null,
-    "isPartiallyCopied": null
+    "topologyKind": "BUS_BREAKER"
   }
 ]

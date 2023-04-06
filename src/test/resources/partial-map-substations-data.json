@@ -5,41 +5,17 @@
       {
         "id":"VLGEN",
         "substationId":"P1",
-        "nominalVoltage":24.0,
-        "lowVoltageLimit": 0.0,
-        "highVoltageLimit": 0.0,
-        "ipMin": null,
-        "ipMax": null,
-        "busbarCount": 0,
-        "sectionCount": 0,
-        "switchKinds": null,
-        "isPartiallyCopied": null
+        "nominalVoltage":24.0
       },
       {
         "id":"VLHV1",
         "substationId":"P1",
-        "nominalVoltage":380.0,
-        "lowVoltageLimit": 0.0,
-        "highVoltageLimit": 0.0,
-        "ipMin": null,
-        "ipMax": null,
-        "busbarCount": 0,
-        "sectionCount": 0,
-        "switchKinds": null,
-        "isPartiallyCopied": null
+        "nominalVoltage":380.0
       },
       {
         "id":"VLNEW2",
         "substationId":"P1",
-        "nominalVoltage":225.0,
-        "lowVoltageLimit": 0.0,
-        "highVoltageLimit": 0.0,
-        "ipMin": null,
-        "ipMax": null,
-        "busbarCount": 0,
-        "sectionCount": 0,
-        "switchKinds": null,
-        "isPartiallyCopied": null
+        "nominalVoltage":225.0
       }
     ]
   }

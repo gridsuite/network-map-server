@@ -33,23 +33,31 @@ public class VoltageLevelMapData {
 
     private double nominalVoltage;
 
-    private double lowVoltageLimit;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double lowVoltageLimit;
 
-    private double highVoltageLimit;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double highVoltageLimit;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double ipMin;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double ipMax;
 
-    private int busbarCount;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer busbarCount;
 
-    private int sectionCount;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer sectionCount;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SwitchKind> switchKinds;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isPartiallyCopied;
 
 }

@@ -58,8 +58,8 @@ class NetworkMapService {
             builder.name(voltageLevel.getOptionalName().orElse(null))
                     .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                     .nominalVoltage(voltageLevel.getNominalV())
-                    .lowVoltageLimit(voltageLevel.getLowVoltageLimit())
-                    .highVoltageLimit(voltageLevel.getHighVoltageLimit());
+                    .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
+                    .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
             if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
                 mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
             }
