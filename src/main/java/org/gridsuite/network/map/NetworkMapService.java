@@ -94,9 +94,7 @@ class NetworkMapService {
         if (!warning.get()) {
             builder.busbarCount(busbarCount.get());
             builder.sectionCount(sectionCount.get());
-            SwitchKind[] switchKinds = new SwitchKind[sectionCount.get() - 1];
-            Arrays.fill(switchKinds, SwitchKind.DISCONNECTOR);
-            builder.switchKinds(Arrays.asList(switchKinds));
+            builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
         } else {
             builder.busbarCount(1);
             builder.sectionCount(1);
