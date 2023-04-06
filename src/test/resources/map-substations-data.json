@@ -53,5 +53,15 @@
         "nominalVoltage":24.0
       }
     ]
+  },
+  {
+    "id": "P5",
+    "voltageLevels": [
+      {
+        "id": "VLGEN5",
+        "substationId": "P5",
+        "nominalVoltage": 24.0
+      }
+    ]
   }
 ]
