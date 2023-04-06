@@ -33,6 +33,11 @@
         "type": "TWO_WINDINGS_TRANSFORMER"
       },
       {
+        "id": "NGEN_NHV2",
+        "name": null,
+        "type": "TWO_WINDINGS_TRANSFORMER"
+      },
+      {
         "id": "TWT",
         "name": "TWT",
         "type": "THREE_WINDINGS_TRANSFORMER"
@@ -69,6 +74,11 @@
     "equipments": [
       {
         "id": "NGEN_NHV1",
+        "name": null,
+        "type": "TWO_WINDINGS_TRANSFORMER"
+      },
+      {
+        "id": "NGEN_NHV2",
         "name": null,
         "type": "TWO_WINDINGS_TRANSFORMER"
       },

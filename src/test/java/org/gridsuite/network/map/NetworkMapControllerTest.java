@@ -118,8 +118,6 @@ public class NetworkMapControllerTest {
                 .setQ(6.6);
         t1.getTerminal2().setP(7.77)
                 .setQ(8.88);
-        t1.newCurrentLimits1().setPermanentLimit(900.5).add();
-        t1.newCurrentLimits2().setPermanentLimit(950.5).add();
         t1.getRatioTapChanger().setTapPosition(2);
         t1.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
         t1.newExtension(ConnectablePositionAdder.class)
@@ -138,8 +136,25 @@ public class NetworkMapControllerTest {
                 .setQ(12.2);
         t2.getTerminal2().setP(13.33)
                 .setQ(14.44);
-        t2.newCurrentLimits1().setPermanentLimit(750.4).add();
-        t2.newCurrentLimits2().setPermanentLimit(780.6).add();
+        t2.newCurrentLimits1().setPermanentLimit(750.4)
+                .beginTemporaryLimit()
+                .setName("IT5")
+                .setValue(300)
+                .setAcceptableDuration(2087)
+                .endTemporaryLimit()
+                .add();
+        t2.newCurrentLimits2().setPermanentLimit(780.6)
+                .beginTemporaryLimit()
+                .setName("N/A")
+                .setValue(2147483647)
+                .setAcceptableDuration(664)
+                .endTemporaryLimit()
+                .beginTemporaryLimit()
+                .setName("IT20")
+                .setValue(1200)
+                .setAcceptableDuration(961)
+                .endTemporaryLimit()
+                .add();
         t2.newPhaseTapChanger()
                 .beginStep()
                 .setAlpha(1)
@@ -175,6 +190,41 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+
+        Substation p1 = network.getSubstation("P1");
+
+        TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
+        twoWindingsTransformerAdder.setId("NGEN_NHV2")
+                .setVoltageLevel1("VLGEN")
+                .setBus1("NGEN")
+                .setConnectableBus1("NGEN")
+                .setRatedU1(400.)
+                .setVoltageLevel2("VLHV1")
+                .setBus2("NHV1")
+                .setConnectableBus2("NHV1")
+                .setRatedU2(158.)
+                .setR(47)
+                .setG(27)
+                .setB(17)
+                .setX(23)
+                .add();
+
+        TwoWindingsTransformer t3 = network.getTwoWindingsTransformer("NGEN_NHV2");
+        t3.newCurrentLimits1().setPermanentLimit(300.4)
+                .beginTemporaryLimit()
+                .setName("IT20")
+                .setValue(400)
+                .setAcceptableDuration(87)
+                .endTemporaryLimit()
+                .add();
+        t3.newCurrentLimits2().setPermanentLimit(280.6)
+                .beginTemporaryLimit()
+                .setName("N/A")
+                .setValue(98)
+                .setAcceptableDuration(34)
+                .endTemporaryLimit()
+                .add();
+
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
         gen.getTerminal().setQ(32);
@@ -230,7 +280,6 @@ public class NetworkMapControllerTest {
                 .withQPercent(10.0)
                 .add();
 
-        Substation p1 = network.getSubstation("P1");
         VoltageLevel vlnew2 = p1.newVoltageLevel()
                 .setId("VLNEW2")
                 .setNominalV(225.0)
@@ -1047,9 +1096,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnTwoWindingsTransformersIds() throws Exception {
-        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
-        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
-        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NGEN_NHV1").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NGEN_NHV2", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NGEN_NHV2", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, List.of("P1"), true, List.of("NGEN_NHV1", "NGEN_NHV2").toString());
     }
 
     @Test
@@ -1408,9 +1457,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVscConverterStationsIds() throws Exception {
-        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
-        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
-        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4"), true, List.of("NGEN_NHV1", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, true, List.of("NGEN_NHV1", "NGEN_NHV2", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NGEN_NHV1", "NGEN_NHV2", "NHV2_NLOAD").toString());
+        succeedingTestForList(EquipmentType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4"), true, List.of("NGEN_NHV1", "NGEN_NHV2", "NHV2_NLOAD").toString());
     }
 
     @Test
