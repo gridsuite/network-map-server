@@ -317,4 +317,14 @@ public class NetworkMapController {
                                                                 @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getMapLines(networkUuid, variantId, substationsIds);
     }
+
+    @GetMapping(value = "/networks/{networkUuid}/map-hvdc-lines", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get hvdc lines description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "lines description to render network map")})
+    public @ResponseBody List<HvdcLineMapData> getHvdcLineMapData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getMapHvdcLines(networkUuid, variantId, substationsIds);
+    }
+
 }

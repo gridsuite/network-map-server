@@ -12,7 +12,7 @@ import com.powsybl.iidm.network.*;
 
 public enum EquipmentType {
     NETWORK(IdentifiableType.NETWORK, Network.class),
-    SUBSTATION(IdentifiableType.NETWORK, Substation.class),
+    SUBSTATION(IdentifiableType.SUBSTATION, Substation.class),
     VOLTAGE_LEVEL(IdentifiableType.VOLTAGE_LEVEL, VoltageLevel.class),
     HVDC_LINE(IdentifiableType.HVDC_LINE, HvdcLine.class),
     BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class),

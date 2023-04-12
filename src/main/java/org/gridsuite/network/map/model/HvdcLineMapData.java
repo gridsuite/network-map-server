@@ -30,11 +30,18 @@ public class HvdcLineMapData {
 
     private String converterStationId2;
 
+    private  String voltageLevelId1;
+    private  String voltageLevelId2;
+
+    private Boolean terminal1Connected;
+
+    private Boolean terminal2Connected;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double nominalV;
+    private Double nominalVoltage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double activePowerSetpoint;
