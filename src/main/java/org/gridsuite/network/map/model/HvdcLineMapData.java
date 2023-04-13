@@ -31,6 +31,7 @@ public class HvdcLineMapData {
     private String converterStationId2;
 
     private  String voltageLevelId1;
+
     private  String voltageLevelId2;
 
     private Boolean terminal1Connected;

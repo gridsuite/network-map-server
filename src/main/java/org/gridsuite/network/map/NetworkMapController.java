@@ -73,6 +73,15 @@ public class NetworkMapController {
         return networkMapService.getLine(networkUuid, variantId, lineId);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/hvdc-lines/{hvdcLineId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get hvdc line description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Hvdc line description")})
+    public @ResponseBody HvdcLineMapData getHvdcLine(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                             @Parameter(description = "Hvdc line id") @PathVariable("hvdcLineId") String hvdcLineId,
+                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getHvdcLine(networkUuid, variantId, hvdcLineId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/generators", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get generators description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Generators description")})

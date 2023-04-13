@@ -1032,6 +1032,14 @@ class NetworkMapService {
         return toMapData(line, true);
     }
 
+    public HvdcLineMapData getHvdcLine(UUID networkUuid, String variantId, String hvdcLineId) {
+        HvdcLine hvdcLine = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getHvdcLine(hvdcLineId);
+        if (hvdcLine == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toBasicMapData(hvdcLine);
+    }
+
     public List<GeneratorMapData> getGenerators(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         if (substationsId == null) {
