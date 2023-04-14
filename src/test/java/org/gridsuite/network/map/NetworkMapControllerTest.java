@@ -1034,6 +1034,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnHvdcLineMapData() throws Exception {
+        succeedingTestForElement("hvdc-lines", NETWORK_UUID, null, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+        succeedingTestForElement("hvdc-lines", NETWORK_UUID, VARIANT_ID, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+    }
+
+    @Test
     public void shouldReturnAnErrorinsteadOfLineMapData() throws Exception {
         failingTestForElement("lines", NETWORK_UUID, null, null, "NOT_EXISTING_LINE");
         failingTestForElement("lines", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_LINE");
@@ -1513,8 +1519,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnHvdcLinesMapDataFromIds() throws Exception {
-        succeedingTestForList("hvdc-lines", NETWORK_UUID, null, List.of("P3"), false, "[]");
-        succeedingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P3"), false, "[]");
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, null, List.of("P2"), false, "[]");
+        succeedingTestForList("hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P2"), false, "[]");
     }
 
     @Test
@@ -1660,5 +1666,29 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfMapLinesDataFromSubstationId() throws Exception {
         failingTestForList("map-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"), false);
         failingTestForList("map-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"), false);
+    }
+
+    @Test
+    public void shouldReturnMapHvdcLinesData() throws Exception {
+        succeedingTestForList("map-hvdc-lines", NETWORK_UUID, null, null, false, resourceToString("/map-hvdc-lines-data.json"));
+        succeedingTestForList("map-hvdc-lines", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/map-hvdc-lines-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfMapHvdcLinesData() throws Exception {
+        failingTestForList("map-hvdc-lines", NOT_FOUND_NETWORK_ID, null, null, false);
+        failingTestForList("map-hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, false);
+    }
+
+    @Test
+    public void shouldReturnMapHvdcLinesDataFromSubstationId() throws Exception {
+        succeedingTestForList("map-hvdc-lines", NETWORK_UUID, null, List.of("P1"), false, resourceToString("/partial-map-hvdc-lines-data.json"));
+        succeedingTestForList("map-hvdc-lines", NETWORK_UUID, VARIANT_ID, List.of("P1"), false, resourceToString("/partial-map-hvdc-lines-data.json"));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfMapHvdcLinesDataFromSubstationId() throws Exception {
+        failingTestForList("map-hvdc-lines", NOT_FOUND_NETWORK_ID, null, List.of("P1"), false);
+        failingTestForList("map-hvdc-lines", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"), false);
     }
 }

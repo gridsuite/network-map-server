@@ -1436,15 +1436,14 @@ class NetworkMapService {
         if (substationsIds == null) {
             return network.getHvdcLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
         } else {
-            Set<HvdcLineMapData> hvdcLineMapDataSet = new LinkedHashSet<>();
-            substationsIds.stream()
+            return substationsIds.stream()
                     .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
                     .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
                     .map(HvdcConverterStation::getHvdcLine)
                     .filter(Objects::nonNull)
+                    .map(NetworkMapService::toBasicMapData)
                     .distinct()
                     .collect(Collectors.toList());
-            return new ArrayList<>(hvdcLineMapDataSet);
         }
     }
 
