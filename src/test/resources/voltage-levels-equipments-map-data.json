@@ -275,14 +275,10 @@
       "substationId": "P4",
       "nominalVoltage": 24,
       "topologyKind": "NODE_BREAKER",
-      "busbarSections": [
-        {
-          "id": "NGEN4",
-          "name": "NGEN4",
-          "vertPos": 1,
-          "horizPos": 2
-        }
-      ]
+      "busbarCount": 1,
+      "sectionCount": 2,
+      "switchKinds": ["DISCONNECTOR"],
+      "isPartiallyCopied": false
     },
     "equipments": [
       {
@@ -294,6 +290,29 @@
         "id": "SHUNT_VLNB",
         "name": "SHUNT_VLNB",
         "type": "SHUNT_COMPENSATOR"
+      }
+    ]
+  },
+  {
+    "voltageLevel": {
+      "id": "VLGEN5",
+      "substationId": "P5",
+      "nominalVoltage": 24.0,
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0,
+      "ipMin": 0.0,
+      "ipMax": 100.0,
+      "topologyKind": "NODE_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
+    },
+    "equipments": [
+      {
+        "id": "NGEN5",
+        "name": "NGEN5",
+        "type": "BUSBAR_SECTION"
       }
     ]
   }

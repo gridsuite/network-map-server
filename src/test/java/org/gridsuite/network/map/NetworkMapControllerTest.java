@@ -621,6 +621,25 @@ public class NetworkMapControllerTest {
                 .withBusbarIndex(1)
                 .withSectionIndex(2)
                 .add();
+        Substation p5 = network.newSubstation()
+                .setId("P5")
+                .setCountry(Country.FR)
+                .setTso("RTE")
+                .setGeographicalTags("A")
+                .add();
+        VoltageLevel vlgen5 = p5.newVoltageLevel()
+                .setId("VLGEN5")
+                .setNominalV(24.0)
+                .setHighVoltageLimit(30)
+                .setLowVoltageLimit(20)
+                .setTopologyKind(TopologyKind.NODE_BREAKER)
+                .add();
+        vlgen5.getNodeBreakerView().newBusbarSection()
+                .setId("NGEN5")
+                .setName("NGEN5")
+                .setNode(0)
+                .add();
+        vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
 
         // Create a connected shunt compensator on a NODE_BREAKER voltage level
         vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
@@ -825,7 +844,7 @@ public class NetworkMapControllerTest {
     private String buildUrlForList(String equipmentsType, String variantId, List<String> immutableListSubstationIds, boolean onlyIds) {
         List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
         StringBuffer url =
-                onlyIds ? new StringBuffer("/v1/networks/{networkUuid}"  + "/equipments-ids") :
+                onlyIds ? new StringBuffer("/v1/networks/{networkUuid}" + "/equipments-ids") :
                         new StringBuffer("/v1/networks/{networkUuid}/" + equipmentsType);
         if (variantId == null && substationsIds.isEmpty()) {
             if (onlyIds) {
@@ -956,8 +975,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsIds() throws Exception {
-        succeedingTestForList(EquipmentType.SUBSTATION.toString(), NETWORK_UUID, null, null, true, List.of("P1", "P2", "P3", "P4").toString());
-        succeedingTestForList(EquipmentType.SUBSTATION.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("P1", "P2", "P3", "P4").toString());
+        succeedingTestForList(EquipmentType.SUBSTATION.toString(), NETWORK_UUID, null, null, true, List.of("P1", "P2", "P3", "P4", "P5").toString());
+        succeedingTestForList(EquipmentType.SUBSTATION.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("P1", "P2", "P3", "P4", "P5").toString());
     }
 
     @Test
@@ -1537,9 +1556,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelsIds() throws Exception {
-        succeedingVoltageLevelsTest(NETWORK_UUID, null, null, true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4").toString());
-        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, null, true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4").toString());
-        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4"), true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4").toString());
+        succeedingVoltageLevelsTest(NETWORK_UUID, null, null, true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5").toString());
+        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, null, true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5").toString());
+        succeedingVoltageLevelsTest(NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4", "P5"), true, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5").toString());
     }
 
     @Test
