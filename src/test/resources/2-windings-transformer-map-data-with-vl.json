@@ -1,0 +1,94 @@
+{
+  "id": "NGEN_NHV1",
+  "voltageLevel1": {
+    "id": "VLGEN",
+    "substationId": "P1",
+    "nominalVoltage": 24.0
+  },
+  "voltageLevelId1": "VLGEN",
+  "voltageLevelName1": null,
+  "voltageLevel2": {
+    "id": "VLHV1",
+    "substationId": "P1",
+    "nominalVoltage": 380.0
+  },
+  "voltageLevelId2": "VLHV1",
+  "voltageLevelName2": null,
+  "name": null,
+  "terminal1Connected": true,
+  "terminal2Connected": true,
+  "branchStatus": "PLANNED_OUTAGE",
+  "p1": 11.1,
+  "q1": 12.2,
+  "p2": 13.33,
+  "q2": 14.44,
+  "currentLimits1": {
+    "permanentLimit": 750.4,
+    "temporaryLimits": [
+      {
+        "name": "IT5",
+        "acceptableDuration": 2087,
+        "value": 300
+      }
+    ]
+  },
+  "currentLimits2": {
+    "permanentLimit": 780.6,
+    "temporaryLimits": [
+      {
+        "name": "N/A",
+        "acceptableDuration": 664,
+        "value": 2147483647
+      },
+      {
+        "name": "IT20",
+        "acceptableDuration": 961,
+        "value": 1200
+      }
+    ]
+  },
+  "phaseTapChanger": {
+    "lowTapPosition": 0,
+    "highTapPosition": 1,
+    "tapPosition": 1,
+    "regulating": true,
+    "targetDeadBand": 0.0,
+    "regulationMode": "CURRENT_LIMITER",
+    "regulationValue": 10.0,
+    "regulatingTerminalConnectableId": "NGEN_NHV1",
+    "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
+    "regulatingTerminalVlId": "VLGEN",
+    "steps": [
+      {
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 0.8500000238418579,
+        "alpha": 1,
+        "index": 0
+      },
+      {
+        "r": 0.0,
+        "x": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "rho": 0.8999999761581421,
+        "alpha": 1,
+        "index": 1
+      }
+    ]
+  },
+  "g": 0.0,
+  "b": 0.0,
+  "r": 0.26658461538461536,
+  "x": 11.104492831516762,
+  "ratedU1": 24.0,
+  "ratedU2": 400.0,
+  "connectionName1": "feederName1",
+  "connectionDirection1": "TOP",
+  "connectionName2": "feederName2",
+  "connectionDirection2": "BOTTOM",
+  "connectionPosition1": 0,
+  "connectionPosition2": 0
+}
