@@ -1479,6 +1479,7 @@ class NetworkMapService {
         }
     }
 
+    // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
     public Object getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Line line = network.getLine(equipmentId);
