@@ -525,8 +525,8 @@ public class NetworkMapControllerTest {
                 .setConverterStationId2("LCC2")
                 .add();
 
-        hvdcLineWithExtension.addExtension(HvdcOperatorActivePowerRange.class, new HvdcOperatorActivePowerRangeImpl((HvdcLineImpl) hvdcLineWithExtension, 1000F, 900F));
-        hvdcLineWithExtension.addExtension(HvdcAngleDroopActivePowerControl.class, new HvdcAngleDroopActivePowerControlImpl((HvdcLineImpl) hvdcLineWithExtension, 190F, 180F, true));
+        hvdcLineWithExtension.addExtension(HvdcOperatorActivePowerRange.class, new HvdcOperatorActivePowerRangeImpl((HvdcLineImpl) hvdcLineWithExtension).setOprFromCS1toCS2(1000F).setOprFromCS2toCS1(900F));
+        hvdcLineWithExtension.addExtension(HvdcAngleDroopActivePowerControl.class, new HvdcAngleDroopActivePowerControlImpl((HvdcLineImpl) hvdcLineWithExtension).setP0(190F).setDroop(180F).setEnabled(true));
 
         ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
                 .setId("SHUNT1")
