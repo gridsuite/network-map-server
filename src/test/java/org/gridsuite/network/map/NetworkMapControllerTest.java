@@ -525,8 +525,16 @@ public class NetworkMapControllerTest {
                 .setConverterStationId2("LCC2")
                 .add();
 
-        hvdcLineWithExtension.addExtension(HvdcOperatorActivePowerRange.class, new HvdcOperatorActivePowerRangeImpl((HvdcLineImpl) hvdcLineWithExtension).setOprFromCS1toCS2(1000F).setOprFromCS2toCS1(900F));
-        hvdcLineWithExtension.addExtension(HvdcAngleDroopActivePowerControl.class, new HvdcAngleDroopActivePowerControlImpl((HvdcLineImpl) hvdcLineWithExtension).setP0(190F).setDroop(180F).setEnabled(true));
+        hvdcLineWithExtension.newExtension(HvdcOperatorActivePowerRangeAdder.class)
+                .withOprFromCS2toCS1(900F)
+                .withOprFromCS1toCS2(1000F)
+                .add();
+
+        hvdcLineWithExtension.newExtension(HvdcAngleDroopActivePowerControlAdder.class)
+                .withP0(190F)
+                .withDroop(180F)
+                .withEnabled(true)
+                .add();
 
         ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
                 .setId("SHUNT1")
@@ -692,8 +700,6 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
 
-        network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
-
         network.getLoad("LOAD")
                 .newExtension(ConnectablePositionAdder.class)
                 .newFeeder()
@@ -701,6 +707,8 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
+
+        network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
@@ -1292,7 +1300,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadsMapData() throws Exception {
-        succeedingTestForList("loads", NETWORK_UUID, null, null, false, resourceToString("/loads-map-data.json"));
+        succeedingTestForList("loads", NETWORK_UUID, null, null, false, resourceToString("/loads-map-data-no-connection.json"));
         succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/loads-map-data.json"));
     }
 
@@ -1317,7 +1325,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadsMapDataFromIds() throws Exception {
-        succeedingTestForList("loads", NETWORK_UUID, null, List.of("P2"), false, resourceToString("/partial-loads-map-data.json"));
+        succeedingTestForList("loads", NETWORK_UUID, null, List.of("P2"), false, resourceToString("/partial-loads-map-data-no-connection.json"));
         succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, List.of("P2"), false, resourceToString("/partial-loads-map-data.json"));
     }
 
@@ -1329,7 +1337,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadMapData() throws Exception {
-        succeedingTestForElement("loads", NETWORK_UUID, null, null, "LOAD", resourceToString("/load-map-data.json"));
+        succeedingTestForElement("loads", NETWORK_UUID, null, null, "LOAD", resourceToString("/load-map-data-no-connection.json"));
         succeedingTestForElement("loads", NETWORK_UUID, VARIANT_ID, null, "LOAD", resourceToString("/load-map-data.json"));
     }
 
