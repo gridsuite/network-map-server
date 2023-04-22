@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.LoadType;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -19,7 +20,7 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class LoadTabInfos extends AbstractLoadInfos {
+public class LoadFormInfos extends AbstractLoadInfos {
 
     private LoadType type;
 
@@ -39,10 +40,21 @@ public class LoadTabInfos extends AbstractLoadInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q0;
 
-    public static LoadTabInfos toData(Identifiable<?> identifiable) {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String connectionName;
+
+    private ConnectablePosition.Direction connectionDirection;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
+
+    public static LoadFormInfos toData(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
         Terminal terminal = load.getTerminal();
-        LoadTabInfos.LoadTabInfosBuilder builder = LoadTabInfos.builder()
+        LoadFormInfos.LoadFormInfosBuilder builder = LoadFormInfos.builder()
                 .name(load.getOptionalName().orElse(null))
                 .id(load.getId())
                 .type(load.getLoadType())
@@ -56,6 +68,16 @@ public class LoadTabInfos extends AbstractLoadInfos {
         }
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
+        }
+
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+
+        var connectablePosition = load.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();

@@ -19,7 +19,7 @@ import java.util.List;
  */
 @SuperBuilder
 @Getter
-public class VoltageLevelTabInfos extends AbstractVoltageLevelInfos {
+public class VoltageLevelFormInfos extends AbstractVoltageLevelInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
@@ -53,9 +53,9 @@ public class VoltageLevelTabInfos extends AbstractVoltageLevelInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isRetrievedTopology;
 
-    public static VoltageLevelTabInfos toData(Identifiable<?> identifiable) {
+    public static VoltageLevelFormInfos toData(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
+        VoltageLevelFormInfos.VoltageLevelFormInfosBuilder builder = VoltageLevelFormInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .id(voltageLevel.getId())
                 .topologyKind(voltageLevel.getTopologyKind())

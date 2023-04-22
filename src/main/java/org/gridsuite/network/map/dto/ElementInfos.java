@@ -7,11 +7,15 @@
 package org.gridsuite.network.map.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.TopologyKind;
+import com.powsybl.iidm.network.*;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.model.TemporaryLimitData;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -19,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 public class ElementInfos {
+
     public enum InfoType {
         LIST,
         MAP,
@@ -36,6 +41,34 @@ public class ElementInfos {
                 .name(identifiable.getOptionalName().orElse(null))
                 .id(identifiable.getId());
         return builder.build();
+    }
+
+    protected static Double nullIfNan(double d) {
+        return Double.isNaN(d) ? null : d;
+    }
+
+    protected static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {
+        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
+        boolean empty = true;
+        if (!Double.isNaN(limits.getPermanentLimit())) {
+            builder.permanentLimit(limits.getPermanentLimit());
+            empty = false;
+        }
+        if (limits.getTemporaryLimits() != null && !limits.getTemporaryLimits().isEmpty()) {
+            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
+            empty = false;
+        }
+        return empty ? null : builder.build();
+    }
+
+    private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
+        return limits.stream()
+                .map(l -> TemporaryLimitData.builder()
+                        .name(l.getName())
+                        .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
+                        .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     protected static String getBusOrBusbarSection(Terminal terminal) {

@@ -6,8 +6,11 @@
  */
 package org.gridsuite.network.map.dto.hvdc;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.HvdcLine;
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
+import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -16,14 +19,69 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class HvdcTabInfos extends HvdcInfos {
+public class HvdcTabInfos extends AbstractHvdcInfos {
+
+    private HvdcLine.ConvertersMode convertersMode;
+
+    private String converterStationId1;
+
+    private String converterStationId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double r;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalV;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double activePowerSetpoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double maxP;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float k;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isEnabled;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float p0;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float oprFromCS1toCS2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float oprFromCS2toCS1;
 
     public static HvdcTabInfos toData(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
-
-        return HvdcTabInfos.builder()
+        HvdcTabInfos.HvdcTabInfosBuilder builder = HvdcTabInfos.builder();
+        builder
                 .name(hvdcLine.getOptionalName().orElse(null))
-                .id(hvdcLine.getId())
-                .build();
+                .id(hvdcLine.getId());
+
+        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
+        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
+        builder
+                .convertersMode(hvdcLine.getConvertersMode())
+                .converterStationId1(hvdcLine.getConverterStation1().getId())
+                .converterStationId2(hvdcLine.getConverterStation2().getId())
+                .maxP(hvdcLine.getMaxP())
+                .r(hvdcLine.getR())
+                .activePowerSetpoint(hvdcLine.getActivePowerSetpoint());
+
+        if (hvdcAngleDroopActivePowerControl != null) {
+            builder.k(hvdcAngleDroopActivePowerControl.getDroop())
+                    .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
+                    .p0(hvdcAngleDroopActivePowerControl.getP0());
+        }
+
+        if (hvdcOperatorActivePowerRange != null) {
+            builder.oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
+                    .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1());
+        }
+
+        return builder.build();
     }
 }

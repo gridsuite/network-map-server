@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.hvdc;
+package org.gridsuite.network.map.dto.line;
 
 import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
@@ -16,12 +16,16 @@ import org.gridsuite.network.map.dto.ElementInfos;
  */
 @SuperBuilder
 @Getter
-public class HvdcInfos extends ElementInfos {
+public abstract class AbstractLineInfos extends ElementInfos {
 
-    public static HvdcInfos toData(Identifiable identifiable, InfoType dataType)  {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType)  {
         switch (dataType) {
             case TAB:
-                return HvdcTabInfos.toData(identifiable);
+                return LineTabInfos.toData(identifiable);
+            case FORM:
+                return LineFormInfos.toData(identifiable);
+            case MAP:
+                return LineMapInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

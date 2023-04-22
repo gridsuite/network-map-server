@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.load;
+package org.gridsuite.network.map.dto.substation;
 
 import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
@@ -16,12 +16,16 @@ import org.gridsuite.network.map.dto.ElementInfos;
  */
 @SuperBuilder
 @Getter
-public class LoadInfos extends ElementInfos {
+public abstract class AbstractSubstationInfos extends ElementInfos {
 
-    public static LoadInfos toData(Identifiable identifiable, InfoType dataType)  {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType)  {
         switch (dataType) {
             case TAB:
-                return LoadTabInfos.toData(identifiable);
+                return SubstationTabInfos.toData(identifiable);
+            case MAP:
+                return SubstationMapInfos.toData(identifiable);
+            case FORM:
+                return SubstationFormInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

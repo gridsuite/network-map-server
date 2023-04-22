@@ -12,7 +12,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Substation;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelTabInfos;
+import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelFormInfos;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @SuperBuilder
 @Getter
-public class SubstationTabInfos extends AbstractSubstationInfos {
+public class SubstationFormInfos extends AbstractSubstationInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String countryName;
@@ -35,22 +35,22 @@ public class SubstationTabInfos extends AbstractSubstationInfos {
     private Map<String, String> properties;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<VoltageLevelTabInfos> voltageLevels;
+    private List<VoltageLevelFormInfos> voltageLevels;
 
-    public static SubstationTabInfos toData(Identifiable<?> identifiable) {
+    public static SubstationFormInfos toData(Identifiable<?> identifiable) {
         Substation substation = (Substation) identifiable;
         Map<String, String> properties = substation.getPropertyNames().stream()
                 .map(name -> Map.entry(name, substation.getProperty(name)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        return SubstationTabInfos.builder()
+        return SubstationFormInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
                 .countryName(substation.getCountry().map(Country::getName).orElse(null))
                 .countryCode(substation.getCountry().map(Country::name).orElse(null))
                 .properties(properties.isEmpty() ? null : properties)
                 .voltageLevels(List.of())
-                .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelTabInfos::toData).collect(Collectors.toList()))
+                .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelFormInfos::toData).collect(Collectors.toList()))
                 .build();
     }
 }

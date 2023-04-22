@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.voltagelevel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.TopologyKind;
 import com.powsybl.iidm.network.VoltageLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -18,17 +17,20 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class VoltageLevelListInfos extends AbstractVoltageLevelInfos {
+public class VoltageLevelMapInfos extends AbstractVoltageLevelInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private TopologyKind topologyKind;
+    private String substationId;
 
-    public static VoltageLevelListInfos toData(Identifiable<?> identifiable) {
+    private double nominalVoltage;
+
+    public static VoltageLevelMapInfos toData(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        return VoltageLevelListInfos.builder()
-                .name(voltageLevel.getOptionalName().orElse(null))
+        return VoltageLevelMapInfos.builder()
                 .id(voltageLevel.getId())
-                .topologyKind(voltageLevel.getTopologyKind())
+                .name(voltageLevel.getOptionalName().orElse(null))
+                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
+                .nominalVoltage(voltageLevel.getNominalV())
                 .build();
     }
 }
