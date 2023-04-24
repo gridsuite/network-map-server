@@ -666,6 +666,14 @@ public class NetworkMapControllerTest {
         vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
         vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
 
+        network.getLoad("LOAD")
+                .newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
         network.getVariantManager().setWorkingVariant(VARIANT_ID);
@@ -691,14 +699,6 @@ public class NetworkMapControllerTest {
                 .add();
         shunt3.getTerminal().setQ(90);
         shunt3.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
-
-        network.getLoad("LOAD")
-                .newExtension(ConnectablePositionAdder.class)
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
@@ -1297,7 +1297,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadsMapData() throws Exception {
-        succeedingTestForList("loads", NETWORK_UUID, null, null, false, resourceToString("/loads-map-data-no-connection.json"));
+        succeedingTestForList("loads", NETWORK_UUID, null, null, false, resourceToString("/loads-map-data.json"));
         succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/loads-map-data.json"));
     }
 
@@ -1322,7 +1322,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadsMapDataFromIds() throws Exception {
-        succeedingTestForList("loads", NETWORK_UUID, null, List.of("P2"), false, resourceToString("/partial-loads-map-data-no-connection.json"));
+        succeedingTestForList("loads", NETWORK_UUID, null, List.of("P2"), false, resourceToString("/partial-loads-map-data.json"));
         succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, List.of("P2"), false, resourceToString("/partial-loads-map-data.json"));
     }
 
@@ -1334,7 +1334,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadMapData() throws Exception {
-        succeedingTestForElement("loads", NETWORK_UUID, null, null, "LOAD", resourceToString("/load-map-data-no-connection.json"));
+        succeedingTestForElement("loads", NETWORK_UUID, null, null, "LOAD", resourceToString("/load-map-data.json"));
         succeedingTestForElement("loads", NETWORK_UUID, VARIANT_ID, null, "LOAD", resourceToString("/load-map-data.json"));
     }
 
