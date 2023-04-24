@@ -2,46 +2,25 @@
   {
     "id": "HVDC1",
     "name": "HVDC1",
-    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "converterStationId1": "VSC1",
-    "converterStationId2": "LCC2",
     "voltageLevelId1": "VLNEW2",
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
-    "terminal2Connected": true,
-    "r": 1.0,
-    "nominalVoltage": 225.0,
-    "activePowerSetpoint": 500.0,
-    "maxP": 100.0
+    "terminal2Connected": true
   },
   {
     "id": "HVDC3",
     "name": "HVDC3",
-    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "converterStationId1": "VSC3",
-    "converterStationId2": "VSC4",
     "voltageLevelId1": "VLNEW2",
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
-    "terminal2Connected": true,
-    "r": 1.0,
-    "nominalVoltage": 225.0,
-    "activePowerSetpoint": 500.0,
-    "maxP": 100.0
+    "terminal2Connected": true
   },
   {
     "id": "HVDC4",
     "name": "HVDC4",
-    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "converterStationId1": "VSC5",
-    "converterStationId2": "VSC6",
     "voltageLevelId1": "VLNEW2",
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
-    "terminal2Connected": true,
-    "r": 1.0,
-    "nominalVoltage": 225.0,
-    "activePowerSetpoint": 500.0,
-    "maxP": 100.0
+    "terminal2Connected": true
   }
 ]

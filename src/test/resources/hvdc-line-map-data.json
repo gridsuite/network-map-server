@@ -1,16 +1,9 @@
 {
   "id": "HVDC1",
   "name": "HVDC1",
-  "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-  "converterStationId1": "VSC1",
-  "converterStationId2": "LCC2",
-  "activePowerSetpoint": 500.0,
-  "r": 1,
-  "maxP": 100,
   "voltageLevelId1": "VLNEW2",
   "voltageLevelId2": "VLNEW2",
   "terminal1Connected": true,
-  "terminal2Connected": true,
-  "nominalVoltage": 225.0
+  "terminal2Connected": true
 }
 

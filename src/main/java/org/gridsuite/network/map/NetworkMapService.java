@@ -305,17 +305,11 @@ class NetworkMapService {
         return HvdcLineMapData.builder()
                 .id(hvdcLine.getId())
                 .name(hvdcLine.getOptionalName().orElse(null))
-                .convertersMode(hvdcLine.getConvertersMode())
-                .converterStationId1(hvdcLine.getConverterStation1().getId())
-                .converterStationId2(hvdcLine.getConverterStation2().getId())
                 .voltageLevelId1(hvdcLine.getConverterStation1().getTerminal().getVoltageLevel().getId())
                 .voltageLevelId2(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getId())
                 .terminal1Connected(hvdcLine.getConverterStation1().getTerminal().isConnected())
                 .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
-                .r(hvdcLine.getR())
-                .nominalVoltage(hvdcLine.getNominalV())
-                .activePowerSetpoint(hvdcLine.getActivePowerSetpoint())
-                .maxP(hvdcLine.getMaxP()).build();
+                .build();
     }
 
     //Method which enables us to generate a light version of the SubstationMapData object in order to optimize transfers
