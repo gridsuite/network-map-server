@@ -5,7 +5,9 @@
     "voltageLevelId1": "VLNEW2",
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
-    "terminal2Connected": true
+    "terminal2Connected": true,
+    "p1": 10.0,
+    "p2": 110.0
   },
   {
     "id": "HVDC3",
@@ -13,7 +15,9 @@
     "voltageLevelId1": "VLNEW2",
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
-    "terminal2Connected": true
+    "terminal2Connected": true,
+    "p1": 10.0,
+    "p2": 10.0
   },
   {
     "id": "HVDC4",
@@ -21,6 +25,8 @@
     "voltageLevelId1": "VLNEW2",
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
-    "terminal2Connected": true
+    "terminal2Connected": true,
+    "p1": 10.0,
+    "p2": 10.0
   }
 ]
