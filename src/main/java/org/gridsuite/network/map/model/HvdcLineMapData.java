@@ -34,10 +34,10 @@ public class HvdcLineMapData {
     private String converterStationId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private  String voltageLevelId1;
+    private String voltageLevelId1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private  String voltageLevelId2;
+    private String voltageLevelId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean terminal1Connected;

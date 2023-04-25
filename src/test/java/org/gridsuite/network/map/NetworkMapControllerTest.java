@@ -13,10 +13,7 @@ import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import com.powsybl.network.store.iidm.impl.HvdcLineImpl;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
-import com.powsybl.network.store.iidm.impl.extensions.HvdcAngleDroopActivePowerControlImpl;
-import com.powsybl.network.store.iidm.impl.extensions.HvdcOperatorActivePowerRangeImpl;
 import org.gridsuite.network.map.model.EquipmentType;
 import org.junit.Before;
 import org.junit.Test;
@@ -525,8 +522,16 @@ public class NetworkMapControllerTest {
                 .setConverterStationId2("LCC2")
                 .add();
 
-        hvdcLineWithExtension.addExtension(HvdcOperatorActivePowerRange.class, new HvdcOperatorActivePowerRangeImpl((HvdcLineImpl) hvdcLineWithExtension, 1000F, 900F));
-        hvdcLineWithExtension.addExtension(HvdcAngleDroopActivePowerControl.class, new HvdcAngleDroopActivePowerControlImpl((HvdcLineImpl) hvdcLineWithExtension, 190F, 180F, true));
+        hvdcLineWithExtension.newExtension(HvdcOperatorActivePowerRangeAdder.class)
+                .withOprFromCS2toCS1(900F)
+                .withOprFromCS1toCS2(1000F)
+                .add();
+
+        hvdcLineWithExtension.newExtension(HvdcAngleDroopActivePowerControlAdder.class)
+                .withP0(190F)
+                .withDroop(180F)
+                .withEnabled(true)
+                .add();
 
         ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
                 .setId("SHUNT1")
@@ -661,6 +666,14 @@ public class NetworkMapControllerTest {
         vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
         vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
 
+        network.getLoad("LOAD")
+                .newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
         network.getVariantManager().setWorkingVariant(VARIANT_ID);
@@ -693,14 +706,6 @@ public class NetworkMapControllerTest {
                 .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
-
-        network.getLoad("LOAD")
-                .newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
 
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
