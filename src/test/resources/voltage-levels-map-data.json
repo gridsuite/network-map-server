@@ -2,6 +2,7 @@
   {
     "id": "VLGEN",
     "substationId": "P1",
+    "substationName": "P1",
     "nominalVoltage": 24.0,
     "topologyKind": "BUS_BREAKER",
     "isPartiallyCopied": true
@@ -9,6 +10,7 @@
   {
     "id": "VLHV1",
     "substationId": "P1",
+    "substationName": "P1",
     "nominalVoltage": 380.0,
     "topologyKind": "BUS_BREAKER",
     "isPartiallyCopied": true
@@ -16,6 +18,7 @@
   {
     "id": "VLHV2",
     "substationId": "P2",
+    "substationName": "P2",
     "nominalVoltage": 380.0,
     "topologyKind": "BUS_BREAKER",
     "isPartiallyCopied": true
@@ -23,6 +26,7 @@
   {
     "id": "VLLOAD",
     "substationId": "P2",
+    "substationName": "P2",
     "nominalVoltage": 150.0,
     "topologyKind": "BUS_BREAKER",
     "isPartiallyCopied": true
@@ -30,6 +34,7 @@
   {
     "id": "VLNEW2",
     "substationId": "P1",
+    "substationName": "P1",
     "nominalVoltage": 225.0,
     "topologyKind": "BUS_BREAKER",
     "isPartiallyCopied": true
@@ -37,6 +42,7 @@
   {
     "id": "VLGEN3",
     "substationId": "P3",
+    "substationName": "P3",
     "nominalVoltage": 24.0,
     "topologyKind": "BUS_BREAKER",
     "isPartiallyCopied": true
@@ -44,6 +50,7 @@
   {
     "id": "VLGEN4",
     "substationId": "P4",
+    "substationName": "P4",
     "nominalVoltage": 24.0,
     "topologyKind": "NODE_BREAKER",
     "busbarCount": 1,
@@ -54,6 +61,7 @@
   {
     "id": "VLGEN5",
     "substationId": "P5",
+    "substationName": "P5",
     "nominalVoltage": 24.0,
     "lowVoltageLimit": 20.0,
     "highVoltageLimit": 30.0,

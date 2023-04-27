@@ -317,4 +317,13 @@ public class NetworkMapController {
                                                                 @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getMapLines(networkUuid, variantId, substationsIds);
     }
+
+    @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "From an equipment ID, get the associated line or 2WT or 3WT")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description")})
+    public @ResponseBody Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                    @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,
+                                                                    @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getBranchOrThreeWindingsTransformer(networkUuid, variantId, equipmentId);
+    }
 }

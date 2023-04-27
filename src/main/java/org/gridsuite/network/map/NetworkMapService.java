@@ -57,6 +57,7 @@ class NetworkMapService {
         if (includeDetails) {
             builder.name(voltageLevel.getOptionalName().orElse(null))
                     .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
+                    .substationName(voltageLevel.getSubstation().map(Substation::getName).orElse(null))
                     .nominalVoltage(voltageLevel.getNominalV())
                     .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                     .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
@@ -185,7 +186,7 @@ class NetworkMapService {
     }
 
     private static LineMapData toMapData(Line line) {
-        return toMapData(line, false);
+        return toMapData(line, false, false);
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
@@ -212,7 +213,7 @@ class NetworkMapService {
         return empty ? null : builder.build();
     }
 
-    private static LineMapData toMapData(Line line, boolean withBusOrBusbarSection) {
+    private static LineMapData toMapData(Line line, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
         LineMapData.LineMapDataBuilder builder = LineMapData.builder()
@@ -236,6 +237,11 @@ class NetworkMapService {
             .b1(line.getB1())
             .g2(line.getG2())
             .b2(line.getB2());
+
+        if (withVoltageLevels) {
+            builder.voltageLevel1(toBasicMapData(terminal1.getVoltageLevel()));
+            builder.voltageLevel2(toBasicMapData(terminal2.getVoltageLevel()));
+        }
 
         if (withBusOrBusbarSection) {
             builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
@@ -429,10 +435,10 @@ class NetworkMapService {
     }
 
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {
-        return toMapData(transformer, false);
+        return toMapData(transformer, false, false);
     }
 
-    private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer, boolean withBusOrBusbarSection) {
+    private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
 
@@ -459,6 +465,12 @@ class NetworkMapService {
                    .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         }
+
+        if (withVoltageLevels) {
+            builder.voltageLevel1(toBasicMapData(terminal1.getVoltageLevel()));
+            builder.voltageLevel2(toBasicMapData(terminal2.getVoltageLevel()));
+        }
+
         builder.ratedS(nullIfNan(transformer.getRatedS()));
         builder.p1(nullIfNan(terminal1.getP()));
         builder.q1(nullIfNan(terminal1.getQ()));
@@ -579,10 +591,10 @@ class NetworkMapService {
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer) {
-        return toMapData(transformer, false);
+        return toMapData(transformer, false, false);
     }
 
-    private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection) {
+    private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
         Terminal terminal1 = transformer.getLeg1().getTerminal();
         Terminal terminal2 = transformer.getLeg2().getTerminal();
         Terminal terminal3 = transformer.getLeg3().getTerminal();
@@ -602,6 +614,13 @@ class NetworkMapService {
                    .busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
 
         }
+
+        if (withVoltageLevels) {
+            builder.voltageLevel1(toBasicMapData(terminal1.getVoltageLevel()));
+            builder.voltageLevel2(toBasicMapData(terminal2.getVoltageLevel()));
+            builder.voltageLevel3(toBasicMapData(terminal3.getVoltageLevel()));
+        }
+
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -1056,7 +1075,7 @@ class NetworkMapService {
         if (line == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return toMapData(line, true);
+        return toMapData(line, true, false);
     }
 
     public List<GeneratorMapData> getGenerators(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -1100,7 +1119,7 @@ class NetworkMapService {
         if (twoWindingsTransformer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return toMapData(twoWindingsTransformer, true);
+        return toMapData(twoWindingsTransformer, true, false);
     }
 
     public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -1465,6 +1484,24 @@ class NetworkMapService {
                     .collect(Collectors.toList());
 
         }
+    }
+
+    // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
+    public Object getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        Line line = network.getLine(equipmentId);
+        if (line != null) {
+            return toMapData(line, false, true);
+        }
+        TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
+        if (twoWT != null) {
+            return toMapData(twoWT, false, true);
+        }
+        ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
+        if (threeWT != null) {
+            return toMapData(threeWT, false, true);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     public List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, EquipmentType equipmentType) {

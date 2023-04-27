@@ -21,10 +21,22 @@ public class ThreeWindingsTransformerMapData {
 
     private String id;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelMapData voltageLevel1;
+
+    //TODO put this into the DTO voltageLevel1
     private String voltageLevelId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelMapData voltageLevel2;
+
+    //TODO put this into the DTO voltageLevel2
     private String voltageLevelId2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelMapData voltageLevel3;
+
+    //TODO put this into the DTO voltageLevel3
     private String voltageLevelId3;
 
     private String name;
