@@ -22,12 +22,22 @@ public class TwoWindingsTransformerMapData {
 
     private String id;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelMapData voltageLevel1;
+
+    //TODO put this into the DTO voltageLevel1
     private String voltageLevelId1;
 
+    //TODO put this into the DTO voltageLevel1
     private String voltageLevelName1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelMapData voltageLevel2;
+
+    //TODO put this into the DTO voltageLevel2
     private String voltageLevelId2;
 
+    //TODO put this into the DTO voltageLevel2
     private String voltageLevelName2;
 
     private String name;

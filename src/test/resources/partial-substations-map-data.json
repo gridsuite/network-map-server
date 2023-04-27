@@ -7,20 +7,26 @@
       {
         "id": "VLGEN",
         "substationId": "P1",
+        "substationName": "P1",
         "nominalVoltage": 24.0,
-        "topologyKind": "BUS_BREAKER"
+        "topologyKind": "BUS_BREAKER",
+        "isPartiallyCopied": true
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
+        "substationName": "P1",
         "nominalVoltage": 380.0,
-        "topologyKind": "BUS_BREAKER"
+        "topologyKind": "BUS_BREAKER",
+        "isPartiallyCopied": true
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
+        "substationName": "P1",
         "nominalVoltage": 225.0,
-        "topologyKind": "BUS_BREAKER"
+        "topologyKind": "BUS_BREAKER",
+        "isPartiallyCopied": true
       }
     ]
   }
