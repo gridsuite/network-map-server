@@ -73,12 +73,6 @@ public class HvdcLineMapData {
     private Float oprFromCS2toCS1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

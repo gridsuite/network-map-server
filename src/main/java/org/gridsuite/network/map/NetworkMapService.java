@@ -309,8 +309,6 @@ class NetworkMapService {
                 .voltageLevelId2(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getId())
                 .terminal1Connected(hvdcLine.getConverterStation1().getTerminal().isConnected())
                 .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
-                .i1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getI()))
-                .i2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getI()))
                 .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
                 .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
                 .build();
