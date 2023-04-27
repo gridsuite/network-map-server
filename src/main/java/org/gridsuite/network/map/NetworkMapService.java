@@ -88,9 +88,6 @@ class NetworkMapService {
             }
         } else {
             warning.set(true);
-            builder.busbarCount(null);
-            builder.sectionCount(null);
-            builder.switchKinds(null);
         }
         builder.isPartiallyCopied(warning.get());
 
