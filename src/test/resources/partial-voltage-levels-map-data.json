@@ -4,9 +4,6 @@
     "substationId": "P3",
     "nominalVoltage": 24.0,
     "topologyKind": "BUS_BREAKER",
-    "busbarCount": 1,
-    "sectionCount": 1,
-    "switchKinds": [],
     "isPartiallyCopied": true
   }
 ]

@@ -77,19 +77,23 @@ class NetworkMapService {
         AtomicBoolean warning = new AtomicBoolean(false);
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
             determinateBusBarSectionPosition(voltageLevel, busbarCount, sectionCount, warning);
+            if (!warning.get()) {
+                builder.busbarCount(busbarCount.get());
+                builder.sectionCount(sectionCount.get());
+                builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
+            } else {
+                builder.busbarCount(1);
+                builder.sectionCount(1);
+                builder.switchKinds(Collections.emptyList());
+            }
         } else {
             warning.set(true);
+            builder.busbarCount(null);
+            builder.sectionCount(null);
+            builder.switchKinds(null);
         }
         builder.isPartiallyCopied(warning.get());
-        if (!warning.get()) {
-            builder.busbarCount(busbarCount.get());
-            builder.sectionCount(sectionCount.get());
-            builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
-        } else {
-            builder.busbarCount(1);
-            builder.sectionCount(1);
-            builder.switchKinds(Collections.emptyList());
-        }
+
     }
 
     private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {

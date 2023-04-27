@@ -10,9 +10,6 @@
           "substationId": "P1",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER",
-          "busbarCount": 1,
-          "sectionCount": 1,
-          "switchKinds": [],
           "isPartiallyCopied": true
         },
         {
@@ -20,9 +17,6 @@
           "substationId": "P1",
           "nominalVoltage": 380.0,
           "topologyKind": "BUS_BREAKER",
-          "busbarCount": 1,
-          "sectionCount": 1,
-          "switchKinds": [],
           "isPartiallyCopied": true
         },
         {
@@ -30,9 +24,6 @@
           "substationId": "P1",
           "nominalVoltage": 225.0,
           "topologyKind": "BUS_BREAKER",
-          "busbarCount": 1,
-          "sectionCount": 1,
-          "switchKinds": [],
           "isPartiallyCopied": true
         }
       ]
@@ -45,9 +36,6 @@
           "substationId": "P2",
           "nominalVoltage": 380.0,
           "topologyKind": "BUS_BREAKER",
-          "busbarCount": 1,
-          "sectionCount": 1,
-          "switchKinds": [],
           "isPartiallyCopied": true
         },
         {
@@ -55,9 +43,6 @@
           "substationId": "P2",
           "nominalVoltage": 150.0,
           "topologyKind": "BUS_BREAKER",
-          "busbarCount": 1,
-          "sectionCount": 1,
-          "switchKinds": [],
           "isPartiallyCopied": true
         }
       ]
@@ -72,9 +57,6 @@
           "substationId": "P3",
           "nominalVoltage": 24.0,
           "topologyKind": "BUS_BREAKER",
-          "busbarCount": 1,
-          "sectionCount": 1,
-          "switchKinds": [],
           "isPartiallyCopied": true
         }
       ]
