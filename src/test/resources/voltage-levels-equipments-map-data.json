@@ -4,7 +4,11 @@
       "id": "VLGEN",
       "substationId": "P1",
       "nominalVoltage": 24,
-      "topologyKind": "BUS_BREAKER"
+      "topologyKind": "BUS_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
     },
     "equipments": [
       {
@@ -69,7 +73,11 @@
       "id": "VLHV1",
       "substationId": "P1",
       "nominalVoltage": 380,
-      "topologyKind": "BUS_BREAKER"
+      "topologyKind": "BUS_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
     },
     "equipments": [
       {
@@ -114,7 +122,11 @@
       "id": "VLHV2",
       "substationId": "P2",
       "nominalVoltage": 380,
-      "topologyKind": "BUS_BREAKER"
+      "topologyKind": "BUS_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
     },
     "equipments": [
       {
@@ -139,7 +151,11 @@
       "id": "VLLOAD",
       "substationId": "P2",
       "nominalVoltage": 150,
-      "topologyKind": "BUS_BREAKER"
+      "topologyKind": "BUS_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
     },
     "equipments": [
       {
@@ -159,7 +175,11 @@
       "id": "VLNEW2",
       "substationId": "P1",
       "nominalVoltage": 225,
-      "topologyKind": "BUS_BREAKER"
+      "topologyKind": "BUS_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
     },
     "equipments": [
       {
@@ -239,7 +259,11 @@
       "id": "VLGEN3",
       "substationId": "P3",
       "nominalVoltage": 24,
-      "topologyKind": "BUS_BREAKER"
+      "topologyKind": "BUS_BREAKER",
+      "busbarCount": 1,
+      "sectionCount": 1,
+      "switchKinds": [],
+      "isPartiallyCopied": true
     },
     "equipments": [
       {

@@ -60,9 +60,7 @@ class NetworkMapService {
                     .nominalVoltage(voltageLevel.getNominalV())
                     .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                     .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
-            if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-                mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
-            }
+            mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
             IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
             if (identifiableShortCircuit != null) {
                 builder.ipMin(identifiableShortCircuit.getIpMin());
@@ -77,19 +75,23 @@ class NetworkMapService {
         AtomicInteger busbarCount = new AtomicInteger(1);
         AtomicInteger sectionCount = new AtomicInteger(1);
         AtomicBoolean warning = new AtomicBoolean(false);
-        voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
-            var pos = bbs.getExtension(BusbarSectionPosition.class);
-            if (pos != null) {
-                if (pos.getBusbarIndex() > busbarCount.get()) {
-                    busbarCount.set(pos.getBusbarIndex());
+        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
+            voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
+                var pos = bbs.getExtension(BusbarSectionPosition.class);
+                if (pos != null) {
+                    if (pos.getBusbarIndex() > busbarCount.get()) {
+                        busbarCount.set(pos.getBusbarIndex());
+                    }
+                    if (pos.getSectionIndex() > sectionCount.get()) {
+                        sectionCount.set(pos.getSectionIndex());
+                    }
+                } else {
+                    warning.set(true);
                 }
-                if (pos.getSectionIndex() > sectionCount.get()) {
-                    sectionCount.set(pos.getSectionIndex());
-                }
-            } else {
-                warning.set(true);
-            }
-        });
+            });
+        } else {
+            warning.set(true);
+        }
         builder.isPartiallyCopied(warning.get());
         if (!warning.get()) {
             builder.busbarCount(busbarCount.get());
