@@ -312,6 +312,21 @@ class NetworkMapService {
         return builder.build();
     }
 
+    //Method which enables us to generate a light version of the HvdcLineMapData object in order to optimize transfers
+    //the light version is designed to only have the necessary fields for the network map to function
+    private static HvdcLineMapData toBasicMapData(HvdcLine hvdcLine) {
+        return HvdcLineMapData.builder()
+                .id(hvdcLine.getId())
+                .name(hvdcLine.getOptionalName().orElse(null))
+                .voltageLevelId1(hvdcLine.getConverterStation1().getTerminal().getVoltageLevel().getId())
+                .voltageLevelId2(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getId())
+                .terminal1Connected(hvdcLine.getConverterStation1().getTerminal().isConnected())
+                .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
+                .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
+                .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
+                .build();
+    }
+
     //Method which enables us to generate a light version of the SubstationMapData object in order to optimize transfers
     //the light version is designed to only have the necessary fields for the network map to function
     private static SubstationMapData toBasicMapData(Substation substation) {
@@ -1078,6 +1093,14 @@ class NetworkMapService {
         return toMapData(line, true, false);
     }
 
+    public HvdcLineMapData getHvdcLine(UUID networkUuid, String variantId, String hvdcLineId) {
+        HvdcLine hvdcLine = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getHvdcLine(hvdcLineId);
+        if (hvdcLine == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return toBasicMapData(hvdcLine);
+    }
+
     public List<GeneratorMapData> getGenerators(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         if (substationsId == null) {
@@ -1465,6 +1488,23 @@ class NetworkMapService {
                     network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                             v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
             return new ArrayList<>(lines);
+        }
+    }
+
+    public List<HvdcLineMapData> getMapHvdcLines(UUID networkUuid, String variantId, List<String> substationsIds) {
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
+
+        if (substationsIds == null) {
+            return network.getHvdcLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
+        } else {
+            return substationsIds.stream()
+                    .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
+                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
+                    .map(HvdcConverterStation::getHvdcLine)
+                    .filter(Objects::nonNull)
+                    .map(NetworkMapService::toBasicMapData)
+                    .distinct()
+                    .collect(Collectors.toList());
         }
     }
 

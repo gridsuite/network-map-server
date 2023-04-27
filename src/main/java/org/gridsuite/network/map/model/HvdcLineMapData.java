@@ -24,17 +24,32 @@ public class HvdcLineMapData {
 
     private String name;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcLine.ConvertersMode convertersMode;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String converterStationId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String converterStationId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean terminal1Connected;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean terminal2Connected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double nominalV;
+    private Double nominalVoltage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double activePowerSetpoint;
@@ -56,4 +71,10 @@ public class HvdcLineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float oprFromCS2toCS1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p2;
 }

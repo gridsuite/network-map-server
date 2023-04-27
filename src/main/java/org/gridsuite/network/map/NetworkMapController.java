@@ -73,6 +73,15 @@ public class NetworkMapController {
         return networkMapService.getLine(networkUuid, variantId, lineId);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/hvdc-lines/{hvdcLineId}", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get hvdc line description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Hvdc line description")})
+    public @ResponseBody HvdcLineMapData getHvdcLine(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                             @Parameter(description = "Hvdc line id") @PathVariable("hvdcLineId") String hvdcLineId,
+                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getHvdcLine(networkUuid, variantId, hvdcLineId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/generators", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get generators description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Generators description")})
@@ -316,6 +325,15 @@ public class NetworkMapController {
                                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                 @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getMapLines(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/map-hvdc-lines", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get hvdc lines description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "lines description to render network map")})
+    public @ResponseBody List<HvdcLineMapData> getHvdcLineMapData(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getMapHvdcLines(networkUuid, variantId, substationsIds);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}", produces = APPLICATION_JSON_VALUE)
