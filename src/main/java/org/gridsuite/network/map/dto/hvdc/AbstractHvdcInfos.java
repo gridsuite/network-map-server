@@ -18,7 +18,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public abstract class AbstractHvdcInfos extends ElementInfos {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType)  {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
         switch (dataType) {
             case TAB:
                 return HvdcTabInfos.toData(identifiable);
