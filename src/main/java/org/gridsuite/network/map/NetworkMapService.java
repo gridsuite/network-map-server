@@ -76,19 +76,7 @@ class NetworkMapService {
         AtomicInteger sectionCount = new AtomicInteger(1);
         AtomicBoolean warning = new AtomicBoolean(false);
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
-                var pos = bbs.getExtension(BusbarSectionPosition.class);
-                if (pos != null) {
-                    if (pos.getBusbarIndex() > busbarCount.get()) {
-                        busbarCount.set(pos.getBusbarIndex());
-                    }
-                    if (pos.getSectionIndex() > sectionCount.get()) {
-                        sectionCount.set(pos.getSectionIndex());
-                    }
-                } else {
-                    warning.set(true);
-                }
-            });
+            determinateBusBarSectionPosition(voltageLevel, busbarCount, sectionCount, warning);
         } else {
             warning.set(true);
         }
@@ -102,6 +90,22 @@ class NetworkMapService {
             builder.sectionCount(1);
             builder.switchKinds(Collections.emptyList());
         }
+    }
+
+    private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {
+        voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
+            var pos = bbs.getExtension(BusbarSectionPosition.class);
+            if (pos != null) {
+                if (pos.getBusbarIndex() > busbarCount.get()) {
+                    busbarCount.set(pos.getBusbarIndex());
+                }
+                if (pos.getSectionIndex() > sectionCount.get()) {
+                    sectionCount.set(pos.getSectionIndex());
+                }
+            } else {
+                warning.set(true);
+            }
+        });
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
