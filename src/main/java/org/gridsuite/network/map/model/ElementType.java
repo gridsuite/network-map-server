@@ -20,14 +20,15 @@ import java.util.function.BiFunction;
 public enum ElementType {
     SUBSTATION(IdentifiableType.NETWORK, Substation.class, AbstractSubstationInfos::toData),
     VOLTAGE_LEVEL(IdentifiableType.VOLTAGE_LEVEL, VoltageLevel.class, AbstractVoltageLevelInfos::toData),
-    HVDC_LINE(IdentifiableType.HVDC_LINE, HvdcLine.class, AbstractHvdcInfos::toData),
-    BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class, AbstractLoadInfos::toData),
     LINE(IdentifiableType.LINE, Line.class, AbstractLineInfos::toData),
+    HVDC_LINE(IdentifiableType.HVDC_LINE, HvdcLine.class, AbstractHvdcInfos::toData),
+    LOAD(IdentifiableType.LOAD, Load.class, AbstractLoadInfos::toData),
+
+    BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class, AbstractLoadInfos::toData),
     TWO_WINDINGS_TRANSFORMER(IdentifiableType.TWO_WINDINGS_TRANSFORMER, TwoWindingsTransformer.class, AbstractLoadInfos::toData),
     THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER, ThreeWindingsTransformer.class, AbstractLoadInfos::toData),
     GENERATOR(IdentifiableType.GENERATOR, Generator.class, AbstractLoadInfos::toData),
     BATTERY(IdentifiableType.BATTERY, Battery.class, AbstractLoadInfos::toData),
-    LOAD(IdentifiableType.LOAD, Load.class, AbstractLoadInfos::toData),
     SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR, ShuntCompensator.class, AbstractLoadInfos::toData),
     DANGLING_LINE(IdentifiableType.DANGLING_LINE, DanglingLine.class, AbstractLoadInfos::toData),
     STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR, StaticVarCompensator.class, AbstractLoadInfos::toData),

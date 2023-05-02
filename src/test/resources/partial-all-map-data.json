@@ -8,8 +8,10 @@
         {
           "id": "VLGEN3",
           "substationId": "P3",
+          "substationName": "P3",
           "nominalVoltage": 24.0,
-          "topologyKind": "BUS_BREAKER"
+          "topologyKind": "BUS_BREAKER",
+          "isPartiallyCopied": true
         }
       ]
     }

@@ -4,36 +4,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.voltagelevel;
+package org.gridsuite.network.map.dto.substation;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Substation;
-import com.powsybl.iidm.network.TopologyKind;
 import com.powsybl.iidm.network.VoltageLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class VoltageLevelListInfos extends AbstractVoltageLevelInfos {
+public class SubstationListInfos extends AbstractVoltageLevelInfos {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String substationId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private TopologyKind topologyKind;
-
-    public static VoltageLevelListInfos toData(Identifiable<?> identifiable) {
+    public static SubstationListInfos toData(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        return VoltageLevelListInfos.builder()
+        return SubstationListInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .id(voltageLevel.getId())
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .topologyKind(voltageLevel.getTopologyKind())
                 .build();
     }
 }

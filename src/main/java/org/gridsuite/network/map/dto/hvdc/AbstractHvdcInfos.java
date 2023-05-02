@@ -22,6 +22,8 @@ public abstract class AbstractHvdcInfos extends ElementInfos {
         switch (dataType) {
             case TAB:
                 return HvdcTabInfos.toData(identifiable);
+            case MAP:
+                return HvdcMapInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

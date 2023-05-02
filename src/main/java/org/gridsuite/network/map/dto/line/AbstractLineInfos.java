@@ -26,6 +26,8 @@ public abstract class AbstractLineInfos extends ElementInfos {
                 return LineFormInfos.toData(identifiable);
             case MAP:
                 return LineMapInfos.toData(identifiable);
+            case LIST:
+                return LineListInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
