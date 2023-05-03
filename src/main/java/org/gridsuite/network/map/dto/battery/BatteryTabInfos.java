@@ -48,6 +48,7 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(battery.getTargetP())
                 .targetQ(battery.getTargetQ());
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
