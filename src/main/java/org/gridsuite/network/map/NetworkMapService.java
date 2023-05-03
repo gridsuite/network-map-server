@@ -1340,7 +1340,8 @@ class NetworkMapService {
     }
 
     public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, ElementInfos.InfoType infoType, String elementId) {
-        Identifiable identifiable = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getIdentifiable(elementId);
+        //TODO : remove the generator check when fix reactivLimits is done in network store serve
+        Identifiable identifiable = elementType == ElementType.GENERATOR ? getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getGenerator(elementId) : getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getIdentifiable(elementId);
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
