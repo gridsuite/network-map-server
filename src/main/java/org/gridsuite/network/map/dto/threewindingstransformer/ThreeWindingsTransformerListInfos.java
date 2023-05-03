@@ -4,13 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.line;
+package org.gridsuite.network.map.dto.threewindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -19,11 +19,13 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class LineListInfos extends AbstractLineInfos {
+public class ThreeWindingsTransformerListInfos extends AbstractThreeWindingsTransformerInfos {
 
     private String voltageLevelId1;
 
     private String voltageLevelId2;
+
+    private String voltageLevelId3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId1;
@@ -31,18 +33,24 @@ public class LineListInfos extends AbstractLineInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId2;
 
-    public static LineListInfos toData(Identifiable<?> identifiable) {
-        Line line = (Line) identifiable;
-        Terminal terminal1 = line.getTerminal1();
-        Terminal terminal2 = line.getTerminal2();
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId3;
 
-        return LineListInfos.builder()
-                .id(line.getId())
-                .name(line.getOptionalName().orElse(null))
+    public static ThreeWindingsTransformerListInfos toData(Identifiable<?> identifiable) {
+        ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
+        Terminal terminal1 = threeWT.getLeg1().getTerminal();
+        Terminal terminal2 = threeWT.getLeg2().getTerminal();
+        Terminal terminal3 = threeWT.getLeg3().getTerminal();
+
+        return ThreeWindingsTransformerListInfos.builder()
+                .id(threeWT.getId())
+                .name(threeWT.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelId3(terminal3.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .substationId3(terminal3.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .build();
     }
 }

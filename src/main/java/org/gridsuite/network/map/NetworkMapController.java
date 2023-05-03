@@ -186,15 +186,6 @@ public class NetworkMapController {
         return networkMapService.getVscConverterStations(networkUuid, variantId, substationsIds);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get voltage level description")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level description")})
-    public @ResponseBody VoltageLevelMapData getVoltageLevel(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                     @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getVoltageLevel(networkUuid, variantId, voltageLevelId);
-    }
-
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})
@@ -243,7 +234,10 @@ public class NetworkMapController {
 
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "From an equipment ID, get the associated line or 2WT or 3WT")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
+            @ApiResponse(responseCode = "204", description = "No element found")
+    })
     public @ResponseBody Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                     @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,
                                                                     @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {

@@ -14,7 +14,9 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
+import org.gridsuite.network.map.dto.line.LineListInfos;
+import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -190,7 +192,7 @@ class NetworkMapService {
     }
 
     private static LineMapData toMapData(Line line) {
-        return toMapData(line, false, false);
+        return toMapData(line, false);
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
@@ -217,7 +219,7 @@ class NetworkMapService {
         return empty ? null : builder.build();
     }
 
-    private static LineMapData toMapData(Line line, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
+    private static LineMapData toMapData(Line line, boolean withBusOrBusbarSection) {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
         LineMapData.LineMapDataBuilder builder = LineMapData.builder()
@@ -241,11 +243,6 @@ class NetworkMapService {
             .b1(line.getB1())
             .g2(line.getG2())
             .b2(line.getB2());
-
-        if (withVoltageLevels) {
-            builder.voltageLevel1(VoltageLevelListInfos.toData(terminal1.getVoltageLevel()));
-            builder.voltageLevel2(VoltageLevelListInfos.toData(terminal2.getVoltageLevel()));
-        }
 
         if (withBusOrBusbarSection) {
             builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
@@ -387,10 +384,10 @@ class NetworkMapService {
     }
 
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {
-        return toMapData(transformer, false, false);
+        return toMapData(transformer, false);
     }
 
-    private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
+    private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer, boolean withBusOrBusbarSection) {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
 
@@ -416,11 +413,6 @@ class NetworkMapService {
             builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                    .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        }
-
-        if (withVoltageLevels) {
-            builder.voltageLevel1(VoltageLevelListInfos.toData(terminal1.getVoltageLevel()));
-            builder.voltageLevel2(VoltageLevelListInfos.toData(terminal2.getVoltageLevel()));
         }
 
         builder.ratedS(nullIfNan(transformer.getRatedS()));
@@ -543,10 +535,10 @@ class NetworkMapService {
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer) {
-        return toMapData(transformer, false, false);
+        return toMapData(transformer, false);
     }
 
-    private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
+    private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection) {
         Terminal terminal1 = transformer.getLeg1().getTerminal();
         Terminal terminal2 = transformer.getLeg2().getTerminal();
         Terminal terminal3 = transformer.getLeg3().getTerminal();
@@ -565,12 +557,6 @@ class NetworkMapService {
                    .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
                    .busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
 
-        }
-
-        if (withVoltageLevels) {
-            builder.voltageLevel1(VoltageLevelListInfos.toData(terminal1.getVoltageLevel()));
-            builder.voltageLevel2(VoltageLevelListInfos.toData(terminal2.getVoltageLevel()));
-            builder.voltageLevel3(VoltageLevelListInfos.toData(terminal3.getVoltageLevel()));
         }
 
         if (!Double.isNaN(terminal1.getP())) {
@@ -1029,7 +1015,7 @@ class NetworkMapService {
         if (twoWindingsTransformer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return toMapData(twoWindingsTransformer, true, false);
+        return toMapData(twoWindingsTransformer, true);
     }
 
     public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -1378,21 +1364,21 @@ class NetworkMapService {
     }
 
     // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
-    public Object getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+    public ElementInfos getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Line line = network.getLine(equipmentId);
         if (line != null) {
-            return toMapData(line, false, true);
+            return LineListInfos.toData(line);
         }
         TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
         if (twoWT != null) {
-            return toMapData(twoWT, false, true);
+            return TwoWindingsTransformerListInfos.toData(twoWT);
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return toMapData(threeWT, false, true);
+            return ThreeWindingsTransformerListInfos.toData(threeWT);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
     public List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType) {

@@ -10,14 +10,13 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.VoltageLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class SubstationListInfos extends AbstractVoltageLevelInfos {
+public class SubstationListInfos extends AbstractSubstationInfos {
 
     public static SubstationListInfos toData(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;

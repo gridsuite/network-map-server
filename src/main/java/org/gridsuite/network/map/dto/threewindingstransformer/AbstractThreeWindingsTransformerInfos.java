@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.hvdc;
+package org.gridsuite.network.map.dto.threewindingstransformer;
 
 import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
@@ -16,16 +16,11 @@ import org.gridsuite.network.map.dto.ElementInfos;
  */
 @SuperBuilder
 @Getter
-public abstract class AbstractHvdcInfos extends ElementInfos {
-
+public abstract class AbstractThreeWindingsTransformerInfos extends ElementInfos {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
         switch (dataType) {
-            case TAB:
-                return HvdcTabInfos.toData(identifiable);
-            case MAP:
-                return HvdcMapInfos.toData(identifiable);
             case LIST:
-                return HvdcListInfos.toData(identifiable);
+                return ThreeWindingsTransformerListInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

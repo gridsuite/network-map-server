@@ -12,6 +12,8 @@ import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
 import org.gridsuite.network.map.dto.line.AbstractLineInfos;
 import org.gridsuite.network.map.dto.load.AbstractLoadInfos;
 import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
+import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
 
 import java.util.function.BiFunction;
@@ -23,10 +25,10 @@ public enum ElementType {
     LINE(IdentifiableType.LINE, Line.class, AbstractLineInfos::toData),
     HVDC_LINE(IdentifiableType.HVDC_LINE, HvdcLine.class, AbstractHvdcInfos::toData),
     LOAD(IdentifiableType.LOAD, Load.class, AbstractLoadInfos::toData),
+    TWO_WINDINGS_TRANSFORMER(IdentifiableType.TWO_WINDINGS_TRANSFORMER, TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
+    THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER, ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
 
     BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class, AbstractLoadInfos::toData),
-    TWO_WINDINGS_TRANSFORMER(IdentifiableType.TWO_WINDINGS_TRANSFORMER, TwoWindingsTransformer.class, AbstractLoadInfos::toData),
-    THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER, ThreeWindingsTransformer.class, AbstractLoadInfos::toData),
     GENERATOR(IdentifiableType.GENERATOR, Generator.class, AbstractLoadInfos::toData),
     BATTERY(IdentifiableType.BATTERY, Battery.class, AbstractLoadInfos::toData),
     SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR, ShuntCompensator.class, AbstractLoadInfos::toData),

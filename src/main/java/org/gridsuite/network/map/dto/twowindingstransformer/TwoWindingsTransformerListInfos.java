@@ -4,13 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.line;
+package org.gridsuite.network.map.dto.twowindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.TwoWindingsTransformer;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class LineListInfos extends AbstractLineInfos {
+public class TwoWindingsTransformerListInfos extends AbstractTwoWindingsTransformerInfos {
 
     private String voltageLevelId1;
 
@@ -31,14 +31,14 @@ public class LineListInfos extends AbstractLineInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId2;
 
-    public static LineListInfos toData(Identifiable<?> identifiable) {
-        Line line = (Line) identifiable;
-        Terminal terminal1 = line.getTerminal1();
-        Terminal terminal2 = line.getTerminal2();
+    public static TwoWindingsTransformerListInfos toData(Identifiable<?> identifiable) {
+        TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
+        Terminal terminal1 = twoWT.getTerminal1();
+        Terminal terminal2 = twoWT.getTerminal2();
 
-        return LineListInfos.builder()
-                .id(line.getId())
-                .name(line.getOptionalName().orElse(null))
+        return TwoWindingsTransformerListInfos.builder()
+                .id(twoWT.getId())
+                .name(twoWT.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
