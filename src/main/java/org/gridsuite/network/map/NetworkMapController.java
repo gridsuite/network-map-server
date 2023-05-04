@@ -235,8 +235,8 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "From an equipment ID, get the associated line or 2WT or 3WT")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
-            @ApiResponse(responseCode = "204", description = "No element found")
+        @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
+        @ApiResponse(responseCode = "204", description = "No element found")
     })
     public @ResponseBody Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                     @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,

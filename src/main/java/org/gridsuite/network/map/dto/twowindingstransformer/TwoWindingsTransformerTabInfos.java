@@ -1,0 +1,264 @@
+/**
+ * Copyright (c) 2021, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+package org.gridsuite.network.map.dto.twowindingstransformer;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.BranchStatus;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
+import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.model.TapChangerData;
+import org.gridsuite.network.map.model.TapChangerStepData;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ */
+@SuperBuilder
+@Getter
+public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransformerInfos {
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelListInfos voltageLevel1;
+
+    //TODO put this into the DTO voltageLevel1
+    private String voltageLevelId1;
+
+    //TODO put this into the DTO voltageLevel1
+    private String voltageLevelName1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelListInfos voltageLevel2;
+
+    //TODO put this into the DTO voltageLevel2
+    private String voltageLevelId2;
+
+    //TODO put this into the DTO voltageLevel2
+    private String voltageLevelName2;
+
+    private Boolean terminal1Connected;
+
+    private Boolean terminal2Connected;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double i1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double i2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CurrentLimitsData currentLimits1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CurrentLimitsData currentLimits2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData phaseTapChanger;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData ratioTapChanger;
+
+    private Double g;
+
+    private Double b;
+
+    private Double r;
+
+    private Double x;
+
+    private Double ratedU1;
+
+    private Double ratedU2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double ratedS;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String connectionName1;
+
+    private ConnectablePosition.Direction connectionDirection1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String connectionName2;
+
+    private ConnectablePosition.Direction connectionDirection2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String branchStatus;
+
+    public static TwoWindingsTransformerTabInfos toData(Identifiable<?> identifiable) {
+        TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
+        Terminal terminal1 = twoWT.getTerminal1();
+        Terminal terminal2 = twoWT.getTerminal2();
+
+        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder builder = TwoWindingsTransformerTabInfos.builder()
+                .name(twoWT.getOptionalName().orElse(null))
+                .id(twoWT.getId())
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+                .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
+                .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
+                .r(twoWT.getR())
+                .x(twoWT.getX())
+                .b(twoWT.getB())
+                .g(twoWT.getG())
+                .ratedU1(twoWT.getRatedU1())
+                .ratedU2(twoWT.getRatedU2());
+        builder.ratedS(nullIfNan(twoWT.getRatedS()));
+        builder.p1(nullIfNan(terminal1.getP()));
+        builder.q1(nullIfNan(terminal1.getQ()));
+        builder.p2(nullIfNan(terminal2.getP()));
+        builder.q2(nullIfNan(terminal2.getQ()));
+        builder.i1(nullIfNan(terminal1.getI()));
+        builder.i2(nullIfNan(terminal2.getI()));
+
+        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
+        }
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
+        }
+        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
+        var connectablePosition = twoWT.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            if (connectablePosition.getFeeder1() != null) {
+                builder
+                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
+                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
+                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
+            }
+
+            if (connectablePosition.getFeeder2() != null) {
+                builder
+                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
+                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
+                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
+            }
+        }
+        return builder.build();
+    }
+
+    private static TapChangerData toMapData(PhaseTapChanger tapChanger) {
+        if (tapChanger == null) {
+            return null;
+        }
+
+        TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
+                .lowTapPosition(tapChanger.getLowTapPosition())
+                .highTapPosition(tapChanger.getHighTapPosition())
+                .tapPosition(tapChanger.getTapPosition())
+                .regulating(tapChanger.isRegulating())
+                .regulationMode(tapChanger.getRegulationMode())
+                .regulationValue(tapChanger.getRegulationValue())
+                .targetDeadBand(tapChanger.getTargetDeadband())
+                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
+                .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
+
+        builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
+        return builder.build();
+    }
+
+    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+        if (tapChangerStep == null) {
+            return List.of();
+        }
+        return tapChangerStep.entrySet().stream().map(p -> {
+            Integer index = p.getKey();
+            PhaseTapChangerStep v = p.getValue();
+
+            return TapChangerStepData.builder().index(index)
+                    .g(v.getG())
+                    .b(v.getB())
+                    .r(v.getR())
+                    .x(v.getX())
+                    .rho(v.getRho())
+                    .alpha(v.getAlpha())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    private static TapChangerData toMapData(RatioTapChanger tapChanger) {
+        if (tapChanger == null) {
+            return null;
+        }
+
+        TapChangerData.TapChangerDataBuilder builder = TapChangerData.builder()
+                .lowTapPosition(tapChanger.getLowTapPosition())
+                .highTapPosition(tapChanger.getHighTapPosition())
+                .tapPosition(tapChanger.getTapPosition())
+                .regulating(tapChanger.isRegulating())
+                .loadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
+                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
+                .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
+
+        builder.targetV(nullIfNan(tapChanger.getTargetV()));
+        builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
+        return builder.build();
+    }
+
+    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+        if (tapChangerStep == null) {
+            return List.of();
+        }
+        return tapChangerStep.entrySet().stream().map(p -> {
+            Integer index = p.getKey();
+            RatioTapChangerStep v = p.getValue();
+
+            return TapChangerStepData.builder().index(index)
+                    .g(v.getG())
+                    .b(v.getB())
+                    .r(v.getR())
+                    .x(v.getX())
+                    .rho(v.getRho())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+}
