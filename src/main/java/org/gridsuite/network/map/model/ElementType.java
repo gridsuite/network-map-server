@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
 import org.gridsuite.network.map.dto.line.AbstractLineInfos;
 import org.gridsuite.network.map.dto.load.AbstractLoadInfos;
 import org.gridsuite.network.map.dto.shuntcompensator.AbstractShuntCompensator;
+import org.gridsuite.network.map.dto.staticvarcompensator.AbstractStaticVarCompensatorInfos;
 import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
@@ -37,7 +38,7 @@ public enum ElementType {
     BATTERY(IdentifiableType.BATTERY, Battery.class, AbstractBatteryInfos::toData),
     SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR, ShuntCompensator.class, AbstractShuntCompensator::toData),
     DANGLING_LINE(IdentifiableType.DANGLING_LINE, DanglingLine.class, AbstractDanglingLineInfos::toData),
-    STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR, StaticVarCompensator.class, AbstractLoadInfos::toData),
+    STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR, StaticVarCompensator.class, AbstractStaticVarCompensatorInfos::toData),
     LCC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, LccConverterStation.class, AbstractLoadInfos::toData),
     VSC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, VscConverterStation.class, AbstractLoadInfos::toData);
 
