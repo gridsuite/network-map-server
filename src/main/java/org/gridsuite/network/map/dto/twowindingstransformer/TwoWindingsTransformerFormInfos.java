@@ -7,7 +7,10 @@
 package org.gridsuite.network.map.dto.twowindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.CurrentLimits;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
@@ -16,13 +19,12 @@ import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 
-
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransformerInfos {
+public class TwoWindingsTransformerFormInfos extends AbstractTwoWindingsTransformerInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private VoltageLevelListInfos voltageLevel1;
@@ -116,12 +118,12 @@ public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransform
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
 
-    public static TwoWindingsTransformerTabInfos toData(Identifiable<?> identifiable) {
+    public static TwoWindingsTransformerFormInfos toData(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
 
-        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder builder = TwoWindingsTransformerTabInfos.builder()
+        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder builder = TwoWindingsTransformerFormInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -138,6 +140,9 @@ public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransform
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2());
+
+        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
         builder.ratedS(nullIfNan(twoWT.getRatedS()));
         builder.p1(nullIfNan(terminal1.getP()));
         builder.q1(nullIfNan(terminal1.getQ()));
@@ -176,5 +181,4 @@ public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransform
         }
         return builder.build();
     }
-
 }

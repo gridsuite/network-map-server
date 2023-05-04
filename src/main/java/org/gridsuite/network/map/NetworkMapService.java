@@ -1357,7 +1357,8 @@ class NetworkMapService {
 
     public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, ElementInfos.InfoType infoType, String elementId) {
         //TODO : remove the generator check when fix reactivLimits is done in network store serve
-        Identifiable identifiable = elementType == ElementType.GENERATOR ? getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getGenerator(elementId) : getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getIdentifiable(elementId);
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        Identifiable identifiable = getIdentifiable(network, elementType, elementId);
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -1404,6 +1405,17 @@ class NetworkMapService {
                 return getVoltageLevelsIds(networkUuid, variantId, substationsIds);
             default:
                 return List.of();
+        }
+    }
+
+    private Identifiable getIdentifiable(Network network, ElementType elementType, String elementId) {
+        switch (elementType) {
+            case TWO_WINDINGS_TRANSFORMER:
+                return network.getTwoWindingsTransformer(elementId);
+            case GENERATOR:
+                return network.getGenerator(elementId);
+            default:
+                return network.getIdentifiable(elementId);
         }
     }
 }
