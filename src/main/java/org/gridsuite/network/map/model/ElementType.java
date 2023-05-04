@@ -21,6 +21,7 @@ import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
+import org.gridsuite.network.map.dto.vscconverterstation.AbstractVscConverterStationInfos;
 
 import java.util.function.BiFunction;
 
@@ -41,7 +42,7 @@ public enum ElementType {
     DANGLING_LINE(IdentifiableType.DANGLING_LINE, DanglingLine.class, AbstractDanglingLineInfos::toData),
     STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR, StaticVarCompensator.class, AbstractStaticVarCompensatorInfos::toData),
     LCC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, LccConverterStation.class, AbstractLccConverterStationInfos::toData),
-    VSC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, VscConverterStation.class, AbstractLoadInfos::toData);
+    VSC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, VscConverterStation.class, AbstractVscConverterStationInfos::toData);
 
     private final IdentifiableType identifiableType;
 
