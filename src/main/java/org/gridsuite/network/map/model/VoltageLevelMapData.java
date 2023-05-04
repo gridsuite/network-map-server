@@ -31,6 +31,9 @@ public class VoltageLevelMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationName;
+
     private double nominalVoltage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

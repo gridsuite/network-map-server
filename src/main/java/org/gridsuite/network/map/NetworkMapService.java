@@ -14,6 +14,9 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.line.LineListInfos;
+import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -57,6 +60,8 @@ class NetworkMapService {
 
         builder.name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
+                .substationName(voltageLevel.getSubstation().map(Substation::getName).orElse(null))
+
                 .nominalVoltage(voltageLevel.getNominalV())
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                 .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
@@ -77,6 +82,25 @@ class NetworkMapService {
         AtomicInteger busbarCount = new AtomicInteger(1);
         AtomicInteger sectionCount = new AtomicInteger(1);
         AtomicBoolean warning = new AtomicBoolean(false);
+        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
+            determinateBusBarSectionPosition(voltageLevel, busbarCount, sectionCount, warning);
+            if (!warning.get()) {
+                builder.busbarCount(busbarCount.get());
+                builder.sectionCount(sectionCount.get());
+                builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
+            } else {
+                builder.busbarCount(1);
+                builder.sectionCount(1);
+                builder.switchKinds(Collections.emptyList());
+            }
+        } else {
+            warning.set(true);
+        }
+        builder.isPartiallyCopied(warning.get());
+
+    }
+
+    private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {
         voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
             var pos = bbs.getExtension(BusbarSectionPosition.class);
             if (pos != null) {
@@ -90,16 +114,6 @@ class NetworkMapService {
                 warning.set(true);
             }
         });
-        builder.isPartiallyCopied(warning.get());
-        if (!warning.get()) {
-            builder.busbarCount(busbarCount.get());
-            builder.sectionCount(sectionCount.get());
-            builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
-        } else {
-            builder.busbarCount(1);
-            builder.sectionCount(1);
-            builder.switchKinds(Collections.emptyList());
-        }
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
@@ -400,6 +414,7 @@ class NetworkMapService {
                    .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
         }
+
         builder.ratedS(nullIfNan(transformer.getRatedS()));
         builder.p1(nullIfNan(terminal1.getP()));
         builder.q1(nullIfNan(terminal1.getQ()));
@@ -543,6 +558,7 @@ class NetworkMapService {
                    .busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
 
         }
+
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
@@ -1346,6 +1362,24 @@ class NetworkMapService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return elementType.getInfosGetter().apply(identifiable, infoType);
+    }
+
+    // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
+    public ElementInfos getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        Line line = network.getLine(equipmentId);
+        if (line != null) {
+            return LineListInfos.toData(line);
+        }
+        TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
+        if (twoWT != null) {
+            return TwoWindingsTransformerListInfos.toData(twoWT);
+        }
+        ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
+        if (threeWT != null) {
+            return ThreeWindingsTransformerListInfos.toData(threeWT);
+        }
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
     public List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType) {

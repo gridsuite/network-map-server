@@ -21,10 +21,13 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class HvdcTabInfos extends AbstractHvdcInfos {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcLine.ConvertersMode convertersMode;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String converterStationId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String converterStationId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
