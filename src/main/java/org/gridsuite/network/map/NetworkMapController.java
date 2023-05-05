@@ -198,7 +198,7 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/busbar-sections", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get busbar sections description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Busbar section description")})
-    public @ResponseBody List<BusbarSectionMapData> getVoltageLevelBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public @ResponseBody List<ElementInfos> getVoltageLevelBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                                   @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBusbarSections(networkUuid, voltageLevelId, variantId);
