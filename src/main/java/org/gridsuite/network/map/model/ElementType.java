@@ -10,7 +10,7 @@ import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
 import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
-import org.gridsuite.network.map.dto.generator.GeneratorInfos;
+import org.gridsuite.network.map.dto.generator.AbstractGeneratorInfos;
 import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
 import org.gridsuite.network.map.dto.lccconverterstation.AbstractLccConverterStationInfos;
 import org.gridsuite.network.map.dto.line.AbstractLineInfos;
@@ -36,7 +36,7 @@ public enum ElementType {
     THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER, ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
 
     BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class, AbstractLoadInfos::toData),
-    GENERATOR(IdentifiableType.GENERATOR, Generator.class, GeneratorInfos::toData),
+    GENERATOR(IdentifiableType.GENERATOR, Generator.class, AbstractGeneratorInfos::toData),
     BATTERY(IdentifiableType.BATTERY, Battery.class, AbstractBatteryInfos::toData),
     SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR, ShuntCompensator.class, AbstractShuntCompensator::toData),
     DANGLING_LINE(IdentifiableType.DANGLING_LINE, DanglingLine.class, AbstractDanglingLineInfos::toData),

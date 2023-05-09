@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023, RTE (http://www.rte-france.com)
+ * Copyright (c) 2021, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -14,21 +14,17 @@ import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
-
 @SuperBuilder
 @Getter
-public class GeneratorInfos extends ElementInfos {
+public class GeneratorFormInfos extends AbstractGeneratorInfos {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -125,20 +121,10 @@ public class GeneratorInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
-            case TAB:
-            case FORM:
-                return getGeneratorData(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
-    }
-
-    public static GeneratorInfos getGeneratorData(Identifiable<?> identifiable) {
+    public static GeneratorFormInfos toData(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
-        GeneratorInfos.GeneratorInfosBuilder builder = GeneratorInfos.builder()
+        GeneratorFormInfos.GeneratorFormInfosBuilder builder = GeneratorFormInfos.builder()
                 .name(generator.getOptionalName().orElse(null))
                 .id(generator.getId())
                 .terminalConnected(terminal.isConnected())
@@ -181,6 +167,14 @@ public class GeneratorInfos extends ElementInfos {
             builder.qPercent(coordinatedReactiveControl.getQPercent());
         }
 
+        Terminal regulatingTerminal = generator.getRegulatingTerminal();
+        //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
+        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
+            builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
+            builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
+            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+        }
         ReactiveLimits reactiveLimits = generator.getReactiveLimits();
         if (reactiveLimits != null) {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
@@ -207,13 +201,4 @@ public class GeneratorInfos extends ElementInfos {
         return builder.build();
     }
 
-    private static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
-        return points.stream()
-                .map(point -> ReactiveCapabilityCurveMapData.builder()
-                        .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
-                        .build())
-                .collect(Collectors.toList());
-    }
 }
