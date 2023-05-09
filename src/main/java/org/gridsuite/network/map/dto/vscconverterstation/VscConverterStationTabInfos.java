@@ -72,7 +72,6 @@ public class VscConverterStationTabInfos extends AbstractVscConverterStationInfo
         if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
         }
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         return builder.build();
     }

@@ -58,7 +58,6 @@ public class LccConverterStationTabInfos extends AbstractLccConverterStationInfo
         if (lccConverterStation.getHvdcLine() != null) {
             builder.hvdcLineId(lccConverterStation.getHvdcLine().getId());
         }
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         return builder.build();
     }

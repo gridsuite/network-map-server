@@ -60,7 +60,6 @@ public class DanglingLineTabInfos extends AbstractDanglingLineInfos {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
         return builder.build();
     }
 

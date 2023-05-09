@@ -61,7 +61,6 @@ public class StaticVarCompensatorTabInfos extends AbstractStaticVarCompensatorIn
         if (!Double.isNaN(staticVarCompensator.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint());
         }
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         return builder.build();
     }

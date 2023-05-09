@@ -14,9 +14,11 @@ import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.ElementType;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -29,6 +31,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -1737,5 +1740,122 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorWhenGetBranchOrThreeWindingsTransformer() throws Exception {
         failingTestForElement("branch-or-3wt", NETWORK_UUID, null, null, "NOT_EXISTING_EQUIPMENT");
         failingTestForElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_EQUIPMENT");
+    }
+
+    private String buildUrlForElements(UUID networkUuid, String variantId, List<String> immutableListSubstationIds, String elementType, String infoType) {
+        List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
+        String path = "/v1/networks/{networkUuid}/elements";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path);
+        if (substationsIds != null) {
+            builder = builder.queryParam("substationsIds", substationsIds);
+        }
+        if (!StringUtils.isBlank(variantId)) {
+            builder = builder.queryParam("variantId", variantId);
+        }
+        builder = builder.queryParam("elementType", elementType);
+        builder = builder.queryParam("infoType", infoType);
+        return builder.buildAndExpand(networkUuid).toUriString();
+    }
+
+    @Test
+    public void shouldReturnGeneratorsFormData() throws Exception {
+        succeedingTestElement(ElementType.GENERATOR.name(), NETWORK_UUID, null, null, resourceToString("/generator-map-data.json"), ElementInfos.InfoType.FORM.name(), "GEN");
+    }
+
+    @Test
+    public void shouldReturnGeneratorsTabData() throws Exception {
+        succeedingTestForList(ElementType.GENERATOR.name(), NETWORK_UUID, null, null, resourceToString("/generators-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnBatteryTabData() throws Exception {
+        succeedingTestForList(ElementType.BATTERY.name(), NETWORK_UUID, null, null, resourceToString("/batteries-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnShuntCompensatorTabData() throws Exception {
+        succeedingTestForList(ElementType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, resourceToString("/shunt-compensators-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnShuntCompensatorFormData() throws Exception {
+        succeedingTestElement(ElementType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, resourceToString("/shunt-compensator-map-data.json"), ElementInfos.InfoType.FORM.name(), "SHUNT_VLNB");
+    }
+
+    @Test
+    public void shouldReturnDanglingLineTabData() throws Exception {
+        succeedingTestForList(ElementType.DANGLING_LINE.name(), NETWORK_UUID, null, null, resourceToString("/dangling-lines-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnStaticVarCompensatorTabData() throws Exception {
+        succeedingTestForList(ElementType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnLccConverterStationTabData() throws Exception {
+        succeedingTestForList(ElementType.LCC_CONVERTER_STATION.name(), NETWORK_UUID, null, null, resourceToString("/lcc-converter-stations-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnVscConverterStationTabData() throws Exception {
+        succeedingTestForList(ElementType.VSC_CONVERTER_STATION.name(), NETWORK_UUID, null, null, resourceToString("/vsc-converter-stations-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnTwoWindingsTransformerTabData() throws Exception {
+        succeedingTestForList(ElementType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, resourceToString("/2-windings-transformers-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnTwoWindingsTransformerFormData() throws Exception {
+        succeedingTestElement(ElementType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, resourceToString("/2-windings-transformer-map-data.json"), ElementInfos.InfoType.FORM.name(), "NGEN_NHV1");
+    }
+
+    @Test
+    public void shouldReturnThreeWindingsTransformerTabData() throws Exception {
+        succeedingTestForList(ElementType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, resourceToString("/3-windings-transformers-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnLoadFormData() throws Exception {
+        succeedingTestElement(ElementType.LOAD.name(), NETWORK_UUID, null, null, resourceToString("/load-map-data.json"), ElementInfos.InfoType.FORM.name(), "LOAD");
+    }
+
+    @Test
+    public void shouldReturnLoadTabData() throws Exception {
+        succeedingTestForList(ElementType.LOAD.name(), NETWORK_UUID, null, null, resourceToString("/loads-map-data.json"), ElementInfos.InfoType.TAB.name());
+    }
+
+    @Test
+    public void shouldReturnLinesFormData() throws Exception {
+        succeedingTestElement(ElementType.LINE.name(), NETWORK_UUID, null, null, resourceToString("/line-map-data.json"), ElementInfos.InfoType.FORM.name(), "NHV1_NHV2_1");
+    }
+
+    private void succeedingTestForList(String elementType, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson, String infoType) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlForElements(networkUuid, variantId, substationsIds, elementType, infoType), networkUuid))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestElement(String elementType, UUID networkUuid, String variantId, String substationsIds, String expectedJson, String infoType, String id) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlForElement(networkUuid, variantId, elementType, infoType, id)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private String buildUrlForElement(UUID networkUuid, String variantId, String elementType, String infoType, String elementId) {
+        String path = "/v1/networks/{networkUuid}/elements/{elementId}";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path);
+        if (!StringUtils.isBlank(variantId)) {
+            builder = builder.queryParam("variantId", variantId);
+        }
+        builder = builder.queryParam("elementType", elementType);
+        builder = builder.queryParam("infoType", infoType);
+        return builder.buildAndExpand(networkUuid, elementId).toUriString();
     }
 }

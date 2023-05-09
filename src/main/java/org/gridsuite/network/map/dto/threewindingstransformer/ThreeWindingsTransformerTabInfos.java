@@ -177,10 +177,6 @@ public class ThreeWindingsTransformerTabInfos extends AbstractThreeWindingsTrans
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelId3(terminal3.getVoltageLevel().getId());
 
-        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
-                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
-                .busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
-
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
         }
