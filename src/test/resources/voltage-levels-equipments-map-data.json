@@ -5,8 +5,7 @@
       "substationId": "P1",
       "substationName": "P1",
       "nominalVoltage": 24,
-      "topologyKind": "BUS_BREAKER",
-      "isPartiallyCopied": true
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -72,8 +71,7 @@
       "substationId": "P1",
       "substationName": "P1",
       "nominalVoltage": 380,
-      "topologyKind": "BUS_BREAKER",
-      "isPartiallyCopied": true
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -119,8 +117,7 @@
       "substationId": "P2",
       "substationName": "P2",
       "nominalVoltage": 380,
-      "topologyKind": "BUS_BREAKER",
-      "isPartiallyCopied": true
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -146,8 +143,7 @@
       "substationId": "P2",
       "substationName": "P2",
       "nominalVoltage": 150,
-      "topologyKind": "BUS_BREAKER",
-      "isPartiallyCopied": true
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -168,8 +164,7 @@
       "substationId": "P1",
       "substationName": "P1",
       "nominalVoltage": 225,
-      "topologyKind": "BUS_BREAKER",
-      "isPartiallyCopied": true
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -250,8 +245,7 @@
       "substationId": "P3",
       "substationName": "P3",
       "nominalVoltage": 24,
-      "topologyKind": "BUS_BREAKER",
-      "isPartiallyCopied": true
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {

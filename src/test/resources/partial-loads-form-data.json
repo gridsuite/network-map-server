@@ -1,7 +1,6 @@
 [
   {
     "id": "LOAD",
-    "name": null,
     "type": "UNDEFINED",
     "voltageLevelId": "VLLOAD",
     "terminalConnected": true,
@@ -9,6 +8,7 @@
     "q0": 200.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "connectionPosition": 0
+    "connectionPosition": 0,
+    "busOrBusbarSectionId": "NLOAD"
   }
 ]

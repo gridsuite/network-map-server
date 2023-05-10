@@ -1,32 +1,21 @@
 [
   {
-    "countryCode": "FR",
     "id": "P1",
-    "countryName": "FRANCE",
     "voltageLevels": [
       {
         "id": "VLGEN",
         "substationId": "P1",
-        "substationName": "P1",
-        "nominalVoltage": 24.0,
-        "topologyKind": "BUS_BREAKER",
-        "isPartiallyCopied": true
+        "nominalVoltage": 24.0
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
-        "substationName": "P1",
-        "nominalVoltage": 380.0,
-        "topologyKind": "BUS_BREAKER",
-        "isPartiallyCopied": true
+        "nominalVoltage": 380.0
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
-        "substationName": "P1",
-        "nominalVoltage": 225.0,
-        "topologyKind": "BUS_BREAKER",
-        "isPartiallyCopied": true
+        "nominalVoltage": 225.0
       }
     ]
   }

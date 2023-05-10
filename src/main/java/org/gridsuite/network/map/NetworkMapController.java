@@ -46,14 +46,14 @@ public class NetworkMapController {
         return networkMapService.getGenerators(networkUuid, variantId, substationsIds);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/equipments-ids", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/elements-ids", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get equipments ids")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Equipments ids")})
     public @ResponseBody List<String> getEquipmentsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                       @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds,
-                                                       @Parameter(description = "equipment type") @RequestParam(name = "equipmentType") ElementType equipmentType) {
-        return networkMapService.getEquipmentsIds(networkUuid, variantId, substationsIds, equipmentType);
+                                                       @Parameter(description = "Substations ids") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
+                                                       @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType) {
+        return networkMapService.getElementsIds(networkUuid, variantId, substationsIds, elementType);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/generators/{generatorId}", produces = APPLICATION_JSON_VALUE)
@@ -134,7 +134,7 @@ public class NetworkMapController {
     public @ResponseBody List<ElementInfos> getElementsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                              @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                              @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
-                                                             @Parameter(description = "Equipment type") @RequestParam(name = "elementType") ElementType elementType,
+                                                             @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                                              @Parameter(description = "Info type") @RequestParam(name = "infoType") ElementInfos.InfoType infoType) {
         return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, infoType);
     }
@@ -145,7 +145,7 @@ public class NetworkMapController {
     public @ResponseBody ElementInfos getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                       @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
                                                       @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                      @Parameter(description = "Equipment type") @RequestParam(name = "elementType") ElementType elementType,
+                                                      @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                                       @Parameter(description = "Info type") @RequestParam(name = "infoType") ElementInfos.InfoType infoType) {
         return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoType, elementId);
     }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Getter
 public class ElementInfos {
 
-    public enum InfoType {
+    public enum InfoType { //LevelOfDetail
         LIST,
         MAP,
         FORM,
