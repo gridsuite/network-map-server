@@ -23,10 +23,12 @@ public class LineTabInfos extends AbstractLineInfos {
 
     private String voltageLevelId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelName1;
 
     private String voltageLevelId2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelName2;
 
     private Boolean terminal1Connected;

@@ -7,12 +7,10 @@
 package org.gridsuite.network.map.dto.voltagelevel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.IdentifiableShortCircuit;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.VoltageLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -22,62 +20,17 @@ import java.util.List;
 public class VoltageLevelTabInfos extends AbstractVoltageLevelInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private TopologyKind topologyKind;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
     private double nominalVoltage;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double lowVoltageLimit;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double highVoltageLimit;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMin;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMax;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer busbarCount;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer sectionCount;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<SwitchKind> switchKinds;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isRetrievedTopology;
-
     public static VoltageLevelTabInfos toData(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
-                .name(voltageLevel.getOptionalName().orElse(null))
+        return VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())
-                .topologyKind(voltageLevel.getTopologyKind())
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
+                .name(voltageLevel.getOptionalName().orElse(null))
+                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
                 .nominalVoltage(voltageLevel.getNominalV())
-                .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
-
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            VoltageLevelTopologyInfos vlTopologyInfos = getTopologyInfos(voltageLevel);
-            builder.busbarCount(vlTopologyInfos.getBusbarCount());
-            builder.sectionCount(vlTopologyInfos.getSectionCount());
-            builder.switchKinds(vlTopologyInfos.getSwitchKinds());
-            builder.isRetrievedTopology(vlTopologyInfos.isRetrievedTopology());
-        }
-
-        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        if (identifiableShortCircuit != null) {
-            builder.ipMin(identifiableShortCircuit.getIpMin());
-            builder.ipMax(identifiableShortCircuit.getIpMax());
-        }
-
-        return builder.build();
+                .build();
     }
 }
