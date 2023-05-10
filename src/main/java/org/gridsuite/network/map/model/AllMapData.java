@@ -23,13 +23,13 @@ public class AllMapData {
     private List<ElementInfos> hvdcLines;
     private List<ElementInfos> loads;
 
-    private List<TwoWindingsTransformerMapData> twoWindingsTransformers;
-    private List<ThreeWindingsTransformerMapData> threeWindingsTransformers;
-    private List<GeneratorMapData> generators;
-    private List<BatteryMapData> batteries;
-    private List<DanglingLineMapData> danglingLines;
-    private List<LccConverterStationMapData> lccConverterStations;
-    private List<ShuntCompensatorMapData> shuntCompensators;
-    private List<StaticVarCompensatorMapData> staticVarCompensators;
-    private List<VscConverterStationMapData> vscConverterStations;
+    private List<ElementInfos> twoWindingsTransformers;
+    private List<ElementInfos> threeWindingsTransformers;
+    private List<ElementInfos> generators;
+    private List<ElementInfos> batteries;
+    private List<ElementInfos> danglingLines;
+    private List<ElementInfos> lccConverterStations;
+    private List<ElementInfos> shuntCompensators;
+    private List<ElementInfos> staticVarCompensators;
+    private List<ElementInfos> vscConverterStations;
 }
