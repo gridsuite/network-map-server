@@ -2,7 +2,6 @@
   "id": "NHV1_NHV2_1",
   "voltageLevelId1": "VLHV1",
   "voltageLevelId2": "VLHV2",
-  "name": null,
   "terminal1Connected": true,
   "terminal2Connected": true,
   "p1": 1.1,

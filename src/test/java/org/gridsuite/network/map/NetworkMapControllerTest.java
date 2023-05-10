@@ -19,7 +19,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.ElementType;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -33,7 +32,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -973,15 +971,6 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private void succeedingTestForElementNameOrEmpty(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
     private void failingTestForElement(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId) throws Exception {
         mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
                 .andExpect(status().isNotFound());
@@ -1137,12 +1126,6 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnGeneratorsMapData() throws Exception {
-        succeedingTestForList("generators", NETWORK_UUID, null, null, false, resourceToString("/generators-map-data.json"));
-        succeedingTestForList("generators", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/generators-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnGeneratorsIds() throws Exception {
         succeedingTestForList(ElementType.GENERATOR.toString(), NETWORK_UUID, null, null, true, List.of("GEN", "GEN2").toString());
         succeedingTestForList(ElementType.GENERATOR.toString(), NETWORK_UUID, VARIANT_ID, null, true, List.of("GEN", "GEN2").toString());
@@ -1174,23 +1157,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnGeneratorMapData() throws Exception {
-        succeedingTestForElement("generators", NETWORK_UUID, null, null, "GEN", resourceToString("/generator-map-data.json"));
-        succeedingTestForElement("generators", NETWORK_UUID, VARIANT_ID, null, "GEN", resourceToString("/generator-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnAnErrorinsteadOfGeneratorMapData() throws Exception {
         failingTestForElement("generators", NETWORK_UUID, null, null, "NOT_EXISTING_GEN");
         failingTestForElement("generators", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_GEN");
-    }
-
-    @Test
-    public void shouldReturnTwoWindingsTransformersMapData() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "2-windings-transformers", null, resourceToString("/2-windings-transformers-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "2-windings-transformers", null, resourceToString("/2-windings-transformers-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "2-windings-transformers", List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "2-windings-transformers", List.of("P1"), resourceToString("/partial-2-windings-transformers-map-data.json"));
     }
 
     @Test
@@ -1219,23 +1188,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnTwoWindingsTransformerMapData() throws Exception {
-        succeedingTestForElement("2-windings-transformers", NETWORK_UUID, null, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
-        succeedingTestForElement("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnAnErrorinsteadOfTwoWindingsTransformerMapData() throws Exception {
         failingTestForElement("2-windings-transformers", NETWORK_UUID, null, null, "NOT_EXISTING_2WT");
         failingTestForElement("2-windings-transformers", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_2WT");
-    }
-
-    @Test
-    public void shouldReturnThreeWindingsTransformersMapData() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "3-windings-transformers", null, resourceToString("/3-windings-transformers-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "3-windings-transformers", null, resourceToString("/3-windings-transformers-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "3-windings-transformers", List.of("P3"), "[]");
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "3-windings-transformers", List.of("P3"), "[]");
     }
 
     @Test
@@ -1283,12 +1238,6 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnBatteriesMapData() throws Exception {
-        succeedingTestForList("batteries", NETWORK_UUID, null, null, false, resourceToString("/batteries-map-data.json"));
-        succeedingTestForList("batteries", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/batteries-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnBatteriesIds() throws Exception {
         succeedingTestForList(ElementType.BATTERY.name(), NETWORK_UUID, null, null, true, List.of("BATTERY1", "BATTERY2").toString());
         succeedingTestForList(ElementType.BATTERY.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("BATTERY1", "BATTERY2").toString());
@@ -1308,21 +1257,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnBatteriesMapDataFromIds() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "batteries", List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "batteries", List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnAnErrorInsteadOfBatteriesMapDataFromIds() throws Exception {
         failingTestForList("batteries", NOT_FOUND_NETWORK_ID, null, List.of("P1", "P2"), false);
         failingTestForList("batteries", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1", "P2"), false);
-    }
-
-    @Test
-    public void shouldReturnDanglingLinesMapData() throws Exception {
-        succeedingTestForList("dangling-lines", NETWORK_UUID, null, null, false, resourceToString("/dangling-lines-map-data.json"));
-        succeedingTestForList("dangling-lines", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/dangling-lines-map-data.json"));
     }
 
     @Test
@@ -1362,9 +1299,6 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, ElementInfos.InfoType.FORM, null, resourceToString("/loads-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LOAD, ElementInfos.InfoType.FORM, List.of("P2"), resourceToString("/partial-loads-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, ElementInfos.InfoType.FORM, List.of("P2"), resourceToString("/partial-loads-form-data.json"));
-
-        //succeedingTestForList("loads", NETWORK_UUID, null, List.of("P2"), false, resourceToString("/partial-loads-map-data.json"));
-        //succeedingTestForList("loads", NETWORK_UUID, VARIANT_ID, List.of("P2"), false, resourceToString("/partial-loads-map-data.json"));
     }
 
     @Test
@@ -1440,21 +1374,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnShuntCompensatorMapData() throws Exception {
-        succeedingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data.json"));
-        succeedingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data-in-variant.json"));
-    }
-
-    @Test
     public void shouldReturnAnErrorinsteadOfShuntCompensatorMapData() throws Exception {
         failingTestForElement("shunt-compensators", NETWORK_UUID, null, null, "NOT_EXISTING_SC");
         failingTestForElement("shunt-compensators", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_SC");
-    }
-
-    @Test
-    public void shouldReturnStaticVarCompensatorsMapData() throws Exception {
-        succeedingTestForList("static-var-compensators", NETWORK_UUID, null, null, false, resourceToString("/static-var-compensators-map-data.json"));
-        succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/static-var-compensators-map-data.json"));
     }
 
     @Test
@@ -1477,21 +1399,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnStaticVarCompensatorsMapDataFromIds() throws Exception {
-        succeedingTestForList("static-var-compensators", NETWORK_UUID, null, List.of("P1"), false, resourceToString("/partial-static-var-compensators-map-data.json"));
-        succeedingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID, List.of("P1"), false, resourceToString("/partial-static-var-compensators-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapDataFromIds() throws Exception {
         failingTestForList("static-var-compensators", NOT_FOUND_NETWORK_ID, null, List.of("P1"), false);
         failingTestForList("static-var-compensators", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"), false);
-    }
-
-    @Test
-    public void shouldReturnLccConverterStationsMapData() throws Exception {
-        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, null, null, false, resourceToString("/lcc-converter-stations-map-data.json"));
-        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, null, false, resourceToString("/lcc-converter-stations-map-data.json"));
     }
 
     @Test
@@ -1514,23 +1424,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnLccConverterStationsMapDataFromIds() throws Exception {
-        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, null, List.of("P1"), false, resourceToString("/partial-lcc-converter-stations-map-data.json"));
-        succeedingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID, List.of("P1"), false, resourceToString("/partial-lcc-converter-stations-map-data.json"));
-    }
-
-    @Test
     public void shouldReturnAnErrorInsteadOfLccConverterStationsMapDataFromIds() throws Exception {
         failingTestForList("lcc-converter-stations", NOT_FOUND_NETWORK_ID, null, List.of("P1"), false);
         failingTestForList("lcc-converter-stations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"), false);
-    }
-
-    @Test
-    public void shouldReturnVscConverterStationsMapData() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "vsc-converter-stations", null, resourceToString("/vsc-converter-stations-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "vsc-converter-stations", null, resourceToString("/vsc-converter-stations-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "vsc-converter-stations", List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "vsc-converter-stations", List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
     }
 
     @Test
@@ -1766,120 +1662,91 @@ public class NetworkMapControllerTest {
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_EQUIPMENT");
     }
 
-    private String buildUrlForElements(UUID networkUuid, String variantId, List<String> immutableListSubstationIds, String elementType, String infoType) {
-        List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
-        String path = "/v1/networks/{networkUuid}/elements";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path);
-        if (substationsIds != null) {
-            builder = builder.queryParam("substationsIds", substationsIds);
-        }
-        if (!StringUtils.isBlank(variantId)) {
-            builder = builder.queryParam("variantId", variantId);
-        }
-        builder = builder.queryParam("elementType", elementType);
-        builder = builder.queryParam("infoType", infoType);
-        return builder.buildAndExpand(networkUuid).toUriString();
-    }
-
     @Test
     public void shouldReturnGeneratorsFormData() throws Exception {
-        succeedingTestElement(ElementType.GENERATOR.name(), NETWORK_UUID, null, null, resourceToString("/generator-map-data.json"), ElementInfos.InfoType.FORM.name(), "GEN");
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.GENERATOR, ElementInfos.InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, ElementInfos.InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
     }
 
     @Test
     public void shouldReturnGeneratorsTabData() throws Exception {
-        succeedingTestForList(ElementType.GENERATOR.name(), NETWORK_UUID, null, null, resourceToString("/generators-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.GENERATOR, ElementInfos.InfoType.TAB, null, resourceToString("/generators-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, ElementInfos.InfoType.TAB, null, resourceToString("/generators-map-data.json"));
     }
 
     @Test
     public void shouldReturnBatteryTabData() throws Exception {
-        succeedingTestForList(ElementType.BATTERY.name(), NETWORK_UUID, null, null, resourceToString("/batteries-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "batteries", List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "batteries", List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
     }
 
     @Test
     public void shouldReturnShuntCompensatorTabData() throws Exception {
-        succeedingTestForList(ElementType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, resourceToString("/shunt-compensators-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/shunt-compensators-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/shunt-compensators-map-data-in-variant.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "shunt-compensators", List.of("P1"), resourceToString("/partial-shunt-compensators-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "shunt-compensators", List.of("P1", "P3"), resourceToString("/partial-shunt-compensators-map-data-in-variant.json"));
+
     }
 
     @Test
     public void shouldReturnShuntCompensatorFormData() throws Exception {
-        succeedingTestElement(ElementType.SHUNT_COMPENSATOR.name(), NETWORK_UUID, null, null, resourceToString("/shunt-compensator-map-data.json"), ElementInfos.InfoType.FORM.name(), "SHUNT_VLNB");
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.FORM, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.FORM, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data-in-variant.json"));
     }
 
     @Test
     public void shouldReturnDanglingLineTabData() throws Exception {
-        succeedingTestForList(ElementType.DANGLING_LINE.name(), NETWORK_UUID, null, null, resourceToString("/dangling-lines-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB, null, resourceToString("/dangling-lines-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB, null, resourceToString("/dangling-lines-map-data.json"));
     }
 
     @Test
     public void shouldReturnStaticVarCompensatorTabData() throws Exception {
-        succeedingTestForList(ElementType.STATIC_VAR_COMPENSATOR.name(), NETWORK_UUID, null, null, resourceToString("/static-var-compensators-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/static-var-compensators-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/static-var-compensators-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "static-var-compensators", List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "static-var-compensators", List.of("P1"), resourceToString("/partial-static-var-compensators-map-data.json"));
+
     }
 
     @Test
     public void shouldReturnLccConverterStationTabData() throws Exception {
-        succeedingTestForList(ElementType.LCC_CONVERTER_STATION.name(), NETWORK_UUID, null, null, resourceToString("/lcc-converter-stations-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/lcc-converter-stations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/lcc-converter-stations-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "lcc-converter-stations", List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "lcc-converter-stations", List.of("P1"), resourceToString("/partial-lcc-converter-stations-map-data.json"));
+
     }
 
     @Test
     public void shouldReturnVscConverterStationTabData() throws Exception {
-        succeedingTestForList(ElementType.VSC_CONVERTER_STATION.name(), NETWORK_UUID, null, null, resourceToString("/vsc-converter-stations-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/vsc-converter-stations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/vsc-converter-stations-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "vsc-converter-stations", List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "vsc-converter-stations", List.of("P1"), resourceToString("/partial-vsc-converter-stations-map-data.json"));
     }
 
     @Test
     public void shouldReturnTwoWindingsTransformerTabData() throws Exception {
-        succeedingTestForList(ElementType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, resourceToString("/2-windings-transformers-map-data.json"), ElementInfos.InfoType.TAB.name());
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/2-windings-transformers-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/2-windings-transformers-map-data.json"));
     }
+
 
     @Test
     public void shouldReturnTwoWindingsTransformerFormData() throws Exception {
-        succeedingTestElement(ElementType.TWO_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, resourceToString("/2-windings-transformer-map-data.json"), ElementInfos.InfoType.FORM.name(), "NGEN_NHV1");
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.FORM, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.FORM, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
     }
 
     @Test
     public void shouldReturnThreeWindingsTransformerTabData() throws Exception {
-        succeedingTestForList(ElementType.THREE_WINDINGS_TRANSFORMER.name(), NETWORK_UUID, null, null, resourceToString("/3-windings-transformers-map-data.json"), ElementInfos.InfoType.TAB.name());
-    }
-
-    @Test
-    public void shouldReturnLoadFormData() throws Exception {
-        succeedingTestElement(ElementType.LOAD.name(), NETWORK_UUID, null, null, resourceToString("/load-map-data.json"), ElementInfos.InfoType.FORM.name(), "LOAD");
-    }
-
-    @Test
-    public void shouldReturnLoadTabData() throws Exception {
-        succeedingTestForList(ElementType.LOAD.name(), NETWORK_UUID, null, null, resourceToString("/loads-map-data.json"), ElementInfos.InfoType.TAB.name());
-    }
-
-    @Test
-    public void shouldReturnLinesFormData() throws Exception {
-        succeedingTestElement(ElementType.LINE.name(), NETWORK_UUID, null, null, resourceToString("/line-map-data.json"), ElementInfos.InfoType.FORM.name(), "NHV1_NHV2_1");
-    }
-
-    private void succeedingTestForList(String elementType, UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson, String infoType) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlForElements(networkUuid, variantId, substationsIds, elementType, infoType), networkUuid))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
-    private void succeedingTestElement(String elementType, UUID networkUuid, String variantId, String substationsIds, String expectedJson, String infoType, String id) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlForElement(networkUuid, variantId, elementType, infoType, id)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
-    private String buildUrlForElement(UUID networkUuid, String variantId, String elementType, String infoType, String elementId) {
-        String path = "/v1/networks/{networkUuid}/elements/{elementId}";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(path);
-        if (!StringUtils.isBlank(variantId)) {
-            builder = builder.queryParam("variantId", variantId);
-        }
-        builder = builder.queryParam("elementType", elementType);
-        builder = builder.queryParam("infoType", infoType);
-        return builder.buildAndExpand(networkUuid, elementId).toUriString();
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/3-windings-transformers-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/3-windings-transformers-map-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "3-windings-transformers", List.of("P3"), "[]");
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "3-windings-transformers", List.of("P3"), "[]");
     }
 }
