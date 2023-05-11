@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */

@@ -16,6 +16,7 @@ import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */

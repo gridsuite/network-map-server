@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.VscConverterStation;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
