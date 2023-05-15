@@ -13,6 +13,8 @@ import com.powsybl.iidm.network.Terminal;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
@@ -41,20 +43,16 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
     public static BatteryTabInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryTabInfos.BatteryTabInfosBuilder builder = BatteryTabInfos.builder()
+        return BatteryTabInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
                 .id(battery.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(battery.getTargetP())
-                .targetQ(battery.getTargetQ());
-        if (!Double.isNaN(terminal.getP())) {
-            builder.p(terminal.getP());
-        }
-        if (!Double.isNaN(terminal.getQ())) {
-            builder.q(terminal.getQ());
-        }
-        return builder.build();
+                .targetQ(battery.getTargetQ())
+                .p(nullIfNan(terminal.getP()))
+                .q(nullIfNan(terminal.getQ()))
+                .build();
     }
 
 }

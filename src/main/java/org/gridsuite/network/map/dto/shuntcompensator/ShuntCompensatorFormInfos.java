@@ -12,6 +12,8 @@ import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */

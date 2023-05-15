@@ -12,6 +12,8 @@ import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */

@@ -14,6 +14,9 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.TapChangerData;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsTransformerPermanentLimits;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsTransformerRatioTapChangers;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
@@ -22,8 +25,11 @@ import org.gridsuite.network.map.model.TapChangerData;
 public class ThreeWindingsTransformerTabInfos extends AbstractThreeWindingsTransformerInfos {
 
     private String voltageLevelId1;
+
     private String voltageLevelId2;
+
     private String voltageLevelId3;
+
     private Boolean terminal1Connected;
 
     private Boolean terminal2Connected;

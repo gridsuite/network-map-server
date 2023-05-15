@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class NetworkMapController {
 
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get a network element")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Elements description")})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Element description")})
     public @ResponseBody ElementInfos getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                       @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
                                                       @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,

@@ -18,6 +18,8 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */

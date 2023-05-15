@@ -4,11 +4,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.model;
+package org.gridsuite.network.map.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.gridsuite.network.map.dto.ElementInfos;
 
 import java.util.List;
 

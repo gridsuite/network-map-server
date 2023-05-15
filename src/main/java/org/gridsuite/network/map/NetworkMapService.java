@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.line.LineListInfos;
@@ -173,7 +174,6 @@ class NetworkMapService {
                 .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB))
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB))
                 .build();
-
     }
 
     public List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, List<String> substationsIds) {
@@ -299,8 +299,8 @@ class NetworkMapService {
     }
 
     public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, ElementInfos.InfoType infoType, String elementId) {
-        //TODO : remove the generator check when fix reactivLimits is done in network store serve
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        //TODO : remove the 'getIdentifiable' method when fix is done in network store server for additional infos in DB
         Identifiable identifiable = getIdentifiable(network, elementType, elementId);
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -353,10 +353,30 @@ class NetworkMapService {
 
     private Identifiable getIdentifiable(Network network, ElementType elementType, String elementId) {
         switch (elementType) {
+            case LINE:
+                return network.getLine(elementId);
             case TWO_WINDINGS_TRANSFORMER:
                 return network.getTwoWindingsTransformer(elementId);
+            case THREE_WINDINGS_TRANSFORMER:
+                return network.getThreeWindingsTransformer(elementId);
+            case LOAD:
+                return network.getLoad(elementId);
             case GENERATOR:
                 return network.getGenerator(elementId);
+            case BATTERY:
+                return network.getBattery(elementId);
+            case HVDC_LINE:
+                return network.getHvdcLine(elementId);
+            case DANGLING_LINE:
+                return network.getDanglingLine(elementId);
+            case SHUNT_COMPENSATOR:
+                return network.getShuntCompensator(elementId);
+            case VSC_CONVERTER_STATION:
+                return network.getVscConverterStation(elementId);
+            case LCC_CONVERTER_STATION:
+                return network.getLccConverterStation(elementId);
+            case STATIC_VAR_COMPENSATOR:
+                return network.getStaticVarCompensator(elementId);
             default:
                 return network.getIdentifiable(elementId);
         }

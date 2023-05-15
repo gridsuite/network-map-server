@@ -19,6 +19,8 @@ import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */

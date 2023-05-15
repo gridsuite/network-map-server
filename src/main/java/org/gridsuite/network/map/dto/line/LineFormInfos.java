@@ -16,6 +16,8 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
+
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
