@@ -50,10 +50,10 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/all", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all equipments descriptions")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "all equipments descriptions")})
-    public @ResponseBody AllMapData getAll(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                           @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                           @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
-        return networkMapService.getAll(networkUuid, variantId, substationsIds);
+    public @ResponseBody AllElementsInfos getAll(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                 @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getAllElementsInfos(networkUuid, variantId, substationsIds);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements", produces = APPLICATION_JSON_VALUE)

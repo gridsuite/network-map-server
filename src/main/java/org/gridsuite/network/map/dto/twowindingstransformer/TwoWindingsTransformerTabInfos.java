@@ -12,7 +12,6 @@ import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 
@@ -24,22 +23,12 @@ import org.gridsuite.network.map.model.TapChangerData;
 @Getter
 public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransformerInfos {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelListInfos voltageLevel1;
-
-    //TODO put this into the DTO voltageLevel1
     private String voltageLevelId1;
 
-    //TODO put this into the DTO voltageLevel1
     private String voltageLevelName1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelListInfos voltageLevel2;
-
-    //TODO put this into the DTO voltageLevel2
     private String voltageLevelId2;
 
-    //TODO put this into the DTO voltageLevel2
     private String voltageLevelName2;
 
     private Boolean terminal1Connected;

@@ -12,7 +12,6 @@ import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
 import org.gridsuite.network.map.model.TapChangerData;
 
 /**
@@ -21,22 +20,9 @@ import org.gridsuite.network.map.model.TapChangerData;
 @SuperBuilder
 @Getter
 public class ThreeWindingsTransformerTabInfos extends AbstractThreeWindingsTransformerInfos {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelListInfos voltageLevel1;
 
-    //TODO put this into the DTO voltageLevel1
     private String voltageLevelId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelListInfos voltageLevel2;
-
-    //TODO put this into the DTO voltageLevel2
     private String voltageLevelId2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelListInfos voltageLevel3;
-
-    //TODO put this into the DTO voltageLevel3
     private String voltageLevelId3;
     private Boolean terminal1Connected;
 

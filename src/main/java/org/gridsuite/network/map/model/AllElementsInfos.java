@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Builder
 @Getter
-public class AllMapData {
+public class AllElementsInfos {
     private List<ElementInfos> substations;
     private List<ElementInfos> lines;
     private List<ElementInfos> hvdcLines;

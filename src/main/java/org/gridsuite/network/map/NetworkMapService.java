@@ -156,11 +156,9 @@ class NetworkMapService {
         }
     }
 
-    public AllMapData getAll(UUID networkUuid, String variantId, List<String> substationsId) {
+    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-
-        if (substationsId == null) {
-            return AllMapData.builder()
+        return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, ElementInfos.InfoType.TAB))
                 .hvdcLines(getHvdcLinesInfos(network, substationsId, ElementInfos.InfoType.TAB))
                 .lines(getElementsInfos(network, substationsId, ElementType.LINE, ElementInfos.InfoType.TAB))
@@ -175,38 +173,7 @@ class NetworkMapService {
                 .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB))
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB))
                 .build();
-        } else {
-            List<ElementInfos> substationsMap = getSubstationsInfos(network, substationsId, ElementInfos.InfoType.TAB);
-            List<ElementInfos> hvdcLinesMap = getHvdcLinesInfos(network, substationsId, ElementInfos.InfoType.TAB);
-            List<ElementInfos> linesMap = getElementsInfos(network, substationsId, ElementType.LINE, ElementInfos.InfoType.TAB);
-            List<ElementInfos> loadsMap = getElementsInfos(network, substationsId, ElementType.LOAD, ElementInfos.InfoType.TAB);
 
-            List<ElementInfos> generatorsMap = getElementsInfos(network, substationsId, ElementType.GENERATOR, ElementInfos.InfoType.TAB);
-            List<ElementInfos> twoWindingsTransformersMap = getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB);
-            List<ElementInfos> threeWindingsTransformersMap = getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB);
-            List<ElementInfos> batteriesMap = getElementsInfos(network, substationsId, ElementType.BATTERY, ElementInfos.InfoType.TAB);
-            List<ElementInfos> danglingLinesMap = getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB);
-            List<ElementInfos> shuntCompensatorsMap = getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB);
-            List<ElementInfos> staticVarCompensatorsMap = getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB);
-            List<ElementInfos> vscConverterStationsMap = getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB);
-            List<ElementInfos> lccConverterStationsMap = getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB);
-
-            return AllMapData.builder()
-                .substations(substationsMap)
-                .hvdcLines(hvdcLinesMap)
-                .lines(linesMap)
-                .loads(loadsMap)
-                .generators(generatorsMap)
-                .twoWindingsTransformers(twoWindingsTransformersMap)
-                .threeWindingsTransformers(threeWindingsTransformersMap)
-                .batteries(batteriesMap)
-                .danglingLines(danglingLinesMap)
-                .lccConverterStations(lccConverterStationsMap)
-                .shuntCompensators(shuntCompensatorsMap)
-                .staticVarCompensators(staticVarCompensatorsMap)
-                .vscConverterStations(vscConverterStationsMap)
-                .build();
-        }
     }
 
     public List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, List<String> substationsIds) {
