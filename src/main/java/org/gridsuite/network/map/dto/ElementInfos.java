@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.*;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.collections4.CollectionUtils;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TemporaryLimitData;
 
@@ -54,7 +55,7 @@ public class ElementInfos {
             builder.permanentLimit(limits.getPermanentLimit());
             empty = false;
         }
-        if (limits.getTemporaryLimits() != null && !limits.getTemporaryLimits().isEmpty()) {
+        if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
             builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
             empty = false;
         }

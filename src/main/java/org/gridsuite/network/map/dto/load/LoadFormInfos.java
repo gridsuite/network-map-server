@@ -73,7 +73,7 @@ public class LoadFormInfos extends AbstractLoadInfos {
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         var connectablePosition = load.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
+        if (connectablePosition != null && connectablePosition.getFeeder() != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
                     .connectionName(connectablePosition.getFeeder().getName().orElse(null));

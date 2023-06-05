@@ -140,8 +140,8 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get a network element")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Elements description")})
+    @Operation(summary = "Get network element infos")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Network Element infos")})
     public @ResponseBody ElementInfos getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                       @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
                                                       @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,

@@ -60,7 +60,7 @@ class NetworkMapService {
 
         builder.name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .substationName(voltageLevel.getSubstation().map(Substation::getName).orElse(null))
+                .substationName(voltageLevel.getSubstation().map(s -> s.getOptionalName().orElse(null)).orElse(null))
 
                 .nominalVoltage(voltageLevel.getNominalV())
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
