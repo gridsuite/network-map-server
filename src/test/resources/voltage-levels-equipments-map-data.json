@@ -284,8 +284,7 @@
       "topologyKind": "NODE_BREAKER",
       "busbarCount": 1,
       "sectionCount": 2,
-      "switchKinds": ["DISCONNECTOR"],
-      "isPartiallyCopied": false
+      "switchKinds": ["DISCONNECTOR"]
     },
     "equipments": [
       {
@@ -313,8 +312,7 @@
       "topologyKind": "NODE_BREAKER",
       "busbarCount": 1,
       "sectionCount": 1,
-      "switchKinds": [],
-      "isPartiallyCopied": true
+      "switchKinds": []
     },
     "equipments": [
       {

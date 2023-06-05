@@ -96,8 +96,6 @@ class NetworkMapService {
         } else {
             warning.set(true);
         }
-        builder.isPartiallyCopied(warning.get());
-
     }
 
     private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {

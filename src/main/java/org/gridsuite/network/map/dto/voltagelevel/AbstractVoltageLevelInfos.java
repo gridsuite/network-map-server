@@ -41,7 +41,7 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
     @Getter
     @Setter
     protected static class VoltageLevelTopologyInfos {
-        boolean isRetrievedTopology = false;
+        boolean isRetrievedBusbarSections = false;
         int busbarCount = 1;
         int sectionCount = 1;
         List<SwitchKind> switchKinds = List.of();
@@ -71,7 +71,7 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
             return new VoltageLevelTopologyInfos();
         }
 
-        topologyInfos.setRetrievedTopology(true);
+        topologyInfos.setRetrievedBusbarSections(true);
         topologyInfos.setSwitchKinds(Collections.nCopies(topologyInfos.getSectionCount() - 1, SwitchKind.DISCONNECTOR));
 
         return topologyInfos;

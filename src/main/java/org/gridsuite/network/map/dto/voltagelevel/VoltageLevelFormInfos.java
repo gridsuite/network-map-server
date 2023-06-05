@@ -51,7 +51,7 @@ public class VoltageLevelFormInfos extends AbstractVoltageLevelInfos {
     private List<SwitchKind> switchKinds;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isRetrievedTopology;
+    private Boolean isRetrievedBusbarSections;
 
     public static VoltageLevelFormInfos toData(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
@@ -69,7 +69,7 @@ public class VoltageLevelFormInfos extends AbstractVoltageLevelInfos {
             builder.busbarCount(vlTopologyInfos.getBusbarCount());
             builder.sectionCount(vlTopologyInfos.getSectionCount());
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
-            builder.isRetrievedTopology(vlTopologyInfos.isRetrievedTopology());
+            builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
         }
 
         IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
