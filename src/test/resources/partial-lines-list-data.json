@@ -1,0 +1,9 @@
+[
+  {
+    "id": "LINE3",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLGEN3",
+    "substationId1": "P1",
+    "substationId2": "P3"
+  }
+]

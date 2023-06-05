@@ -1092,6 +1092,15 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnLinesListData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, ElementInfos.InfoType.LIST, null, resourceToString("/lines-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, ElementInfos.InfoType.LIST, null, resourceToString("/lines-list-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, ElementInfos.InfoType.LIST, List.of("P3"), resourceToString("/partial-lines-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, ElementInfos.InfoType.LIST, List.of("P3"), resourceToString("/partial-lines-list-data.json"));
+    }
+
+    @Test
     public void shouldReturnLinesIds() throws Exception {
         succeedingTestForList(ElementType.LINE.name(), NETWORK_UUID, null, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
         succeedingTestForList(ElementType.LINE.name(), NETWORK_UUID, VARIANT_ID, null, true, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
@@ -1594,6 +1603,15 @@ public class NetworkMapControllerTest {
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, ElementInfos.InfoType.FORM, List.of("P3"), resourceToString("/partial-voltage-levels-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, ElementInfos.InfoType.FORM, List.of("P3"), resourceToString("/partial-voltage-levels-form-data.json"));
+    }
+
+    @Test
+    public void shouldReturnVotlageLevelsListData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, ElementInfos.InfoType.LIST, null, resourceToString("/voltage-levels-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, ElementInfos.InfoType.LIST, null, resourceToString("/voltage-levels-list-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, ElementInfos.InfoType.LIST, List.of("P3"), resourceToString("/partial-voltage-levels-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, ElementInfos.InfoType.LIST, List.of("P3"), resourceToString("/partial-voltage-levels-list-data.json"));
     }
 
     @Test
