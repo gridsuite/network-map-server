@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -22,19 +23,19 @@ public class ThreeWindingsTransformerMapData {
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelMapData voltageLevel1;
+    private VoltageLevelListInfos voltageLevel1;
 
     //TODO put this into the DTO voltageLevel1
     private String voltageLevelId1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelMapData voltageLevel2;
+    private VoltageLevelListInfos voltageLevel2;
 
     //TODO put this into the DTO voltageLevel2
     private String voltageLevelId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelMapData voltageLevel3;
+    private VoltageLevelListInfos voltageLevel3;
 
     //TODO put this into the DTO voltageLevel3
     private String voltageLevelId3;

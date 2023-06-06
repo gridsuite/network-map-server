@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -24,7 +25,7 @@ public class LineMapData {
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelMapData voltageLevel1;
+    private VoltageLevelListInfos voltageLevel1;
 
     //TODO put this into the DTO voltageLevel1
     private String voltageLevelId1;
@@ -33,7 +34,7 @@ public class LineMapData {
     private String voltageLevelName1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VoltageLevelMapData voltageLevel2;
+    private VoltageLevelListInfos voltageLevel2;
 
     //TODO put this into the DTO voltageLevel2
     private String voltageLevelId2;

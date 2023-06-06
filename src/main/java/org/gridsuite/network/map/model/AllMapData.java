@@ -8,6 +8,7 @@ package org.gridsuite.network.map.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 import java.util.List;
 
@@ -17,16 +18,17 @@ import java.util.List;
 @Builder
 @Getter
 public class AllMapData {
-    private List<SubstationMapData> substations;
-    private List<LineMapData> lines;
+    private List<ElementInfos> substations;
+    private List<ElementInfos> lines;
+    private List<ElementInfos> hvdcLines;
+    private List<ElementInfos> loads;
+
     private List<TwoWindingsTransformerMapData> twoWindingsTransformers;
     private List<ThreeWindingsTransformerMapData> threeWindingsTransformers;
     private List<GeneratorMapData> generators;
     private List<BatteryMapData> batteries;
     private List<DanglingLineMapData> danglingLines;
-    private List<HvdcLineMapData> hvdcLines;
     private List<LccConverterStationMapData> lccConverterStations;
-    private List<LoadMapData> loads;
     private List<ShuntCompensatorMapData> shuntCompensators;
     private List<StaticVarCompensatorMapData> staticVarCompensators;
     private List<VscConverterStationMapData> vscConverterStations;

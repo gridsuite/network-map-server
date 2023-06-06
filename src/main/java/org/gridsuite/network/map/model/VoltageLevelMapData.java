@@ -59,8 +59,4 @@ public class VoltageLevelMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isPartiallyCopied;
-
 }

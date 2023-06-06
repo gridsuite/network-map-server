@@ -13,8 +13,11 @@ import com.powsybl.math.graph.TraverseResult;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
+import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.line.LineListInfos;
+import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.model.*;
-import org.gridsuite.network.map.model.EquipmentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -49,25 +53,27 @@ class NetworkMapService {
         }
     }
 
-    private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel, boolean includeDetails) {
+    private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
         VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
                 .id(voltageLevel.getId())
                 .topologyKind(voltageLevel.getTopologyKind());
 
-        if (includeDetails) {
-            builder.name(voltageLevel.getOptionalName().orElse(null))
-                    .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                    .substationName(voltageLevel.getSubstation().map(Substation::getName).orElse(null))
-                    .nominalVoltage(voltageLevel.getNominalV())
-                    .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                    .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
+        builder.name(voltageLevel.getOptionalName().orElse(null))
+                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
+                .substationName(voltageLevel.getSubstation().map(s -> s.getOptionalName().orElse(null)).orElse(null))
+
+                .nominalVoltage(voltageLevel.getNominalV())
+                .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
+                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
+        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
             mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
-            IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-            if (identifiableShortCircuit != null) {
-                builder.ipMin(identifiableShortCircuit.getIpMin());
-                builder.ipMax(identifiableShortCircuit.getIpMax());
-            }
         }
+        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+        if (identifiableShortCircuit != null) {
+            builder.ipMin(identifiableShortCircuit.getIpMin());
+            builder.ipMax(identifiableShortCircuit.getIpMax());
+        }
+
         return builder.build();
     }
 
@@ -90,8 +96,6 @@ class NetworkMapService {
         } else {
             warning.set(true);
         }
-        builder.isPartiallyCopied(warning.get());
-
     }
 
     private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {
@@ -116,21 +120,6 @@ class NetworkMapService {
                 .name(connectable.getOptionalName().orElse(null))
                 .type(connectable.getType())
                 .build();
-    }
-
-    private static SubstationMapData toMapData(Substation substation) {
-        Map<String, String> properties = substation.getPropertyNames().stream()
-            .map(name -> Map.entry(name, substation.getProperty(name)))
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        return SubstationMapData.builder()
-            .name(substation.getOptionalName().orElse(null))
-            .id(substation.getId())
-            .countryName(substation.getCountry().map(Country::getName).orElse(null))
-            .countryCode(substation.getCountry().map(Country::name).orElse(null))
-            .properties(properties.isEmpty() ? null : properties)
-            .voltageLevels(substation.getVoltageLevelStream().map(voltageLevel -> toMapData(voltageLevel, true)).collect(Collectors.toList()))
-            .build();
     }
 
     private static class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser {
@@ -185,10 +174,6 @@ class NetworkMapService {
         return connectedBusbarSectionFinder.getFirstTraversedBbsId();
     }
 
-    private static LineMapData toMapData(Line line) {
-        return toMapData(line, false, false);
-    }
-
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
         return limits.stream()
                 .map(l -> TemporaryLimitData.builder()
@@ -211,140 +196,6 @@ class NetworkMapService {
             empty = false;
         }
         return empty ? null : builder.build();
-    }
-
-    private static LineMapData toMapData(Line line, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
-        Terminal terminal1 = line.getTerminal1();
-        Terminal terminal2 = line.getTerminal2();
-        LineMapData.LineMapDataBuilder builder = LineMapData.builder()
-            .name(line.getOptionalName().orElse(null))
-            .id(line.getId())
-            .terminal1Connected(terminal1.isConnected())
-            .terminal2Connected(terminal2.isConnected())
-            .voltageLevelId1(terminal1.getVoltageLevel().getId())
-            .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
-            .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-            .p1(nullIfNan(terminal1.getP()))
-            .q1(nullIfNan(terminal1.getQ()))
-            .p2(nullIfNan(terminal2.getP()))
-            .q2(nullIfNan(terminal2.getQ()))
-            .i1(nullIfNan(terminal1.getI()))
-            .i2(nullIfNan(terminal2.getI()))
-            .r(line.getR())
-            .x(line.getX())
-            .g1(line.getG1())
-            .b1(line.getB1())
-            .g2(line.getG2())
-            .b2(line.getB2());
-
-        if (withVoltageLevels) {
-            builder.voltageLevel1(toBasicMapData(terminal1.getVoltageLevel()));
-            builder.voltageLevel2(toBasicMapData(terminal2.getVoltageLevel()));
-        }
-
-        if (withBusOrBusbarSection) {
-            builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
-                   .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
-        }
-
-        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
-
-        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
-        var connectablePosition = line.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            if (connectablePosition.getFeeder1() != null) {
-                builder
-                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
-                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
-            }
-
-            if (connectablePosition.getFeeder2() != null) {
-                builder
-                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
-                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
-            }
-        }
-        return builder.build();
-    }
-
-    //Method which enables us to generate a light version of the LineMapData object in order to optimize transfers
-    //the light version is designed to only have the necessary fields for the network map to function
-    private static LineMapData toBasicMapData(Line line) {
-        Terminal terminal1 = line.getTerminal1();
-        Terminal terminal2 = line.getTerminal2();
-        LineMapData.LineMapDataBuilder builder = LineMapData.builder()
-                .id(line.getId())
-                .name(line.getOptionalName().orElse(null))
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected())
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
-                .p1(nullIfNan(terminal1.getP()))
-                .p2(nullIfNan(terminal2.getP()));
-
-        CurrentLimits limits1 = line.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = line.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
-        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
-        return builder.build();
-    }
-
-    //Method which enables us to generate a light version of the HvdcLineMapData object in order to optimize transfers
-    //the light version is designed to only have the necessary fields for the network map to function
-    private static HvdcLineMapData toBasicMapData(HvdcLine hvdcLine) {
-        return HvdcLineMapData.builder()
-                .id(hvdcLine.getId())
-                .name(hvdcLine.getOptionalName().orElse(null))
-                .voltageLevelId1(hvdcLine.getConverterStation1().getTerminal().getVoltageLevel().getId())
-                .voltageLevelId2(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getId())
-                .terminal1Connected(hvdcLine.getConverterStation1().getTerminal().isConnected())
-                .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
-                .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
-                .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
-                .build();
-    }
-
-    //Method which enables us to generate a light version of the SubstationMapData object in order to optimize transfers
-    //the light version is designed to only have the necessary fields for the network map to function
-    private static SubstationMapData toBasicMapData(Substation substation) {
-        return SubstationMapData.builder()
-                .id(substation.getId())
-                .name(substation.getOptionalName().orElse(null))
-                .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList()))
-                .build();
-    }
-
-    //Method which enables us to generate a light version of the VoltageLevelMapData object in order to optimize transfers
-    //the light version is designed to only have the necessary fields for the network map to function
-    private static VoltageLevelMapData toBasicMapData(VoltageLevel voltageLevel) {
-        return VoltageLevelMapData.builder()
-                .id(voltageLevel.getId())
-                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
-                .nominalVoltage(voltageLevel.getNominalV())
-                .build();
     }
 
     private static GeneratorMapData toMapData(Generator generator) {
@@ -450,10 +301,10 @@ class NetworkMapService {
     }
 
     private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer) {
-        return toMapData(transformer, false, false);
+        return toMapData(transformer, false);
     }
 
-    private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
+    private static TwoWindingsTransformerMapData toMapData(TwoWindingsTransformer transformer, boolean withBusOrBusbarSection) {
         Terminal terminal1 = transformer.getTerminal1();
         Terminal terminal2 = transformer.getTerminal2();
 
@@ -479,11 +330,6 @@ class NetworkMapService {
             builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                    .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        }
-
-        if (withVoltageLevels) {
-            builder.voltageLevel1(toBasicMapData(terminal1.getVoltageLevel()));
-            builder.voltageLevel2(toBasicMapData(terminal2.getVoltageLevel()));
         }
 
         builder.ratedS(nullIfNan(transformer.getRatedS()));
@@ -606,10 +452,10 @@ class NetworkMapService {
     }
 
     private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer) {
-        return toMapData(transformer, false, false);
+        return toMapData(transformer, false);
     }
 
-    private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection, boolean withVoltageLevels) {
+    private static ThreeWindingsTransformerMapData toMapData(ThreeWindingsTransformer transformer, boolean withBusOrBusbarSection) {
         Terminal terminal1 = transformer.getLeg1().getTerminal();
         Terminal terminal2 = transformer.getLeg2().getTerminal();
         Terminal terminal3 = transformer.getLeg3().getTerminal();
@@ -628,12 +474,6 @@ class NetworkMapService {
                    .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
                    .busOrBusbarSectionId3(getBusOrBusbarSection(terminal3));
 
-        }
-
-        if (withVoltageLevels) {
-            builder.voltageLevel1(toBasicMapData(terminal1.getVoltageLevel()));
-            builder.voltageLevel2(toBasicMapData(terminal2.getVoltageLevel()));
-            builder.voltageLevel3(toBasicMapData(terminal3.getVoltageLevel()));
         }
 
         if (!Double.isNaN(terminal1.getP())) {
@@ -796,32 +636,6 @@ class NetworkMapService {
         return builder.build();
     }
 
-    private static HvdcLineMapData toMapData(HvdcLine hvdcLine) {
-        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
-        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
-        HvdcLineMapData.HvdcLineMapDataBuilder builder = HvdcLineMapData.builder()
-            .name(hvdcLine.getOptionalName().orElse(null))
-            .id(hvdcLine.getId())
-            .convertersMode(hvdcLine.getConvertersMode())
-            .converterStationId1(hvdcLine.getConverterStation1().getId())
-            .converterStationId2(hvdcLine.getConverterStation2().getId())
-            .maxP(hvdcLine.getMaxP())
-            .r(hvdcLine.getR())
-            .activePowerSetpoint(hvdcLine.getActivePowerSetpoint());
-
-        if (hvdcAngleDroopActivePowerControl != null) {
-            builder.k(hvdcAngleDroopActivePowerControl.getDroop())
-                   .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
-                   .p0(hvdcAngleDroopActivePowerControl.getP0());
-        }
-
-        if (hvdcOperatorActivePowerRange != null) {
-            builder.oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
-                   .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1());
-        }
-        return builder.build();
-    }
-
     private static LccConverterStationMapData toMapData(LccConverterStation lccConverterStation) {
         return toMapData(lccConverterStation, false);
     }
@@ -885,43 +699,6 @@ class NetworkMapService {
         if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
         }
-        return builder.build();
-    }
-
-    private static LoadMapData toMapData(Load load) {
-        return toMapData(load, false);
-    }
-
-    private static LoadMapData toMapData(Load load, boolean withBusOrBusbarSection) {
-        Terminal terminal = load.getTerminal();
-        LoadMapData.LoadMapDataBuilder builder = LoadMapData.builder()
-            .name(load.getOptionalName().orElse(null))
-            .id(load.getId())
-            .type(load.getLoadType())
-            .terminalConnected(terminal.isConnected())
-            .voltageLevelId(terminal.getVoltageLevel().getId())
-            .p0(load.getP0())
-            .q0(load.getQ0());
-
-        if (withBusOrBusbarSection) {
-            builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
-        }
-
-        if (!Double.isNaN(terminal.getP())) {
-            builder.p(terminal.getP());
-        }
-        if (!Double.isNaN(terminal.getQ())) {
-            builder.q(terminal.getQ());
-        }
-
-        var connectablePosition = load.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
-
         return builder.build();
     }
 
@@ -1029,47 +806,13 @@ class NetworkMapService {
         return substationsIds == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE;
     }
 
-    public List<SubstationMapData> getSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        if (substationsId == null) {
-            return network.getSubstationStream()
-                .map(NetworkMapService::toMapData).collect(Collectors.toList());
-        } else {
-            List<SubstationMapData> res = new ArrayList<>();
-            substationsId.stream().forEach(id -> res.add(toMapData(network.getSubstation(id))));
-            return res;
-        }
-    }
-
     public List<String> getSubstationsIds(UUID networkUuid, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
         return network.getSubstationStream()
                 .map(Substation::getId).collect(Collectors.toList());
     }
 
-    public SubstationMapData getSubstation(UUID networkUuid, String variantId, String substationId) {
-        Substation substation = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getSubstation(substationId);
-        if (substation == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return toMapData(substation);
-    }
-
-    public List<LineMapData> getLines(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        if (substationsId == null) {
-            return network.getLineStream()
-                .map(NetworkMapService::toMapData).collect(Collectors.toList());
-        } else {
-            Set<LineMapData> res = new LinkedHashSet<>();
-            substationsId.stream().forEach(id ->
-                network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                    v.getConnectables(Line.class).forEach(l -> res.add(toMapData(l)))));
-            return res.stream().collect(Collectors.toList());
-        }
-    }
-
-    private List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, Class<? extends Connectable> equipmentClass) {
+    private List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, Class<? extends Connectable> equipmentClass) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds == null) {
             return network.getConnectableStream(equipmentClass)
@@ -1083,22 +826,6 @@ class NetworkMapService {
                     .distinct()
                     .collect(Collectors.toList());
         }
-    }
-
-    public LineMapData getLine(UUID networkUuid, String variantId, String lineId) {
-        Line line = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getLine(lineId);
-        if (line == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return toMapData(line, true, false);
-    }
-
-    public HvdcLineMapData getHvdcLine(UUID networkUuid, String variantId, String hvdcLineId) {
-        HvdcLine hvdcLine = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getHvdcLine(hvdcLineId);
-        if (hvdcLine == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return toBasicMapData(hvdcLine);
     }
 
     public List<GeneratorMapData> getGenerators(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -1142,7 +869,7 @@ class NetworkMapService {
         if (twoWindingsTransformer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return toMapData(twoWindingsTransformer, true, false);
+        return toMapData(twoWindingsTransformer, true);
     }
 
     public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -1164,44 +891,41 @@ class NetworkMapService {
 
         if (substationsId == null) {
             return AllMapData.builder()
-                .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
-                .lines(network.getLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                .substations(getSubstationsInfos(network, substationsId, ElementInfos.InfoType.TAB))
+                .hvdcLines(getHvdcLinesInfos(network, substationsId, ElementInfos.InfoType.TAB))
+                .lines(getElementsInfos(network, substationsId, ElementType.LINE, ElementInfos.InfoType.TAB))
+                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, ElementInfos.InfoType.TAB))
                 .generators(network.getGeneratorStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .twoWindingsTransformers(network.getTwoWindingsTransformerStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .threeWindingsTransformers(network.getThreeWindingsTransformerStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .batteries(network.getBatteryStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .danglingLines(network.getDanglingLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
-                .hvdcLines(network.getHvdcLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .lccConverterStations(network.getLccConverterStationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
-                .loads(network.getLoadStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .shuntCompensators(network.getShuntCompensatorStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .staticVarCompensators(network.getStaticVarCompensatorStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .vscConverterStations(network.getVscConverterStationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .build();
         } else {
-            Set<SubstationMapData> substationsMap = new LinkedHashSet<>();
-            Set<LineMapData> linesMap = new LinkedHashSet<>();
+            List<ElementInfos> substationsMap = getSubstationsInfos(network, substationsId, ElementInfos.InfoType.TAB);
+            List<ElementInfos> hvdcLinesMap = getHvdcLinesInfos(network, substationsId, ElementInfos.InfoType.TAB);
+            List<ElementInfos> linesMap = getElementsInfos(network, substationsId, ElementType.LINE, ElementInfos.InfoType.TAB);
+            List<ElementInfos> loadsMap = getElementsInfos(network, substationsId, ElementType.LOAD, ElementInfos.InfoType.TAB);
+
             Set<GeneratorMapData> generatorsMap = new LinkedHashSet<>();
             Set<TwoWindingsTransformerMapData> twoWindingsTransformersMap = new LinkedHashSet<>();
             Set<ThreeWindingsTransformerMapData> threeWindingsTransformersMap = new LinkedHashSet<>();
             Set<BatteryMapData> batteriesMap = new LinkedHashSet<>();
             Set<DanglingLineMapData> danglingLinesMap = new LinkedHashSet<>();
-            Set<HvdcLineMapData> hvdcLinesMap = new LinkedHashSet<>();
             Set<LccConverterStationMapData> lccConverterStationsMap = new LinkedHashSet<>();
-            Set<LoadMapData> loadsMap = new LinkedHashSet<>();
             Set<ShuntCompensatorMapData> shuntCompensatorsMap = new LinkedHashSet<>();
             Set<StaticVarCompensatorMapData> staticVarCompensatorsMap = new LinkedHashSet<>();
             Set<VscConverterStationMapData> vscConverterStationsMap = new LinkedHashSet<>();
 
             substationsId.stream().forEach(id -> {
                 Substation substation = network.getSubstation(id);
-                substationsMap.add(toMapData(substation));
                 substation.getVoltageLevelStream().forEach(v ->
                     v.getConnectables().forEach(c -> {
                         switch (c.getType()) {
-                            case LINE:
-                                linesMap.add(toMapData((Line) c));
-                                break;
                             case TWO_WINDINGS_TRANSFORMER:
                                 twoWindingsTransformersMap.add(toMapData((TwoWindingsTransformer) c));
                                 break;
@@ -1214,9 +938,6 @@ class NetworkMapService {
                             case BATTERY:
                                 batteriesMap.add(toMapData((Battery) c));
                                 break;
-                            case LOAD:
-                                loadsMap.add(toMapData((Load) c));
-                                break;
                             case SHUNT_COMPENSATOR:
                                 shuntCompensatorsMap.add(toMapData((ShuntCompensator) c));
                                 break;
@@ -1228,10 +949,6 @@ class NetworkMapService {
                                 break;
                             case HVDC_CONVERTER_STATION: {
                                 HvdcConverterStation<?> hdvcConverter = (HvdcConverterStation<?>) c;
-                                HvdcLine hvdcLine = hdvcConverter.getHvdcLine();
-                                if (hvdcLine != null) {
-                                    hvdcLinesMap.add(toMapData(hvdcLine));
-                                }
                                 if (hdvcConverter.getHvdcType() == HvdcConverterStation.HvdcType.LCC) {
                                     lccConverterStationsMap.add(toMapData((LccConverterStation) hdvcConverter));
                                 } else {
@@ -1245,16 +962,16 @@ class NetworkMapService {
                 );
             });
             return AllMapData.builder()
-                .substations(substationsMap.stream().collect(Collectors.toList()))
-                .lines(linesMap.stream().collect(Collectors.toList()))
+                .substations(substationsMap)
+                .hvdcLines(hvdcLinesMap)
+                .lines(linesMap)
+                .loads(loadsMap)
                 .generators(generatorsMap.stream().collect(Collectors.toList()))
                 .twoWindingsTransformers(twoWindingsTransformersMap.stream().collect(Collectors.toList()))
                 .threeWindingsTransformers(threeWindingsTransformersMap.stream().collect(Collectors.toList()))
                 .batteries(batteriesMap.stream().collect(Collectors.toList()))
                 .danglingLines(danglingLinesMap.stream().collect(Collectors.toList()))
-                .hvdcLines(hvdcLinesMap.stream().collect(Collectors.toList()))
                 .lccConverterStations(lccConverterStationsMap.stream().collect(Collectors.toList()))
-                .loads(loadsMap.stream().collect(Collectors.toList()))
                 .shuntCompensators(shuntCompensatorsMap.stream().collect(Collectors.toList()))
                 .staticVarCompensators(staticVarCompensatorsMap.stream().collect(Collectors.toList()))
                 .vscConverterStations(vscConverterStationsMap.stream().collect(Collectors.toList()))
@@ -1302,28 +1019,6 @@ class NetworkMapService {
                     v.getConnectables(LccConverterStation.class).forEach(l -> res.add(toMapData(l)))));
             return res.stream().collect(Collectors.toList());
         }
-    }
-
-    public List<LoadMapData> getLoads(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        if (substationsId == null) {
-            return network.getLoadStream()
-                .map(NetworkMapService::toMapData).collect(Collectors.toList());
-        } else {
-            Set<LoadMapData> res = new LinkedHashSet<>();
-            substationsId.stream().forEach(id ->
-                network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                    v.getConnectables(Load.class).forEach(l -> res.add(toMapData(l)))));
-            return res.stream().collect(Collectors.toList());
-        }
-    }
-
-    public LoadMapData getLoad(UUID networkUuid, String variantId, String loadId) {
-        Load load = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getLoad(loadId);
-        if (load == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return toMapData(load, true);
     }
 
     public List<ShuntCompensatorMapData> getShuntCompensators(UUID networkUuid, String variantId, List<String> substationsId) {
@@ -1376,39 +1071,6 @@ class NetworkMapService {
         }
     }
 
-    public List<HvdcLineMapData> getHvdcLines(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        if (substationsId == null) {
-            return network.getHvdcLineStream()
-                    .map(NetworkMapService::toMapData).collect(Collectors.toList());
-        } else {
-            Set<HvdcLineMapData> res = new LinkedHashSet<>();
-            substationsId.forEach(id ->
-                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                            v.getConnectables(HvdcConverterStation.class).forEach(h -> {
-                                HvdcLine hvdcLine = h.getHvdcLine();
-                                if (hvdcLine != null) {
-                                    res.add(toMapData(hvdcLine));
-                                }
-                            })));
-            return res.stream().collect(Collectors.toList());
-        }
-    }
-
-    public List<VoltageLevelMapData> getVoltageLevels(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        return substationsId == null ?
-                network.getVoltageLevelStream().map(voltageLevel -> toMapData(voltageLevel, true)).collect(Collectors.toList()) :
-                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(voltageLevel -> toMapData(voltageLevel, true))).collect(Collectors.toList());
-    }
-
-    public List<VoltageLevelMapData> getVoltageLevelsIdAndTopology(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        return substationsId == null ?
-                network.getVoltageLevelStream().map(voltageLevel -> toMapData(voltageLevel, false)).collect(Collectors.toList()) :
-                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(voltageLevel -> toMapData(voltageLevel, false))).collect(Collectors.toList());
-    }
-
     public List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, List<String> substationsIds) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         return substationsIds == null ?
@@ -1425,7 +1087,7 @@ class NetworkMapService {
         return voltageLevels.stream().map(vl -> {
             List<VoltageLevelConnectableMapData> equipments = new ArrayList<>();
             vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
-            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl, true)).equipments(equipments).build();
+            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
         }).collect(Collectors.toList());
     }
 
@@ -1446,7 +1108,7 @@ class NetworkMapService {
         if (voltageLevel == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return toMapData(voltageLevel, true);
+        return toMapData(voltageLevel);
     }
 
     public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
@@ -1467,47 +1129,6 @@ class NetworkMapService {
                 .map(BusbarSection::getId).collect(Collectors.toList());
     }
 
-    public List<SubstationMapData> getMapSubstations(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-
-        if (substationsId == null) {
-            return network.getSubstationStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
-        } else {
-            return substationsId.stream().map(id -> toBasicMapData(network.getSubstation(id))).collect(Collectors.toList());
-        }
-    }
-
-    public List<LineMapData> getMapLines(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-
-        if (substationsId == null) {
-            return network.getLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
-        } else {
-            Set<LineMapData> lines = new LinkedHashSet<>();
-            substationsId.forEach(id ->
-                    network.getSubstation(id).getVoltageLevelStream().forEach(v ->
-                            v.getConnectables(Line.class).forEach(l -> lines.add(toBasicMapData(l)))));
-            return new ArrayList<>(lines);
-        }
-    }
-
-    public List<HvdcLineMapData> getMapHvdcLines(UUID networkUuid, String variantId, List<String> substationsIds) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-
-        if (substationsIds == null) {
-            return network.getHvdcLineStream().map(NetworkMapService::toBasicMapData).collect(Collectors.toList());
-        } else {
-            return substationsIds.stream()
-                    .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
-                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
-                    .map(HvdcConverterStation::getHvdcLine)
-                    .filter(Objects::nonNull)
-                    .map(NetworkMapService::toBasicMapData)
-                    .distinct()
-                    .collect(Collectors.toList());
-        }
-    }
-
     public List<String> getHvdcLinesIds(UUID networkUuid, String variantId, List<String> substationsIds) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds == null) {
@@ -1522,30 +1143,92 @@ class NetworkMapService {
                     .map(HvdcLine::getId)
                     .distinct()
                     .collect(Collectors.toList());
-
         }
+    }
+
+    private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, ElementInfos.InfoType infoType) {
+        Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
+        return substations
+                .map(c -> ElementType.SUBSTATION.getInfosGetter().apply(c, infoType))
+                .collect(Collectors.toList());
+    }
+
+    public List<ElementInfos> getVoltageLevelsInfos(Network network, List<String> substationsId, ElementInfos.InfoType infoType) {
+        Stream<VoltageLevel> voltageLevels = substationsId == null ? network.getVoltageLevelStream() : substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream());
+        return voltageLevels
+                .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c, infoType))
+                .collect(Collectors.toList());
+    }
+
+    public List<ElementInfos> getHvdcLinesInfos(Network network, List<String> substationsId, ElementInfos.InfoType infoType) {
+        Stream<HvdcLine> hvdcLines = substationsId == null ? network.getHvdcLineStream() :
+                substationsId.stream()
+                        .map(network::getSubstation)
+                        .flatMap(Substation::getVoltageLevelStream)
+                        .flatMap(vl -> vl.getConnectableStream(HvdcConverterStation.class))
+                        .map(HvdcConverterStation::getHvdcLine)
+                        .filter(Objects::nonNull)
+                        .distinct();
+        return hvdcLines
+                .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, infoType))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, ElementInfos.InfoType infoType) {
+        Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
+        Stream<? extends Connectable> connectables = substationsIds == null ?
+                network.getConnectableStream(elementClass) :
+                substationsIds.stream()
+                        .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
+                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass));
+        return connectables
+                .map(c -> elementType.getInfosGetter().apply(c, infoType))
+                .collect(Collectors.toList());
+    }
+
+    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType, ElementInfos.InfoType infoType) {
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
+        switch (equipmentType) {
+            case SUBSTATION:
+                return getSubstationsInfos(network, substationsIds, infoType);
+            case VOLTAGE_LEVEL:
+                return getVoltageLevelsInfos(network, substationsIds, infoType);
+            case HVDC_LINE:
+                return getHvdcLinesInfos(network, substationsIds, infoType);
+            default:
+                return getElementsInfos(network, substationsIds, equipmentType, infoType);
+        }
+    }
+
+    public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, ElementInfos.InfoType infoType, String elementId) {
+        Identifiable identifiable = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId).getIdentifiable(elementId);
+        if (identifiable == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return elementType.getInfosGetter().apply(identifiable, infoType);
     }
 
     // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
-    public Object getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+    public ElementInfos getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Line line = network.getLine(equipmentId);
         if (line != null) {
-            return toMapData(line, false, true);
+            return LineListInfos.toData(line);
         }
         TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
         if (twoWT != null) {
-            return toMapData(twoWT, false, true);
+            return TwoWindingsTransformerListInfos.toData(twoWT);
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return toMapData(threeWT, false, true);
+            return ThreeWindingsTransformerListInfos.toData(threeWT);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
-    public List<String> getEquipmentsIds(UUID networkUuid, String variantId, List<String> substationsIds, EquipmentType equipmentType) {
-        switch (equipmentType) {
+    public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {
+        switch (elementType) {
             case GENERATOR:
             case LINE:
             case TWO_WINDINGS_TRANSFORMER:
@@ -1557,7 +1240,7 @@ class NetworkMapService {
             case LOAD:
             case SHUNT_COMPENSATOR:
             case STATIC_VAR_COMPENSATOR:
-                return getEquipmentsIds(networkUuid, variantId, substationsIds, (Class<? extends Connectable>) equipmentType.getTypeClass());
+                return getElementsIds(networkUuid, variantId, substationsIds, (Class<? extends Connectable>) elementType.getElementClass());
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId);
             case HVDC_LINE:
