@@ -20,32 +20,26 @@ import java.util.function.BiFunction;
 
 
 public enum ElementType {
-    SUBSTATION(IdentifiableType.NETWORK, Substation.class, AbstractSubstationInfos::toData),
-    VOLTAGE_LEVEL(IdentifiableType.VOLTAGE_LEVEL, VoltageLevel.class, AbstractVoltageLevelInfos::toData),
-    LINE(IdentifiableType.LINE, Line.class, AbstractLineInfos::toData),
-    HVDC_LINE(IdentifiableType.HVDC_LINE, HvdcLine.class, AbstractHvdcInfos::toData),
-    LOAD(IdentifiableType.LOAD, Load.class, AbstractLoadInfos::toData),
-    TWO_WINDINGS_TRANSFORMER(IdentifiableType.TWO_WINDINGS_TRANSFORMER, TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
-    THREE_WINDINGS_TRANSFORMER(IdentifiableType.THREE_WINDINGS_TRANSFORMER, ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
+    SUBSTATION(Substation.class, AbstractSubstationInfos::toData),
+    VOLTAGE_LEVEL(VoltageLevel.class, AbstractVoltageLevelInfos::toData),
+    LINE(Line.class, AbstractLineInfos::toData),
+    HVDC_LINE(HvdcLine.class, AbstractHvdcInfos::toData),
+    LOAD(Load.class, AbstractLoadInfos::toData),
+    TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
+    THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
 
-    BUSBAR_SECTION(IdentifiableType.BUSBAR_SECTION, BusbarSection.class, AbstractLoadInfos::toData),
-    GENERATOR(IdentifiableType.GENERATOR, Generator.class, AbstractLoadInfos::toData),
-    BATTERY(IdentifiableType.BATTERY, Battery.class, AbstractLoadInfos::toData),
-    SHUNT_COMPENSATOR(IdentifiableType.SHUNT_COMPENSATOR, ShuntCompensator.class, AbstractLoadInfos::toData),
-    DANGLING_LINE(IdentifiableType.DANGLING_LINE, DanglingLine.class, AbstractLoadInfos::toData),
-    STATIC_VAR_COMPENSATOR(IdentifiableType.STATIC_VAR_COMPENSATOR, StaticVarCompensator.class, AbstractLoadInfos::toData),
-    LCC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, LccConverterStation.class, AbstractLoadInfos::toData),
-    VSC_CONVERTER_STATION(IdentifiableType.HVDC_CONVERTER_STATION, VscConverterStation.class, AbstractLoadInfos::toData);
-
-    private final IdentifiableType identifiableType;
+    BUSBAR_SECTION(BusbarSection.class, AbstractLoadInfos::toData),
+    GENERATOR(Generator.class, AbstractLoadInfos::toData),
+    BATTERY(Battery.class, AbstractLoadInfos::toData),
+    SHUNT_COMPENSATOR(ShuntCompensator.class, AbstractLoadInfos::toData),
+    DANGLING_LINE(DanglingLine.class, AbstractLoadInfos::toData),
+    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, AbstractLoadInfos::toData),
+    LCC_CONVERTER_STATION(LccConverterStation.class, AbstractLoadInfos::toData),
+    VSC_CONVERTER_STATION(VscConverterStation.class, AbstractLoadInfos::toData);
 
     private final Class<? extends Identifiable> elementClass;
 
     private final BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> infosGetter;
-
-    public IdentifiableType getIdentifiableType() {
-        return identifiableType;
-    }
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
@@ -55,8 +49,7 @@ public enum ElementType {
         return infosGetter;
     }
 
-    ElementType(IdentifiableType identifiableType, Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> dataGetter) {
-        this.identifiableType = identifiableType;
+    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }
