@@ -822,10 +822,7 @@
       "voltageLevelId": "VLLOAD",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "q0": 200.0
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -833,8 +830,7 @@
       "voltageLevelId": "VLNEW2",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0,
-      "connectionDirection": null
+      "q0": 200.0
     },
     {
       "id": "LOAD_ID",
@@ -843,8 +839,7 @@
       "voltageLevelId": "VLNEW2",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0,
-      "connectionDirection": null
+      "q0": 200.0
     }
   ],
   "shuntCompensators": [

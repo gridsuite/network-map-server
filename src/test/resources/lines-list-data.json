@@ -1,0 +1,23 @@
+[
+  {
+    "id": "NHV1_NHV2_1",
+    "voltageLevelId1": "VLHV1",
+    "voltageLevelId2": "VLHV2",
+    "substationId1": "P1",
+    "substationId2": "P2"
+  },
+  {
+    "id": "NHV1_NHV2_2",
+    "voltageLevelId1": "VLHV1",
+    "voltageLevelId2": "VLHV2",
+    "substationId1": "P1",
+    "substationId2": "P2"
+  },
+  {
+    "id": "LINE3",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLGEN3",
+    "substationId1": "P1",
+    "substationId2": "P3"
+  }
+]
