@@ -49,9 +49,6 @@ public class HvdcLineMapData {
     private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double nominalVoltage;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double activePowerSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

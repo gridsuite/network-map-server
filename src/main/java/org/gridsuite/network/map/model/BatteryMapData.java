@@ -25,6 +25,8 @@ public class BatteryMapData {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

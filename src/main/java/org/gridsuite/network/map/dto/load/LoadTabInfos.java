@@ -25,6 +25,8 @@ public class LoadTabInfos extends AbstractLoadInfos {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,6 +50,7 @@ public class LoadTabInfos extends AbstractLoadInfos {
                 .type(load.getLoadType())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .p0(load.getP0())
                 .q0(load.getQ0());
 

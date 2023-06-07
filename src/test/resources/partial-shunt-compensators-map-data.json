@@ -3,6 +3,7 @@
     "id": "SHUNT1",
     "name": "SHUNT1",
     "voltageLevelId": "VLNEW2",
+    "nominalVoltage": 225.0,
     "terminalConnected": true,
     "q": 90.0,
     "targetV": 225.0,

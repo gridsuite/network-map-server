@@ -31,6 +31,8 @@ public class GeneratorMapData {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlName;
 

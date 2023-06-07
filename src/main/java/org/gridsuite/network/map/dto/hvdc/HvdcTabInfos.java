@@ -34,9 +34,6 @@ public class HvdcTabInfos extends AbstractHvdcInfos {
     private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double nominalV;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double activePowerSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

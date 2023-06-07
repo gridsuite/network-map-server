@@ -32,6 +32,8 @@ public class TwoWindingsTransformerMapData {
     //TODO put this into the DTO voltageLevel1
     private String voltageLevelName1;
 
+    private Double nominalVoltage1;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private VoltageLevelListInfos voltageLevel2;
 
@@ -40,6 +42,8 @@ public class TwoWindingsTransformerMapData {
 
     //TODO put this into the DTO voltageLevel2
     private String voltageLevelName2;
+
+    private Double nominalVoltage2;
 
     private String name;
 

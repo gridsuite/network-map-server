@@ -25,6 +25,8 @@ public abstract class AbstractHvdcConverterStationMapData {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     private String hvdcLineId;

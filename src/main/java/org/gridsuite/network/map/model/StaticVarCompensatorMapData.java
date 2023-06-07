@@ -26,6 +26,8 @@ public class StaticVarCompensatorMapData {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     private StaticVarCompensator.RegulationMode regulationMode;

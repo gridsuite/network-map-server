@@ -2,6 +2,7 @@
   "id": "GEN",
   "name": null,
   "voltageLevelId": "VLGEN",
+  "nominalVoltage": 24.0,
   "activePowerControlOn":true,
   "terminalConnected": true,
   "p": 25.0,

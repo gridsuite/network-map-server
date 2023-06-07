@@ -23,6 +23,8 @@ public class DanglingLineMapData {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private String name;
 
     private Boolean terminalConnected;
