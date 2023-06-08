@@ -298,8 +298,7 @@ class NetworkMapService {
 
     public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, ElementInfos.InfoType infoType, String elementId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        //TODO : remove the 'getIdentifiable' method when fix is done in network store server for additional infos in DB
-        Identifiable identifiable = getIdentifiable(network, elementType, elementId);
+        Identifiable<?> identifiable = network.getIdentifiable(elementId);
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -346,37 +345,6 @@ class NetworkMapService {
                 return getVoltageLevelsIds(networkUuid, variantId, substationsIds);
             default:
                 return List.of();
-        }
-    }
-
-    private Identifiable getIdentifiable(Network network, ElementType elementType, String elementId) {
-        switch (elementType) {
-            case LINE:
-                return network.getLine(elementId);
-            case TWO_WINDINGS_TRANSFORMER:
-                return network.getTwoWindingsTransformer(elementId);
-            case THREE_WINDINGS_TRANSFORMER:
-                return network.getThreeWindingsTransformer(elementId);
-            case LOAD:
-                return network.getLoad(elementId);
-            case GENERATOR:
-                return network.getGenerator(elementId);
-            case BATTERY:
-                return network.getBattery(elementId);
-            case HVDC_LINE:
-                return network.getHvdcLine(elementId);
-            case DANGLING_LINE:
-                return network.getDanglingLine(elementId);
-            case SHUNT_COMPENSATOR:
-                return network.getShuntCompensator(elementId);
-            case VSC_CONVERTER_STATION:
-                return network.getVscConverterStation(elementId);
-            case LCC_CONVERTER_STATION:
-                return network.getLccConverterStation(elementId);
-            case STATIC_VAR_COMPENSATOR:
-                return network.getStaticVarCompensator(elementId);
-            default:
-                return network.getIdentifiable(elementId);
         }
     }
 }
