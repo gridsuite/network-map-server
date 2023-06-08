@@ -6,10 +6,15 @@
  */
 package org.gridsuite.network.map.dto.substation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.VoltageLevel;
+import com.powsybl.iidm.network.Substation;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.voltagelevel.VoltageLevelListInfos;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -18,11 +23,15 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class SubstationListInfos extends AbstractSubstationInfos {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<VoltageLevelListInfos> voltageLevels;
+
     public static SubstationListInfos toData(Identifiable<?> identifiable) {
-        VoltageLevel voltageLevel = (VoltageLevel) identifiable;
+        Substation substation = (Substation) identifiable;
         return SubstationListInfos.builder()
-                .name(voltageLevel.getOptionalName().orElse(null))
-                .id(voltageLevel.getId())
+                .id(substation.getId())
+                .name(substation.getOptionalName().orElse(null))
+                .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelListInfos::toData).collect(Collectors.toList()))
                 .build();
     }
 }

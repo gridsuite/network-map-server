@@ -1581,6 +1581,15 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnSubstationsListData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, ElementInfos.InfoType.LIST, null, resourceToString("/substations-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, ElementInfos.InfoType.LIST, null, resourceToString("/substations-list-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, ElementInfos.InfoType.LIST, List.of("P1"), resourceToString("/partial-substations-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, ElementInfos.InfoType.LIST, List.of("P1"), resourceToString("/partial-substations-list-data.json"));
+    }
+
+    @Test
     public void shouldReturnAnErrorInsteadOfMapSubstationsData() throws Exception {
         failingTestForList("map-substations", NOT_FOUND_NETWORK_ID, null, null, false);
         failingTestForList("map-substations", NETWORK_UUID, VARIANT_ID_NOT_FOUND, null, false);
