@@ -21,6 +21,8 @@ public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
         switch (dataType) {
             case LIST:
                 return TwoWindingsTransformerListInfos.toData(identifiable);
+            case MAP:
+                return TwoWindingsTransformerMapInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
