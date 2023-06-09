@@ -9,7 +9,7 @@ import org.gridsuite.network.map.model.CurrentLimitsData;
 
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerMapInfos extends AbstractTwoWindingsTransformerInfos{
+public class TwoWindingsTransformerMapInfos extends AbstractTwoWindingsTransformerInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p1;
