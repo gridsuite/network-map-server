@@ -23,7 +23,13 @@ public class LineListInfos extends AbstractLineInfos {
 
     private String voltageLevelId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName1;
+
     private String voltageLevelId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId1;
@@ -40,7 +46,9 @@ public class LineListInfos extends AbstractLineInfos {
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .build();
