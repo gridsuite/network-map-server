@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.powsybl.iidm.network.*;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -32,9 +33,11 @@ public class ElementInfos {
         TAB
     }
 
+    @JsonView({View.ListView.class})
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonView({View.ListView.class})
     private String name;
 
     public static ElementInfos toData(Identifiable<?> identifiable) {
