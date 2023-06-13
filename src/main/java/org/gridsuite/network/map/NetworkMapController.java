@@ -6,12 +6,14 @@
  */
 package org.gridsuite.network.map;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.View;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -126,6 +128,18 @@ public class NetworkMapController {
                                                                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                                   @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getLccConverterStations(networkUuid, variantId, substationsIds);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/elements/list_view", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get network elements")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Elements description")})
+    @JsonView(View.ListView.class)
+    public @ResponseBody List<ElementInfos> getListViewElementsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                     @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
+                                                                     @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
+                                                                     @Parameter(description = "Info type") @RequestParam(name = "infoType") ElementInfos.InfoType infoType) {
+        return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, infoType);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements", produces = APPLICATION_JSON_VALUE)
