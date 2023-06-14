@@ -14,11 +14,15 @@ import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
 /**
@@ -26,7 +30,7 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
  */
 @SuperBuilder
 @Getter
-public class GeneratorTabInfos extends AbstractGeneratorInfos {
+public class GeneratorInfos extends ElementInfos {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -123,24 +127,25 @@ public class GeneratorTabInfos extends AbstractGeneratorInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
-    public static GeneratorTabInfos toData(Identifiable<?> identifiable) {
+    public static GeneratorInfos toData(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
-        GeneratorTabInfos.GeneratorTabInfosBuilder builder = GeneratorTabInfos.builder()
-                .name(generator.getOptionalName().orElse(null))
-                .id(generator.getId())
-                .terminalConnected(terminal.isConnected())
-                .voltageLevelId(terminal.getVoltageLevel().getId())
-                .targetP(generator.getTargetP())
-                .targetQ(nullIfNan(generator.getTargetQ()))
-                .targetV(nullIfNan(generator.getTargetV()))
-                .minP(generator.getMinP())
-                .maxP(generator.getMaxP())
-                .ratedS(nullIfNan(generator.getRatedS()))
-                .energySource(generator.getEnergySource())
-                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
-                .p(nullIfNan(terminal.getP()))
-                .q(nullIfNan(terminal.getQ()));
+        GeneratorInfos.GeneratorInfosBuilder builder = GeneratorInfos.builder()
+            .name(generator.getOptionalName().orElse(null))
+            .id(generator.getId())
+            .terminalConnected(terminal.isConnected())
+            .voltageLevelId(terminal.getVoltageLevel().getId())
+            .targetP(generator.getTargetP())
+            .targetQ(nullIfNan(generator.getTargetQ()))
+            .targetV(nullIfNan(generator.getTargetV()))
+            .minP(generator.getMinP())
+            .maxP(generator.getMaxP())
+            .ratedS(nullIfNan(generator.getRatedS()))
+            .energySource(generator.getEnergySource())
+            .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+            .p(nullIfNan(terminal.getP()))
+            .q(nullIfNan(terminal.getQ()));
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
@@ -182,9 +187,9 @@ public class GeneratorTabInfos extends AbstractGeneratorInfos {
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
-                        .build());
+                    .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
+                    .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                    .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
@@ -194,12 +199,22 @@ public class GeneratorTabInfos extends AbstractGeneratorInfos {
         var connectablePosition = generator.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
             builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
+                .connectionDirection(connectablePosition.getFeeder().getDirection())
+                .connectionName(connectablePosition.getFeeder().getName().orElse(null));
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
+    }
+
+    protected static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
+        return points.stream()
+            .map(point -> ReactiveCapabilityCurveMapData.builder()
+                .p(point.getP())
+                .qmaxP(point.getMaxQ())
+                .qminP(point.getMinQ())
+                .build())
+            .collect(Collectors.toList());
     }
 
 }

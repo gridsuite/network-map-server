@@ -11,10 +11,14 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
 import org.gridsuite.network.map.dto.busbarsection.AbstractBusBarSectionInfos;
 import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
-import org.gridsuite.network.map.dto.generator.AbstractGeneratorInfos;
+import org.gridsuite.network.map.dto.generator.GeneratorInfos;
 import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.hvdc.HvdcInfos;
 import org.gridsuite.network.map.dto.lccconverterstation.AbstractLccConverterStationInfos;
+/*
 import org.gridsuite.network.map.dto.line.AbstractLineInfos;
+*/
+import org.gridsuite.network.map.dto.line.LineInfos;
 import org.gridsuite.network.map.dto.load.AbstractLoadInfos;
 import org.gridsuite.network.map.dto.shuntcompensator.AbstractShuntCompensator;
 import org.gridsuite.network.map.dto.staticvarcompensator.AbstractStaticVarCompensatorInfos;
@@ -24,20 +28,20 @@ import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsT
 import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
 import org.gridsuite.network.map.dto.vscconverterstation.AbstractVscConverterStationInfos;
 
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 
 public enum ElementType {
     SUBSTATION(Substation.class, AbstractSubstationInfos::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, AbstractVoltageLevelInfos::toData),
-    LINE(Line.class, AbstractLineInfos::toData),
-    HVDC_LINE(HvdcLine.class, AbstractHvdcInfos::toData),
+    LINE(Line.class, LineInfos::toData),
+    HVDC_LINE(HvdcLine.class, HvdcInfos::toData),
     LOAD(Load.class, AbstractLoadInfos::toData),
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
     THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
 
     BUSBAR_SECTION(BusbarSection.class, AbstractBusBarSectionInfos::toData),
-    GENERATOR(Generator.class, AbstractGeneratorInfos::toData),
+    GENERATOR(Generator.class, GeneratorInfos::toData),
     BATTERY(Battery.class, AbstractBatteryInfos::toData),
     SHUNT_COMPENSATOR(ShuntCompensator.class, AbstractShuntCompensator::toData),
     DANGLING_LINE(DanglingLine.class, AbstractDanglingLineInfos::toData),
@@ -47,17 +51,17 @@ public enum ElementType {
 
     private final Class<? extends Identifiable> elementClass;
 
-    private final BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> infosGetter;
+    private final Function<Identifiable<?>, ElementInfos> infosGetter;
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
     }
 
-    public BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> getInfosGetter() {
+    public Function<Identifiable<?>, ElementInfos> getInfosGetter() {
         return infosGetter;
     }
 
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> dataGetter) {
+    ElementType(Class<? extends Identifiable> typeClass, Function<Identifiable<?>, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }

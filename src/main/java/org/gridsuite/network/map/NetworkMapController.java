@@ -13,9 +13,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.View;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,12 +73,14 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get network element infos")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Element description")})
-    public @ResponseBody ElementInfos getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public @ResponseBody MappingJacksonValue getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                       @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
                                                       @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                       @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                                       @Parameter(description = "Info type") @RequestParam(name = "infoType") ElementInfos.InfoType infoType) {
-        return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoType, elementId);
+        MappingJacksonValue elementInfos = new MappingJacksonValue(networkMapService.getElementInfos(networkUuid, variantId, elementType, infoType, elementId));
+        elementInfos.setSerializationView(View.infoTypeToView(infoType));
+        return elementInfos;
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)

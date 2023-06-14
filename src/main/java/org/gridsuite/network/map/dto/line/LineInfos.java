@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.line;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
@@ -14,6 +15,8 @@ import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.View;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -23,96 +26,123 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
  */
 @SuperBuilder
 @Getter
-public class LineFormInfos extends AbstractLineInfos {
+public class LineInfos extends ElementInfos {
 
     private String voltageLevelId1;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelName1;
 
     private String voltageLevelId2;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelName2;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     private Boolean terminal1Connected;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     private Boolean terminal2Connected;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p1;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q1;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p2;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q2;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i1;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i2;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits1;
 
+    @JsonView({View.FormView.class, View.MapView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits2;
 
+    @JsonView({View.FormView.class, View.MapView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String branchStatus;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double x;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double g1;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b1;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double g2;
 
+    @JsonView({View.FormView.class, View.TabView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b2;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName1;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ConnectablePosition.Direction connectionDirection1;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName2;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ConnectablePosition.Direction connectionDirection2;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectionPosition1;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectionPosition2;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId1;
 
+    @JsonView({View.FormView.class})
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId2;
 
-    public static LineFormInfos toData(Identifiable<?> identifiable) {
+    public static LineInfos toData(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineFormInfos.LineFormInfosBuilder builder = LineFormInfos.builder()
+        LineInfos.LineInfosBuilder builder = LineInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())

@@ -12,7 +12,10 @@ import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.line.LineInfos;
+/*
 import org.gridsuite.network.map.dto.line.LineListInfos;
+*/
 import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.AllElementsInfos;
@@ -244,14 +247,14 @@ class NetworkMapService {
     private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, ElementInfos.InfoType infoType) {
         Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
-                .map(c -> ElementType.SUBSTATION.getInfosGetter().apply(c, infoType))
+                .map(c -> ElementType.SUBSTATION.getInfosGetter().apply(c))
                 .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelsInfos(Network network, List<String> substationsId, ElementInfos.InfoType infoType) {
         Stream<VoltageLevel> voltageLevels = substationsId == null ? network.getVoltageLevelStream() : substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream());
         return voltageLevels
-                .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c, infoType))
+                .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c))
                 .collect(Collectors.toList());
     }
 
@@ -265,7 +268,7 @@ class NetworkMapService {
                         .filter(Objects::nonNull)
                         .distinct();
         return hvdcLines
-                .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, infoType))
+                .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c))
                 .distinct()
                 .collect(Collectors.toList());
     }
@@ -278,7 +281,7 @@ class NetworkMapService {
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
                         .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass));
         return connectables
-                .map(c -> elementType.getInfosGetter().apply(c, infoType))
+                .map(c -> elementType.getInfosGetter().apply(c))
                 .collect(Collectors.toList());
     }
 
@@ -302,7 +305,7 @@ class NetworkMapService {
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return elementType.getInfosGetter().apply(identifiable, infoType);
+        return /*LineInfos.toData(identifiable);*/ elementType.getInfosGetter().apply(identifiable);
     }
 
     // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
@@ -310,7 +313,7 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Line line = network.getLine(equipmentId);
         if (line != null) {
-            return LineListInfos.toData(line);
+            //return LineListInfos.toData(line); //TODO: replace with linegetter
         }
         TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
         if (twoWT != null) {
