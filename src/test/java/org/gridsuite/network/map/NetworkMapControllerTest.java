@@ -1088,6 +1088,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnLineTooltipData() throws Exception {
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LINE, ElementInfos.InfoType.TOOLTIP, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, ElementInfos.InfoType.TOOLTIP, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
+    }
+
+    @Test
     public void shouldReturnHvdcLineMapData() throws Exception {
         succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, ElementInfos.InfoType.MAP, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
         succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, ElementInfos.InfoType.MAP, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
@@ -1638,6 +1644,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnTwoWindingsTransformerFormData() throws Exception {
         succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.FORM, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
         succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.FORM, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnTwoWindingsTransformerTooltipData() throws Exception {
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TOOLTIP, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TOOLTIP, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
     }
 
     @Test
