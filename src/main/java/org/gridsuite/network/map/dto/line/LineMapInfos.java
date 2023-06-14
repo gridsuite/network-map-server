@@ -27,7 +27,13 @@ public class LineMapInfos extends AbstractLineInfos {
 
     private String voltageLevelId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName1;
+
     private String voltageLevelId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName2;
 
     private Boolean terminal1Connected;
 
@@ -65,7 +71,9 @@ public class LineMapInfos extends AbstractLineInfos {
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .i1(nullIfNan(terminal1.getI()))
                 .i2(nullIfNan(terminal2.getI()))
                 .p1(nullIfNan(terminal1.getP()))
