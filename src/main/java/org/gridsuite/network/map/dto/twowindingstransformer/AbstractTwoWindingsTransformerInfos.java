@@ -6,7 +6,7 @@
  */
 package org.gridsuite.network.map.dto.twowindingstransformer;
 
-import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.*;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -23,6 +23,10 @@ public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
                 return TwoWindingsTransformerListInfos.toData(identifiable);
             case MAP:
                 return TwoWindingsTransformerMapInfos.toData(identifiable);
+            case TAB:
+                return TwoWindingsTransformerTabInfos.toData(identifiable);
+            case FORM:
+                return TwoWindingsTransformerFormInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

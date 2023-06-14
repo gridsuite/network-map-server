@@ -1,7 +1,6 @@
 [
   {
     "id": "GEN",
-    "name": null,
     "voltageLevelId": "VLGEN",
     "activePowerControlOn":true,
     "terminalConnected": true,
@@ -30,7 +29,6 @@
   },
   {
     "id": "GEN2",
-    "name": null,
     "voltageLevelId": "VLGEN",
     "terminalConnected": true,
     "targetP": 607.0,

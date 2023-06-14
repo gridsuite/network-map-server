@@ -151,7 +151,6 @@
       "voltageLevelId2": "VLHV1",
       "voltageLevelName1": null,
       "voltageLevelName2": null,
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 11.1,
@@ -235,7 +234,6 @@
       "voltageLevelId2": "VLLOAD",
       "voltageLevelName1": null,
       "voltageLevelName2": null,
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 5.5,
@@ -300,7 +298,6 @@
       "voltageLevelId2": "VLHV1",
       "voltageLevelName1": null,
       "voltageLevelName2": null,
-      "name": null,
       "terminal1Connected": true,
       "terminal2Connected": true,
       "ratedU1": 400.0,
@@ -647,7 +644,6 @@
   "generators": [
     {
       "id": "GEN",
-      "name": null,
       "voltageLevelId": "VLGEN",
       "activePowerControlOn": true,
       "terminalConnected": true,
@@ -676,7 +672,6 @@
     },
     {
       "id": "GEN2",
-      "name": null,
       "voltageLevelId": "VLGEN",
       "terminalConnected": true,
       "targetP": 607.0,
@@ -827,7 +822,10 @@
       "voltageLevelId": "VLLOAD",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -835,7 +833,8 @@
       "voltageLevelId": "VLNEW2",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionDirection": null
     },
     {
       "id": "LOAD_ID",
@@ -844,7 +843,8 @@
       "voltageLevelId": "VLNEW2",
       "terminalConnected": true,
       "p0": 600.0,
-      "q0": 200.0
+      "q0": 200.0,
+      "connectionDirection": null
     }
   ],
   "shuntCompensators": [

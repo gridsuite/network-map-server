@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.LoadType;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -38,6 +39,16 @@ public class LoadTabInfos extends AbstractLoadInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q0;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String connectionName;
+
+    private ConnectablePosition.Direction connectionDirection;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer connectionPosition;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String busOrBusbarSectionId;
 
     public static LoadTabInfos toData(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
@@ -56,6 +67,13 @@ public class LoadTabInfos extends AbstractLoadInfos {
         }
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
+        }
+        var connectablePosition = load.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
