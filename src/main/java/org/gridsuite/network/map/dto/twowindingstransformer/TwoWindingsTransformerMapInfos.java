@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
+
 @SuperBuilder
 @Getter
 public class TwoWindingsTransformerMapInfos extends AbstractTwoWindingsTransformerInfos {
