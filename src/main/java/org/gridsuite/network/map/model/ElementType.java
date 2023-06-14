@@ -8,13 +8,21 @@ package org.gridsuite.network.map.model;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
+import org.gridsuite.network.map.dto.busbarsection.AbstractBusBarSectionInfos;
+import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
+import org.gridsuite.network.map.dto.generator.AbstractGeneratorInfos;
 import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.lccconverterstation.AbstractLccConverterStationInfos;
 import org.gridsuite.network.map.dto.line.AbstractLineInfos;
 import org.gridsuite.network.map.dto.load.AbstractLoadInfos;
+import org.gridsuite.network.map.dto.shuntcompensator.AbstractShuntCompensator;
+import org.gridsuite.network.map.dto.staticvarcompensator.AbstractStaticVarCompensatorInfos;
 import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
+import org.gridsuite.network.map.dto.vscconverterstation.AbstractVscConverterStationInfos;
 
 import java.util.function.BiFunction;
 
@@ -28,14 +36,14 @@ public enum ElementType {
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
     THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
 
-    BUSBAR_SECTION(BusbarSection.class, AbstractLoadInfos::toData),
-    GENERATOR(Generator.class, AbstractLoadInfos::toData),
-    BATTERY(Battery.class, AbstractLoadInfos::toData),
-    SHUNT_COMPENSATOR(ShuntCompensator.class, AbstractLoadInfos::toData),
-    DANGLING_LINE(DanglingLine.class, AbstractLoadInfos::toData),
-    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, AbstractLoadInfos::toData),
-    LCC_CONVERTER_STATION(LccConverterStation.class, AbstractLoadInfos::toData),
-    VSC_CONVERTER_STATION(VscConverterStation.class, AbstractLoadInfos::toData);
+    BUSBAR_SECTION(BusbarSection.class, AbstractBusBarSectionInfos::toData),
+    GENERATOR(Generator.class, AbstractGeneratorInfos::toData),
+    BATTERY(Battery.class, AbstractBatteryInfos::toData),
+    SHUNT_COMPENSATOR(ShuntCompensator.class, AbstractShuntCompensator::toData),
+    DANGLING_LINE(DanglingLine.class, AbstractDanglingLineInfos::toData),
+    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, AbstractStaticVarCompensatorInfos::toData),
+    LCC_CONVERTER_STATION(LccConverterStation.class, AbstractLccConverterStationInfos::toData),
+    VSC_CONVERTER_STATION(VscConverterStation.class, AbstractVscConverterStationInfos::toData);
 
     private final Class<? extends Identifiable> elementClass;
 
