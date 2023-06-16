@@ -2,8 +2,6 @@
   "id": "NGEN_NHV1",
   "voltageLevelId1": "VLGEN",
   "voltageLevelId2": "VLHV1",
-  "p1": 11.1,
-  "p2": 13.33,
   "currentLimits1": {
     "permanentLimit": 750.4,
     "temporaryLimits": [

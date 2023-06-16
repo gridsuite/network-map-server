@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2023, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package org.gridsuite.network.map.dto.twowindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,12 +23,6 @@ public class TwoWindingsTransformerTooltipInfos extends AbstractTwoWindingsTrans
     private String voltageLevelId1;
 
     private String voltageLevelId2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i1;
@@ -49,9 +50,7 @@ public class TwoWindingsTransformerTooltipInfos extends AbstractTwoWindingsTrans
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
             .voltageLevelId2(terminal2.getVoltageLevel().getId())
             .i1(nullIfNan(terminal1.getI()))
-            .i2(nullIfNan(terminal2.getI()))
-            .p1(nullIfNan(terminal1.getP()))
-            .p2(nullIfNan(terminal2.getP()));
+            .i2(nullIfNan(terminal2.getI()));
 
         twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));

@@ -4,8 +4,6 @@
   "voltageLevelId2": "VLHV2",
   "terminal1Connected": true,
   "terminal2Connected": true,
-  "p1": 1.1,
-  "p2": 3.33,
   "currentLimits1": {
     "permanentLimit": 700.4,
     "temporaryLimits": [
