@@ -29,6 +29,8 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 public class GeneratorTabInfos extends AbstractGeneratorInfos {
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlName;
 
@@ -131,6 +133,7 @@ public class GeneratorTabInfos extends AbstractGeneratorInfos {
                 .id(generator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .targetP(generator.getTargetP())
                 .targetQ(nullIfNan(generator.getTargetQ()))
                 .targetV(nullIfNan(generator.getTargetV()))

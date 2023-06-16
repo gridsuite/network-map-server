@@ -23,6 +23,8 @@ import lombok.experimental.SuperBuilder;
 public class ShuntCompensatorTabInfos extends AbstractShuntCompensator {
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -65,7 +67,8 @@ public class ShuntCompensatorTabInfos extends AbstractShuntCompensator {
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
                 .sectionCount(shuntCompensator.getSectionCount())
                 .terminalConnected(terminal.isConnected())
-                .voltageLevelId(terminal.getVoltageLevel().getId());
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV());
 
         Double bPerSection = null;
         if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {

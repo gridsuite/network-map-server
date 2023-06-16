@@ -20,6 +20,8 @@ public class StaticVarCompensatorTabInfos extends AbstractStaticVarCompensatorIn
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     private StaticVarCompensator.RegulationMode regulationMode;
@@ -47,6 +49,7 @@ public class StaticVarCompensatorTabInfos extends AbstractStaticVarCompensatorIn
                 .id(staticVarCompensator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .regulationMode(staticVarCompensator.getRegulationMode());
 
         if (!Double.isNaN(terminal.getQ())) {
