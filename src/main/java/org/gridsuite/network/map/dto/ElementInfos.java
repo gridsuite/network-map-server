@@ -22,7 +22,8 @@ public class ElementInfos {
         LIST,
         MAP,
         FORM,
-        TAB
+        TAB,
+        TOOLTIP
     }
 
     private String id;
