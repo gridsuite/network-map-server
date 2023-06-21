@@ -4,7 +4,7 @@
     "name": "LCC1",
     "voltageLevelId": "VLGEN",
     "terminalConnected": true,
-    "hvdcLineId": null,
+    "hvdcLineId": "HVDC1",
     "powerFactor": 0.5,
     "lossFactor": 1.0
   },

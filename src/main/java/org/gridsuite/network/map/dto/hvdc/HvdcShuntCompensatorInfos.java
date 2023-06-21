@@ -30,7 +30,6 @@ public class HvdcShuntCompensatorInfos {
 
     private String id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcConverterStation.HvdcType hvdcType;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

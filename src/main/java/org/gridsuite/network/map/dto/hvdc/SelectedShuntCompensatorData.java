@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map.dto.hvdc;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,6 +19,5 @@ import lombok.Getter;
 public class SelectedShuntCompensatorData {
     private String id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean selected;
 }
