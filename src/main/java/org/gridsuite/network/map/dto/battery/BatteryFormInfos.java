@@ -1,10 +1,19 @@
+/**
+ * Copyright (c) 2023, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 package org.gridsuite.network.map.dto.battery;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
@@ -13,16 +22,45 @@ import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 import java.util.List;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
 @SuperBuilder
 @Getter
 public class BatteryFormInfos extends AbstractBatteryInfos {
-
     private String voltageLevelId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean activePowerControlOn;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId;
+    private Double p;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q;
+
+    private Double targetP;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetQ;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
+
+    private Double minP;
+
+    private Double maxP;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ReactiveCapabilityCurveMapData> reactiveCapabilityCurvePoints;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean participate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double droop;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String connectionName;
@@ -33,61 +71,25 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
     private Integer connectionPosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private double minActivePower;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private double maxActivePower;
-
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<ReactiveCapabilityCurveMapData> reactiveCapabilityCurvePoints;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private double activePowerSetpoint;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double reactivePowerSetpoint;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean participate;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double droop;
-
-
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean activePowerControlOn;
-
-
+    private String busOrBusbarSectionId;
     public static BatteryFormInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryFormInfos.BatteryFormInfosBuilder  builder = BatteryFormInfos.builder()
+        BatteryFormInfos.BatteryFormInfosBuilder builder = BatteryFormInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
                 .id(battery.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .minActivePower(battery.getMinP())
-                .maxActivePower(battery.getMaxP())
-                .activePowerSetpoint(battery.getTargetP())
-                .reactivePowerSetpoint(battery.getTargetQ());
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+                .targetP(battery.getTargetP())
+                .targetQ(nullIfNan(battery.getTargetQ()))
+                .minP(battery.getMinP())
+                .maxP(battery.getMaxP())
+                .p(nullIfNan(terminal.getP()))
+                .q(nullIfNan(terminal.getQ()));
 
         ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
             builder.activePowerControlOn(activePowerControl.isParticipate());
             builder.droop(activePowerControl.getDroop());
-        }
-
-        var connectablePosition = battery.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
@@ -103,6 +105,14 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
                 ReactiveCapabilityCurve capabilityCurve = battery.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
             }
+        }
+
+        var connectablePosition = battery.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
