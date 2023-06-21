@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -128,12 +129,24 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "From an equipment ID, get the associated line or 2WT or 3WT")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
-            @ApiResponse(responseCode = "204", description = "No element found")
+        @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
+        @ApiResponse(responseCode = "204", description = "No element found")
     })
     public @ResponseBody Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                     @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,
                                                                     @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getBranchOrThreeWindingsTransformer(networkUuid, variantId, equipmentId);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/hvdc-lines/{hvdcId}/shunt-compensators", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "For a given HVDC line, get its related shunt compensators in case of LCC converter station")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Hvdc line type and its shunt compensators on each side"),
+        @ApiResponse(responseCode = "204", description = "No element found")
+    })
+    public @ResponseBody HvdcShuntCompensatorInfos getHvcLineWithShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                   @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
+                                                                                   @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getHvcLineWithShuntCompensators(networkUuid, variantId, hvdcId);
     }
 }

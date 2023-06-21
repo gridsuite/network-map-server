@@ -12,6 +12,8 @@ import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorInfos;
+import org.gridsuite.network.map.dto.hvdc.SelectedShuntCompensatorData;
 import org.gridsuite.network.map.dto.line.LineListInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
@@ -29,6 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -321,6 +325,31 @@ class NetworkMapService {
             return ThreeWindingsTransformerListInfos.toData(threeWT);
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+    }
+
+    private static List<SelectedShuntCompensatorData> toShuntCompensatorData(String lccBusOrBusbarSectionId, Stream<ShuntCompensator> shuntCompensators) {
+        return shuntCompensators
+                .map(s -> SelectedShuntCompensatorData.builder()
+                        .id(s.getId())
+                        .selected(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(s.getTerminal())))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public HvdcShuntCompensatorInfos getHvcLineWithShuntCompensators(UUID networkUuid, String variantId, String hvdcId) {
+        HvdcShuntCompensatorInfos.HvdcShuntCompensatorInfosBuilder builder = HvdcShuntCompensatorInfos.builder().id(hvdcId);
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        HvdcLine hvdcLine = network.getHvdcLine(hvdcId);
+        if (hvdcLine != null) { // it could be OK to not find the hvdc: can be used in a modification with un-existing hvdc
+            builder.hvdcType(hvdcLine.getConverterStation1().getHvdcType());
+            if (hvdcLine.getConverterStation1().getHvdcType() == HvdcConverterStation.HvdcType.LCC) {
+                Terminal terminalLcc1 = hvdcLine.getConverterStation1().getTerminal();
+                builder.mcsOnSide1(toShuntCompensatorData(getBusOrBusbarSection(terminalLcc1), terminalLcc1.getVoltageLevel().getShuntCompensatorStream()));
+                Terminal terminalLcc2 = hvdcLine.getConverterStation2().getTerminal();
+                builder.mcsOnSide2(toShuntCompensatorData(getBusOrBusbarSection(terminalLcc2), terminalLcc2.getVoltageLevel().getShuntCompensatorStream()));
+            }
+        }
+        return builder.build();
     }
 
     public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {
