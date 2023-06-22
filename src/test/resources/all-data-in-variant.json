@@ -811,53 +811,6 @@
       "q0": 30.0
     }
   ],
-  "hvdcLines": [
-    {
-      "id": "HVDC1",
-      "name": "HVDC1",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC1",
-      "converterStationId2": "LCC2",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100
-    },
-    {
-      "id": "HVDC2",
-      "name": "HVDC2",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC1",
-      "converterStationId2": "LCC2",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100,
-      "k": 180,
-      "p0": 190,
-      "oprFromCS1toCS2": 1000,
-      "oprFromCS2toCS1": 900,
-      "isEnabled": true
-    },
-    {
-      "id": "HVDC3",
-      "name": "HVDC3",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC3",
-      "converterStationId2": "VSC4",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100
-    },
-    {
-      "id": "HVDC4",
-      "name": "HVDC4",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC5",
-      "converterStationId2": "VSC6",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "maxP": 100
-    }
-  ],
   "lccConverterStations": [
     {
       "id": "LCC1",
@@ -867,7 +820,7 @@
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
       "terminalConnected": true,
-      "hvdcLineId": null
+      "hvdcLineId": "HVDC1"
     },
     {
       "id": "LCC2",
