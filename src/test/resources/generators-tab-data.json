@@ -2,34 +2,36 @@
   {
     "id": "GEN",
     "voltageLevelId": "VLGEN",
-    "activePowerControlOn":true,
+    "nominalVoltage": 24.0,
+    "activePowerControlOn": true,
     "terminalConnected": true,
     "p": 25.0,
     "q": 32.0,
     "targetP": 28.0,
-    "targetQ":301.0,
-    "targetV":24.5,
+    "targetQ": 301.0,
+    "targetV": 24.5,
     "minP": -9999.99,
     "maxP": 9999.99,
-    "energySource":"OTHER",
-    "ratedS": 27,
-    "voltageRegulatorOn":true,
+    "energySource": "OTHER",
+    "ratedS": 27.0,
+    "voltageRegulatorOn": true,
     "minMaxReactiveLimits": {
-      "minimumReactivePower": -500,
-      "maximumReactivePower": 500
+      "minimumReactivePower": -500.0,
+      "maximumReactivePower": 500.0
     },
-    "droop": 4,
+    "droop": 4.0,
     "regulatingTerminalConnectableId": "NHV1_NHV2_1",
     "regulatingTerminalConnectableType": "LINE",
     "regulatingTerminalVlId": "VLHV1",
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "qPercent": 10.0,
-    "connectionPosition": 0
+    "connectionPosition": 0,
+    "qPercent": 10.0
   },
   {
     "id": "GEN2",
     "voltageLevelId": "VLGEN",
+    "nominalVoltage": 24.0,
     "terminalConnected": true,
     "targetP": 607.0,
     "targetQ": 301.0,
@@ -39,25 +41,13 @@
     "energySource": "OTHER",
     "voltageRegulatorOn": true,
     "reactiveCapabilityCurvePoints": [
-      {
-        "p": 0.0,
-        "qminP": 6.0,
-        "qmaxP": 7.0
-      },
-      {
-        "p": 1.0,
-        "qminP": 4.0,
-        "qmaxP": 5.0
-      },
-      {
-        "p": 3.0,
-        "qminP": 4.0,
-        "qmaxP": 5.0
-      }
+      { "p": 0.0, "qminP": 6.0, "qmaxP": 7.0 },
+      { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
+      { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
     ],
     "connectionName": "feederName",
     "connectionDirection": "TOP",
-    "qPercent": 10.0,
-    "connectionPosition": 0
+    "connectionPosition": 0,
+    "qPercent": 10.0
   }
 ]

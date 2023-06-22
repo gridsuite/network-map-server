@@ -26,9 +26,15 @@ public class ThreeWindingsTransformerTabInfos extends AbstractThreeWindingsTrans
 
     private String voltageLevelId1;
 
+    private Double nominalVoltage1;
+
     private String voltageLevelId2;
 
+    private Double nominalVoltage2;
+
     private String voltageLevelId3;
+
+    private Double nominalVoltage3;
 
     private Boolean terminal1Connected;
 
@@ -167,7 +173,10 @@ public class ThreeWindingsTransformerTabInfos extends AbstractThreeWindingsTrans
                 .terminal3Connected(terminal3.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelId3(terminal3.getVoltageLevel().getId());
+                .voltageLevelId3(terminal3.getVoltageLevel().getId())
+                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
+                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+                .nominalVoltage3(terminal3.getVoltageLevel().getNominalV());
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
