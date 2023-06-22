@@ -29,10 +29,14 @@ public class LineTabInfos extends AbstractLineInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelName1;
 
+    private Double nominalVoltage1;
+
     private String voltageLevelId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelName2;
+
+    private Double nominalVoltage2;
 
     private Boolean terminal1Connected;
 
@@ -91,8 +95,10 @@ public class LineTabInfos extends AbstractLineInfos {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
+                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
                 .p1(nullIfNan(terminal1.getP()))
                 .q1(nullIfNan(terminal1.getQ()))
                 .p2(nullIfNan(terminal2.getP()))

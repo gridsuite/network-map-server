@@ -1,0 +1,320 @@
+[
+  {
+    "id": "TWT",
+    "name": "TWT",
+    "voltageLevelId1": "VLHV1",
+    "nominalVoltage1": 380.0,
+    "voltageLevelId2": "VLNEW2",
+    "nominalVoltage2": 225.0,
+    "voltageLevelId3": "VLGEN",
+    "nominalVoltage3": 24.0,
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "terminal3Connected": true,
+    "p1": 375.0,
+    "q1": 48.0,
+    "p2": 225.0,
+    "q2": 28.0,
+    "p3": 200.0,
+    "q3": 18.0,
+    "permanentLimit1": 25.0,
+    "permanentLimit3": 54.0,
+    "phaseTapChanger1": {
+      "lowTapPosition": 0,
+      "tapPosition": 1,
+      "highTapPosition": 2,
+      "regulating": true,
+      "targetDeadBand": 22.0,
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 25.0,
+      "regulatingTerminalConnectableId": "TWT",
+      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLHV1",
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5,
+          "alpha": -10.0
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6,
+          "alpha": 0.0
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7,
+          "alpha": 10.0
+        }
+      ]
+    },
+    "ratioTapChanger3": {
+      "lowTapPosition": 0,
+      "tapPosition": 2,
+      "highTapPosition": 2,
+      "regulating": false,
+      "loadTapChangingCapabilities": false,
+      "targetV": 220.0,
+      "targetDeadBand": 22.0,
+      "regulatingTerminalConnectableId": "TWT",
+      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLHV1",
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7
+        }
+      ]
+    },
+    "loadTapChanging3Capabilities": false,
+    "targetV3": 220.0,
+    "regulatingMode1": "CURRENT_LIMITER",
+    "regulatingRatio3": false,
+    "regulatingPhase1": true,
+    "regulatingValue1": 25.0
+  },
+  {
+    "id": "TWT21",
+    "name": "TWT21",
+    "voltageLevelId1": "VLHV1",
+    "nominalVoltage1": 380.0,
+    "voltageLevelId2": "VLNEW2",
+    "nominalVoltage2": 225.0,
+    "voltageLevelId3": "VLGEN",
+    "nominalVoltage3": 24.0,
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "terminal3Connected": true,
+    "p1": 375.0,
+    "q1": 48.0,
+    "p2": 225.0,
+    "q2": 28.0,
+    "p3": 200.0,
+    "q3": 18.0,
+    "permanentLimit1": 54.0,
+    "permanentLimit2": 25.0,
+    "ratioTapChanger1": {
+      "lowTapPosition": 0,
+      "tapPosition": 2,
+      "highTapPosition": 2,
+      "regulating": false,
+      "loadTapChangingCapabilities": false,
+      "targetV": 220.0,
+      "targetDeadBand": 22.0,
+      "regulatingTerminalConnectableId": "TWT21",
+      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLHV1",
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7
+        }
+      ]
+    },
+    "phaseTapChanger2": {
+      "lowTapPosition": 0,
+      "tapPosition": 1,
+      "highTapPosition": 2,
+      "regulating": true,
+      "targetDeadBand": 22.0,
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 25.0,
+      "regulatingTerminalConnectableId": "TWT21",
+      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLHV1",
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5,
+          "alpha": -10.0
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6,
+          "alpha": 0.0
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7,
+          "alpha": 10.0
+        }
+      ]
+    },
+    "loadTapChanging1Capabilities": false,
+    "targetV1": 220.0,
+    "regulatingMode2": "CURRENT_LIMITER",
+    "regulatingRatio1": false,
+    "regulatingPhase2": true,
+    "regulatingValue2": 25.0
+  },
+  {
+    "id": "TWT32",
+    "name": "TWT32",
+    "voltageLevelId1": "VLHV1",
+    "nominalVoltage1": 380.0,
+    "voltageLevelId2": "VLNEW2",
+    "nominalVoltage2": 225.0,
+    "voltageLevelId3": "VLGEN",
+    "nominalVoltage3": 24.0,
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "terminal3Connected": true,
+    "p1": 375.0,
+    "q1": 48.0,
+    "p2": 225.0,
+    "q2": 28.0,
+    "p3": 200.0,
+    "q3": 18.0,
+    "permanentLimit2": 54.0,
+    "permanentLimit3": 25.0,
+    "ratioTapChanger2": {
+      "lowTapPosition": 0,
+      "tapPosition": 2,
+      "highTapPosition": 2,
+      "regulating": false,
+      "loadTapChangingCapabilities": false,
+      "targetV": 220.0,
+      "targetDeadBand": 22.0,
+      "regulatingTerminalConnectableId": "TWT32",
+      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLHV1",
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7
+        }
+      ]
+    },
+    "phaseTapChanger3": {
+      "lowTapPosition": 0,
+      "tapPosition": 1,
+      "highTapPosition": 2,
+      "regulating": true,
+      "targetDeadBand": 22.0,
+      "regulationMode": "CURRENT_LIMITER",
+      "regulationValue": 25.0,
+      "regulatingTerminalConnectableId": "TWT32",
+      "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+      "regulatingTerminalVlId": "VLHV1",
+      "steps": [
+        {
+          "index": 0,
+          "rho": 0.99,
+          "r": 1.0,
+          "x": 4.0,
+          "g": 0.5,
+          "b": 1.5,
+          "alpha": -10.0
+        },
+        {
+          "index": 1,
+          "rho": 1.0,
+          "r": 1.1,
+          "x": 4.1,
+          "g": 0.6,
+          "b": 1.6,
+          "alpha": 0.0
+        },
+        {
+          "index": 2,
+          "rho": 1.01,
+          "r": 1.2,
+          "x": 4.2,
+          "g": 0.7,
+          "b": 1.7,
+          "alpha": 10.0
+        }
+      ]
+    },
+    "loadTapChanging2Capabilities": false,
+    "targetV2": 220.0,
+    "regulatingMode3": "CURRENT_LIMITER",
+    "regulatingRatio2": false,
+    "regulatingPhase3": true,
+    "regulatingValue3": 25.0
+  }
+]

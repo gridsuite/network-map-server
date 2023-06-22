@@ -23,6 +23,8 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 public class BatteryTabInfos extends AbstractBatteryInfos {
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,6 +50,7 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
                 .id(battery.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .targetP(battery.getTargetP())
                 .targetQ(battery.getTargetQ())
                 .p(nullIfNan(terminal.getP()))

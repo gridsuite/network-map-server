@@ -33,6 +33,8 @@ public class VscConverterStationTabInfos extends AbstractVscConverterStationInfo
     private Boolean voltageRegulatorOn;
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     private String hvdcLineId;
@@ -53,6 +55,7 @@ public class VscConverterStationTabInfos extends AbstractVscConverterStationInfo
                 .name(vscConverterStation.getOptionalName().orElse(null))
                 .id(vscConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());

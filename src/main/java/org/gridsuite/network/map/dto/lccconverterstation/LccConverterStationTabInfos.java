@@ -25,6 +25,8 @@ public class LccConverterStationTabInfos extends AbstractLccConverterStationInfo
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     private String hvdcLineId;
@@ -45,6 +47,7 @@ public class LccConverterStationTabInfos extends AbstractLccConverterStationInfo
                 .name(lccConverterStation.getOptionalName().orElse(null))
                 .id(lccConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(lccConverterStation.getLossFactor())
                 .powerFactor(lccConverterStation.getPowerFactor());
