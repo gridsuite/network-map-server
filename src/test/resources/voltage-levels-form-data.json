@@ -58,5 +58,15 @@
     "sectionCount": 1,
     "switchKinds": [],
     "isRetrievedBusbarSections": false
+  },
+  {
+    "id": "VLGEN6",
+    "topologyKind": "BUS_BREAKER",
+    "substationId": "P6",
+    "nominalVoltage": 24.0,
+    "lowVoltageLimit": 20.0,
+    "highVoltageLimit": 30.0,
+    "ipMin": 0.0,
+    "ipMax": 100.0
   }
 ]

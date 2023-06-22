@@ -11,6 +11,14 @@
           "nominalVoltage": 24.0
         }
       ]
+    },
+    {
+      "id": "P6",
+      "countryName": "FRANCE",
+      "countryCode": "FR",
+      "voltageLevels": [
+        { "id": "VLGEN6", "substationId": "P6", "nominalVoltage": 24.0 }
+      ]
     }
   ],
   "lines": [
@@ -82,6 +90,22 @@
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
+      "qatNominalV": 576.0
+    },
+    {
+      "id": "SHUNT3",
+      "name": "SHUNT3",
+      "voltageLevelId": "VLGEN3",
+      "terminalConnected": true,
+      "q": 90.0,
+      "targetV": 225.0,
+      "targetDeadband": 10.0,
+      "sectionCount": 2,
+      "maximumSectionCount": 3,
+      "connectionName": "feederName",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0,
+      "bperSection": 1.0,
       "qatNominalV": 576.0
     }
   ],

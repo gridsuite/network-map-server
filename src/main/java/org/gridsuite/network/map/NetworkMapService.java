@@ -276,7 +276,8 @@ class NetworkMapService {
                 network.getConnectableStream(elementClass) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass));
+                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
+                        .distinct();
         return connectables
                 .map(c -> elementType.getInfosGetter().apply(c, infoType))
                 .collect(Collectors.toList());

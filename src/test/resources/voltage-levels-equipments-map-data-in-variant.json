@@ -271,6 +271,11 @@
         "id": "LINE3",
         "name": null,
         "type": "LINE"
+      },
+      {
+        "id": "LINE4",
+        "name": null,
+        "type": "LINE"
       }
     ]
   },
@@ -316,6 +321,25 @@
         "id": "NGEN5",
         "name": "NGEN5",
         "type": "BUSBAR_SECTION"
+      }
+    ]
+  },
+  {
+    "voltageLevel": {
+      "id": "VLGEN6",
+      "substationId": "P6",
+      "nominalVoltage": 24.0,
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0,
+      "ipMin": 0.0,
+      "ipMax": 100.0,
+      "topologyKind": "BUS_BREAKER"
+    },
+    "equipments": [
+      {
+        "id": "LINE4",
+        "name": null,
+        "type": "LINE"
       }
     ]
   }
