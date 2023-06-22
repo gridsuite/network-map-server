@@ -21,6 +21,8 @@ public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
         switch (dataType) {
             case LIST:
                 return TwoWindingsTransformerListInfos.toData(identifiable);
+            case TOOLTIP:
+                return TwoWindingsTransformerTooltipInfos.toData(identifiable);
             case TAB:
                 return TwoWindingsTransformerTabInfos.toData(identifiable);
             case FORM:

@@ -1,0 +1,19 @@
+{
+  "id": "NGEN_NHV1",
+  "voltageLevelId1": "VLGEN",
+  "voltageLevelId2": "VLHV1",
+  "currentLimits1": {
+    "permanentLimit": 750.4,
+    "temporaryLimits": [
+      { "name": "IT5", "value": 300.0, "acceptableDuration": 2087 }
+    ]
+  },
+  "currentLimits2": {
+    "permanentLimit": 780.6,
+    "temporaryLimits": [
+      { "name": "IT20", "value": 1200.0, "acceptableDuration": 961 },
+      { "name": "N/A", "value": 2.147483647e9, "acceptableDuration": 664 }
+    ]
+  },
+  "branchStatus": "PLANNED_OUTAGE"
+}

@@ -69,9 +69,6 @@ public class GeneratorTabInfos extends AbstractGeneratorInfos {
     private Double plannedActivePowerSetPoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double startupCost;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double marginalCost;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -160,7 +157,6 @@ public class GeneratorTabInfos extends AbstractGeneratorInfos {
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
         if (generatorStartup != null) {
             builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
-            builder.startupCost(nullIfNan(generatorStartup.getStartupCost()));
             builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
             builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
             builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
