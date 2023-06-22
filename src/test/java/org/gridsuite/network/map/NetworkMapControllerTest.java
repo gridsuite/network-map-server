@@ -1214,16 +1214,15 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnAllMapData() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", null, resourceToString("/all-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3"), resourceToString("/partial-all-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-map-data-in-variant.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-map-data-in-variant.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
+    public void shouldReturnAllData() throws Exception {
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", null, resourceToString("/all-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3"), resourceToString("/partial-all-data.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-data-in-variant.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
     }
 
     @Test
-    public void shouldReturnNotFoundInsteadOfAllMapData() {
+    public void shouldReturnNotFoundInsteadOfAllData() {
         notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "all", List.of());
         notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "all", List.of());
         notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "all", List.of("P1"));
@@ -1621,22 +1620,22 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnGeneratorsTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.GENERATOR, ElementInfos.InfoType.TAB, null, resourceToString("/generators-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, ElementInfos.InfoType.TAB, null, resourceToString("/generators-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.GENERATOR, ElementInfos.InfoType.TAB, null, resourceToString("/generators-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, ElementInfos.InfoType.TAB, null, resourceToString("/generators-tab-data.json"));
     }
 
     @Test
     public void shouldReturnBatteryTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, List.of("P1"), resourceToString("/partial-batteries-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, List.of("P1"), resourceToString("/partial-batteries-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, List.of("P1"), resourceToString("/partial-batteries-tab-data.json"));
     }
 
     @Test
     public void shouldReturnShuntCompensatorTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/shunt-compensators-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/shunt-compensators-map-data-in-variant.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/shunt-compensators-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/shunt-compensators-tab-data-in-variant.json"));
     }
 
     @Test
@@ -1647,32 +1646,32 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnDanglingLineTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB, null, resourceToString("/dangling-lines-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB, null, resourceToString("/dangling-lines-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, ElementInfos.InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
     }
 
     @Test
     public void shouldReturnStaticVarCompensatorTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/static-var-compensators-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/static-var-compensators-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/static-var-compensators-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.STATIC_VAR_COMPENSATOR, ElementInfos.InfoType.TAB, null, resourceToString("/static-var-compensators-tab-data.json"));
     }
 
     @Test
     public void shouldReturnLccConverterStationTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/lcc-converter-stations-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/lcc-converter-stations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/lcc-converter-stations-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LCC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/lcc-converter-stations-tab-data.json"));
     }
 
     @Test
     public void shouldReturnVscConverterStationTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/vsc-converter-stations-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/vsc-converter-stations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/vsc-converter-stations-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VSC_CONVERTER_STATION, ElementInfos.InfoType.TAB, null, resourceToString("/vsc-converter-stations-tab-data.json"));
     }
 
     @Test
     public void shouldReturnTwoWindingsTransformerTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/2-windings-transformers-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/2-windings-transformers-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data.json"));
     }
 
     @Test
@@ -1689,8 +1688,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnThreeWindingsTransformerTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/3-windings-transformers-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/3-windings-transformers-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/3-windings-transformers-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, null, resourceToString("/3-windings-transformers-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, List.of("P3"), "[]");
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, ElementInfos.InfoType.TAB, List.of("P3"), "[]");
     }
