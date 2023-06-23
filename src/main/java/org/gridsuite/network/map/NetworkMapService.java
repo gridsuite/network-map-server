@@ -25,8 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,67 +49,6 @@ class NetworkMapService {
         } catch (PowsyblException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    }
-
-    private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
-        VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
-                .id(voltageLevel.getId())
-                .topologyKind(voltageLevel.getTopologyKind());
-
-        builder.name(voltageLevel.getOptionalName().orElse(null))
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .substationName(voltageLevel.getSubstation().map(s -> s.getOptionalName().orElse(null)).orElse(null))
-
-                .nominalVoltage(voltageLevel.getNominalV())
-                .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
-        }
-        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        if (identifiableShortCircuit != null) {
-            builder.ipMin(identifiableShortCircuit.getIpMin());
-            builder.ipMax(identifiableShortCircuit.getIpMax());
-        }
-
-        return builder.build();
-    }
-
-    private static void mapVoltageLevelSwitchKindsAndSectionCount(
-            VoltageLevelMapData.VoltageLevelMapDataBuilder builder, VoltageLevel voltageLevel) {
-        AtomicInteger busbarCount = new AtomicInteger(1);
-        AtomicInteger sectionCount = new AtomicInteger(1);
-        AtomicBoolean warning = new AtomicBoolean(false);
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            determinateBusBarSectionPosition(voltageLevel, busbarCount, sectionCount, warning);
-            if (!warning.get()) {
-                builder.busbarCount(busbarCount.get());
-                builder.sectionCount(sectionCount.get());
-                builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
-            } else {
-                builder.busbarCount(1);
-                builder.sectionCount(1);
-                builder.switchKinds(Collections.emptyList());
-            }
-        } else {
-            warning.set(true);
-        }
-    }
-
-    private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {
-        voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
-            var pos = bbs.getExtension(BusbarSectionPosition.class);
-            if (pos != null) {
-                if (pos.getBusbarIndex() > busbarCount.get()) {
-                    busbarCount.set(pos.getBusbarIndex());
-                }
-                if (pos.getSectionIndex() > sectionCount.get()) {
-                    sectionCount.set(pos.getSectionIndex());
-                }
-            } else {
-                warning.set(true);
-            }
-        });
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
@@ -190,7 +127,7 @@ class NetworkMapService {
         return voltageLevels.stream().map(vl -> {
             List<VoltageLevelConnectableMapData> equipments = new ArrayList<>();
             vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
-            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
+            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(vl, ElementInfos.InfoType.FORM)).equipments(equipments).build();
         }).collect(Collectors.toList());
     }
 
