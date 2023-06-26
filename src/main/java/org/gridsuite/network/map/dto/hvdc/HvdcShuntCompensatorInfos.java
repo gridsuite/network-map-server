@@ -12,10 +12,7 @@ import com.powsybl.iidm.network.HvdcLine;
 import com.powsybl.iidm.network.ShuntCompensator;
 import com.powsybl.iidm.network.Terminal;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -36,15 +33,23 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSec
 @Schema(description = "HVDC deletion")
 public class HvdcShuntCompensatorInfos {
 
+    @Builder
+    @Getter
+    @EqualsAndHashCode
+    static class ShuntCompensatorInfos {
+        private String id;
+        private boolean connectedToHvdc;
+    }
+
     private String id;
 
     private HvdcConverterStation.HvdcType hvdcType;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<SelectedShuntCompensatorData> mcsOnSide1;
+    private List<ShuntCompensatorInfos> mcsOnSide1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<SelectedShuntCompensatorData> mcsOnSide2;
+    private List<ShuntCompensatorInfos> mcsOnSide2;
 
     public static HvdcShuntCompensatorInfos toData(HvdcLine hvdcLine) {
         HvdcConverterStation.HvdcType hvdcType = hvdcLine.getConverterStation1().getHvdcType();
@@ -53,18 +58,18 @@ public class HvdcShuntCompensatorInfos {
             .hvdcType(hvdcType);
         if (hvdcType == HvdcConverterStation.HvdcType.LCC) {
             Terminal terminalLcc1 = hvdcLine.getConverterStation1().getTerminal();
-            builder.mcsOnSide1(toShuntCompensatorData(getBusOrBusbarSection(terminalLcc1), terminalLcc1.getVoltageLevel().getShuntCompensatorStream()));
+            builder.mcsOnSide1(toShuntCompensatorInfos(getBusOrBusbarSection(terminalLcc1), terminalLcc1.getVoltageLevel().getShuntCompensatorStream()));
             Terminal terminalLcc2 = hvdcLine.getConverterStation2().getTerminal();
-            builder.mcsOnSide2(toShuntCompensatorData(getBusOrBusbarSection(terminalLcc2), terminalLcc2.getVoltageLevel().getShuntCompensatorStream()));
+            builder.mcsOnSide2(toShuntCompensatorInfos(getBusOrBusbarSection(terminalLcc2), terminalLcc2.getVoltageLevel().getShuntCompensatorStream()));
         }
         return builder.build();
     }
 
-    private static List<SelectedShuntCompensatorData> toShuntCompensatorData(String lccBusOrBusbarSectionId, Stream<ShuntCompensator> shuntCompensators) {
+    private static List<ShuntCompensatorInfos> toShuntCompensatorInfos(String lccBusOrBusbarSectionId, Stream<ShuntCompensator> shuntCompensators) {
         return shuntCompensators
-                .map(s -> SelectedShuntCompensatorData.builder()
+                .map(s -> ShuntCompensatorInfos.builder()
                         .id(s.getId())
-                        .selected(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(s.getTerminal())))
+                        .connectedToHvdc(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(s.getTerminal())))
                         .build())
                 .collect(Collectors.toList());
     }

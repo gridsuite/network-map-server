@@ -2,5 +2,5 @@
   "id": "HVDC1",
   "hvdcType": "LCC",
   "mcsOnSide1": [],
-  "mcsOnSide2": [{"id":"SHUNT1","selected":true}]
+  "mcsOnSide2": [{"id":"SHUNT1","connectedToHvdc":true}]
 }
