@@ -5,6 +5,7 @@
   "voltageLevelId2": "VLNEW2",
   "terminal1Connected": true,
   "terminal2Connected": true,
+  "hvdcType": "LCC",
   "p2": 110.0
 }
 

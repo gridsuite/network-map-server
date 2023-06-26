@@ -6,6 +6,7 @@
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
     "terminal2Connected": true,
+    "hvdcType": "LCC",
     "p2": 110.0
   },
   {
@@ -15,6 +16,7 @@
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
     "terminal2Connected": true,
+    "hvdcType": "VSC",
     "p1": 10.0,
     "p2": 10.0
   },
@@ -25,6 +27,7 @@
     "voltageLevelId2": "VLNEW2",
     "terminal1Connected": true,
     "terminal2Connected": true,
+    "hvdcType": "VSC",
     "p1": 10.0,
     "p2": 10.0
   }
