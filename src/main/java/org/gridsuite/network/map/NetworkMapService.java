@@ -328,7 +328,8 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         HvdcLine hvdcLine = network.getHvdcLine(hvdcId);
         if (hvdcLine == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            // called from a modification, then we must support un-existing equipment
+            return HvdcShuntCompensatorInfos.builder().id(hvdcId).build();
         }
         return HvdcShuntCompensatorInfos.toData(hvdcLine);
     }
