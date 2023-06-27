@@ -43,8 +43,6 @@ public class HvdcShuntCompensatorInfos {
 
     private String id;
 
-    private HvdcConverterStation.HvdcType hvdcType;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ShuntCompensatorInfos> mcsOnSide1;
 
@@ -54,8 +52,7 @@ public class HvdcShuntCompensatorInfos {
     public static HvdcShuntCompensatorInfos toData(HvdcLine hvdcLine) {
         HvdcConverterStation.HvdcType hvdcType = hvdcLine.getConverterStation1().getHvdcType();
         HvdcShuntCompensatorInfos.HvdcShuntCompensatorInfosBuilder builder = HvdcShuntCompensatorInfos.builder()
-            .id(hvdcLine.getId())
-            .hvdcType(hvdcType);
+            .id(hvdcLine.getId());
         if (hvdcType == HvdcConverterStation.HvdcType.LCC) {
             Terminal terminalLcc1 = hvdcLine.getConverterStation1().getTerminal();
             builder.mcsOnSide1(toShuntCompensatorInfos(getBusOrBusbarSection(terminalLcc1), terminalLcc1.getVoltageLevel().getShuntCompensatorStream()));
