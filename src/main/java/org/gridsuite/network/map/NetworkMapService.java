@@ -8,15 +8,16 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.iidm.network.extensions.IdentifiableShortCircuit;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.line.LineListInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.AllElementsInfos;
-import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,7 +25,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,6 +53,34 @@ class NetworkMapService {
         } catch (PowsyblException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
+        VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
+                .id(voltageLevel.getId())
+                .topologyKind(voltageLevel.getTopologyKind());
+
+        builder.name(voltageLevel.getOptionalName().orElse(null))
+                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
+                .substationName(voltageLevel.getSubstation().map(s -> s.getOptionalName().orElse(null)).orElse(null))
+
+                .nominalVoltage(voltageLevel.getNominalV())
+                .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
+                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
+        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
+            AbstractVoltageLevelInfos.VoltageLevelTopologyInfos topologyInfos = AbstractVoltageLevelInfos.getTopologyInfos(voltageLevel);
+            builder.busbarCount(topologyInfos.getBusbarCount());
+            builder.sectionCount(topologyInfos.getSectionCount());
+            builder.switchKinds(topologyInfos.getSwitchKinds());
+        }
+
+        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+        if (identifiableShortCircuit != null) {
+            builder.ipMin(identifiableShortCircuit.getIpMin());
+            builder.ipMax(identifiableShortCircuit.getIpMax());
+        }
+
+        return builder.build();
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
@@ -127,7 +159,7 @@ class NetworkMapService {
         return voltageLevels.stream().map(vl -> {
             List<VoltageLevelConnectableMapData> equipments = new ArrayList<>();
             vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
-            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(vl, ElementInfos.InfoType.FORM)).equipments(equipments).build();
+            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
         }).collect(Collectors.toList());
     }
 

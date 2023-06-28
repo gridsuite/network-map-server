@@ -40,14 +40,14 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
 
     @Getter
     @Setter
-    protected static class VoltageLevelTopologyInfos {
+    public static class VoltageLevelTopologyInfos {
         boolean isRetrievedBusbarSections = false;
         int busbarCount = 1;
         int sectionCount = 1;
         List<SwitchKind> switchKinds = List.of();
     }
 
-    protected static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
+    public static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
         VoltageLevelTopologyInfos topologyInfos = new VoltageLevelTopologyInfos();
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {

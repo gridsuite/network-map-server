@@ -282,7 +282,6 @@
       "topologyKind": "NODE_BREAKER",
       "busbarCount": 1,
       "sectionCount": 2,
-      "isRetrievedBusbarSections": true,
       "switchKinds": [
         "DISCONNECTOR"
       ]
@@ -305,15 +304,14 @@
       "id": "VLGEN5",
       "substationId": "P5",
       "nominalVoltage": 24.0,
-      "lowVoltageLimit": 20.0,
-      "highVoltageLimit": 30.0,
       "ipMin": 0.0,
       "ipMax": 100.0,
       "topologyKind": "NODE_BREAKER",
-      "isRetrievedBusbarSections": false,
       "busbarCount": 1,
       "sectionCount": 1,
-      "switchKinds": []
+      "switchKinds": [],
+      "highVoltageLimit": 30,
+      "lowVoltageLimit": 20
     },
     "equipments": [
       {
@@ -328,10 +326,6 @@
       "id": "VLGEN6",
       "substationId": "P6",
       "nominalVoltage": 24.0,
-      "lowVoltageLimit": 20.0,
-      "highVoltageLimit": 30.0,
-      "ipMin": 0.0,
-      "ipMax": 100.0,
       "topologyKind": "BUS_BREAKER"
     },
     "equipments": [

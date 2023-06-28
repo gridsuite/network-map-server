@@ -13,8 +13,6 @@ import lombok.Getter;
 
 import java.util.List;
 
-import org.gridsuite.network.map.dto.ElementInfos;
-
 /**
  * @author Seddik Yengui <seddik.yengui at rte-france.com>
  */
@@ -24,7 +22,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @EqualsAndHashCode
 public class VoltageLevelsEquipmentsMapData {
 
-    private ElementInfos voltageLevel;
+    private VoltageLevelMapData voltageLevel;
 
     private List<VoltageLevelConnectableMapData> equipments;
 }

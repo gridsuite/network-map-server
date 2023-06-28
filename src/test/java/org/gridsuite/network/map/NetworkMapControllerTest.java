@@ -350,14 +350,11 @@ public class NetworkMapControllerTest {
         VoltageLevel vlgen6 = p6.newVoltageLevel()
                 .setId("VLGEN6")
                 .setNominalV(24.0)
-                .setHighVoltageLimit(30)
-                .setLowVoltageLimit(20)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
                 .add();
         vlgen6.getBusBreakerView().newBus()
                 .setId("NGEN6")
                 .add();
-        vlgen6.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
         network.newLine()
                 .setId("LINE4")
                 .setVoltageLevel1("VLGEN6")
@@ -1219,6 +1216,8 @@ public class NetworkMapControllerTest {
         succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3"), resourceToString("/partial-all-data.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-data-in-variant.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
+
     }
 
     @Test
