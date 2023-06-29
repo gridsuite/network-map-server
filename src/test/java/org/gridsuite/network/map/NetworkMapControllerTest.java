@@ -1217,7 +1217,6 @@ public class NetworkMapControllerTest {
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-data-in-variant.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
-
     }
 
     @Test
