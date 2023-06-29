@@ -340,6 +340,37 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+
+        Substation p6 = network.newSubstation()
+                .setId("P6")
+                .setCountry(Country.FR)
+                .setTso("RTE")
+                .setGeographicalTags("A")
+                .add();
+        VoltageLevel vlgen6 = p6.newVoltageLevel()
+                .setId("VLGEN6")
+                .setNominalV(24.0)
+                .setTopologyKind(TopologyKind.BUS_BREAKER)
+                .add();
+        vlgen6.getBusBreakerView().newBus()
+                .setId("NGEN6")
+                .add();
+        network.newLine()
+                .setId("LINE4")
+                .setVoltageLevel1("VLGEN6")
+                .setBus1("NGEN6")
+                .setConnectableBus1("NGEN6")
+                .setVoltageLevel2("VLGEN3")
+                .setBus2("NGEN3")
+                .setConnectableBus2("NGEN3")
+                .setR(3.0)
+                .setX(33.0)
+                .setG1(0.0)
+                .setB1(386E-6 / 2)
+                .setG2(0.0)
+                .setB2(386E-6 / 2)
+                .add();
+
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
                 .setName("BATTERY1")
@@ -1018,8 +1049,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsIds() {
-        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.SUBSTATION, List.of(), List.of("P1", "P2", "P3", "P4", "P5").toString());
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, List.of(), List.of("P1", "P2", "P3", "P4", "P5").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.SUBSTATION, List.of(), List.of("P1", "P2", "P3", "P4", "P5", "P6").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, List.of(), List.of("P1", "P2", "P3", "P4", "P5", "P6").toString());
     }
 
     @Test
@@ -1062,8 +1093,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLinesIds() {
-        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.LINE, List.of(), List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.LINE, List.of(), List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.LINE, List.of(), List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.LINE, List.of(), List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString());
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.LINE, List.of("P1"), List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString());
     }
 
@@ -1185,6 +1216,7 @@ public class NetworkMapControllerTest {
         succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3"), resourceToString("/partial-all-data.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-data-in-variant.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
     }
 
     @Test
@@ -1417,9 +1449,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelsIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, List.of(), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5").toString());
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, List.of(), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5").toString());
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5"), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, List.of(), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, List.of(), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString());
     }
 
     @Test

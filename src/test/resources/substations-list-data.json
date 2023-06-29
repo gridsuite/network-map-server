@@ -63,5 +63,14 @@
         "topologyKind": "NODE_BREAKER"
       }
     ]
+  },
+  {
+    "id": "P6",
+    "voltageLevels": [
+      { "id": "VLGEN6",
+        "substationId": "P6",
+        "topologyKind": "BUS_BREAKER"
+      }
+    ]
   }
 ]
