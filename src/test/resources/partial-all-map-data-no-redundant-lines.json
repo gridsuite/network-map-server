@@ -1,11 +1,23 @@
 {
   "substations": [
     {
+      "countryCode": "FR",
       "id": "P3",
+      "countryName": "FRANCE",
+      "voltageLevels": [
+        {
+          "id": "VLGEN3",
+          "substationId": "P3",
+          "nominalVoltage": 24.0
+        }
+      ]
+    },
+    {
+      "id": "P6",
       "countryName": "FRANCE",
       "countryCode": "FR",
       "voltageLevels": [
-        { "id": "VLGEN3", "substationId": "P3", "nominalVoltage": 24.0 }
+        { "id": "VLGEN6", "substationId": "P6", "nominalVoltage": 24}
       ]
     }
   ],
@@ -13,26 +25,26 @@
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
-      "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
-      "nominalVoltage2": 24.0,
       "terminal1Connected": true,
       "terminal2Connected": true,
+      "nominalVoltage1": 24,
+      "nominalVoltage2": 24,
       "r": 3.0,
       "x": 33.0,
       "g1": 0.0,
-      "b1": 1.93e-4,
+      "b1": 1.93E-4,
       "g2": 0.0,
       "b2": 1.93E-4
     },
     {
       "id": "LINE4",
       "voltageLevelId1": "VLGEN6",
-      "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
-      "nominalVoltage2": 24.0,
       "terminal1Connected": true,
       "terminal2Connected": true,
+      "nominalVoltage1": 24,
+      "nominalVoltage2": 24,
       "r": 3.0,
       "x": 33.0,
       "g1": 0.0,
@@ -41,8 +53,6 @@
       "b2": 1.93e-4
     }
   ],
-  "hvdcLines": [],
-  "loads": [],
   "twoWindingsTransformers": [],
   "threeWindingsTransformers": [],
   "generators": [],
@@ -51,8 +61,8 @@
       "id": "BATTERY2",
       "name": "BATTERY2",
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
       "terminalConnected": false,
+      "nominalVoltage": 24,
       "targetP": 1.0,
       "targetQ": 1.0
     }
@@ -60,44 +70,46 @@
   "danglingLines": [
     {
       "id": "DL2",
-      "name": "DL2",
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
+      "name": "DL2",
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
+      "nominalVoltage": 24,
       "p0": 50.0,
       "q0": 30.0
     }
   ],
+  "hvdcLines": [],
   "lccConverterStations": [],
+  "loads": [],
   "shuntCompensators": [
     {
       "id": "SHUNT2",
       "name": "SHUNT2",
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
       "terminalConnected": true,
       "targetV": 225.0,
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
+      "nominalVoltage": 24,
+      "bperSection": 1.0,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "bperSection": 1.0,
       "qatNominalV": 576.0
     },
     {
       "id": "SHUNT3",
       "name": "SHUNT3",
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
       "terminalConnected": true,
       "q": 90.0,
       "targetV": 225.0,
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
+      "nominalVoltage": 24,
       "connectionName": "feederName",
       "connectionDirection": "TOP",
       "connectionPosition": 0,
@@ -110,14 +122,14 @@
     {
       "id": "VSC2",
       "name": "VSC2",
-      "lossFactor": 1.0,
-      "voltageSetpoint": 150.0,
-      "reactivePowerSetpoint": 40.0,
-      "voltageRegulatorOn": true,
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
       "terminalConnected": true,
-      "hvdcLineId": null
+      "nominalVoltage": 24,
+      "hvdcLineId": null,
+      "lossFactor": 1.0,
+      "voltageRegulatorOn": true,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0
     }
   ]
 }

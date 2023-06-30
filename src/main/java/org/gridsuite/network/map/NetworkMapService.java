@@ -8,16 +8,17 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.iidm.network.extensions.IdentifiableShortCircuit;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorInfos;
+import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.line.LineListInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.AllElementsInfos;
-import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,9 +26,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,8 +69,12 @@ class NetworkMapService {
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                 .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            mapVoltageLevelSwitchKindsAndSectionCount(builder, voltageLevel);
+            AbstractVoltageLevelInfos.VoltageLevelTopologyInfos topologyInfos = AbstractVoltageLevelInfos.getTopologyInfos(voltageLevel);
+            builder.busbarCount(topologyInfos.getBusbarCount());
+            builder.sectionCount(topologyInfos.getSectionCount());
+            builder.switchKinds(topologyInfos.getSwitchKinds());
         }
+
         IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
         if (identifiableShortCircuit != null) {
             builder.ipMin(identifiableShortCircuit.getIpMin());
@@ -76,43 +82,6 @@ class NetworkMapService {
         }
 
         return builder.build();
-    }
-
-    private static void mapVoltageLevelSwitchKindsAndSectionCount(
-            VoltageLevelMapData.VoltageLevelMapDataBuilder builder, VoltageLevel voltageLevel) {
-        AtomicInteger busbarCount = new AtomicInteger(1);
-        AtomicInteger sectionCount = new AtomicInteger(1);
-        AtomicBoolean warning = new AtomicBoolean(false);
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            determinateBusBarSectionPosition(voltageLevel, busbarCount, sectionCount, warning);
-            if (!warning.get()) {
-                builder.busbarCount(busbarCount.get());
-                builder.sectionCount(sectionCount.get());
-                builder.switchKinds(new ArrayList<>(Collections.nCopies(sectionCount.get() - 1, SwitchKind.DISCONNECTOR)));
-            } else {
-                builder.busbarCount(1);
-                builder.sectionCount(1);
-                builder.switchKinds(Collections.emptyList());
-            }
-        } else {
-            warning.set(true);
-        }
-    }
-
-    private static void determinateBusBarSectionPosition(VoltageLevel voltageLevel, AtomicInteger busbarCount, AtomicInteger sectionCount, AtomicBoolean warning) {
-        voltageLevel.getNodeBreakerView().getBusbarSections().forEach(bbs -> {
-            var pos = bbs.getExtension(BusbarSectionPosition.class);
-            if (pos != null) {
-                if (pos.getBusbarIndex() > busbarCount.get()) {
-                    busbarCount.set(pos.getBusbarIndex());
-                }
-                if (pos.getSectionIndex() > sectionCount.get()) {
-                    sectionCount.set(pos.getSectionIndex());
-                }
-            } else {
-                warning.set(true);
-            }
-        });
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
@@ -277,7 +246,8 @@ class NetworkMapService {
                 network.getConnectableStream(elementClass) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass));
+                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
+                        .distinct();
         return connectables
                 .map(c -> elementType.getInfosGetter().apply(c, infoType))
                 .collect(Collectors.toList());
