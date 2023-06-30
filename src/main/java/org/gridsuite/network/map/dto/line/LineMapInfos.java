@@ -58,7 +58,7 @@ public class LineMapInfos extends AbstractLineInfos {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-
+        LineInfos lineInfos = getLinesInfos(line);
         LineMapInfos.LineMapInfosBuilder builder = LineMapInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
@@ -71,12 +71,14 @@ public class LineMapInfos extends AbstractLineInfos {
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()));
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
-
-        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
+        if (lineInfos.getCurrentLimits1() != null) {
+            builder.currentLimits1(lineInfos.getCurrentLimits1());
+        }
+        if (lineInfos.getCurrentLimits2() != null) {
+            builder.currentLimits2(lineInfos.getCurrentLimits2());
+        }
+        if (lineInfos.getBranchStatus() != null) {
+            builder.branchStatus(lineInfos.getBranchStatus().getStatus().name());
         }
 
         return builder.build();

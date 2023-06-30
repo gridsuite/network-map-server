@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -112,6 +111,7 @@ public class LineFormInfos extends AbstractLineInfos {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
+        LineInfos lineInfos = getLinesInfos(line);
         LineFormInfos.LineFormInfosBuilder builder = LineFormInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
@@ -134,17 +134,17 @@ public class LineFormInfos extends AbstractLineInfos {
                 .g2(line.getG2())
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
-
+        if (lineInfos.getCurrentLimits1() != null) {
+            builder.currentLimits1(lineInfos.getCurrentLimits1());
+        }
+        if (lineInfos.getCurrentLimits2() != null) {
+            builder.currentLimits2(lineInfos.getCurrentLimits2());
+        }
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
-
-        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
+        if (lineInfos.getBranchStatus() != null) {
+            builder.branchStatus(lineInfos.getBranchStatus().getStatus().name());
         }
-
         var connectablePosition = line.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
             if (connectablePosition.getFeeder1() != null) {

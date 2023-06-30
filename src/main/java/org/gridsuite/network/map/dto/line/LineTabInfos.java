@@ -15,7 +15,6 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapDataCurrentLimits;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -88,6 +87,8 @@ public class LineTabInfos extends AbstractLineInfos {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
+        LineInfos lineInfos = getLinesInfos(line);
+
         LineTabInfos.LineTabInfosBuilder builder = LineTabInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
@@ -112,8 +113,12 @@ public class LineTabInfos extends AbstractLineInfos {
                 .g2(line.getG2())
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        if (lineInfos.getCurrentLimits1() != null) {
+            builder.currentLimits1(lineInfos.getCurrentLimits1());
+        }
+        if (lineInfos.getCurrentLimits2() != null) {
+            builder.currentLimits2(lineInfos.getCurrentLimits2());
+        }
 
         return builder.build();
     }

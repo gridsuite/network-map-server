@@ -10,13 +10,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.BranchStatus;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapDataCurrentLimits;
 
 /**
  * @author Le Saulnier Kevin <kevin.lesaulnier at rte-france.com>
@@ -52,6 +50,7 @@ public class LineTooltipInfos extends AbstractLineInfos {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
+        LineInfos lineInfos = getLinesInfos(line);
 
         LineTooltipInfos.LineTooltipInfosBuilder builder = LineTooltipInfos.builder()
                 .id(line.getId())
@@ -63,12 +62,14 @@ public class LineTooltipInfos extends AbstractLineInfos {
                 .i1(nullIfNan(terminal1.getI()))
                 .i2(nullIfNan(terminal2.getI()));
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
-
-        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
+        if (lineInfos.getCurrentLimits1() != null) {
+            builder.currentLimits1(lineInfos.getCurrentLimits1());
+        }
+        if (lineInfos.getCurrentLimits2() != null) {
+            builder.currentLimits2(lineInfos.getCurrentLimits2());
+        }
+        if (lineInfos.getBranchStatus() != null) {
+            builder.branchStatus(lineInfos.getBranchStatus().getStatus().name());
         }
 
         return builder.build();
