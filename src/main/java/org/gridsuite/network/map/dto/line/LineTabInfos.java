@@ -88,6 +88,7 @@ public class LineTabInfos extends AbstractLineInfos {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
+        System.out.println("bobo");
         LineTabInfos.LineTabInfosBuilder builder = LineTabInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
