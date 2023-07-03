@@ -23,6 +23,8 @@ public class DanglingLineTabInfos extends AbstractDanglingLineInfos {
 
     private String voltageLevelId;
 
+    private Double nominalVoltage;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -51,6 +53,7 @@ public class DanglingLineTabInfos extends AbstractDanglingLineInfos {
                 .id(danglingLine.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .ucteXnodeCode(danglingLine.getUcteXnodeCode())
                 .p0(danglingLine.getP0())
                 .q0(danglingLine.getQ0());

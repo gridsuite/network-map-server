@@ -1,8 +1,9 @@
 [
   {
     "id": "DL1",
-    "voltageLevelId": "VLGEN",
     "name": "DL1",
+    "voltageLevelId": "VLGEN",
+    "nominalVoltage": 24.0,
     "terminalConnected": true,
     "ucteXnodeCode": "xnode1",
     "p": 45.0,
@@ -12,8 +13,9 @@
   },
   {
     "id": "DL2",
-    "voltageLevelId": "VLGEN3",
     "name": "DL2",
+    "voltageLevelId": "VLGEN3",
+    "nominalVoltage": 24.0,
     "terminalConnected": true,
     "ucteXnodeCode": "xnode1",
     "p0": 50.0,

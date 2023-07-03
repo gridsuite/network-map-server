@@ -38,5 +38,11 @@
     "id": "VLGEN5",
     "substationId": "P5",
     "topologyKind": "NODE_BREAKER"
+  },
+  {
+    "id": "VLGEN6",
+    "substationId": "P6",
+    "topologyKind": "BUS_BREAKER"
   }
+
 ]

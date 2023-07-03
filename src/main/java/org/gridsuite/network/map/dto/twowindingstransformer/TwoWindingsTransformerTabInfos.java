@@ -29,9 +29,13 @@ public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransform
 
     private String voltageLevelName1;
 
+    private Double nominalVoltage1;
+
     private String voltageLevelId2;
 
     private String voltageLevelName2;
+
+    private Double nominalVoltage2;
 
     private Boolean terminal1Connected;
 
@@ -119,8 +123,10 @@ public class TwoWindingsTransformerTabInfos extends AbstractTwoWindingsTransform
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
+                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
                 .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
                 .r(twoWT.getR())
