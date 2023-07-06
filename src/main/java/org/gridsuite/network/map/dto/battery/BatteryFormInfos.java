@@ -69,6 +69,7 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
+
     public static BatteryFormInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
