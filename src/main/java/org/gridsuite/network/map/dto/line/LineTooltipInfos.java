@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.BranchStatus;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
@@ -18,41 +19,19 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapDataCurrentLimits;
 
 /**
- * @author Slimane Amar <slimane.amar at rte-france.com>
+ * @author Le Saulnier Kevin <kevin.lesaulnier at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class LineTabInfos extends AbstractLineInfos {
+public class LineTooltipInfos extends AbstractLineInfos {
 
     private String voltageLevelId1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName1;
-
-    private Double nominalVoltage1;
-
     private String voltageLevelId2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName2;
-
-    private Double nominalVoltage2;
 
     private Boolean terminal1Connected;
 
     private Boolean terminal2Connected;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i1;
@@ -67,53 +46,30 @@ public class LineTabInfos extends AbstractLineInfos {
     private CurrentLimitsData currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double r;
+    private String branchStatus;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double x;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double g1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double g2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b2;
-
-    public static LineTabInfos toData(Identifiable<?> identifiable) {
+    public static LineTooltipInfos toData(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineTabInfos.LineTabInfosBuilder builder = LineTabInfos.builder()
-                .name(line.getOptionalName().orElse(null))
+
+        LineTooltipInfos.LineTooltipInfosBuilder builder = LineTooltipInfos.builder()
                 .id(line.getId())
+                .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
-                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
-                .p1(nullIfNan(terminal1.getP()))
-                .q1(nullIfNan(terminal1.getQ()))
-                .p2(nullIfNan(terminal2.getP()))
-                .q2(nullIfNan(terminal2.getQ()))
                 .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
-                .r(line.getR())
-                .x(line.getX())
-                .g1(line.getG1())
-                .b1(line.getB1())
-                .g2(line.getG2())
-                .b2(line.getB2());
+                .i2(nullIfNan(terminal2.getI()));
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+
+        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
 
         return builder.build();
     }

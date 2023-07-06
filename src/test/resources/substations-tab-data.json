@@ -71,5 +71,13 @@
         "nominalVoltage": 24.0
       }
     ]
+  },
+  {
+    "id": "P6",
+    "countryName": "FRANCE",
+    "countryCode": "FR",
+    "voltageLevels": [
+      { "id": "VLGEN6", "substationId": "P6", "nominalVoltage": 24.0 }
+    ]
   }
 ]

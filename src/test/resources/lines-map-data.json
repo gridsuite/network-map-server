@@ -24,5 +24,12 @@
     "terminal1Connected":true,
     "terminal2Connected":true,
     "branchStatus": "PLANNED_OUTAGE"
+  },
+  {
+    "id": "LINE4",
+    "voltageLevelId1": "VLGEN6",
+    "voltageLevelId2": "VLGEN3",
+    "terminal1Connected": true,
+    "terminal2Connected": true
   }
 ]
