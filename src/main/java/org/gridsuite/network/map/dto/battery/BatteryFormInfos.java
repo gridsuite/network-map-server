@@ -8,12 +8,10 @@
 package org.gridsuite.network.map.dto.battery;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
@@ -21,7 +19,6 @@ import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
 @SuperBuilder

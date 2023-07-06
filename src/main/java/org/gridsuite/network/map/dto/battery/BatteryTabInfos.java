@@ -74,7 +74,6 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
                 .name(battery.getOptionalName().orElse(null))
                 .id(battery.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .targetP(battery.getTargetP())
                 .targetQ(nullIfNan(battery.getTargetQ()))
                 .minP(battery.getMinP())
