@@ -56,7 +56,25 @@
   "twoWindingsTransformers": [],
   "threeWindingsTransformers": [],
   "generators": [],
-  "batteries": [],
+  "batteries": [
+    {
+      "id": "BATTERY2",
+      "name": "BATTERY2",
+      "voltageLevelId": "VLGEN3",
+      "targetP": 1.0,
+      "targetQ": 1.0,
+      "minP": 50.0,
+      "maxP": 70.0,
+      "reactiveCapabilityCurvePoints": [
+        { "p": 0.0, "qminP": 6.0, "qmaxP": 7.0 },
+        { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
+        { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
+      ],
+      "connectionName": "feederName",
+      "connectionPosition": 0,
+      "connectionDirection": "TOP"
+    }
+  ],
   "danglingLines": [
     {
       "id": "DL2",

@@ -390,7 +390,7 @@ public class NetworkMapControllerTest {
                 .setMaxQ(500)
                 .add();
 
-        Battery b2 = vlnew2.newBattery()
+        Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
                 .setName("BATTERY2")
                 .setMinP(50)
