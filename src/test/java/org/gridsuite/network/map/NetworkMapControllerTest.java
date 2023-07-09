@@ -374,23 +374,52 @@ public class NetworkMapControllerTest {
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
                 .setName("BATTERY1")
-                .setMinP(0)
-                .setMaxP(10)
+                .setMinP(50)
+                .setMaxP(70)
                 .setTargetP(1)
                 .setTargetQ(1)
                 .setConnectableBus("NNEW2")
                 .add();
-        b1.getTerminal().setP(50);
-        b1.getTerminal().setQ(70);
+        b1.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+        b1.newMinMaxReactiveLimits().setMinQ(-500)
+                .setMaxQ(500)
+                .add();
 
-        vlgen3.newBattery()
+        Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
                 .setName("BATTERY2")
-                .setMinP(0)
-                .setMaxP(10)
+                .setMinP(50)
+                .setMaxP(70)
                 .setTargetP(1)
                 .setTargetQ(1)
                 .setConnectableBus("NGEN3")
+                .add();
+        b2.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+        b2.newReactiveCapabilityCurve().beginPoint()
+                .setP(0)
+                .setMinQ(6)
+                .setMaxQ(7)
+                .endPoint()
+                .beginPoint()
+                .setP(1)
+                .setMaxQ(5)
+                .setMinQ(4)
+                .endPoint()
+                .beginPoint()
+                .setP(3)
+                .setMinQ(4)
+                .setMaxQ(5)
+                .endPoint()
                 .add();
 
         VoltageLevel vl1 = network.getVoltageLevel("VLGEN");
