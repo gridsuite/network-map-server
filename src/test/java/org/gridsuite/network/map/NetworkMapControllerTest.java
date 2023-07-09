@@ -390,14 +390,14 @@ public class NetworkMapControllerTest {
                 .setMaxQ(500)
                 .add();
 
-        Battery b2 = vlgen3.newBattery()
+        Battery b2 = vlnew2.newBattery()
                 .setId("BATTERY2")
                 .setName("BATTERY2")
                 .setMinP(50)
                 .setMaxP(70)
                 .setTargetP(1)
                 .setTargetQ(1)
-                .setConnectableBus("NGEN3")
+                .setConnectableBus("NNEW2")
                 .add();
         b2.newExtension(ConnectablePositionAdder.class)
                 .newFeeder()

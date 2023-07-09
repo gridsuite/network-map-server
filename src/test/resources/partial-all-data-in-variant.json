@@ -46,17 +46,7 @@
   "twoWindingsTransformers": [],
   "threeWindingsTransformers": [],
   "generators": [],
-  "batteries": [
-    {
-      "id": "BATTERY2",
-      "name": "BATTERY2",
-      "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
-      "terminalConnected": false,
-      "targetP": 1.0,
-      "targetQ": 1.0
-    }
-  ],
+  "batteries": [],
   "danglingLines": [
     {
       "id": "DL2",

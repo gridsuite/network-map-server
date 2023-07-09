@@ -809,7 +809,7 @@
     {
       "id": "BATTERY2",
       "name": "BATTERY2",
-      "voltageLevelId": "VLGEN3",
+      "voltageLevelId": "VLNEW2",
       "targetP": 1.0,
       "targetQ": 1.0,
       "minP": 50.0,

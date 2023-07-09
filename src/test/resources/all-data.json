@@ -798,21 +798,34 @@
       "id": "BATTERY1",
       "name": "BATTERY1",
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
-      "terminalConnected": false,
       "targetP": 1.0,
       "targetQ": 1.0,
-      "p": 50.0,
-      "q": 70.0
+      "minP": 50.0,
+      "maxP": 70.0,
+      "minMaxReactiveLimits": {
+        "minimumReactivePower": -500.0,
+        "maximumReactivePower": 500.0
+      },
+      "connectionName": "feederName",
+      "connectionPosition": 0,
+      "connectionDirection": "TOP"
     },
     {
       "id": "BATTERY2",
       "name": "BATTERY2",
-      "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
-      "terminalConnected": false,
+      "voltageLevelId": "VLNEW2",
       "targetP": 1.0,
-      "targetQ": 1.0
+      "targetQ": 1.0,
+      "minP": 50.0,
+      "maxP": 70.0,
+      "reactiveCapabilityCurvePoints": [
+        { "p": 0.0, "qminP": 6.0, "qmaxP": 7.0 },
+        { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
+        { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
+      ],
+      "connectionName": "feederName",
+      "connectionPosition": 0,
+      "connectionDirection": "TOP"
     }
   ],
   "danglingLines": [
