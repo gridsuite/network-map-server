@@ -13,7 +13,7 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorInfos;
+import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.line.LineListInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
@@ -294,14 +294,14 @@ class NetworkMapService {
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
-    public HvdcShuntCompensatorInfos getHvcLineWithShuntCompensators(UUID networkUuid, String variantId, String hvdcId) {
+    public HvdcShuntCompensatorsInfos getHvcLineWithShuntCompensators(UUID networkUuid, String variantId, String hvdcId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         HvdcLine hvdcLine = network.getHvdcLine(hvdcId);
         if (hvdcLine == null) {
             // called from a modification, then we must support un-existing equipment
-            return HvdcShuntCompensatorInfos.builder().id(hvdcId).build();
+            return HvdcShuntCompensatorsInfos.builder().id(hvdcId).build();
         }
-        return HvdcShuntCompensatorInfos.toData(hvdcLine);
+        return HvdcShuntCompensatorsInfos.toData(hvdcLine);
     }
 
     public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {

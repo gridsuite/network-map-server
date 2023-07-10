@@ -11,7 +11,6 @@ import com.powsybl.iidm.network.HvdcConverterStation;
 import com.powsybl.iidm.network.HvdcLine;
 import com.powsybl.iidm.network.ShuntCompensator;
 import com.powsybl.iidm.network.Terminal;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,12 +25,9 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSec
  * @author David Braquart <david.braquart at rte-france.com>
  */
 @SuperBuilder
-@NoArgsConstructor
 @Getter
 @Setter
-@ToString(callSuper = true)
-@Schema(description = "HVDC deletion")
-public class HvdcShuntCompensatorInfos {
+public class HvdcShuntCompensatorsInfos {
 
     @Builder
     @Getter
@@ -49,9 +45,9 @@ public class HvdcShuntCompensatorInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ShuntCompensatorInfos> mcsOnSide2;
 
-    public static HvdcShuntCompensatorInfos toData(HvdcLine hvdcLine) {
+    public static HvdcShuntCompensatorsInfos toData(HvdcLine hvdcLine) {
         HvdcConverterStation.HvdcType hvdcType = hvdcLine.getConverterStation1().getHvdcType();
-        HvdcShuntCompensatorInfos.HvdcShuntCompensatorInfosBuilder builder = HvdcShuntCompensatorInfos.builder()
+        HvdcShuntCompensatorsInfos.HvdcShuntCompensatorsInfosBuilder builder = HvdcShuntCompensatorsInfos.builder()
             .id(hvdcLine.getId());
         if (hvdcType == HvdcConverterStation.HvdcType.LCC) {
             Terminal terminalLcc1 = hvdcLine.getConverterStation1().getTerminal();

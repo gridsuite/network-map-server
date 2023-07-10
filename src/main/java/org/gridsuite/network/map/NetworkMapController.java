@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorInfos;
+import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -144,9 +144,9 @@ public class NetworkMapController {
         @ApiResponse(responseCode = "200", description = "Hvdc line type and its shunt compensators on each side"),
         @ApiResponse(responseCode = "204", description = "No element found")
     })
-    public @ResponseBody HvdcShuntCompensatorInfos getHvcLineWithShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                   @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
-                                                                                   @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+    public @ResponseBody HvdcShuntCompensatorsInfos getHvcLineWithShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                    @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
+                                                                                    @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getHvcLineWithShuntCompensators(networkUuid, variantId, hvdcId);
     }
 }
