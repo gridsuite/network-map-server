@@ -19,6 +19,7 @@ import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
 @SuperBuilder
@@ -83,11 +84,14 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
                 .maxP(battery.getMaxP())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
-        ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
+        var connectablePosition = battery.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null && connectablePosition.getFeeder() != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
@@ -105,12 +109,10 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
             }
         }
 
-        var connectablePosition = battery.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
+        ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
+        if (activePowerControl != null) {
+            builder.activePowerControlOn(activePowerControl.isParticipate());
+            builder.droop(activePowerControl.getDroop());
         }
 
         return builder.build();

@@ -82,6 +82,14 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
 
+        var connectablePosition = battery.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder
+                    .connectionDirection(connectablePosition.getFeeder().getDirection())
+                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
+            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
+        }
+
         ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
             builder.activePowerControlOn(activePowerControl.isParticipate());
@@ -101,14 +109,6 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
                 ReactiveCapabilityCurve capabilityCurve = battery.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
             }
-        }
-
-        var connectablePosition = battery.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
         return builder.build();
