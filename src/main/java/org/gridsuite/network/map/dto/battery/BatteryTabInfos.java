@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -71,9 +72,9 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
     public static BatteryTabInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryTabInfos.BatteryTabInfosBuilder builder = BatteryTabInfos.builder()
+        BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = ((BatteryTabInfos.BatteryTabInfosBuilder<?, ?>) ElementInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
-                .id(battery.getId())
+                .id(battery.getId()))
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(battery.getTargetP())
                 .targetQ(nullIfNan(battery.getTargetQ()))

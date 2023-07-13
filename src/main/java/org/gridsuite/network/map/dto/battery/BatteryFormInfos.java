@@ -14,6 +14,7 @@ import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -74,9 +75,9 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
     public static BatteryFormInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryFormInfos.BatteryFormInfosBuilder builder = BatteryFormInfos.builder()
+        BatteryFormInfos.BatteryFormInfosBuilder<?, ?> builder = ((BatteryFormInfosBuilder<?, ?>) ElementInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
-                .id(battery.getId())
+                .id(battery.getId()))
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(battery.getTargetP())
                 .targetQ(nullIfNan(battery.getTargetQ()))
@@ -84,7 +85,6 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
                 .maxP(battery.getMaxP())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
         var connectablePosition = battery.getExtension(ConnectablePosition.class);
         if (connectablePosition != null && connectablePosition.getFeeder() != null) {
