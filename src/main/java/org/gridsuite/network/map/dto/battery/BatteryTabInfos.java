@@ -72,9 +72,9 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
     public static BatteryTabInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = ((BatteryTabInfos.BatteryTabInfosBuilder<?, ?>) ElementInfos.builder()
+        BatteryTabInfos.BatteryTabInfosBuilder builder = BatteryTabInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
-                .id(battery.getId()))
+                .id(battery.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(battery.getTargetP())
                 .targetQ(nullIfNan(battery.getTargetQ()))

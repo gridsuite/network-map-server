@@ -74,9 +74,9 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
     public static BatteryFormInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryFormInfos.BatteryFormInfosBuilder<?, ?> builder = ((BatteryFormInfosBuilder<?, ?>) ElementInfos.builder()
+        BatteryFormInfos.BatteryFormInfosBuilder builder = BatteryFormInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
-                .id(battery.getId()))
+                .id(battery.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(battery.getTargetP())
                 .targetQ(nullIfNan(battery.getTargetQ()))
