@@ -20,7 +20,6 @@ import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
 @SuperBuilder
