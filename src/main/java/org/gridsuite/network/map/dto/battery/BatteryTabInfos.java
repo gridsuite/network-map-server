@@ -19,6 +19,10 @@ import java.util.List;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
+/**
+ * @author REHILI Ghazwa <ghazwa.rehili@rte-france.com>
+ */
+
 @SuperBuilder
 @Getter
 public class BatteryTabInfos extends AbstractBatteryInfos {
