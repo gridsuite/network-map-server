@@ -19,6 +19,7 @@
     "id": "BATTERY2",
     "name": "BATTERY2",
     "voltageLevelId": "VLGEN3",
+    "activePowerControlOn": true,
     "targetP": 1.0,
     "targetQ": 1.0,
     "minP": 50.0,
@@ -28,6 +29,7 @@
       { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
       { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
     ],
+    "droop": 3.0,
     "connectionName": "feederName",
     "connectionPosition": 0,
     "connectionDirection": "TOP"

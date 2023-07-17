@@ -405,6 +405,7 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
+        b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
         b2.newReactiveCapabilityCurve().beginPoint()
                 .setP(0)
                 .setMinQ(6)
@@ -1285,8 +1286,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnBatteriesFormData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY1", resourceToString("/battery-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY1", resourceToString("/battery-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY2", resourceToString("/battery-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY2", resourceToString("/battery-map-data.json"));
     }
 
     @Test
