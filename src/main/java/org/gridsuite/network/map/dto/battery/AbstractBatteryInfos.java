@@ -7,9 +7,15 @@
 package org.gridsuite.network.map.dto.battery;
 
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.ReactiveCapabilityCurve;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -22,9 +28,21 @@ public abstract class AbstractBatteryInfos extends ElementInfos {
         switch (dataType) {
             case TAB:
                 return BatteryTabInfos.toData(identifiable);
+            case FORM:
+                return BatteryFormInfos.toData(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
+    }
+
+    protected static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
+        return points.stream()
+                .map(point -> ReactiveCapabilityCurveMapData.builder()
+                        .p(point.getP())
+                        .qmaxP(point.getMaxQ())
+                        .qminP(point.getMinQ())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }
