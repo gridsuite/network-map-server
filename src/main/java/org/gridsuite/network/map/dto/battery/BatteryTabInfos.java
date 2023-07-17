@@ -42,9 +42,6 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetQ;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetV;
-
     private Double minP;
 
     private Double maxP;
@@ -94,12 +91,6 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
             connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
         }
 
-        ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
-        }
-
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
@@ -113,6 +104,12 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
                 ReactiveCapabilityCurve capabilityCurve = battery.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
             }
+        }
+
+        ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
+        if (activePowerControl != null) {
+            builder.activePowerControlOn(activePowerControl.isParticipate());
+            builder.droop(activePowerControl.getDroop());
         }
 
         return builder.build();

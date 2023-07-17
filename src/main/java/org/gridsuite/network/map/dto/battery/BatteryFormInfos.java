@@ -4,14 +4,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 package org.gridsuite.network.map.dto.battery;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
-
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
@@ -43,9 +41,6 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetQ;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetV;
 
     private Double minP;
 
@@ -89,7 +84,7 @@ public class BatteryFormInfos extends AbstractBatteryInfos {
                 .q(nullIfNan(terminal.getQ()));
 
         var connectablePosition = battery.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null && connectablePosition.getFeeder() != null) {
+        if (connectablePosition != null) {
             builder
                     .connectionDirection(connectablePosition.getFeeder().getDirection())
                     .connectionName(connectablePosition.getFeeder().getName().orElse(null));
