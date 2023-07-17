@@ -32,7 +32,7 @@ public class HvdcShuntCompensatorsInfos {
     @Builder
     @Getter
     @EqualsAndHashCode
-    static class ShuntCompensatorInfos {
+    private static class ShuntCompensatorInfos {
         private String id;
         private boolean connectedToHvdc;
     }

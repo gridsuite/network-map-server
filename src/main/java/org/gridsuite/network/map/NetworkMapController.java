@@ -144,9 +144,9 @@ public class NetworkMapController {
         @ApiResponse(responseCode = "200", description = "Hvdc line type and its shunt compensators on each side"),
         @ApiResponse(responseCode = "204", description = "No element found")
     })
-    public @ResponseBody HvdcShuntCompensatorsInfos getHvcLineWithShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                    @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
-                                                                                    @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getHvcLineWithShuntCompensators(networkUuid, variantId, hvdcId);
+    public @ResponseBody HvdcShuntCompensatorsInfos getHvcLineShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                                @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
+                                                                                @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getHvcLineShuntCompensators(networkUuid, variantId, hvdcId);
     }
 }

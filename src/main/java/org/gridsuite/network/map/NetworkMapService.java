@@ -294,7 +294,7 @@ class NetworkMapService {
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
-    public HvdcShuntCompensatorsInfos getHvcLineWithShuntCompensators(UUID networkUuid, String variantId, String hvdcId) {
+    public HvdcShuntCompensatorsInfos getHvcLineShuntCompensators(UUID networkUuid, String variantId, String hvdcId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         HvdcLine hvdcLine = network.getHvdcLine(hvdcId);
         if (hvdcLine == null) {
