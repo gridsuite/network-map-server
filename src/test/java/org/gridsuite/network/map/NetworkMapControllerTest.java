@@ -1286,8 +1286,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnBatteriesFormData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY2", resourceToString("/battery-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY2", resourceToString("/battery-map-data.json"));
+
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.FORM, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.FORM, null, resourceToString("/batteries-map-data.json"));
     }
 
     @Test
