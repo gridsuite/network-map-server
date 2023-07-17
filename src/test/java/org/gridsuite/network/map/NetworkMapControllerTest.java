@@ -1278,6 +1278,24 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnNotFoundInsteadOfBatteryMapData() {
+        notFoundTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.LIST, "NOT_EXISTING_BAT");
+        notFoundTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.LIST, "NOT_EXISTING_BAT");
+    }
+
+    @Test
+    public void shouldReturnBatteriesFormData() throws Exception {
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY1", resourceToString("/battery-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.FORM, "BATTERY1", resourceToString("/battery-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnBatteriesTabData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
+    }
+
+    @Test
     public void shouldReturnDanglingIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.DANGLING_LINE, List.of(), List.of("DL1", "DL2").toString());
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, List.of(), List.of("DL1", "DL2").toString());
