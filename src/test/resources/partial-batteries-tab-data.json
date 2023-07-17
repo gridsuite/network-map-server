@@ -3,11 +3,16 @@
     "id": "BATTERY1",
     "name": "BATTERY1",
     "voltageLevelId": "VLNEW2",
-    "nominalVoltage": 225.0,
-    "terminalConnected": false,
-    "p": 50.0,
-    "q": 70.0,
     "targetP": 1.0,
-    "targetQ": 1.0
+    "targetQ": 1.0,
+    "minP": 50.0,
+    "maxP": 70.0,
+    "minMaxReactiveLimits": {
+      "minimumReactivePower": -500.0,
+      "maximumReactivePower": 500.0
+    },
+    "connectionName": "feederName",
+    "connectionPosition": 0,
+    "connectionDirection": "TOP"
   }
 ]

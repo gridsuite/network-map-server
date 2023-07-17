@@ -374,23 +374,53 @@ public class NetworkMapControllerTest {
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
                 .setName("BATTERY1")
-                .setMinP(0)
-                .setMaxP(10)
+                .setMinP(50)
+                .setMaxP(70)
                 .setTargetP(1)
                 .setTargetQ(1)
                 .setConnectableBus("NNEW2")
                 .add();
-        b1.getTerminal().setP(50);
-        b1.getTerminal().setQ(70);
+        b1.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+        b1.newMinMaxReactiveLimits().setMinQ(-500)
+                .setMaxQ(500)
+                .add();
 
-        vlgen3.newBattery()
+        Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
                 .setName("BATTERY2")
-                .setMinP(0)
-                .setMaxP(10)
+                .setMinP(50)
+                .setMaxP(70)
                 .setTargetP(1)
                 .setTargetQ(1)
-                .setConnectableBus("NGEN3")
+                .setConnectableBus("NNEW2")
+                .add();
+        b2.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+        b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
+        b2.newReactiveCapabilityCurve().beginPoint()
+                .setP(0)
+                .setMinQ(6)
+                .setMaxQ(7)
+                .endPoint()
+                .beginPoint()
+                .setP(1)
+                .setMaxQ(5)
+                .setMinQ(4)
+                .endPoint()
+                .beginPoint()
+                .setP(3)
+                .setMinQ(4)
+                .setMaxQ(5)
+                .endPoint()
                 .add();
 
         VoltageLevel vl1 = network.getVoltageLevel("VLGEN");
@@ -1246,6 +1276,25 @@ public class NetworkMapControllerTest {
     public void shouldReturnNotFoundInsteadOfBatteriesIds() {
         notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.BATTERY, List.of());
         notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.BATTERY, List.of());
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfBatteryMapData() {
+        notFoundTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.LIST, "NOT_EXISTING_BAT");
+        notFoundTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.LIST, "NOT_EXISTING_BAT");
+    }
+
+    @Test
+    public void shouldReturnBatteriesFormData() throws Exception {
+
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.FORM, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.FORM, null, resourceToString("/batteries-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnBatteriesTabData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, ElementInfos.InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
     }
 
     @Test

@@ -25,7 +25,7 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 
 @SuperBuilder
 @Getter
-public class BatteryTabInfos extends AbstractBatteryInfos {
+public class BatteryFormInfos extends AbstractBatteryInfos {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -69,10 +69,10 @@ public class BatteryTabInfos extends AbstractBatteryInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
-    public static BatteryTabInfos toData(Identifiable<?> identifiable) {
+    public static BatteryFormInfos toData(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryTabInfos.BatteryTabInfosBuilder builder = BatteryTabInfos.builder()
+        BatteryFormInfos.BatteryFormInfosBuilder builder = BatteryFormInfos.builder()
                 .name(battery.getOptionalName().orElse(null))
                 .id(battery.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
