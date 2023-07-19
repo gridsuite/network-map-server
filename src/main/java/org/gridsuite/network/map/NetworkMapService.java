@@ -109,22 +109,6 @@ class NetworkMapService {
                 .map(Substation::getId).collect(Collectors.toList());
     }
 
-    private List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, Class<? extends Connectable> equipmentClass) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-        if (substationsIds == null) {
-            return network.getConnectableStream(equipmentClass)
-                    .map(Connectable::getId)
-                    .collect(Collectors.toList());
-        } else {
-            return substationsIds.stream()
-                    .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(equipmentClass))
-                    .map(Connectable::getId)
-                    .distinct()
-                    .collect(Collectors.toList());
-        }
-    }
-
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         return AllElementsInfos.builder()
@@ -243,14 +227,14 @@ class NetworkMapService {
     private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, ElementInfos.InfoType infoType) {
         Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
         Stream<? extends Connectable> connectables = substationsIds == null ?
-                network.getConnectableStream(elementClass) :
-                substationsIds.stream()
-                        .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
-                        .distinct();
+            getConnectableStream(network, elementType) :
+            substationsIds.stream()
+                .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
+                .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
+                .distinct();
         return connectables
-                .map(c -> elementType.getInfosGetter().apply(c, infoType))
-                .collect(Collectors.toList());
+            .map(c -> elementType.getInfosGetter().apply(c, infoType))
+            .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType, ElementInfos.InfoType infoType) {
@@ -306,18 +290,6 @@ class NetworkMapService {
 
     public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {
         switch (elementType) {
-            case GENERATOR:
-            case LINE:
-            case TWO_WINDINGS_TRANSFORMER:
-            case THREE_WINDINGS_TRANSFORMER:
-            case BATTERY:
-            case DANGLING_LINE:
-            case LCC_CONVERTER_STATION:
-            case VSC_CONVERTER_STATION:
-            case LOAD:
-            case SHUNT_COMPENSATOR:
-            case STATIC_VAR_COMPENSATOR:
-                return getElementsIds(networkUuid, variantId, substationsIds, (Class<? extends Connectable>) elementType.getElementClass());
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId);
             case HVDC_LINE:
@@ -325,7 +297,54 @@ class NetworkMapService {
             case VOLTAGE_LEVEL:
                 return getVoltageLevelsIds(networkUuid, variantId, substationsIds);
             default:
-                return List.of();
+                return getConnectablesIds(networkUuid, variantId, substationsIds, elementType);
+        }
+    }
+
+    private List<String> getConnectablesIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
+        if (substationsIds == null) {
+            return getConnectableStream(network, elementType)
+                .map(Connectable::getId)
+                .collect(Collectors.toList());
+        } else {
+            return substationsIds.stream()
+                .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
+                .flatMap(voltageLevel -> voltageLevel.getConnectableStream((Class<? extends Connectable>) elementType.getElementClass()))
+                .map(Connectable::getId)
+                .distinct()
+                .collect(Collectors.toList());
+        }
+    }
+
+    public Stream<? extends Connectable> getConnectableStream(Network network, ElementType elementType) {
+        switch (elementType) {
+            case BUSBAR_SECTION:
+                return network.getBusbarSectionStream();
+            case GENERATOR:
+                return network.getGeneratorStream();
+            case LINE:
+                return network.getLineStream();
+            case TWO_WINDINGS_TRANSFORMER:
+                return network.getTwoWindingsTransformerStream();
+            case THREE_WINDINGS_TRANSFORMER:
+                return network.getThreeWindingsTransformerStream();
+            case BATTERY:
+                return network.getBatteryStream();
+            case DANGLING_LINE:
+                return network.getDanglingLineStream();
+            case LCC_CONVERTER_STATION:
+                return network.getLccConverterStationStream();
+            case VSC_CONVERTER_STATION:
+                return network.getVscConverterStationStream();
+            case LOAD:
+                return network.getLoadStream();
+            case SHUNT_COMPENSATOR:
+                return network.getShuntCompensatorStream();
+            case STATIC_VAR_COMPENSATOR:
+                return network.getStaticVarCompensatorStream();
+            default:
+                throw new IllegalStateException("Unexpected connectable type:" + elementType);
         }
     }
 }
