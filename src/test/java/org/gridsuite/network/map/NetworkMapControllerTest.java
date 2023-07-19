@@ -555,7 +555,7 @@ public class NetworkMapControllerTest {
                 .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
                 .setNominalV(225)
                 .setActivePowerSetpoint(500)
-                .setConverterStationId1("VSC1")
+                .setConverterStationId1("LCC1")
                 .setConverterStationId2("LCC2")
                 .add();
         network.newHvdcLine()
@@ -589,7 +589,7 @@ public class NetworkMapControllerTest {
                 .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
                 .setNominalV(225)
                 .setActivePowerSetpoint(500)
-                .setConverterStationId1("VSC1")
+                .setConverterStationId1("LCC1")
                 .setConverterStationId2("LCC2")
                 .add();
 
@@ -1065,6 +1065,22 @@ public class NetworkMapControllerTest {
 
     private void succeedingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private String buildUrlHvdcWithShuntCompensators(String variantId) {
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/hvdc-lines/{hvdcId}/shunt-compensators");
+        if (variantId != null) {
+            url.append("?variantId=" + variantId);
+        }
+        return url.toString();
+    }
+
+    private void succeedingHvdcWithShuntCompensatorsTest(UUID networkUuid, String hvdcId, String variantId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlHvdcWithShuntCompensators(variantId), networkUuid, hvdcId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -1551,6 +1567,11 @@ public class NetworkMapControllerTest {
     public void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
+    }
+
+    @Test
+    public void shouldReturnHvdcShuntCompensatorMapData() throws Exception {
+        succeedingHvdcWithShuntCompensatorsTest(NETWORK_UUID, "HVDC1", null, resourceToString("/hvdc-line-with-shunt-compensators-map-data.json"));
     }
 
     @Test

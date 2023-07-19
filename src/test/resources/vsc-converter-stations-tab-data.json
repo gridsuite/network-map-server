@@ -9,7 +9,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
     "terminalConnected": true,
-    "hvdcLineId": "HVDC1",
+    "hvdcLineId": null,
     "p": 10.0,
     "q": 30.0
   },

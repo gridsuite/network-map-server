@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.hvdc;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.HvdcConverterStation;
 import com.powsybl.iidm.network.HvdcLine;
 import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
@@ -38,6 +39,9 @@ public class HvdcMapInfos extends AbstractHvdcInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private HvdcConverterStation.HvdcType hvdcType;
+
     public static HvdcMapInfos toData(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         return HvdcMapInfos.builder()
@@ -49,6 +53,7 @@ public class HvdcMapInfos extends AbstractHvdcInfos {
                 .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
                 .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
                 .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
+                .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
                 .build();
     }
 }

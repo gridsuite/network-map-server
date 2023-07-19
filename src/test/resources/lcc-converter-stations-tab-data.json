@@ -7,7 +7,7 @@
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
     "terminalConnected": true,
-    "hvdcLineId": null
+    "hvdcLineId": "HVDC1"
   },
   {
     "id": "LCC2",

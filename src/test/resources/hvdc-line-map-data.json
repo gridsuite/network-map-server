@@ -1,11 +1,11 @@
 {
   "id": "HVDC1",
   "name": "HVDC1",
-  "voltageLevelId1": "VLNEW2",
+  "voltageLevelId1": "VLGEN",
   "voltageLevelId2": "VLNEW2",
   "terminal1Connected": true,
   "terminal2Connected": true,
-  "p1": 10.0,
+  "hvdcType": "LCC",
   "p2": 110.0
 }
 
