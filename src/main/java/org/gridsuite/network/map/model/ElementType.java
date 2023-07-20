@@ -35,7 +35,6 @@ public enum ElementType {
     LOAD(Load.class, AbstractLoadInfos::toData),
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
     THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
-
     BUSBAR_SECTION(BusbarSection.class, AbstractBusBarSectionInfos::toData),
     GENERATOR(Generator.class, AbstractGeneratorInfos::toData),
     BATTERY(Battery.class, AbstractBatteryInfos::toData),
