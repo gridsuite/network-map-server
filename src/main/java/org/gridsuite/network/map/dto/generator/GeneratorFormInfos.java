@@ -164,6 +164,8 @@ public class GeneratorFormInfos extends AbstractGeneratorInfos {
         CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
         if (coordinatedReactiveControl != null) {
             builder.qPercent(coordinatedReactiveControl.getQPercent());
+        } else {
+            builder.qPercent(Double.NaN);
         }
 
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
