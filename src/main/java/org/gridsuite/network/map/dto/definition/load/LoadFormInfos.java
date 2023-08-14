@@ -7,16 +7,11 @@
 package org.gridsuite.network.map.dto.definition.load;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.LoadType;
-import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.mapper.load.AbstractLoadInfos;
-
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
