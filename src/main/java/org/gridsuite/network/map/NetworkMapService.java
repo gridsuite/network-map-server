@@ -13,12 +13,13 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
-import org.gridsuite.network.map.dto.line.LineListInfos;
-import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
+import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.definition.line.LineListInfos;
+import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.mapper.voltagelevel.AbstractVoltageLevelInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -43,18 +44,6 @@ class NetworkMapService {
 
     @Autowired
     private NetworkStoreService networkStoreService;
-
-    private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy, String variantId) {
-        try {
-            Network network = networkStoreService.getNetwork(networkUuid, strategy);
-            if (variantId != null) {
-                network.getVariantManager().setWorkingVariant(variantId);
-            }
-            return network;
-        } catch (PowsyblException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
 
     private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
         VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
@@ -94,9 +83,21 @@ class NetworkMapService {
 
     private static BusMapData toMapData(Bus bus) {
         return BusMapData.builder()
-            .name(bus.getOptionalName().orElse(null))
-            .id(bus.getId())
-            .build();
+                .name(bus.getOptionalName().orElse(null))
+                .id(bus.getId())
+                .build();
+    }
+
+    private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy, String variantId) {
+        try {
+            Network network = networkStoreService.getNetwork(networkUuid, strategy);
+            if (variantId != null) {
+                network.getVariantManager().setWorkingVariant(variantId);
+            }
+            return network;
+        } catch (PowsyblException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     private PreloadingStrategy getPreloadingStrategy(List<String> substationsIds) {
@@ -163,13 +164,13 @@ class NetworkMapService {
     public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
-            .map(NetworkMapService::toMapData).collect(Collectors.toList());
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
-            .map(BusBarSectionFormInfos::toData).collect(Collectors.toList());
+                .map(BusBarSectionFormInfos::toData).collect(Collectors.toList());
     }
 
     public List<String> getVoltageLevelBusbarSectionsIds(UUID networkUuid, String voltageLevelId, String variantId) {
@@ -227,14 +228,14 @@ class NetworkMapService {
     private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, ElementInfos.InfoType infoType) {
         Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
         Stream<? extends Connectable> connectables = substationsIds == null ?
-            getConnectableStream(network, elementType) :
-            substationsIds.stream()
-                .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
-                .distinct();
+                getConnectableStream(network, elementType) :
+                substationsIds.stream()
+                        .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
+                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
+                        .distinct();
         return connectables
-            .map(c -> elementType.getInfosGetter().apply(c, infoType))
-            .collect(Collectors.toList());
+                .map(c -> elementType.getInfosGetter().apply(c, infoType))
+                .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType, ElementInfos.InfoType infoType) {
@@ -285,7 +286,7 @@ class NetworkMapService {
             // called from a modification, then we must support un-existing equipment
             return HvdcShuntCompensatorsInfos.builder().id(hvdcId).build();
         }
-        return HvdcShuntCompensatorsInfos.toData(hvdcLine);
+        return AbstractHvdcInfos.toHvdcShuntCompensatorsInfos(hvdcLine);
     }
 
     public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {
@@ -305,15 +306,15 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds == null) {
             return getConnectableStream(network, elementType)
-                .map(Connectable::getId)
-                .collect(Collectors.toList());
+                    .map(Connectable::getId)
+                    .collect(Collectors.toList());
         } else {
             return substationsIds.stream()
-                .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                .flatMap(voltageLevel -> voltageLevel.getConnectableStream((Class<? extends Connectable>) elementType.getElementClass()))
-                .map(Connectable::getId)
-                .distinct()
-                .collect(Collectors.toList());
+                    .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
+                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream((Class<? extends Connectable>) elementType.getElementClass()))
+                    .map(Connectable::getId)
+                    .distinct()
+                    .collect(Collectors.toList());
         }
     }
 

@@ -7,7 +7,7 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
-import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 import org.gridsuite.network.map.model.TapChangerStepData;

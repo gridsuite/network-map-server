@@ -8,21 +8,21 @@ package org.gridsuite.network.map.model;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
-import org.gridsuite.network.map.dto.busbarsection.AbstractBusBarSectionInfos;
-import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
-import org.gridsuite.network.map.dto.generator.AbstractGeneratorInfos;
-import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
-import org.gridsuite.network.map.dto.lccconverterstation.AbstractLccConverterStationInfos;
-import org.gridsuite.network.map.dto.line.AbstractLineInfos;
-import org.gridsuite.network.map.dto.load.AbstractLoadInfos;
-import org.gridsuite.network.map.dto.shuntcompensator.AbstractShuntCompensator;
-import org.gridsuite.network.map.dto.staticvarcompensator.AbstractStaticVarCompensatorInfos;
-import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
-import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
-import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
-import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
-import org.gridsuite.network.map.dto.vscconverterstation.AbstractVscConverterStationInfos;
+import org.gridsuite.network.map.dto.mapper.battery.AbstractBatteryInfos;
+import org.gridsuite.network.map.dto.mapper.busbarsection.AbstractBusBarSectionInfos;
+import org.gridsuite.network.map.dto.mapper.danglingline.AbstractDanglingLineInfos;
+import org.gridsuite.network.map.dto.mapper.generator.AbstractGeneratorInfos;
+import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.mapper.lccconverterstation.AbstractLccConverterStationInfos;
+import org.gridsuite.network.map.dto.mapper.line.AbstractLineInfos;
+import org.gridsuite.network.map.dto.mapper.load.AbstractLoadInfos;
+import org.gridsuite.network.map.dto.mapper.shuntcompensator.AbstractShuntCompensator;
+import org.gridsuite.network.map.dto.mapper.staticvarcompensator.AbstractStaticVarCompensatorInfos;
+import org.gridsuite.network.map.dto.mapper.substation.AbstractSubstationInfos;
+import org.gridsuite.network.map.dto.mapper.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.mapper.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.mapper.voltagelevel.AbstractVoltageLevelInfos;
+import org.gridsuite.network.map.dto.mapper.vscconverterstation.AbstractVscConverterStationInfos;
 
 import java.util.function.BiFunction;
 
