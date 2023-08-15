@@ -18,7 +18,10 @@ import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelListInf
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -30,23 +33,14 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return VoltageLevelTabInfos.toData(identifiable);
+                return toVoltageLevelTabInfos(identifiable);
             case FORM:
-                return VoltageLevelFormInfos.toData(identifiable);
+                return toVoltageLevelFormInfos(identifiable);
             case LIST:
-                return VoltageLevelListInfos.toData(identifiable);
+                return toVoltageLevelListInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
-    }
-
-    @Getter
-    @Setter
-    public static class VoltageLevelTopologyInfos {
-        boolean isRetrievedBusbarSections = false;
-        int busbarCount = 1;
-        int sectionCount = 1;
-        List<SwitchKind> switchKinds = List.of();
     }
 
     public static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
@@ -135,5 +129,14 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
                 .substationId(voltageLevel.getSubstation().orElseThrow().getId())
                 .nominalVoltage(voltageLevel.getNominalV())
                 .build();
+    }
+
+    @Getter
+    @Setter
+    public static class VoltageLevelTopologyInfos {
+        boolean isRetrievedBusbarSections = false;
+        int busbarCount = 1;
+        int sectionCount = 1;
+        List<SwitchKind> switchKinds = List.of();
     }
 }

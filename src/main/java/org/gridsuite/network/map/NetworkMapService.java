@@ -13,12 +13,12 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
-import org.gridsuite.network.map.dto.definition.line.LineListInfos;
-import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.dto.mapper.busbarsection.AbstractBusBarSectionInfos;
 import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.mapper.line.AbstractLineInfos;
+import org.gridsuite.network.map.dto.mapper.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.mapper.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.mapper.voltagelevel.AbstractVoltageLevelInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,7 +170,7 @@ class NetworkMapService {
     public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
-                .map(BusBarSectionFormInfos::toData).collect(Collectors.toList());
+                .map(AbstractBusBarSectionInfos::toBusBarSectionFormInfos).collect(Collectors.toList());
     }
 
     public List<String> getVoltageLevelBusbarSectionsIds(UUID networkUuid, String voltageLevelId, String variantId) {
@@ -266,15 +266,15 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Line line = network.getLine(equipmentId);
         if (line != null) {
-            return LineListInfos.toData(line);
+            return AbstractLineInfos.toLineListInfos(line);
         }
         TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
         if (twoWT != null) {
-            return TwoWindingsTransformerListInfos.toData(twoWT);
+            return AbstractTwoWindingsTransformerInfos.toTwoWindingsTransformerListInfos(twoWT);
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return ThreeWindingsTransformerListInfos.toData(threeWT);
+            return AbstractThreeWindingsTransformerInfos.toThreeWindingsTransformerListInfos(threeWT);
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
