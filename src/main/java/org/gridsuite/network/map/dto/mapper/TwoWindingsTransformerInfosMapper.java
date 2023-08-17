@@ -190,9 +190,7 @@ public final class TwoWindingsTransformerInfosMapper {
                 .id(twoWindingsTransformer.getId())
                 .name(twoWindingsTransformer.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()));
+                .voltageLevelId2(terminal2.getVoltageLevel().getId());
 
         twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));

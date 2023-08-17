@@ -7,14 +7,13 @@
 package org.gridsuite.network.map.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Identifiable;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
+@SuperBuilder(builderMethodName = "")
 @Getter
 public class ElementInfos {
 
@@ -29,11 +28,4 @@ public class ElementInfos {
     private String id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
-
-    public static ElementInfos toData(Identifiable<?> identifiable) {
-        ElementInfos.ElementInfosBuilder builder = builder()
-                .name(identifiable.getOptionalName().orElse(null))
-                .id(identifiable.getId());
-        return builder.build();
-    }
 }
