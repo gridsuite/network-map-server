@@ -44,7 +44,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
 
-        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder builder = TwoWindingsTransformerFormInfos.builder()
+        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder<?, ?> builder = TwoWindingsTransformerFormInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -108,7 +108,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
 
-        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder builder = TwoWindingsTransformerTabInfos.builder()
+        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder<?, ?> builder = TwoWindingsTransformerTabInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -186,7 +186,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal1 = twoWindingsTransformer.getTerminal1();
         Terminal terminal2 = twoWindingsTransformer.getTerminal2();
 
-        TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder builder = TwoWindingsTransformerTooltipInfos.builder()
+        TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder<?, ?> builder = TwoWindingsTransformerTooltipInfos.builder()
                 .id(twoWindingsTransformer.getId())
                 .name(twoWindingsTransformer.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())

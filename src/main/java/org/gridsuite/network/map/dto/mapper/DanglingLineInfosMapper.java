@@ -31,7 +31,7 @@ public final class DanglingLineInfosMapper {
     private static DanglingLineTabInfos toTabInfos(Identifiable<?> identifiable) {
         DanglingLine danglingLine = (DanglingLine) identifiable;
         Terminal terminal = danglingLine.getTerminal();
-        DanglingLineTabInfos.DanglingLineTabInfosBuilder builder = DanglingLineTabInfos.builder()
+        DanglingLineTabInfos.DanglingLineTabInfosBuilder<?, ?> builder = DanglingLineTabInfos.builder()
                 .name(danglingLine.getOptionalName().orElse(null))
                 .id(danglingLine.getId())
                 .terminalConnected(terminal.isConnected())

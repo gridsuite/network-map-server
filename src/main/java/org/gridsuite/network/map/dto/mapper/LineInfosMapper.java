@@ -45,7 +45,7 @@ public final class LineInfosMapper {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineFormInfos.LineFormInfosBuilder builder = LineFormInfos.builder()
+        LineFormInfos.LineFormInfosBuilder<?, ?> builder = LineFormInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -122,7 +122,7 @@ public final class LineInfosMapper {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
 
-        LineMapInfos.LineMapInfosBuilder builder = LineMapInfos.builder()
+        LineMapInfos.LineMapInfosBuilder<?, ?> builder = LineMapInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
@@ -148,7 +148,7 @@ public final class LineInfosMapper {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineTabInfos.LineTabInfosBuilder builder = LineTabInfos.builder()
+        LineTabInfos.LineTabInfosBuilder<?, ?> builder = LineTabInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -183,7 +183,7 @@ public final class LineInfosMapper {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
 
-        LineTooltipInfos.LineTooltipInfosBuilder builder = LineTooltipInfos.builder()
+        LineTooltipInfos.LineTooltipInfosBuilder<?, ?> builder = LineTooltipInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())

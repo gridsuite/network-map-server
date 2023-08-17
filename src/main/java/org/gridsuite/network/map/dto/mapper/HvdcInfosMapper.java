@@ -75,7 +75,7 @@ public final class HvdcInfosMapper {
 
     private static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
-        HvdcTabInfos.HvdcTabInfosBuilder builder = HvdcTabInfos.builder();
+        HvdcTabInfos.HvdcTabInfosBuilder<?, ?> builder = HvdcTabInfos.builder();
         builder
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .id(hvdcLine.getId());
@@ -115,7 +115,7 @@ public final class HvdcInfosMapper {
 
     public static HvdcShuntCompensatorsInfos toHvdcShuntCompensatorsInfos(HvdcLine hvdcLine) {
         HvdcConverterStation.HvdcType hvdcType = hvdcLine.getConverterStation1().getHvdcType();
-        HvdcShuntCompensatorsInfos.HvdcShuntCompensatorsInfosBuilder builder = HvdcShuntCompensatorsInfos.builder()
+        HvdcShuntCompensatorsInfos.HvdcShuntCompensatorsInfosBuilder<?, ?> builder = HvdcShuntCompensatorsInfos.builder()
                 .id(hvdcLine.getId());
         if (hvdcType == HvdcConverterStation.HvdcType.LCC) {
             Terminal terminalLcc1 = hvdcLine.getConverterStation1().getTerminal();

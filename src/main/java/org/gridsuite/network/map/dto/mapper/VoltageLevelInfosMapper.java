@@ -74,7 +74,7 @@ public final class VoltageLevelInfosMapper {
 
     protected static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        VoltageLevelFormInfos.VoltageLevelFormInfosBuilder builder = VoltageLevelFormInfos.builder()
+        VoltageLevelFormInfos.VoltageLevelFormInfosBuilder<?, ?> builder = VoltageLevelFormInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .id(voltageLevel.getId())
                 .topologyKind(voltageLevel.getTopologyKind())
@@ -91,7 +91,7 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
         }
 
-        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
         if (identifiableShortCircuit != null) {
             builder.ipMin(identifiableShortCircuit.getIpMin());
             builder.ipMax(identifiableShortCircuit.getIpMax());

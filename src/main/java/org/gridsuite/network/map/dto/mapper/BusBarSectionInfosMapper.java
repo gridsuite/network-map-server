@@ -31,7 +31,7 @@ public final class BusBarSectionInfosMapper {
 
     public static BusBarSectionFormInfos toFormInfos(Identifiable<?> identifiable) {
         BusbarSection busbarSection = (BusbarSection) identifiable;
-        BusBarSectionFormInfos.BusBarSectionFormInfosBuilder builder = BusBarSectionFormInfos.builder().name(busbarSection.getOptionalName().orElse(null)).id(busbarSection.getId());
+        BusBarSectionFormInfos.BusBarSectionFormInfosBuilder<?, ?> builder = BusBarSectionFormInfos.builder().name(busbarSection.getOptionalName().orElse(null)).id(busbarSection.getId());
         var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
         if (busbarSectionPosition != null) {
             builder.vertPos(busbarSectionPosition.getBusbarIndex()).horizPos(busbarSectionPosition.getSectionIndex());

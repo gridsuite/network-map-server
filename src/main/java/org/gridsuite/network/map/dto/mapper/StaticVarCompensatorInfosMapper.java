@@ -31,7 +31,7 @@ public final class StaticVarCompensatorInfosMapper {
     private static StaticVarCompensatorTabInfos toTabInfos(Identifiable<?> identifiable) {
         StaticVarCompensator staticVarCompensator = (StaticVarCompensator) identifiable;
         Terminal terminal = staticVarCompensator.getTerminal();
-        StaticVarCompensatorTabInfos.StaticVarCompensatorTabInfosBuilder builder = StaticVarCompensatorTabInfos.builder()
+        StaticVarCompensatorTabInfos.StaticVarCompensatorTabInfosBuilder<?, ?> builder = StaticVarCompensatorTabInfos.builder()
                 .name(staticVarCompensator.getOptionalName().orElse(null))
                 .id(staticVarCompensator.getId())
                 .terminalConnected(terminal.isConnected())

@@ -38,7 +38,7 @@ public final class LoadInfosMapper {
     private static LoadFormInfos toFormInfos(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
         Terminal terminal = load.getTerminal();
-        LoadFormInfos.LoadFormInfosBuilder builder = LoadFormInfos.builder()
+        LoadFormInfos.LoadFormInfosBuilder<?, ?> builder = LoadFormInfos.builder()
                 .name(load.getOptionalName().orElse(null))
                 .id(load.getId())
                 .type(load.getLoadType())
@@ -70,7 +70,7 @@ public final class LoadInfosMapper {
     private static LoadTabInfos toTabInfos(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
         Terminal terminal = load.getTerminal();
-        LoadTabInfos.LoadTabInfosBuilder builder = LoadTabInfos.builder()
+        LoadTabInfos.LoadTabInfosBuilder<?, ?> builder = LoadTabInfos.builder()
                 .name(load.getOptionalName().orElse(null))
                 .id(load.getId())
                 .type(load.getLoadType())

@@ -59,7 +59,7 @@ public final class ThreeWindingsTransformerInfosMapper {
         Terminal terminal1 = threeWT.getLeg1().getTerminal();
         Terminal terminal2 = threeWT.getLeg2().getTerminal();
         Terminal terminal3 = threeWT.getLeg3().getTerminal();
-        ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder builder = ThreeWindingsTransformerTabInfos.builder()
+        ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder = ThreeWindingsTransformerTabInfos.builder()
                 .name(threeWT.getOptionalName().orElse(null))
                 .id(threeWT.getId())
                 .terminal1Connected(terminal1.isConnected())

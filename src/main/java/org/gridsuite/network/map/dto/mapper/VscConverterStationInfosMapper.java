@@ -31,7 +31,7 @@ public final class VscConverterStationInfosMapper {
     private static VscConverterStationTabInfos toTabInfos(Identifiable<?> identifiable) {
         VscConverterStation vscConverterStation = (VscConverterStation) identifiable;
         Terminal terminal = vscConverterStation.getTerminal();
-        VscConverterStationTabInfos.VscConverterStationTabInfosBuilder builder = VscConverterStationTabInfos.builder()
+        VscConverterStationTabInfos.VscConverterStationTabInfosBuilder<?, ?> builder = VscConverterStationTabInfos.builder()
                 .name(vscConverterStation.getOptionalName().orElse(null))
                 .id(vscConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())

@@ -41,7 +41,7 @@ public final class ShuntCompensatorMapper {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
 
         Terminal terminal = shuntCompensator.getTerminal();
-        ShuntCompensatorFormInfos.ShuntCompensatorFormInfosBuilder builder = ShuntCompensatorFormInfos.builder()
+        ShuntCompensatorFormInfos.ShuntCompensatorFormInfosBuilder<?, ?> builder = ShuntCompensatorFormInfos.builder()
                 .name(shuntCompensator.getOptionalName().orElse(null))
                 .id(shuntCompensator.getId())
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
@@ -85,7 +85,7 @@ public final class ShuntCompensatorMapper {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
 
         Terminal terminal = shuntCompensator.getTerminal();
-        ShuntCompensatorTabInfos.ShuntCompensatorTabInfosBuilder builder = ShuntCompensatorTabInfos.builder()
+        ShuntCompensatorTabInfos.ShuntCompensatorTabInfosBuilder<?, ?> builder = ShuntCompensatorTabInfos.builder()
                 .name(shuntCompensator.getOptionalName().orElse(null))
                 .id(shuntCompensator.getId())
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
