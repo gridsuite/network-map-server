@@ -42,7 +42,7 @@ public final class GeneratorInfosMapper {
         }
     }
 
-    protected static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
+    private static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
@@ -55,7 +55,7 @@ public final class GeneratorInfosMapper {
     private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
-        GeneratorTabInfos.GeneratorTabInfosBuilder builder = GeneratorTabInfos.builder()
+        GeneratorTabInfos.GeneratorTabInfosBuilder<?, ?> builder = GeneratorTabInfos.builder()
                 .name(generator.getOptionalName().orElse(null))
                 .id(generator.getId())
                 .terminalConnected(terminal.isConnected())
@@ -134,7 +134,7 @@ public final class GeneratorInfosMapper {
     private static GeneratorFormInfos toFormInfos(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
-        GeneratorFormInfos.GeneratorFormInfosBuilder builder = GeneratorFormInfos.builder()
+        GeneratorFormInfos.GeneratorFormInfosBuilder<?, ?> builder = GeneratorFormInfos.builder()
                 .name(generator.getOptionalName().orElse(null))
                 .id(generator.getId())
                 .terminalConnected(terminal.isConnected())
