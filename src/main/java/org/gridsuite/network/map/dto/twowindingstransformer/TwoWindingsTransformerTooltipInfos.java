@@ -38,7 +38,7 @@ public class TwoWindingsTransformerTooltipInfos extends AbstractTwoWindingsTrans
         Terminal terminal1 = twoWindingsTransformer.getTerminal1();
         Terminal terminal2 = twoWindingsTransformer.getTerminal2();
 
-        TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder builder = TwoWindingsTransformerTooltipInfos.builder()
+        TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder<?, ?> builder = TwoWindingsTransformerTooltipInfos.builder()
             .id(twoWindingsTransformer.getId())
             .name(twoWindingsTransformer.getOptionalName().orElse(null))
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
