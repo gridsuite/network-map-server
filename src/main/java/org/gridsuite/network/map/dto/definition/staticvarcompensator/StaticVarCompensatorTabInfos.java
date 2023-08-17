@@ -7,17 +7,17 @@
 package org.gridsuite.network.map.dto.definition.staticvarcompensator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.StaticVarCompensator;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.staticvarcompensator.AbstractStaticVarCompensatorInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class StaticVarCompensatorTabInfos extends AbstractStaticVarCompensatorInfos {
+public class StaticVarCompensatorTabInfos extends ElementInfos {
 
     private String voltageLevelId;
 

@@ -9,14 +9,14 @@ package org.gridsuite.network.map.dto.definition.busbarsection;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.busbarsection.AbstractBusBarSectionInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class BusBarSectionFormInfos extends AbstractBusBarSectionInfos {
+public class BusBarSectionFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer vertPos;
 

@@ -4,15 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.shuntcompensator;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.ShuntCompensator;
 import com.powsybl.iidm.network.ShuntCompensatorLinearModel;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
@@ -23,22 +21,23 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSec
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 
-@SuperBuilder
-@Getter
-public abstract class AbstractShuntCompensator extends ElementInfos {
+public final class ShuntCompensatorMapper {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+    private ShuntCompensatorMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toShuntCompensatorTabInfos(identifiable);
+                return toTabInfos(identifiable);
             case FORM:
-                return toShuntCompensatorFormInfos(identifiable);
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static ShuntCompensatorFormInfos toShuntCompensatorFormInfos(Identifiable<?> identifiable) {
+    private static ShuntCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
 
         Terminal terminal = shuntCompensator.getTerminal();
@@ -82,7 +81,7 @@ public abstract class AbstractShuntCompensator extends ElementInfos {
         return builder.build();
     }
 
-    public static ShuntCompensatorTabInfos toShuntCompensatorTabInfos(Identifiable<?> identifiable) {
+    private static ShuntCompensatorTabInfos toTabInfos(Identifiable<?> identifiable) {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
 
         Terminal terminal = shuntCompensator.getTerminal();

@@ -9,14 +9,14 @@ package org.gridsuite.network.map.dto.definition.line;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.line.AbstractLineInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class LineListInfos extends AbstractLineInfos {
+public class LineListInfos extends ElementInfos {
 
     private String voltageLevelId1;
 

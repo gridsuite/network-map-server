@@ -4,14 +4,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.threewindingstransformer;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
@@ -22,21 +20,22 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsT
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractThreeWindingsTransformerInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+public final class ThreeWindingsTransformerInfosMapper {
+    private ThreeWindingsTransformerInfosMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case LIST:
-                return toThreeWindingsTransformerListInfos(identifiable);
+                return toListInfos(identifiable);
             case TAB:
-                return toThreeWindingsTransformerTabInfos(identifiable);
+                return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static ThreeWindingsTransformerListInfos toThreeWindingsTransformerListInfos(Identifiable<?> identifiable) {
+    public static ThreeWindingsTransformerListInfos toListInfos(Identifiable<?> identifiable) {
         ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
         Terminal terminal1 = threeWT.getLeg1().getTerminal();
         Terminal terminal2 = threeWT.getLeg2().getTerminal();
@@ -54,7 +53,7 @@ public abstract class AbstractThreeWindingsTransformerInfos extends ElementInfos
                 .build();
     }
 
-    public static ThreeWindingsTransformerTabInfos toThreeWindingsTransformerTabInfos(Identifiable<?> identifiable) {
+    private static ThreeWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable) {
         ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
 
         Terminal terminal1 = threeWT.getLeg1().getTerminal();

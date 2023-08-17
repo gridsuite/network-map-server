@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 
@@ -19,7 +19,7 @@ import org.gridsuite.network.map.model.TapChangerData;
  */
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerFormInfos extends AbstractTwoWindingsTransformerInfos {
+public class TwoWindingsTransformerFormInfos extends ElementInfos {
 
     private String voltageLevelId1;
 

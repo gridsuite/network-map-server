@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.HvdcLine;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class HvdcTabInfos extends AbstractHvdcInfos {
+public class HvdcTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcLine.ConvertersMode convertersMode;

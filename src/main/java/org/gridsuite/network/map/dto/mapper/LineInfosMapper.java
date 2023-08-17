@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.line;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
@@ -12,8 +12,6 @@ import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.line.*;
 
@@ -22,28 +20,28 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractLineInfos extends ElementInfos {
+public final class LineInfosMapper {
+    private LineInfosMapper() {
+    }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toLineTabInfos(identifiable);
+                return toTabInfos(identifiable);
             case FORM:
-                return toLineFormInfos(identifiable);
+                return toFormInfos(identifiable);
             case MAP:
-                return toLineMapInfos(identifiable);
+                return toMapInfos(identifiable);
             case LIST:
-                return toLineListInfos(identifiable);
+                return toListInfos(identifiable);
             case TOOLTIP:
-                return toLineTooltipInfos(identifiable);
+                return toTooltipInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static LineFormInfos toLineFormInfos(Identifiable<?> identifiable) {
+    private static LineFormInfos toFormInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -100,7 +98,7 @@ public abstract class AbstractLineInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static LineListInfos toLineListInfos(Identifiable<?> identifiable) {
+    public static LineListInfos toListInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -119,7 +117,7 @@ public abstract class AbstractLineInfos extends ElementInfos {
                 .build();
     }
 
-    public static LineMapInfos toLineMapInfos(Identifiable<?> identifiable) {
+    private static LineMapInfos toMapInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -148,7 +146,7 @@ public abstract class AbstractLineInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static LineTabInfos toLineTabInfos(Identifiable<?> identifiable) {
+    private static LineTabInfos toTabInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -182,7 +180,7 @@ public abstract class AbstractLineInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static LineTooltipInfos toLineTooltipInfos(Identifiable<?> identifiable) {
+    private static LineTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();

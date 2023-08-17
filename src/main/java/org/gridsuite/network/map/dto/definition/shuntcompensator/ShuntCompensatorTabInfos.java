@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.shuntcompensator.AbstractShuntCompensator;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class ShuntCompensatorTabInfos extends AbstractShuntCompensator {
+public class ShuntCompensatorTabInfos extends ElementInfos {
     private String voltageLevelId;
 
     private Double nominalVoltage;

@@ -4,18 +4,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.hvdc;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
 import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcListInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcMapInfos;
-import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,24 +26,24 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractHvdcInfos extends ElementInfos {
+public final class HvdcInfosMapper {
+    private HvdcInfosMapper() {
+    }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
                 return toHvdcTabInfos(identifiable);
             case MAP:
-                return toHvdcMapInfos(identifiable);
+                return toMapInfos(identifiable);
             case LIST:
-                return toHvdcListInfos(identifiable);
+                return toListInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static HvdcMapInfos toHvdcMapInfos(Identifiable<?> identifiable) {
+    private static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         return HvdcMapInfos.builder()
                 .id(hvdcLine.getId())
@@ -60,7 +58,7 @@ public abstract class AbstractHvdcInfos extends ElementInfos {
                 .build();
     }
 
-    public static HvdcListInfos toHvdcListInfos(Identifiable<?> identifiable) {
+    private static HvdcListInfos toListInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
         Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
@@ -75,7 +73,7 @@ public abstract class AbstractHvdcInfos extends ElementInfos {
                 .build();
     }
 
-    public static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
+    private static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         HvdcTabInfos.HvdcTabInfosBuilder builder = HvdcTabInfos.builder();
         builder

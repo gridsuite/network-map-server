@@ -9,14 +9,14 @@ package org.gridsuite.network.map.dto.definition.threewindingstransformer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class ThreeWindingsTransformerListInfos extends AbstractThreeWindingsTransformerInfos {
+public class ThreeWindingsTransformerListInfos extends ElementInfos {
 
     private String voltageLevelId1;
 

@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.definition.danglingline;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.danglingline.AbstractDanglingLineInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -17,7 +17,7 @@ import org.gridsuite.network.map.dto.mapper.danglingline.AbstractDanglingLineInf
 
 @SuperBuilder
 @Getter
-public class DanglingLineTabInfos extends AbstractDanglingLineInfos {
+public class DanglingLineTabInfos extends ElementInfos {
 
     private String voltageLevelId;
 

@@ -10,12 +10,12 @@ package org.gridsuite.network.map.dto.definition.twowindingstransformer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerTooltipInfos extends AbstractTwoWindingsTransformerInfos {
+public class TwoWindingsTransformerTooltipInfos extends ElementInfos {
 
     private String voltageLevelId1;
 

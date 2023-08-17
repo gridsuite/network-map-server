@@ -11,14 +11,14 @@ import com.powsybl.iidm.network.LoadType;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.load.AbstractLoadInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class LoadFormInfos extends AbstractLoadInfos {
+public class LoadFormInfos extends ElementInfos {
 
     private LoadType type;
 

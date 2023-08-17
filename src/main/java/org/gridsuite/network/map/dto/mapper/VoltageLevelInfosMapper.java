@@ -4,14 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.voltagelevel;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import com.powsybl.iidm.network.extensions.IdentifiableShortCircuit;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelListInfos;
@@ -26,18 +25,18 @@ import java.util.Map;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractVoltageLevelInfos extends ElementInfos {
+public final class VoltageLevelInfosMapper {
+    private VoltageLevelInfosMapper() {
+    }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toVoltageLevelTabInfos(identifiable);
+                return toTabInfos(identifiable);
             case FORM:
-                return toVoltageLevelFormInfos(identifiable);
+                return toFormInfos(identifiable);
             case LIST:
-                return toVoltageLevelListInfos(identifiable);
+                return toListInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -73,7 +72,7 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
         return topologyInfos;
     }
 
-    public static VoltageLevelFormInfos toVoltageLevelFormInfos(Identifiable<?> identifiable) {
+    protected static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         VoltageLevelFormInfos.VoltageLevelFormInfosBuilder builder = VoltageLevelFormInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
@@ -101,7 +100,7 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static VoltageLevelListInfos toVoltageLevelListInfos(Identifiable<?> identifiable) {
+    protected static VoltageLevelListInfos toListInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         return VoltageLevelListInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
@@ -111,7 +110,7 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
                 .build();
     }
 
-    public static VoltageLevelMapInfos toVoltageLevelMapInfos(Identifiable<?> identifiable) {
+    protected static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         return VoltageLevelMapInfos.builder()
                 .id(voltageLevel.getId())
@@ -121,7 +120,7 @@ public abstract class AbstractVoltageLevelInfos extends ElementInfos {
                 .build();
     }
 
-    public static VoltageLevelTabInfos toVoltageLevelTabInfos(Identifiable<?> identifiable) {
+    protected static VoltageLevelTabInfos toTabInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         return VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())

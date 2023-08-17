@@ -4,33 +4,31 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.staticvarcompensator;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Terminal;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractStaticVarCompensatorInfos extends ElementInfos {
+public final class StaticVarCompensatorInfosMapper {
+    private StaticVarCompensatorInfosMapper() {
+    }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toStaticVarCompensatorTabInfos(identifiable);
+                return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static StaticVarCompensatorTabInfos toStaticVarCompensatorTabInfos(Identifiable<?> identifiable) {
+    private static StaticVarCompensatorTabInfos toTabInfos(Identifiable<?> identifiable) {
         StaticVarCompensator staticVarCompensator = (StaticVarCompensator) identifiable;
         Terminal terminal = staticVarCompensator.getTerminal();
         StaticVarCompensatorTabInfos.StaticVarCompensatorTabInfosBuilder builder = StaticVarCompensatorTabInfos.builder()

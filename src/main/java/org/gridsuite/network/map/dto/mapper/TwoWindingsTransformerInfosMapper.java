@@ -4,13 +4,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.twowindingstransformer;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
@@ -22,25 +20,26 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
+public final class TwoWindingsTransformerInfosMapper {
+    private TwoWindingsTransformerInfosMapper() {
+    }
+
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case LIST:
-                return toTwoWindingsTransformerListInfos(identifiable);
+                return toListInfos(identifiable);
             case TOOLTIP:
-                return toTwoWindingsTransformerTooltipInfos(identifiable);
+                return toTooltipInfos(identifiable);
             case TAB:
-                return toTwoWindingsTransformerTabInfos(identifiable);
+                return toTabInfos(identifiable);
             case FORM:
-                return toTwoWindingsTransformerFormInfos(identifiable);
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static TwoWindingsTransformerFormInfos toTwoWindingsTransformerFormInfos(Identifiable<?> identifiable) {
+    private static TwoWindingsTransformerFormInfos toFormInfos(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
@@ -104,7 +103,7 @@ public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static TwoWindingsTransformerTabInfos toTwoWindingsTransformerTabInfos(Identifiable<?> identifiable) {
+    private static TwoWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
@@ -167,7 +166,7 @@ public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static TwoWindingsTransformerListInfos toTwoWindingsTransformerListInfos(Identifiable<?> identifiable) {
+    public static TwoWindingsTransformerListInfos toListInfos(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
@@ -182,7 +181,7 @@ public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
                 .build();
     }
 
-    public static TwoWindingsTransformerTooltipInfos toTwoWindingsTransformerTooltipInfos(Identifiable<?> identifiable) {
+    private static TwoWindingsTransformerTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWindingsTransformer = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWindingsTransformer.getTerminal1();
         Terminal terminal2 = twoWindingsTransformer.getTerminal2();

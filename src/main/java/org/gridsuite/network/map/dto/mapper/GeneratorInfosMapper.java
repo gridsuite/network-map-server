@@ -4,13 +4,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.generator;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
@@ -28,15 +26,17 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 
-@SuperBuilder
-@Getter
-public abstract class AbstractGeneratorInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+public final class GeneratorInfosMapper {
+
+    private GeneratorInfosMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toGeneratorTabInfos(identifiable);
+                return toTabInfos(identifiable);
             case FORM:
-                return toGeneratorFormInfos(identifiable);
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -52,7 +52,7 @@ public abstract class AbstractGeneratorInfos extends ElementInfos {
                 .collect(Collectors.toList());
     }
 
-    public static GeneratorTabInfos toGeneratorTabInfos(Identifiable<?> identifiable) {
+    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
         GeneratorTabInfos.GeneratorTabInfosBuilder builder = GeneratorTabInfos.builder()
@@ -131,7 +131,7 @@ public abstract class AbstractGeneratorInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static GeneratorFormInfos toGeneratorFormInfos(Identifiable<?> identifiable) {
+    private static GeneratorFormInfos toFormInfos(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
         GeneratorFormInfos.GeneratorFormInfosBuilder builder = GeneratorFormInfos.builder()

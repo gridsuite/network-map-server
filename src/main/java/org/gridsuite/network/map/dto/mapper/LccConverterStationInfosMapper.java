@@ -4,13 +4,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.lccconverterstation;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.LccConverterStation;
 import com.powsybl.iidm.network.Terminal;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
 
@@ -18,19 +16,20 @@ import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverter
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 
-@SuperBuilder
-@Getter
-public abstract class AbstractLccConverterStationInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+public final class LccConverterStationInfosMapper {
+    private LccConverterStationInfosMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toLccConverterStationTabInfos(identifiable);
+                return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static LccConverterStationTabInfos toLccConverterStationTabInfos(Identifiable<?> identifiable) {
+    private static LccConverterStationTabInfos toTabInfos(Identifiable<?> identifiable) {
         LccConverterStation lccConverterStation = (LccConverterStation) identifiable;
         Terminal terminal = lccConverterStation.getTerminal();
         LccConverterStationTabInfos.LccConverterStationTabInfosBuilder builder = LccConverterStationTabInfos.builder()

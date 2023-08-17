@@ -4,32 +4,31 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.vscconverterstation;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.VscConverterStation;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractVscConverterStationInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+public final class VscConverterStationInfosMapper {
+    private VscConverterStationInfosMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toVscConverterStationTabInfos(identifiable);
+                return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static VscConverterStationTabInfos toVscConverterStationTabInfos(Identifiable<?> identifiable) {
+    private static VscConverterStationTabInfos toTabInfos(Identifiable<?> identifiable) {
         VscConverterStation vscConverterStation = (VscConverterStation) identifiable;
         Terminal terminal = vscConverterStation.getTerminal();
         VscConverterStationTabInfos.VscConverterStationTabInfosBuilder builder = VscConverterStationTabInfos.builder()

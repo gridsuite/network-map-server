@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.HvdcConverterStation;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class HvdcMapInfos extends AbstractHvdcInfos {
+public class HvdcMapInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String voltageLevelId1;
 

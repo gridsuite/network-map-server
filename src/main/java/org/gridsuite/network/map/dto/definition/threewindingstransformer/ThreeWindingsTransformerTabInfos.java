@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.definition.threewindingstransformer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.model.TapChangerData;
 
 /**
@@ -17,7 +17,7 @@ import org.gridsuite.network.map.model.TapChangerData;
  */
 @SuperBuilder
 @Getter
-public class ThreeWindingsTransformerTabInfos extends AbstractThreeWindingsTransformerInfos {
+public class ThreeWindingsTransformerTabInfos extends ElementInfos {
 
     private String voltageLevelId1;
 

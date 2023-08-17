@@ -9,14 +9,14 @@ package org.gridsuite.network.map.dto.definition.hvdc;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class HvdcListInfos extends AbstractHvdcInfos {
+public class HvdcListInfos extends ElementInfos {
 
     private String voltageLevelId1;
 

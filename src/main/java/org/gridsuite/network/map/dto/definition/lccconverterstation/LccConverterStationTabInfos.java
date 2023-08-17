@@ -9,14 +9,14 @@ package org.gridsuite.network.map.dto.definition.lccconverterstation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.lccconverterstation.AbstractLccConverterStationInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class LccConverterStationTabInfos extends AbstractLccConverterStationInfos {
+public class LccConverterStationTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float powerFactor;
 

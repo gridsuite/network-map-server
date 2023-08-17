@@ -14,12 +14,7 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.dto.mapper.busbarsection.AbstractBusBarSectionInfos;
-import org.gridsuite.network.map.dto.mapper.hvdc.AbstractHvdcInfos;
-import org.gridsuite.network.map.dto.mapper.line.AbstractLineInfos;
-import org.gridsuite.network.map.dto.mapper.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
-import org.gridsuite.network.map.dto.mapper.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
-import org.gridsuite.network.map.dto.mapper.voltagelevel.AbstractVoltageLevelInfos;
+import org.gridsuite.network.map.dto.mapper.*;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -58,7 +53,7 @@ class NetworkMapService {
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                 .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            AbstractVoltageLevelInfos.VoltageLevelTopologyInfos topologyInfos = AbstractVoltageLevelInfos.getTopologyInfos(voltageLevel);
+            VoltageLevelInfosMapper.VoltageLevelTopologyInfos topologyInfos = VoltageLevelInfosMapper.getTopologyInfos(voltageLevel);
             builder.busbarCount(topologyInfos.getBusbarCount());
             builder.sectionCount(topologyInfos.getSectionCount());
             builder.switchKinds(topologyInfos.getSwitchKinds());
@@ -170,7 +165,7 @@ class NetworkMapService {
     public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
-                .map(AbstractBusBarSectionInfos::toBusBarSectionFormInfos).collect(Collectors.toList());
+                .map(BusBarSectionInfosMapper::toFormInfos).collect(Collectors.toList());
     }
 
     public List<String> getVoltageLevelBusbarSectionsIds(UUID networkUuid, String voltageLevelId, String variantId) {
@@ -266,15 +261,15 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Line line = network.getLine(equipmentId);
         if (line != null) {
-            return AbstractLineInfos.toLineListInfos(line);
+            return LineInfosMapper.toListInfos(line);
         }
         TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
         if (twoWT != null) {
-            return AbstractTwoWindingsTransformerInfos.toTwoWindingsTransformerListInfos(twoWT);
+            return TwoWindingsTransformerInfosMapper.toListInfos(twoWT);
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return AbstractThreeWindingsTransformerInfos.toThreeWindingsTransformerListInfos(threeWT);
+            return ThreeWindingsTransformerInfosMapper.toListInfos(threeWT);
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
@@ -286,7 +281,7 @@ class NetworkMapService {
             // called from a modification, then we must support un-existing equipment
             return HvdcShuntCompensatorsInfos.builder().id(hvdcId).build();
         }
-        return AbstractHvdcInfos.toHvdcShuntCompensatorsInfos(hvdcLine);
+        return HvdcInfosMapper.toHvdcShuntCompensatorsInfos(hvdcLine);
     }
 
     public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType) {

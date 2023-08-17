@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.definition.vscconverterstation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.mapper.vscconverterstation.AbstractVscConverterStationInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -17,7 +17,7 @@ import org.gridsuite.network.map.dto.mapper.vscconverterstation.AbstractVscConve
 
 @SuperBuilder
 @Getter
-public class VscConverterStationTabInfos extends AbstractVscConverterStationInfos {
+public class VscConverterStationTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float lossFactor;
 

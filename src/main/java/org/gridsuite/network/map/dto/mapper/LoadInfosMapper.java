@@ -4,14 +4,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.load;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
@@ -21,22 +19,23 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSec
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractLoadInfos extends ElementInfos {
+public final class LoadInfosMapper {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+    private LoadInfosMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toLoadTabInfos(identifiable);
+                return toTabInfos(identifiable);
             case FORM:
-                return toLoadFormInfos(identifiable);
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static LoadFormInfos toLoadFormInfos(Identifiable<?> identifiable) {
+    private static LoadFormInfos toFormInfos(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
         Terminal terminal = load.getTerminal();
         LoadFormInfos.LoadFormInfosBuilder builder = LoadFormInfos.builder()
@@ -68,7 +67,7 @@ public abstract class AbstractLoadInfos extends ElementInfos {
         return builder.build();
     }
 
-    public static LoadTabInfos toLoadTabInfos(Identifiable<?> identifiable) {
+    private static LoadTabInfos toTabInfos(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
         Terminal terminal = load.getTerminal();
         LoadTabInfos.LoadTabInfosBuilder builder = LoadTabInfos.builder()

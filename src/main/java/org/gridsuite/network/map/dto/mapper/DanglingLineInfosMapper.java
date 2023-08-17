@@ -4,32 +4,31 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.mapper.danglingline;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.DanglingLine;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Terminal;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
-@SuperBuilder
-@Getter
-public abstract class AbstractDanglingLineInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
+public final class DanglingLineInfosMapper {
+    private DanglingLineInfosMapper() {
+    }
+
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
             case TAB:
-                return toDanglingLineTabInfos(identifiable);
+                return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    public static DanglingLineTabInfos toDanglingLineTabInfos(Identifiable<?> identifiable) {
+    private static DanglingLineTabInfos toTabInfos(Identifiable<?> identifiable) {
         DanglingLine danglingLine = (DanglingLine) identifiable;
         Terminal terminal = danglingLine.getTerminal();
         DanglingLineTabInfos.DanglingLineTabInfosBuilder builder = DanglingLineTabInfos.builder()
