@@ -942,14 +942,24 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void succeedingTestForElementInfos(UUID networkUuid, String variantId, ElementType elementType, ElementInfos.InfoType infoType, String elementId, String expectedJson) {
-        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                )
-                .andExpect(status().isOk())
-                .andReturn();
-
+        MvcResult mvcResult;
+        if (elementId == null) {
+            mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid)
+                            .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                            .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
+                            .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                    )
+                    .andExpect(status().isOk())
+                    .andReturn();
+        } else {
+            mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
+                            .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                            .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
+                            .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                    )
+                    .andExpect(status().isOk())
+                    .andReturn();
+        }
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
