@@ -42,11 +42,7 @@ public final class LineInfosMapper {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        var connectablePosition = line.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            ConnectablePositionInfos connectablePositionFeeder1Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(connectablePosition.getFeeder1());
-            ConnectablePositionInfos connectablePositionFeeder2Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(connectablePosition.getFeeder2());
-        }
+
         LineFormInfos.LineFormInfosBuilder<?, ?> builder = LineFormInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
@@ -71,6 +67,7 @@ public final class LineInfosMapper {
                 .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
                 .branchStatus(toBranchStatus(line));
+        var connectablePosition = line.getExtension(ConnectablePosition.class);
 
         if (connectablePosition != null) {
             ConnectablePositionInfos connectablePositionFeeder1Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(connectablePosition.getFeeder1());
