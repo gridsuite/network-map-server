@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
@@ -67,18 +66,15 @@ public final class LineInfosMapper {
                 .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
                 .branchStatus(toBranchStatus(line));
-        var connectablePosition = line.getExtension(ConnectablePosition.class);
 
-        if (connectablePosition != null) {
-            ConnectablePositionInfos connectablePositionFeeder1Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(connectablePosition.getFeeder1());
-            ConnectablePositionInfos connectablePositionFeeder2Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(connectablePosition.getFeeder2());
-            builder.connectionDirection1(connectablePositionFeeder1Infos.getConnectionDirection())
-                    .connectionName1(connectablePositionFeeder1Infos.getConnectionName())
-                    .connectionPosition1(connectablePositionFeeder1Infos.getConnectionPosition())
-                    .connectionDirection2(connectablePositionFeeder2Infos.getConnectionDirection())
-                    .connectionName2(connectablePositionFeeder2Infos.getConnectionName())
-                    .connectionPosition2(connectablePositionFeeder2Infos.getConnectionPosition());
-        }
+        ConnectablePositionInfos connectablePositionFeeder1Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(line, 1);
+        ConnectablePositionInfos connectablePositionFeeder2Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(line, 2);
+        builder.connectionDirection1(connectablePositionFeeder1Infos.getConnectionDirection())
+                .connectionName1(connectablePositionFeeder1Infos.getConnectionName())
+                .connectionPosition1(connectablePositionFeeder1Infos.getConnectionPosition())
+                .connectionDirection2(connectablePositionFeeder2Infos.getConnectionDirection())
+                .connectionName2(connectablePositionFeeder2Infos.getConnectionName())
+                .connectionPosition2(connectablePositionFeeder2Infos.getConnectionPosition());
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
