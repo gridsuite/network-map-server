@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.BranchStatus;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
@@ -45,45 +44,35 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal2 = twoWT.getTerminal2();
 
         TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder<?, ?> builder = TwoWindingsTransformerFormInfos.builder()
-                .name(twoWT.getOptionalName().orElse(null))
-                .id(twoWT.getId())
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected())
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
-                .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
-                .r(twoWT.getR())
-                .x(twoWT.getX())
-                .b(twoWT.getB())
-                .g(twoWT.getG())
-                .ratedU1(twoWT.getRatedU1())
-                .ratedU2(twoWT.getRatedU2());
+            .name(twoWT.getOptionalName().orElse(null))
+            .id(twoWT.getId())
+            .terminal1Connected(terminal1.isConnected())
+            .terminal2Connected(terminal2.isConnected())
+            .voltageLevelId1(terminal1.getVoltageLevel().getId())
+            .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
+            .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+            .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
+            .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
+            .r(twoWT.getR())
+            .x(twoWT.getX())
+            .b(twoWT.getB())
+            .g(twoWT.getG())
+            .ratedU1(twoWT.getRatedU1())
+            .ratedU2(twoWT.getRatedU2())
+            .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+            .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
+            .ratedS(nullIfNan(twoWT.getRatedS()))
+            .p1(nullIfNan(terminal1.getP()))
+            .q1(nullIfNan(terminal1.getQ()))
+            .p2(nullIfNan(terminal2.getP()))
+            .q2(nullIfNan(terminal2.getQ()))
+            .i1(nullIfNan(terminal1.getI()))
+            .i2(nullIfNan(terminal2.getI()))
+            .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
+            .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
+            .branchStatus(toBranchStatus(twoWT));
 
-        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
-                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
-        builder.ratedS(nullIfNan(twoWT.getRatedS()));
-        builder.p1(nullIfNan(terminal1.getP()));
-        builder.q1(nullIfNan(terminal1.getQ()));
-        builder.p2(nullIfNan(terminal2.getP()));
-        builder.q2(nullIfNan(terminal2.getQ()));
-        builder.i1(nullIfNan(terminal1.getI()));
-        builder.i2(nullIfNan(terminal2.getI()));
-
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
-        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
         var connectablePosition = twoWT.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
             if (connectablePosition.getFeeder1() != null) {
@@ -109,44 +98,35 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal2 = twoWT.getTerminal2();
 
         TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder<?, ?> builder = TwoWindingsTransformerTabInfos.builder()
-                .name(twoWT.getOptionalName().orElse(null))
-                .id(twoWT.getId())
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected())
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
-                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
-                .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
-                .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
-                .r(twoWT.getR())
-                .x(twoWT.getX())
-                .b(twoWT.getB())
-                .g(twoWT.getG())
-                .ratedU1(twoWT.getRatedU1())
-                .ratedU2(twoWT.getRatedU2());
-        builder.ratedS(nullIfNan(twoWT.getRatedS()));
-        builder.p1(nullIfNan(terminal1.getP()));
-        builder.q1(nullIfNan(terminal1.getQ()));
-        builder.p2(nullIfNan(terminal2.getP()));
-        builder.q2(nullIfNan(terminal2.getQ()));
-        builder.i1(nullIfNan(terminal1.getI()));
-        builder.i2(nullIfNan(terminal2.getI()));
+            .name(twoWT.getOptionalName().orElse(null))
+            .id(twoWT.getId())
+            .terminal1Connected(terminal1.isConnected())
+            .terminal2Connected(terminal2.isConnected())
+            .voltageLevelId1(terminal1.getVoltageLevel().getId())
+            .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
+            .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
+            .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+            .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+            .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
+            .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
+            .r(twoWT.getR())
+            .x(twoWT.getX())
+            .b(twoWT.getB())
+            .g(twoWT.getG())
+            .ratedU1(twoWT.getRatedU1())
+            .ratedU2(twoWT.getRatedU2())
+            .ratedS(nullIfNan(twoWT.getRatedS()))
+            .p1(nullIfNan(terminal1.getP()))
+            .q1(nullIfNan(terminal1.getQ()))
+            .p2(nullIfNan(terminal2.getP()))
+            .q2(nullIfNan(terminal2.getQ()))
+            .i1(nullIfNan(terminal1.getI()))
+            .i2(nullIfNan(terminal2.getI()))
+            .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
+            .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
+            .branchStatus(toBranchStatus(twoWT));
 
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
-        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
         var connectablePosition = twoWT.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
             if (connectablePosition.getFeeder1() != null) {
@@ -187,18 +167,13 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal2 = twoWindingsTransformer.getTerminal2();
 
         TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder<?, ?> builder = TwoWindingsTransformerTooltipInfos.builder()
-                .id(twoWindingsTransformer.getId())
-                .name(twoWindingsTransformer.getOptionalName().orElse(null))
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId());
-
-        twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
-
-        BranchStatus<TwoWindingsTransformer> branchStatus = twoWindingsTransformer.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
+            .id(twoWindingsTransformer.getId())
+            .name(twoWindingsTransformer.getOptionalName().orElse(null))
+            .voltageLevelId1(terminal1.getVoltageLevel().getId())
+            .voltageLevelId2(terminal2.getVoltageLevel().getId())
+            .currentLimits1(toMapDataCurrentLimits(twoWindingsTransformer, Branch.Side.ONE))
+            .currentLimits2(toMapDataCurrentLimits(twoWindingsTransformer, Branch.Side.TWO))
+            .branchStatus(toBranchStatus(twoWindingsTransformer));
 
         return builder.build();
     }
