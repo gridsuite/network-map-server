@@ -25,12 +25,6 @@ public class TwoWindingsTransformerTooltipInfos extends AbstractTwoWindingsTrans
     private String voltageLevelId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,13 +38,11 @@ public class TwoWindingsTransformerTooltipInfos extends AbstractTwoWindingsTrans
         Terminal terminal1 = twoWindingsTransformer.getTerminal1();
         Terminal terminal2 = twoWindingsTransformer.getTerminal2();
 
-        TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder builder = TwoWindingsTransformerTooltipInfos.builder()
+        TwoWindingsTransformerTooltipInfos.TwoWindingsTransformerTooltipInfosBuilder<?, ?> builder = TwoWindingsTransformerTooltipInfos.builder()
             .id(twoWindingsTransformer.getId())
             .name(twoWindingsTransformer.getOptionalName().orElse(null))
             .voltageLevelId1(terminal1.getVoltageLevel().getId())
-            .voltageLevelId2(terminal2.getVoltageLevel().getId())
-            .i1(nullIfNan(terminal1.getI()))
-            .i2(nullIfNan(terminal2.getI()));
+            .voltageLevelId2(terminal2.getVoltageLevel().getId());
 
         twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));

@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapDataCurrentLimits;
 
 /**
@@ -32,12 +31,6 @@ public class LineTooltipInfos extends AbstractLineInfos {
     private Boolean terminal1Connected;
 
     private Boolean terminal2Connected;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits1;
@@ -59,9 +52,7 @@ public class LineTooltipInfos extends AbstractLineInfos {
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()));
+                .voltageLevelId2(terminal2.getVoltageLevel().getId());
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));

@@ -46,12 +46,6 @@ public class LineMapInfos extends AbstractLineInfos {
     private Double p2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -74,8 +68,6 @@ public class LineMapInfos extends AbstractLineInfos {
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()));
 
