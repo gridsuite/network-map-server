@@ -12,31 +12,16 @@ public class ConnectablePositionInfos {
     private String connectionName;
     private Integer connectionPosition;
 
-    public static ConnectablePosition.Feeder getFeederInfosByIndex(Branch<?> branch, int index) {
-        var connectablePosition = branch.getExtension(ConnectablePosition.class);
-        if (connectablePosition == null) {
-            return null;
-        }
-
-        switch (index) {
-            case 0:
-                return connectablePosition.getFeeder();
-            case 1:
-                return connectablePosition.getFeeder1();
-            case 2:
-                return connectablePosition.getFeeder2();
-            default:
-                throw new IllegalArgumentException("Invalid feeder index: " + index);
-        }
-    }
-
-    public static ConnectablePositionInfos getConnectablePositionByFeederInfos(Branch<?> branch, int index) {
-        ConnectablePosition.Feeder feeder = getFeederInfosByIndex(branch, index);
+    public static ConnectablePositionInfos toConnectablePositionInfos(Branch<?> branch, Branch.Side side) {
         ConnectablePositionInfos connectablePositionInfos = new ConnectablePositionInfos();
-        if (feeder != null) {
-            connectablePositionInfos.setConnectionDirection(feeder.getDirection() == null ? null : feeder.getDirection());
-            connectablePositionInfos.setConnectionPosition(feeder.getOrder().orElse(null));
-            connectablePositionInfos.setConnectionName(feeder.getName().orElse(null));
+        var connectablePosition = branch.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            ConnectablePosition.Feeder feeder = side == Branch.Side.ONE ? connectablePosition.getFeeder1() : connectablePosition.getFeeder2();
+            if (feeder != null) {
+                connectablePositionInfos.setConnectionDirection(feeder.getDirection());
+                connectablePositionInfos.setConnectionPosition(feeder.getOrder().orElse(null));
+                connectablePositionInfos.setConnectionName(feeder.getName().orElse(null));
+            }
         }
         return connectablePositionInfos;
     }

@@ -33,7 +33,7 @@ public final class ElementUtils {
     }
 
     public static String toBranchStatus(Branch<?> branch) {
-        BranchStatus branchStatus = branch.getExtension(BranchStatus.class);
+        var branchStatus = branch.getExtension(BranchStatus.class);
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
