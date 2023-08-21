@@ -9,7 +9,6 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.line.*;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -65,16 +64,13 @@ public final class LineInfosMapper {
                 .b2(line.getB2())
                 .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(line));
-
-        ConnectablePositionInfos connectablePositionFeeder1Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(line, 1);
-        ConnectablePositionInfos connectablePositionFeeder2Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(line, 2);
-        builder.connectionDirection1(connectablePositionFeeder1Infos.getConnectionDirection())
-                .connectionName1(connectablePositionFeeder1Infos.getConnectionName())
-                .connectionPosition1(connectablePositionFeeder1Infos.getConnectionPosition())
-                .connectionDirection2(connectablePositionFeeder2Infos.getConnectionDirection())
-                .connectionName2(connectablePositionFeeder2Infos.getConnectionName())
-                .connectionPosition2(connectablePositionFeeder2Infos.getConnectionPosition());
+                .branchStatus(toBranchStatus(line))
+                .connectionDirection1(toMapConnectablePosition(line, 1).getConnectionDirection())
+                .connectionName1(toMapConnectablePosition(line, 1).getConnectionName())
+                .connectionPosition1(toMapConnectablePosition(line, 1).getConnectionPosition())
+                .connectionDirection2(toMapConnectablePosition(line, 2).getConnectionDirection())
+                .connectionName2(toMapConnectablePosition(line, 2).getConnectionName())
+                .connectionPosition2(toMapConnectablePosition(line, 2).getConnectionPosition());
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));

@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ActivePowerControl;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -50,11 +50,8 @@ public final class BatteryInfosMapper {
         Terminal terminal = battery.getTerminal();
         BatteryFormInfos.BatteryFormInfosBuilder<?, ?> builder = BatteryFormInfos.builder().name(battery.getOptionalName().orElse(null)).id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).targetP(battery.getTargetP()).targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).q(nullIfNan(terminal.getQ()));
 
-        var connectablePosition = battery.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder.connectionDirection(connectablePosition.getFeeder().getDirection()).connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
+        builder.connectionDirection(toMapConnectablePosition(battery, 0).getConnectionDirection()).connectionName(toMapConnectablePosition(battery, 0).getConnectionName());
+        builder.connectionPosition(toMapConnectablePosition(battery, 0).getConnectionPosition());
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -82,11 +79,7 @@ public final class BatteryInfosMapper {
         Terminal terminal = battery.getTerminal();
         BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = BatteryTabInfos.builder().name(battery.getOptionalName().orElse(null)).id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).targetP(battery.getTargetP()).targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).q(nullIfNan(terminal.getQ()));
 
-        var connectablePosition = battery.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder.connectionDirection(connectablePosition.getFeeder().getDirection()).connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
+        builder.connectionDirection(toMapConnectablePosition(battery, 0).getConnectionDirection()).connectionName(toMapConnectablePosition(battery, 0).getConnectionName()).connectionPosition(toMapConnectablePosition(battery, 0).getConnectionPosition());
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {

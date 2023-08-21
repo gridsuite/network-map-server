@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BranchStatus;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
@@ -35,6 +36,35 @@ public final class ElementUtils {
     public static String toBranchStatus(Branch<?> branch) {
         BranchStatus branchStatus = branch.getExtension(BranchStatus.class);
         return branchStatus == null ? null : branchStatus.getStatus().name();
+    }
+
+    public static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> branch, int index) {
+        var connectablePosition = branch.getExtension(ConnectablePosition.class);
+        if (connectablePosition == null) {
+            return null;
+        }
+
+        switch (index) {
+            case 0:
+                return connectablePosition.getFeeder();
+            case 1:
+                return connectablePosition.getFeeder1();
+            case 2:
+                return connectablePosition.getFeeder2();
+            default:
+                throw new IllegalArgumentException("Invalid feeder index: " + index);
+        }
+    }
+
+    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
+        ConnectablePositionInfos connectablePositionInfos = new ConnectablePositionInfos();
+        ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
+        if (feeder != null) {
+            connectablePositionInfos.setConnectionDirection(feeder.getDirection() == null ? null : feeder.getDirection());
+            connectablePositionInfos.setConnectionPosition(feeder.getOrder().orElse(null));
+            connectablePositionInfos.setConnectionName(feeder.getName().orElse(null));
+        }
+        return connectablePositionInfos;
     }
 
     public static CurrentLimitsData toMapDataCurrentLimits(Branch<?> branch, Branch.Side side) {

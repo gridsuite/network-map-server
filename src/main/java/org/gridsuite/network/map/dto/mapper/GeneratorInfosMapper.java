@@ -7,7 +7,10 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.iidm.network.extensions.ActivePowerControl;
+import com.powsybl.iidm.network.extensions.CoordinatedReactiveControl;
+import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
+import com.powsybl.iidm.network.extensions.GeneratorStartup;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
@@ -19,8 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -120,13 +122,9 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        var connectablePosition = generator.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
+        builder.connectionDirection(toMapConnectablePosition(generator, 0).getConnectionDirection())
+                .connectionName(toMapConnectablePosition(generator, 0).getConnectionName())
+                .connectionPosition(toMapConnectablePosition(generator, 0).getConnectionPosition());
 
         return builder.build();
     }
@@ -201,13 +199,9 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        var connectablePosition = generator.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
+        builder.connectionDirection(toMapConnectablePosition(generator, 0).getConnectionDirection())
+                .connectionName(toMapConnectablePosition(generator, 0).getConnectionName())
+                .connectionPosition(toMapConnectablePosition(generator, 0).getConnectionPosition());
 
         return builder.build();
     }

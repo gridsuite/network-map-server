@@ -9,12 +9,12 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -56,14 +56,9 @@ public final class LoadInfosMapper {
 
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
-        var connectablePosition = load.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null && connectablePosition.getFeeder() != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
-
+        builder.connectionDirection(toMapConnectablePosition(load, 0).getConnectionDirection())
+                .connectionName(toMapConnectablePosition(load, 0).getConnectionName())
+                .connectionPosition(toMapConnectablePosition(load, 0).getConnectionPosition());
         return builder.build();
     }
 
@@ -86,13 +81,10 @@ public final class LoadInfosMapper {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
-        var connectablePosition = load.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
+
+        builder.connectionDirection(toMapConnectablePosition(load, 0).getConnectionDirection())
+                .connectionName(toMapConnectablePosition(load, 0).getConnectionName())
+                .connectionPosition(toMapConnectablePosition(load, 0).getConnectionPosition());
 
         return builder.build();
     }

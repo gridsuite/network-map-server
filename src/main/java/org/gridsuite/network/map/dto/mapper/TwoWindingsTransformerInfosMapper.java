@@ -7,13 +7,11 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTooltipInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -72,15 +70,13 @@ public final class TwoWindingsTransformerInfosMapper {
                 .i2(nullIfNan(terminal2.getI()))
                 .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(twoWT));
-        ConnectablePositionInfos connectablePositionFeeder1Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(twoWT, 1);
-        ConnectablePositionInfos connectablePositionFeeder2Infos = ConnectablePositionInfos.getConnectablePositionByFeederInfos(twoWT, 2);
-        builder.connectionDirection1(connectablePositionFeeder1Infos.getConnectionDirection())
-                .connectionName1(connectablePositionFeeder1Infos.getConnectionName())
-                .connectionPosition1(connectablePositionFeeder1Infos.getConnectionPosition())
-                .connectionDirection2(connectablePositionFeeder2Infos.getConnectionDirection())
-                .connectionName2(connectablePositionFeeder2Infos.getConnectionName())
-                .connectionPosition2(connectablePositionFeeder2Infos.getConnectionPosition());
+                .branchStatus(toBranchStatus(twoWT))
+                .connectionDirection1(toMapConnectablePosition(twoWT, 1).getConnectionDirection())
+                .connectionName1(toMapConnectablePosition(twoWT, 1).getConnectionName())
+                .connectionPosition1(toMapConnectablePosition(twoWT, 1).getConnectionPosition())
+                .connectionDirection2(toMapConnectablePosition(twoWT, 2).getConnectionDirection())
+                .connectionName2(toMapConnectablePosition(twoWT, 2).getConnectionName())
+                .connectionPosition2(toMapConnectablePosition(twoWT, 2).getConnectionPosition());
         return builder.build();
     }
 
@@ -117,24 +113,13 @@ public final class TwoWindingsTransformerInfosMapper {
                 .i2(nullIfNan(terminal2.getI()))
                 .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(twoWT));
-
-        var connectablePosition = twoWT.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            if (connectablePosition.getFeeder1() != null) {
-                builder
-                        .connectionDirection1(connectablePosition.getFeeder1().getDirection())
-                        .connectionName1(connectablePosition.getFeeder1().getName().orElse(null))
-                        .connectionPosition1(connectablePosition.getFeeder1().getOrder().orElse(null));
-            }
-
-            if (connectablePosition.getFeeder2() != null) {
-                builder
-                        .connectionDirection2(connectablePosition.getFeeder2().getDirection())
-                        .connectionName2(connectablePosition.getFeeder2().getName().orElse(null))
-                        .connectionPosition2(connectablePosition.getFeeder2().getOrder().orElse(null));
-            }
-        }
+                .branchStatus(toBranchStatus(twoWT))
+                .connectionDirection1(toMapConnectablePosition(twoWT, 1).getConnectionDirection())
+                .connectionName1(toMapConnectablePosition(twoWT, 1).getConnectionName())
+                .connectionPosition1(toMapConnectablePosition(twoWT, 1).getConnectionPosition())
+                .connectionDirection2(toMapConnectablePosition(twoWT, 2).getConnectionDirection())
+                .connectionName2(toMapConnectablePosition(twoWT, 2).getConnectionName())
+                .connectionPosition2(toMapConnectablePosition(twoWT, 2).getConnectionPosition());
         return builder.build();
     }
 

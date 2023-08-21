@@ -10,12 +10,12 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.ShuntCompensator;
 import com.powsybl.iidm.network.ShuntCompensatorLinearModel;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -70,14 +70,9 @@ public final class ShuntCompensatorMapper {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
-        var connectablePosition = shuntCompensator.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
-
+        builder.connectionDirection(toMapConnectablePosition(shuntCompensator, 0).getConnectionDirection())
+                .connectionName(toMapConnectablePosition(shuntCompensator, 0).getConnectionName())
+                .connectionPosition(toMapConnectablePosition(shuntCompensator, 0).getConnectionPosition());
         return builder.build();
     }
 
@@ -113,13 +108,9 @@ public final class ShuntCompensatorMapper {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
-        var connectablePosition = shuntCompensator.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder
-                    .connectionDirection(connectablePosition.getFeeder().getDirection())
-                    .connectionName(connectablePosition.getFeeder().getName().orElse(null));
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
-        }
+        builder.connectionDirection(toMapConnectablePosition(shuntCompensator, 0).getConnectionDirection())
+                .connectionName(toMapConnectablePosition(shuntCompensator, 0).getConnectionName())
+                .connectionPosition(toMapConnectablePosition(shuntCompensator, 0).getConnectionPosition());
 
         return builder.build();
     }
