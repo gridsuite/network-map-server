@@ -49,7 +49,7 @@ public class VoltageLevelTabInfos extends AbstractVoltageLevelInfos {
             .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
             .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
 
-        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
         if (identifiableShortCircuit != null) {
             Double ipMin = nullIfNan(identifiableShortCircuit.getIpMin());
             if (ipMin != null) {
