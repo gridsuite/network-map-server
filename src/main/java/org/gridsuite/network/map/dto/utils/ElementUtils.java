@@ -38,8 +38,8 @@ public final class ElementUtils {
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
-    public static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> branch, int index) {
-        var connectablePosition = branch.getExtension(ConnectablePosition.class);
+    public static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
+        var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
         if (connectablePosition == null) {
             return null;
         }
