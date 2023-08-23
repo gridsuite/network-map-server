@@ -9,11 +9,11 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class BusListInfos extends AbstractBusInfos {
 
-        public static BusListInfos toData(Identifiable<?> identifiable) {
-            Bus bus = (Bus) identifiable;
-            return BusListInfos.builder()
-                    .name(bus.getOptionalName().orElse(null))
-                    .id(bus.getId())
-                    .build();
-        }
+    public static BusListInfos toData(Identifiable<?> identifiable) {
+        Bus bus = (Bus) identifiable;
+        return BusListInfos.builder()
+                .name(bus.getOptionalName().orElse(null))
+                .id(bus.getId())
+                .build();
+    }
 }

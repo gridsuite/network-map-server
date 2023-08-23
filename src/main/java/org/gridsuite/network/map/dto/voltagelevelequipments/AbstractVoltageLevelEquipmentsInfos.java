@@ -7,7 +7,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 
 @SuperBuilder
 @Getter
-public class AbstractVoltageLevelEquipmentsInfos extends ElementInfos {
+public abstract class AbstractVoltageLevelEquipmentsInfos extends ElementInfos {
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {

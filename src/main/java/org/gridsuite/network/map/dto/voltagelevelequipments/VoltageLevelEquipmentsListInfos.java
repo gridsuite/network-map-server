@@ -1,7 +1,6 @@
 package org.gridsuite.network.map.dto.voltagelevelequipments;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Connectable;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.IdentifiableType;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
-public class VoltageLevelEquipmentsListInfos extends AbstractVoltageLevelEquipmentsInfos{
+public class VoltageLevelEquipmentsListInfos extends AbstractVoltageLevelEquipmentsInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private IdentifiableType type;
