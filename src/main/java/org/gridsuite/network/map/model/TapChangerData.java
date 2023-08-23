@@ -35,7 +35,7 @@ public class TapChangerData {
     private Double targetV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetDeadBand;
+    private Double targetDeadband;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private PhaseTapChanger.RegulationMode regulationMode;
