@@ -1575,23 +1575,9 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnVoltageLevelsAndEquipments() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-levels-equipments", null, resourceToString("/voltage-levels-equipments-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-levels-equipments", null, resourceToString("/voltage-levels-equipments-map-data-in-variant.json"));
-    }
-
-    @Test
     public void shouldReturnVoltageLevelEquipments() throws Exception {
         succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-level-equipments/VLGEN", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
         succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-level-equipments/VLGEN", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
-    }
-
-    @Test
-    public void shouldReturnNotFoundInsteadOfVoltageLevelsEquipmentsMapData() {
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of());
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of());
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of("P1"));
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of("P1"));
     }
 
     @Test
