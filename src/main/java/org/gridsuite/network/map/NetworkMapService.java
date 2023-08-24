@@ -12,13 +12,11 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.bus.BusListInfos;
 import org.gridsuite.network.map.dto.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.line.LineListInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.TwoWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.voltagelevelequipments.VoltageLevelEquipmentsListInfos;
 import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -99,14 +97,15 @@ class NetworkMapService {
 
         return voltageLevels.stream()
                 .flatMap(VoltageLevel::getConnectableStream)
-                .map(VoltageLevelEquipmentsListInfos::toData)
+                .map(c -> ElementType.VOLTAGE_LEVEL_EQUIPMENTS.getInfosGetter().apply(c, ElementInfos.InfoType.LIST))
                 .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
-            .map(BusListInfos::toData).collect(Collectors.toList());
+                .map(c -> ElementType.BUS.getInfosGetter().apply(c, ElementInfos.InfoType.LIST))
+                .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {

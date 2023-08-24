@@ -9,6 +9,7 @@ package org.gridsuite.network.map.model;
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
+import org.gridsuite.network.map.dto.bus.AbstractBusInfos;
 import org.gridsuite.network.map.dto.busbarsection.AbstractBusBarSectionInfos;
 import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
 import org.gridsuite.network.map.dto.generator.AbstractGeneratorInfos;
@@ -22,6 +23,7 @@ import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
 import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
 import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
+import org.gridsuite.network.map.dto.voltagelevelequipments.AbstractVoltageLevelEquipmentsInfos;
 import org.gridsuite.network.map.dto.vscconverterstation.AbstractVscConverterStationInfos;
 
 import java.util.function.BiFunction;
@@ -30,6 +32,8 @@ import java.util.function.BiFunction;
 public enum ElementType {
     SUBSTATION(Substation.class, AbstractSubstationInfos::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, AbstractVoltageLevelInfos::toData),
+    VOLTAGE_LEVEL_EQUIPMENTS(Connectable.class, AbstractVoltageLevelEquipmentsInfos::toData),
+    BUS(Bus.class, AbstractBusInfos::toData),
     LINE(Line.class, AbstractLineInfos::toData),
     HVDC_LINE(HvdcLine.class, AbstractHvdcInfos::toData),
     LOAD(Load.class, AbstractLoadInfos::toData),
