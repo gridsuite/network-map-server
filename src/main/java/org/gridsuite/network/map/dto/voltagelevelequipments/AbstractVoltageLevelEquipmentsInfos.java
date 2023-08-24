@@ -11,8 +11,6 @@ public abstract class AbstractVoltageLevelEquipmentsInfos extends ElementInfos {
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
-            case FORM:
-                throw new UnsupportedOperationException("This case is added to fix sonar issue");
             case LIST:
                 return VoltageLevelEquipmentsListInfos.toData(identifiable);
             default:

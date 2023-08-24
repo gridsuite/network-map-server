@@ -11,8 +11,6 @@ public abstract class AbstractBusInfos extends ElementInfos {
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
         switch (dataType) {
-            case FORM:
-                throw new UnsupportedOperationException("This case is added to fix sonar issue");
             case LIST:
                 return BusListInfos.toData(identifiable);
             default:
