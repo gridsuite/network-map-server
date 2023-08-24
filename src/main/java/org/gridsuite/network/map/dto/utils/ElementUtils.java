@@ -147,13 +147,13 @@ public final class ElementUtils {
                 .regulating(tapChanger.isRegulating())
                 .regulationMode(tapChanger.getRegulationMode())
                 .regulationValue(tapChanger.getRegulationValue())
-                .targetDeadBand(tapChanger.getTargetDeadband())
+                .targetDeadband(tapChanger.getTargetDeadband())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
-        builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
+        builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
@@ -174,7 +174,7 @@ public final class ElementUtils {
                 .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
 
         builder.targetV(nullIfNan(tapChanger.getTargetV()));
-        builder.targetDeadBand(nullIfNan(tapChanger.getTargetDeadband()));
+        builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
