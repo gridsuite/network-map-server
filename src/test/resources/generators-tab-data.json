@@ -23,9 +23,11 @@
     "regulatingTerminalConnectableId": "NHV1_NHV2_1",
     "regulatingTerminalConnectableType": "LINE",
     "regulatingTerminalVlId": "VLHV1",
-    "connectionName": "feederName",
-    "connectionDirection": "TOP",
-    "connectionPosition": 0,
+    "connectablePosition": {
+      "connectionDirection": "TOP",
+      "connectionPosition": 0,
+      "connectionName": "feederName"
+    },
     "qPercent": 10.0
   },
   {
@@ -45,9 +47,11 @@
       { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
       { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
     ],
-    "connectionName": "feederName",
-    "connectionDirection": "TOP",
-    "connectionPosition": 0,
+    "connectablePosition": {
+      "connectionDirection": "TOP",
+      "connectionPosition": 0,
+      "connectionName": "feederName"
+    },
     "qPercent": 10.0
   }
 ]

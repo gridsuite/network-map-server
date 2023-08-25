@@ -1,5 +1,80 @@
 [
   {
+    "id": "NHV1_NHV2_1",
+    "voltageLevelId1": "VLHV1",
+    "voltageLevelId2": "VLHV2",
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "p1": 1.1,
+    "q1": 2.2,
+    "p2": 3.33,
+    "q2": 4.44,
+    "currentLimits1": {
+      "permanentLimit": 700.4,
+      "temporaryLimits": [
+        {
+          "name": "IT5",
+          "value": 250,
+          "acceptableDuration": 300
+        }
+      ]
+    },
+    "currentLimits2": {
+      "permanentLimit": 800.8,
+      "temporaryLimits": [
+        {
+          "name": "IT20",
+          "value": 300,
+          "acceptableDuration": 1200
+        },
+        {
+          "name": "IT10",
+          "value": 200,
+          "acceptableDuration": 600
+        }
+      ]
+    },
+    "r": 9,
+    "x": 10,
+    "g1": 7,
+    "b1": 5,
+    "g2": 8,
+    "b2": 6,
+    "connectablePosition1": {
+      "connectionDirection": "TOP",
+      "connectionPosition": 0,
+      "connectionName": "feederName1"
+    },
+    "connectablePosition2": {
+      "connectionDirection": "BOTTOM",
+      "connectionPosition": 0,
+      "connectionName": "feederName2"
+    },
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NHV2"
+  },
+  {
+    "id": "NHV1_NHV2_2",
+    "voltageLevelId1": "VLHV1",
+    "voltageLevelId2": "VLHV2",
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "r": 3,
+    "x": 33,
+    "g1": 0,
+    "b1": 0.000193,
+    "g2": 0,
+    "b2": 0.000193,
+    "connectablePosition1": {
+      "connectionDirection": null
+    },
+    "connectablePosition2": {
+      "connectionDirection": null
+    },
+    "busOrBusbarSectionId1": "NHV1",
+    "busOrBusbarSectionId2": "NHV2"
+  },
+  {
     "id": "LINE3",
     "voltageLevelId1": "VLGEN",
     "voltageLevelId2": "VLGEN3",
@@ -12,12 +87,16 @@
     "b1": 1.93E-4,
     "g2": 0.0,
     "b2": 1.93E-4,
-    "connectionName1": "feederName1",
-    "connectionDirection1": "TOP",
-    "connectionName2": "feederName2",
-    "connectionDirection2": "BOTTOM",
-    "connectionPosition1": 0,
-    "connectionPosition2": 0,
+    "connectablePosition1": {
+      "connectionName": "feederName1",
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
+    },
+    "connectablePosition2": {
+      "connectionName": "feederName2",
+      "connectionDirection": "BOTTOM",
+      "connectionPosition": 0
+    },
     "busOrBusbarSectionId1": "NGEN",
     "busOrBusbarSectionId2": "NGEN3"
   },
@@ -33,6 +112,12 @@
     "b1": 1.93e-4,
     "g2": 0.0,
     "b2": 1.93e-4,
+    "connectablePosition1": {
+      "connectionDirection": null
+    },
+    "connectablePosition2": {
+      "connectionDirection": null
+    },
     "busOrBusbarSectionId1": "NGEN6",
     "busOrBusbarSectionId2": "NGEN3"
   }

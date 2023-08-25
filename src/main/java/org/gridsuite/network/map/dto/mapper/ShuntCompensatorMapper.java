@@ -70,9 +70,8 @@ public final class ShuntCompensatorMapper {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
-        builder.connectionDirection(toMapConnectablePosition(shuntCompensator, 0).getConnectionDirection())
-                .connectionName(toMapConnectablePosition(shuntCompensator, 0).getConnectionName())
-                .connectionPosition(toMapConnectablePosition(shuntCompensator, 0).getConnectionPosition());
+        builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
+
         return builder.build();
     }
 
@@ -108,9 +107,7 @@ public final class ShuntCompensatorMapper {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
-        builder.connectionDirection(toMapConnectablePosition(shuntCompensator, 0).getConnectionDirection())
-                .connectionName(toMapConnectablePosition(shuntCompensator, 0).getConnectionName())
-                .connectionPosition(toMapConnectablePosition(shuntCompensator, 0).getConnectionPosition());
+        builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
 
         return builder.build();
     }

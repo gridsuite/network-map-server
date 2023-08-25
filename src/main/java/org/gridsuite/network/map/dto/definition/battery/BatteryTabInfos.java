@@ -7,10 +7,10 @@
 package org.gridsuite.network.map.dto.definition.battery;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -55,13 +55,7 @@ public class BatteryTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double droop;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String connectionName;
-
-    private ConnectablePosition.Direction connectionDirection;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer connectionPosition;
+    private ConnectablePositionInfos connectablePosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;

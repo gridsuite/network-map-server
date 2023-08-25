@@ -1,10 +1,12 @@
 {
-    "id": "LOAD_WITH_NULL_NAME",
-    "type": "UNDEFINED",
-    "voltageLevelId": "VLNEW2",
-    "terminalConnected": true,
-    "p0": 600.0,
-    "q0": 200.0,
-    "connectionDirection": null,
-    "busOrBusbarSectionId": "NNEW2"
+  "id": "LOAD_WITH_NULL_NAME",
+  "type": "UNDEFINED",
+  "voltageLevelId": "VLNEW2",
+  "terminalConnected": true,
+  "p0": 600.0,
+  "q0": 200.0,
+  "connectablePosition": {
+    "connectionDirection": null
+  },
+  "busOrBusbarSectionId": "NNEW2"
 }

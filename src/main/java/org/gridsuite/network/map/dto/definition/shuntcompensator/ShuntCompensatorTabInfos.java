@@ -7,10 +7,10 @@
 package org.gridsuite.network.map.dto.definition.shuntcompensator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -43,13 +43,7 @@ public class ShuntCompensatorTabInfos extends ElementInfos {
 
     private Integer maximumSectionCount;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String connectionName;
-
-    private ConnectablePosition.Direction connectionDirection;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer connectionPosition;
+    private ConnectablePositionInfos connectablePosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;

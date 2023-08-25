@@ -9,11 +9,11 @@ package org.gridsuite.network.map.dto.definition.generator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.powsybl.iidm.network.EnergySource;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -102,9 +102,6 @@ public class GeneratorTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String connectionName;
-
     // As this attribute has only one lower case letter at its start (xXXXX), the getters is parsed as getQPercent and the field for Jackson is parsed as qpercent
     // while we expect qPercent. JsonProperty let fix the json field to qPercent
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -112,10 +109,7 @@ public class GeneratorTabInfos extends ElementInfos {
     @Getter(AccessLevel.NONE)
     private double qPercent;
 
-    private ConnectablePosition.Direction connectionDirection;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer connectionPosition;
+    private ConnectablePositionInfos connectablePosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;

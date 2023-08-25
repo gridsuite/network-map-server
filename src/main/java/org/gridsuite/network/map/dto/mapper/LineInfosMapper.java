@@ -65,12 +65,8 @@ public final class LineInfosMapper {
                 .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
                 .branchStatus(toBranchStatus(line))
-                .connectionDirection1(toMapConnectablePosition(line, 1).getConnectionDirection())
-                .connectionName1(toMapConnectablePosition(line, 1).getConnectionName())
-                .connectionPosition1(toMapConnectablePosition(line, 1).getConnectionPosition())
-                .connectionDirection2(toMapConnectablePosition(line, 2).getConnectionDirection())
-                .connectionName2(toMapConnectablePosition(line, 2).getConnectionName())
-                .connectionPosition2(toMapConnectablePosition(line, 2).getConnectionPosition());
+                .connectablePosition1(toMapConnectablePosition(line, 1))
+                .connectablePosition2(toMapConnectablePosition(line, 2));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));

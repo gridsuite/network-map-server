@@ -55,10 +55,8 @@ public final class LoadInfosMapper {
         }
 
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+        builder.connectablePosition(toMapConnectablePosition(load, 0));
 
-        builder.connectionDirection(toMapConnectablePosition(load, 0).getConnectionDirection())
-                .connectionName(toMapConnectablePosition(load, 0).getConnectionName())
-                .connectionPosition(toMapConnectablePosition(load, 0).getConnectionPosition());
         return builder.build();
     }
 
@@ -82,9 +80,7 @@ public final class LoadInfosMapper {
             builder.q(terminal.getQ());
         }
 
-        builder.connectionDirection(toMapConnectablePosition(load, 0).getConnectionDirection())
-                .connectionName(toMapConnectablePosition(load, 0).getConnectionName())
-                .connectionPosition(toMapConnectablePosition(load, 0).getConnectionPosition());
+        builder.connectablePosition(toMapConnectablePosition(load, 0));
 
         return builder.build();
     }

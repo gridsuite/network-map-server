@@ -72,9 +72,11 @@
         { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
       ],
       "droop": 3.0,
-      "connectionName": "feederName",
-      "connectionPosition": 0,
-      "connectionDirection": "TOP"
+      "connectablePosition": {
+        "connectionName": "feederName",
+        "connectionPosition": 0,
+        "connectionDirection": "TOP"
+      }
     }
   ],
   "danglingLines": [
@@ -104,9 +106,11 @@
       "maximumSectionCount": 3,
       "nominalVoltage": 24,
       "bperSection": 1.0,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "connectablePosition": {
+        "connectionName": "feederName",
+        "connectionPosition": 0,
+        "connectionDirection": "TOP"
+      },
       "qatNominalV": 576.0
     },
     {
@@ -120,9 +124,11 @@
       "sectionCount": 2,
       "maximumSectionCount": 3,
       "nominalVoltage": 24,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "connectablePosition": {
+        "connectionName": "feederName",
+        "connectionPosition": 0,
+        "connectionDirection": "TOP"
+      },
       "bperSection": 1.0,
       "qatNominalV": 576.0
     }

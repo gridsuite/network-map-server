@@ -8,10 +8,10 @@ package org.gridsuite.network.map.dto.definition.load;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.LoadType;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -39,13 +39,8 @@ public class LoadTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q0;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String connectionName;
 
-    private ConnectablePosition.Direction connectionDirection;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer connectionPosition;
+    private ConnectablePositionInfos connectablePosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;

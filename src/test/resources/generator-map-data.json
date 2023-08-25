@@ -21,9 +21,11 @@
   "regulatingTerminalConnectableId": "NHV1_NHV2_1",
   "regulatingTerminalConnectableType": "LINE",
   "regulatingTerminalVlId": "VLHV1",
-  "connectionName": "feederName",
-  "connectionDirection": "TOP",
+  "connectablePosition": {
+    "connectionName": "feederName",
+    "connectionDirection": "TOP",
+    "connectionPosition": 0
+  },
   "qPercent": 10.0,
-  "connectionPosition": 0,
   "busOrBusbarSectionId": "NGEN"
 }

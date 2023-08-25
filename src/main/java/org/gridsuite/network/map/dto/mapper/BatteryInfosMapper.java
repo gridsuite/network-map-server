@@ -50,8 +50,7 @@ public final class BatteryInfosMapper {
         Terminal terminal = battery.getTerminal();
         BatteryFormInfos.BatteryFormInfosBuilder<?, ?> builder = BatteryFormInfos.builder().name(battery.getOptionalName().orElse(null)).id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).targetP(battery.getTargetP()).targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).q(nullIfNan(terminal.getQ()));
 
-        builder.connectionDirection(toMapConnectablePosition(battery, 0).getConnectionDirection()).connectionName(toMapConnectablePosition(battery, 0).getConnectionName());
-        builder.connectionPosition(toMapConnectablePosition(battery, 0).getConnectionPosition());
+        builder.connectablePosition(toMapConnectablePosition(battery, 0));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -79,7 +78,7 @@ public final class BatteryInfosMapper {
         Terminal terminal = battery.getTerminal();
         BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = BatteryTabInfos.builder().name(battery.getOptionalName().orElse(null)).id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).targetP(battery.getTargetP()).targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).q(nullIfNan(terminal.getQ()));
 
-        builder.connectionDirection(toMapConnectablePosition(battery, 0).getConnectionDirection()).connectionName(toMapConnectablePosition(battery, 0).getConnectionName()).connectionPosition(toMapConnectablePosition(battery, 0).getConnectionPosition());
+        builder.connectablePosition(toMapConnectablePosition(battery, 0));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {

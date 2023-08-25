@@ -122,9 +122,7 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        builder.connectionDirection(toMapConnectablePosition(generator, 0).getConnectionDirection())
-                .connectionName(toMapConnectablePosition(generator, 0).getConnectionName())
-                .connectionPosition(toMapConnectablePosition(generator, 0).getConnectionPosition());
+        builder.connectablePosition(toMapConnectablePosition(generator, 0));
 
         return builder.build();
     }
@@ -199,10 +197,7 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        builder.connectionDirection(toMapConnectablePosition(generator, 0).getConnectionDirection())
-                .connectionName(toMapConnectablePosition(generator, 0).getConnectionName())
-                .connectionPosition(toMapConnectablePosition(generator, 0).getConnectionPosition());
-
+        builder.connectablePosition(toMapConnectablePosition(generator, 0));
         return builder.build();
     }
 }
