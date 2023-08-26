@@ -71,12 +71,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
                 .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
                 .branchStatus(toBranchStatus(twoWT))
-                .connectionDirection1(toMapConnectablePosition(twoWT, 1).getConnectionDirection())
-                .connectionName1(toMapConnectablePosition(twoWT, 1).getConnectionName())
-                .connectionPosition1(toMapConnectablePosition(twoWT, 1).getConnectionPosition())
-                .connectionDirection2(toMapConnectablePosition(twoWT, 2).getConnectionDirection())
-                .connectionName2(toMapConnectablePosition(twoWT, 2).getConnectionName())
-                .connectionPosition2(toMapConnectablePosition(twoWT, 2).getConnectionPosition());
+                .connectablePosition1(toMapConnectablePosition(twoWT, 1))
+                .connectablePosition2(toMapConnectablePosition(twoWT, 2));
         return builder.build();
     }
 
