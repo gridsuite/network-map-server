@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
@@ -122,12 +124,28 @@ public final class VoltageLevelInfosMapper {
 
     protected static VoltageLevelTabInfos toTabInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        return VoltageLevelTabInfos.builder()
+
+        VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().orElseThrow().getId())
                 .nominalVoltage(voltageLevel.getNominalV())
-                .build();
+                .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
+                .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
+
+        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+        if (identifiableShortCircuit != null) {
+            Double ipMin = nullIfNan(identifiableShortCircuit.getIpMin());
+            if (ipMin != null) {
+                builder.ipMin(ipMin / 1000.);  // to get value in kA : value is in A in iidm
+            }
+            Double ipMax = nullIfNan(identifiableShortCircuit.getIpMax());
+            if (ipMax != null) {
+                builder.ipMax(ipMax / 1000.);  // to get value in kA : value is in A in iidm
+            }
+        }
+
+        return builder.build();
     }
 
     @Getter

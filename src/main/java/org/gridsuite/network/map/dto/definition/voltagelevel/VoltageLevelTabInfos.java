@@ -23,4 +23,16 @@ public class VoltageLevelTabInfos extends ElementInfos {
 
     private double nominalVoltage;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double lowVoltageLimit;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double highVoltageLimit;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double ipMin;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double ipMax;
+
 }
