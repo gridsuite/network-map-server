@@ -8,6 +8,7 @@ package org.gridsuite.network.map.model;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
 import org.gridsuite.network.map.dto.busbarsection.AbstractBusBarSectionInfos;
 import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
@@ -46,17 +47,17 @@ public enum ElementType {
 
     private final Class<? extends Identifiable> elementClass;
 
-    private final BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> infosGetter;
+    private final BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> infosGetter;
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
     }
 
-    public BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> getInfosGetter() {
+    public BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> getInfosGetter() {
         return infosGetter;
     }
 
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> dataGetter) {
+    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }

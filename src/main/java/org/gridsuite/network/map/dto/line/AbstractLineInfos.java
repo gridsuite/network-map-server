@@ -18,8 +18,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public abstract class AbstractLineInfos extends ElementInfos {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return LineTabInfos.toData(identifiable);
             case FORM:
@@ -29,7 +29,7 @@ public abstract class AbstractLineInfos extends ElementInfos {
             case LIST:
                 return LineListInfos.toData(identifiable);
             case TOOLTIP:
-                return LineTooltipInfos.toData(identifiable);
+                return LineTooltipInfos.toData(identifiable, dataType.getDcPowerFactor());
             default:
                 throw new UnsupportedOperationException("TODO");
         }

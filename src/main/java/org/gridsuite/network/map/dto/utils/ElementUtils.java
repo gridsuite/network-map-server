@@ -226,4 +226,16 @@ public final class ElementUtils {
             }
         }
     }
+
+    public static double computeIntensity(Terminal terminal, Double dcPowerFactor) {
+        double intensity = terminal.getI();
+
+        if (Double.isNaN(intensity) && !Double.isNaN(terminal.getP()) && dcPowerFactor != null) {
+            // After a DC load flow, the current at a terminal can be undefined (NaN). In that case, we use the DC power factor,
+            // the nominal voltage and the active power at the terminal in order to approximate the current following formula
+            // P = sqrt(3) x Vnom x I x dcPowerFactor
+            intensity = 1000. * terminal.getP() / (Math.sqrt(3) * dcPowerFactor * terminal.getVoltageLevel().getNominalV());
+        }
+        return intensity;
+    }
 }

@@ -5,26 +5,15 @@
       "countryName": "FRANCE",
       "countryCode": "FR",
       "voltageLevels": [
-        { "id": "VLGEN3", "substationId": "P3", "nominalVoltage": 24.0 }
+        {
+          "id": "VLGEN3",
+          "substationId": "P3",
+          "nominalVoltage": 24.0
+        }
       ]
     }
   ],
   "lines": [
-    {
-      "id": "LINE3",
-      "voltageLevelId1": "VLGEN",
-      "nominalVoltage1": 24.0,
-      "voltageLevelId2": "VLGEN3",
-      "nominalVoltage2": 24.0,
-      "terminal1Connected": true,
-      "terminal2Connected": true,
-      "r": 3.0,
-      "x": 33.0,
-      "g1": 0.0,
-      "b1": 1.93e-4,
-      "g2": 0.0,
-      "b2": 1.93E-4
-    },
     {
       "id": "LINE4",
       "voltageLevelId1": "VLGEN6",
@@ -36,9 +25,26 @@
       "r": 3.0,
       "x": 33.0,
       "g1": 0.0,
-      "b1": 1.93e-4,
+      "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93e-4
+      "b2": 1.93E-4
+    },
+    {
+      "id": "LINE3",
+      "voltageLevelId1": "VLGEN",
+      "nominalVoltage1": 24.0,
+      "voltageLevelId2": "VLGEN3",
+      "nominalVoltage2": 24.0,
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 200.0,
+      "p2": 100.0,
+      "r": 3.0,
+      "x": 33.0,
+      "g1": 0.0,
+      "b1": 1.93E-4,
+      "g2": 0.0,
+      "b2": 1.93E-4
     }
   ],
   "hvdcLines": [],
@@ -57,14 +63,26 @@
       "minP": 50.0,
       "maxP": 70.0,
       "reactiveCapabilityCurvePoints": [
-        { "p": 0.0, "qminP": 6.0, "qmaxP": 7.0 },
-        { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
-        { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
+        {
+          "p": 0.0,
+          "qminP": 6.0,
+          "qmaxP": 7.0
+        },
+        {
+          "p": 1.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        },
+        {
+          "p": 3.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        }
       ],
       "droop": 3.0,
       "connectionName": "feederName",
-      "connectionPosition": 0,
-      "connectionDirection": "TOP"
+      "connectionDirection": "TOP",
+      "connectionPosition": 0
     }
   ],
   "danglingLines": [

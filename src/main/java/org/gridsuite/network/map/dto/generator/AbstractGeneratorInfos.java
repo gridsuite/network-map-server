@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 @SuperBuilder
 @Getter
 public abstract class AbstractGeneratorInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return GeneratorTabInfos.toData(identifiable);
             case FORM:

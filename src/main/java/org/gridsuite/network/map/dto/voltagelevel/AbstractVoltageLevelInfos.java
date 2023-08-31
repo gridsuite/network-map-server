@@ -25,8 +25,8 @@ import java.util.*;
 @Getter
 public abstract class AbstractVoltageLevelInfos extends ElementInfos {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return VoltageLevelTabInfos.toData(identifiable);
             case FORM:

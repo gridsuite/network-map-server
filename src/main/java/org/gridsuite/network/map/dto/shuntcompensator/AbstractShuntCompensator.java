@@ -19,8 +19,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public abstract class AbstractShuntCompensator extends ElementInfos {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return ShuntCompensatorTabInfos.toData(identifiable);
             case FORM:
