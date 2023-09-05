@@ -37,6 +37,12 @@
     "b1": 1.93e-4,
     "g2": 0.0,
     "b2": 1.93e-4,
+    "connectablePosition1": {
+      "connectionDirection": null
+    },
+    "connectablePosition2": {
+      "connectionDirection": null
+    },
     "busOrBusbarSectionId1": "NGEN6",
     "busOrBusbarSectionId2": "NGEN3"
   }

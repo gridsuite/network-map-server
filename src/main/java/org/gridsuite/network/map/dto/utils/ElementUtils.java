@@ -38,7 +38,7 @@ public final class ElementUtils {
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
-    public static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
+    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
         var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
         if (connectablePosition == null) {
             return null;
@@ -57,14 +57,14 @@ public final class ElementUtils {
     }
 
     public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
-        ConnectablePositionInfos connectablePositionInfos = new ConnectablePositionInfos();
+        ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
         ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
         if (feeder != null) {
-            connectablePositionInfos.setConnectionDirection(feeder.getDirection() == null ? null : feeder.getDirection());
-            connectablePositionInfos.setConnectionPosition(feeder.getOrder().orElse(null));
-            connectablePositionInfos.setConnectionName(feeder.getName().orElse(null));
+            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection());
+            builder.connectionPosition(feeder.getOrder().orElse(null));
+            builder.connectionName(feeder.getName().orElse(null));
         }
-        return connectablePositionInfos;
+        return builder.build();
     }
 
     public static CurrentLimitsData toMapDataCurrentLimits(Branch<?> branch, Branch.Side side) {

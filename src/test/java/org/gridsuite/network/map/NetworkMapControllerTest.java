@@ -1124,8 +1124,8 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, ElementInfos.InfoType.FORM, null, resourceToString("/lines-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, ElementInfos.InfoType.FORM, null, resourceToString("/lines-form-data.json"));
 
-//        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, ElementInfos.InfoType.FORM, List.of("P3"), resourceToString("/partial-lines-form-data.json"));
-  //      succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, ElementInfos.InfoType.FORM, List.of("P3"), resourceToString("/partial-lines-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, ElementInfos.InfoType.FORM, List.of("P3"), resourceToString("/partial-lines-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, ElementInfos.InfoType.FORM, List.of("P3"), resourceToString("/partial-lines-form-data.json"));
     }
 
     @Test
