@@ -30,8 +30,8 @@ public final class BatteryInfosMapper {
     private BatteryInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
@@ -41,8 +41,14 @@ public final class BatteryInfosMapper {
         }
     }
 
-    private static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
-        return points.stream().map(point -> ReactiveCapabilityCurveMapData.builder().p(point.getP()).qmaxP(point.getMaxQ()).qminP(point.getMinQ()).build()).collect(Collectors.toList());
+    protected static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
+        return points.stream()
+                .map(point -> ReactiveCapabilityCurveMapData.builder()
+                        .p(point.getP())
+                        .qmaxP(point.getMaxQ())
+                        .qminP(point.getMinQ())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private static BatteryFormInfos toFormInfos(Identifiable<?> identifiable) {

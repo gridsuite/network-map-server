@@ -23,7 +23,7 @@ import org.gridsuite.network.map.dto.mapper.ThreeWindingsTransformerInfosMapper;
 import org.gridsuite.network.map.dto.mapper.TwoWindingsTransformerInfosMapper;
 import org.gridsuite.network.map.dto.mapper.VoltageLevelInfosMapper;
 import org.gridsuite.network.map.dto.mapper.VscConverterStationInfosMapper;
-
+import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import java.util.function.BiFunction;
 
 
@@ -46,17 +46,17 @@ public enum ElementType {
 
     private final Class<? extends Identifiable> elementClass;
 
-    private final BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> infosGetter;
+    private final BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> infosGetter;
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
     }
 
-    public BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> getInfosGetter() {
+    public BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> getInfosGetter() {
         return infosGetter;
     }
 
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfos.InfoType, ElementInfos> dataGetter) {
+    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }

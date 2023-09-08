@@ -7,8 +7,11 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.BranchStatus;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.line.*;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -19,8 +22,8 @@ public final class LineInfosMapper {
     private LineInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
@@ -30,18 +33,16 @@ public final class LineInfosMapper {
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
-                return toTooltipInfos(identifiable);
+                return toTooltipInfos(identifiable, dataType.getDcPowerFactor());
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
-
     private static LineFormInfos toFormInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-
-        LineFormInfos.LineFormInfosBuilder<?, ?> builder = LineFormInfos.builder()
+        LineFormInfos.LineFormInfosBuilder builder = LineFormInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -61,15 +62,21 @@ public final class LineInfosMapper {
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
-                .b2(line.getB2())
-                .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(line))
-                .connectablePosition1(toMapConnectablePosition(line, 1))
-                .connectablePosition2(toMapConnectablePosition(line, 2));
+                .b2(line.getB2());
+
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
+
+        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
+
+        builder.connectablePosition1(toMapConnectablePosition(line, 1))
+                .connectablePosition2(toMapConnectablePosition(line, 2));
 
         return builder.build();
     }
@@ -98,7 +105,7 @@ public final class LineInfosMapper {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
 
-        LineMapInfos.LineMapInfosBuilder<?, ?> builder = LineMapInfos.builder()
+        LineMapInfos.LineMapInfosBuilder builder = LineMapInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
@@ -108,10 +115,15 @@ public final class LineInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .p1(nullIfNan(terminal1.getP()))
-                .p2(nullIfNan(terminal2.getP()))
-                .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(line));
+                .p2(nullIfNan(terminal2.getP()));
+
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+
+        BranchStatus<Line> branchStatus = line.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
 
         return builder.build();
     }
@@ -120,7 +132,7 @@ public final class LineInfosMapper {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineTabInfos.LineTabInfosBuilder<?, ?> builder = LineTabInfos.builder()
+        LineTabInfos.LineTabInfosBuilder builder = LineTabInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -142,14 +154,15 @@ public final class LineInfosMapper {
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
-                .b2(line.getB2())
-                .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO));
+                .b2(line.getB2());
+
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
 
         return builder.build();
     }
 
-    private static LineTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
+    private static LineTooltipInfos toTooltipInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -161,9 +174,11 @@ public final class LineInfosMapper {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .currentLimits1(toMapDataCurrentLimits(line, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(line, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(line));
+                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
+                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
+
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
 
         return builder.build();
     }

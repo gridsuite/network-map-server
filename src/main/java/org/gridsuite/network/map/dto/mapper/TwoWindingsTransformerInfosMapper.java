@@ -7,11 +7,13 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.BranchStatus;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTooltipInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -22,12 +24,12 @@ public final class TwoWindingsTransformerInfosMapper {
     private TwoWindingsTransformerInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
-                return toTooltipInfos(identifiable);
+                return toTooltipInfos(identifiable, dataType.getDcPowerFactor());
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
@@ -42,7 +44,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
 
-        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder<?, ?> builder = TwoWindingsTransformerFormInfos.builder()
+        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder builder = TwoWindingsTransformerFormInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -58,20 +60,31 @@ public final class TwoWindingsTransformerInfosMapper {
                 .b(twoWT.getB())
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
-                .ratedU2(twoWT.getRatedU2())
-                .busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
-                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2))
-                .ratedS(nullIfNan(twoWT.getRatedS()))
-                .p1(nullIfNan(terminal1.getP()))
-                .q1(nullIfNan(terminal1.getQ()))
-                .p2(nullIfNan(terminal2.getP()))
-                .q2(nullIfNan(terminal2.getQ()))
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
-                .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(twoWT))
-                .connectablePosition1(toMapConnectablePosition(twoWT, 1))
+                .ratedU2(twoWT.getRatedU2());
+
+        builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
+                .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
+        builder.ratedS(nullIfNan(twoWT.getRatedS()));
+        builder.p1(nullIfNan(terminal1.getP()));
+        builder.q1(nullIfNan(terminal1.getQ()));
+        builder.p2(nullIfNan(terminal2.getP()));
+        builder.q2(nullIfNan(terminal2.getQ()));
+        builder.i1(nullIfNan(terminal1.getI()));
+        builder.i2(nullIfNan(terminal2.getI()));
+
+        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
+        }
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
+        }
+        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
+        builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
         return builder.build();
     }
@@ -81,7 +94,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
 
-        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder<?, ?> builder = TwoWindingsTransformerTabInfos.builder()
+        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder builder = TwoWindingsTransformerTabInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -99,18 +112,28 @@ public final class TwoWindingsTransformerInfosMapper {
                 .b(twoWT.getB())
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
-                .ratedU2(twoWT.getRatedU2())
-                .ratedS(nullIfNan(twoWT.getRatedS()))
-                .p1(nullIfNan(terminal1.getP()))
-                .q1(nullIfNan(terminal1.getQ()))
-                .p2(nullIfNan(terminal2.getP()))
-                .q2(nullIfNan(terminal2.getQ()))
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
-                .currentLimits1(toMapDataCurrentLimits(twoWT, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(twoWT, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(twoWT))
-                .connectablePosition1(toMapConnectablePosition(twoWT, 1))
+                .ratedU2(twoWT.getRatedU2());
+        builder.ratedS(nullIfNan(twoWT.getRatedS()));
+        builder.p1(nullIfNan(terminal1.getP()));
+        builder.q1(nullIfNan(terminal1.getQ()));
+        builder.p2(nullIfNan(terminal2.getP()));
+        builder.q2(nullIfNan(terminal2.getQ()));
+        builder.i1(nullIfNan(terminal1.getI()));
+        builder.i2(nullIfNan(terminal2.getI()));
+
+        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
+        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
+        if (limits1 != null) {
+            builder.currentLimits1(toMapDataCurrentLimits(limits1));
+        }
+        if (limits2 != null) {
+            builder.currentLimits2(toMapDataCurrentLimits(limits2));
+        }
+        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
+        }
+        builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
         return builder.build();
     }
@@ -130,7 +153,7 @@ public final class TwoWindingsTransformerInfosMapper {
                 .build();
     }
 
-    private static TwoWindingsTransformerTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
+    private static TwoWindingsTransformerTooltipInfos toTooltipInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         TwoWindingsTransformer twoWindingsTransformer = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWindingsTransformer.getTerminal1();
         Terminal terminal2 = twoWindingsTransformer.getTerminal2();
@@ -140,9 +163,11 @@ public final class TwoWindingsTransformerInfosMapper {
                 .name(twoWindingsTransformer.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .currentLimits1(toMapDataCurrentLimits(twoWindingsTransformer, Branch.Side.ONE))
-                .currentLimits2(toMapDataCurrentLimits(twoWindingsTransformer, Branch.Side.TWO))
-                .branchStatus(toBranchStatus(twoWindingsTransformer));
+                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
+                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
+
+        twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
+        twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
 
         return builder.build();
     }

@@ -96,4 +96,5 @@ public class TwoWindingsTransformerTabInfos extends ElementInfos {
     private String branchStatus;
 
 
+
 }

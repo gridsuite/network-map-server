@@ -14,7 +14,10 @@ import org.gridsuite.network.map.dto.definition.substation.SubstationFormInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationListInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationMapInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationTabInfos;
-
+import com.powsybl.iidm.network.Identifiable;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.ElementInfos;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,8 +29,8 @@ public final class SubstationInfosMapper {
     private SubstationInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case MAP:

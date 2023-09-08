@@ -24,8 +24,8 @@ public final class LoadInfosMapper {
     private LoadInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:

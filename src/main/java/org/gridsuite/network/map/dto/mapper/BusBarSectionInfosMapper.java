@@ -20,8 +20,8 @@ public final class BusBarSectionInfosMapper {
     private BusBarSectionInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case FORM:
                 return toFormInfos(identifiable);
             default:
