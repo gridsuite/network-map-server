@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BranchStatus;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
@@ -38,6 +37,7 @@ public final class LineInfosMapper {
                 throw new UnsupportedOperationException("TODO");
         }
     }
+
     private static LineFormInfos toFormInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
