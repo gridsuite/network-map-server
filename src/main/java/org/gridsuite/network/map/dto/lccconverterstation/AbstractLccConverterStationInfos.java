@@ -18,8 +18,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @SuperBuilder
 @Getter
 public abstract class AbstractLccConverterStationInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return LccConverterStationTabInfos.toData(identifiable);
             default:

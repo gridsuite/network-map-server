@@ -17,12 +17,12 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @SuperBuilder
 @Getter
 public abstract class AbstractTwoWindingsTransformerInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case LIST:
                 return TwoWindingsTransformerListInfos.toData(identifiable);
             case TOOLTIP:
-                return TwoWindingsTransformerTooltipInfos.toData(identifiable);
+                return TwoWindingsTransformerTooltipInfos.toData(identifiable, dataType.getDcPowerFactor());
             case TAB:
                 return TwoWindingsTransformerTabInfos.toData(identifiable);
             case FORM:

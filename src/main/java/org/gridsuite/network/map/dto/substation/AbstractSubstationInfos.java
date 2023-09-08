@@ -18,8 +18,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public abstract class AbstractSubstationInfos extends ElementInfos {
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return SubstationTabInfos.toData(identifiable);
             case MAP:

@@ -17,8 +17,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @SuperBuilder
 @Getter
 public abstract class AbstractDanglingLineInfos extends ElementInfos {
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoType dataType) {
-        switch (dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfoType dataType) {
+        switch (dataType.getInfoType()) {
             case TAB:
                 return DanglingLineTabInfos.toData(identifiable);
             default:

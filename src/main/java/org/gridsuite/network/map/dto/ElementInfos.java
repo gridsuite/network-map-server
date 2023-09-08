@@ -25,7 +25,30 @@ public class ElementInfos {
         TOOLTIP
     }
 
+    public static class ElementInfoType {
+        private InfoType infoType;
+        private Double dcPowerFactor;
+
+        public ElementInfoType(InfoType infoType, Double dcPowerFactor) {
+            this.infoType = infoType;
+            this.dcPowerFactor = dcPowerFactor;
+        }
+
+        public ElementInfoType(InfoType infoType) {
+            this.infoType = infoType;
+        }
+
+        public InfoType getInfoType() {
+            return infoType;
+        }
+
+        public Double getDcPowerFactor() {
+            return dcPowerFactor;
+        }
+    }
+
     private String id;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
 }
