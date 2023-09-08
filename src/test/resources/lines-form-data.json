@@ -40,12 +40,16 @@
     "b1": 5.0,
     "g2": 8.0,
     "b2": 6.0,
-    "connectionName1": "feederName1",
-    "connectionDirection1": "TOP",
-    "connectionName2": "feederName2",
-    "connectionDirection2": "BOTTOM",
-    "connectionPosition1": 0,
-    "connectionPosition2": 0,
+    "connectablePosition1": {
+      "connectionName": "feederName1",
+      "connectionPosition": 0,
+      "connectionDirection": "TOP"
+    },
+    "connectablePosition2": {
+      "connectionName": "feederName2",
+      "connectionPosition": 0,
+      "connectionDirection": "BOTTOM"
+    },
     "busOrBusbarSectionId1": "NHV1",
     "busOrBusbarSectionId2": "NHV2"
   },
@@ -61,6 +65,12 @@
     "b1": 1.93E-4,
     "g2": 0.0,
     "b2": 1.93E-4,
+    "connectablePosition1": {
+      "connectionDirection": null
+    },
+    "connectablePosition2": {
+      "connectionDirection": null
+    },
     "busOrBusbarSectionId1": "NHV1",
     "busOrBusbarSectionId2": "NHV2"
   },
@@ -79,12 +89,16 @@
     "b1": 1.93E-4,
     "g2": 0.0,
     "b2": 1.93E-4,
-    "connectionName1": "feederName1",
-    "connectionDirection1": "TOP",
-    "connectionName2": "feederName2",
-    "connectionDirection2": "BOTTOM",
-    "connectionPosition1": 0,
-    "connectionPosition2": 0,
+    "connectablePosition1": {
+      "connectionName": "feederName1",
+      "connectionPosition": 0,
+      "connectionDirection": "TOP"
+    },
+    "connectablePosition2": {
+    "connectionName": "feederName2",
+    "connectionPosition": 0,
+    "connectionDirection": "BOTTOM"
+  },
     "busOrBusbarSectionId1": "NGEN",
     "busOrBusbarSectionId2": "NGEN3"
   },
@@ -100,6 +114,12 @@
     "b1": 1.93E-4,
     "g2": 0.0,
     "b2": 1.93E-4,
+    "connectablePosition1": {
+      "connectionDirection": null
+    },
+    "connectablePosition2": {
+      "connectionDirection": null
+    },
     "busOrBusbarSectionId1": "NGEN6",
     "busOrBusbarSectionId2": "NGEN3"
   }

@@ -239,9 +239,11 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectablePosition": {
+        "connectionName": "feederName",
+        "connectionDirection": "TOP",
+        "connectionPosition": 0
+      }
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
@@ -251,7 +253,9 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null
+      "connectablePosition": {
+        "connectionDirection": null
+      }
     },
     {
       "id": "LOAD_ID",
@@ -262,7 +266,9 @@
       "terminalConnected": true,
       "p0": 600.0,
       "q0": 200.0,
-      "connectionDirection": null
+      "connectablePosition": {
+        "connectionDirection": null
+      }
     }
   ],
   "twoWindingsTransformers": [
@@ -343,12 +349,16 @@
       "x": 11.104492831516762,
       "ratedU1": 24.0,
       "ratedU2": 400.0,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0,
+      "connectablePosition1": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName1"
+      },
+      "connectablePosition2": {
+        "connectionDirection": "BOTTOM",
+        "connectionPosition": 0,
+        "connectionName": "feederName2"
+      },
       "branchStatus": "PLANNED_OUTAGE"
     },
     {
@@ -409,12 +419,16 @@
       "x": 4.049724365620455,
       "ratedU1": 400.0,
       "ratedU2": 158.0,
-      "connectionName1": "feederName1",
-      "connectionDirection1": "TOP",
-      "connectionName2": "feederName2",
-      "connectionDirection2": "BOTTOM",
-      "connectionPosition1": 0,
-      "connectionPosition2": 0,
+      "connectablePosition1": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName1"
+      },
+      "connectablePosition2": {
+        "connectionDirection": "BOTTOM",
+        "connectionPosition": 0,
+        "connectionName": "feederName2"
+      },
       "branchStatus": "PLANNED_OUTAGE"
     },
     {
@@ -453,8 +467,12 @@
       "x": 23.0,
       "ratedU1": 400.0,
       "ratedU2": 158.0,
-      "connectionDirection1": null,
-      "connectionDirection2": null
+      "connectablePosition1": {
+        "connectionDirection": null
+      },
+      "connectablePosition2": {
+        "connectionDirection": null
+      }
     }
   ],
   "threeWindingsTransformers": [
@@ -802,9 +820,11 @@
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
       "qPercent": 10.0
     },
     {
@@ -836,9 +856,11 @@
           "qmaxP": 5.0
         }
       ],
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
       "qPercent": 10.0
     }
   ],
@@ -855,9 +877,11 @@
         "minimumReactivePower": -500.0,
         "maximumReactivePower": 500.0
       },
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      }
     },
     {
       "id": "BATTERY2",
@@ -886,9 +910,11 @@
         }
       ],
       "droop": 3.0,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      }
     }
   ],
   "danglingLines": [
@@ -951,9 +977,11 @@
       "targetDeadband": 10.0,
       "sectionCount": 4,
       "maximumSectionCount": 8,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
       "bperSection": 5.0,
       "qatNominalV": 253125.0
     },
@@ -967,9 +995,11 @@
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
-      "connectionName": "feederName",
-      "connectionDirection": "TOP",
-      "connectionPosition": 0,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
       "bperSection": 1.0,
       "qatNominalV": 576.0
     },
@@ -983,7 +1013,9 @@
       "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
-      "connectionDirection": null,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
       "bperSection": 1.0,
       "qatNominalV": 576.0
     }

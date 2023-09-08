@@ -7,7 +7,8 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
-import org.gridsuite.network.map.dto.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 import org.gridsuite.network.map.model.TapChangerStepData;
@@ -17,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +30,40 @@ public final class ElementUtils {
 
     public static Double nullIfNan(double d) {
         return Double.isNaN(d) ? null : d;
+    }
+
+    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
+        var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
+        if (connectablePosition == null) {
+            return null;
+        }
+
+        switch (index) {
+            case 0:
+                return connectablePosition.getFeeder();
+            case 1:
+                return connectablePosition.getFeeder1();
+            case 2:
+                return connectablePosition.getFeeder2();
+            default:
+                throw new IllegalArgumentException("Invalid feeder index: " + index);
+        }
+    }
+
+    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
+        ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
+        ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
+        if (feeder != null) {
+            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection());
+            builder.connectionPosition(feeder.getOrder().orElse(null));
+            builder.connectionName(feeder.getName().orElse(null));
+        }
+        return builder.build();
+    }
+
+    public static CurrentLimitsData toMapDataCurrentLimits(Branch<?> branch, Branch.Side side) {
+        Optional<CurrentLimits> limits = side == Branch.Side.ONE ? branch.getCurrentLimits1() : branch.getCurrentLimits2();
+        return limits.map(l -> toMapDataCurrentLimits(l)).orElse(null);
     }
 
     public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {

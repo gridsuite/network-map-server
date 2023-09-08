@@ -8,42 +8,41 @@ package org.gridsuite.network.map.model;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.mapper.BatteryInfosMapper;
+import org.gridsuite.network.map.dto.mapper.BusBarSectionInfosMapper;
+import org.gridsuite.network.map.dto.mapper.DanglingLineInfosMapper;
+import org.gridsuite.network.map.dto.mapper.GeneratorInfosMapper;
+import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
+import org.gridsuite.network.map.dto.mapper.LccConverterStationInfosMapper;
+import org.gridsuite.network.map.dto.mapper.LineInfosMapper;
+import org.gridsuite.network.map.dto.mapper.LoadInfosMapper;
+import org.gridsuite.network.map.dto.mapper.ShuntCompensatorMapper;
+import org.gridsuite.network.map.dto.mapper.StaticVarCompensatorInfosMapper;
+import org.gridsuite.network.map.dto.mapper.SubstationInfosMapper;
+import org.gridsuite.network.map.dto.mapper.ThreeWindingsTransformerInfosMapper;
+import org.gridsuite.network.map.dto.mapper.TwoWindingsTransformerInfosMapper;
+import org.gridsuite.network.map.dto.mapper.VoltageLevelInfosMapper;
+import org.gridsuite.network.map.dto.mapper.VscConverterStationInfosMapper;
 import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
-import org.gridsuite.network.map.dto.battery.AbstractBatteryInfos;
-import org.gridsuite.network.map.dto.busbarsection.AbstractBusBarSectionInfos;
-import org.gridsuite.network.map.dto.danglingline.AbstractDanglingLineInfos;
-import org.gridsuite.network.map.dto.generator.AbstractGeneratorInfos;
-import org.gridsuite.network.map.dto.hvdc.AbstractHvdcInfos;
-import org.gridsuite.network.map.dto.lccconverterstation.AbstractLccConverterStationInfos;
-import org.gridsuite.network.map.dto.line.AbstractLineInfos;
-import org.gridsuite.network.map.dto.load.AbstractLoadInfos;
-import org.gridsuite.network.map.dto.shuntcompensator.AbstractShuntCompensator;
-import org.gridsuite.network.map.dto.staticvarcompensator.AbstractStaticVarCompensatorInfos;
-import org.gridsuite.network.map.dto.substation.AbstractSubstationInfos;
-import org.gridsuite.network.map.dto.threewindingstransformer.AbstractThreeWindingsTransformerInfos;
-import org.gridsuite.network.map.dto.twowindingstransformer.AbstractTwoWindingsTransformerInfos;
-import org.gridsuite.network.map.dto.voltagelevel.AbstractVoltageLevelInfos;
-import org.gridsuite.network.map.dto.vscconverterstation.AbstractVscConverterStationInfos;
-
 import java.util.function.BiFunction;
 
 
 public enum ElementType {
-    SUBSTATION(Substation.class, AbstractSubstationInfos::toData),
-    VOLTAGE_LEVEL(VoltageLevel.class, AbstractVoltageLevelInfos::toData),
-    LINE(Line.class, AbstractLineInfos::toData),
-    HVDC_LINE(HvdcLine.class, AbstractHvdcInfos::toData),
-    LOAD(Load.class, AbstractLoadInfos::toData),
-    TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, AbstractTwoWindingsTransformerInfos::toData),
-    THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, AbstractThreeWindingsTransformerInfos::toData),
-    BUSBAR_SECTION(BusbarSection.class, AbstractBusBarSectionInfos::toData),
-    GENERATOR(Generator.class, AbstractGeneratorInfos::toData),
-    BATTERY(Battery.class, AbstractBatteryInfos::toData),
-    SHUNT_COMPENSATOR(ShuntCompensator.class, AbstractShuntCompensator::toData),
-    DANGLING_LINE(DanglingLine.class, AbstractDanglingLineInfos::toData),
-    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, AbstractStaticVarCompensatorInfos::toData),
-    LCC_CONVERTER_STATION(LccConverterStation.class, AbstractLccConverterStationInfos::toData),
-    VSC_CONVERTER_STATION(VscConverterStation.class, AbstractVscConverterStationInfos::toData);
+    SUBSTATION(Substation.class, SubstationInfosMapper::toData),
+    VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
+    LINE(Line.class, LineInfosMapper::toData),
+    HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
+    LOAD(Load.class, LoadInfosMapper::toData),
+    TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData),
+    THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, ThreeWindingsTransformerInfosMapper::toData),
+    BUSBAR_SECTION(BusbarSection.class, BusBarSectionInfosMapper::toData),
+    GENERATOR(Generator.class, GeneratorInfosMapper::toData),
+    BATTERY(Battery.class, BatteryInfosMapper::toData),
+    SHUNT_COMPENSATOR(ShuntCompensator.class, ShuntCompensatorMapper::toData),
+    DANGLING_LINE(DanglingLine.class, DanglingLineInfosMapper::toData),
+    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, StaticVarCompensatorInfosMapper::toData),
+    LCC_CONVERTER_STATION(LccConverterStation.class, LccConverterStationInfosMapper::toData),
+    VSC_CONVERTER_STATION(VscConverterStation.class, VscConverterStationInfosMapper::toData);
 
     private final Class<? extends Identifiable> elementClass;
 
