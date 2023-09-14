@@ -8,15 +8,7 @@
 package org.gridsuite.network.map.dto.definition.vscconverterstation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.MinMaxReactiveLimits;
-import com.powsybl.iidm.network.ReactiveCapabilityCurve;
-import com.powsybl.iidm.network.ReactiveLimits;
-import com.powsybl.iidm.network.ReactiveLimitsKind;
-import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.VscConverterStation;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -24,8 +16,6 @@ import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
-
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getReactiveCapabilityCurvePointsMapData;
 
 /**
  * @author Seddik Yengui <seddik.yengui at rte-france.com>
