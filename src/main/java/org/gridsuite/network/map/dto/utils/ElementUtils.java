@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.model.TapChangerData;
 import org.gridsuite.network.map.model.TapChangerStepData;
 import org.gridsuite.network.map.model.TemporaryLimitData;
@@ -273,5 +274,15 @@ public final class ElementUtils {
             intensity = 1000. * terminal.getP() / (Math.sqrt(3) * dcPowerFactor * terminal.getVoltageLevel().getNominalV());
         }
         return intensity;
+    }
+
+    public static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePointsMapData(Collection<ReactiveCapabilityCurve.Point> points) {
+        return points.stream()
+                .map(point -> ReactiveCapabilityCurveMapData.builder()
+                        .p(point.getP())
+                        .qmaxP(point.getMaxQ())
+                        .qminP(point.getMinQ())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
