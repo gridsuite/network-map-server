@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
@@ -31,9 +32,6 @@ public class GeneratorTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlName;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean activePowerControlOn;
 
     private Boolean terminalConnected;
 
@@ -85,9 +83,6 @@ public class GeneratorTabInfos extends ElementInfos {
     private Boolean participate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double droop;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double transientReactance;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -108,6 +103,8 @@ public class GeneratorTabInfos extends ElementInfos {
     @JsonProperty("qPercent")
     @Getter(AccessLevel.NONE)
     private double qPercent;
+
+    private ActivePowerControlInfos activePowerControl;
 
     private ConnectablePositionInfos connectablePosition;
 

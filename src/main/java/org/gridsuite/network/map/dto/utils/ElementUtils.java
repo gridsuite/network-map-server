@@ -7,7 +7,7 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import com.powsybl.iidm.network.extensions.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
@@ -18,7 +18,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -61,9 +60,21 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static CurrentLimitsData toMapDataCurrentLimits(Branch<?> branch, Branch.Side side) {
-        Optional<CurrentLimits> limits = side == Branch.Side.ONE ? branch.getCurrentLimits1() : branch.getCurrentLimits2();
-        return limits.map(l -> toMapDataCurrentLimits(l)).orElse(null);
+    public static ActivePowerControlInfos toActivePowerControl(Identifiable<?> identifiable) {
+        ActivePowerControlInfos.ActivePowerControlInfosBuilder builder = ActivePowerControlInfos.builder();
+        ActivePowerControl activePowerControl = identifiable.getExtension(ActivePowerControl.class);
+
+        if (activePowerControl != null) {
+            builder.activePowerControlOn(activePowerControl.isParticipate());
+            builder.droop(activePowerControl.getDroop());
+        }
+
+        return builder.build();
+    }
+
+    public static String toBranchStatus(Branch<?> branch) {
+        BranchStatus branchStatus = branch.getExtension(BranchStatus.class);
+        return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
     public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {

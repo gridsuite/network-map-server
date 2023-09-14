@@ -1,7 +1,6 @@
 {
   "id": "GEN",
   "voltageLevelId": "VLGEN",
-  "activePowerControlOn":true,
   "terminalConnected": true,
   "p": 25.0,
   "q": 32.0,
@@ -17,7 +16,10 @@
     "minimumReactivePower": -500,
     "maximumReactivePower": 500
   },
-  "droop": 4,
+  "activePowerControl":{
+    "activePowerControlOn": true,
+    "droop": 4.0
+  },
   "regulatingTerminalConnectableId": "NHV1_NHV2_1",
   "regulatingTerminalConnectableType": "LINE",
   "regulatingTerminalVlId": "VLHV1",

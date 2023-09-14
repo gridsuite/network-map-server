@@ -800,7 +800,6 @@
       "id": "GEN",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
-      "activePowerControlOn": true,
       "terminalConnected": true,
       "p": 25.0,
       "q": 32.0,
@@ -816,7 +815,10 @@
         "minimumReactivePower": -500.0,
         "maximumReactivePower": 500.0
       },
-      "droop": 4.0,
+      "activePowerControl":{
+        "activePowerControlOn": true,
+        "droop": 4.0
+      },
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
@@ -856,6 +858,8 @@
           "qmaxP": 5.0
         }
       ],
+      "activePowerControl":{
+      },
       "connectablePosition": {
         "connectionName": "feederName",
         "connectionPosition": 0,
@@ -877,6 +881,8 @@
         "minimumReactivePower": -500.0,
         "maximumReactivePower": 500.0
       },
+      "activePowerControl":{
+      },
       "connectablePosition": {
         "connectionName": "feederName",
         "connectionPosition": 0,
@@ -888,7 +894,6 @@
       "id": "BATTERY2",
       "name": "BATTERY2",
       "voltageLevelId": "VLGEN3",
-      "activePowerControlOn": true,
       "targetP": 1.0,
       "targetQ": 1.0,
       "minP": 50.0,
@@ -910,7 +915,10 @@
           "qmaxP": 5.0
         }
       ],
-      "droop": 3.0,
+      "activePowerControl":{
+        "activePowerControlOn": true,
+        "droop": 3.0
+      },
       "connectablePosition": {
         "connectionName": "feederName",
         "connectionPosition": 0,

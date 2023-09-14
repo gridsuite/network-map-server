@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ActivePowerControl;
 import com.powsybl.iidm.network.extensions.CoordinatedReactiveControl;
 import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
 import com.powsybl.iidm.network.extensions.GeneratorStartup;
@@ -74,11 +73,7 @@ public final class GeneratorInfosMapper {
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
 
-        ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
-        }
+        builder.activePowerControl(toActivePowerControl(generator));
 
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
         if (generatorShortCircuit != null) {
@@ -147,11 +142,7 @@ public final class GeneratorInfosMapper {
                 .q(nullIfNan(terminal.getQ()));
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
-        ActivePowerControl<Generator> activePowerControl = generator.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
-        }
+        builder.activePowerControl(toActivePowerControl(generator));
 
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
         if (generatorShortCircuit != null) {

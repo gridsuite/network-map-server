@@ -7,6 +7,8 @@
     "targetQ": 1.0,
     "minP": 50.0,
     "maxP": 70.0,
+    "activePowerControl":{
+     },
     "minMaxReactiveLimits": {
       "minimumReactivePower": -500.0,
       "maximumReactivePower": 500.0
@@ -21,8 +23,7 @@
     "id": "BATTERY2",
     "name": "BATTERY2",
     "voltageLevelId": "VLGEN3",
-    "activePowerControlOn": true,
-    "targetP": 1.0,
+     "targetP": 1.0,
     "targetQ": 1.0,
     "minP": 50.0,
     "maxP": 70.0,
@@ -43,7 +44,10 @@
         "qmaxP": 5.0
       }
     ],
-    "droop": 3.0,
+    "activePowerControl":{
+      "activePowerControlOn": true,
+      "droop": 3.0
+    },
     "connectablePosition": {
       "connectionName": "feederName",
       "connectionPosition": 0,

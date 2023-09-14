@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.BranchStatus;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
@@ -80,10 +79,7 @@ public final class TwoWindingsTransformerInfosMapper {
         if (limits2 != null) {
             builder.currentLimits2(toMapDataCurrentLimits(limits2));
         }
-        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
+        builder.branchStatus(toBranchStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
         return builder.build();
@@ -129,10 +125,7 @@ public final class TwoWindingsTransformerInfosMapper {
         if (limits2 != null) {
             builder.currentLimits2(toMapDataCurrentLimits(limits2));
         }
-        BranchStatus<TwoWindingsTransformer> branchStatus = twoWT.getExtension(BranchStatus.class);
-        if (branchStatus != null) {
-            builder.branchStatus(branchStatus.getStatus().name());
-        }
+        builder.branchStatus(toBranchStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
         return builder.build();
