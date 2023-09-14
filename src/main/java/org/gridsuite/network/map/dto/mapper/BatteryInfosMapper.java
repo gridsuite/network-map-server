@@ -78,7 +78,8 @@ public final class BatteryInfosMapper {
         Terminal terminal = battery.getTerminal();
         BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = BatteryTabInfos.builder().name(battery.getOptionalName().orElse(null)).id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).targetP(battery.getTargetP()).targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).q(nullIfNan(terminal.getQ()));
 
-        builder.connectablePosition(toMapConnectablePosition(battery, 0));
+        builder.connectablePosition(toMapConnectablePosition(battery, 0))
+               .activePowerControl(toActivePowerControl(battery));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -91,8 +92,6 @@ public final class BatteryInfosMapper {
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
             }
         }
-
-        builder.activePowerControl(toActivePowerControl(battery));
 
         return builder.build();
     }

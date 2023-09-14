@@ -71,9 +71,8 @@ public final class GeneratorInfosMapper {
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
-                .q(nullIfNan(terminal.getQ()));
-
-        builder.activePowerControl(toActivePowerControl(generator));
+                .q(nullIfNan(terminal.getQ()))
+                .activePowerControl(toActivePowerControl(generator));
 
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
         if (generatorShortCircuit != null) {
@@ -140,9 +139,8 @@ public final class GeneratorInfosMapper {
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
-
-        builder.activePowerControl(toActivePowerControl(generator));
+        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
+                .activePowerControl(toActivePowerControl(generator));
 
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
         if (generatorShortCircuit != null) {
