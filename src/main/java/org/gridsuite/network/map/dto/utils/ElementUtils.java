@@ -62,8 +62,7 @@ public final class ElementUtils {
 
     public static ActivePowerControlInfos toActivePowerControl(Identifiable<?> identifiable) {
         ActivePowerControlInfos.ActivePowerControlInfosBuilder builder = ActivePowerControlInfos.builder();
-        ActivePowerControl activePowerControl = identifiable.getExtension(ActivePowerControl.class);
-
+        var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
             builder.activePowerControlOn(activePowerControl.isParticipate());
             builder.droop(activePowerControl.getDroop());
@@ -73,7 +72,7 @@ public final class ElementUtils {
     }
 
     public static String toBranchStatus(Branch<?> branch) {
-        BranchStatus branchStatus = branch.getExtension(BranchStatus.class);
+        var branchStatus = branch.getExtension(BranchStatus.class);
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
