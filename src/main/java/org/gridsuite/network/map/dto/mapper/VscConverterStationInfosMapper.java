@@ -21,6 +21,8 @@ import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverter
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getReactiveCapabilityCurvePointsMapData;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -33,6 +35,8 @@ public final class VscConverterStationInfosMapper {
         switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
+            case FORM:
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -77,32 +81,17 @@ public final class VscConverterStationInfosMapper {
                 .name(vscConverterStation.getOptionalName().orElse(null))
                 .id(vscConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
-                .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
-
-        if (!Double.isNaN(vscConverterStation.getVoltageSetpoint())) {
-            builder.voltageSetpoint(vscConverterStation.getVoltageSetpoint());
-        }
-
-        if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
-            builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
-        }
-
-        if (!Double.isNaN(terminal.getQ())) {
-            builder.q(terminal.getQ());
-        }
-
-        if (!Double.isNaN(terminal.getP())) {
-            builder.p(terminal.getP());
-        }
+                .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn())
+                .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
+                .reactivePowerSetpoint(nullIfNan(vscConverterStation.getReactivePowerSetpoint()))
+                .q(nullIfNan(terminal.getQ()))
+                .p(nullIfNan(terminal.getP()));
 
         ConnectablePosition<VscConverterStation> connectablePosition = vscConverterStation.getExtension(ConnectablePosition.class);
         if (connectablePosition != null) {
-            builder.connectionDirection(connectablePosition.getFeeder().getDirection());
-            connectablePosition.getFeeder().getName().ifPresent(builder::connectionName);
-            connectablePosition.getFeeder().getOrder().ifPresent(builder::connectionPosition);
+            builder.connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
         }
 
         ReactiveLimits reactiveLimits = vscConverterStation.getReactiveLimits();
