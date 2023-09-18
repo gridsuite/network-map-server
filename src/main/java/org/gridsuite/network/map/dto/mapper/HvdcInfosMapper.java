@@ -139,7 +139,9 @@ public final class HvdcInfosMapper {
                 .dcResistance(hvdcLine.getR())
                 .maximumActivePower(hvdcLine.getMaxP())
                 .activePower(hvdcLine.getActivePowerSetpoint())
-                .convertersMode(hvdcLine.getConvertersMode());
+                .convertersMode(hvdcLine.getConvertersMode())
+                .converterStation1(getConverterStationData(hvdcLine.getConverterStation1()))
+                .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()));
 
         HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
         if (hvdcAngleDroopActivePowerControl != null) {
@@ -152,16 +154,6 @@ public final class HvdcInfosMapper {
         if (hvdcOperatorActivePowerRange != null) {
             builder.operatorActivePowerLimitFromSide1ToSide2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
                     .operatorActivePowerLimitFromSide2ToSide1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1());
-        }
-
-        VscConverterStationFormInfos converterStation1 = getConverterStationData(hvdcLine.getConverterStation1());
-        if (converterStation1 != null) {
-            builder.converterStation1(converterStation1);
-        }
-
-        VscConverterStationFormInfos converterStation2 = getConverterStationData(hvdcLine.getConverterStation2());
-        if (converterStation2 != null) {
-            builder.converterStation2(converterStation2);
         }
 
         return builder.build();
