@@ -7,8 +7,6 @@
     "targetQ": 1.0,
     "minP": 50.0,
     "maxP": 70.0,
-    "activePowerControl":{
-     },
     "minMaxReactiveLimits": {
       "minimumReactivePower": -500.0,
       "maximumReactivePower": 500.0

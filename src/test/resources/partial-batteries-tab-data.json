@@ -11,8 +11,6 @@
       "minimumReactivePower": -500.0,
       "maximumReactivePower": 500.0
     },
-    "activePowerControl":{
-    },
     "connectablePosition": {
       "connectionName": "feederName",
       "connectionPosition": 0,

@@ -16,6 +16,7 @@ import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author REHILI Ghazwa <ghazwa.rehili@rte-france.com>
@@ -50,7 +51,8 @@ public class BatteryFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean participate;
 
-    private ActivePowerControlInfos activePowerControl;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ActivePowerControlInfos> activePowerControl;
 
     private ConnectablePositionInfos connectablePosition;
 

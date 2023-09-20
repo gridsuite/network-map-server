@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -60,15 +61,15 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static ActivePowerControlInfos toActivePowerControl(Identifiable<?> identifiable) {
+    public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         ActivePowerControlInfos.ActivePowerControlInfosBuilder builder = ActivePowerControlInfos.builder();
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
             builder.activePowerControlOn(activePowerControl.isParticipate());
             builder.droop(activePowerControl.getDroop());
+            return Optional.of(builder.build());
         }
-
-        return builder.build();
+        return Optional.empty();
     }
 
     public static String toBranchStatus(Branch<?> branch) {
@@ -76,14 +77,15 @@ public final class ElementUtils {
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
-    public static GeneratorShortCircuitInfos toGeneratorShortCircuit(Generator generator) {
-        GeneratorShortCircuitInfos.GeneratorShortCircuitInfosBuilder builder = GeneratorShortCircuitInfos.builder();
+    public static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(Generator generator) {
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
         if (generatorShortCircuit != null) {
+            GeneratorShortCircuitInfos.GeneratorShortCircuitInfosBuilder builder = GeneratorShortCircuitInfos.builder();
             builder.transientReactance(generatorShortCircuit.getDirectTransX());
             builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
+            return Optional.of(builder.build());
         }
-        return builder.build();
+        return Optional.empty();
     }
 
     public static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(Generator generator) {
@@ -97,26 +99,28 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static GeneratorStartupInfos toGeneratorStartup(Generator generator) {
-        GeneratorStartupInfos.GeneratorStartupInfosBuilder builder = GeneratorStartupInfos.builder();
+    public static Optional<GeneratorStartupInfos> toGeneratorStartup(Generator generator) {
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
         if (generatorStartup != null) {
+            GeneratorStartupInfos.GeneratorStartupInfosBuilder builder = GeneratorStartupInfos.builder();
             builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
             builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
             builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
             builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
+            return Optional.of(builder.build());
         }
-        return builder.build();
+        return Optional.empty();
     }
 
-    public static IdentifiableShortCircuitInfos toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
-        IdentifiableShortCircuitInfos.IdentifiableShortCircuitInfosBuilder builder = IdentifiableShortCircuitInfos.builder();
+    public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
         IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
         if (identifiableShortCircuit != null) {
+            IdentifiableShortCircuitInfos.IdentifiableShortCircuitInfosBuilder builder = IdentifiableShortCircuitInfos.builder();
             builder.ipMin(identifiableShortCircuit.getIpMin());
             builder.ipMax(identifiableShortCircuit.getIpMax());
+            return Optional.of(builder.build());
         }
-        return builder.build();
+        return Optional.empty();
     }
 
     public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {

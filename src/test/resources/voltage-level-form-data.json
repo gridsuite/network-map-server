@@ -6,6 +6,5 @@
   "busbarCount": 1,
   "sectionCount": 2,
   "switchKinds": ["DISCONNECTOR"],
-  "isRetrievedBusbarSections": true,
-  "identifiableShortCircuit": {}
+  "isRetrievedBusbarSections": true
 }

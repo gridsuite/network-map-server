@@ -68,10 +68,10 @@ public final class GeneratorInfosMapper {
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
-                .q(nullIfNan(terminal.getQ()))
-                .activePowerControl(toActivePowerControl(generator));
+                .q(nullIfNan(terminal.getQ()));
 
-        builder.coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
+        builder.activePowerControl(toActivePowerControl(generator))
+                .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
                 .generatorShortCircuit(toGeneratorShortCircuit(generator))
                 .generatorStartup(toGeneratorStartup(generator));
 

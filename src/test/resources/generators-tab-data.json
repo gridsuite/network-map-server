@@ -30,9 +30,8 @@
       "connectionPosition": 0,
       "connectionName": "feederName"
     },
-    "coordinatedReactiveControl": { "qPercent": 10.0},
-    "generatorShortCircuit": {},
-    "generatorStartup": {}  },
+    "coordinatedReactiveControl": { "qPercent": 10.0}
+   },
   {
     "id": "GEN2",
     "voltageLevelId": "VLGEN",
@@ -50,10 +49,6 @@
       { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
       { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
     ],
-    "activePowerControl":{
-    },
-    "generatorShortCircuit": {},
-    "generatorStartup": {},
     "connectablePosition": {
       "connectionDirection": "TOP",
       "connectionPosition": 0,
