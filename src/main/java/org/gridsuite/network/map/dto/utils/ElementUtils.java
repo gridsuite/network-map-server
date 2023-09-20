@@ -76,6 +76,49 @@ public final class ElementUtils {
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
+    public static GeneratorShortCircuitInfos toGeneratorShortCircuit(Generator generator) {
+        GeneratorShortCircuitInfos.GeneratorShortCircuitInfosBuilder builder = GeneratorShortCircuitInfos.builder();
+        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
+        if (generatorShortCircuit != null) {
+            builder.transientReactance(generatorShortCircuit.getDirectTransX());
+            builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
+        }
+        return builder.build();
+    }
+
+    public static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(Generator generator) {
+        CoordinatedReactiveControlInfos.CoordinatedReactiveControlInfosBuilder builder = CoordinatedReactiveControlInfos.builder();
+        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
+        if (coordinatedReactiveControl != null) {
+            builder.qPercent(coordinatedReactiveControl.getQPercent());
+        } else {
+            builder.qPercent(Double.NaN);
+        }
+        return builder.build();
+    }
+
+    public static GeneratorStartupInfos toGeneratorStartup(Generator generator) {
+        GeneratorStartupInfos.GeneratorStartupInfosBuilder builder = GeneratorStartupInfos.builder();
+        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
+        if (generatorStartup != null) {
+            builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
+            builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
+            builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
+            builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
+        }
+        return builder.build();
+    }
+
+    public static IdentifiableShortCircuitInfos toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
+        IdentifiableShortCircuitInfos.IdentifiableShortCircuitInfosBuilder builder = IdentifiableShortCircuitInfos.builder();
+        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
+        if (identifiableShortCircuit != null) {
+            builder.ipMin(identifiableShortCircuit.getIpMin());
+            builder.ipMax(identifiableShortCircuit.getIpMax());
+        }
+        return builder.build();
+    }
+
     public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {
         CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
         boolean empty = true;

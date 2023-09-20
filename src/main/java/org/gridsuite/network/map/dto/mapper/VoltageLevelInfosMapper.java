@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
-import com.powsybl.iidm.network.extensions.IdentifiableShortCircuit;
 import lombok.Getter;
 import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toIdentifiableShortCircuit;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -93,12 +93,9 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
         }
 
-        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        if (identifiableShortCircuit != null) {
-            builder.ipMin(identifiableShortCircuit.getIpMin());
-            builder.ipMax(identifiableShortCircuit.getIpMax());
+        if (toIdentifiableShortCircuit(voltageLevel) != null) {
+            builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
         }
-
         return builder.build();
     }
 
@@ -132,18 +129,8 @@ public final class VoltageLevelInfosMapper {
                 .nominalVoltage(voltageLevel.getNominalV())
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
-
-        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        if (identifiableShortCircuit != null) {
-            Double ipMin = nullIfNan(identifiableShortCircuit.getIpMin());
-            if (ipMin != null) {
-                builder.ipMin(ipMin / 1000.);  // to get value in kA : value is in A in iidm
-            }
-            Double ipMax = nullIfNan(identifiableShortCircuit.getIpMax());
-            if (ipMax != null) {
-                builder.ipMax(ipMax / 1000.);  // to get value in kA : value is in A in iidm
-            }
-        }
+        // TODO conversion frontend to KA
+        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
     }

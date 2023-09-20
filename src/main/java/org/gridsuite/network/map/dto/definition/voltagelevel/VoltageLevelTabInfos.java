@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.IdentifiableShortCircuitInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -29,10 +30,6 @@ public class VoltageLevelTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double highVoltageLimit;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMin;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMax;
+    private IdentifiableShortCircuitInfos identifiableShortCircuit;
 
 }

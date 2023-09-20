@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.TopologyKind;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.gridsuite.network.map.dto.utils.IdentifiableShortCircuitInfos;
 
 import java.util.List;
 
@@ -43,10 +44,7 @@ public class VoltageLevelMapData {
     private Double highVoltageLimit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMin;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMax;
+    private IdentifiableShortCircuitInfos identifiableShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer busbarCount;

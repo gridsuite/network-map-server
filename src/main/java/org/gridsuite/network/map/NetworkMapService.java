@@ -8,7 +8,6 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.IdentifiableShortCircuit;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
@@ -30,6 +29,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toIdentifiableShortCircuit;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -73,11 +74,7 @@ class NetworkMapService {
             builder.switchKinds(topologyInfos.getSwitchKinds());
         }
 
-        IdentifiableShortCircuit identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        if (identifiableShortCircuit != null) {
-            builder.ipMin(identifiableShortCircuit.getIpMin());
-            builder.ipMax(identifiableShortCircuit.getIpMax());
-        }
+        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
     }

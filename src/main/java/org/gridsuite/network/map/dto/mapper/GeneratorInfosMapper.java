@@ -7,9 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.CoordinatedReactiveControl;
-import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
-import com.powsybl.iidm.network.extensions.GeneratorStartup;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
@@ -74,24 +71,9 @@ public final class GeneratorInfosMapper {
                 .q(nullIfNan(terminal.getQ()))
                 .activePowerControl(toActivePowerControl(generator));
 
-        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
-        if (generatorShortCircuit != null) {
-            builder.transientReactance(generatorShortCircuit.getDirectTransX());
-            builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
-        }
-
-        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
-        if (generatorStartup != null) {
-            builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
-            builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
-            builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
-            builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
-        }
-
-        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
-        if (coordinatedReactiveControl != null) {
-            builder.qPercent(coordinatedReactiveControl.getQPercent());
-        }
+        builder.coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
+                .generatorShortCircuit(toGeneratorShortCircuit(generator))
+                .generatorStartup(toGeneratorStartup(generator));
 
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
@@ -142,26 +124,9 @@ public final class GeneratorInfosMapper {
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .activePowerControl(toActivePowerControl(generator));
 
-        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
-        if (generatorShortCircuit != null) {
-            builder.transientReactance(generatorShortCircuit.getDirectTransX());
-            builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
-        }
-
-        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
-        if (generatorStartup != null) {
-            builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
-            builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
-            builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
-            builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
-        }
-
-        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
-        if (coordinatedReactiveControl != null) {
-            builder.qPercent(coordinatedReactiveControl.getQPercent());
-        } else {
-            builder.qPercent(Double.NaN);
-        }
+        builder.generatorShortCircuit(toGeneratorShortCircuit(generator))
+                .generatorStartup(toGeneratorStartup(generator))
+                .coordinatedReactiveControl(toCoordinatedReactiveControl(generator));
 
         Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level

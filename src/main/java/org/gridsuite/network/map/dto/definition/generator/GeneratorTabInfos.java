@@ -7,14 +7,11 @@
 package org.gridsuite.network.map.dto.definition.generator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.powsybl.iidm.network.EnergySource;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ActivePowerControlInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.utils.*;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -61,17 +58,7 @@ public class GeneratorTabInfos extends ElementInfos {
 
     private boolean voltageRegulatorOn;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double plannedActivePowerSetPoint;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double marginalCost;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double plannedOutageRate;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double forcedOutageRate;
+    private GeneratorStartupInfos generatorStartup;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
@@ -82,11 +69,7 @@ public class GeneratorTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean participate;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double transientReactance;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double stepUpTransformerReactance;
+    private GeneratorShortCircuitInfos generatorShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalConnectableId;
@@ -97,12 +80,7 @@ public class GeneratorTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
-    // As this attribute has only one lower case letter at its start (xXXXX), the getters is parsed as getQPercent and the field for Jackson is parsed as qpercent
-    // while we expect qPercent. JsonProperty let fix the json field to qPercent
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("qPercent")
-    @Getter(AccessLevel.NONE)
-    private double qPercent;
+    private CoordinatedReactiveControlInfos coordinatedReactiveControl;
 
     private ActivePowerControlInfos activePowerControl;
 
