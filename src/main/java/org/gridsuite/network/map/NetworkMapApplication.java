@@ -14,9 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-@SpringBootApplication
+@SpringBootApplication(scanBasePackageClasses = {NetworkMapApplication.class})
 public class NetworkMapApplication {
-
     public static void main(String[] args) {
         Utils.initProperties();
         SpringApplication.run(NetworkMapApplication.class, args);

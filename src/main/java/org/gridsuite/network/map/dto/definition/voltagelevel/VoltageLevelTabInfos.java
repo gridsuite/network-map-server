@@ -18,7 +18,6 @@ import org.gridsuite.network.map.dto.utils.IdentifiableShortCircuitInfos;
 @SuperBuilder
 @Getter
 public class VoltageLevelTabInfos extends ElementInfos {
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
@@ -30,6 +29,6 @@ public class VoltageLevelTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double highVoltageLimit;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private IdentifiableShortCircuitInfos identifiableShortCircuit;
-
 }
