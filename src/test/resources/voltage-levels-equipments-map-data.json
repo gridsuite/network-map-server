@@ -4,8 +4,7 @@
       "id": "VLGEN",
       "substationId": "P1",
       "nominalVoltage": 24,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -70,8 +69,7 @@
       "id": "VLHV1",
       "substationId": "P1",
       "nominalVoltage": 380,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -116,8 +114,7 @@
       "id": "VLHV2",
       "substationId": "P2",
       "nominalVoltage": 380,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -142,8 +139,7 @@
       "id": "VLLOAD",
       "substationId": "P2",
       "nominalVoltage": 150,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -163,8 +159,7 @@
       "id": "VLNEW2",
       "substationId": "P1",
       "nominalVoltage": 225,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -244,8 +239,7 @@
       "id": "VLGEN3",
       "substationId": "P3",
       "nominalVoltage": 24,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {
@@ -287,7 +281,6 @@
       "nominalVoltage": 24,
       "topologyKind": "NODE_BREAKER",
       "busbarCount": 1,
-      "identifiableShortCircuit": {},
       "sectionCount": 2,
       "switchKinds": [
         "DISCONNECTOR"
@@ -335,8 +328,7 @@
       "id": "VLGEN6",
       "substationId": "P6",
       "nominalVoltage": 24.0,
-      "topologyKind": "BUS_BREAKER",
-      "identifiableShortCircuit": {}
+      "topologyKind": "BUS_BREAKER"
     },
     "equipments": [
       {

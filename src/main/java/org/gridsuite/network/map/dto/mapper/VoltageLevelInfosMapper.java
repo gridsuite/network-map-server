@@ -93,9 +93,8 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
         }
 
-        if (toIdentifiableShortCircuit(voltageLevel) != null) {
-            builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
-        }
+        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
+
         return builder.build();
     }
 

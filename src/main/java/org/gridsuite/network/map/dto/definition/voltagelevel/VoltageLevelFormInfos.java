@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.utils.IdentifiableShortCircuitInfos;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -37,8 +38,8 @@ public class VoltageLevelFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double highVoltageLimit;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private IdentifiableShortCircuitInfos identifiableShortCircuit;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<IdentifiableShortCircuitInfos> identifiableShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer busbarCount;

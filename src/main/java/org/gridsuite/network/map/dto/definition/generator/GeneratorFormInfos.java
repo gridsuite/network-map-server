@@ -16,6 +16,7 @@ import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -56,7 +57,8 @@ public class GeneratorFormInfos extends ElementInfos {
 
     private boolean voltageRegulatorOn;
 
-    private GeneratorStartupInfos generatorStartup;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<GeneratorStartupInfos> generatorStartup;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
@@ -67,7 +69,8 @@ public class GeneratorFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean participate;
 
-    private GeneratorShortCircuitInfos generatorShortCircuit;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<GeneratorShortCircuitInfos> generatorShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalConnectableId;

@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.utils.IdentifiableShortCircuitInfos;
 
+import java.util.Optional;
+
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
@@ -30,6 +32,7 @@ public class VoltageLevelTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double highVoltageLimit;
 
-    private IdentifiableShortCircuitInfos identifiableShortCircuit;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<IdentifiableShortCircuitInfos> identifiableShortCircuit;
 
 }
