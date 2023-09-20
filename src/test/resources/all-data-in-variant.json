@@ -827,7 +827,9 @@
         "connectionPosition": 0,
         "connectionDirection": "TOP"
       },
-      "qPercent": 10.0
+      "coordinatedReactiveControl": { "qPercent": 10.0},
+      "generatorShortCircuit": {},
+      "generatorStartup": {}
     },
     {
       "id": "GEN2",
@@ -865,7 +867,10 @@
         "connectionPosition": 0,
         "connectionDirection": "TOP"
       },
-      "qPercent": 10.0
+      "coordinatedReactiveControl": { "qPercent": 10.0},
+      "generatorShortCircuit": {},
+      "generatorStartup": {}
+
     }
   ],
   "batteries": [

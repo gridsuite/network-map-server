@@ -7,17 +7,20 @@
       {
         "id": "VLGEN",
         "substationId": "P1",
-        "nominalVoltage": 24.0
+        "nominalVoltage": 24.0,
+        "identifiableShortCircuit": {}
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
-        "nominalVoltage": 380.0
+        "nominalVoltage": 380.0,
+        "identifiableShortCircuit": {}
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
-        "nominalVoltage": 225.0
+        "nominalVoltage": 225.0,
+        "identifiableShortCircuit": {}
       }
     ]
   },
@@ -27,12 +30,14 @@
       {
         "id": "VLHV2",
         "substationId": "P2",
-        "nominalVoltage": 380.0
-      },
+        "nominalVoltage": 380.0,
+        "identifiableShortCircuit": {}
+     },
       {
         "id": "VLLOAD",
         "substationId": "P2",
-        "nominalVoltage": 150.0
+        "nominalVoltage": 150.0,
+        "identifiableShortCircuit": {}
       }
     ]
   },
@@ -44,7 +49,8 @@
       {
         "id": "VLGEN3",
         "substationId": "P3",
-        "nominalVoltage": 24.0
+        "nominalVoltage": 24.0,
+        "identifiableShortCircuit": {}
       }
     ]
   },
@@ -56,7 +62,8 @@
       {
         "id": "VLGEN6",
         "substationId": "P6",
-        "nominalVoltage": 24.0
+        "nominalVoltage": 24.0,
+        "identifiableShortCircuit": {}
       }
     ]
   },
@@ -68,7 +75,8 @@
       {
         "id": "VLGEN4",
         "substationId": "P4",
-        "nominalVoltage": 24.0
+        "nominalVoltage": 24.0,
+        "identifiableShortCircuit": {}
       }
     ]
   },
@@ -83,8 +91,10 @@
         "nominalVoltage": 24.0,
         "lowVoltageLimit": 20.0,
         "highVoltageLimit": 30.0,
-        "ipMin": 0.0,
-        "ipMax": 0.1
+        "identifiableShortCircuit": {
+          "ipMin": 0.0,
+          "ipMax": 100.0
+        }
       }
     ]
   }

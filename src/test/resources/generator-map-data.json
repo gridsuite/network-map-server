@@ -28,6 +28,9 @@
     "connectionDirection": "TOP",
     "connectionPosition": 0
   },
-  "qPercent": 10.0,
+  "coordinatedReactiveControl": {"qPercent": 10.0},
+
+  "generatorShortCircuit": {},
+  "generatorStartup": {},
   "busOrBusbarSectionId": "NGEN"
 }
