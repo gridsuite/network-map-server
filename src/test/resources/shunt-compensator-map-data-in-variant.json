@@ -8,7 +8,9 @@
   "sectionCount":2,
   "maximumSectionCount":3,
   "bperSection":1.0,
-  "connectionDirection": null,
+  "connectablePosition": {
+    "connectionDirection": null
+  },
   "busOrBusbarSectionId": "NGEN4",
   "qatNominalV": 576.0
 }
