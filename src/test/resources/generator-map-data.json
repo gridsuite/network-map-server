@@ -5,29 +5,37 @@
   "p": 25.0,
   "q": 32.0,
   "targetP": 28.0,
-  "targetQ":301.0,
-  "targetV":24.5,
+  "targetQ": 301.0,
+  "targetV": 24.5,
   "minP": -9999.99,
   "maxP": 9999.99,
-  "energySource":"OTHER",
-  "ratedS": 27,
-  "voltageRegulatorOn":true,
-  "minMaxReactiveLimits": {
-    "minimumReactivePower": -500,
-    "maximumReactivePower": 500
+  "energySource": "OTHER",
+  "ratedS": 27.0,
+  "voltageRegulatorOn": true,
+  "generatorStartup": {
+    "plannedActivePowerSetPoint": 0.3,
+    "marginalCost": 3.0,
+    "plannedOutageRate": 0.4,
+    "forcedOutageRate": 2.0
   },
-  "activePowerControl":{
-    "activePowerControlOn": true,
-    "droop": 4.0
+  "minMaxReactiveLimits": {
+    "minimumReactivePower": -500.0,
+    "maximumReactivePower": 500.0
   },
   "regulatingTerminalConnectableId": "NHV1_NHV2_1",
   "regulatingTerminalConnectableType": "LINE",
   "regulatingTerminalVlId": "VLHV1",
-  "connectablePosition": {
-    "connectionName": "feederName",
-    "connectionDirection": "TOP",
-    "connectionPosition": 0
+  "coordinatedReactiveControl": {
+    "qPercent": 10.0
   },
-  "coordinatedReactiveControl": {"qPercent": 10.0},
+  "activePowerControl": {
+    "activePowerControlOn": true,
+    "droop": 4.0
+  },
+  "connectablePosition": {
+    "connectionDirection": "TOP",
+    "connectionPosition": 0,
+    "connectionName": "feederName"
+  },
   "busOrBusbarSectionId": "NGEN"
 }

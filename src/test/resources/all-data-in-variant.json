@@ -813,6 +813,12 @@
       "energySource": "OTHER",
       "ratedS": 27.0,
       "voltageRegulatorOn": true,
+      "generatorStartup": {
+        "plannedActivePowerSetPoint": 0.3,
+        "marginalCost": 3.0,
+        "plannedOutageRate": 0.4,
+        "forcedOutageRate": 2.0
+      },
       "minMaxReactiveLimits": {
         "minimumReactivePower": -500.0,
         "maximumReactivePower": 500.0

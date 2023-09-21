@@ -62,9 +62,9 @@ public final class ElementUtils {
     }
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
-        ActivePowerControlInfos.ActivePowerControlInfosBuilder builder = ActivePowerControlInfos.builder();
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {
+            ActivePowerControlInfos.ActivePowerControlInfosBuilder builder = ActivePowerControlInfos.builder();
             builder.activePowerControlOn(activePowerControl.isParticipate());
             builder.droop(activePowerControl.getDroop());
             return Optional.of(builder.build());

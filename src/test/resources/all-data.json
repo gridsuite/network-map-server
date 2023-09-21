@@ -816,6 +816,12 @@
         "minimumReactivePower": -500.0,
         "maximumReactivePower": 500.0
       },
+      "generatorStartup": {
+        "plannedActivePowerSetPoint": 0.3,
+        "marginalCost": 3.0,
+        "plannedOutageRate": 0.4,
+        "forcedOutageRate": 2.0
+      },
       "activePowerControl":{
         "activePowerControlOn": true,
         "droop": 4.0
