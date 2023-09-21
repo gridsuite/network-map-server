@@ -7,10 +7,22 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.MinMaxReactiveLimits;
+import com.powsybl.iidm.network.ReactiveCapabilityCurve;
+import com.powsybl.iidm.network.ReactiveLimits;
+import com.powsybl.iidm.network.ReactiveLimitsKind;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.VscConverterStation;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
+import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
+
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getReactiveCapabilityCurvePointsMapData;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -23,6 +35,8 @@ public final class VscConverterStationInfosMapper {
         switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
+            case FORM:
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -55,6 +69,44 @@ public final class VscConverterStationInfosMapper {
 
         if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
+        }
+
+        return builder.build();
+    }
+
+    public static VscConverterStationFormInfos toFormInfos(Identifiable<?> identifiable) {
+        VscConverterStation vscConverterStation = (VscConverterStation) identifiable;
+        Terminal terminal = vscConverterStation.getTerminal();
+        VscConverterStationFormInfos.VscConverterStationFormInfosBuilder<?, ?> builder = VscConverterStationFormInfos.builder()
+                .name(vscConverterStation.getOptionalName().orElse(null))
+                .id(vscConverterStation.getId())
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .terminalConnected(terminal.isConnected())
+                .lossFactor(vscConverterStation.getLossFactor())
+                .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn())
+                .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
+                .reactivePowerSetpoint(nullIfNan(vscConverterStation.getReactivePowerSetpoint()))
+                .q(nullIfNan(terminal.getQ()))
+                .p(nullIfNan(terminal.getP()));
+
+        ConnectablePosition<VscConverterStation> connectablePosition = vscConverterStation.getExtension(ConnectablePosition.class);
+        if (connectablePosition != null) {
+            builder.connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
+        }
+
+        ReactiveLimits reactiveLimits = vscConverterStation.getReactiveLimits();
+        if (reactiveLimits != null) {
+            ReactiveLimitsKind reactiveLimitsKind = reactiveLimits.getKind();
+            if (reactiveLimitsKind == ReactiveLimitsKind.MIN_MAX) {
+                MinMaxReactiveLimits minMaxReactiveLimits = vscConverterStation.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
+                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
+                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
+                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .build());
+            } else if (reactiveLimitsKind == ReactiveLimitsKind.CURVE) {
+                ReactiveCapabilityCurve capabilityCurve = vscConverterStation.getReactiveLimits(ReactiveCapabilityCurve.class);
+                builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePointsMapData(capabilityCurve.getPoints()));
+            }
         }
 
         return builder.build();

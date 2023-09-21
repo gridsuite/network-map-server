@@ -1,0 +1,128 @@
+[
+  {
+    "id": "HVDC1",
+    "name": "HVDC1",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "dcResistance": 1.0,
+    "dcNominalVoltage": 225.0,
+    "activePower": 500.0,
+    "maximumActivePower": 100.0
+  },
+  {
+    "id": "HVDC3",
+    "name": "HVDC3",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStation1": {
+      "id": "VSC3",
+      "name": "VSC3",
+      "lossFactor": 1.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": false,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "p": 10.0,
+      "q": 30.0,
+      "minMaxReactiveLimits": {
+        "minimumReactivePower": 55.0,
+        "maximumReactivePower": 70.0
+      },
+      "connectablePositionInfos": null
+    },
+    "converterStation2": {
+      "id": "VSC4",
+      "name": "VSC4",
+      "lossFactor": 1.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": false,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "p": 10.0,
+      "q": 30.0,
+      "reactiveCapabilityCurvePoints": [
+        {
+          "p": 0.0,
+          "qminP": 6.0,
+          "qmaxP": 7.0
+        },
+        {
+          "p": 1.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        },
+        {
+          "p": 3.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        }
+      ],
+      "connectablePositionInfos": null
+    },
+    "dcResistance": 1.0,
+    "dcNominalVoltage": 225.0,
+    "activePower": 500.0,
+    "maximumActivePower": 100.0
+  },
+  {
+    "id": "HVDC4",
+    "name": "HVDC4",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStation1": {
+      "id": "VSC5",
+      "name": "VSC5",
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "voltageRegulatorOn": true,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "p": 10.0,
+      "q": 30.0,
+      "minMaxReactiveLimits": {
+        "minimumReactivePower": 40.0,
+        "maximumReactivePower": 45.0
+      },
+      "connectablePositionInfos": null
+    },
+    "converterStation2": {
+      "id": "VSC6",
+      "name": "VSC6",
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "voltageRegulatorOn": true,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "p": 10.0,
+      "q": 30.0,
+      "reactiveCapabilityCurvePoints": [
+        {
+          "p": 0.0,
+          "qminP": 6.0,
+          "qmaxP": 7.0
+        },
+        {
+          "p": 1.0,
+          "qminP": 4.0,
+          "qmaxP": 5.0
+        }
+      ],
+      "connectablePositionInfos": null
+    },
+    "dcResistance": 1.0,
+    "dcNominalVoltage": 225.0,
+    "activePower": 500.0,
+    "maximumActivePower": 100.0
+  },
+  {
+    "id": "HVDC2",
+    "name": "HVDC2",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "dcResistance": 1.0,
+    "dcNominalVoltage": 225.0,
+    "activePower": 500.0,
+    "maximumActivePower": 100.0,
+    "droop": 180.0,
+    "angleDroopActivePowerControl": true,
+    "p0": 190.0,
+    "operatorActivePowerLimitFromSide1ToSide2": 1000.0,
+    "operatorActivePowerLimitFromSide2ToSide1": 900.0
+  }
+]

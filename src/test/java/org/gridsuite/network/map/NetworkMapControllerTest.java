@@ -467,6 +467,7 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        vsc1.newMinMaxReactiveLimits().setMinQ(5).setMaxQ(10).add();
         vsc1.getTerminal().setP(10);
         vsc1.getTerminal().setQ(30);
 
@@ -480,6 +481,7 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        vsc3.newMinMaxReactiveLimits().setMinQ(55).setMaxQ(70).add();
         vsc3.getTerminal().setP(10);
         vsc3.getTerminal().setQ(30);
 
@@ -491,6 +493,22 @@ public class NetworkMapControllerTest {
                 .setVoltageRegulatorOn(false)
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
+                .add();
+        vsc4.newReactiveCapabilityCurve().beginPoint()
+                .setP(0)
+                .setMinQ(6)
+                .setMaxQ(7)
+                .endPoint()
+                .beginPoint()
+                .setP(1)
+                .setMaxQ(5)
+                .setMinQ(4)
+                .endPoint()
+                .beginPoint()
+                .setP(3)
+                .setMinQ(4)
+                .setMaxQ(5)
+                .endPoint()
                 .add();
         vsc4.getTerminal().setP(10);
         vsc4.getTerminal().setQ(30);
@@ -505,6 +523,7 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        vsc5.newMinMaxReactiveLimits().setMinQ(40).setMaxQ(45).add();
         vsc5.getTerminal().setP(10);
         vsc5.getTerminal().setQ(30);
 
@@ -517,6 +536,17 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        vsc6.newReactiveCapabilityCurve().beginPoint()
+                .setP(0)
+                .setMinQ(6)
+                .setMaxQ(7)
+                .endPoint()
+                .beginPoint()
+                .setP(1)
+                .setMaxQ(5)
+                .setMinQ(4)
+                .endPoint()
+                .add();
         vsc6.getTerminal().setP(10);
         vsc6.getTerminal().setQ(30);
         vlgen3.newVscConverterStation()
@@ -528,6 +558,10 @@ public class NetworkMapControllerTest {
                 .setVoltageSetpoint(150)
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
+                .add()
+                .newMinMaxReactiveLimits()
+                .setMinQ(25)
+                .setMaxQ(66)
                 .add();
 
         vl1.newLccConverterStation()
@@ -1490,6 +1524,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnHvdcLinesTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-tab-data.json"));
+    }
+
+    @Test
+    public void shouldReturnHvdcLinesFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.FORM, null, resourceToString("/hvdc-lines-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.FORM, null, resourceToString("/hvdc-lines-form-data.json"));
     }
 
     @Test
