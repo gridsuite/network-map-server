@@ -60,4 +60,5 @@ public class BatteryTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
+    private Boolean terminalConnected;
 }
