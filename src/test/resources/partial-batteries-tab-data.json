@@ -14,6 +14,8 @@
     "connectablePosition": {
       "connectionName": "feederName",
       "connectionPosition": 0,
-      "connectionDirection": "TOP"    }
+      "connectionDirection": "TOP"
+    },
+    "terminalConnected": false
   }
 ]
