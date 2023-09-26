@@ -76,7 +76,17 @@ public final class BatteryInfosMapper {
     private static BatteryTabInfos toTabInfos(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = BatteryTabInfos.builder().name(battery.getOptionalName().orElse(null)).id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).targetP(battery.getTargetP()).targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).q(nullIfNan(terminal.getQ()));
+        BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = BatteryTabInfos.builder()
+            .name(battery.getOptionalName().orElse(null))
+            .id(battery.getId())
+            .terminalConnected(terminal.isConnected())
+            .voltageLevelId(terminal.getVoltageLevel().getId())
+            .targetP(battery.getTargetP())
+            .targetQ(nullIfNan(battery.getTargetQ()))
+            .minP(battery.getMinP())
+            .maxP(battery.getMaxP())
+            .p(nullIfNan(terminal.getP()))
+            .q(nullIfNan(terminal.getQ()));
 
         builder.connectablePosition(toMapConnectablePosition(battery, 0))
                .activePowerControl(toActivePowerControl(battery));

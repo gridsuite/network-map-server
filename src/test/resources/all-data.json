@@ -890,7 +890,8 @@
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      }
+      },
+      "terminalConnected": false
     },
     {
       "id": "BATTERY2",
@@ -925,7 +926,8 @@
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      }
+      },
+      "terminalConnected": false
     }
   ],
   "danglingLines": [

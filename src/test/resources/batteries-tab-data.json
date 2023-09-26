@@ -15,7 +15,8 @@
       "connectionName": "feederName",
       "connectionPosition": 0,
       "connectionDirection": "TOP"
-    }
+    },
+    "terminalConnected": false
   },
   {
     "id": "BATTERY2",
@@ -50,6 +51,7 @@
       "connectionName": "feederName",
       "connectionPosition": 0,
       "connectionDirection": "TOP"
-    }
+    },
+    "terminalConnected": false
   }
 ]

@@ -86,7 +86,8 @@
         "connectionName": "feederName",
         "connectionPosition": 0,
         "connectionDirection": "TOP"
-      }
+      },
+      "terminalConnected": false
     }
   ],
   "danglingLines": [

@@ -4,28 +4,40 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.definition.battery;
+
+package org.gridsuite.network.map.dto.definition.vscconverterstation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
- * @author REHILI Ghazwa <ghazwa.rehili@rte-france.com>
+ * @author Seddik Yengui <seddik.yengui at rte-france.com>
  */
 
 @SuperBuilder
 @Getter
-public class BatteryTabInfos extends ElementInfos {
+public class VscConverterStationFormInfos extends ElementInfos {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Float lossFactor;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double voltageSetpoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double reactivePowerSetpoint;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean voltageRegulatorOn;
     private String voltageLevelId;
+
+    private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
@@ -33,14 +45,8 @@ public class BatteryTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q;
 
-    private Double targetP;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetQ;
-
-    private Double minP;
-
-    private Double maxP;
+    private String busOrBusbarSectionId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
@@ -48,16 +54,6 @@ public class BatteryTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ReactiveCapabilityCurveMapData> reactiveCapabilityCurvePoints;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean participate;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<ActivePowerControlInfos> activePowerControl;
-
-    private ConnectablePositionInfos connectablePosition;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId;
-
-    private Boolean terminalConnected;
+    private ConnectablePositionInfos connectablePositionInfos;
 }
+
