@@ -18,11 +18,13 @@
       "activePowerSetpoint": 500.0,
       "r": 1,
       "maxP": 100,
-      "k": 180,
-      "p0": 190,
+      "hvdcAngleDroopActivePowerControl": {
+        "droop": 180.0,
+        "isEnabled": true,
+        "p0": 190.0
+      },
       "oprFromCS1toCS2": 1000,
-      "oprFromCS2toCS1": 900,
-      "isEnabled": true
+      "oprFromCS2toCS1": 900
     },
     {
       "id": "HVDC3",

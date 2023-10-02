@@ -62,6 +62,18 @@ public final class ElementUtils {
         return builder.build();
     }
 
+    public static Optional<HvdcAngleDroopActivePowerControlInfos> toHvdcAngleDroopActivePowerControlIdentifiable(HvdcLine hvdcLine) {
+        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
+        HvdcAngleDroopActivePowerControlInfos.HvdcAngleDroopActivePowerControlInfosBuilder builder = HvdcAngleDroopActivePowerControlInfos.builder();
+        if (hvdcAngleDroopActivePowerControl != null) {
+            builder.droop(hvdcAngleDroopActivePowerControl.getDroop())
+                    .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
+                    .p0(hvdcAngleDroopActivePowerControl.getP0());
+            return Optional.of(builder.build());
+        }
+        return Optional.empty();
+    }
+
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         if (activePowerControl != null) {

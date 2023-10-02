@@ -11,6 +11,9 @@ import com.powsybl.iidm.network.HvdcLine;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.utils.HvdcAngleDroopActivePowerControlInfos;
+
+import java.util.Optional;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -40,14 +43,8 @@ public class HvdcTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double maxP;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float k;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isEnabled;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float p0;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<HvdcAngleDroopActivePowerControlInfos> hvdcAngleDroopActivePowerControl;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float oprFromCS1toCS2;

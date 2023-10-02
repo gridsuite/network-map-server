@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
 import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
@@ -22,8 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -84,7 +82,6 @@ public final class HvdcInfosMapper {
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .id(hvdcLine.getId());
 
-        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
         HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
         builder
                 .convertersMode(hvdcLine.getConvertersMode())
@@ -94,11 +91,7 @@ public final class HvdcInfosMapper {
                 .r(hvdcLine.getR())
                 .activePowerSetpoint(hvdcLine.getActivePowerSetpoint());
 
-        if (hvdcAngleDroopActivePowerControl != null) {
-            builder.k(hvdcAngleDroopActivePowerControl.getDroop())
-                    .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
-                    .p0(hvdcAngleDroopActivePowerControl.getP0());
-        }
+        builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
 
         if (hvdcOperatorActivePowerRange != null) {
             builder.oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
@@ -143,12 +136,7 @@ public final class HvdcInfosMapper {
                 .converterStation1(getConverterStationData(hvdcLine.getConverterStation1()))
                 .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()));
 
-        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
-        if (hvdcAngleDroopActivePowerControl != null) {
-            builder.droop(hvdcAngleDroopActivePowerControl.getDroop())
-                    .angleDroopActivePowerControl(hvdcAngleDroopActivePowerControl.isEnabled())
-                    .p0(hvdcAngleDroopActivePowerControl.getP0());
-        }
+        builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
 
         HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
         if (hvdcOperatorActivePowerRange != null) {
