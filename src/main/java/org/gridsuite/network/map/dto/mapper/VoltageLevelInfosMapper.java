@@ -128,7 +128,6 @@ public final class VoltageLevelInfosMapper {
                 .nominalVoltage(voltageLevel.getNominalV())
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
-        // TODO conversion frontend to KA
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
