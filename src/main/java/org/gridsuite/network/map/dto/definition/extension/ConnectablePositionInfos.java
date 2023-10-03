@@ -1,4 +1,4 @@
-package org.gridsuite.network.map.dto.utils;
+package org.gridsuite.network.map.dto.definition.extension;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;

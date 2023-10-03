@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ActivePowerControlInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 

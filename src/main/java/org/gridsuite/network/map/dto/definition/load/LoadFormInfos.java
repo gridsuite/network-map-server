@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.LoadType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>

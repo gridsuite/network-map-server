@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
-import org.gridsuite.network.map.dto.utils.HvdcAngleDroopActivePowerControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.HvdcAngleDroopActivePowerControlInfos;
 
 import java.util.Optional;
 

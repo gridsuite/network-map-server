@@ -12,7 +12,7 @@ import com.powsybl.iidm.network.TopologyKind;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.gridsuite.network.map.dto.utils.IdentifiableShortCircuitInfos;
+import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
 
 import java.util.List;
 import java.util.Optional;

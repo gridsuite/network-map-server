@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
+import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
@@ -55,34 +56,28 @@ public final class ElementUtils {
         ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
         ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
         if (feeder != null) {
-            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection());
-            builder.connectionPosition(feeder.getOrder().orElse(null));
-            builder.connectionName(feeder.getName().orElse(null));
+            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())
+                    .connectionPosition(feeder.getOrder().orElse(null))
+                    .connectionName(feeder.getName().orElse(null));
         }
         return builder.build();
     }
 
     public static Optional<HvdcAngleDroopActivePowerControlInfos> toHvdcAngleDroopActivePowerControlIdentifiable(HvdcLine hvdcLine) {
         HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
-        HvdcAngleDroopActivePowerControlInfos.HvdcAngleDroopActivePowerControlInfosBuilder builder = HvdcAngleDroopActivePowerControlInfos.builder();
-        if (hvdcAngleDroopActivePowerControl != null) {
-            builder.droop(hvdcAngleDroopActivePowerControl.getDroop())
-                    .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
-                    .p0(hvdcAngleDroopActivePowerControl.getP0());
-            return Optional.of(builder.build());
-        }
-        return Optional.empty();
+        return hvdcAngleDroopActivePowerControl == null ? Optional.empty() :
+                Optional.of(HvdcAngleDroopActivePowerControlInfos.builder()
+                                .droop(hvdcAngleDroopActivePowerControl.getDroop())
+                                .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
+                                .p0(hvdcAngleDroopActivePowerControl.getP0()).build());
     }
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            ActivePowerControlInfos.ActivePowerControlInfosBuilder builder = ActivePowerControlInfos.builder();
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
-            return Optional.of(builder.build());
-        }
-        return Optional.empty();
+        return activePowerControl == null ? Optional.empty() :
+                Optional.of(ActivePowerControlInfos.builder()
+                        .activePowerControlOn(activePowerControl.isParticipate())
+                        .droop(activePowerControl.getDroop()).build());
     }
 
     public static String toBranchStatus(Branch<?> branch) {
@@ -92,13 +87,10 @@ public final class ElementUtils {
 
     public static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(Generator generator) {
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
-        if (generatorShortCircuit != null) {
-            GeneratorShortCircuitInfos.GeneratorShortCircuitInfosBuilder builder = GeneratorShortCircuitInfos.builder();
-            builder.transientReactance(generatorShortCircuit.getDirectTransX());
-            builder.stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX());
-            return Optional.of(builder.build());
-        }
-        return Optional.empty();
+        return generatorShortCircuit == null ? Optional.empty() :
+                Optional.of(GeneratorShortCircuitInfos.builder()
+                        .transientReactance(generatorShortCircuit.getDirectTransX())
+                        .stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX()).build());
     }
 
     public static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(Generator generator) {
@@ -114,26 +106,20 @@ public final class ElementUtils {
 
     public static Optional<GeneratorStartupInfos> toGeneratorStartup(Generator generator) {
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
-        if (generatorStartup != null) {
-            GeneratorStartupInfos.GeneratorStartupInfosBuilder builder = GeneratorStartupInfos.builder();
-            builder.plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()));
-            builder.marginalCost(nullIfNan(generatorStartup.getMarginalCost()));
-            builder.plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()));
-            builder.forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()));
-            return Optional.of(builder.build());
-        }
-        return Optional.empty();
+        return generatorStartup == null ? Optional.empty() :
+                Optional.of(GeneratorStartupInfos.builder()
+                        .plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()))
+                        .marginalCost(nullIfNan(generatorStartup.getMarginalCost()))
+                        .plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()))
+                        .forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate())).build());
     }
 
     public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
         IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        if (identifiableShortCircuit != null) {
-            IdentifiableShortCircuitInfos.IdentifiableShortCircuitInfosBuilder builder = IdentifiableShortCircuitInfos.builder();
-            builder.ipMin(identifiableShortCircuit.getIpMin());
-            builder.ipMax(identifiableShortCircuit.getIpMax());
-            return Optional.of(builder.build());
-        }
-        return Optional.empty();
+        return identifiableShortCircuit == null ? Optional.empty() :
+                Optional.of(IdentifiableShortCircuitInfos.builder()
+                        .ipMin(identifiableShortCircuit.getIpMin())
+                        .ipMax(identifiableShortCircuit.getIpMax()).build());
     }
 
     public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {

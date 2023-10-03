@@ -1,4 +1,4 @@
-package org.gridsuite.network.map.dto.utils;
+package org.gridsuite.network.map.dto.definition.extension;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -6,12 +6,14 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class IdentifiableShortCircuitInfos {
+public class ActivePowerControlInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMin;
+    private Boolean activePowerControlOn;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double ipMax;
+    private Double droop;
 
 }
+
+

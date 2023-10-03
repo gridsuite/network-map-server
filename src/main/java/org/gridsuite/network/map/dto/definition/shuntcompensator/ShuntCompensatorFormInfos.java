@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>

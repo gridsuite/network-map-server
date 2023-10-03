@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.EnergySource;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.*;
+import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
