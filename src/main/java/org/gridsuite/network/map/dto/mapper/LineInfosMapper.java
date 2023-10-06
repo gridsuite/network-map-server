@@ -28,7 +28,7 @@ public final class LineInfosMapper {
             case FORM:
                 return toFormInfos(identifiable);
             case MAP:
-                return toMapInfos(identifiable);
+                return toMapInfos(identifiable, dataType.getDcPowerFactor());
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
@@ -100,7 +100,7 @@ public final class LineInfosMapper {
                 .build();
     }
 
-    private static LineMapInfos toMapInfos(Identifiable<?> identifiable) {
+    private static LineMapInfos toMapInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -115,7 +115,9 @@ public final class LineInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .p1(nullIfNan(terminal1.getP()))
-                .p2(nullIfNan(terminal2.getP()));
+                .p2(nullIfNan(terminal2.getP()))
+                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
+                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
