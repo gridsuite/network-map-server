@@ -23,8 +23,9 @@
         "isEnabled": true,
         "p0": 190.0
       },
-      "oprFromCS1toCS2": 1000,
-      "oprFromCS2toCS1": 900
+      "hvdcOperatorActivePowerRange": {
+        "oprFromCS1toCS2": 1000,
+        "oprFromCS2toCS1": 900}
     },
     {
       "id": "HVDC3",

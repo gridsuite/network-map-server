@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcListInfos;
@@ -82,7 +81,6 @@ public final class HvdcInfosMapper {
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .id(hvdcLine.getId());
 
-        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
         builder
                 .convertersMode(hvdcLine.getConvertersMode())
                 .converterStationId1(hvdcLine.getConverterStation1().getId())
@@ -92,11 +90,7 @@ public final class HvdcInfosMapper {
                 .activePowerSetpoint(hvdcLine.getActivePowerSetpoint());
 
         builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
-
-        if (hvdcOperatorActivePowerRange != null) {
-            builder.oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
-                    .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1());
-        }
+        builder.hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine));
 
         return builder.build();
     }
@@ -137,12 +131,7 @@ public final class HvdcInfosMapper {
                 .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()));
 
         builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
-
-        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
-        if (hvdcOperatorActivePowerRange != null) {
-            builder.operatorActivePowerLimitFromSide1ToSide2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
-                    .operatorActivePowerLimitFromSide2ToSide1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1());
-        }
+        builder.hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine));
 
         return builder.build();
     }

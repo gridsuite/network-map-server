@@ -124,7 +124,8 @@
       "isEnabled": true,
       "p0": 190.0
     },
-    "operatorActivePowerLimitFromSide1ToSide2": 1000.0,
-    "operatorActivePowerLimitFromSide2ToSide1": 900.0
-  }
-]
+    "hvdcOperatorActivePowerRange": {
+      "oprFromCS1toCS2": 1000.0,
+      "oprFromCS2toCS1": 900.0}
+    }
+  ]

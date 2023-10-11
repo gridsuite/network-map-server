@@ -72,6 +72,14 @@ public final class ElementUtils {
                                 .p0(hvdcAngleDroopActivePowerControl.getP0()).build());
     }
 
+    public static Optional<HvdcOperatorActivePowerRangeInfos> toHvdcOperatorActivePowerRange(HvdcLine hvdcLine) {
+        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
+        return hvdcOperatorActivePowerRange == null ? Optional.empty() :
+                Optional.of(HvdcOperatorActivePowerRangeInfos.builder()
+                        .oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
+                        .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
+    }
+
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         return activePowerControl == null ? Optional.empty() :
