@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * @author Souissi Maissa <maissa.souissi at rte-france.com>
+ */
+
 @Getter
 @Builder
 public class HvdcAngleDroopActivePowerControlInfos {

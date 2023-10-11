@@ -5,6 +5,10 @@ import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * @author Souissi Maissa <maissa.souissi at rte-france.com>
+ */
+
 @Getter
 @Builder
 public class ConnectablePositionInfos {

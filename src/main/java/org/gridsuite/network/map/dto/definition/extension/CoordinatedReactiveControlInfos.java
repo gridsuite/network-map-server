@@ -6,6 +6,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * @author Souissi Maissa <maissa.souissi at rte-france.com>
+ */
+
 @Getter
 @Builder
 public class CoordinatedReactiveControlInfos {
