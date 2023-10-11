@@ -26,7 +26,9 @@
         "minimumReactivePower": 55.0,
         "maximumReactivePower": 70.0
       },
-      "connectablePositionInfos": null
+      "connectablePositionInfos": {
+        "connectionDirection": null
+      }
     },
     "converterStation2": {
       "id": "VSC4",
@@ -55,8 +57,9 @@
           "qmaxP": 5.0
         }
       ],
-      "connectablePositionInfos": null
-    },
+      "connectablePositionInfos": {
+        "connectionDirection": null
+      }    },
     "dcResistance": 1.0,
     "dcNominalVoltage": 225.0,
     "activePower": 500.0,
@@ -80,7 +83,9 @@
         "minimumReactivePower": 40.0,
         "maximumReactivePower": 45.0
       },
-      "connectablePositionInfos": null
+      "connectablePositionInfos": {
+        "connectionDirection": null
+      }
     },
     "converterStation2": {
       "id": "VSC6",
@@ -104,7 +109,9 @@
           "qmaxP": 5.0
         }
       ],
-      "connectablePositionInfos": null
+      "connectablePositionInfos": {
+        "connectionDirection": null
+      }
     },
     "dcResistance": 1.0,
     "dcNominalVoltage": 225.0,

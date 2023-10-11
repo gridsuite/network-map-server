@@ -13,7 +13,6 @@ import com.powsybl.iidm.network.ReactiveLimits;
 import com.powsybl.iidm.network.ReactiveLimitsKind;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.VscConverterStation;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
@@ -87,12 +86,8 @@ public final class VscConverterStationInfosMapper {
                 .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
                 .reactivePowerSetpoint(nullIfNan(vscConverterStation.getReactivePowerSetpoint()))
                 .q(nullIfNan(terminal.getQ()))
-                .p(nullIfNan(terminal.getP()));
-
-        ConnectablePosition<VscConverterStation> connectablePosition = vscConverterStation.getExtension(ConnectablePosition.class);
-        if (connectablePosition != null) {
-            builder.connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
-        }
+                .p(nullIfNan(terminal.getP()))
+                .connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
 
         ReactiveLimits reactiveLimits = vscConverterStation.getReactiveLimits();
         if (reactiveLimits != null) {
