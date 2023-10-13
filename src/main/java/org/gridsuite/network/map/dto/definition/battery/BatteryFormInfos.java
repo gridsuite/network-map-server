@@ -10,11 +10,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author REHILI Ghazwa <ghazwa.rehili@rte-france.com>
@@ -24,9 +26,6 @@ import java.util.List;
 @Getter
 public class BatteryFormInfos extends ElementInfos {
     private String voltageLevelId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean activePowerControlOn;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
@@ -52,8 +51,8 @@ public class BatteryFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean participate;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double droop;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ActivePowerControlInfos> activePowerControl;
 
     private ConnectablePositionInfos connectablePosition;
 

@@ -7,17 +7,16 @@
 package org.gridsuite.network.map.dto.definition.generator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.powsybl.iidm.network.EnergySource;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.utils.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -31,9 +30,6 @@ public class GeneratorTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlName;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean activePowerControlOn;
 
     private Boolean terminalConnected;
 
@@ -63,17 +59,8 @@ public class GeneratorTabInfos extends ElementInfos {
 
     private boolean voltageRegulatorOn;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double plannedActivePowerSetPoint;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double marginalCost;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double plannedOutageRate;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double forcedOutageRate;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<GeneratorStartupInfos> generatorStartup;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MinMaxReactiveLimitsMapData minMaxReactiveLimits;
@@ -84,14 +71,8 @@ public class GeneratorTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean participate;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double droop;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double transientReactance;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double stepUpTransformerReactance;
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<GeneratorShortCircuitInfos> generatorShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalConnectableId;
@@ -102,12 +83,10 @@ public class GeneratorTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
-    // As this attribute has only one lower case letter at its start (xXXXX), the getters is parsed as getQPercent and the field for Jackson is parsed as qpercent
-    // while we expect qPercent. JsonProperty let fix the json field to qPercent
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("qPercent")
-    @Getter(AccessLevel.NONE)
-    private double qPercent;
+    private CoordinatedReactiveControlInfos coordinatedReactiveControl;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ActivePowerControlInfos> activePowerControl;
 
     private ConnectablePositionInfos connectablePosition;
 

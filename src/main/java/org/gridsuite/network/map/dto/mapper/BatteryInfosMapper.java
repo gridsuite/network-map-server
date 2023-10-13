@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.ActivePowerControl;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
@@ -19,8 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -70,11 +68,7 @@ public final class BatteryInfosMapper {
             }
         }
 
-        ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
-        }
+        builder.activePowerControl(toActivePowerControl(battery));
 
         return builder.build();
     }
@@ -94,7 +88,8 @@ public final class BatteryInfosMapper {
             .p(nullIfNan(terminal.getP()))
             .q(nullIfNan(terminal.getQ()));
 
-        builder.connectablePosition(toMapConnectablePosition(battery, 0));
+        builder.connectablePosition(toMapConnectablePosition(battery, 0))
+               .activePowerControl(toActivePowerControl(battery));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -106,12 +101,6 @@ public final class BatteryInfosMapper {
                 ReactiveCapabilityCurve capabilityCurve = battery.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
             }
-        }
-
-        ActivePowerControl<Battery> activePowerControl = battery.getExtension(ActivePowerControl.class);
-        if (activePowerControl != null) {
-            builder.activePowerControlOn(activePowerControl.isParticipate());
-            builder.droop(activePowerControl.getDroop());
         }
 
         return builder.build();

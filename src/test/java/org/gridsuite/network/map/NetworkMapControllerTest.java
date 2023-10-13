@@ -258,6 +258,12 @@ public class NetworkMapControllerTest {
         gen.newExtension(CoordinatedReactiveControlAdder.class)
                 .withQPercent(10.0)
                 .add();
+        gen.newExtension(GeneratorStartupAdder.class)
+                .withPlannedActivePowerSetpoint(0.3)
+                .withMarginalCost(3)
+                .withPlannedOutageRate(0.4)
+                .withForcedOutageRate(2)
+                .add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json

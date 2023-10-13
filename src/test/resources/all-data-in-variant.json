@@ -84,8 +84,10 @@
           "nominalVoltage": 24.0,
           "lowVoltageLimit": 20.0,
           "highVoltageLimit": 30.0,
-          "ipMin": 0.0,
-          "ipMax": 0.1
+          "identifiableShortCircuit": {
+            "ipMin": 0.0,
+            "ipMax": 100.0
+          }
         }
       ]
     }
@@ -223,11 +225,15 @@
       "r": 1.0,
       "activePowerSetpoint": 500.0,
       "maxP": 100.0,
-      "k": 180.0,
-      "isEnabled": true,
-      "p0": 190.0,
-      "oprFromCS1toCS2": 1000.0,
-      "oprFromCS2toCS1": 900.0
+      "hvdcAngleDroopActivePowerControl": {
+        "droop": 180.0,
+        "isEnabled": true,
+        "p0": 190.0
+      },
+      "hvdcOperatorActivePowerRange": {
+        "oprFromCS1toCS2": 1000.0,
+        "oprFromCS2toCS1": 900.0
+      }
     }
   ],
   "loads": [
@@ -800,7 +806,6 @@
       "id": "GEN",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
-      "activePowerControlOn": true,
       "terminalConnected": true,
       "p": 25.0,
       "q": 32.0,
@@ -812,11 +817,20 @@
       "energySource": "OTHER",
       "ratedS": 27.0,
       "voltageRegulatorOn": true,
+      "generatorStartup": {
+        "plannedActivePowerSetPoint": 0.3,
+        "marginalCost": 3.0,
+        "plannedOutageRate": 0.4,
+        "forcedOutageRate": 2.0
+      },
       "minMaxReactiveLimits": {
         "minimumReactivePower": -500.0,
         "maximumReactivePower": 500.0
       },
-      "droop": 4.0,
+      "activePowerControl":{
+        "activePowerControlOn": true,
+        "droop": 4.0
+      },
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
@@ -825,7 +839,7 @@
         "connectionPosition": 0,
         "connectionDirection": "TOP"
       },
-      "qPercent": 10.0
+      "coordinatedReactiveControl": { "qPercent": 10.0}
     },
     {
       "id": "GEN2",
@@ -861,7 +875,7 @@
         "connectionPosition": 0,
         "connectionDirection": "TOP"
       },
-      "qPercent": 10.0
+      "coordinatedReactiveControl": { "qPercent": 10.0}
     }
   ],
   "batteries": [
@@ -888,7 +902,6 @@
       "id": "BATTERY2",
       "name": "BATTERY2",
       "voltageLevelId": "VLGEN3",
-      "activePowerControlOn": true,
       "targetP": 1.0,
       "targetQ": 1.0,
       "minP": 50.0,
@@ -910,7 +923,10 @@
           "qmaxP": 5.0
         }
       ],
-      "droop": 3.0,
+      "activePowerControl":{
+        "activePowerControlOn": true,
+        "droop": 3.0
+      },
       "connectablePosition": {
         "connectionName": "feederName",
         "connectionPosition": 0,
