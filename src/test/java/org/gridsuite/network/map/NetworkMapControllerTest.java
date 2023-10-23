@@ -442,7 +442,7 @@ public class NetworkMapControllerTest {
                 .setG(4)
                 .setP0(50)
                 .setQ0(30)
-                .setUcteXnodeCode("xnode1")
+                .setPairingKey("xnode1")
                 .setConnectableBus("NGEN")
                 .setBus("NGEN")
                 .add();
@@ -458,7 +458,7 @@ public class NetworkMapControllerTest {
                 .setG(4)
                 .setP0(50)
                 .setQ0(30)
-                .setUcteXnodeCode("xnode1")
+                .setPairingKey("xnode1")
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
