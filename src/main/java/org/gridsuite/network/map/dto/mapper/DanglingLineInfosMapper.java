@@ -37,7 +37,7 @@ public final class DanglingLineInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
-                .ucteXnodeCode(danglingLine.getUcteXnodeCode())
+                .ucteXnodeCode(danglingLine.getPairingKey())
                 .p0(danglingLine.getP0())
                 .q0(danglingLine.getQ0());
 
