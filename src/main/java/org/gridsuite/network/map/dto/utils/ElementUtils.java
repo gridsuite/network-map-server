@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.model.CurrentLimitsData;
@@ -170,7 +171,7 @@ public final class ElementUtils {
 
     public static String getBusbarSectionId(Terminal terminal) {
         BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-        terminal.traverse(connectedBusbarSectionFinder);
+        terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
         return connectedBusbarSectionFinder.getFirstTraversedBbsId();
     }
 
