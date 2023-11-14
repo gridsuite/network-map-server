@@ -23,14 +23,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toIdentifiableShortCircuit;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -53,45 +50,6 @@ class NetworkMapService {
         } catch (PowsyblException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    }
-
-    private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
-        VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
-                .id(voltageLevel.getId())
-                .topologyKind(voltageLevel.getTopologyKind());
-
-        builder.name(voltageLevel.getOptionalName().orElse(null))
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .substationName(voltageLevel.getSubstation().map(s -> s.getOptionalName().orElse(null)).orElse(null))
-
-                .nominalVoltage(voltageLevel.getNominalV())
-                .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            VoltageLevelInfosMapper.VoltageLevelTopologyInfos topologyInfos = VoltageLevelInfosMapper.getTopologyInfos(voltageLevel);
-            builder.busbarCount(topologyInfos.getBusbarCount());
-            builder.sectionCount(topologyInfos.getSectionCount());
-            builder.switchKinds(topologyInfos.getSwitchKinds());
-        }
-
-        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
-
-        return builder.build();
-    }
-
-    private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
-        return VoltageLevelConnectableMapData.builder()
-                .id(connectable.getId())
-                .name(connectable.getOptionalName().orElse(null))
-                .type(connectable.getType())
-                .build();
-    }
-
-    private static BusMapData toMapData(Bus bus) {
-        return BusMapData.builder()
-            .name(bus.getOptionalName().orElse(null))
-            .id(bus.getId())
-            .build();
     }
 
     private PreloadingStrategy getPreloadingStrategy(List<String> substationsIds) {
@@ -130,20 +88,7 @@ class NetworkMapService {
                 substationsIds.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(VoltageLevel::getId)).collect(Collectors.toList());
     }
 
-    public List<VoltageLevelsEquipmentsMapData> getVoltageLevelsAndConnectable(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        List<VoltageLevel> voltageLevels = substationsId == null ?
-                network.getVoltageLevelStream().collect(Collectors.toList()) :
-                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream()).collect(Collectors.toList());
-
-        return voltageLevels.stream().map(vl -> {
-            List<VoltageLevelConnectableMapData> equipments = new ArrayList<>();
-            vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
-            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
-        }).collect(Collectors.toList());
-    }
-
-    public List<VoltageLevelConnectableMapData> getVoltageLevelEquipements(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
+    public List<ElementInfos> getVoltageLevelEquipements(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         List<VoltageLevel> voltageLevels = substationsId == null ?
                 List.of(network.getVoltageLevel(voltageLevelId)) :
@@ -151,14 +96,15 @@ class NetworkMapService {
 
         return voltageLevels.stream()
                 .flatMap(VoltageLevel::getConnectableStream)
-                .map(NetworkMapService::toMapData)
+                .map(c -> ElementType.VOLTAGE_LEVEL_CONNECTABLE.getInfosGetter().apply(c, new ElementInfoType(InfoType.LIST)))
                 .collect(Collectors.toList());
     }
 
-    public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<ElementInfos> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
-            .map(NetworkMapService::toMapData).collect(Collectors.toList());
+            .map(b -> ElementType.BUS.getInfosGetter().apply(b, new ElementInfoType(InfoType.LIST)))
+            .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {

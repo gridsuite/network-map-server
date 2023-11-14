@@ -8,21 +8,7 @@ package org.gridsuite.network.map.model;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.mapper.BatteryInfosMapper;
-import org.gridsuite.network.map.dto.mapper.BusBarSectionInfosMapper;
-import org.gridsuite.network.map.dto.mapper.DanglingLineInfosMapper;
-import org.gridsuite.network.map.dto.mapper.GeneratorInfosMapper;
-import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
-import org.gridsuite.network.map.dto.mapper.LccConverterStationInfosMapper;
-import org.gridsuite.network.map.dto.mapper.LineInfosMapper;
-import org.gridsuite.network.map.dto.mapper.LoadInfosMapper;
-import org.gridsuite.network.map.dto.mapper.ShuntCompensatorMapper;
-import org.gridsuite.network.map.dto.mapper.StaticVarCompensatorInfosMapper;
-import org.gridsuite.network.map.dto.mapper.SubstationInfosMapper;
-import org.gridsuite.network.map.dto.mapper.ThreeWindingsTransformerInfosMapper;
-import org.gridsuite.network.map.dto.mapper.TwoWindingsTransformerInfosMapper;
-import org.gridsuite.network.map.dto.mapper.VoltageLevelInfosMapper;
-import org.gridsuite.network.map.dto.mapper.VscConverterStationInfosMapper;
+import org.gridsuite.network.map.dto.mapper.*;
 import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import java.util.function.BiFunction;
 
@@ -30,11 +16,13 @@ import java.util.function.BiFunction;
 public enum ElementType {
     SUBSTATION(Substation.class, SubstationInfosMapper::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
+    VOLTAGE_LEVEL_CONNECTABLE(Connectable.class, VoltageLevelConnectableInfosMapper::toData),
     LINE(Line.class, LineInfosMapper::toData),
     HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
     LOAD(Load.class, LoadInfosMapper::toData),
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData),
     THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, ThreeWindingsTransformerInfosMapper::toData),
+    BUS(Bus.class, BusInfosMapper::toData),
     BUSBAR_SECTION(BusbarSection.class, BusBarSectionInfosMapper::toData),
     GENERATOR(Generator.class, GeneratorInfosMapper::toData),
     BATTERY(Battery.class, BatteryInfosMapper::toData),

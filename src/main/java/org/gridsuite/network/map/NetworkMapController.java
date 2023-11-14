@@ -87,7 +87,7 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})
-    public @ResponseBody List<BusMapData> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public @ResponseBody List<ElementInfos> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBuses(networkUuid, voltageLevelId, variantId);
@@ -111,19 +111,10 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelBusbarSectionsIds(networkUuid, voltageLevelId, variantId);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels-equipments", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get voltage level and its equipments description")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level and its equipments description")})
-    public @ResponseBody List<VoltageLevelsEquipmentsMapData> getVoltageLevelsAndEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                                                            @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
-        return networkMapService.getVoltageLevelsAndConnectable(networkUuid, variantId, substationsIds);
-    }
-
     @GetMapping(value = "/networks/{networkUuid}/voltage-level-equipments/{voltageLevelId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get Voltage level equipements")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level equipements")})
-    public @ResponseBody List<VoltageLevelConnectableMapData> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public @ResponseBody List<ElementInfos> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                                         @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                                                         @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
