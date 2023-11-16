@@ -23,10 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -341,5 +338,13 @@ class NetworkMapService {
             default:
                 throw new IllegalStateException("Unexpected connectable type:" + elementType);
         }
+    }
+
+    public Set<Country> getCountries(UUID networkUuid, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
+        return network.getSubstationStream()
+                .map(Substation::getCountry)
+                .filter(Optional::isPresent)
+                .map(Optional::get).collect(Collectors.toSet());
     }
 }

@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map;
 
+import com.powsybl.iidm.network.Country;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -152,5 +154,16 @@ public class NetworkMapController {
                                                                                 @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
                                                                                 @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getHvcLineShuntCompensators(networkUuid, variantId, hvdcId);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/countries")
+    @Operation(summary = "Get countries which are appeared in the network")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Countries are found the in substations of the network"),
+        @ApiResponse(responseCode = "204", description = "No country found")
+    })
+    public @ResponseBody List<Country> getCountries(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                    @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getCountries(networkUuid, variantId).stream().sorted(Comparator.comparing(Country::getName)).toList();
     }
 }

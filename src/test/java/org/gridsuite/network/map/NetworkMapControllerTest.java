@@ -59,6 +59,7 @@ public class NetworkMapControllerTest {
     private static final UUID NOT_FOUND_NETWORK_ID = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
     private static final String VARIANT_ID = "variant_1";
+    private static final String VARIANT_ID_2 = "variant_2";
     private static final String VARIANT_ID_NOT_FOUND = "variant_notFound";
 
     public static final String QUERY_PARAM_SUBSTATION_ID = "substationId";
@@ -821,6 +822,19 @@ public class NetworkMapControllerTest {
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
+        // Add new variant 2
+        network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID_2);
+        network.getVariantManager().setWorkingVariant(VARIANT_ID_2);
+
+        // Create a new substation outside of France in variant VARIANT_ID_2 to test a network with multi-countries
+        network.newSubstation()
+                .setId("AF_P1")
+                .setCountry(Country.AF)
+                .setTso("RTE")
+                .add();
+
+        network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
@@ -1151,6 +1165,17 @@ public class NetworkMapControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    @SneakyThrows
+    private void succeedingTestForCountries(UUID networkUuid, String variantId, String expectedJson) {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/countries", networkUuid).queryParams(queryParams))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
     }
 
     @Test
@@ -1840,5 +1865,11 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/3-windings-transformers-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.TAB, List.of("P3"), "[]");
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.TAB, List.of("P3"), "[]");
+    }
+
+    @Test
+    public void shouldReturnCountries() throws Exception {
+        succeedingTestForCountries(NETWORK_UUID, null, List.of("FR").toString());
+        succeedingTestForCountries(NETWORK_UUID, VARIANT_ID_2, List.of("AF", "FR").toString());
     }
 }
