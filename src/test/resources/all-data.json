@@ -990,8 +990,6 @@
       "nominalVoltage": 225.0,
       "terminalConnected": true,
       "q": 90.0,
-      "targetV": 225.0,
-      "targetDeadband": 10.0,
       "sectionCount": 4,
       "maximumSectionCount": 8,
       "connectablePosition": {
@@ -999,8 +997,8 @@
         "connectionPosition": 0,
         "connectionName": "feederName"
       },
-      "bperSection": 5.0,
-      "qatNominalV": 253125.0
+      "maxSusceptance": 40.0,
+      "maxQAtNominalV": 2025000.0
     },
     {
       "id": "SHUNT2",
@@ -1008,8 +1006,6 @@
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
       "terminalConnected": true,
-      "targetV": 225.0,
-      "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
       "connectablePosition": {
@@ -1017,8 +1013,8 @@
         "connectionPosition": 0,
         "connectionName": "feederName"
       },
-      "bperSection": 1.0,
-      "qatNominalV": 576.0
+      "maxSusceptance": 3.0,
+      "maxQAtNominalV": 1728.0
     },
     {
       "id": "SHUNT_VLNB",
@@ -1026,15 +1022,13 @@
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
       "terminalConnected": true,
-      "targetV": 225.0,
-      "targetDeadband": 10.0,
       "sectionCount": 2,
       "maximumSectionCount": 3,
       "connectablePosition": {
         "connectionDirection": null
       },
-      "bperSection": 1.0,
-      "qatNominalV": 576.0
+      "maxSusceptance": 3.0,
+      "maxQAtNominalV": 1728.0
     }
   ],
   "staticVarCompensators": [

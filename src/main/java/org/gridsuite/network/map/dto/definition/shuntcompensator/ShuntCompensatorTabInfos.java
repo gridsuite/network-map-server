@@ -27,19 +27,13 @@ public class ShuntCompensatorTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetV;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double targetDeadband;
-
     private Integer sectionCount;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double bPerSection;
+    private Double maxSusceptance;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double qAtNominalV;
+    private Double maxQAtNominalV;
 
     private Integer maximumSectionCount;
 

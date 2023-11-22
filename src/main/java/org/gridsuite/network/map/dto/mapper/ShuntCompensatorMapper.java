@@ -93,18 +93,13 @@ public final class ShuntCompensatorMapper {
             bPerSection = shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection();
         }
         if (bPerSection != null) {
-            builder.bPerSection(bPerSection);
-            builder.qAtNominalV(Math.abs(Math.pow(terminal.getVoltageLevel().getNominalV(), 2) * bPerSection));
+            Double qAtNominalV = Math.abs(Math.pow(terminal.getVoltageLevel().getNominalV(), 2) * bPerSection);
+            builder.maxQAtNominalV(qAtNominalV * shuntCompensator.getMaximumSectionCount());
+            builder.maxSusceptance(bPerSection * shuntCompensator.getMaximumSectionCount());
         }
         //TODO handle shuntCompensator non linear model
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
-        }
-        if (!Double.isNaN(shuntCompensator.getTargetV())) {
-            builder.targetV(shuntCompensator.getTargetV());
-        }
-        if (!Double.isNaN(shuntCompensator.getTargetDeadband())) {
-            builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
         builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
