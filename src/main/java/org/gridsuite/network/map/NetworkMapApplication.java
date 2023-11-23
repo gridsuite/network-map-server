@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map;
 
-import com.powsybl.ws.commons.Utils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,7 +17,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NetworkMapApplication {
 
     public static void main(String[] args) {
-        Utils.initProperties();
         SpringApplication.run(NetworkMapApplication.class, args);
     }
 }
