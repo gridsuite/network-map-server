@@ -213,6 +213,7 @@ public final class ElementUtils {
                 .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
         builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
+        builder.regulationValue(nullIfNan(tapChanger.getRegulationValue()));
         return builder.build();
     }
 
