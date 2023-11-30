@@ -46,4 +46,7 @@ public class ShuntCompensatorFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isLinear;
+
 }
