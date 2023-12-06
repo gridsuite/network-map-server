@@ -6,10 +6,7 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.ShuntCompensator;
-import com.powsybl.iidm.network.ShuntCompensatorLinearModel;
-import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
@@ -47,7 +44,8 @@ public final class ShuntCompensatorMapper {
                 .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
                 .sectionCount(shuntCompensator.getSectionCount())
                 .terminalConnected(terminal.isConnected())
-                .voltageLevelId(terminal.getVoltageLevel().getId());
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .isLinear(shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR);
 
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
