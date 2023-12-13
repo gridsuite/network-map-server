@@ -36,41 +36,45 @@ public final class ShuntCompensatorMapper {
 
     private static ShuntCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
+        boolean isLinear = shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR;
+        if (!isLinear) {
+            throw new UnsupportedOperationException("Non-linear shunt compensators are not yet managed");
+        } else {
+            Terminal terminal = shuntCompensator.getTerminal();
+            ShuntCompensatorFormInfos.ShuntCompensatorFormInfosBuilder<?, ?> builder = ShuntCompensatorFormInfos.builder()
+                    .name(shuntCompensator.getOptionalName().orElse(null))
+                    .id(shuntCompensator.getId())
+                    .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
+                    .sectionCount(shuntCompensator.getSectionCount())
+                    .terminalConnected(terminal.isConnected())
+                    .voltageLevelId(terminal.getVoltageLevel().getId())
+                    .isLinear(shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR);
 
-        Terminal terminal = shuntCompensator.getTerminal();
-        ShuntCompensatorFormInfos.ShuntCompensatorFormInfosBuilder<?, ?> builder = ShuntCompensatorFormInfos.builder()
-                .name(shuntCompensator.getOptionalName().orElse(null))
-                .id(shuntCompensator.getId())
-                .maximumSectionCount(shuntCompensator.getMaximumSectionCount())
-                .sectionCount(shuntCompensator.getSectionCount())
-                .terminalConnected(terminal.isConnected())
-                .voltageLevelId(terminal.getVoltageLevel().getId())
-                .isLinear(shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR);
+            builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
-        builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
+            Double bPerSection = null;
+            if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {
+                bPerSection = shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection();
+            }
+            if (bPerSection != null) {
+                builder.bPerSection(bPerSection);
+                builder.qAtNominalV(Math.abs(Math.pow(terminal.getVoltageLevel().getNominalV(), 2) * bPerSection));
+            }
+            //TODO handle shuntCompensator non linear model
+            if (!Double.isNaN(terminal.getQ())) {
+                builder.q(terminal.getQ());
+            }
+            if (!Double.isNaN(shuntCompensator.getTargetV())) {
+                builder.targetV(shuntCompensator.getTargetV());
+            }
+            if (!Double.isNaN(shuntCompensator.getTargetDeadband())) {
+                builder.targetDeadband(shuntCompensator.getTargetDeadband());
+            }
 
-        Double bPerSection = null;
-        if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {
-            bPerSection = shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection();
-        }
-        if (bPerSection != null) {
-            builder.bPerSection(bPerSection);
-            builder.qAtNominalV(Math.abs(Math.pow(terminal.getVoltageLevel().getNominalV(), 2) * bPerSection));
-        }
-        //TODO handle shuntCompensator non linear model
-        if (!Double.isNaN(terminal.getQ())) {
-            builder.q(terminal.getQ());
-        }
-        if (!Double.isNaN(shuntCompensator.getTargetV())) {
-            builder.targetV(shuntCompensator.getTargetV());
-        }
-        if (!Double.isNaN(shuntCompensator.getTargetDeadband())) {
-            builder.targetDeadband(shuntCompensator.getTargetDeadband());
-        }
+            builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
 
-        builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
-
-        return builder.build();
+            return builder.build();
+        }
     }
 
     private static ShuntCompensatorTabInfos toTabInfos(Identifiable<?> identifiable) {
