@@ -28,16 +28,16 @@ public final class ShuntCompensatorMapper {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
-                return toFormInfos(identifiable);
+                return toFormInfos(identifiable, dataType.getOperation());
             default:
                 throw new UnsupportedOperationException("TODO");
         }
     }
 
-    private static ShuntCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {
+    private static ShuntCompensatorFormInfos toFormInfos(Identifiable<?> identifiable, ElementInfos.Operation operation) {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
         boolean isLinear = shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR;
-        if (!isLinear) {
+        if (operation == ElementInfos.Operation.MODIFICATION && !isLinear) {
             throw new UnsupportedOperationException("Non-linear shunt compensators are not yet managed");
         } else {
             Terminal terminal = shuntCompensator.getTerminal();
@@ -48,7 +48,7 @@ public final class ShuntCompensatorMapper {
                     .sectionCount(shuntCompensator.getSectionCount())
                     .terminalConnected(terminal.isConnected())
                     .voltageLevelId(terminal.getVoltageLevel().getId())
-                    .isLinear(shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR);
+                    .isLinear(isLinear);
 
             builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
 
