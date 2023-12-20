@@ -299,6 +299,11 @@
         "id": "SHUNT_VLNB",
         "name": "SHUNT_VLNB",
         "type": "SHUNT_COMPENSATOR"
+      },
+      {
+        "id": "SHUNT_NON_LINEAR",
+        "name": "SHUNT_NON_LINEAR",
+        "type": "SHUNT_COMPENSATOR"
       }
     ]
   },

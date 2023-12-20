@@ -10,6 +10,8 @@ import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
@@ -38,7 +40,7 @@ public final class ShuntCompensatorMapper {
         ShuntCompensator shuntCompensator = (ShuntCompensator) identifiable;
         boolean isLinear = shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR;
         if (operation == ElementInfos.Operation.MODIFICATION && !isLinear) {
-            throw new UnsupportedOperationException("Non-linear shunt compensators are not yet managed");
+            throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, "Non-linear shunt compensators are not yet managed");
         } else {
             Terminal terminal = shuntCompensator.getTerminal();
             ShuntCompensatorFormInfos.ShuntCompensatorFormInfosBuilder<?, ?> builder = ShuntCompensatorFormInfos.builder()
