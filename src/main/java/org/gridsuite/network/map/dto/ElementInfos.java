@@ -25,13 +25,21 @@ public class ElementInfos {
         TOOLTIP
     }
 
+    public enum Operation {
+        CREATION,
+        MODIFICATION
+    }
+
     public static class ElementInfoType {
         private InfoType infoType;
         private Double dcPowerFactor;
 
-        public ElementInfoType(InfoType infoType, Double dcPowerFactor) {
+        private Operation operation;
+
+        public ElementInfoType(InfoType infoType, Double dcPowerFactor, Operation operation) {
             this.infoType = infoType;
             this.dcPowerFactor = dcPowerFactor;
+            this.operation = operation;
         }
 
         public ElementInfoType(InfoType infoType) {
@@ -44,6 +52,10 @@ public class ElementInfos {
 
         public Double getDcPowerFactor() {
             return dcPowerFactor;
+        }
+
+        public Operation getOperation() {
+            return operation;
         }
     }
 

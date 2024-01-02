@@ -45,5 +45,15 @@
     },
     "maxSusceptance": 3.0,
     "maxQAtNominalV": 1728.0
+  },
+  {
+    "id": "SHUNT_NON_LINEAR",
+    "name": "SHUNT_NON_LINEAR",
+    "voltageLevelId": "VLGEN4",
+    "nominalVoltage": 24.0,
+    "terminalConnected": false,
+    "sectionCount": 2,
+    "maximumSectionCount": 2,
+    "connectablePosition": { "connectionDirection": null }
   }
 ]
