@@ -344,7 +344,7 @@ class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
         return network.getSubstationStream()
                 .map(Substation::getCountry)
-                .filter(Optional::isPresent)
-                .map(Optional::get).collect(Collectors.toSet());
+                .flatMap(Optional::stream)
+                .collect(Collectors.toSet());
     }
 }

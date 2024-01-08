@@ -160,8 +160,7 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/countries")
     @Operation(summary = "Get countries which are appeared in the network")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Countries are found the in substations of the network"),
-        @ApiResponse(responseCode = "204", description = "No country found")
+        @ApiResponse(responseCode = "200", description = "Countries are found the in substations of the network")
     })
     public @ResponseBody List<Country> getCountries(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                     @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
