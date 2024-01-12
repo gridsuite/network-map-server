@@ -6,16 +6,19 @@
     "voltageLevels": [
       {
         "id": "VLGEN",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
         "nominalVoltage": 24.0
       },
       {
         "id": "VLHV1",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
         "nominalVoltage": 380.0
       },
       {
         "id": "VLNEW2",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
         "nominalVoltage": 225.0
       }
@@ -26,11 +29,13 @@
     "voltageLevels": [
       {
         "id": "VLHV2",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P2",
         "nominalVoltage": 380.0
       },
       {
         "id": "VLLOAD",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P2",
         "nominalVoltage": 150.0
       }
@@ -38,14 +43,15 @@
   },
   {
     "id": "P3",
+    "properties": {
+      "Country": "FR"
+    },
     "countryName": "FRANCE",
     "countryCode": "FR",
-    "properties": {
-      "Country":  "FR"
-    },
     "voltageLevels": [
       {
         "id": "VLGEN3",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P3",
         "nominalVoltage": 24.0
       }
@@ -58,6 +64,7 @@
     "voltageLevels": [
       {
         "id": "VLGEN6",
+        "topologyKind": "BUS_BREAKER",
         "substationId": "P6",
         "nominalVoltage": 24.0
       }
@@ -70,8 +77,15 @@
     "voltageLevels": [
       {
         "id": "VLGEN4",
+        "topologyKind": "NODE_BREAKER",
         "substationId": "P4",
-        "nominalVoltage": 24.0
+        "nominalVoltage": 24.0,
+        "busbarCount": 1,
+        "sectionCount": 2,
+        "switchKinds": [
+          "DISCONNECTOR"
+        ],
+        "isRetrievedBusbarSections": true
       }
     ]
   },
@@ -82,6 +96,7 @@
     "voltageLevels": [
       {
         "id": "VLGEN5",
+        "topologyKind": "NODE_BREAKER",
         "substationId": "P5",
         "nominalVoltage": 24.0,
         "lowVoltageLimit": 20.0,
@@ -89,7 +104,11 @@
         "identifiableShortCircuit": {
           "ipMin": 0.0,
           "ipMax": 100.0
-        }
+        },
+        "busbarCount": 1,
+        "sectionCount": 1,
+        "switchKinds": [],
+        "isRetrievedBusbarSections": false
       }
     ]
   }

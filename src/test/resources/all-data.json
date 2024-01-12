@@ -41,6 +41,9 @@
       "id": "P3",
       "countryName": "FRANCE",
       "countryCode": "FR",
+      "properties": {
+        "Country":  "FR"
+      },
       "voltageLevels": [
         {
           "id": "VLGEN3",

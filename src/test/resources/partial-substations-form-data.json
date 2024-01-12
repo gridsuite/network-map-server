@@ -1,0 +1,18 @@
+[
+  {
+    "id": "P3",
+    "properties": {
+      "Country": "FR"
+    },
+    "countryName": "FRANCE",
+    "countryCode": "FR",
+    "voltageLevels": [
+      {
+        "id": "VLGEN3",
+        "topologyKind": "BUS_BREAKER",
+        "substationId": "P3",
+        "nominalVoltage": 24.0
+      }
+    ]
+  }
+]
