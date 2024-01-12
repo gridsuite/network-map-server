@@ -13,8 +13,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -45,7 +44,8 @@ public final class LoadInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .p0(load.getP0())
-                .q0(load.getQ0());
+                .q0(load.getQ0())
+                .properties(getProperties(load));
 
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
