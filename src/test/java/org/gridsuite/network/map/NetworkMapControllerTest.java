@@ -316,6 +316,7 @@ public class NetworkMapControllerTest {
                 .setTso("RTE")
                 .setGeographicalTags("A")
                 .add();
+        p3.setProperty("Country", "FR");
         VoltageLevel vlgen3 = p3.newVoltageLevel()
                 .setId("VLGEN3")
                 .setNominalV(24.0)
@@ -803,8 +804,9 @@ public class NetworkMapControllerTest {
         vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
         vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
 
-        network.getLoad("LOAD")
-                .newExtension(ConnectablePositionAdder.class)
+        Load load = network.getLoad("LOAD");
+        load.setProperty("Country", "FR");
+        load.newExtension(ConnectablePositionAdder.class)
                 .newFeeder()
                 .withName("feederName")
                 .withOrder(0)
@@ -1731,6 +1733,15 @@ public class NetworkMapControllerTest {
         notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of());
         notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of("P1"));
         notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnSubstationsFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.FORM, null, resourceToString("/substations-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.FORM, null, resourceToString("/substations-form-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.FORM, List.of("P3"), resourceToString("/partial-substations-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.FORM, List.of("P3"), resourceToString("/partial-substations-form-data.json"));
     }
 
     @Test

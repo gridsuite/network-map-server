@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
@@ -42,16 +44,12 @@ public final class SubstationInfosMapper {
 
     private static SubstationFormInfos toFormInfos(Identifiable<?> identifiable) {
         Substation substation = (Substation) identifiable;
-        Map<String, String> properties = substation.getPropertyNames().stream()
-                .map(name -> Map.entry(name, substation.getProperty(name)))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
         return SubstationFormInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
                 .countryName(substation.getCountry().map(Country::getName).orElse(null))
                 .countryCode(substation.getCountry().map(Country::name).orElse(null))
-                .properties(properties.isEmpty() ? null : properties)
+                .properties(getProperties(substation))
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toFormInfos).collect(Collectors.toList()))
                 .build();

@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -327,6 +328,13 @@ public final class ElementUtils {
                 builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
             }
         }
+    }
+
+    public static Map<String, String> getProperties(Identifiable<?> identifiable) {
+        Map<String, String> properties = identifiable.getPropertyNames()
+            .stream()
+            .collect(Collectors.toMap(Function.identity(), identifiable::getProperty));
+        return properties.isEmpty() ? null : properties;
     }
 
     public static double computeIntensity(Terminal terminal, Double dcPowerFactor) {

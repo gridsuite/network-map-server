@@ -9,27 +9,23 @@ package org.gridsuite.network.map.dto.definition.substation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementFormInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class SubstationFormInfos extends ElementInfos {
+public class SubstationFormInfos extends ElementFormInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String countryName;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String countryCode;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> properties;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<VoltageLevelFormInfos> voltageLevels;
