@@ -5,17 +5,17 @@
       {
         "id": "VLGEN",
         "substationId": "P1",
-        "nominalVoltage": 24.0
+        "nominalV": 24.0
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
-        "nominalVoltage": 380.0
+        "nominalV": 380.0
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
-        "nominalVoltage": 225.0
+        "nominalV": 225.0
       }
     ]
   }
