@@ -11,11 +11,7 @@ import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
-import org.gridsuite.network.map.model.CurrentLimitsData;
-import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
-import org.gridsuite.network.map.model.TapChangerData;
-import org.gridsuite.network.map.model.TapChangerStepData;
-import org.gridsuite.network.map.model.TemporaryLimitData;
+import org.gridsuite.network.map.model.*;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -91,7 +87,7 @@ public final class ElementUtils {
     }
 
     public static String toBranchStatus(Branch<?> branch) {
-        var branchStatus = branch.getExtension(BranchStatus.class);
+        var branchStatus = branch.getExtension(OperatingStatus.class);
         return branchStatus == null ? null : branchStatus.getStatus().name();
     }
 
