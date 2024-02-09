@@ -60,4 +60,6 @@ public class BatteryTabInfos extends ElementInfos {
     private String busOrBusbarSectionId;
 
     private Boolean terminalConnected;
+
+    private Double nominalVoltage;
 }

@@ -16,7 +16,8 @@
       "connectionPosition": 0,
       "connectionDirection": "TOP"
     },
-    "terminalConnected": false
+    "terminalConnected": false,
+    "nominalVoltage": 225.0
   },
   {
     "id": "BATTERY2",
@@ -52,6 +53,7 @@
       "connectionPosition": 0,
       "connectionDirection": "TOP"
     },
-    "terminalConnected": false
+    "terminalConnected": false,
+    "nominalVoltage": 24.0
   }
 ]

@@ -898,7 +898,8 @@
         "connectionPosition": 0,
         "connectionName": "feederName"
       },
-      "terminalConnected": false
+      "terminalConnected": false,
+      "nominalVoltage": 225.0
     },
     {
       "id": "BATTERY2",
@@ -934,7 +935,8 @@
         "connectionPosition": 0,
         "connectionName": "feederName"
       },
-      "terminalConnected": false
+      "terminalConnected": false,
+      "nominalVoltage": 24.0
     }
   ],
   "danglingLines": [
