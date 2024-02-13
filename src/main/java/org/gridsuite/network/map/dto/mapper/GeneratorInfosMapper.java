@@ -120,7 +120,8 @@ public final class GeneratorInfosMapper {
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
-                .q(nullIfNan(terminal.getQ()));
+                .q(nullIfNan(terminal.getQ()))
+                .properties(getProperties(generator));
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .activePowerControl(toActivePowerControl(generator));
 
