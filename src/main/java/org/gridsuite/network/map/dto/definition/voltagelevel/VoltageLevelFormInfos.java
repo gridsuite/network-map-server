@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.SwitchKind;
 import com.powsybl.iidm.network.TopologyKind;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementFormInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @SuperBuilder
 @Getter
-public class VoltageLevelFormInfos extends ElementInfos {
+public class VoltageLevelFormInfos extends ElementFormInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;

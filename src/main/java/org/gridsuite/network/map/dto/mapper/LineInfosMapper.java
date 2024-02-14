@@ -61,7 +61,8 @@ public final class LineInfosMapper {
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
-                .b2(line.getB2());
+                .b2(line.getB2())
+                .properties(getProperties(line));
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));

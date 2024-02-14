@@ -21,8 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toIdentifiableShortCircuit;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -83,7 +82,8 @@ public final class VoltageLevelInfosMapper {
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalVoltage(voltageLevel.getNominalV())
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
+                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit())
+                .properties(getProperties(voltageLevel));
 
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
             VoltageLevelTopologyInfos vlTopologyInfos = getTopologyInfos(voltageLevel);
