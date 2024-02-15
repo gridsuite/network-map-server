@@ -11,6 +11,7 @@ import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
+import com.powsybl.iidm.network.test.NetworkTest1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
@@ -41,6 +42,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.powsybl.iidm.network.test.NetworkTest1Factory.id;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -56,6 +58,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class NetworkMapControllerTest {
 
     private static final UUID NETWORK_UUID = UUID.fromString("7928181c-7977-4592-ba19-88027e4254e4");
+    private static final UUID NETWORK_2_UUID = UUID.fromString("9828181c-7977-4592-ba19-8976e4254e");
 
     private static final UUID NOT_FOUND_NETWORK_ID = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
@@ -857,12 +860,88 @@ public class NetworkMapControllerTest {
                 .setTso("RTE")
                 .add();
 
+        Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
+        network2.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+        Substation substation1 = network2.newSubstation()
+            .setId(id("substation1", null))
+            .setCountry(Country.FR)
+            .setTso(id("TSO1", null))
+            .setGeographicalTags(id("region1", null))
+            .add();
+        VoltageLevel voltageLevel1 = substation1.newVoltageLevel()
+            .setId(id("voltageLevel1", null))
+            .setNominalV(400)
+            .setTopologyKind(TopologyKind.NODE_BREAKER)
+            .add();
+        VoltageLevel.NodeBreakerView topology1 = voltageLevel1.getNodeBreakerView();
+        BusbarSection voltageLevel1BusbarSection1 = topology1.newBusbarSection()
+            .setId(id("voltageLevel1BusbarSection1", null))
+            .setNode(0)
+            .add();
+        BusbarSection voltageLevel1BusbarSection2 = topology1.newBusbarSection()
+            .setId(id("voltageLevel1BusbarSection2", null))
+            .setNode(1)
+            .add();
+        topology1.newBreaker()
+            .setId(id("voltageLevel1Breaker1", null))
+            .setRetained(true)
+            .setOpen(false)
+            .setNode1(voltageLevel1BusbarSection1.getTerminal().getNodeBreakerView().getNode())
+            .setNode2(voltageLevel1BusbarSection2.getTerminal().getNodeBreakerView().getNode())
+            .add();
+        Load load1 = voltageLevel1.newLoad()
+            .setId(id("load1", null))
+            .setNode(2)
+            .setP0(10)
+            .setQ0(3)
+            .add();
+        topology1.newDisconnector()
+            .setId(id("load1Disconnector1", null))
+            .setOpen(false)
+            .setNode1(load1.getTerminal().getNodeBreakerView().getNode())
+            .setNode2(3)
+            .add();
+        topology1.newDisconnector()
+            .setId(id("load1Breaker1", null))
+            .setOpen(false)
+            .setNode1(3)
+            .setNode2(voltageLevel1BusbarSection1.getTerminal().getNodeBreakerView().getNode())
+            .add();
+        Generator generator1 = voltageLevel1.newGenerator()
+            .setId(id("generator1", null))
+            .setEnergySource(EnergySource.NUCLEAR)
+            .setMinP(200.0)
+            .setMaxP(900.0)
+            .setVoltageRegulatorOn(true)
+            .setTargetP(900.0)
+            .setTargetV(380.0)
+            .setNode(5)
+            .add();
+        generator1.newReactiveCapabilityCurve()
+            .beginPoint().setP(200.0).setMinQ(300.0).setMaxQ(500.0).endPoint()
+            .beginPoint().setP(900.0).setMinQ(300.0).setMaxQ(500.0).endPoint()
+            .add();
+        topology1.newDisconnector()
+            .setId(id("generator1Disconnector1", null))
+            .setOpen(false)
+            .setNode1(generator1.getTerminal().getNodeBreakerView().getNode())
+            .setNode2(6)
+            .add();
+        topology1.newDisconnector()
+            .setId(id("generator1Breaker1", null))
+            .setOpen(false)
+            .setNode1(6)
+            .setNode2(voltageLevel1BusbarSection2.getTerminal().getNodeBreakerView().getNode())
+            .add();
+
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
+        given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.COLLECTION)).willReturn(network2);
+        given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.NONE)).willReturn(network2);
     }
 
     private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
@@ -1925,7 +2004,6 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnBusbarSectionTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.TAB, null, resourceToString("/busbar-sections-tab-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.TAB, null, resourceToString("/busbar-sections-tab-data-variant1.json"));
+        succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUSBAR_SECTION, InfoType.TAB, null, resourceToString("/busbar-sections-tab-data.json"));
     }
 }

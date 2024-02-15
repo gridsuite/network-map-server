@@ -52,13 +52,12 @@ public final class BusBarSectionInfosMapper {
 
         if (busbarSection.getTerminal().getBusView().getBus() != null) {
             Component synchronousComponent = busbarSection.getTerminal().getBusView().getBus().getSynchronousComponent();
+            Component connectedComponent = busbarSection.getTerminal().getBusView().getBus().getConnectedComponent();
             builder.synchronousComponentNum(synchronousComponent.getNum())
-                .synchronousComponentSize(synchronousComponent.getSize());
+                .connectedComponentNum(connectedComponent.getNum());
 
-/*            Component connectedComponent = busbarSection.getTerminal().getBusView().getBus().getConnectedComponent();
-            builder.connectedComponentNum(connectedComponent.getNum())
-                .connectedComponentSize(connectedComponent.getSize());*/
         }
+
         return builder.build();
     }
 }

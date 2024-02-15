@@ -22,11 +22,7 @@ public class BusBarSectionTabInfos extends ElementInfos {
 
     private Integer synchronousComponentNum;
 
-    private Integer synchronousComponentSize;
-
     private Integer connectedComponentNum;
-
-    private Integer connectedComponentSize;
 
     private String voltageLevelId;
 

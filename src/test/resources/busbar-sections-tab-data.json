@@ -1,26 +1,42 @@
 [
   {
-    "id": "NGEN4",
+    "id": "n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1BusbarSection1",
     "v": "NaN",
     "angle": "NaN",
-    "synchronousComponentNum": 1,
-    "synchronousComponentSize": 1,
-    "connectedComponentNum": null,
-    "connectedComponentSize": null,
-    "voltageLevelId": "VLGEN4",
-    "nominalVoltage": 24.0,
+    "synchronousComponentNum": 0,
+    "connectedComponentNum": 0,
+    "voltageLevelId": "n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1",
+    "nominalVoltage": 400.0,
     "countryName": "FRANCE"
   },
   {
-    "id": "NGEN5",
+    "id": "n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1BusbarSection2",
     "v": "NaN",
     "angle": "NaN",
-    "synchronousComponentNum": null,
-    "synchronousComponentSize": null,
-    "connectedComponentNum": null,
-    "connectedComponentSize": null,
-    "voltageLevelId": "VLGEN5",
-    "nominalVoltage": 24.0,
+    "synchronousComponentNum": 0,
+    "connectedComponentNum": 0,
+    "voltageLevelId": "n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1",
+    "nominalVoltage": 400.0,
+    "countryName": "FRANCE"
+  },
+  {
+    "id": "voltageLevel1BusbarSection1",
+    "v": "NaN",
+    "angle": "NaN",
+    "synchronousComponentNum": 1,
+    "connectedComponentNum": 1,
+    "voltageLevelId": "voltageLevel1",
+    "nominalVoltage": 400.0,
+    "countryName": "FRANCE"
+  },
+  {
+    "id": "voltageLevel1BusbarSection2",
+    "v": "NaN",
+    "angle": "NaN",
+    "synchronousComponentNum": 1,
+    "connectedComponentNum": 1,
+    "voltageLevelId": "voltageLevel1",
+    "nominalVoltage": 400.0,
     "countryName": "FRANCE"
   }
 ]
