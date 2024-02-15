@@ -860,82 +860,9 @@ public class NetworkMapControllerTest {
                 .setTso("RTE")
                 .add();
 
-        Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
-        network2.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
-        Substation substation1 = network2.newSubstation()
-            .setId(id("substation1", null))
-            .setCountry(Country.FR)
-            .setTso(id("TSO1", null))
-            .setGeographicalTags(id("region1", null))
-            .add();
-        VoltageLevel voltageLevel1 = substation1.newVoltageLevel()
-            .setId(id("voltageLevel1", null))
-            .setNominalV(400)
-            .setTopologyKind(TopologyKind.NODE_BREAKER)
-            .add();
-        VoltageLevel.NodeBreakerView topology1 = voltageLevel1.getNodeBreakerView();
-        BusbarSection voltageLevel1BusbarSection1 = topology1.newBusbarSection()
-            .setId(id("voltageLevel1BusbarSection1", null))
-            .setNode(0)
-            .add();
-        BusbarSection voltageLevel1BusbarSection2 = topology1.newBusbarSection()
-            .setId(id("voltageLevel1BusbarSection2", null))
-            .setNode(1)
-            .add();
-        topology1.newBreaker()
-            .setId(id("voltageLevel1Breaker1", null))
-            .setRetained(true)
-            .setOpen(false)
-            .setNode1(voltageLevel1BusbarSection1.getTerminal().getNodeBreakerView().getNode())
-            .setNode2(voltageLevel1BusbarSection2.getTerminal().getNodeBreakerView().getNode())
-            .add();
-        Load load1 = voltageLevel1.newLoad()
-            .setId(id("load1", null))
-            .setNode(2)
-            .setP0(10)
-            .setQ0(3)
-            .add();
-        topology1.newDisconnector()
-            .setId(id("load1Disconnector1", null))
-            .setOpen(false)
-            .setNode1(load1.getTerminal().getNodeBreakerView().getNode())
-            .setNode2(3)
-            .add();
-        topology1.newDisconnector()
-            .setId(id("load1Breaker1", null))
-            .setOpen(false)
-            .setNode1(3)
-            .setNode2(voltageLevel1BusbarSection1.getTerminal().getNodeBreakerView().getNode())
-            .add();
-        Generator generator1 = voltageLevel1.newGenerator()
-            .setId(id("generator1", null))
-            .setEnergySource(EnergySource.NUCLEAR)
-            .setMinP(200.0)
-            .setMaxP(900.0)
-            .setVoltageRegulatorOn(true)
-            .setTargetP(900.0)
-            .setTargetV(380.0)
-            .setNode(5)
-            .add();
-        generator1.newReactiveCapabilityCurve()
-            .beginPoint().setP(200.0).setMinQ(300.0).setMaxQ(500.0).endPoint()
-            .beginPoint().setP(900.0).setMinQ(300.0).setMaxQ(500.0).endPoint()
-            .add();
-        topology1.newDisconnector()
-            .setId(id("generator1Disconnector1", null))
-            .setOpen(false)
-            .setNode1(generator1.getTerminal().getNodeBreakerView().getNode())
-            .setNode2(6)
-            .add();
-        topology1.newDisconnector()
-            .setId(id("generator1Breaker1", null))
-            .setOpen(false)
-            .setNode1(6)
-            .setNode2(voltageLevel1BusbarSection2.getTerminal().getNodeBreakerView().getNode())
-            .add();
-
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
+        Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
