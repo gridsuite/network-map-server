@@ -51,11 +51,8 @@ public final class BusBarSectionInfosMapper {
             .countryName(busbarSection.getTerminal().getVoltageLevel().getSubstation().flatMap(substation -> substation.getCountry().map(Country::getName)).orElse(null));
 
         if (busbarSection.getTerminal().getBusView().getBus() != null) {
-            Component synchronousComponent = busbarSection.getTerminal().getBusView().getBus().getSynchronousComponent();
-            Component connectedComponent = busbarSection.getTerminal().getBusView().getBus().getConnectedComponent();
-            builder.synchronousComponentNum(synchronousComponent.getNum())
-                .connectedComponentNum(connectedComponent.getNum());
-
+            builder.synchronousComponentNum(busbarSection.getTerminal().getBusView().getBus().getSynchronousComponent().getNum())
+                .connectedComponentNum(busbarSection.getTerminal().getBusView().getBus().getConnectedComponent().getNum());
         }
 
         return builder.build();
