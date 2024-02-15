@@ -1,0 +1,26 @@
+[
+  {
+    "id": "NGEN4",
+    "v": "NaN",
+    "angle": "NaN",
+    "synchronousComponentNum": 1,
+    "synchronousComponentSize": 1,
+    "connectedComponentNum": null,
+    "connectedComponentSize": null,
+    "voltageLevelId": "VLGEN4",
+    "nominalVoltage": 24.0,
+    "countryName": "FRANCE"
+  },
+  {
+    "id": "NGEN5",
+    "v": "NaN",
+    "angle": "NaN",
+    "synchronousComponentNum": null,
+    "synchronousComponentSize": null,
+    "connectedComponentNum": null,
+    "connectedComponentSize": null,
+    "voltageLevelId": "VLGEN5",
+    "nominalVoltage": 24.0,
+    "countryName": "FRANCE"
+  }
+]

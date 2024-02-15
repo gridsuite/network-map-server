@@ -6,11 +6,11 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.BusbarSection;
-import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabInfos;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -24,6 +24,8 @@ public final class BusBarSectionInfosMapper {
         switch (dataType.getInfoType()) {
             case FORM:
                 return toFormInfos(identifiable);
+            case TAB:
+                return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -35,6 +37,27 @@ public final class BusBarSectionInfosMapper {
         var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
         if (busbarSectionPosition != null) {
             builder.vertPos(busbarSectionPosition.getBusbarIndex()).horizPos(busbarSectionPosition.getSectionIndex());
+        }
+        return builder.build();
+    }
+
+    public static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
+        BusbarSection busbarSection = (BusbarSection) identifiable;
+        BusBarSectionTabInfos.BusBarSectionTabInfosBuilder<?, ?> builder = BusBarSectionTabInfos.builder().id(busbarSection.getId())
+            .angle(busbarSection.getAngle())
+            .v(busbarSection.getV())
+            .voltageLevelId(busbarSection.getTerminal().getVoltageLevel().getId())
+            .nominalVoltage(busbarSection.getTerminal().getVoltageLevel().getNominalV())
+            .countryName(busbarSection.getTerminal().getVoltageLevel().getSubstation().flatMap(substation -> substation.getCountry().map(Country::getName)).orElse(null));
+
+        if (busbarSection.getTerminal().getBusView().getBus() != null) {
+            Component synchronousComponent = busbarSection.getTerminal().getBusView().getBus().getSynchronousComponent();
+            builder.synchronousComponentNum(synchronousComponent.getNum())
+                .synchronousComponentSize(synchronousComponent.getSize());
+
+/*            Component connectedComponent = busbarSection.getTerminal().getBusView().getBus().getConnectedComponent();
+            builder.connectedComponentNum(connectedComponent.getNum())
+                .connectedComponentSize(connectedComponent.getSize());*/
         }
         return builder.build();
     }

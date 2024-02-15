@@ -1922,4 +1922,10 @@ public class NetworkMapControllerTest {
         succeedingTestForCountries(NETWORK_UUID, null, List.of("FR").toString());
         succeedingTestForCountries(NETWORK_UUID, VARIANT_ID_2, List.of("AF", "FR").toString());
     }
+
+    @Test
+    public void shouldReturnBusbarSectionTabData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.TAB, null, resourceToString("/busbar-sections-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.TAB, null, resourceToString("/busbar-sections-tab-data-variant1.json"));
+    }
 }
