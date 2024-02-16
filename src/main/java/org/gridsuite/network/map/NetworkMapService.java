@@ -218,16 +218,14 @@ class NetworkMapService {
 
     public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
         Stream<Bus> buses = substationsId == null ? network.getBusView().getBusStream() :
-            substationsId.stream()
-                .map(network::getSubstation)
-                .flatMap(Substation::getVoltageLevelStream)
-                .flatMap(vl -> vl.getBusView().getBusStream())
+            network.getBusView().getBusStream()
+                .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
                 .filter(Objects::nonNull)
                 .distinct();
         return buses
             .map(c -> ElementType.BUS.getInfosGetter().apply(c, elementInfoType))
             .distinct()
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, ElementInfoType elementInfoType) {
