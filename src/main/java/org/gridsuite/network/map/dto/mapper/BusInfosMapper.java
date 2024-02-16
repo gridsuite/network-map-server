@@ -11,7 +11,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
  */
 
 public final class BusInfosMapper {

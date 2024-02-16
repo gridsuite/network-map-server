@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package org.gridsuite.network.map.dto.definition.bus;
 
 import lombok.Getter;
@@ -23,5 +29,4 @@ public class BusTabInfos extends ElementInfos {
     private Double nominalVoltage;
 
     private String countryName;
-
 }
