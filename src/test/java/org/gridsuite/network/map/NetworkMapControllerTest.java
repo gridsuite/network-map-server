@@ -42,7 +42,6 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.powsybl.iidm.network.test.NetworkTest1Factory.id;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -1931,6 +1930,6 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnBusbarSectionTabData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUSBAR_SECTION, InfoType.TAB, null, resourceToString("/busbar-sections-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, null, resourceToString("/bus-tab-data.json"));
     }
 }
