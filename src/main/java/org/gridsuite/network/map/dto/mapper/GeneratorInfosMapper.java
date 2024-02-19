@@ -141,10 +141,10 @@ public final class GeneratorInfosMapper {
         if (reactiveLimits != null) {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
-                MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
+                MinMaxReactiveLimits minMaxReactiveLimitsForm = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maxQ(minMaxReactiveLimits.getMaxQ())
-                        .minQ(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimitsForm.getMaxQ())
+                        .minQ(minMaxReactiveLimitsForm.getMinQ())
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
