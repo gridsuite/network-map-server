@@ -81,6 +81,7 @@ public final class BatteryInfosMapper {
             .id(battery.getId())
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
+            .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .targetP(battery.getTargetP())
             .targetQ(nullIfNan(battery.getTargetQ()))
             .minP(battery.getMinP())

@@ -16,6 +16,7 @@
       "connectionPosition": 0,
       "connectionDirection": "TOP"
     },
-    "terminalConnected": false
+    "terminalConnected": false,
+    "nominalVoltage": 225.0
   }
 ]

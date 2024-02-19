@@ -130,7 +130,7 @@ public class NetworkMapControllerTest {
         t1.getTerminal2().setP(7.77)
                 .setQ(8.88);
         t1.getRatioTapChanger().setTapPosition(2);
-        t1.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
+        t1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         t1.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
@@ -190,7 +190,7 @@ public class NetworkMapControllerTest {
                 .setRegulationTerminal(t2.getTerminal1())
                 .setTargetDeadband(0)
                 .add();
-        t2.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
+        t2.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         t2.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
@@ -340,7 +340,7 @@ public class NetworkMapControllerTest {
                 .setG2(0.0)
                 .setB2(386E-6 / 2)
                 .add();
-        line3.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
+        line3.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         line3.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
@@ -914,12 +914,12 @@ public class NetworkMapControllerTest {
                 .setRatedU(9)
                 .add()
                 .add();
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE).setP(375);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.TWO).setP(225);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.THREE).setP(200);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE).setQ(48);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.TWO).setQ(28);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.THREE).setQ(18);
+        threeWindingsTransformer.getTerminal(ThreeSides.ONE).setP(375);
+        threeWindingsTransformer.getTerminal(ThreeSides.TWO).setP(225);
+        threeWindingsTransformer.getTerminal(ThreeSides.THREE).setP(200);
+        threeWindingsTransformer.getTerminal(ThreeSides.ONE).setQ(48);
+        threeWindingsTransformer.getTerminal(ThreeSides.TWO).setQ(28);
+        threeWindingsTransformer.getTerminal(ThreeSides.THREE).setQ(18);
 
         getPhaseLeg.apply(threeWindingsTransformer).newPhaseTapChanger()
                 .setLowTapPosition(0)
@@ -927,7 +927,7 @@ public class NetworkMapControllerTest {
                 .setRegulating(true)
                 .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
                 .setRegulationValue(25)
-                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE))
+                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeSides.ONE))
                 .setTargetDeadband(22)
                 .beginStep()
                 .setAlpha(-10)
@@ -958,7 +958,7 @@ public class NetworkMapControllerTest {
                 .setLowTapPosition(0)
                 .setTapPosition(2)
                 .setRegulating(false)
-                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE))
+                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeSides.ONE))
                 .setTargetDeadband(22)
                 .setTargetV(220)
                 .beginStep()
