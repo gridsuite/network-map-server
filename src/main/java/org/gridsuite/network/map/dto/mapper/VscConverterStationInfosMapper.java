@@ -95,8 +95,8 @@ public final class VscConverterStationInfosMapper {
             if (reactiveLimitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = vscConverterStation.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimits.getMaxQ())
+                        .minQ(minMaxReactiveLimits.getMinQ())
                         .build());
             } else if (reactiveLimitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = vscConverterStation.getReactiveLimits(ReactiveCapabilityCurve.class);

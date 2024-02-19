@@ -29,7 +29,7 @@
     "qPercent": 10.0
   },
   "activePowerControl": {
-    "activePowerControlOn": true,
+    "participate": true,
     "droop": 4.0
   },
   "connectablePosition": {

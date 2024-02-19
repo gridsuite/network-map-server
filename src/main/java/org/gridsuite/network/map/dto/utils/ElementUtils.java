@@ -86,7 +86,7 @@ public final class ElementUtils {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         return activePowerControl == null ? Optional.empty() :
                 Optional.of(ActivePowerControlInfos.builder()
-                        .activePowerControlOn(activePowerControl.isParticipate())
+                        .participate(activePowerControl.isParticipate())
                         .droop(activePowerControl.getDroop()).build());
     }
 
@@ -353,8 +353,8 @@ public final class ElementUtils {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
+                        .maxQ(point.getMaxQ())
+                        .minQ(point.getMinQ())
                         .build())
                 .collect(Collectors.toList());
     }

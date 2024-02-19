@@ -44,8 +44,8 @@ public final class GeneratorInfosMapper {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
+                        .maxQ(point.getMaxQ())
+                        .minQ(point.getMinQ())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -89,8 +89,8 @@ public final class GeneratorInfosMapper {
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimits.getMaxQ())
+                        .minQ(minMaxReactiveLimits.getMinQ())
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
@@ -142,8 +142,8 @@ public final class GeneratorInfosMapper {
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimits.getMaxQ())
+                        .minQ(minMaxReactiveLimits.getMinQ())
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
