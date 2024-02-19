@@ -129,13 +129,13 @@ public final class GeneratorInfosMapper {
                 .generatorStartup(toGeneratorStartup(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator));
 
-        Terminal regulatingTerminal = generator.getRegulatingTerminal();
+        Terminal regulatingTerminalForm = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
-        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
-            builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
-            builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
-            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+        if (regulatingTerminalForm != null && !regulatingTerminalForm.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+            builder.regulatingTerminalVlName(regulatingTerminalForm.getVoltageLevel().getOptionalName().orElse(null));
+            builder.regulatingTerminalConnectableId(regulatingTerminalForm.getConnectable().getId());
+            builder.regulatingTerminalConnectableType(regulatingTerminalForm.getConnectable().getType().name());
+            builder.regulatingTerminalVlId(regulatingTerminalForm.getVoltageLevel().getId());
         }
         ReactiveLimits reactiveLimits = generator.getReactiveLimits();
         if (reactiveLimits != null) {
