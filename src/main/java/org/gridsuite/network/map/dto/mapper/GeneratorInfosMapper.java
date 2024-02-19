@@ -44,8 +44,8 @@ public final class GeneratorInfosMapper {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
+                        .maxQ(point.getMaxQ())
+                        .minQ(point.getMinQ())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -89,8 +89,8 @@ public final class GeneratorInfosMapper {
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimits.getMaxQ())
+                        .minQ(minMaxReactiveLimits.getMinQ())
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);
@@ -129,13 +129,13 @@ public final class GeneratorInfosMapper {
                 .generatorStartup(toGeneratorStartup(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator));
 
-        Terminal regulatingTerminalForm = generator.getRegulatingTerminal();
+        Terminal regulatingTerminal = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
-        if (regulatingTerminalForm != null && !regulatingTerminalForm.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminalVlName(regulatingTerminalForm.getVoltageLevel().getOptionalName().orElse(null));
-            builder.regulatingTerminalConnectableId(regulatingTerminalForm.getConnectable().getId());
-            builder.regulatingTerminalConnectableType(regulatingTerminalForm.getConnectable().getType().name());
-            builder.regulatingTerminalVlId(regulatingTerminalForm.getVoltageLevel().getId());
+        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
+            builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
+            builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
+            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
         }
         ReactiveLimits reactiveLimits = generator.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -143,8 +143,8 @@ public final class GeneratorInfosMapper {
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimits.getMaxQ())
+                        .minQ(minMaxReactiveLimits.getMinQ())
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);

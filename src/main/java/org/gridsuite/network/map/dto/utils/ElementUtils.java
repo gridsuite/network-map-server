@@ -349,8 +349,8 @@ public final class ElementUtils {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
+                        .minQ(point.getMaxQ())
+                        .maxQ(point.getMinQ())
                         .build())
                 .collect(Collectors.toList());
     }

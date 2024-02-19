@@ -17,7 +17,6 @@ import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
-import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getReactiveCapabilityCurvePointsMapData;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
@@ -94,10 +93,10 @@ public final class VscConverterStationInfosMapper {
             ReactiveLimitsKind reactiveLimitsKind = reactiveLimits.getKind();
             if (reactiveLimitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = vscConverterStation.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
-                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
-                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
-                        .build());
+//                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
+//                        .maximumReactivePower(minMaxReactiveLimits.getMaxQ())
+//                        .minimumReactivePower(minMaxReactiveLimits.getMinQ())
+//                        .build());
             } else if (reactiveLimitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = vscConverterStation.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePointsMapData(capabilityCurve.getPoints()));
