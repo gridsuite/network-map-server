@@ -2,8 +2,10 @@
   "substations": [
     {
       "id": "P1",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
+      "country": {
+        "code": "FR",
+        "name": "FRANCE"
+      },
       "voltageLevels": [
         {
           "id": "VLNEW2",
@@ -39,8 +41,10 @@
     },
     {
       "id": "P3",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
+      "country": {
+        "code": "FR",
+        "name": "FRANCE"
+      },
       "properties": {
         "Country":  "FR"
       },
@@ -54,8 +58,10 @@
     },
     {
       "id": "P6",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
+      "country": {
+        "code": "FR",
+        "name": "FRANCE"
+      },
       "voltageLevels": [
         {
           "id": "VLGEN6",
@@ -66,8 +72,10 @@
     },
     {
       "id": "P4",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
+      "country": {
+        "code": "FR",
+        "name": "FRANCE"
+      },
       "voltageLevels": [
         {
           "id": "VLGEN4",
@@ -78,8 +86,10 @@
     },
     {
       "id": "P5",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
+      "country": {
+        "code": "FR",
+        "name": "FRANCE"
+      },
       "voltageLevels": [
         {
           "id": "VLGEN5",
