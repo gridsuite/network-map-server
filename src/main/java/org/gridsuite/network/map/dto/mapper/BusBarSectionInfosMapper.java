@@ -6,8 +6,7 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.BusbarSection;
-import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
@@ -38,4 +37,5 @@ public final class BusBarSectionInfosMapper {
         }
         return builder.build();
     }
+
 }
