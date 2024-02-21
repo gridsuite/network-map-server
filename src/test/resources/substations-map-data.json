@@ -5,17 +5,17 @@
       {
         "id":"VLGEN",
         "substationId":"P1",
-        "nominalVoltage":24.0
+        "nominalV":24.0
       },
       {
         "id":"VLHV1",
         "substationId":"P1",
-        "nominalVoltage":380.0
+        "nominalV":380.0
       },
       {
         "id":"VLNEW2",
         "substationId":"P1",
-        "nominalVoltage":225.0
+        "nominalV":225.0
       }
     ]
   },
@@ -25,12 +25,12 @@
       {
         "id":"VLHV2",
         "substationId":"P2",
-        "nominalVoltage":380.0
+        "nominalV":380.0
       },
       {
         "id":"VLLOAD",
         "substationId":"P2",
-        "nominalVoltage":150.0
+        "nominalV":150.0
       }
     ]
   },
@@ -40,7 +40,7 @@
       {
         "id":"VLGEN3",
         "substationId":"P3",
-        "nominalVoltage":24.0
+        "nominalV":24.0
       }
     ]
   },
@@ -50,7 +50,7 @@
       {
         "id":"VLGEN4",
         "substationId":"P4",
-        "nominalVoltage":24.0
+        "nominalV":24.0
       }
     ]
   },
@@ -60,7 +60,7 @@
       {
         "id": "VLGEN5",
         "substationId": "P5",
-        "nominalVoltage": 24.0
+        "nominalV": 24.0
       }
     ]
   },
@@ -69,7 +69,7 @@
     "voltageLevels": [
       { "id": "VLGEN6",
         "substationId": "P6",
-        "nominalVoltage": 24.0
+        "nominalV": 24.0
       }
     ]
   }

@@ -2,43 +2,43 @@
   {
     "id": "VLGEN",
     "substationId": "P1",
-    "nominalVoltage": 24.0,
+    "nominalV": 24.0,
     "topologyKind": "BUS_BREAKER"
   },
   {
     "id": "VLHV1",
     "substationId": "P1",
-    "nominalVoltage": 380.0,
+    "nominalV": 380.0,
     "topologyKind": "BUS_BREAKER"
   },
   {
     "id": "VLHV2",
     "substationId": "P2",
-    "nominalVoltage": 380.0,
+    "nominalV": 380.0,
     "topologyKind": "BUS_BREAKER"
   },
   {
     "id": "VLLOAD",
     "substationId": "P2",
-    "nominalVoltage": 150.0,
+    "nominalV": 150.0,
     "topologyKind": "BUS_BREAKER"
   },
   {
     "id": "VLNEW2",
     "substationId": "P1",
-    "nominalVoltage": 225.0,
+    "nominalV": 225.0,
     "topologyKind": "BUS_BREAKER"
   },
   {
     "id": "VLGEN3",
     "substationId": "P3",
-    "nominalVoltage": 24.0,
+    "nominalV": 24.0,
     "topologyKind": "BUS_BREAKER"
   },
   {
     "id": "VLGEN4",
     "substationId": "P4",
-    "nominalVoltage": 24.0,
+    "nominalV": 24.0,
     "topologyKind": "NODE_BREAKER",
     "busbarCount": 1,
     "sectionCount": 2,
@@ -48,7 +48,7 @@
   {
     "id": "VLGEN5",
     "substationId": "P5",
-    "nominalVoltage": 24.0,
+    "nominalV": 24.0,
     "lowVoltageLimit": 20.0,
     "highVoltageLimit": 30.0,
     "identifiableShortCircuit": {
@@ -65,6 +65,6 @@
     "id": "VLGEN6",
     "topologyKind": "BUS_BREAKER",
     "substationId": "P6",
-    "nominalVoltage": 24.0
+    "nominalV": 24.0
   }
 ]
