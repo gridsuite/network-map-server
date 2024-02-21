@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Substation;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -14,11 +13,9 @@ import org.gridsuite.network.map.dto.definition.substation.SubstationFormInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationListInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationMapInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationTabInfos;
-import org.gridsuite.network.map.model.CountryData;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
@@ -50,7 +47,7 @@ public final class SubstationInfosMapper {
         return SubstationFormInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
-                .country(buildCountryData(substation.getCountry()))
+                .country(substation.getCountry().orElse(null))
                 .properties(getProperties(substation))
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toFormInfos).collect(Collectors.toList()))
@@ -84,19 +81,10 @@ public final class SubstationInfosMapper {
         return SubstationTabInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
-                .country(buildCountryData(substation.getCountry()))
+                .country(substation.getCountry().orElse(null))
                 .properties(properties.isEmpty() ? null : properties)
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toTabInfos).collect(Collectors.toList()))
                 .build();
-    }
-
-    private static CountryData buildCountryData(Optional<Country> country) {
-        return country.isPresent() ?
-                CountryData.builder()
-                        .code(country.map(Country::name).orElse(null))
-                        .name(country.map(Country::getName).orElse(null))
-                        .build()
-                : null;
     }
 }

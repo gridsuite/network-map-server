@@ -7,11 +7,11 @@
 package org.gridsuite.network.map.dto.definition.substation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
-import org.gridsuite.network.map.model.CountryData;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class SubstationTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country;
+    Country country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> properties;

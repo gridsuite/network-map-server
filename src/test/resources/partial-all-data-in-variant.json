@@ -2,10 +2,7 @@
   "substations": [
     {
       "id": "P3",
-      "country": {
-        "code": "FR",
-        "name": "FRANCE"
-      },
+      "country": "FR",
       "properties": {
         "Country":  "FR"
       },

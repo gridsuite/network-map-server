@@ -2,10 +2,7 @@
   "substations": [
     {
       "id": "P3",
-      "country": {
-        "code": "FR",
-        "name": "FRANCE"
-      },
+      "country": "FR",
       "properties": {
         "Country":  "FR"
       },
@@ -19,10 +16,7 @@
     },
     {
       "id": "P6",
-      "country": {
-        "code": "FR",
-        "name": "FRANCE"
-      },
+      "country": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN6",

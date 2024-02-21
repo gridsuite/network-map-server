@@ -4,10 +4,7 @@
     "properties": {
       "Country": "FR"
     },
-    "country": {
-      "code": "FR",
-      "name": "FRANCE"
-    },
+    "country": "FR",
     "voltageLevels": [
       {
         "id": "VLGEN3",
