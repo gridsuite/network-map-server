@@ -11,6 +11,7 @@ import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
+import com.powsybl.iidm.network.test.NetworkTest1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
@@ -56,6 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class NetworkMapControllerTest {
 
     private static final UUID NETWORK_UUID = UUID.fromString("7928181c-7977-4592-ba19-88027e4254e4");
+    private static final UUID NETWORK_2_UUID = UUID.fromString("9828181c-7977-4592-ba19-8976e4254e");
 
     private static final UUID NOT_FOUND_NETWORK_ID = UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
@@ -859,10 +861,13 @@ public class NetworkMapControllerTest {
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
+        Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
+        given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.COLLECTION)).willReturn(network2);
+        given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.NONE)).willReturn(network2);
     }
 
     private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
@@ -1915,5 +1920,11 @@ public class NetworkMapControllerTest {
     public void shouldReturnCountries() throws Exception {
         succeedingTestForCountries(NETWORK_UUID, null, List.of("FR").toString());
         succeedingTestForCountries(NETWORK_UUID, VARIANT_ID_2, List.of("AF", "FR").toString());
+    }
+
+    @Test
+    public void shouldReturnBusbarSectionTabData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, null, resourceToString("/buses-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, List.of("n9828181c-7977-4592-ba19-008976e4254e_substation1"), resourceToString("/buses-tab-data.json"));
     }
 }
