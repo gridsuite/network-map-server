@@ -129,22 +129,22 @@ public final class GeneratorInfosMapper {
                 .generatorStartup(toGeneratorStartup(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator));
 
-        Terminal regulatingTerminal = generator.getRegulatingTerminal();
+        Terminal regulatingTerminalForm = generator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
-        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
-            builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
-            builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
-            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+        if (regulatingTerminalForm != null && !regulatingTerminalForm.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+            builder.regulatingTerminalVlId(regulatingTerminalForm.getVoltageLevel().getId());
+            builder.regulatingTerminalConnectableType(regulatingTerminalForm.getConnectable().getType().name());
+            builder.regulatingTerminalConnectableId(regulatingTerminalForm.getConnectable().getId());
+            builder.regulatingTerminalVlName(regulatingTerminalForm.getVoltageLevel().getOptionalName().orElse(null));
         }
         ReactiveLimits reactiveLimits = generator.getReactiveLimits();
         if (reactiveLimits != null) {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
-                MinMaxReactiveLimits minMaxReactiveLimits = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
+                MinMaxReactiveLimits minMaxReactiveLimitsForm = generator.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
                 builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder()
-                        .maxQ(minMaxReactiveLimits.getMaxQ())
-                        .minQ(minMaxReactiveLimits.getMinQ())
+                        .maxQ(minMaxReactiveLimitsForm.getMaxQ())
+                        .minQ(minMaxReactiveLimitsForm.getMinQ())
                         .build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = generator.getReactiveLimits(ReactiveCapabilityCurve.class);

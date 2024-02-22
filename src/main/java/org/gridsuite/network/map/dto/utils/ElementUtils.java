@@ -95,8 +95,8 @@ public final class ElementUtils {
         GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
         return generatorShortCircuit == null ? Optional.empty() :
                 Optional.of(GeneratorShortCircuitInfos.builder()
-                        .transientReactance(generatorShortCircuit.getDirectTransX())
-                        .stepUpTransformerReactance(generatorShortCircuit.getStepUpTransformerX()).build());
+                        .directTransX(generatorShortCircuit.getDirectTransX())
+                        .stepUpTransformerX(generatorShortCircuit.getStepUpTransformerX()).build());
     }
 
     public static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(Generator generator) {
