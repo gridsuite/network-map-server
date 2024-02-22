@@ -1,0 +1,12 @@
+[
+  {
+    "id": "n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1_0",
+    "v": "NaN",
+    "angle": "NaN",
+    "synchronousComponentNum": 0,
+    "connectedComponentNum": 0,
+    "voltageLevelId": "n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1",
+    "nominalVoltage": 400.0,
+    "countryName": "FRANCE"
+  }
+]

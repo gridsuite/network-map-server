@@ -12,11 +12,13 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
+import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.*;
-import org.gridsuite.network.map.dto.ElementInfos.InfoType;
-import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
-import org.gridsuite.network.map.model.*;
+import org.gridsuite.network.map.model.BusMapData;
+import org.gridsuite.network.map.model.ElementType;
+import org.gridsuite.network.map.model.VoltageLevelConnectableMapData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -26,8 +28,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toIdentifiableShortCircuit;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -50,30 +50,6 @@ class NetworkMapService {
         } catch (PowsyblException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    }
-
-    private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
-        VoltageLevelMapData.VoltageLevelMapDataBuilder builder = VoltageLevelMapData.builder()
-                .id(voltageLevel.getId())
-                .topologyKind(voltageLevel.getTopologyKind());
-
-        builder.name(voltageLevel.getOptionalName().orElse(null))
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .substationName(voltageLevel.getSubstation().map(s -> s.getOptionalName().orElse(null)).orElse(null))
-
-                .nominalVoltage(voltageLevel.getNominalV())
-                .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            VoltageLevelInfosMapper.VoltageLevelTopologyInfos topologyInfos = VoltageLevelInfosMapper.getTopologyInfos(voltageLevel);
-            builder.busbarCount(topologyInfos.getBusbarCount());
-            builder.sectionCount(topologyInfos.getSectionCount());
-            builder.switchKinds(topologyInfos.getSwitchKinds());
-        }
-
-        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
-
-        return builder.build();
     }
 
     private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
@@ -125,19 +101,6 @@ class NetworkMapService {
         return substationsIds == null ?
                 network.getVoltageLevelStream().map(VoltageLevel::getId).collect(Collectors.toList()) :
                 substationsIds.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(VoltageLevel::getId)).collect(Collectors.toList());
-    }
-
-    public List<VoltageLevelsEquipmentsMapData> getVoltageLevelsAndConnectable(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        List<VoltageLevel> voltageLevels = substationsId == null ?
-                network.getVoltageLevelStream().collect(Collectors.toList()) :
-                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream()).collect(Collectors.toList());
-
-        return voltageLevels.stream().map(vl -> {
-            List<VoltageLevelConnectableMapData> equipments = new ArrayList<>();
-            vl.getConnectables().forEach(connectable -> equipments.add(toMapData(connectable)));
-            return VoltageLevelsEquipmentsMapData.builder().voltageLevel(toMapData(vl)).equipments(equipments).build();
-        }).collect(Collectors.toList());
     }
 
     public List<VoltageLevelConnectableMapData> getVoltageLevelEquipements(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
@@ -216,6 +179,18 @@ class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
+    public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
+        Stream<Bus> buses = substationsId == null ? network.getBusView().getBusStream() :
+            network.getBusView().getBusStream()
+                .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
+                .filter(Objects::nonNull)
+                .distinct();
+        return buses
+            .map(c -> ElementType.BUS.getInfosGetter().apply(c, elementInfoType))
+            .distinct()
+            .toList();
+    }
+
     private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, ElementInfoType elementInfoType) {
         Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
         Stream<? extends Connectable> connectables = substationsIds == null ?
@@ -238,6 +213,8 @@ class NetworkMapService {
                 return getVoltageLevelsInfos(network, substationsIds, elementInfoType);
             case HVDC_LINE:
                 return getHvdcLinesInfos(network, substationsIds, elementInfoType);
+            case BUS:
+                return getBusesInfos(network, substationsIds, elementInfoType);
             default:
                 return getElementsInfos(network, substationsIds, equipmentType, elementInfoType);
         }
