@@ -80,7 +80,7 @@ public final class VoltageLevelInfosMapper {
                 .id(voltageLevel.getId())
                 .topologyKind(voltageLevel.getTopologyKind())
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .nominalVoltage(voltageLevel.getNominalV())
+                .nominalV(voltageLevel.getNominalV())
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                 .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit())
                 .properties(getProperties(voltageLevel));
@@ -114,7 +114,7 @@ public final class VoltageLevelInfosMapper {
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .nominalVoltage(voltageLevel.getNominalV())
+                .nominalV(voltageLevel.getNominalV())
                 .build();
     }
 
@@ -125,7 +125,7 @@ public final class VoltageLevelInfosMapper {
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().orElseThrow().getId())
-                .nominalVoltage(voltageLevel.getNominalV())
+                .nominalV(voltageLevel.getNominalV())
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));

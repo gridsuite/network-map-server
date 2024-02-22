@@ -24,7 +24,7 @@ public class VoltageLevelTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
-    private double nominalVoltage;
+    private double nominalV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double lowVoltageLimit;

@@ -11,7 +11,7 @@
         "id": "VLGEN3",
         "topologyKind": "BUS_BREAKER",
         "substationId": "P3",
-        "nominalVoltage": 24.0
+        "nominalV": 24.0
       }
     ]
   }
