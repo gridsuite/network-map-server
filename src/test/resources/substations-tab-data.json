@@ -24,7 +24,6 @@
         "id": "VLNEW2",
         "substationId": "P1",
         "nominalV": 225.0,
-        "nominalVoltage": 225.0,
         "country": {
           "countryName": "FRANCE",
           "countryCode": "FR"
