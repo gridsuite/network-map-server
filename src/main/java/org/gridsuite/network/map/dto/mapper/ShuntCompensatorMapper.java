@@ -13,8 +13,7 @@ import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensato
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getBusOrBusbarSection;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -90,7 +89,8 @@ public final class ShuntCompensatorMapper {
                 .sectionCount(shuntCompensator.getSectionCount())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV());
+                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)));
 
         Double bPerSection = null;
         if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {

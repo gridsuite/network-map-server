@@ -14,8 +14,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsTransformerPermanentLimits;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsTransformerRatioTapChangers;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -70,7 +70,10 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .voltageLevelId3(terminal3.getVoltageLevel().getId())
                 .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
-                .nominalVoltage3(terminal3.getVoltageLevel().getNominalV());
+                .nominalVoltage3(terminal3.getVoltageLevel().getNominalV())
+                .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
+                .country3(mapCountry(terminal3.getVoltageLevel().getSubstation().orElse(null)));
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());

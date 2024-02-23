@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 import org.gridsuite.network.map.model.TapChangerData;
 
@@ -33,6 +34,12 @@ public class TwoWindingsTransformerTabInfos extends ElementInfos {
     private String voltageLevelName2;
 
     private Double nominalVoltage2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country2;
 
     private Boolean terminal1Connected;
 

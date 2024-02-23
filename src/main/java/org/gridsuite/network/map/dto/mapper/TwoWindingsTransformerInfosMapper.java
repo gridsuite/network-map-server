@@ -102,6 +102,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+                .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
                 .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
                 .r(twoWT.getR())

@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.*;
+import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -27,6 +28,9 @@ public class GeneratorTabInfos extends ElementInfos {
     private String voltageLevelId;
 
     private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlName;

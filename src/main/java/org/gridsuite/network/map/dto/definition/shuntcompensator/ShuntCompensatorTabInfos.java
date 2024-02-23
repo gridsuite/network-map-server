@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -21,6 +22,9 @@ public class ShuntCompensatorTabInfos extends ElementInfos {
     private String voltageLevelId;
 
     private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country;
 
     private Boolean terminalConnected;
 

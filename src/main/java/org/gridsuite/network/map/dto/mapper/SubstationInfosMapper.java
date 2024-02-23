@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -47,8 +48,7 @@ public final class SubstationInfosMapper {
         return SubstationFormInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
-                .countryName(substation.getCountry().map(Country::getName).orElse(null))
-                .countryCode(substation.getCountry().map(Country::name).orElse(null))
+                .country(mapCountry(substation))
                 .properties(getProperties(substation))
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toFormInfos).collect(Collectors.toList()))
@@ -82,8 +82,7 @@ public final class SubstationInfosMapper {
         return SubstationTabInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
-                .countryName(substation.getCountry().map(Country::getName).orElse(null))
-                .countryCode(substation.getCountry().map(Country::name).orElse(null))
+                .country(mapCountry(substation))
                 .properties(properties.isEmpty() ? null : properties)
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toTabInfos).collect(Collectors.toList()))

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.TapChangerData;
 
 /**
@@ -30,6 +31,15 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
     private String voltageLevelId3;
 
     private Double nominalVoltage3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country3;
 
     private Boolean terminal1Connected;
 

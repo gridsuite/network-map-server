@@ -6,9 +6,11 @@
  */
 package org.gridsuite.network.map.dto.definition.bus;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 /**
  * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
@@ -28,5 +30,6 @@ public class BusTabInfos extends ElementInfos {
 
     private Double nominalVoltage;
 
-    private String countryName;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country;
 }

@@ -4,6 +4,10 @@
     "name": "SVC1",
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "regulationMode": "VOLTAGE",
     "p": 120.0,
@@ -16,6 +20,10 @@
     "name": "SVC2",
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "regulationMode": "VOLTAGE",
     "voltageSetpoint": 200.0,

@@ -1,25 +1,40 @@
 [
   {
     "id": "P1",
-    "countryName": "FRANCE",
-    "countryCode": "FR",
     "voltageLevels": [
       {
         "id": "VLGEN",
         "substationId": "P1",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        }
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
-        "nominalV": 380.0
+        "nominalV": 380.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        }
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
-        "nominalV": 225.0
+        "nominalV": 225.0,
+        "nominalVoltage": 225.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        }
       }
-    ]
+    ],
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    }
   },
   {
     "id": "P2",
@@ -38,8 +53,6 @@
   },
   {
     "id": "P3",
-    "countryName": "FRANCE",
-    "countryCode": "FR",
     "properties": {
       "Country":  "FR"
     },
@@ -47,43 +60,65 @@
       {
         "id": "VLGEN3",
         "substationId": "P3",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        }
       }
-    ]
+    ],
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    }
   },
   {
     "id": "P6",
-    "countryName": "FRANCE",
-    "countryCode": "FR",
     "voltageLevels": [
       {
         "id": "VLGEN6",
         "substationId": "P6",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        }
       }
-    ]
+    ],
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    }
   },
   {
     "id": "P4",
-    "countryName": "FRANCE",
-    "countryCode": "FR",
     "voltageLevels": [
       {
         "id": "VLGEN4",
         "substationId": "P4",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        }
       }
-    ]
+    ],
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    }
   },
   {
     "id": "P5",
-    "countryName": "FRANCE",
-    "countryCode": "FR",
     "voltageLevels": [
       {
         "id": "VLGEN5",
         "substationId": "P5",
         "nominalV": 24.0,
+        "country": {
+          "countryName": "FRANCE",
+          "countryCode": "FR"
+        },
         "lowVoltageLimit": 20.0,
         "highVoltageLimit": 30.0,
         "identifiableShortCircuit": {
@@ -91,6 +126,10 @@
           "ipMax": 100.0
         }
       }
-    ]
+    ],
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    }
   }
 ]
