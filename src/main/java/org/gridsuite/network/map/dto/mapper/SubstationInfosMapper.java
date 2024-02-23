@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Substation;
 import org.gridsuite.network.map.dto.ElementInfos;

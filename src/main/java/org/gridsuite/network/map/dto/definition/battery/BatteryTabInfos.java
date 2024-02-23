@@ -63,7 +63,7 @@ public class BatteryTabInfos extends ElementInfos {
     private Boolean terminalConnected;
 
     private Double nominalVoltage;
-    
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CountryData country;
 }
