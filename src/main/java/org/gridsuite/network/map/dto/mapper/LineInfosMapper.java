@@ -169,7 +169,11 @@ public final class LineInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
+                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+                .r(line.getR())
+                .x(line.getX())
+                .b1(line.getB1())
+                .b2(line.getB2());
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
