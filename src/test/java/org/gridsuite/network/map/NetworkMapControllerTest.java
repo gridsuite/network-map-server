@@ -1674,8 +1674,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVotlageLevelFormData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, null, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, null, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, ElementInfos.Operation.CREATION, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, ElementInfos.Operation.CREATION, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
     }
 
     @Test
