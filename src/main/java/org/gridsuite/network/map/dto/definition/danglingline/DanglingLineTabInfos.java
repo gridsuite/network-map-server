@@ -21,12 +21,12 @@ public class DanglingLineTabInfos extends ElementInfos {
 
     private String voltageLevelId;
 
-    private Double nominalVoltage;
+    private Double nominalV;
 
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String ucteXnodeCode;
+    private String pairingKey;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
