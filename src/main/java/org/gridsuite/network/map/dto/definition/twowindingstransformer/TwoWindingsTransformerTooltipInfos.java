@@ -33,4 +33,13 @@ public class TwoWindingsTransformerTooltipInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double r;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double x;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double b;
+
 }
