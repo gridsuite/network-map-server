@@ -33,13 +33,7 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
     private Double nominalVoltage3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country3;
+    private CountryData country;
 
     private Boolean terminal1Connected;
 

@@ -327,7 +327,7 @@ public final class ElementUtils {
     }
 
     public static CountryData mapCountry(Substation substation) {
-        if (substation == null || (substation.getCountry().map(Country::name).isEmpty())) {
+        if (substation == null || substation.getCountry().isEmpty()) {
             return null;
         }
         return CountryData.builder().countryName(substation.getCountry().map(Country::getName).orElse(null))

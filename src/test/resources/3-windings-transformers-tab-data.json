@@ -8,15 +8,7 @@
     "nominalVoltage2": 225.0,
     "voltageLevelId3": "VLGEN",
     "nominalVoltage3": 24.0,
-    "country1": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
-    "country2": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
-    "country3": {
+    "country": {
       "countryName": "FRANCE",
       "countryCode": "FR"
     },
@@ -126,15 +118,7 @@
     "nominalVoltage2": 225.0,
     "voltageLevelId3": "VLGEN",
     "nominalVoltage3": 24.0,
-    "country1": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
-    "country2": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
-    "country3": {
+    "country": {
       "countryName": "FRANCE",
       "countryCode": "FR"
     },
@@ -244,15 +228,7 @@
     "nominalVoltage2": 225.0,
     "voltageLevelId3": "VLGEN",
     "nominalVoltage3": 24.0,
-    "country1": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
-    "country2": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
-    "country3": {
+    "country": {
       "countryName": "FRANCE",
       "countryCode": "FR"
     },

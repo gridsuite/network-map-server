@@ -36,10 +36,7 @@ public class TwoWindingsTransformerTabInfos extends ElementInfos {
     private Double nominalVoltage2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country2;
+    private CountryData country;
 
     private Boolean terminal1Connected;
 
