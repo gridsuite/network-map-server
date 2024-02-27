@@ -21,15 +21,15 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
 
     private String voltageLevelId1;
 
-    private Double nominalVoltage1;
+    private Double nominalV1;
 
     private String voltageLevelId2;
 
-    private Double nominalVoltage2;
+    private Double nominalV2;
 
     private String voltageLevelId3;
 
-    private Double nominalVoltage3;
+    private Double nominalV3;
 
     private Boolean terminal1Connected;
 
