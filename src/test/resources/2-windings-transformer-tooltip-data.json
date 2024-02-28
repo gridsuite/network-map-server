@@ -14,5 +14,8 @@
       { "name": "IT20", "value": 1200.0, "acceptableDuration": 961 },
       { "name": "N/A", "value": 2.147483647e9, "acceptableDuration": 664 }
     ]
-  }
+  },
+  "r": 0.26658461538461536,
+  "x": 11.104492831516762,
+  "b": 0.0
 }
