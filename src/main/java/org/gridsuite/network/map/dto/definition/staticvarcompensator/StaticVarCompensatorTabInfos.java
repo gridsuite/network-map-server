@@ -21,7 +21,7 @@ public class StaticVarCompensatorTabInfos extends ElementInfos {
 
     private String voltageLevelId;
 
-    private Double nominalVoltage;
+    private Double nominalV; // nominal voltage of the voltage level of the regulating terminal
 
     private Boolean terminalConnected;
 
