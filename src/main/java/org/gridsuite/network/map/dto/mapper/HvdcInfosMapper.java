@@ -124,8 +124,8 @@ public final class HvdcInfosMapper {
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .dcNominalVoltage(hvdcLine.getNominalV())
                 .dcResistance(hvdcLine.getR())
-                .maximumActivePower(hvdcLine.getMaxP())
-                .activePower(hvdcLine.getActivePowerSetpoint())
+                .maxP(hvdcLine.getMaxP())
+                .activePowerSetpoint(hvdcLine.getActivePowerSetpoint())
                 .convertersMode(hvdcLine.getConvertersMode())
                 .converterStation1(getConverterStationData(hvdcLine.getConverterStation1()))
                 .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()));
