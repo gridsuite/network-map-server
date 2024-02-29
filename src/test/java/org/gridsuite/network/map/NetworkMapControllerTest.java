@@ -1028,9 +1028,8 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void succeedingTestForElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, ElementInfos.Operation operation, String elementId, String expectedJson) {
-        MvcResult mvcResult;
         if (elementId == null) {
-            mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid)
+            mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid)
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
@@ -1039,11 +1038,11 @@ public class NetworkMapControllerTest {
                     .andExpect(status().isOk())
                     .andReturn();
         } else {
-            mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
+            mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                            .queryParam(QUERY_PARAM_INFO_OPERATION, operation.name())
+                            .queryParam(QUERY_PARAM_INFO_OPERATION, operation != null ? operation.name() : null)
                     )
                     .andExpect(status().isOk())
                     .andReturn();
@@ -1241,8 +1240,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationMapData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, ElementInfos.Operation.CREATION, "P4", resourceToString("/substation-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, ElementInfos.Operation.CREATION, "P4", resourceToString("/substation-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, "P4", resourceToString("/substation-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, null, "P4", resourceToString("/substation-map-data.json"));
     }
 
     @Test
@@ -1298,16 +1297,16 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLineTooltipData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.TOOLTIP, ElementInfos.Operation.CREATION, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.TOOLTIP, ElementInfos.Operation.CREATION, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.TOOLTIP, null, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.TOOLTIP, null, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
 
         succeedingTestForElementInfosInDc(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.TOOLTIP, "LINE3", 0.80, resourceToString("/line-tooltip-data-dc.json"));
     }
 
     @Test
     public void shouldReturnHvdcLineMapData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, ElementInfos.Operation.CREATION, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, ElementInfos.Operation.CREATION, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
     }
 
     @Test
@@ -1681,8 +1680,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVotlageLevelTabData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.TAB, ElementInfos.Operation.CREATION, "VLGEN4", resourceToString("/voltage-level-tab-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.TAB, ElementInfos.Operation.CREATION, "VLGEN4", resourceToString("/voltage-level-tab-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.TAB, null, "VLGEN4", resourceToString("/voltage-level-tab-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.TAB, null, "VLGEN4", resourceToString("/voltage-level-tab-data.json"));
     }
 
     @Test
@@ -1718,12 +1717,6 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnHvdcShuntCompensatorMapData() throws Exception {
         succeedingHvdcWithShuntCompensatorsTest(NETWORK_UUID, "HVDC1", null, resourceToString("/hvdc-line-with-shunt-compensators-map-data.json"));
-    }
-
-    @Test
-    public void shouldReturnVoltageLevelsAndEquipments() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-levels-equipments", null, resourceToString("/voltage-levels-equipments-map-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-levels-equipments", null, resourceToString("/voltage-levels-equipments-map-data-in-variant.json"));
     }
 
     @Test
@@ -1910,8 +1903,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnTwoWindingsTransformerTooltipData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, ElementInfos.Operation.CREATION, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, ElementInfos.Operation.CREATION, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
     }
 
     @Test
