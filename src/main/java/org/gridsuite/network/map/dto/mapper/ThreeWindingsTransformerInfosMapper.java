@@ -13,6 +13,9 @@ import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
+
+import java.util.List;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
@@ -59,6 +62,8 @@ public final class ThreeWindingsTransformerInfosMapper {
         Terminal terminal1 = threeWT.getLeg1().getTerminal();
         Terminal terminal2 = threeWT.getLeg2().getTerminal();
         Terminal terminal3 = threeWT.getLeg3().getTerminal();
+        Substation firstSubstationFound = ElementUtils.findFirstSubstation(List.of(terminal1, terminal2, terminal3));
+
         ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder = ThreeWindingsTransformerTabInfos.builder()
                 .name(threeWT.getOptionalName().orElse(null))
                 .id(threeWT.getId())
@@ -71,7 +76,7 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
                 .nominalVoltage3(terminal3.getVoltageLevel().getNominalV())
-                .country(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)));
+                .country(mapCountry(firstSubstationFound));
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());

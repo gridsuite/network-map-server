@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -362,4 +363,14 @@ public final class ElementUtils {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public static Substation findFirstSubstation(List<Terminal> terminals) {
+        return terminals.stream()
+            .map(Terminal::getVoltageLevel)
+            .filter(Objects::nonNull)
+            .findFirst()
+            .flatMap(VoltageLevel::getSubstation)
+            .orElse(null);
+    }
+
 }
