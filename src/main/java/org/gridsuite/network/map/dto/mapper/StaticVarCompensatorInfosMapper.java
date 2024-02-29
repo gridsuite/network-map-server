@@ -38,7 +38,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .id(staticVarCompensator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .regulationMode(staticVarCompensator.getRegulationMode());
 
