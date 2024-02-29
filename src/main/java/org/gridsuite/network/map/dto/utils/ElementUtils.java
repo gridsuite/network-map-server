@@ -367,9 +367,10 @@ public final class ElementUtils {
     public static Substation findFirstSubstation(List<Terminal> terminals) {
         return terminals.stream()
             .map(Terminal::getVoltageLevel)
-            .filter(Objects::nonNull)
+            .map(VoltageLevel::getSubstation)
+            .filter(Optional::isPresent)
             .findFirst()
-            .flatMap(VoltageLevel::getSubstation)
+            .flatMap(Function.identity())
             .orElse(null);
     }
 
