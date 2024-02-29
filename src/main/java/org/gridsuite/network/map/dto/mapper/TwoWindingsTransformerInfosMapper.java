@@ -61,7 +61,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .b(twoWT.getB())
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
-                .ratedU2(twoWT.getRatedU2());
+                .ratedU2(twoWT.getRatedU2())
+                .properties(getProperties(twoWT));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));

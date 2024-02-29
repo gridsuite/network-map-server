@@ -82,7 +82,8 @@ public final class VoltageLevelInfosMapper {
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalV(voltageLevel.getNominalV())
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
-                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit());
+                .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit())
+                .properties(getProperties(voltageLevel));
 
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
             VoltageLevelTopologyInfos vlTopologyInfos = getTopologyInfos(voltageLevel);
