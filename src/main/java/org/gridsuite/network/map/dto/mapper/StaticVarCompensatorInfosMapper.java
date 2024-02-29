@@ -36,7 +36,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .id(staticVarCompensator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .nominalV(terminal.getVoltageLevel().getNominalV())
                 .regulationMode(staticVarCompensator.getRegulationMode());
 
         if (!Double.isNaN(terminal.getQ())) {
