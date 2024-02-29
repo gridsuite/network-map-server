@@ -2,25 +2,39 @@
   "substations": [
     {
       "id": "P1",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN",
           "substationId": "P1",
-          "nominalV": 24.0
+          "nominalV": 24.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          }
         },
         {
           "id": "VLHV1",
           "substationId": "P1",
-          "nominalV": 380.0
+          "nominalV": 380.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          }
         },
         {
           "id": "VLNEW2",
           "substationId": "P1",
-          "nominalV": 225.0
+          "nominalV": 225.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          }
         }
-      ]
+      ],
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     },
     {
       "id": "P2",
@@ -39,59 +53,84 @@
     },
     {
       "id": "P3",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
       "properties": {
-        "Country":  "FR"
+        "Country": "FR"
       },
       "voltageLevels": [
         {
           "id": "VLGEN3",
           "substationId": "P3",
-          "nominalV": 24.0
+          "nominalV": 24.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          }
         }
-      ]
+      ],
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     },
     {
       "id": "P6",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN6",
           "substationId": "P6",
-          "nominalV": 24.0
+          "nominalV": 24.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          }
         }
-      ]
+      ],
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     },
     {
       "id": "P4",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN4",
           "substationId": "P4",
-          "nominalV": 24.0
+          "nominalV": 24.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          }
         }
-      ]
+      ],
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     },
     {
       "id": "P5",
-      "countryName": "FRANCE",
-      "countryCode": "FR",
       "voltageLevels": [
         {
           "id": "VLGEN5",
           "substationId": "P5",
           "nominalV": 24.0,
+          "country": {
+            "countryName": "FRANCE",
+            "countryCode": "FR"
+          },
           "lowVoltageLimit": 20.0,
           "highVoltageLimit": 30.0,
-          "identifiableShortCircuit":{
+          "identifiableShortCircuit": {
             "ipMin": 0.0,
-            "ipMax": 100.0}
+            "ipMax": 100.0
+          }
         }
-      ]
+      ],
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     }
   ],
   "lines": [
@@ -101,6 +140,10 @@
       "nominalVoltage1": 380.0,
       "voltageLevelId2": "VLHV2",
       "nominalVoltage2": 380.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 1.1,
@@ -145,6 +188,10 @@
       "nominalVoltage1": 380.0,
       "voltageLevelId2": "VLHV2",
       "nominalVoltage2": 380.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "r": 3.0,
@@ -160,6 +207,14 @@
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 200.0,
@@ -177,6 +232,14 @@
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "r": 3.0,
@@ -195,6 +258,14 @@
       "converterStationId1": "LCC1",
       "converterStationId2": "LCC2",
       "r": 1.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "activePowerSetpoint": 500.0,
       "maxP": 100.0
     },
@@ -205,6 +276,14 @@
       "converterStationId1": "VSC3",
       "converterStationId2": "VSC4",
       "r": 1.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "activePowerSetpoint": 500.0,
       "maxP": 100.0
     },
@@ -215,6 +294,14 @@
       "converterStationId1": "VSC5",
       "converterStationId2": "VSC6",
       "r": 1.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "activePowerSetpoint": 500.0,
       "maxP": 100.0
     },
@@ -225,6 +312,14 @@
       "converterStationId1": "LCC1",
       "converterStationId2": "LCC2",
       "r": 1.0,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "activePowerSetpoint": 500.0,
       "maxP": 100.0,
       "hvdcAngleDroopActivePowerControl": {
@@ -248,15 +343,19 @@
       "p0": 600.0,
       "q0": 200.0,
       "connectablePosition": {
-        "connectionName": "feederName",
         "connectionDirection": "TOP",
-        "connectionPosition": 0
+        "connectionPosition": 0,
+        "connectionName": "feederName"
       }
     },
     {
       "id": "LOAD_WITH_NULL_NAME",
       "type": "UNDEFINED",
       "voltageLevelId": "VLNEW2",
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "nominalVoltage": 225.0,
       "terminalConnected": true,
       "p0": 600.0,
@@ -270,6 +369,10 @@
       "name": "LOAD_NAME",
       "type": "UNDEFINED",
       "voltageLevelId": "VLNEW2",
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "nominalVoltage": 225.0,
       "terminalConnected": true,
       "p0": 600.0,
@@ -288,6 +391,10 @@
       "voltageLevelId2": "VLHV1",
       "voltageLevelName2": null,
       "nominalVoltage2": 380.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 11.1,
@@ -447,6 +554,10 @@
       "voltageLevelId2": "VLHV1",
       "voltageLevelName2": null,
       "nominalVoltage2": 380.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "currentLimits1": {
@@ -493,6 +604,10 @@
       "nominalVoltage2": 225.0,
       "voltageLevelId3": "VLGEN",
       "nominalVoltage3": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "terminal3Connected": true,
@@ -599,6 +714,10 @@
       "nominalVoltage2": 225.0,
       "voltageLevelId3": "VLGEN",
       "nominalVoltage3": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "terminal3Connected": true,
@@ -705,6 +824,10 @@
       "nominalVoltage2": 225.0,
       "voltageLevelId3": "VLGEN",
       "nominalVoltage3": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminal1Connected": true,
       "terminal2Connected": true,
       "terminal3Connected": true,
@@ -808,6 +931,10 @@
       "id": "GEN",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "p": 25.0,
       "q": 32.0,
@@ -819,34 +946,40 @@
       "energySource": "OTHER",
       "ratedS": 27.0,
       "voltageRegulatorOn": true,
-      "minMaxReactiveLimits": {
-        "minimumReactivePower": -500.0,
-        "maximumReactivePower": 500.0
-      },
       "generatorStartup": {
         "plannedActivePowerSetPoint": 0.3,
         "marginalCost": 3.0,
         "plannedOutageRate": 0.4,
         "forcedOutageRate": 2.0
       },
-      "activePowerControl":{
-        "activePowerControlOn": true,
-        "droop": 4.0
+      "minMaxReactiveLimits": {
+        "minimumReactivePower": -500.0,
+        "maximumReactivePower": 500.0
       },
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
+      "coordinatedReactiveControl": {
+        "qPercent": 10.0
+      },
+      "activePowerControl": {
+        "activePowerControlOn": true,
+        "droop": 4.0
+      },
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      },
-      "coordinatedReactiveControl": { "qPercent": 10.0}
+      }
     },
     {
       "id": "GEN2",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "targetP": 607.0,
       "targetQ": 301.0,
@@ -872,12 +1005,14 @@
           "qmaxP": 5.0
         }
       ],
+      "coordinatedReactiveControl": {
+        "qPercent": 10.0
+      },
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      },
-      "coordinatedReactiveControl": { "qPercent": 10.0}
+      }
     }
   ],
   "batteries": [
@@ -899,7 +1034,11 @@
         "connectionName": "feederName"
       },
       "terminalConnected": false,
-      "nominalVoltage": 225.0
+      "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     },
     {
       "id": "BATTERY2",
@@ -926,7 +1065,7 @@
           "qmaxP": 5.0
         }
       ],
-      "activePowerControl":{
+      "activePowerControl": {
         "activePowerControlOn": true,
         "droop": 3.0
       },
@@ -936,7 +1075,11 @@
         "connectionName": "feederName"
       },
       "terminalConnected": false,
-      "nominalVoltage": 24.0
+      "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      }
     }
   ],
   "danglingLines": [
@@ -945,6 +1088,10 @@
       "name": "DL1",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
       "p": 45.0,
@@ -957,6 +1104,10 @@
       "name": "DL2",
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "ucteXnodeCode": "xnode1",
       "p0": 50.0,
@@ -971,6 +1122,10 @@
       "lossFactor": 1.0,
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": "HVDC1"
     },
@@ -981,6 +1136,10 @@
       "lossFactor": 1.0,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": "HVDC1",
       "p": 110.0,
@@ -993,57 +1152,75 @@
       "name": "SHUNT1",
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "q": 90.0,
       "sectionCount": 4,
+      "maxSusceptance": 40.0,
+      "maxQAtNominalV": 2025000.0,
       "maximumSectionCount": 8,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      },
-      "maxSusceptance": 40.0,
-      "maxQAtNominalV": 2025000.0
+      }
     },
     {
       "id": "SHUNT2",
       "name": "SHUNT2",
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "sectionCount": 2,
+      "maxSusceptance": 3.0,
+      "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      },
-      "maxSusceptance": 3.0,
-      "maxQAtNominalV": 1728.0
+      }
     },
     {
       "id": "SHUNT_VLNB",
       "name": "SHUNT_VLNB",
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "sectionCount": 2,
+      "maxSusceptance": 3.0,
+      "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
       "connectablePosition": {
         "connectionDirection": null
-      },
-      "maxSusceptance": 3.0,
-      "maxQAtNominalV": 1728.0
+      }
     },
     {
       "id": "SHUNT_NON_LINEAR",
       "name": "SHUNT_NON_LINEAR",
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": false,
       "sectionCount": 2,
       "maximumSectionCount": 2,
-      "connectablePosition": { "connectionDirection": null }
+      "connectablePosition": {
+        "connectionDirection": null
+      }
     }
   ],
   "staticVarCompensators": [
@@ -1051,7 +1228,11 @@
       "id": "SVC1",
       "name": "SVC1",
       "voltageLevelId": "VLGEN",
-      "nominalVoltage": 24.0,
+      "nominalV": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "regulationMode": "VOLTAGE",
       "p": 120.0,
@@ -1063,8 +1244,11 @@
       "id": "SVC2",
       "name": "SVC2",
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
-      "terminalConnected": true,
+      "nominalV": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },      "terminalConnected": true,
       "regulationMode": "VOLTAGE",
       "voltageSetpoint": 200.0,
       "reactivePowerSetpoint": 100.0
@@ -1080,6 +1264,10 @@
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": null,
       "p": 10.0,
@@ -1093,6 +1281,10 @@
       "voltageRegulatorOn": false,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": "HVDC3",
       "p": 10.0,
@@ -1106,6 +1298,10 @@
       "voltageRegulatorOn": false,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": "HVDC3",
       "p": 10.0,
@@ -1119,6 +1315,10 @@
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": "HVDC4",
       "p": 10.0,
@@ -1132,6 +1332,10 @@
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": "HVDC4",
       "p": 10.0,
@@ -1146,6 +1350,10 @@
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
+      "country": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "terminalConnected": true,
       "hvdcLineId": null
     }

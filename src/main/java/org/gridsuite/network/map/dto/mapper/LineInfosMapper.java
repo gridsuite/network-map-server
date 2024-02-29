@@ -138,6 +138,8 @@ public final class LineInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+                .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
                 .p1(nullIfNan(terminal1.getP()))
                 .q1(nullIfNan(terminal1.getQ()))
                 .p2(nullIfNan(terminal2.getP()))

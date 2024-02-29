@@ -6,6 +6,10 @@
     "lossFactor": 1.0,
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": "HVDC1"
   },
@@ -16,6 +20,10 @@
     "lossFactor": 1.0,
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": "HVDC1",
     "p": 110.0,

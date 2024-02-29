@@ -1922,7 +1922,7 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnBusbarSectionTabData() throws Exception {
+    public void shouldReturnBusesSectionTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, null, resourceToString("/buses-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, List.of("n9828181c-7977-4592-ba19-008976e4254e_substation1"), resourceToString("/buses-tab-data.json"));
     }

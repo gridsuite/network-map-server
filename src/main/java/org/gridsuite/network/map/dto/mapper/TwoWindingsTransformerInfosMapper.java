@@ -14,6 +14,8 @@ import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindin
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
+import java.util.List;
+
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -91,6 +93,7 @@ public final class TwoWindingsTransformerInfosMapper {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
+        Substation firstSubstationFound = ElementUtils.findFirstSubstation(List.of(terminal1, terminal2));
 
         TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder builder = TwoWindingsTransformerTabInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
@@ -103,6 +106,7 @@ public final class TwoWindingsTransformerInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+                .country(mapCountry(firstSubstationFound))
                 .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
                 .r(twoWT.getR())

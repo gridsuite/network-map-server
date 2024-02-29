@@ -82,6 +82,7 @@ public final class BatteryInfosMapper {
             .terminalConnected(terminal.isConnected())
             .voltageLevelId(terminal.getVoltageLevel().getId())
             .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+            .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
             .targetP(battery.getTargetP())
             .targetQ(nullIfNan(battery.getTargetQ()))
             .minP(battery.getMinP())

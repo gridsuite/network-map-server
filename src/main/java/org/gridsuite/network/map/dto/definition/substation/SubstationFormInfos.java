@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementFormInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 import java.util.List;
 
@@ -22,10 +23,7 @@ import java.util.List;
 public class SubstationFormInfos extends ElementFormInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String countryName;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String countryCode;
+    private CountryData country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<VoltageLevelFormInfos> voltageLevels;
