@@ -21,8 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toIdentifiableShortCircuit;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -126,6 +125,7 @@ public final class VoltageLevelInfosMapper {
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().orElseThrow().getId())
                 .nominalV(voltageLevel.getNominalV())
+                .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));

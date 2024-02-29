@@ -4,6 +4,10 @@
     "name": "DL1",
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "ucteXnodeCode": "xnode1",
     "p": 45.0,
@@ -16,6 +20,10 @@
     "name": "DL2",
     "voltageLevelId": "VLGEN3",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "ucteXnodeCode": "xnode1",
     "p0": 50.0,

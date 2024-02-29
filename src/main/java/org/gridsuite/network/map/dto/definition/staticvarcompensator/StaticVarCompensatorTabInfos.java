@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.StaticVarCompensator;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -22,6 +23,9 @@ public class StaticVarCompensatorTabInfos extends ElementInfos {
     private String voltageLevelId;
 
     private Double nominalV; // nominal voltage of the voltage level of the regulating terminal
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country;
 
     private Boolean terminalConnected;
 
