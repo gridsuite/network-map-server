@@ -1087,13 +1087,13 @@
       "id": "DL1",
       "name": "DL1",
       "voltageLevelId": "VLGEN",
-      "nominalVoltage": 24.0,
+      "nominalV": 24.0,
       "country": {
         "countryName": "FRANCE",
         "countryCode": "FR"
       },
       "terminalConnected": true,
-      "ucteXnodeCode": "xnode1",
+      "pairingKey": "xnode1",
       "p": 45.0,
       "q": 75.0,
       "p0": 50.0,
@@ -1103,13 +1103,13 @@
       "id": "DL2",
       "name": "DL2",
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
+      "nominalV": 24.0,
       "country": {
         "countryName": "FRANCE",
         "countryCode": "FR"
       },
       "terminalConnected": true,
-      "ucteXnodeCode": "xnode1",
+      "pairingKey": "xnode1",
       "p0": 50.0,
       "q0": 30.0
     }

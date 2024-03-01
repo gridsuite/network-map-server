@@ -38,9 +38,9 @@ public final class DanglingLineInfosMapper {
                 .id(danglingLine.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
-                .ucteXnodeCode(danglingLine.getPairingKey())
+                .pairingKey(danglingLine.getPairingKey())
                 .p0(danglingLine.getP0())
                 .q0(danglingLine.getQ0());
 
