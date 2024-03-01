@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -23,6 +24,9 @@ public class LoadTabInfos extends ElementInfos {
     private LoadType type;
 
     private String voltageLevelId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country;
 
     private Double nominalVoltage;
 
@@ -44,6 +48,4 @@ public class LoadTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
-
-
 }

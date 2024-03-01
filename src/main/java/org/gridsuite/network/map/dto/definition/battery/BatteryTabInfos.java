@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -62,4 +63,7 @@ public class BatteryTabInfos extends ElementInfos {
     private Boolean terminalConnected;
 
     private Double nominalVoltage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country;
 }

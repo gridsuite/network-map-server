@@ -7,6 +7,14 @@
       "converterStationId2": "LCC2",
       "activePowerSetpoint": 500.0,
       "r": 1,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "maxP": 100
     },
     {
@@ -17,6 +25,14 @@
       "converterStationId2": "LCC2",
       "activePowerSetpoint": 500.0,
       "r": 1,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "maxP": 100,
       "hvdcAngleDroopActivePowerControl": {
         "droop": 180.0,
@@ -35,6 +51,14 @@
       "converterStationId2": "VSC4",
       "activePowerSetpoint": 500.0,
       "r": 1,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "maxP": 100
     },
     {
@@ -45,6 +69,14 @@
       "converterStationId2": "VSC6",
       "activePowerSetpoint": 500.0,
       "r": 1,
+      "country1": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
+      "country2": {
+        "countryName": "FRANCE",
+        "countryCode": "FR"
+      },
       "maxP": 100
     }
 ]
