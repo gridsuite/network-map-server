@@ -13,9 +13,12 @@ import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsTransformerPermanentLimits;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapThreeWindingsTransformerRatioTapChangers;
+import java.util.List;
+
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -59,6 +62,8 @@ public final class ThreeWindingsTransformerInfosMapper {
         Terminal terminal1 = threeWT.getLeg1().getTerminal();
         Terminal terminal2 = threeWT.getLeg2().getTerminal();
         Terminal terminal3 = threeWT.getLeg3().getTerminal();
+        Substation firstSubstationFound = ElementUtils.findFirstSubstation(List.of(terminal1, terminal2, terminal3));
+
         ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder = ThreeWindingsTransformerTabInfos.builder()
                 .name(threeWT.getOptionalName().orElse(null))
                 .id(threeWT.getId())
@@ -70,7 +75,8 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .voltageLevelId3(terminal3.getVoltageLevel().getId())
                 .nominalV1(terminal1.getVoltageLevel().getNominalV())
                 .nominalV2(terminal2.getVoltageLevel().getNominalV())
-                .nominalV3(terminal3.getVoltageLevel().getNominalV());
+                .nominalV3(terminal3.getVoltageLevel().getNominalV())
+                .country(mapCountry(firstSubstationFound));
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());

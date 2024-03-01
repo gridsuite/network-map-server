@@ -17,6 +17,10 @@
       "connectionDirection": "TOP"
     },
     "terminalConnected": false,
-    "nominalVoltage": 225.0
+    "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    }
   }
 ]

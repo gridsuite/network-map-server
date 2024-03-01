@@ -61,7 +61,8 @@ public final class LineInfosMapper {
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
-                .b2(line.getB2());
+                .b2(line.getB2())
+                .properties(getProperties(line));
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
@@ -137,6 +138,8 @@ public final class LineInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
+                .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
                 .p1(nullIfNan(terminal1.getP()))
                 .q1(nullIfNan(terminal1.getQ()))
                 .p2(nullIfNan(terminal2.getP()))
