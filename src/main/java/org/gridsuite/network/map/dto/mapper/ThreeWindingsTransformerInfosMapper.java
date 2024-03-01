@@ -108,5 +108,7 @@ public final class ThreeWindingsTransformerInfosMapper {
         mapThreeWindingsTransformerRatioTapChangers(builder, threeWT);
         mapThreeWindingsTransformerPermanentLimits(builder, threeWT);
         return builder.build();
+
+
     }
 }
