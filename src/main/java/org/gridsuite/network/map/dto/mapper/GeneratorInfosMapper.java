@@ -59,6 +59,7 @@ public final class GeneratorInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .targetP(generator.getTargetP())
                 .targetQ(nullIfNan(generator.getTargetQ()))
                 .targetV(nullIfNan(generator.getTargetV()))

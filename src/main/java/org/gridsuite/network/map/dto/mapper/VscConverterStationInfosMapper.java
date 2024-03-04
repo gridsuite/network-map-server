@@ -19,9 +19,7 @@ import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverter
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getReactiveCapabilityCurvePointsMapData;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -49,6 +47,7 @@ public final class VscConverterStationInfosMapper {
                 .id(vscConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
