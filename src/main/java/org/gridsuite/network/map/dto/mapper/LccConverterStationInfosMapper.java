@@ -12,6 +12,8 @@ import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
@@ -37,6 +39,7 @@ public final class LccConverterStationInfosMapper {
                 .id(lccConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(lccConverterStation.getLossFactor())
                 .powerFactor(lccConverterStation.getPowerFactor());

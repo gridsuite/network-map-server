@@ -79,7 +79,9 @@ public final class HvdcInfosMapper {
         HvdcTabInfos.HvdcTabInfosBuilder<?, ?> builder = HvdcTabInfos.builder();
         builder
                 .name(hvdcLine.getOptionalName().orElse(null))
-                .id(hvdcLine.getId());
+                .id(hvdcLine.getId())
+                .country1(mapCountry(hvdcLine.getConverterStation1().getTerminal().getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getSubstation().orElse(null)));
 
         builder
                 .convertersMode(hvdcLine.getConvertersMode())

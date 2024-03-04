@@ -8,6 +8,10 @@
     "voltageRegulatorOn": true,
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": null,
     "p": 10.0,
@@ -21,6 +25,10 @@
     "voltageRegulatorOn": false,
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": "HVDC3",
     "p": 10.0,
@@ -34,6 +42,10 @@
     "voltageRegulatorOn": false,
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": "HVDC3",
     "p": 10.0,
@@ -47,6 +59,10 @@
     "voltageRegulatorOn": true,
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": "HVDC4",
     "p": 10.0,
@@ -60,6 +76,10 @@
     "voltageRegulatorOn": true,
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": "HVDC4",
     "p": 10.0,
@@ -74,6 +94,10 @@
     "voltageRegulatorOn": true,
     "voltageLevelId": "VLGEN3",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "hvdcLineId": null
   }
