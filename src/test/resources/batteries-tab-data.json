@@ -18,10 +18,7 @@
     },
     "terminalConnected": false,
     "nominalVoltage": 225.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   },
   {
     "id": "BATTERY2",
@@ -59,9 +56,6 @@
     },
     "terminalConnected": false,
     "nominalVoltage": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   }
 ]

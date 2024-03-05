@@ -326,12 +326,10 @@ public final class ElementUtils {
         }
     }
 
-    public static CountryData mapCountry(Substation substation) {
-        if (substation == null || substation.getCountry().isEmpty()) {
-            return null;
-        }
-        return CountryData.builder().countryName(substation.getCountry().map(Country::getName).orElse(null))
-            .countryCode(substation.getCountry().map(Country::name).orElse(null)).build();
+    public static Country mapCountry(Substation substation) {
+        return Optional.ofNullable(substation)
+                .flatMap(Substation::getCountry)
+                .orElse(null);
     }
 
     public static Map<String, String> getProperties(Identifiable<?> identifiable) {

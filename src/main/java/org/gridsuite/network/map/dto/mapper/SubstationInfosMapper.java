@@ -48,7 +48,7 @@ public final class SubstationInfosMapper {
         return SubstationFormInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
-                .country(substation.getCountry().orElse(null))
+                .country(mapCountry(substation))
                 .properties(getProperties(substation))
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toFormInfos).collect(Collectors.toList()))
