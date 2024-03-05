@@ -82,7 +82,7 @@ public final class SubstationInfosMapper {
         return SubstationTabInfos.builder()
                 .name(substation.getOptionalName().orElse(null))
                 .id(substation.getId())
-                .country(substation.getCountry().orElse(null))
+                .country(mapCountry(substation))
                 .properties(properties.isEmpty() ? null : properties)
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toTabInfos).collect(Collectors.toList()))
