@@ -19,8 +19,8 @@
     "forcedOutageRate": 2.0
   },
   "minMaxReactiveLimits": {
-    "minimumReactivePower": -500.0,
-    "maximumReactivePower": 500.0
+    "minQ": -500.0,
+    "maxQ": 500.0
   },
   "regulatingTerminalConnectableId": "NHV1_NHV2_1",
   "regulatingTerminalConnectableType": "LINE",
