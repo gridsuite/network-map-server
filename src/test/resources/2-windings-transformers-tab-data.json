@@ -7,6 +7,10 @@
     "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,
     "nominalVoltage2": 380.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 11.1,
@@ -166,6 +170,10 @@
     "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,
     "nominalVoltage2": 380.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminal1Connected": true,
     "terminal2Connected": true,
     "currentLimits1": {

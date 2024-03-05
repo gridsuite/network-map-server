@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>

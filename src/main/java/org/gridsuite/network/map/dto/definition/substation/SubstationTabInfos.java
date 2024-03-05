@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 import java.util.List;
 import java.util.Map;

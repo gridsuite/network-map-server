@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.HvdcAngleDroopActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.HvdcOperatorActivePowerRangeInfos;
+import org.gridsuite.network.map.model.CountryData;
 
 import java.util.Optional;
 
@@ -37,6 +38,12 @@ public class HvdcTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double nominalV;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CountryData country2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double activePowerSetpoint;

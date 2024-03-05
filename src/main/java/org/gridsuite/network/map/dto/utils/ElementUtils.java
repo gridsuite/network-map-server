@@ -326,6 +326,14 @@ public final class ElementUtils {
         }
     }
 
+    public static CountryData mapCountry(Substation substation) {
+        if (substation == null || substation.getCountry().isEmpty()) {
+            return null;
+        }
+        return CountryData.builder().countryName(substation.getCountry().map(Country::getName).orElse(null))
+            .countryCode(substation.getCountry().map(Country::name).orElse(null)).build();
+    }
+
     public static Map<String, String> getProperties(Identifiable<?> identifiable) {
         Map<String, String> properties = identifiable.getPropertyNames()
             .stream()
@@ -354,4 +362,15 @@ public final class ElementUtils {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public static Substation findFirstSubstation(List<Terminal> terminals) {
+        return terminals.stream()
+            .map(Terminal::getVoltageLevel)
+            .map(VoltageLevel::getSubstation)
+            .filter(Optional::isPresent)
+            .findFirst()
+            .flatMap(Function.identity())
+            .orElse(null);
+    }
+
 }

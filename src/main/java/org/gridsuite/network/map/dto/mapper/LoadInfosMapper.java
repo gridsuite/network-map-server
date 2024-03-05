@@ -70,6 +70,7 @@ public final class LoadInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .p0(load.getP0())
                 .q0(load.getQ0());
 

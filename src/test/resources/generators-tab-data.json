@@ -3,6 +3,10 @@
     "id": "GEN",
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "p": 25.0,
     "q": 32.0,
@@ -44,6 +48,10 @@
     "id": "GEN2",
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
+    "country": {
+      "countryName": "FRANCE",
+      "countryCode": "FR"
+    },
     "terminalConnected": true,
     "targetP": 607.0,
     "targetQ": 301.0,
