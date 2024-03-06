@@ -95,7 +95,7 @@
     ]
   },
   "regulatingMode1": "CURRENT_LIMITER",
-  "regulatingPhase1": true,
+  "isRegulatingPhase1": true,
   "regulatingValue1": 25.0,
   "hasLoadTapChanging3Capabilities": false,
   "regulatingRatio3": false,
