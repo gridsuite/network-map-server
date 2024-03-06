@@ -114,13 +114,13 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
     private Double targetV3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode1;
+    private String regulationModeName1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode2;
+    private String regulationModeName2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode3;
+    private String regulationModeName3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isRegulatingRatio1;

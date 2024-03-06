@@ -302,7 +302,7 @@ public final class ElementUtils {
         }
         if (leg1.hasPhaseTapChanger()) {
             builder.phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()))
-                    .regulatingMode1(leg1.getPhaseTapChanger().getRegulationMode().name())
+                    .regulationModeName1(leg1.getPhaseTapChanger().getRegulationMode().name())
                     .isRegulatingPhase1(leg1.getPhaseTapChanger().isRegulating());
             if (!Double.isNaN(leg1.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue1(leg1.getPhaseTapChanger().getRegulationValue());
@@ -310,7 +310,7 @@ public final class ElementUtils {
         }
         if (leg2.hasPhaseTapChanger()) {
             builder.phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()))
-                    .regulatingMode2(leg2.getPhaseTapChanger().getRegulationMode().name())
+                    .regulationModeName2(leg2.getPhaseTapChanger().getRegulationMode().name())
                     .isRegulatingPhase2(leg2.getPhaseTapChanger().isRegulating());
             if (!Double.isNaN(leg2.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue2(leg2.getPhaseTapChanger().getRegulationValue());
@@ -318,7 +318,7 @@ public final class ElementUtils {
         }
         if (leg3.hasPhaseTapChanger()) {
             builder.phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()))
-                    .regulatingMode3(leg3.getPhaseTapChanger().getRegulationMode().name())
+                    .regulationModeName3(leg3.getPhaseTapChanger().getRegulationMode().name())
                     .isRegulatingPhase3(leg3.getPhaseTapChanger().isRegulating());
             if (!Double.isNaN(leg3.getPhaseTapChanger().getRegulationValue())) {
                 builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());

@@ -700,7 +700,7 @@
       },
       "hasLoadTapChanging3Capabilities": false,
       "targetV3": 220.0,
-      "regulatingMode1": "CURRENT_LIMITER",
+      "regulationModeName1": "CURRENT_LIMITER",
       "isRegulatingRatio3": false,
       "isRegulatingPhase1": true,
       "regulatingValue1": 25.0
@@ -810,7 +810,7 @@
       },
       "hasLoadTapChanging1Capabilities": false,
       "targetV1": 220.0,
-      "regulatingMode2": "CURRENT_LIMITER",
+      "regulationModeName2": "CURRENT_LIMITER",
       "isRegulatingRatio1": false,
       "isRegulatingPhase2": true,
       "regulatingValue2": 25.0
@@ -920,7 +920,7 @@
       },
       "hasLoadTapChanging2Capabilities": false,
       "targetV2": 220.0,
-      "regulatingMode3": "CURRENT_LIMITER",
+      "regulationModeName3": "CURRENT_LIMITER",
       "isRegulatingRatio2": false,
       "isRegulatingPhase3": true,
       "regulatingValue3": 25.0
