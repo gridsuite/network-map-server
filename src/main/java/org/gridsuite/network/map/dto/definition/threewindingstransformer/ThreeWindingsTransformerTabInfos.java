@@ -96,13 +96,13 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
     private TapChangerData ratioTapChanger3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChanging1Capabilities;
+    private Boolean hasLoadTapChanging1Capabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChanging2Capabilities;
+    private Boolean hasLoadTapChanging2Capabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChanging3Capabilities;
+    private Boolean hasLoadTapChanging3Capabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetV1;

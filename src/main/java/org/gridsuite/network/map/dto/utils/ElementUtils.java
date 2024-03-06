@@ -224,7 +224,7 @@ public final class ElementUtils {
                 .highTapPosition(tapChanger.getHighTapPosition())
                 .tapPosition(tapChanger.getTapPosition())
                 .regulating(tapChanger.isRegulating())
-                .loadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
+                .hasLoadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
@@ -278,7 +278,7 @@ public final class ElementUtils {
         ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
         if (leg1.hasRatioTapChanger()) {
             builder.ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
-                    .loadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
+                    .hasLoadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
                     .regulatingRatio1(leg1.getRatioTapChanger().isRegulating());
             if (!Double.isNaN(leg1.getRatioTapChanger().getTargetV())) {
                 builder.targetV1(leg1.getRatioTapChanger().getTargetV());
@@ -286,7 +286,7 @@ public final class ElementUtils {
         }
         if (leg2.hasRatioTapChanger()) {
             builder.ratioTapChanger2(toMapData(leg2.getRatioTapChanger()))
-                    .loadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
+                    .hasLoadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
                     .regulatingRatio2(leg2.getRatioTapChanger().isRegulating());
             if (!Double.isNaN(leg2.getRatioTapChanger().getTargetV())) {
                 builder.targetV2(leg2.getRatioTapChanger().getTargetV());
@@ -294,7 +294,7 @@ public final class ElementUtils {
         }
         if (leg3.hasRatioTapChanger()) {
             builder.ratioTapChanger3(toMapData(leg3.getRatioTapChanger()))
-                    .loadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
+                    .hasLoadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
                     .regulatingRatio3(leg3.getRatioTapChanger().isRegulating());
             if (!Double.isNaN(leg3.getRatioTapChanger().getTargetV())) {
                 builder.targetV3(leg3.getRatioTapChanger().getTargetV());

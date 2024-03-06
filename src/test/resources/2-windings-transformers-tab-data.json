@@ -111,7 +111,7 @@
       "tapPosition": 2,
       "highTapPosition": 2,
       "regulating": true,
-      "loadTapChangingCapabilities": true,
+      "hasLoadTapChangingCapabilities": true,
       "targetV": 158.0,
       "targetDeadband": 0.0,
       "regulatingTerminalConnectableId": "NHV2_NLOAD",
