@@ -8,8 +8,8 @@
     "minP": 50.0,
     "maxP": 70.0,
     "minMaxReactiveLimits": {
-      "minimumReactivePower": -500.0,
-      "maximumReactivePower": 500.0
+      "minQ": -500.0,
+      "maxQ": 500.0
     },
     "connectablePosition": {
       "connectionDirection": "TOP",
@@ -26,12 +26,12 @@
     "minP": 50.0,
     "maxP": 70.0,
     "reactiveCapabilityCurvePoints": [
-      { "p": 0.0, "qminP": 6.0, "qmaxP": 7.0 },
-      { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
-      { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
+      { "p": 0.0, "minQ": 6.0, "minQ": 7.0 },
+      { "p": 1.0, "minQ": 4.0, "minQ": 5.0 },
+      { "p": 3.0, "minQ": 4.0, "minQ": 5.0 }
     ],
     "activePowerControl":{
-      "activePowerControlOn": true,
+      "participate": true,
       "droop": 3.0
     },
     "connectablePosition": {

@@ -953,8 +953,12 @@
         "forcedOutageRate": 2.0
       },
       "minMaxReactiveLimits": {
-        "minimumReactivePower": -500.0,
-        "maximumReactivePower": 500.0
+        "minQ": -500.0,
+        "maxQ": 500.0
+      },
+      "activePowerControl":{
+        "participate": true,
+        "droop": 4.0
       },
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
@@ -963,7 +967,7 @@
         "qPercent": 10.0
       },
       "activePowerControl": {
-        "activePowerControlOn": true,
+        "participate": true,
         "droop": 4.0
       },
       "connectablePosition": {
@@ -991,18 +995,18 @@
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
-          "qminP": 6.0,
-          "qmaxP": 7.0
+          "minQ": 6.0,
+          "maxQ": 7.0
         },
         {
           "p": 1.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         },
         {
           "p": 3.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         }
       ],
       "coordinatedReactiveControl": {
@@ -1025,8 +1029,8 @@
       "minP": 50.0,
       "maxP": 70.0,
       "minMaxReactiveLimits": {
-        "minimumReactivePower": -500.0,
-        "maximumReactivePower": 500.0
+        "minQ": -500.0,
+        "maxQ": 500.0
       },
       "connectablePosition": {
         "connectionDirection": "TOP",
@@ -1051,22 +1055,22 @@
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
-          "qminP": 6.0,
-          "qmaxP": 7.0
+          "minQ": 6.0,
+          "maxQ": 7.0
         },
         {
           "p": 1.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         },
         {
           "p": 3.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         }
       ],
-      "activePowerControl": {
-        "activePowerControlOn": true,
+      "activePowerControl":{
+        "participate": true,
         "droop": 3.0
       },
       "connectablePosition": {
