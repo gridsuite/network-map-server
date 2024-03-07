@@ -83,7 +83,7 @@ public final class TwoWindingsTransformerInfosMapper {
             builder.currentLimits2(toMapDataCurrentLimits(limits2));
         }
 
-        builder.branchStatus(toBranchStatus(twoWT));
+        builder.operatingStatus(toOperatingStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
         return builder.build();
@@ -123,7 +123,7 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i1(nullIfNan(terminal1.getI()));
         builder.i2(nullIfNan(terminal2.getI()));
 
-        builder.branchStatus(toBranchStatus(twoWT));
+        builder.operatingStatus(toOperatingStatus(twoWT));
         CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
         CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
         if (limits1 != null) {

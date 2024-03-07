@@ -474,7 +474,7 @@
         "connectionPosition": 0,
         "connectionName": "feederName2"
       },
-      "branchStatus": "PLANNED_OUTAGE"
+      "operatingStatus": "PLANNED_OUTAGE"
     },
     {
       "id": "NHV2_NLOAD",
@@ -544,7 +544,7 @@
         "connectionPosition": 0,
         "connectionName": "feederName2"
       },
-      "branchStatus": "PLANNED_OUTAGE"
+      "operatingStatus": "PLANNED_OUTAGE"
     },
     {
       "id": "NGEN_NHV2",

@@ -39,4 +39,7 @@ public class HvdcMapInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcConverterStation.HvdcType hvdcType;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
+
 }

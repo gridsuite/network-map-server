@@ -86,9 +86,19 @@ public final class ElementUtils {
                         .droop(activePowerControl.getDroop()).build());
     }
 
-    public static String toBranchStatus(Branch<?> branch) {
-        var branchStatus = branch.getExtension(OperatingStatus.class);
-        return branchStatus == null ? null : branchStatus.getStatus().name();
+    public static String toOperatingStatus(Identifiable<?> identifiable) {
+        if (identifiable instanceof Branch<?> branch) {
+            var operatingStatus = branch.getExtension(OperatingStatus.class);
+            return operatingStatus == null ? null : operatingStatus.getStatus().name();
+        } else if (identifiable instanceof ThreeWindingsTransformer threeWT) {
+            var operatingStatus = threeWT.getExtension(OperatingStatus.class);
+            return operatingStatus == null ? null : operatingStatus.getStatus().name();
+        } else if (identifiable instanceof HvdcLine hvdcLine) {
+            var operatingStatus = hvdcLine.getExtension(OperatingStatus.class);
+            return operatingStatus == null ? null : operatingStatus.getStatus().name();
+        } else {
+            return null;
+        }
     }
 
     public static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(Generator generator) {

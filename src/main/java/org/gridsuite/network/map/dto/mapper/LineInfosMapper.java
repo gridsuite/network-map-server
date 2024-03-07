@@ -70,7 +70,7 @@ public final class LineInfosMapper {
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        builder.branchStatus(toBranchStatus(line));
+        builder.operatingStatus(toOperatingStatus(line));
 
         builder.connectablePosition1(toMapConnectablePosition(line, 1))
                 .connectablePosition2(toMapConnectablePosition(line, 2));
@@ -118,7 +118,7 @@ public final class LineInfosMapper {
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
-        builder.branchStatus(toBranchStatus(line));
+        builder.operatingStatus(toOperatingStatus(line));
 
         return builder.build();
     }

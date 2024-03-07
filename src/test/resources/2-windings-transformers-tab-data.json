@@ -90,7 +90,7 @@
       "connectionDirection": "BOTTOM",
       "connectionPosition": 0
     },
-    "branchStatus": "PLANNED_OUTAGE"
+    "operatingStatus": "PLANNED_OUTAGE"
   },
   {
     "id": "NHV2_NLOAD",
@@ -160,7 +160,7 @@
       "connectionDirection": "BOTTOM",
       "connectionPosition": 0
     },
-    "branchStatus": "PLANNED_OUTAGE"
+    "operatingStatus": "PLANNED_OUTAGE"
   },
   {
     "id": "NGEN_NHV2",

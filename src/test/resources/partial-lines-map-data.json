@@ -7,7 +7,7 @@
     "terminal2Connected": true,
     "p1": 200.0,
     "p2": 100.0,
-    "branchStatus": "PLANNED_OUTAGE"
+    "operatingStatus": "PLANNED_OUTAGE"
   },
   {
     "id": "NHV1_NHV2_2",
