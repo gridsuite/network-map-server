@@ -43,8 +43,8 @@ public final class BatteryInfosMapper {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
                         .p(point.getP())
-                        .qmaxP(point.getMaxQ())
-                        .qminP(point.getMinQ())
+                        .maxQ(point.getMaxQ())
+                        .minQ(point.getMinQ())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -61,7 +61,7 @@ public final class BatteryInfosMapper {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = battery.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
-                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder().maximumReactivePower(minMaxReactiveLimits.getMaxQ()).minimumReactivePower(minMaxReactiveLimits.getMinQ()).build());
+                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder().maxQ(minMaxReactiveLimits.getMaxQ()).minQ(minMaxReactiveLimits.getMinQ()).build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = battery.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
@@ -98,7 +98,7 @@ public final class BatteryInfosMapper {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();
             if (limitsKind == ReactiveLimitsKind.MIN_MAX) {
                 MinMaxReactiveLimits minMaxReactiveLimits = battery.getReactiveLimits(MinMaxReactiveLimitsImpl.class);
-                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder().maximumReactivePower(minMaxReactiveLimits.getMaxQ()).minimumReactivePower(minMaxReactiveLimits.getMinQ()).build());
+                builder.minMaxReactiveLimits(MinMaxReactiveLimitsMapData.builder().maxQ(minMaxReactiveLimits.getMaxQ()).minQ(minMaxReactiveLimits.getMinQ()).build());
             } else if (limitsKind == ReactiveLimitsKind.CURVE) {
                 ReactiveCapabilityCurve capabilityCurve = battery.getReactiveLimits(ReactiveCapabilityCurve.class);
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
