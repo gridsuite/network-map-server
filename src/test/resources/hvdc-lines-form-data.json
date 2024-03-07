@@ -23,8 +23,8 @@
       "p": 10.0,
       "q": 30.0,
       "minMaxReactiveLimits": {
-        "minimumReactivePower": 55.0,
-        "maximumReactivePower": 70.0
+        "minQ": 55.0,
+        "maxQ": 70.0
       },
       "connectablePositionInfos": {
         "connectionDirection": null
@@ -43,18 +43,18 @@
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
-          "qminP": 6.0,
-          "qmaxP": 7.0
+          "minQ": 6.0,
+          "maxQ": 7.0
         },
         {
           "p": 1.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         },
         {
           "p": 3.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         }
       ],
       "connectablePositionInfos": {
@@ -80,8 +80,8 @@
       "p": 10.0,
       "q": 30.0,
       "minMaxReactiveLimits": {
-        "minimumReactivePower": 40.0,
-        "maximumReactivePower": 45.0
+        "minQ": 40.0,
+        "maxQ": 45.0
       },
       "connectablePositionInfos": {
         "connectionDirection": null
@@ -100,13 +100,13 @@
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
-          "qminP": 6.0,
-          "qmaxP": 7.0
+          "minQ": 6.0,
+          "maxQ": 7.0
         },
         {
           "p": 1.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         }
       ],
       "connectablePositionInfos": {

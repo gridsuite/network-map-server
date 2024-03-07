@@ -13,10 +13,10 @@ import lombok.Getter;
 public class GeneratorShortCircuitInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double transientReactance;
+    private Double directTransX;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double stepUpTransformerReactance;
+    private Double stepUpTransformerX;
 
 }
 
