@@ -13,7 +13,7 @@ import lombok.Getter;
 public class ActivePowerControlInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean activePowerControlOn;
+    private Boolean participate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double droop;

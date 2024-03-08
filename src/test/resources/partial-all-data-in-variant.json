@@ -71,22 +71,22 @@
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
-          "qminP": 6.0,
-          "qmaxP": 7.0
+          "minQ": 6.0,
+          "maxQ": 7.0
         },
         {
           "p": 1.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         },
         {
           "p": 3.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         }
       ],
-      "activePowerControl": {
-        "activePowerControlOn": true,
+      "activePowerControl":{
+        "participate": true,
         "droop": 3.0
       },
       "connectablePosition": {

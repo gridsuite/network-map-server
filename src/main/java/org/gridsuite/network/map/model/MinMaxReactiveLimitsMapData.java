@@ -22,8 +22,8 @@ import lombok.Getter;
 public class MinMaxReactiveLimitsMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double minimumReactivePower;
+    private Double minQ;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double maximumReactivePower;
+    private Double maxQ;
 }
