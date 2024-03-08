@@ -157,4 +157,7 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
 }

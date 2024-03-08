@@ -94,6 +94,7 @@ public final class HvdcInfosMapper {
 
         builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
         builder.hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine));
+        builder.operatingStatus(toOperatingStatus(hvdcLine));
 
         return builder.build();
     }

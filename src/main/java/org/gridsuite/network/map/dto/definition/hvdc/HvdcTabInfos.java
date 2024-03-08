@@ -57,6 +57,6 @@ public class HvdcTabInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<HvdcOperatorActivePowerRangeInfos> hvdcOperatorActivePowerRange;
 
-
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
 }
