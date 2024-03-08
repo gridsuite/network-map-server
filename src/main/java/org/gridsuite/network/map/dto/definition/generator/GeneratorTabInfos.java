@@ -7,12 +7,12 @@
 package org.gridsuite.network.map.dto.definition.generator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.EnergySource;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.*;
-import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -30,7 +30,7 @@ public class GeneratorTabInfos extends ElementInfos {
     private Double nominalVoltage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country;
+    private Country country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlName;

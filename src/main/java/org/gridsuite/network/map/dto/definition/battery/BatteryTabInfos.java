@@ -7,12 +7,12 @@
 package org.gridsuite.network.map.dto.definition.battery;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
 
@@ -65,5 +65,5 @@ public class BatteryTabInfos extends ElementInfos {
     private Double nominalVoltage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country;
+    private Country country;
 }
