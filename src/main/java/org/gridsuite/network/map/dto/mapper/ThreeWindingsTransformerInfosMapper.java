@@ -73,9 +73,9 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelId3(terminal3.getVoltageLevel().getId())
-                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
-                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
-                .nominalVoltage3(terminal3.getVoltageLevel().getNominalV())
+                .nominalV1(terminal1.getVoltageLevel().getNominalV())
+                .nominalV2(terminal2.getVoltageLevel().getNominalV())
+                .nominalV3(terminal3.getVoltageLevel().getNominalV())
                 .country(mapCountry(firstSubstationFound));
 
         if (!Double.isNaN(terminal1.getP())) {
