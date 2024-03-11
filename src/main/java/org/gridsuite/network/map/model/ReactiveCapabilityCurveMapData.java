@@ -22,7 +22,7 @@ public class ReactiveCapabilityCurveMapData {
 
     private Double p;
 
-    private Double qminP;
+    private Double minQ;
 
-    private Double qmaxP;
+    private Double maxQ;
 }

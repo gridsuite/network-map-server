@@ -3,10 +3,7 @@
     "id": "GEN",
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminalConnected": true,
     "p": 25.0,
     "q": 32.0,
@@ -25,8 +22,8 @@
       "forcedOutageRate": 2.0
     },
     "minMaxReactiveLimits": {
-      "minimumReactivePower": -500.0,
-      "maximumReactivePower": 500.0
+      "minQ": -500.0,
+      "maxQ": 500.0
     },
     "regulatingTerminalConnectableId": "NHV1_NHV2_1",
     "regulatingTerminalConnectableType": "LINE",
@@ -35,7 +32,7 @@
       "qPercent": 10.0
     },
     "activePowerControl": {
-      "activePowerControlOn": true,
+      "participate": true,
       "droop": 4.0
     },
     "connectablePosition": {
@@ -48,10 +45,7 @@
     "id": "GEN2",
     "voltageLevelId": "VLGEN",
     "nominalVoltage": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminalConnected": true,
     "targetP": 607.0,
     "targetQ": 301.0,
@@ -61,9 +55,9 @@
     "energySource": "OTHER",
     "voltageRegulatorOn": true,
     "reactiveCapabilityCurvePoints": [
-      { "p": 0.0, "qminP": 6.0, "qmaxP": 7.0 },
-      { "p": 1.0, "qminP": 4.0, "qmaxP": 5.0 },
-      { "p": 3.0, "qminP": 4.0, "qmaxP": 5.0 }
+      { "p": 0.0, "minQ": 6.0, "maxQ": 7.0 },
+      { "p": 1.0, "minQ": 4.0, "maxQ": 5.0 },
+      { "p": 3.0, "minQ": 4.0, "maxQ": 5.0 }
     ],
     "coordinatedReactiveControl": {
       "qPercent": 10.0

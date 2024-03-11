@@ -17,7 +17,7 @@
     "lowTapPosition": 0,
     "highTapPosition": 1,
     "tapPosition": 1,
-    "regulating": true,
+    "isRegulating": true,
     "targetDeadband": 0.0,
     "regulationMode" : "CURRENT_LIMITER",
     "regulationValue" : 10.0,

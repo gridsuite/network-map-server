@@ -8,8 +8,8 @@
     "minP": 50.0,
     "maxP": 70.0,
     "minMaxReactiveLimits": {
-      "minimumReactivePower": -500.0,
-      "maximumReactivePower": 500.0
+      "minQ": -500.0,
+      "maxQ": 500.0
     },
     "connectablePosition": {
       "connectionName": "feederName",
@@ -18,9 +18,6 @@
     },
     "terminalConnected": false,
     "nominalVoltage": 225.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   }
 ]

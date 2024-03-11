@@ -10,16 +10,10 @@
           "id": "VLGEN3",
           "substationId": "P3",
           "nominalV": 24.0,
-          "country": {
-            "countryName": "FRANCE",
-            "countryCode": "FR"
-          }
+          "country": "FR"
         }
       ],
-      "country": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      }
+      "country": "FR"
     }
   ],
   "lines": [
@@ -29,14 +23,8 @@
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
-      "country1": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
-      "country2": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
+      "country1": "FR",
+      "country2": "FR",
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 200.0,
@@ -54,14 +42,8 @@
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
-      "country1": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
-      "country2": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
+      "country1": "FR",
+      "country2": "FR",
       "terminal1Connected": true,
       "terminal2Connected": true,
       "r": 3.0,
@@ -89,22 +71,22 @@
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,
-          "qminP": 6.0,
-          "qmaxP": 7.0
+          "minQ": 6.0,
+          "maxQ": 7.0
         },
         {
           "p": 1.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         },
         {
           "p": 3.0,
-          "qminP": 4.0,
-          "qmaxP": 5.0
+          "minQ": 4.0,
+          "maxQ": 5.0
         }
       ],
-      "activePowerControl": {
-        "activePowerControlOn": true,
+      "activePowerControl":{
+        "participate": true,
         "droop": 3.0
       },
       "connectablePosition": {
@@ -114,10 +96,7 @@
       },
       "terminalConnected": false,
       "nominalVoltage": 24.0,
-      "country": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      }
+      "country": "FR"
     }
   ],
   "danglingLines": [
@@ -126,10 +105,7 @@
       "name": "DL2",
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
-      "country": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
+      "country": "FR",
       "terminalConnected": true,
       "pairingKey": "xnode1",
       "p0": 50.0,
@@ -143,10 +119,7 @@
       "name": "SHUNT2",
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
-      "country": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
+      "country": "FR",
       "terminalConnected": true,
       "sectionCount": 2,
       "maxSusceptance": 3.0,
@@ -170,10 +143,7 @@
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
-      "country": {
-        "countryName": "FRANCE",
-        "countryCode": "FR"
-      },
+      "country": "FR",
       "terminalConnected": true,
       "hvdcLineId": null
     }
