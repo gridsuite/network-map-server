@@ -8,10 +8,7 @@
     "nominalV2": 225.0,
     "voltageLevelId3": "VLGEN",
     "nominalV3": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "terminal3Connected": true,
@@ -118,10 +115,7 @@
     "nominalV2": 225.0,
     "voltageLevelId3": "VLGEN",
     "nominalV3": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "terminal3Connected": true,
@@ -228,10 +222,7 @@
     "nominalV2": 225.0,
     "voltageLevelId3": "VLGEN",
     "nominalV3": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "terminal3Connected": true,

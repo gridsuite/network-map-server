@@ -7,10 +7,10 @@
 package org.gridsuite.network.map.dto.definition.vscconverterstation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.model.CountryData;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -35,7 +35,7 @@ public class VscConverterStationTabInfos extends ElementInfos {
     private Double nominalVoltage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country;
+    private Country country;
 
     private Boolean terminalConnected;
 

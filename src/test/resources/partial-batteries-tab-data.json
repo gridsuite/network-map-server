@@ -18,9 +18,6 @@
     },
     "terminalConnected": false,
     "nominalVoltage": 225.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   }
 ]
