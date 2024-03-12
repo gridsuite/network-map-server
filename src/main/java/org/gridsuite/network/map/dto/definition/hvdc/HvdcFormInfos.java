@@ -35,16 +35,16 @@ public class HvdcFormInfos extends ElementInfos {
     private VscConverterStationFormInfos converterStation2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double dcResistance;
+    private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double dcNominalVoltage;
+    private Double nominalV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double activePower;
+    private Double activePowerSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double maximumActivePower;
+    private Double maxP;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     public Optional<HvdcAngleDroopActivePowerControlInfos> hvdcAngleDroopActivePowerControl;
