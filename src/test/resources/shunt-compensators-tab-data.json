@@ -4,10 +4,7 @@
     "name": "SHUNT1",
     "voltageLevelId": "VLNEW2",
     "nominalVoltage": 225.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminalConnected": true,
     "q": 90.0,
     "sectionCount": 4,
@@ -25,10 +22,7 @@
     "name": "SHUNT2",
     "voltageLevelId": "VLGEN3",
     "nominalVoltage": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminalConnected": true,
     "sectionCount": 2,
     "maximumSectionCount": 3,
@@ -45,10 +39,7 @@
     "name": "SHUNT_VLNB",
     "voltageLevelId": "VLGEN4",
     "nominalVoltage": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminalConnected": true,
     "sectionCount": 2,
     "maximumSectionCount": 3,
@@ -63,10 +54,7 @@
     "name": "SHUNT_NON_LINEAR",
     "voltageLevelId": "VLGEN4",
     "nominalVoltage": 24.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminalConnected": false,
     "sectionCount": 2,
     "maximumSectionCount": 2,

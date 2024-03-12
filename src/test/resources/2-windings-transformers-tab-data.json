@@ -7,10 +7,7 @@
     "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,
     "nominalVoltage2": 380.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 11.1,
@@ -46,7 +43,7 @@
       "lowTapPosition": 0,
       "tapPosition": 1,
       "highTapPosition": 1,
-      "regulating": true,
+      "isRegulating": true,
       "targetDeadband": 0.0,
       "regulationMode": "CURRENT_LIMITER",
       "regulationValue": 10.0,
@@ -110,8 +107,8 @@
       "lowTapPosition": 0,
       "tapPosition": 2,
       "highTapPosition": 2,
-      "regulating": true,
-      "loadTapChangingCapabilities": true,
+      "isRegulating": true,
+      "hasLoadTapChangingCapabilities": true,
       "targetV": 158.0,
       "targetDeadband": 0.0,
       "regulatingTerminalConnectableId": "NHV2_NLOAD",
@@ -170,10 +167,7 @@
     "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,
     "nominalVoltage2": 380.0,
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    },
+    "country": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "currentLimits1": {

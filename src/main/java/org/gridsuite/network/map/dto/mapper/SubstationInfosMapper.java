@@ -13,6 +13,7 @@ import org.gridsuite.network.map.dto.definition.substation.SubstationFormInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationListInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationMapInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationTabInfos;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

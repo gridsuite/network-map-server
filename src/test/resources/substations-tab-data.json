@@ -6,34 +6,22 @@
         "id": "VLGEN",
         "substationId": "P1",
         "nominalV": 24.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        }
+        "country": "FR"
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
         "nominalV": 380.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        }
+        "country": "FR"
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
         "nominalV": 225.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        }
+        "country": "FR"
       }
     ],
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   },
   {
     "id": "P2",
@@ -60,16 +48,10 @@
         "id": "VLGEN3",
         "substationId": "P3",
         "nominalV": 24.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        }
+        "country": "FR"
       }
     ],
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   },
   {
     "id": "P6",
@@ -78,16 +60,10 @@
         "id": "VLGEN6",
         "substationId": "P6",
         "nominalV": 24.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        }
+        "country": "FR"
       }
     ],
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   },
   {
     "id": "P4",
@@ -96,16 +72,10 @@
         "id": "VLGEN4",
         "substationId": "P4",
         "nominalV": 24.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        }
+        "country": "FR"
       }
     ],
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   },
   {
     "id": "P5",
@@ -114,10 +84,7 @@
         "id": "VLGEN5",
         "substationId": "P5",
         "nominalV": 24.0,
-        "country": {
-          "countryName": "FRANCE",
-          "countryCode": "FR"
-        },
+        "country": "FR",
         "lowVoltageLimit": 20.0,
         "highVoltageLimit": 30.0,
         "identifiableShortCircuit": {
@@ -126,9 +93,6 @@
         }
       }
     ],
-    "country": {
-      "countryName": "FRANCE",
-      "countryCode": "FR"
-    }
+    "country": "FR"
   }
 ]

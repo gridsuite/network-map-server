@@ -26,10 +26,10 @@ public class TapChangerData {
     private Integer highTapPosition;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulating;
+    private Boolean isRegulating;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChangingCapabilities;
+    private Boolean hasLoadTapChangingCapabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetV;

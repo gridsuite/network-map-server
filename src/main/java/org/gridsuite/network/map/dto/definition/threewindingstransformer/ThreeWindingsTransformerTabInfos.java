@@ -7,10 +7,10 @@
 package org.gridsuite.network.map.dto.definition.threewindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.model.CountryData;
 import org.gridsuite.network.map.model.TapChangerData;
 
 /**
@@ -22,18 +22,18 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
 
     private String voltageLevelId1;
 
-    private Double nominalVoltage1;
+    private Double nominalV1;
 
     private String voltageLevelId2;
 
-    private Double nominalVoltage2;
+    private Double nominalV2;
 
     private String voltageLevelId3;
 
-    private Double nominalVoltage3;
+    private Double nominalV3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country;
+    private Country country;
 
     private Boolean terminal1Connected;
 
@@ -96,13 +96,13 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
     private TapChangerData ratioTapChanger3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChanging1Capabilities;
+    private Boolean hasLoadTapChanging1Capabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChanging2Capabilities;
+    private Boolean hasLoadTapChanging2Capabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean loadTapChanging3Capabilities;
+    private Boolean hasLoadTapChanging3Capabilities;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetV1;
@@ -114,31 +114,31 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfos {
     private Double targetV3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode1;
+    private String regulationModeName1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode2;
+    private String regulationModeName2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String regulatingMode3;
+    private String regulationModeName3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulatingRatio1;
+    private Boolean isRegulatingRatio1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulatingRatio2;
+    private Boolean isRegulatingRatio2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulatingRatio3;
+    private Boolean isRegulatingRatio3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulatingPhase1;
+    private Boolean isRegulatingPhase1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulatingPhase2;
+    private Boolean isRegulatingPhase2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean regulatingPhase3;
+    private Boolean isRegulatingPhase3;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double regulatingValue1;

@@ -7,11 +7,11 @@
 package org.gridsuite.network.map.dto.definition.voltagelevel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
-import org.gridsuite.network.map.model.CountryData;
 
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public class VoltageLevelTabInfos extends ElementInfos {
     private double nominalV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CountryData country;
+    private Country country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double lowVoltageLimit;
