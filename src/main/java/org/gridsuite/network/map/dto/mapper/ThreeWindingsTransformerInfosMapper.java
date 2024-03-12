@@ -77,7 +77,6 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .nominalV2(terminal2.getVoltageLevel().getNominalV())
                 .nominalV3(terminal3.getVoltageLevel().getNominalV())
                 .country(mapCountry(firstSubstationFound));
-                .operatingStatus(toOperatingStatus(threeWT));
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
