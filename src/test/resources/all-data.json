@@ -1126,9 +1126,9 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
+      "nominalV": 225.0,
       "country": "FR",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "hvdcLineId": null,
       "p": 10.0,
       "q": 30.0
@@ -1140,9 +1140,9 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": false,
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
+      "nominalV": 225.0,
       "country": "FR",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "hvdcLineId": "HVDC3",
       "p": 10.0,
       "q": 30.0
@@ -1154,9 +1154,9 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": false,
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
+      "nominalV": 225.0,
       "country": "FR",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "hvdcLineId": "HVDC3",
       "p": 10.0,
       "q": 30.0
@@ -1168,9 +1168,9 @@
       "voltageSetpoint": 150.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
+      "nominalV": 225.0,
       "country": "FR",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "hvdcLineId": "HVDC4",
       "p": 10.0,
       "q": 30.0
@@ -1182,9 +1182,9 @@
       "voltageSetpoint": 150.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
-      "nominalVoltage": 225.0,
+      "nominalV": 225.0,
       "country": "FR",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "hvdcLineId": "HVDC4",
       "p": 10.0,
       "q": 30.0
@@ -1197,9 +1197,9 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
+      "nominalV": 24.0,
       "country": "FR",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "hvdcLineId": null
     }
   ]

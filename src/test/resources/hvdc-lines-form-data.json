@@ -19,7 +19,7 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": false,
       "voltageLevelId": "VLNEW2",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "p": 10.0,
       "q": 30.0,
       "minMaxReactiveLimits": {
@@ -37,7 +37,7 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": false,
       "voltageLevelId": "VLNEW2",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "p": 10.0,
       "q": 30.0,
       "reactiveCapabilityCurvePoints": [
@@ -76,7 +76,7 @@
       "voltageSetpoint": 150.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "p": 10.0,
       "q": 30.0,
       "minMaxReactiveLimits": {
@@ -94,7 +94,7 @@
       "voltageSetpoint": 150.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLNEW2",
-      "terminalConnected": true,
+      "terminalIsConnected": true,
       "p": 10.0,
       "q": 30.0,
       "reactiveCapabilityCurvePoints": [

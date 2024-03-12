@@ -37,7 +37,7 @@ public class VscConverterStationFormInfos extends ElementInfos {
     private Boolean voltageRegulatorOn;
     private String voltageLevelId;
 
-    private Boolean terminalConnected;
+    private Boolean terminalIsConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;

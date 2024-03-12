@@ -32,12 +32,12 @@ public class VscConverterStationTabInfos extends ElementInfos {
     private Boolean voltageRegulatorOn;
     private String voltageLevelId;
 
-    private Double nominalVoltage;
+    private Double nominalV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
-    private Boolean terminalConnected;
+    private Boolean terminalIsConnected;
 
     private String hvdcLineId;
 
