@@ -94,6 +94,7 @@ public final class LineInfosMapper {
                 .terminal2Connected(terminal2.isConnected())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .operatingStatus(toOperatingStatus(line))
                 .build();
     }
 
