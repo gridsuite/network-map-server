@@ -3,10 +3,10 @@
     "id": "HVDC1",
     "name": "HVDC1",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "dcResistance": 1.0,
-    "dcNominalVoltage": 225.0,
-    "activePower": 500.0,
-    "maximumActivePower": 100.0
+    "r": 1.0,
+    "nominalV": 225.0,
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0
   },
   {
     "id": "HVDC3",
@@ -60,10 +60,10 @@
       "connectablePositionInfos": {
         "connectionDirection": null
       }    },
-    "dcResistance": 1.0,
-    "dcNominalVoltage": 225.0,
-    "activePower": 500.0,
-    "maximumActivePower": 100.0
+    "r": 1.0,
+    "nominalV": 225.0,
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0
   },
   {
     "id": "HVDC4",
@@ -113,19 +113,19 @@
         "connectionDirection": null
       }
     },
-    "dcResistance": 1.0,
-    "dcNominalVoltage": 225.0,
-    "activePower": 500.0,
-    "maximumActivePower": 100.0
+    "r": 1.0,
+    "nominalV": 225.0,
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0
   },
   {
     "id": "HVDC2",
     "name": "HVDC2",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "dcResistance": 1.0,
-    "dcNominalVoltage": 225.0,
-    "activePower": 500.0,
-    "maximumActivePower": 100.0,
+    "r": 1.0,
+    "nominalV": 225.0,
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0,
     "hvdcAngleDroopActivePowerControl": {
       "droop": 180.0,
       "isEnabled": true,
