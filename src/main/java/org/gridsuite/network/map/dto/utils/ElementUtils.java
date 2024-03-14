@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map.dto.utils;
 
+import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
@@ -86,9 +87,14 @@ public final class ElementUtils {
                         .droop(activePowerControl.getDroop()).build());
     }
 
-    public static String toBranchStatus(Branch<?> branch) {
-        var branchStatus = branch.getExtension(OperatingStatus.class);
-        return branchStatus == null ? null : branchStatus.getStatus().name();
+    public static String toOperatingStatus(Extendable<?> extendable) {
+        if (extendable instanceof Branch<?>
+                || extendable instanceof ThreeWindingsTransformer
+                || extendable instanceof HvdcLine) {
+            var operatingStatus = extendable.getExtension(OperatingStatus.class);
+            return operatingStatus == null ? null : operatingStatus.getStatus().name();
+        }
+        return null;
     }
 
     public static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(Generator generator) {

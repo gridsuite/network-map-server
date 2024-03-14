@@ -38,4 +38,7 @@ public class LineListInfos extends ElementInfos {
 
     private Boolean terminal2Connected;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
+
 }
