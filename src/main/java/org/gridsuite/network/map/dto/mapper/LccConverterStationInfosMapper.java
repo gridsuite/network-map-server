@@ -38,9 +38,9 @@ public final class LccConverterStationInfosMapper {
                 .name(lccConverterStation.getOptionalName().orElse(null))
                 .id(lccConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalVoltage(terminal.getVoltageLevel().getNominalV())
+                .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
-                .terminalConnected(terminal.isConnected())
+                .terminalIsConnected(terminal.isConnected())
                 .lossFactor(lccConverterStation.getLossFactor())
                 .powerFactor(lccConverterStation.getPowerFactor());
 
