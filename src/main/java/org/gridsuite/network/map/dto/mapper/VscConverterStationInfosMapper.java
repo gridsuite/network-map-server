@@ -50,6 +50,7 @@ public final class VscConverterStationInfosMapper {
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
+                .properties(getProperties(vscConverterStation))
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
 
         if (!Double.isNaN(terminal.getP())) {

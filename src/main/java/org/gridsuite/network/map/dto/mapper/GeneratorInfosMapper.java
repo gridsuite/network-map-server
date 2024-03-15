@@ -69,6 +69,7 @@ public final class GeneratorInfosMapper {
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
                 .p(nullIfNan(terminal.getP()))
+                .properties(getProperties(generator))
                 .q(nullIfNan(terminal.getQ()));
 
         builder.activePowerControl(toActivePowerControl(generator))

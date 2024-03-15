@@ -151,6 +151,7 @@ public final class LineInfosMapper {
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
+                .properties(getProperties(line))
                 .b2(line.getB2());
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
