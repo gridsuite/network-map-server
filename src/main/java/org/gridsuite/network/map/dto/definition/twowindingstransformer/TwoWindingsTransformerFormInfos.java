@@ -88,6 +88,6 @@ public class TwoWindingsTransformerFormInfos extends ElementFormInfosWithPropert
     private String busOrBusbarSectionId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String branchStatus;
+    private String operatingStatus;
 
 }

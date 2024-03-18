@@ -53,6 +53,7 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId3(terminal3.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .operatingStatus(toOperatingStatus(threeWT))
                 .build();
     }
 

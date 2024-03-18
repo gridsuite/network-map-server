@@ -56,6 +56,7 @@ public final class HvdcInfosMapper {
                 .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
                 .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
                 .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
+                .operatingStatus(toOperatingStatus(hvdcLine))
                 .build();
     }
 
@@ -71,6 +72,7 @@ public final class HvdcInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .operatingStatus(toOperatingStatus(hvdcLine))
                 .build();
     }
 
@@ -135,6 +137,7 @@ public final class HvdcInfosMapper {
 
         builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
         builder.hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine));
+        builder.operatingStatus(toOperatingStatus(hvdcLine));
 
         return builder.build();
     }
