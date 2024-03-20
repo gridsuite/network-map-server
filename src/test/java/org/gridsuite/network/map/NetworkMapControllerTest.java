@@ -468,7 +468,12 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
-
+        network.newTieLine()
+                .setId("TL1")
+                .setName("TL1")
+                .setDanglingLine1("DL1")
+                .setDanglingLine2("DL2")
+                .add();
         VscConverterStation vsc1 = vlnew2.newVscConverterStation()
                 .setId("VSC1")
                 .setName("VSC1")
@@ -1307,6 +1312,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnHvdcLineMapData() throws Exception {
         succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
         succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnTieLineMapData() throws Exception {
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, "TL1", resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, "TL1", resourceToString("/tie-line-map-data.json"));
     }
 
     @Test
