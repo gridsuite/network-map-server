@@ -6,7 +6,7 @@
   "voltageLevelName2": null,
   "terminal1Connected": true,
   "terminal2Connected": true,
-  "branchStatus": "PLANNED_OUTAGE",
+  "operatingStatus": "PLANNED_OUTAGE",
   "p1": 11.1,
   "q1": 12.2,
   "p2": 13.33,

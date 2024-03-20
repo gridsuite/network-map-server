@@ -6,7 +6,8 @@
     "substationId1": "P1",
     "substationId2": "P3",
     "terminal1Connected": true,
-    "terminal2Connected": true
+    "terminal2Connected": true,
+    "operatingStatus": "PLANNED_OUTAGE"
   },
   {
     "id": "LINE4",
