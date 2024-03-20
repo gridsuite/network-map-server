@@ -1797,6 +1797,23 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTieLinesMapData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfMapTieLinesData() {
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, InfoType.MAP, List.of());
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, InfoType.MAP, List.of());
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P1"));
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, InfoType.MAP, List.of("P1"));
+    }
+
+    @Test
     public void shouldReturnHvdcLinesMapData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, null, resourceToString("/hvdc-lines-map-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, null, resourceToString("/hvdc-lines-map-data.json"));
