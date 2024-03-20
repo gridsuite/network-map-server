@@ -52,6 +52,6 @@ public class LineMapInfos extends ElementInfos {
     private CurrentLimitsData currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String branchStatus;
+    private String operatingStatus;
 
 }

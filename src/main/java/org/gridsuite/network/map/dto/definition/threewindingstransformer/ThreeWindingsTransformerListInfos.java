@@ -32,4 +32,8 @@ public class ThreeWindingsTransformerListInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
+
 }
