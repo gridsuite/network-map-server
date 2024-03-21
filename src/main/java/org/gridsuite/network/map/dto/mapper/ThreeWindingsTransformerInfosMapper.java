@@ -68,6 +68,7 @@ public final class ThreeWindingsTransformerInfosMapper {
         ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder = ThreeWindingsTransformerTabInfos.builder()
                 .name(threeWT.getOptionalName().orElse(null))
                 .id(threeWT.getId())
+                .properties(getProperties(threeWT))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .terminal3Connected(terminal3.isConnected())

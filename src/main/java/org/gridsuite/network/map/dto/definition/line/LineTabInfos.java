@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
 import org.gridsuite.network.map.model.CurrentLimitsData;
 
 /**
@@ -18,7 +18,7 @@ import org.gridsuite.network.map.model.CurrentLimitsData;
  */
 @SuperBuilder
 @Getter
-public class LineTabInfos extends ElementInfos {
+public class LineTabInfos extends ElementTabInfoWithProperties {
 
     private String voltageLevelId1;
 

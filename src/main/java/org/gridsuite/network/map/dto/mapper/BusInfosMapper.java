@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
@@ -38,6 +39,7 @@ public final class BusInfosMapper {
             .nominalVoltage(bus.getVoltageLevel().getNominalV())
             .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
             .synchronousComponentNum(bus.getSynchronousComponent().getNum())
+            .properties(getProperties(bus))
             .connectedComponentNum(bus.getConnectedComponent().getNum());
 
         return builder.build();

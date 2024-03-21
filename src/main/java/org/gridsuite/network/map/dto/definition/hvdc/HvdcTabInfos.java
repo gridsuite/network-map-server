@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.HvdcLine;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.HvdcAngleDroopActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.HvdcOperatorActivePowerRangeInfos;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @SuperBuilder
 @Getter
-public class HvdcTabInfos extends ElementInfos {
+public class HvdcTabInfos extends ElementTabInfoWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcLine.ConvertersMode convertersMode;

@@ -128,6 +128,7 @@ public final class VoltageLevelInfosMapper {
                 .nominalV(voltageLevel.getNominalV())
                 .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
+                .properties(getProperties(voltageLevel))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
