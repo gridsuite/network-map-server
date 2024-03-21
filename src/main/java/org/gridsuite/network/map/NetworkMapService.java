@@ -89,7 +89,6 @@ class NetworkMapService {
                 .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, new ElementInfoType(InfoType.TAB)))
                 .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, new ElementInfoType(InfoType.TAB)))
                 .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, new ElementInfoType(InfoType.TAB)))
-                //.tielines(getElementsInfos(network, substationsId, ElementType.TIE_LINE, new ElementInfoType(InfoType.TAB)))
                 .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, new ElementInfoType(InfoType.TAB)))
                 .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, new ElementInfoType(InfoType.TAB)))
                 .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, new ElementInfoType(InfoType.TAB)))
