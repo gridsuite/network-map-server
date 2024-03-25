@@ -35,7 +35,8 @@ public final class LccConverterStationInfosMapper {
     private static LccConverterStationTabInfos toTabInfos(Identifiable<?> identifiable) {
         LccConverterStation lccConverterStation = (LccConverterStation) identifiable;
         Terminal terminal = lccConverterStation.getTerminal();
-        LccConverterStationTabInfos.LccConverterStationTabInfosBuilder<?, ?> builder = LccConverterStationTabInfos.builder()
+        LccConverterStationTabInfos.LccConverterStationTabInfosBuilder<?, ?> builder = LccConverterStationTabInfos.builder();
+        builder
                 .name(lccConverterStation.getOptionalName().orElse(null))
                 .id(lccConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
