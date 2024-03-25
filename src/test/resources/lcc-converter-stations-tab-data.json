@@ -7,7 +7,7 @@
     "voltageLevelId": "VLGEN",
     "nominalV": 24.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": "HVDC1"
   },
   {
@@ -18,7 +18,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalV": 225.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": "HVDC1",
     "p": 110.0,
     "q": 310.0

@@ -9,7 +9,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalV": 225.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": null,
     "p": 10.0,
     "q": 30.0
@@ -23,7 +23,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalV": 225.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": "HVDC3",
     "p": 10.0,
     "q": 30.0
@@ -37,7 +37,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalV": 225.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": "HVDC3",
     "p": 10.0,
     "q": 30.0
@@ -51,7 +51,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalV": 225.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": "HVDC4",
     "p": 10.0,
     "q": 30.0
@@ -65,7 +65,7 @@
     "voltageLevelId": "VLNEW2",
     "nominalV": 225.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": "HVDC4",
     "p": 10.0,
     "q": 30.0
@@ -80,7 +80,7 @@
     "voltageLevelId": "VLGEN3",
     "nominalV": 24.0,
     "country": "FR",
-    "terminalIsConnected": true,
+    "terminalConnected": true,
     "hvdcLineId": null
   }
 ]

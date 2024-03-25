@@ -31,7 +31,7 @@ public class LccConverterStationTabInfos extends ElementTabInfoWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
-    private Boolean terminalIsConnected;
+    private Boolean terminalConnected;
 
     private String hvdcLineId;
 

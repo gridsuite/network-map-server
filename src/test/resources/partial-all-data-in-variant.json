@@ -162,7 +162,7 @@
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
       "country": "FR",
-      "terminalIsConnected": true,
+      "terminalConnected": true,
       "hvdcLineId": null
     }
   ]

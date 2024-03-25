@@ -48,7 +48,7 @@ public final class VscConverterStationInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
-                .terminalIsConnected(terminal.isConnected())
+                .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .properties(getProperties(vscConverterStation))
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
@@ -80,7 +80,7 @@ public final class VscConverterStationInfosMapper {
                 .name(vscConverterStation.getOptionalName().orElse(null))
                 .id(vscConverterStation.getId())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .terminalIsConnected(terminal.isConnected())
+                .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn())
                 .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
