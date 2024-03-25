@@ -1631,6 +1631,13 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTieLinesIds() {
+        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.TIE_LINE, List.of(), List.of("TL1").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, List.of(), List.of("TL1").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, List.of("P1", "P3", "P4"), List.of("TL1").toString());
+    }
+
+    @Test
     public void shouldReturnNotFoundInsteadOfHvdcLinesMapData() {
         notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.HVDC_LINE, InfoType.LIST, List.of());
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, InfoType.LIST, List.of());
@@ -1642,6 +1649,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnNotFoundInsteadOfHvdcLinesIds() {
         notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.HVDC_LINE, List.of());
         notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, List.of());
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfTieLinesIds() {
+        notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, List.of("TL1"));
+        notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, List.of());
     }
 
     @Test
