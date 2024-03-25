@@ -142,7 +142,7 @@
       "reactivePowerSetpoint": 40.0,
       "voltageRegulatorOn": true,
       "voltageLevelId": "VLGEN3",
-      "nominalVoltage": 24.0,
+      "nominalV": 24.0,
       "country": "FR",
       "terminalConnected": true,
       "hvdcLineId": null
