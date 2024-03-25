@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
@@ -40,6 +41,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
+                .properties(getProperties(staticVarCompensator))
                 .regulationMode(staticVarCompensator.getRegulationMode());
 
         if (!Double.isNaN(terminal.getQ())) {
