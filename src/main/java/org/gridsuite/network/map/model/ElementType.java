@@ -17,7 +17,7 @@ public enum ElementType {
     SUBSTATION(Substation.class, SubstationInfosMapper::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
     LINE(Line.class, LineInfosMapper::toData),
-    TIE_LINE(Line.class, TieLineInfosMapper::toData),
+    TIE_LINE(TieLine.class, TieLineInfosMapper::toData),
     HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
     LOAD(Load.class, LoadInfosMapper::toData),
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData),
