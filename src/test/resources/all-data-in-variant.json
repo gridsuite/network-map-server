@@ -268,6 +268,9 @@
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
+      },
+      "properties": {
+        "Country": "FR"
       }
     },
     {

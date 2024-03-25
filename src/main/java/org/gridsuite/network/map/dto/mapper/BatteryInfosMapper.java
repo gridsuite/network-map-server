@@ -88,6 +88,7 @@ public final class BatteryInfosMapper {
             .minP(battery.getMinP())
             .maxP(battery.getMaxP())
             .p(nullIfNan(terminal.getP()))
+            .properties(getProperties(battery))
             .q(nullIfNan(terminal.getQ()));
 
         builder.connectablePosition(toMapConnectablePosition(battery, 0))
