@@ -103,6 +103,7 @@ public final class TwoWindingsTransformerInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
+                .properties(getProperties(twoWT))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())

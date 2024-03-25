@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
@@ -42,6 +43,7 @@ public final class DanglingLineInfosMapper {
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .pairingKey(danglingLine.getPairingKey())
                 .p0(danglingLine.getP0())
+                .properties(getProperties(danglingLine))
                 .q0(danglingLine.getQ0());
 
         if (!Double.isNaN(terminal.getP())) {

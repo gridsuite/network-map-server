@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
 import org.gridsuite.network.map.model.TapChangerData;
 
 /**
@@ -18,7 +18,7 @@ import org.gridsuite.network.map.model.TapChangerData;
  */
 @SuperBuilder
 @Getter
-public class ThreeWindingsTransformerTabInfos extends ElementInfos {
+public class ThreeWindingsTransformerTabInfos extends ElementTabInfoWithProperties {
 
     private String voltageLevelId1;
 
