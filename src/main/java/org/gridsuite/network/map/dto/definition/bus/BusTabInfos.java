@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
 
 /**
  * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class BusTabInfos extends ElementInfos {
+public class BusTabInfos extends ElementTabInfoWithProperties {
     private Double v;
 
     private Double angle;

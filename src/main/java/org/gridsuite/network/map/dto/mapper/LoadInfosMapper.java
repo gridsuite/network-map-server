@@ -72,6 +72,7 @@ public final class LoadInfosMapper {
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .p0(load.getP0())
+                .properties(getProperties(load))
                 .q0(load.getQ0());
 
         if (!Double.isNaN(terminal.getP())) {
