@@ -468,7 +468,12 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
-
+        network.newTieLine()
+                .setId("TL1")
+                .setName("TL1")
+                .setDanglingLine1("DL1")
+                .setDanglingLine2("DL2")
+                .add();
         VscConverterStation vsc1 = vlnew2.newVscConverterStation()
                 .setId("VSC1")
                 .setName("VSC1")
@@ -1310,6 +1315,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTieLineMapData() throws Exception {
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, "TL1", resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, "TL1", resourceToString("/tie-line-map-data.json"));
+    }
+
+    @Test
     public void shouldReturnNotFoundinsteadOfLineMapData() {
         notFoundTestForElementInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.LIST, "NOT_EXISTING_LINE");
         notFoundTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.LIST, "NOT_EXISTING_LINE");
@@ -1620,6 +1631,13 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTieLinesIds() {
+        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.TIE_LINE, List.of(), List.of("TL1").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, List.of(), List.of("TL1").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, List.of("P1", "P3", "P4"), List.of("TL1").toString());
+    }
+
+    @Test
     public void shouldReturnNotFoundInsteadOfHvdcLinesMapData() {
         notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.HVDC_LINE, InfoType.LIST, List.of());
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, InfoType.LIST, List.of());
@@ -1631,6 +1649,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnNotFoundInsteadOfHvdcLinesIds() {
         notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.HVDC_LINE, List.of());
         notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, List.of());
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfTieLinesIds() {
+        notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, List.of("TL1"));
+        notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, List.of());
     }
 
     @Test
@@ -1783,6 +1807,23 @@ public class NetworkMapControllerTest {
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.LINE, InfoType.MAP, List.of());
         notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.LINE, InfoType.MAP, List.of("P1"));
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.LINE, InfoType.MAP, List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnTieLinesMapData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfMapTieLinesData() {
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, InfoType.MAP, List.of());
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, InfoType.MAP, List.of());
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P1"));
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, InfoType.MAP, List.of("P1"));
     }
 
     @Test

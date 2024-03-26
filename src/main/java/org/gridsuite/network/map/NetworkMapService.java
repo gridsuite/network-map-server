@@ -150,6 +150,23 @@ class NetworkMapService {
         }
     }
 
+    public List<String> getTieLinesIds(UUID networkUuid, String variantId, List<String> substationsIds) {
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
+        if (substationsIds == null) {
+            return network.getTieLineStream()
+                    .map(TieLine::getId).toList();
+        } else {
+            return substationsIds.stream()
+                    .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
+                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(DanglingLine.class))
+                    .map(DanglingLine::getTieLine)
+                    .flatMap(Optional::stream)
+                    .map(TieLine::getId)
+                    .distinct()
+                    .toList();
+        }
+    }
+
     private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
         Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
@@ -177,6 +194,21 @@ class NetworkMapService {
                 .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, elementInfoType))
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    public List<ElementInfos> getTieLinesInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
+        Stream<TieLine> tieLines = substationsId == null ? network.getTieLineStream() :
+                substationsId.stream()
+                        .map(network::getSubstation)
+                        .flatMap(Substation::getVoltageLevelStream)
+                        .flatMap(vl -> vl.getConnectableStream(DanglingLine.class))
+                        .map(DanglingLine::getTieLine)
+                        .flatMap(Optional::stream)
+                        .distinct();
+        return tieLines
+                .map(c -> ElementType.TIE_LINE.getInfosGetter().apply(c, elementInfoType))
+                .distinct()
+                .toList();
     }
 
     public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
@@ -213,6 +245,8 @@ class NetworkMapService {
                 return getVoltageLevelsInfos(network, substationsIds, elementInfoType);
             case HVDC_LINE:
                 return getHvdcLinesInfos(network, substationsIds, elementInfoType);
+            case TIE_LINE:
+                return getTieLinesInfos(network, substationsIds, elementInfoType);
             case BUS:
                 return getBusesInfos(network, substationsIds, elementInfoType);
             default:
@@ -261,6 +295,8 @@ class NetworkMapService {
         switch (elementType) {
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId);
+            case TIE_LINE:
+                return getTieLinesIds(networkUuid, variantId, substationsIds);
             case HVDC_LINE:
                 return getHvdcLinesIds(networkUuid, variantId, substationsIds);
             case VOLTAGE_LEVEL:
