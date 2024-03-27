@@ -13,13 +13,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.AllElementsInfos;
+import org.gridsuite.network.map.dto.ElementInfoWithType;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.model.BusMapData;
 import org.gridsuite.network.map.model.ElementType;
-import org.gridsuite.network.map.model.VoltageLevelConnectableMapData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -92,7 +91,7 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})
-    public @ResponseBody List<BusMapData> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public @ResponseBody List<ElementInfos> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBuses(networkUuid, voltageLevelId, variantId);
@@ -119,10 +118,10 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/voltage-level-equipments/{voltageLevelId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get Voltage level equipements")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level equipements")})
-    public @ResponseBody List<VoltageLevelConnectableMapData> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                        @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                                                        @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+    public @ResponseBody List<ElementInfoWithType> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                             @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                                             @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getVoltageLevelEquipements(networkUuid, voltageLevelId, variantId, substationsIds);
     }
 
