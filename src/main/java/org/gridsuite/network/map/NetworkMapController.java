@@ -115,7 +115,7 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelBusbarSectionsIds(networkUuid, voltageLevelId, variantId);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/voltage-level-equipments/{voltageLevelId}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/equipements", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get Voltage level equipements")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level equipements")})
     public @ResponseBody List<ElementInfoWithType> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
