@@ -34,7 +34,7 @@ import java.util.stream.Stream;
  */
 @ComponentScan(basePackageClasses = {NetworkStoreService.class})
 @Service
-class NetworkMapService {
+public class NetworkMapService {
 
     @Autowired
     private NetworkStoreService networkStoreService;

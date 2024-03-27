@@ -19,7 +19,6 @@ import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.model.ElementType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,87 +40,90 @@ public class NetworkMapController {
 
     public static final String API_VERSION = "v1";
 
-    @Autowired
-    private NetworkMapService networkMapService;
+    private final NetworkMapService networkMapService;
+
+    public NetworkMapController(NetworkMapService networkMapService) {
+        this.networkMapService = networkMapService;
+    }
 
     @GetMapping(value = "/networks/{networkUuid}/elements-ids", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get elements ids")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Equipments ids")})
-    public @ResponseBody List<String> getElementsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                     @Parameter(description = "Substations ids") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
-                                                     @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType) {
+    public List<String> getElementsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                       @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                       @Parameter(description = "Substations ids") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
+                                       @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType) {
         return networkMapService.getElementsIds(networkUuid, variantId, substationsIds, elementType);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/all", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all equipments descriptions")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "all equipments descriptions")})
-    public @ResponseBody AllElementsInfos getAll(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                 @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+    public AllElementsInfos getAll(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                   @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getAllElementsInfos(networkUuid, variantId, substationsIds);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get network elements")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Elements description")})
-    public @ResponseBody List<ElementInfos> getElementsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                             @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
-                                                             @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                                             @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
-                                                             @Parameter(description = "DC power factor") @RequestParam(name = "dcPowerFactor", required = false) Double dcPowerFactor) {
+    public List<ElementInfos> getElementsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                               @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                               @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
+                                               @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
+                                               @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
+                                               @Parameter(description = "DC power factor") @RequestParam(name = "dcPowerFactor", required = false) Double dcPowerFactor) {
         return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, new ElementInfoType(infoType, dcPowerFactor, null));
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get network element infos")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Element description")})
-    public @ResponseBody ElementInfos getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                      @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
-                                                      @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                      @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                                      @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
-                                                      @Parameter(description = "Operation") @RequestParam(name = "operation", required = false) ElementInfos.Operation operation,
-                                                      @Parameter(description = "DC power factor") @RequestParam(name = "dcPowerFactor", required = false) Double dcPowerFactor) {
+    public ElementInfos getElementInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                        @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
+                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                        @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
+                                        @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
+                                        @Parameter(description = "Operation") @RequestParam(name = "operation", required = false) ElementInfos.Operation operation,
+                                        @Parameter(description = "DC power factor") @RequestParam(name = "dcPowerFactor", required = false) Double dcPowerFactor) {
         return networkMapService.getElementInfos(networkUuid, variantId, elementType, new ElementInfoType(infoType, dcPowerFactor, operation), elementId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})
-    public @ResponseBody List<ElementInfos> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                               @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                               @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+    public List<ElementInfos> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                   @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBuses(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/busbar-sections", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get busbar sections description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Busbar section description")})
-    public @ResponseBody List<ElementInfos> getVoltageLevelBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                  @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                                  @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+    public List<ElementInfos> getVoltageLevelBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/busbar-sections/ids", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get busbar sections ids for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Busbar section ids")})
-    public @ResponseBody List<String> getVoltageLevelBusBarSectionsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                  @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                                  @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+    public List<String> getVoltageLevelBusBarSectionsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                         @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelBusbarSectionsIds(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/equipements", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get Voltage level equipements")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level equipements")})
-    public @ResponseBody List<ElementInfoWithType> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                             @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                                             @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+    public List<ElementInfoWithType> getVoltageLevelEquipments(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                               @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                               @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
+                                                               @Parameter(description = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getVoltageLevelEquipements(networkUuid, voltageLevelId, variantId, substationsIds);
     }
 
@@ -131,9 +133,9 @@ public class NetworkMapController {
         @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
         @ApiResponse(responseCode = "204", description = "No element found")
     })
-    public @ResponseBody Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                    @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,
-                                                                    @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+    public Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                      @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,
+                                                      @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getBranchOrThreeWindingsTransformer(networkUuid, variantId, equipmentId);
     }
 
@@ -143,9 +145,9 @@ public class NetworkMapController {
         @ApiResponse(responseCode = "200", description = "Hvdc line type and its shunt compensators on each side"),
         @ApiResponse(responseCode = "204", description = "No element found")
     })
-    public @ResponseBody HvdcShuntCompensatorsInfos getHvdcLineShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                                @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
-                                                                                @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+    public HvdcShuntCompensatorsInfos getHvdcLineShuntCompensators(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                   @Parameter(description = "Hcdc Line ID") @PathVariable("hvdcId") String hvdcId,
+                                                                   @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getHvdcLineShuntCompensators(networkUuid, variantId, hvdcId);
     }
 
@@ -154,8 +156,8 @@ public class NetworkMapController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Countries are found the in substations of the network")
     })
-    public @ResponseBody List<Country> getCountries(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                    @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+    public List<Country> getCountries(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                      @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getCountries(networkUuid, variantId).stream().sorted(Comparator.comparing(Country::getName)).toList();
     }
 }
