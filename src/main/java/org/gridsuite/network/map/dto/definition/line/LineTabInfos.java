@@ -10,15 +10,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
-import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.dto.ElementInfoWithProperties;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class LineTabInfos extends ElementTabInfoWithProperties {
+public class LineTabInfos extends ElementInfoWithProperties {
 
     private String voltageLevelId1;
 

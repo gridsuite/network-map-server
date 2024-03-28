@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 
 /**
  * @author Rehili Ghazwa <ghazwa.rehili at rte-france.com>
