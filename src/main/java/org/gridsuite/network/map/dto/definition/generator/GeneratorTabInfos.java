@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.EnergySource;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfoWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
@@ -24,7 +24,7 @@ import java.util.Optional;
  */
 @SuperBuilder
 @Getter
-public class GeneratorTabInfos extends ElementTabInfoWithProperties {
+public class GeneratorTabInfos extends ElementInfoWithProperties {
     private String voltageLevelId;
 
     private Double nominalVoltage;

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfoWithProperties;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -18,7 +18,7 @@ import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
 
 @SuperBuilder
 @Getter
-public class DanglingLineTabInfos extends ElementTabInfoWithProperties {
+public class DanglingLineTabInfos extends ElementInfoWithProperties {
 
     private String voltageLevelId;
 
