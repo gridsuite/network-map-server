@@ -1745,8 +1745,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelEquipments() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-levels/VLGEN/equipements", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-levels/VLGEN/equipements", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-levels/VLGEN/equipments", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-levels/VLGEN/equipments", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
     }
 
     @Test
