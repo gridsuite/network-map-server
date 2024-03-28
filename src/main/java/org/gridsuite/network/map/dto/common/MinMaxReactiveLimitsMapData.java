@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package org.gridsuite.network.map.model;
+package org.gridsuite.network.map.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

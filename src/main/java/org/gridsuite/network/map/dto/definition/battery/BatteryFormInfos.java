@@ -12,8 +12,8 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfoWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 import java.util.Optional;

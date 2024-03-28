@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfoWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
