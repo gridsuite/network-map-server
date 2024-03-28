@@ -18,7 +18,7 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import lombok.SneakyThrows;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
-import org.gridsuite.network.map.model.ElementType;
+import org.gridsuite.network.map.dto.ElementType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

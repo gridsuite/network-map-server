@@ -16,7 +16,7 @@ import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.*;
-import org.gridsuite.network.map.model.ElementType;
+import org.gridsuite.network.map.dto.ElementType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
