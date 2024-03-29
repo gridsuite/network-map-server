@@ -24,6 +24,10 @@ import java.util.Optional;
 @Getter
 public class HvdcTabInfos extends ElementTabInfoWithProperties {
 
+    private String voltageLevelId1;
+
+    private String voltageLevelId2;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private HvdcLine.ConvertersMode convertersMode;
 
