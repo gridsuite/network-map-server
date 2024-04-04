@@ -863,6 +863,11 @@ public class NetworkMapControllerTest {
                 .setCountry(Country.AF)
                 .setTso("RTE")
                 .add();
+        VoltageLevel vl = network.newVoltageLevel()
+                .setId("AF_VL")
+                .setNominalV(400.0)
+                .setTopologyKind(TopologyKind.BUS_BREAKER)
+                .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
@@ -1217,6 +1222,17 @@ public class NetworkMapControllerTest {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/countries", networkUuid).queryParams(queryParams))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
+    }
+
+    @SneakyThrows
+    private void succeedingTestForNominalVoltages(UUID networkUuid, String variantId, String expectedJson) {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/nominal-voltages", networkUuid).queryParams(queryParams))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -1960,6 +1976,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnCountries() throws Exception {
         succeedingTestForCountries(NETWORK_UUID, null, List.of("FR").toString());
         succeedingTestForCountries(NETWORK_UUID, VARIANT_ID_2, List.of("AF", "FR").toString());
+    }
+
+    @Test
+    public void shouldReturnNominalVoltages() throws Exception {
+        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(24.0, 150.0, 225.0, 380.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(24.0, 150.0, 225.0, 380.0, 400.0).toString());
     }
 
     @Test
