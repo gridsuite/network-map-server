@@ -360,4 +360,11 @@ class NetworkMapService {
                 .flatMap(Optional::stream)
                 .collect(Collectors.toSet());
     }
+
+    public Set<Double> getNominalVoltages(UUID networkUuid, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
+        return network.getVoltageLevelStream()
+                .map(VoltageLevel::getNominalV)
+                .collect(Collectors.toSet());
+    }
 }
