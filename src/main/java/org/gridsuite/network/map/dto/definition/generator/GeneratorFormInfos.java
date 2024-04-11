@@ -10,10 +10,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.EnergySource;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementFormInfosWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.*;
-import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @SuperBuilder
 @Getter
-public class GeneratorFormInfos extends ElementFormInfosWithProperties {
+public class GeneratorFormInfos extends ElementInfosWithProperties {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -1,12 +1,10 @@
 [
   {
     "id": "GEN",
-    "name": null,
     "type": "GENERATOR"
   },
   {
     "id": "GEN2",
-    "name": null,
     "type": "GENERATOR"
   },
   {
@@ -21,12 +19,10 @@
   },
   {
     "id": "NGEN_NHV1",
-    "name": null,
     "type": "TWO_WINDINGS_TRANSFORMER"
   },
   {
     "id": "NGEN_NHV2",
-    "name": null,
     "type": "TWO_WINDINGS_TRANSFORMER"
   },
   {
@@ -51,7 +47,6 @@
   },
   {
     "id": "LINE3",
-    "name": null,
     "type": "LINE"
   }
 ]

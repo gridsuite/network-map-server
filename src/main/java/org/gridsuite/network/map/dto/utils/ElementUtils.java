@@ -10,9 +10,9 @@ import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
+import org.gridsuite.network.map.dto.common.*;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
-import org.gridsuite.network.map.model.*;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;

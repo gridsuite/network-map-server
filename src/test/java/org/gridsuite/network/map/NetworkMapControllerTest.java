@@ -18,7 +18,7 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import lombok.SneakyThrows;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
-import org.gridsuite.network.map.model.ElementType;
+import org.gridsuite.network.map.dto.ElementType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -1761,16 +1761,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelEquipments() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-level-equipments/VLGEN", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-level-equipments/VLGEN", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
-    }
-
-    @Test
-    public void shouldReturnNotFoundInsteadOfVoltageLevelsEquipmentsMapData() {
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of());
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of());
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of("P1"));
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of("P1"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-levels/VLGEN/equipments", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-levels/VLGEN/equipments", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
     }
 
     @Test

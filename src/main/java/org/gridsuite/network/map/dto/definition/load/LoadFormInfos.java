@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.LoadType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementFormInfosWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
@@ -18,7 +18,7 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
  */
 @SuperBuilder
 @Getter
-public class LoadFormInfos extends ElementFormInfosWithProperties {
+public class LoadFormInfos extends ElementInfosWithProperties {
 
     private LoadType type;
 

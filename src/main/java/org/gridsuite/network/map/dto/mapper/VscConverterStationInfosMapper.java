@@ -11,7 +11,7 @@ import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
-import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
