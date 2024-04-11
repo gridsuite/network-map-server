@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.LoadType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
@@ -19,7 +19,7 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
  */
 @SuperBuilder
 @Getter
-public class LoadTabInfos extends ElementInfoWithProperties {
+public class LoadTabInfos extends ElementInfosWithProperties {
 
     private LoadType type;
 

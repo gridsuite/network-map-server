@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
 
 import java.util.Optional;
@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @SuperBuilder
 @Getter
-public class VoltageLevelTabInfos extends ElementInfoWithProperties {
+public class VoltageLevelTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;

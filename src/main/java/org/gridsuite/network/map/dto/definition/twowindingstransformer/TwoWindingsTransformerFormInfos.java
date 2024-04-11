@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.definition.twowindingstransformer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
@@ -19,7 +19,7 @@ import org.gridsuite.network.map.dto.common.TapChangerData;
  */
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerFormInfos extends ElementInfoWithProperties {
+public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties {
 
     private String voltageLevelId1;
 

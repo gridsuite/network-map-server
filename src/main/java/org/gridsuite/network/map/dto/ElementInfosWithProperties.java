@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @SuperBuilder
 @Getter
-public class ElementInfoWithProperties extends ElementInfos {
+public class ElementInfosWithProperties extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> properties;
 }

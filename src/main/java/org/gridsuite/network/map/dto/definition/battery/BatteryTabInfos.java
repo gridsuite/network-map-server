@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @SuperBuilder
 @Getter
-public class BatteryTabInfos extends ElementInfoWithProperties {
+public class BatteryTabInfos extends ElementInfosWithProperties {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

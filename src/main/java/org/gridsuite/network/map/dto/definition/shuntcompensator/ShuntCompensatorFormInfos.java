@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.definition.shuntcompensator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
@@ -17,7 +17,7 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
  */
 @SuperBuilder
 @Getter
-public class ShuntCompensatorFormInfos extends ElementInfoWithProperties {
+public class ShuntCompensatorFormInfos extends ElementInfosWithProperties {
     private String voltageLevelId;
 
     private Boolean terminalConnected;
