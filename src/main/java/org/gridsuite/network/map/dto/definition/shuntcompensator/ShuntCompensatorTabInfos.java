@@ -46,4 +46,6 @@ public class ShuntCompensatorTabInfos extends ElementInfoWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
 }

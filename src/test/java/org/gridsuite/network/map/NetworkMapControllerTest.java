@@ -863,6 +863,11 @@ public class NetworkMapControllerTest {
                 .setCountry(Country.AF)
                 .setTso("RTE")
                 .add();
+        VoltageLevel vl = network.newVoltageLevel()
+                .setId("AF_VL")
+                .setNominalV(400.0)
+                .setTopologyKind(TopologyKind.BUS_BREAKER)
+                .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
@@ -1217,6 +1222,17 @@ public class NetworkMapControllerTest {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/countries", networkUuid).queryParams(queryParams))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
+    }
+
+    @SneakyThrows
+    private void succeedingTestForNominalVoltages(UUID networkUuid, String variantId, String expectedJson) {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/nominal-voltages", networkUuid).queryParams(queryParams))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -1955,8 +1971,20 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnNominalVoltages() throws Exception {
+        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(24.0, 150.0, 225.0, 380.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(24.0, 150.0, 225.0, 380.0, 400.0).toString());
+    }
+
+    @Test
     public void shouldReturnBusesSectionTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, null, resourceToString("/buses-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, List.of("n9828181c-7977-4592-ba19-008976e4254e_substation1"), resourceToString("/buses-tab-data.json"));
+    }
+
+    @Test
+    public void shouldReturnTieLinesTabData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
     }
 }

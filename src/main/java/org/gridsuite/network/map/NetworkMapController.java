@@ -151,12 +151,22 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/countries")
-    @Operation(summary = "Get countries which are appeared in the network")
+    @Operation(summary = "Get the list of countries present in the network")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Countries are found the in substations of the network")
     })
     public List<Country> getCountries(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                       @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getCountries(networkUuid, variantId).stream().sorted(Comparator.comparing(Country::getName)).toList();
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/nominal-voltages")
+    @Operation(summary = "Get the list of nominal voltages present in the network")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Nominal voltages are found the in voltage levels of the network")
+    })
+    public @ResponseBody List<Double> getNominalVoltages(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                   @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getNominalVoltages(networkUuid, variantId).stream().sorted().toList();
     }
 }

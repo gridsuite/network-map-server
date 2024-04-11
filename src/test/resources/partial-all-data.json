@@ -125,6 +125,7 @@
       "maxSusceptance": 3.0,
       "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
+      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,

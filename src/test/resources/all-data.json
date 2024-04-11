@@ -200,6 +200,8 @@
     {
       "id": "HVDC1",
       "name": "HVDC1",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLNEW2",
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "LCC1",
       "converterStationId2": "LCC2",
@@ -212,6 +214,8 @@
     {
       "id": "HVDC3",
       "name": "HVDC3",
+      "voltageLevelId1": "VLNEW2",
+      "voltageLevelId2": "VLNEW2",
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "VSC3",
       "converterStationId2": "VSC4",
@@ -224,6 +228,8 @@
     {
       "id": "HVDC4",
       "name": "HVDC4",
+      "voltageLevelId1": "VLNEW2",
+      "voltageLevelId2": "VLNEW2",
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "VSC5",
       "converterStationId2": "VSC6",
@@ -236,6 +242,8 @@
     {
       "id": "HVDC2",
       "name": "HVDC2",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLNEW2",
       "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
       "converterStationId1": "LCC1",
       "converterStationId2": "LCC2",
@@ -1043,6 +1051,7 @@
       "maxSusceptance": 40.0,
       "maxQAtNominalV": 2025000.0,
       "maximumSectionCount": 8,
+      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
@@ -1060,6 +1069,7 @@
       "maxSusceptance": 3.0,
       "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
+      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
@@ -1077,6 +1087,7 @@
       "maxSusceptance": 3.0,
       "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
+      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": null
       }
@@ -1090,6 +1101,7 @@
       "terminalConnected": false,
       "sectionCount": 2,
       "maximumSectionCount": 2,
+      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": null
       }
