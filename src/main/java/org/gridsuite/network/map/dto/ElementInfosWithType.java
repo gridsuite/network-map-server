@@ -15,6 +15,6 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class ElementInfoWithType extends ElementInfos {
+public class ElementInfosWithType extends ElementInfos {
     private IdentifiableType type;
 }
