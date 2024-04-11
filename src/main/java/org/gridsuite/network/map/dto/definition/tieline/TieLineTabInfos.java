@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfoWithProperties;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class TieLineTabInfos extends ElementTabInfoWithProperties {
+public class TieLineTabInfos extends ElementInfoWithProperties {
 
     private String voltageLevelId1;
 
