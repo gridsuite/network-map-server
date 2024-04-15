@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypesParatters;
 import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
@@ -28,7 +29,7 @@ public final class BatteryInfosMapper {
     private BatteryInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
         switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);

@@ -30,35 +30,6 @@ public class ElementInfos {
         MODIFICATION
     }
 
-    public static class ElementInfoType {
-        private InfoType infoType;
-        private Double dcPowerFactor;
-
-        private Operation operation;
-
-        public ElementInfoType(InfoType infoType, Double dcPowerFactor, Operation operation) {
-            this.infoType = infoType;
-            this.dcPowerFactor = dcPowerFactor;
-            this.operation = operation;
-        }
-
-        public ElementInfoType(InfoType infoType) {
-            this.infoType = infoType;
-        }
-
-        public InfoType getInfoType() {
-            return infoType;
-        }
-
-        public Double getDcPowerFactor() {
-            return dcPowerFactor;
-        }
-
-        public Operation getOperation() {
-            return operation;
-        }
-    }
-
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

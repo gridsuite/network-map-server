@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
+import org.gridsuite.network.map.dto.InfoTypesParatters;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.ElementType;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -72,8 +73,8 @@ public class NetworkMapController {
                                                @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
                                                @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                                @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
-                                               @Parameter(description = "DC power factor") @RequestParam(name = "dcPowerFactor", required = false) Double dcPowerFactor) {
-        return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, new ElementInfoType(infoType, dcPowerFactor, null));
+                                               @RequestParam Map<String, String> additionalParams) {
+        return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, new InfoTypesParatters(infoType, additionalParams));
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)
@@ -84,9 +85,8 @@ public class NetworkMapController {
                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                         @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                         @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
-                                        @Parameter(description = "Operation") @RequestParam(name = "operation", required = false) ElementInfos.Operation operation,
-                                        @Parameter(description = "DC power factor") @RequestParam(name = "dcPowerFactor", required = false) Double dcPowerFactor) {
-        return networkMapService.getElementInfos(networkUuid, variantId, elementType, new ElementInfoType(infoType, dcPowerFactor, operation), elementId);
+                                        @RequestParam Map<String, String> additionalParams) {
+        return networkMapService.getElementInfos(networkUuid, variantId, elementType, new InfoTypesParatters(infoType, additionalParams), elementId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)

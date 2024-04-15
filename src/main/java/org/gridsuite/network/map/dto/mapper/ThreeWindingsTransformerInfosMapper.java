@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypesParatters;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
@@ -27,7 +28,7 @@ public final class ThreeWindingsTransformerInfosMapper {
     private ThreeWindingsTransformerInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
         switch (dataType.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);

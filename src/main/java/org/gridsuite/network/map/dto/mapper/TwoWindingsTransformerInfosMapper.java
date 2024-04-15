@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypesParatters;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
@@ -25,7 +26,7 @@ public final class TwoWindingsTransformerInfosMapper {
     private TwoWindingsTransformerInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
         switch (dataType.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);

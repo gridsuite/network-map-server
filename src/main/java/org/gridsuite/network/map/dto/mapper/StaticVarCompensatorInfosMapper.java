@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypesParatters;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
@@ -22,7 +23,7 @@ public final class StaticVarCompensatorInfosMapper {
     private StaticVarCompensatorInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
         switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);

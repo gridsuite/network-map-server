@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto;
 
 import com.powsybl.iidm.network.*;
-import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import org.gridsuite.network.map.dto.mapper.*;
 
 import java.util.function.BiFunction;
@@ -34,17 +33,17 @@ public enum ElementType {
 
     private final Class<? extends Identifiable> elementClass;
 
-    private final BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> infosGetter;
+    private final BiFunction<Identifiable<?>, InfoTypesParatters, ElementInfos> infosGetter;
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
     }
 
-    public BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> getInfosGetter() {
+    public BiFunction<Identifiable<?>, InfoTypesParatters, ElementInfos> getInfosGetter() {
         return infosGetter;
     }
 
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, ElementInfoType, ElementInfos> dataGetter) {
+    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, InfoTypesParatters, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }
