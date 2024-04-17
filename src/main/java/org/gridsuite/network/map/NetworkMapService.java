@@ -12,7 +12,7 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParatters;
+import org.gridsuite.network.map.dto.InfoTypesParameters;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.*;
@@ -63,19 +63,19 @@ public class NetworkMapService {
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         return AllElementsInfos.builder()
-                .substations(getSubstationsInfos(network, substationsId, new InfoTypesParatters(InfoType.TAB)))
-                .hvdcLines(getHvdcLinesInfos(network, substationsId, new InfoTypesParatters(InfoType.TAB)))
-                .lines(getElementsInfos(network, substationsId, ElementType.LINE, new InfoTypesParatters(InfoType.TAB)))
-                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, new InfoTypesParatters(InfoType.TAB)))
-                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, new InfoTypesParatters(InfoType.TAB)))
-                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, new InfoTypesParatters(InfoType.TAB)))
-                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, new InfoTypesParatters(InfoType.TAB)))
-                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, new InfoTypesParatters(InfoType.TAB)))
-                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, new InfoTypesParatters(InfoType.TAB)))
-                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, new InfoTypesParatters(InfoType.TAB)))
-                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, new InfoTypesParatters(InfoType.TAB)))
-                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, new InfoTypesParatters(InfoType.TAB)))
-                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, new InfoTypesParatters(InfoType.TAB)))
+                .substations(getSubstationsInfos(network, substationsId, new InfoTypesParameters(InfoType.TAB)))
+                .hvdcLines(getHvdcLinesInfos(network, substationsId, new InfoTypesParameters(InfoType.TAB)))
+                .lines(getElementsInfos(network, substationsId, ElementType.LINE, new InfoTypesParameters(InfoType.TAB)))
+                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, new InfoTypesParameters(InfoType.TAB)))
+                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, new InfoTypesParameters(InfoType.TAB)))
+                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, new InfoTypesParameters(InfoType.TAB)))
+                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, new InfoTypesParameters(InfoType.TAB)))
+                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, new InfoTypesParameters(InfoType.TAB)))
+                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, new InfoTypesParameters(InfoType.TAB)))
+                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, new InfoTypesParameters(InfoType.TAB)))
+                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, new InfoTypesParameters(InfoType.TAB)))
+                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, new InfoTypesParameters(InfoType.TAB)))
+                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, new InfoTypesParameters(InfoType.TAB)))
                 .build();
     }
 
@@ -150,21 +150,21 @@ public class NetworkMapService {
         }
     }
 
-    private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, InfoTypesParatters infoTypesParatters) {
+    private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, InfoTypesParameters infoTypesParameters) {
         Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
-                .map(c -> ElementType.SUBSTATION.getInfosGetter().apply(c, infoTypesParatters))
+                .map(c -> ElementType.SUBSTATION.getInfosGetter().apply(c, infoTypesParameters))
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getVoltageLevelsInfos(Network network, List<String> substationsId, InfoTypesParatters infoTypesParatters) {
+    public List<ElementInfos> getVoltageLevelsInfos(Network network, List<String> substationsId, InfoTypesParameters infoTypesParameters) {
         Stream<VoltageLevel> voltageLevels = substationsId == null ? network.getVoltageLevelStream() : substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream());
         return voltageLevels
-                .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c, infoTypesParatters))
+                .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c, infoTypesParameters))
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getHvdcLinesInfos(Network network, List<String> substationsId, InfoTypesParatters infoTypesParatters) {
+    public List<ElementInfos> getHvdcLinesInfos(Network network, List<String> substationsId, InfoTypesParameters infoTypesParameters) {
         Stream<HvdcLine> hvdcLines = substationsId == null ? network.getHvdcLineStream() :
                 substationsId.stream()
                         .map(network::getSubstation)
@@ -174,12 +174,12 @@ public class NetworkMapService {
                         .filter(Objects::nonNull)
                         .distinct();
         return hvdcLines
-                .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, infoTypesParatters))
+                .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, infoTypesParameters))
                 .distinct()
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getTieLinesInfos(Network network, List<String> substationsId, InfoTypesParatters infoTypesParatters) {
+    public List<ElementInfos> getTieLinesInfos(Network network, List<String> substationsId, InfoTypesParameters infoTypesParameters) {
         Stream<TieLine> tieLines = substationsId == null ? network.getTieLineStream() :
                 substationsId.stream()
                         .map(network::getSubstation)
@@ -189,24 +189,24 @@ public class NetworkMapService {
                         .flatMap(Optional::stream)
                         .distinct();
         return tieLines
-                .map(c -> ElementType.TIE_LINE.getInfosGetter().apply(c, infoTypesParatters))
+                .map(c -> ElementType.TIE_LINE.getInfosGetter().apply(c, infoTypesParameters))
                 .distinct()
                 .toList();
     }
 
-    public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, InfoTypesParatters infoTypesParatters) {
+    public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, InfoTypesParameters infoTypesParameters) {
         Stream<Bus> buses = substationsId == null ? network.getBusView().getBusStream() :
             network.getBusView().getBusStream()
                 .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
                 .filter(Objects::nonNull)
                 .distinct();
         return buses
-            .map(c -> ElementType.BUS.getInfosGetter().apply(c, infoTypesParatters))
+            .map(c -> ElementType.BUS.getInfosGetter().apply(c, infoTypesParameters))
             .distinct()
             .toList();
     }
 
-    private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, InfoTypesParatters infoTypesParatters) {
+    private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, InfoTypesParameters infoTypesParameters) {
         Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
         Stream<? extends Connectable> connectables = substationsIds == null ?
             getConnectableStream(network, elementType) :
@@ -215,35 +215,35 @@ public class NetworkMapService {
                 .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
                 .distinct();
         return connectables
-            .map(c -> elementType.getInfosGetter().apply(c, infoTypesParatters))
+            .map(c -> elementType.getInfosGetter().apply(c, infoTypesParameters))
             .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType, InfoTypesParatters infoTypesParatters) {
+    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType, InfoTypesParameters infoTypesParameters) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         switch (equipmentType) {
             case SUBSTATION:
-                return getSubstationsInfos(network, substationsIds, infoTypesParatters);
+                return getSubstationsInfos(network, substationsIds, infoTypesParameters);
             case VOLTAGE_LEVEL:
-                return getVoltageLevelsInfos(network, substationsIds, infoTypesParatters);
+                return getVoltageLevelsInfos(network, substationsIds, infoTypesParameters);
             case HVDC_LINE:
-                return getHvdcLinesInfos(network, substationsIds, infoTypesParatters);
+                return getHvdcLinesInfos(network, substationsIds, infoTypesParameters);
             case TIE_LINE:
-                return getTieLinesInfos(network, substationsIds, infoTypesParatters);
+                return getTieLinesInfos(network, substationsIds, infoTypesParameters);
             case BUS:
-                return getBusesInfos(network, substationsIds, infoTypesParatters);
+                return getBusesInfos(network, substationsIds, infoTypesParameters);
             default:
-                return getElementsInfos(network, substationsIds, equipmentType, infoTypesParatters);
+                return getElementsInfos(network, substationsIds, equipmentType, infoTypesParameters);
         }
     }
 
-    public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoTypesParatters infoTypesParatters, String elementId) {
+    public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoTypesParameters infoTypesParameters, String elementId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Identifiable<?> identifiable = network.getIdentifiable(elementId);
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return elementType.getInfosGetter().apply(identifiable, infoTypesParatters);
+        return elementType.getInfosGetter().apply(identifiable, infoTypesParameters);
     }
 
     // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type

@@ -8,7 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParatters;
+import org.gridsuite.network.map.dto.InfoTypesParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcListInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcMapInfos;
@@ -30,7 +30,7 @@ public final class HvdcInfosMapper {
     private HvdcInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
         switch (dataType.getInfoType()) {
             case TAB:
                 return toHvdcTabInfos(identifiable);

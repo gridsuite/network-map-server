@@ -71,6 +71,7 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_SUBSTATIONS_IDS = "substationsIds";
     public static final String QUERY_PARAM_ELEMENT_TYPE = "elementType";
     public static final String QUERY_PARAM_INFO_TYPE = "infoType";
+    public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "additionalParams";
     public static final String QUERY_PARAM_INFO_OPERATION = "operation";
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
 
@@ -1065,7 +1066,7 @@ public class NetworkMapControllerTest {
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                 .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                 .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                .queryParam(QUERY_PARAM_DC_POWER_FACTOR, Double.toString(dcPowerFactor))
+                .queryParam(QUERY_PARAM_ADDITIONAL_PARAMS + "[" + QUERY_PARAM_DC_POWER_FACTOR + "]", Double.toString(dcPowerFactor))
             )
             .andExpect(status().isOk())
             .andReturn();
@@ -1174,7 +1175,7 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                         .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                         .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                        .queryParam(QUERY_PARAM_INFO_OPERATION, operation.name())
+                        .queryParam(QUERY_PARAM_ADDITIONAL_PARAMS + "[" + QUERY_PARAM_INFO_OPERATION + "]", operation.name())
                 )
                 .andExpect(status().isNotImplemented());
     }

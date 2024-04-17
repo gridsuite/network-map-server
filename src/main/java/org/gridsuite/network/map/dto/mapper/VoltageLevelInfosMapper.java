@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import lombok.Getter;
 import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParatters;
+import org.gridsuite.network.map.dto.InfoTypesParameters;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelListInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
@@ -31,7 +31,7 @@ public final class VoltageLevelInfosMapper {
     private VoltageLevelInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
         switch (dataType.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);

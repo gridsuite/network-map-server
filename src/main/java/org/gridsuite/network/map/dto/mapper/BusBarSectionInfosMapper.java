@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParatters;
+import org.gridsuite.network.map.dto.InfoTypesParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
 
 /**
@@ -20,7 +20,7 @@ public final class BusBarSectionInfosMapper {
     private BusBarSectionInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParatters dataType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
         switch (dataType.getInfoType()) {
             case FORM:
                 return toFormInfos(identifiable);

@@ -33,17 +33,17 @@ public enum ElementType {
 
     private final Class<? extends Identifiable> elementClass;
 
-    private final BiFunction<Identifiable<?>, InfoTypesParatters, ElementInfos> infosGetter;
+    private final BiFunction<Identifiable<?>, InfoTypesParameters, ElementInfos> infosGetter;
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
     }
 
-    public BiFunction<Identifiable<?>, InfoTypesParatters, ElementInfos> getInfosGetter() {
+    public BiFunction<Identifiable<?>, InfoTypesParameters, ElementInfos> getInfosGetter() {
         return infosGetter;
     }
 
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, InfoTypesParatters, ElementInfos> dataGetter) {
+    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, InfoTypesParameters, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }
