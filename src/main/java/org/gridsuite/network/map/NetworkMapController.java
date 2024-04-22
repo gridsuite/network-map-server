@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.*;
-import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -69,7 +68,6 @@ public class NetworkMapController {
                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                                @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
                                                @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                               @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
                                                InfoTypesParameters infoTypesParameters) {
         if (infoTypesParameters.getAdditionalParams() == null) {
             infoTypesParameters.setAdditionalParams(new HashMap<>());
@@ -84,12 +82,10 @@ public class NetworkMapController {
                                         @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                         @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                        @Parameter(description = "Info type") @RequestParam(name = "infoType") InfoType infoType,
                                         InfoTypesParameters infoTypesParameters) {
         if (infoTypesParameters.getAdditionalParams() == null) {
             infoTypesParameters.setAdditionalParams(new HashMap<>());
         }
-        infoTypesParameters.setInfoType(infoType);
         return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoTypesParameters, elementId);
     }
 

@@ -11,7 +11,9 @@ public class InfoTypesParameters {
 
     public InfoTypesParameters(ElementInfos.InfoType infoType) {
         additionalParams = new HashMap<>();
-        additionalParams.put("infoType", infoType.name());
+        if(infoType != null) {
+            additionalParams.put("infoType", infoType.name());
+        }
     }
 
     public void setAdditionalParams(Map<String, String> additionalParams) {
@@ -21,10 +23,6 @@ public class InfoTypesParameters {
     public ElementInfos.InfoType getInfoType() {
         String infoType = additionalParams.get("infoType");
         return ElementInfos.InfoType.valueOf(infoType);
-    }
-
-    public void setInfoType(ElementInfos.InfoType infoType) {
-        additionalParams.put("infoType", infoType.name());
     }
 
     public Double getDcPowerFactor() {
