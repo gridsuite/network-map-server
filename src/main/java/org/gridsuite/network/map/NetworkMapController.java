@@ -18,7 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,9 +68,6 @@ public class NetworkMapController {
                                                @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
                                                @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                                InfoTypesParameters infoTypesParameters) {
-        if (infoTypesParameters.getAdditionalParams() == null) {
-            infoTypesParameters.setAdditionalParams(new HashMap<>());
-        }
         return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, infoTypesParameters);
     }
 
@@ -83,9 +79,6 @@ public class NetworkMapController {
                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                         @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
                                         InfoTypesParameters infoTypesParameters) {
-        if (infoTypesParameters.getAdditionalParams() == null) {
-            infoTypesParameters.setAdditionalParams(new HashMap<>());
-        }
         return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoTypesParameters, elementId);
     }
 

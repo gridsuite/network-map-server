@@ -8,25 +8,24 @@ import java.util.Map;
 @Data
 public class InfoTypesParameters {
     Map<String, String> additionalParams;
+    public static final String QUERY_PARAM_OPERATION = "operation";
+    public static final String QUERY_PARAM_INFO_TYPE = "infoType";
+    public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
 
     public InfoTypesParameters(ElementInfos.InfoType infoType) {
         additionalParams = new HashMap<>();
-        if(infoType != null) {
-            additionalParams.put("infoType", infoType.name());
+        if (infoType != null) {
+            additionalParams.put(QUERY_PARAM_INFO_TYPE, infoType.name());
         }
     }
 
-    public void setAdditionalParams(Map<String, String> additionalParams) {
-        this.additionalParams = additionalParams;
-    }
-
     public ElementInfos.InfoType getInfoType() {
-        String infoType = additionalParams.get("infoType");
+        String infoType = additionalParams.get(QUERY_PARAM_INFO_TYPE);
         return ElementInfos.InfoType.valueOf(infoType);
     }
 
     public Double getDcPowerFactor() {
-        String dcPowerFactorStr = additionalParams.getOrDefault("dcPowerFactor", null);
+        String dcPowerFactorStr = additionalParams.getOrDefault(QUERY_PARAM_DC_POWER_FACTOR, null);
         if (dcPowerFactorStr == null) {
             return null;
         }
@@ -34,7 +33,7 @@ public class InfoTypesParameters {
     }
 
     public ElementInfos.Operation getOperation() {
-        String operationStr = additionalParams.getOrDefault("operation", null);
+        String operationStr = additionalParams.getOrDefault(QUERY_PARAM_OPERATION, null);
         if (operationStr == null) {
             return null;
         }
