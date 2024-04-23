@@ -22,17 +22,19 @@ public final class LineInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        String dcPowerFactorStr = additionalOptionalParams.getAdditionalParams() == null ? null : additionalOptionalParams.getAdditionalParams().getOrDefault("dcPowerFactor", null);
+        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         switch (infoType) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
                 return toFormInfos(identifiable);
             case MAP:
-                return toMapInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
+                return toMapInfos(identifiable, dcPowerFactor);
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
-                return toTooltipInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
+                return toTooltipInfos(identifiable, dcPowerFactor);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

@@ -26,11 +26,13 @@ public final class ShuntCompensatorMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        String operationStr = additionalOptionalParams.getAdditionalParams() == null ? null : additionalOptionalParams.getAdditionalParams().getOrDefault("operation", null);
+        ElementInfos.Operation operation = operationStr == null ? null : ElementInfos.Operation.valueOf(operationStr);
         switch (infoType) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
-                return toFormInfos(identifiable, additionalOptionalParams.getOperation());
+                return toFormInfos(identifiable, operation);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

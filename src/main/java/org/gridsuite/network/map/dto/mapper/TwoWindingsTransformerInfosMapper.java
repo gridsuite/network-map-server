@@ -27,11 +27,13 @@ public final class TwoWindingsTransformerInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        String dcPowerFactorStr = additionalOptionalParams.getAdditionalParams() == null ? null : additionalOptionalParams.getAdditionalParams().getOrDefault("dcPowerFactor", null);
+        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         switch (infoType) {
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
-                return toTooltipInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
+                return toTooltipInfos(identifiable, dcPowerFactor);
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:

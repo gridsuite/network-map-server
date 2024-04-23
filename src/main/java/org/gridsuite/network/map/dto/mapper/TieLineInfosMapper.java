@@ -23,9 +23,11 @@ public final class TieLineInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        String dcPowerFactorStr = additionalOptionalParams.getAdditionalParams() == null ? null : additionalOptionalParams.getAdditionalParams().getOrDefault("dcPowerFactor", null);
+        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         return switch (infoType) {
             case TAB -> toTabInfos(identifiable);
-            case MAP -> toMapInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
+            case MAP -> toMapInfos(identifiable, dcPowerFactor);
             default -> throw new UnsupportedOperationException("TODO");
         };
     }

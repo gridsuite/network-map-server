@@ -63,19 +63,19 @@ public class NetworkMapService {
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         return AllElementsInfos.builder()
-                .substations(getSubstationsInfos(network, substationsId, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .hvdcLines(getHvdcLinesInfos(network, substationsId, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .lines(getElementsInfos(network, substationsId, ElementType.LINE, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
-                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoType.TAB, new InfoTypeParameters(InfoType.TAB)))
+                .substations(getSubstationsInfos(network, substationsId, InfoType.TAB, new InfoTypeParameters()))
+                .hvdcLines(getHvdcLinesInfos(network, substationsId, InfoType.TAB, new InfoTypeParameters()))
+                .lines(getElementsInfos(network, substationsId, ElementType.LINE, InfoType.TAB, new InfoTypeParameters()))
+                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, InfoType.TAB, new InfoTypeParameters()))
+                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, InfoType.TAB, new InfoTypeParameters()))
+                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, new InfoTypeParameters()))
+                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.TAB, new InfoTypeParameters()))
+                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, InfoType.TAB, new InfoTypeParameters()))
+                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, InfoType.TAB, new InfoTypeParameters()))
+                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, InfoType.TAB, new InfoTypeParameters()))
+                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, InfoType.TAB, new InfoTypeParameters()))
+                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, InfoType.TAB, new InfoTypeParameters()))
+                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoType.TAB, new InfoTypeParameters()))
                 .build();
     }
 

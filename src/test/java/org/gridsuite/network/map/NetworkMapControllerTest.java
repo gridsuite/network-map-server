@@ -33,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.io.IOException;
@@ -72,6 +73,7 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_ELEMENT_TYPE = "elementType";
     public static final String QUERY_PARAM_INFO_TYPE = "infoType";
     public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "additionalParams";
+    public static final String QUERY_FORMAT_ADDITIONAL_PARAMS = QUERY_PARAM_ADDITIONAL_PARAMS + "[%s]";
     public static final String QUERY_PARAM_INFO_OPERATION = "operation";
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
 
@@ -1044,7 +1046,6 @@ public class NetworkMapControllerTest {
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-
                     )
                     .andExpect(status().isOk())
                     .andReturn();
@@ -1053,7 +1054,7 @@ public class NetworkMapControllerTest {
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                            .queryParam(QUERY_PARAM_INFO_OPERATION, operation != null ? operation.name() : null)
+                            .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_INFO_OPERATION), operation != null ? operation.name() : null)
                     )
                     .andExpect(status().isOk())
                     .andReturn();
@@ -1066,7 +1067,7 @@ public class NetworkMapControllerTest {
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                 .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                 .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                .queryParam(QUERY_PARAM_ADDITIONAL_PARAMS + "[" + QUERY_PARAM_DC_POWER_FACTOR + "]", Double.toString(dcPowerFactor))
+                .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_DC_POWER_FACTOR), Double.toString(dcPowerFactor))
             )
             .andExpect(status().isOk())
             .andReturn();
@@ -1175,7 +1176,7 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                         .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                         .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                        .queryParam(QUERY_PARAM_ADDITIONAL_PARAMS + "[" + QUERY_PARAM_INFO_OPERATION + "]", operation.name())
+                        .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_INFO_OPERATION), operation.name())
                 )
                 .andExpect(status().isNotImplemented());
     }
