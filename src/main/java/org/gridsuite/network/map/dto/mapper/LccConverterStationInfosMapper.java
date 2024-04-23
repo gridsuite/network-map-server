@@ -10,7 +10,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.LccConverterStation;
 import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParameters;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
@@ -24,8 +24,8 @@ public final class LccConverterStationInfosMapper {
     private LccConverterStationInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        switch (infoType) {
             case TAB:
                 return toTabInfos(identifiable);
             default:

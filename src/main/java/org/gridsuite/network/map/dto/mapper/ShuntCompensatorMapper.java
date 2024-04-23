@@ -8,7 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParameters;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
 import org.springframework.http.HttpStatus;
@@ -25,12 +25,12 @@ public final class ShuntCompensatorMapper {
     private ShuntCompensatorMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        switch (infoType) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
-                return toFormInfos(identifiable, dataType.getOperation());
+                return toFormInfos(identifiable, additionalOptionalParams.getOperation());
             default:
                 throw new UnsupportedOperationException("TODO");
         }

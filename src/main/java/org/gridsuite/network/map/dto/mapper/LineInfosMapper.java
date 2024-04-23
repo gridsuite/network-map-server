@@ -8,7 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParameters;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
@@ -21,18 +21,18 @@ public final class LineInfosMapper {
     private LineInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        switch (infoType) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
                 return toFormInfos(identifiable);
             case MAP:
-                return toMapInfos(identifiable, dataType.getDcPowerFactor());
+                return toMapInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
-                return toTooltipInfos(identifiable, dataType.getDcPowerFactor());
+                return toTooltipInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
             default:
                 throw new UnsupportedOperationException("TODO");
         }

@@ -8,7 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.InfoTypesParameters;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineMapInfos;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
@@ -22,10 +22,10 @@ public final class TieLineInfosMapper {
     private TieLineInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypesParameters dataType) {
-        return switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+        return switch (infoType) {
             case TAB -> toTabInfos(identifiable);
-            case MAP -> toMapInfos(identifiable, dataType.getDcPowerFactor());
+            case MAP -> toMapInfos(identifiable, additionalOptionalParams.getDcPowerFactor());
             default -> throw new UnsupportedOperationException("TODO");
         };
     }

@@ -9,8 +9,6 @@ package org.gridsuite.network.map.dto;
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.mapper.*;
 
-import java.util.function.BiFunction;
-
 
 public enum ElementType {
     SUBSTATION(Substation.class, SubstationInfosMapper::toData),
@@ -33,17 +31,17 @@ public enum ElementType {
 
     private final Class<? extends Identifiable> elementClass;
 
-    private final BiFunction<Identifiable<?>, InfoTypesParameters, ElementInfos> infosGetter;
+    private final TriFunction<Identifiable<?>, ElementInfos.InfoType, InfoTypeParameters, ElementInfos> infosGetter;
 
     public Class<? extends Identifiable> getElementClass() {
         return elementClass;
     }
 
-    public BiFunction<Identifiable<?>, InfoTypesParameters, ElementInfos> getInfosGetter() {
+    public TriFunction<Identifiable<?>, ElementInfos.InfoType, InfoTypeParameters, ElementInfos> getInfosGetter() {
         return infosGetter;
     }
 
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, InfoTypesParameters, ElementInfos> dataGetter) {
+    ElementType(Class<? extends Identifiable> typeClass, TriFunction<Identifiable<?>, ElementInfos.InfoType, InfoTypeParameters, ElementInfos> dataGetter) {
         this.elementClass = typeClass;
         this.infosGetter = dataGetter;
     }
