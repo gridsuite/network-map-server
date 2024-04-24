@@ -20,7 +20,7 @@ public final class BusBarSectionInfosMapper {
     private BusBarSectionInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, @SuppressWarnings("unused") InfoTypeParameters additionalOptionalParams) {
         switch (infoType) {
             case FORM:
                 return toFormInfos(identifiable);
