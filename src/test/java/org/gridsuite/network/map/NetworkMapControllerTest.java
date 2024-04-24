@@ -1693,6 +1693,15 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnVotlageLevelsMapData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.MAP, null, resourceToString("/voltage-levels-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.MAP, null, resourceToString("/voltage-levels-map-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.MAP, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.MAP, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+    }
+
+    @Test
     public void shouldReturnVoltageLevelsIds() throws Exception {
         succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, List.of(), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString());
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, List.of(), List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString());

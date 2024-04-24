@@ -39,6 +39,8 @@ public final class VoltageLevelInfosMapper {
                 return toFormInfos(identifiable);
             case LIST:
                 return toListInfos(identifiable);
+            case MAP:
+                return toMapInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
