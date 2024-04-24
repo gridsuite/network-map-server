@@ -26,7 +26,7 @@ public final class ShuntCompensatorMapper {
     private ShuntCompensatorMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, @SuppressWarnings("unused") InfoTypeParameters additionalOptionalParams) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, @SuppressWarnings("squid:S1172") InfoTypeParameters additionalOptionalParams) {
         String operationStr = additionalOptionalParams.getAdditionalParams() == null ? null : additionalOptionalParams.getAdditionalParams().getOrDefault(QUERY_PARAM_OPERATION, null);
         ElementInfos.Operation operation = operationStr == null ? null : ElementInfos.Operation.valueOf(operationStr);
         switch (infoType) {

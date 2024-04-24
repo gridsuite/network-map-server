@@ -30,7 +30,7 @@ public final class HvdcInfosMapper {
     private HvdcInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, @SuppressWarnings("unused") InfoTypeParameters additionalOptionalParams) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, @SuppressWarnings("squid:S1172") InfoTypeParameters additionalOptionalParams) {
         switch (infoType) {
             case TAB:
                 return toHvdcTabInfos(identifiable);
