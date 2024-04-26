@@ -29,7 +29,7 @@ public final class SubstationInfosMapper {
     private SubstationInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, @SuppressWarnings("squid:S1172") InfoTypeParameters additionalOptionalParams) {
+    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
         switch (infoType) {
             case TAB:
                 return toTabInfos(identifiable);
