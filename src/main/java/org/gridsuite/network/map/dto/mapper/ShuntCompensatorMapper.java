@@ -107,6 +107,9 @@ public final class ShuntCompensatorMapper {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
+        if (!Double.isNaN(shuntCompensator.getTargetV())) {
+            builder.targetV(shuntCompensator.getTargetV());
+        }
 
         builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
 

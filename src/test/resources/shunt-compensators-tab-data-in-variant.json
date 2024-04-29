@@ -15,7 +15,8 @@
       "connectionDirection": "TOP"
     },
     "maxSusceptance": 40.0,
-    "maxQAtNominalV": 2025000.0
+    "maxQAtNominalV": 2025000.0,
+    "targetV": 225.0
   },
   {
     "id": "SHUNT2",
@@ -32,7 +33,8 @@
       "connectionDirection": "TOP"
     },
     "maxSusceptance": 3.0,
-    "maxQAtNominalV": 1728.0
+    "maxQAtNominalV": 1728.0,
+    "targetV": 225.0
   },
   {
     "id": "SHUNT_VLNB",
@@ -47,7 +49,8 @@
       "connectionDirection": null
     },
     "maxSusceptance": 3.0,
-    "maxQAtNominalV": 1728.0
+    "maxQAtNominalV": 1728.0,
+    "targetV": 225.0
   },
   {
     "id": "SHUNT3",
@@ -65,7 +68,8 @@
       "connectionDirection": "TOP"
     },
     "maxSusceptance": 3.0,
-    "maxQAtNominalV": 1728.0
+    "maxQAtNominalV": 1728.0,
+    "targetV": 225.0
   },
   {
     "id": "SHUNT_NON_LINEAR",
@@ -76,6 +80,7 @@
     "terminalConnected": false,
     "sectionCount": 2,
     "maximumSectionCount": 2,
-    "connectablePosition": { "connectionDirection": null }
+    "connectablePosition": { "connectionDirection": null },
+    "targetV": 225.0
   }
 ]

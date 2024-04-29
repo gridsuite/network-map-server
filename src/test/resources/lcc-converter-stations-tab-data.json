@@ -5,7 +5,7 @@
     "powerFactor": 0.5,
     "lossFactor": 1.0,
     "voltageLevelId": "VLGEN",
-    "nominalVoltage": 24.0,
+    "nominalV": 24.0,
     "country": "FR",
     "terminalConnected": true,
     "hvdcLineId": "HVDC1"
@@ -16,7 +16,7 @@
     "powerFactor": 0.5,
     "lossFactor": 1.0,
     "voltageLevelId": "VLNEW2",
-    "nominalVoltage": 225.0,
+    "nominalV": 225.0,
     "country": "FR",
     "terminalConnected": true,
     "hvdcLineId": "HVDC1",

@@ -11,14 +11,14 @@ import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class StaticVarCompensatorTabInfos extends ElementTabInfoWithProperties {
+public class StaticVarCompensatorTabInfos extends ElementInfosWithProperties {
 
     private String voltageLevelId;
 

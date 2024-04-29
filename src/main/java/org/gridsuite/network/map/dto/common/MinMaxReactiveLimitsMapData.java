@@ -5,8 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package org.gridsuite.network.map.model;
+package org.gridsuite.network.map.dto.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,11 +19,11 @@ import lombok.Getter;
 @Builder
 @Getter
 @EqualsAndHashCode
-public class ReactiveCapabilityCurveMapData {
+public class MinMaxReactiveLimitsMapData {
 
-    private Double p;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double minQ;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double maxQ;
 }

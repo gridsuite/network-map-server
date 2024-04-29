@@ -9,11 +9,11 @@ package org.gridsuite.network.map.dto.definition.battery;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementFormInfosWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @SuperBuilder
 @Getter
-public class BatteryFormInfos extends ElementFormInfosWithProperties {
+public class BatteryFormInfos extends ElementInfosWithProperties {
     private String voltageLevelId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

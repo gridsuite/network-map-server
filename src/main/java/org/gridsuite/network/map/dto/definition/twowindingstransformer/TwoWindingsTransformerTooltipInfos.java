@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.model.CurrentLimitsData;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 
 @SuperBuilder
 @Getter

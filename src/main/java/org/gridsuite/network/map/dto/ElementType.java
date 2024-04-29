@@ -4,12 +4,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.model;
+package org.gridsuite.network.map.dto;
 
 import com.powsybl.iidm.network.*;
-import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.mapper.*;
 import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
+import org.gridsuite.network.map.dto.mapper.*;
+
 import java.util.function.BiFunction;
 
 
@@ -17,6 +17,7 @@ public enum ElementType {
     SUBSTATION(Substation.class, SubstationInfosMapper::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
     LINE(Line.class, LineInfosMapper::toData),
+    TIE_LINE(TieLine.class, TieLineInfosMapper::toData),
     HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
     LOAD(Load.class, LoadInfosMapper::toData),
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData),

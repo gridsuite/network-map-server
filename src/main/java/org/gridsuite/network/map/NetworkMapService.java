@@ -16,9 +16,7 @@ import org.gridsuite.network.map.dto.ElementInfos.ElementInfoType;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.*;
-import org.gridsuite.network.map.model.BusMapData;
-import org.gridsuite.network.map.model.ElementType;
-import org.gridsuite.network.map.model.VoltageLevelConnectableMapData;
+import org.gridsuite.network.map.dto.ElementType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -35,7 +33,7 @@ import java.util.stream.Stream;
  */
 @ComponentScan(basePackageClasses = {NetworkStoreService.class})
 @Service
-class NetworkMapService {
+public class NetworkMapService {
 
     @Autowired
     private NetworkStoreService networkStoreService;
@@ -50,21 +48,6 @@ class NetworkMapService {
         } catch (PowsyblException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    }
-
-    private static VoltageLevelConnectableMapData toMapData(Connectable<?> connectable) {
-        return VoltageLevelConnectableMapData.builder()
-                .id(connectable.getId())
-                .name(connectable.getOptionalName().orElse(null))
-                .type(connectable.getType())
-                .build();
-    }
-
-    private static BusMapData toMapData(Bus bus) {
-        return BusMapData.builder()
-            .name(bus.getOptionalName().orElse(null))
-            .id(bus.getId())
-            .build();
     }
 
     private PreloadingStrategy getPreloadingStrategy(List<String> substationsIds) {
@@ -103,7 +86,7 @@ class NetworkMapService {
                 substationsIds.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().map(VoltageLevel::getId)).collect(Collectors.toList());
     }
 
-    public List<VoltageLevelConnectableMapData> getVoltageLevelEquipements(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
+    public List<ElementInfos> getVoltageLevelEquipments(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         List<VoltageLevel> voltageLevels = substationsId == null ?
                 List.of(network.getVoltageLevel(voltageLevelId)) :
@@ -111,14 +94,14 @@ class NetworkMapService {
 
         return voltageLevels.stream()
                 .flatMap(VoltageLevel::getConnectableStream)
-                .map(NetworkMapService::toMapData)
+                .map(ElementInfosMapper::toInfosWithType)
                 .collect(Collectors.toList());
     }
 
-    public List<BusMapData> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<ElementInfos> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
-            .map(NetworkMapService::toMapData).collect(Collectors.toList());
+                .map(BusInfosMapper::toListInfos).collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
@@ -150,6 +133,23 @@ class NetworkMapService {
         }
     }
 
+    public List<String> getTieLinesIds(UUID networkUuid, String variantId, List<String> substationsIds) {
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
+        if (substationsIds == null) {
+            return network.getTieLineStream()
+                    .map(TieLine::getId).toList();
+        } else {
+            return substationsIds.stream()
+                    .flatMap(substationsId -> network.getSubstation(substationsId).getVoltageLevelStream())
+                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(DanglingLine.class))
+                    .map(DanglingLine::getTieLine)
+                    .flatMap(Optional::stream)
+                    .map(TieLine::getId)
+                    .distinct()
+                    .toList();
+        }
+    }
+
     private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
         Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
@@ -177,6 +177,21 @@ class NetworkMapService {
                 .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, elementInfoType))
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    public List<ElementInfos> getTieLinesInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
+        Stream<TieLine> tieLines = substationsId == null ? network.getTieLineStream() :
+                substationsId.stream()
+                        .map(network::getSubstation)
+                        .flatMap(Substation::getVoltageLevelStream)
+                        .flatMap(vl -> vl.getConnectableStream(DanglingLine.class))
+                        .map(DanglingLine::getTieLine)
+                        .flatMap(Optional::stream)
+                        .distinct();
+        return tieLines
+                .map(c -> ElementType.TIE_LINE.getInfosGetter().apply(c, elementInfoType))
+                .distinct()
+                .toList();
     }
 
     public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, ElementInfoType elementInfoType) {
@@ -213,6 +228,8 @@ class NetworkMapService {
                 return getVoltageLevelsInfos(network, substationsIds, elementInfoType);
             case HVDC_LINE:
                 return getHvdcLinesInfos(network, substationsIds, elementInfoType);
+            case TIE_LINE:
+                return getTieLinesInfos(network, substationsIds, elementInfoType);
             case BUS:
                 return getBusesInfos(network, substationsIds, elementInfoType);
             default:
@@ -261,6 +278,8 @@ class NetworkMapService {
         switch (elementType) {
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId);
+            case TIE_LINE:
+                return getTieLinesIds(networkUuid, variantId, substationsIds);
             case HVDC_LINE:
                 return getHvdcLinesIds(networkUuid, variantId, substationsIds);
             case VOLTAGE_LEVEL:
@@ -322,6 +341,13 @@ class NetworkMapService {
         return network.getSubstationStream()
                 .map(Substation::getCountry)
                 .flatMap(Optional::stream)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Double> getNominalVoltages(UUID networkUuid, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
+        return network.getVoltageLevelStream()
+                .map(VoltageLevel::getNominalV)
                 .collect(Collectors.toSet());
     }
 }

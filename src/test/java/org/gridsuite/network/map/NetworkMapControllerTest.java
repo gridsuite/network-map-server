@@ -18,7 +18,7 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import lombok.SneakyThrows;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
-import org.gridsuite.network.map.model.ElementType;
+import org.gridsuite.network.map.dto.ElementType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -468,7 +468,12 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
-
+        network.newTieLine()
+                .setId("TL1")
+                .setName("TL1")
+                .setDanglingLine1("DL1")
+                .setDanglingLine2("DL2")
+                .add();
         VscConverterStation vsc1 = vlnew2.newVscConverterStation()
                 .setId("VSC1")
                 .setName("VSC1")
@@ -858,6 +863,11 @@ public class NetworkMapControllerTest {
                 .setCountry(Country.AF)
                 .setTso("RTE")
                 .add();
+        VoltageLevel vl = network.newVoltageLevel()
+                .setId("AF_VL")
+                .setNominalV(400.0)
+                .setTopologyKind(TopologyKind.BUS_BREAKER)
+                .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
@@ -1218,6 +1228,17 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
     }
 
+    @SneakyThrows
+    private void succeedingTestForNominalVoltages(UUID networkUuid, String variantId, String expectedJson) {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/nominal-voltages", networkUuid).queryParams(queryParams))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
+    }
+
     @Test
     public void shouldReturnSubstationsTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.TAB, null, resourceToString("/substations-tab-data.json"));
@@ -1307,6 +1328,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnHvdcLineMapData() throws Exception {
         succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
         succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, null, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+    }
+
+    @Test
+    public void shouldReturnTieLineMapData() throws Exception {
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, "TL1", resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, "TL1", resourceToString("/tie-line-map-data.json"));
     }
 
     @Test
@@ -1620,6 +1647,13 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTieLinesIds() {
+        succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.TIE_LINE, List.of(), List.of("TL1").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, List.of(), List.of("TL1").toString());
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, List.of("P1", "P3", "P4"), List.of("TL1").toString());
+    }
+
+    @Test
     public void shouldReturnNotFoundInsteadOfHvdcLinesMapData() {
         notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.HVDC_LINE, InfoType.LIST, List.of());
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, InfoType.LIST, List.of());
@@ -1631,6 +1665,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnNotFoundInsteadOfHvdcLinesIds() {
         notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.HVDC_LINE, List.of());
         notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, List.of());
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfTieLinesIds() {
+        notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, List.of("TL1"));
+        notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, List.of());
     }
 
     @Test
@@ -1649,6 +1689,15 @@ public class NetworkMapControllerTest {
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.LIST, List.of("P3"), resourceToString("/partial-voltage-levels-list-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.LIST, List.of("P3"), resourceToString("/partial-voltage-levels-list-data.json"));
+    }
+
+    @Test
+    public void shouldReturnVotlageLevelsMapData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.MAP, null, resourceToString("/voltage-levels-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.MAP, null, resourceToString("/voltage-levels-map-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.MAP, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.MAP, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
     }
 
     @Test
@@ -1721,16 +1770,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnVoltageLevelEquipments() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-level-equipments/VLGEN", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-level-equipments/VLGEN", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
-    }
-
-    @Test
-    public void shouldReturnNotFoundInsteadOfVoltageLevelsEquipmentsMapData() {
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of());
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of());
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "voltage-levels-equipments", List.of("P1"));
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "voltage-levels-equipments", List.of("P1"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "voltage-levels/VLGEN/equipments", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
+        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "voltage-levels/VLGEN/equipments", List.of(), resourceToString("/voltage-level-VLGEN-equipments.json"));
     }
 
     @Test
@@ -1783,6 +1824,23 @@ public class NetworkMapControllerTest {
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.LINE, InfoType.MAP, List.of());
         notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.LINE, InfoType.MAP, List.of("P1"));
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.LINE, InfoType.MAP, List.of("P1"));
+    }
+
+    @Test
+    public void shouldReturnTieLinesMapData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
+    }
+
+    @Test
+    public void shouldReturnNotFoundInsteadOfMapTieLinesData() {
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, InfoType.MAP, List.of());
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, InfoType.MAP, List.of());
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P1"));
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.TIE_LINE, InfoType.MAP, List.of("P1"));
     }
 
     @Test
@@ -1922,8 +1980,20 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnNominalVoltages() throws Exception {
+        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(24.0, 150.0, 225.0, 380.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(24.0, 150.0, 225.0, 380.0, 400.0).toString());
+    }
+
+    @Test
     public void shouldReturnBusesSectionTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, null, resourceToString("/buses-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_2_UUID, null, ElementType.BUS, InfoType.TAB, List.of("n9828181c-7977-4592-ba19-008976e4254e_substation1"), resourceToString("/buses-tab-data.json"));
+    }
+
+    @Test
+    public void shouldReturnTieLinesTabData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
     }
 }

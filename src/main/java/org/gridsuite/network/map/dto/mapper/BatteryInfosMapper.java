@@ -11,8 +11,8 @@ import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
-import org.gridsuite.network.map.model.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.model.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
 import java.util.Collection;
 import java.util.List;

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementTabInfoWithProperties;
+import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
@@ -18,7 +18,7 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
  */
 @SuperBuilder
 @Getter
-public class ShuntCompensatorTabInfos extends ElementTabInfoWithProperties {
+public class ShuntCompensatorTabInfos extends ElementInfosWithProperties {
     private String voltageLevelId;
 
     private Double nominalVoltage;
@@ -46,4 +46,6 @@ public class ShuntCompensatorTabInfos extends ElementTabInfoWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
 }

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "TL1",
+    "voltageLevelId1": "VLGEN",
+    "nominalVoltage1": 24.0,
+    "voltageLevelId2": "VLGEN3",
+    "nominalVoltage2": 24.0,
+    "country1": "FR",
+    "country2": "FR",
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "p1": 45.0,
+    "q1": 75.0,
+    "r": 1.9999999999999996,
+    "x": 3.999999999999999,
+    "g1": 4.000000000000001,
+    "b1": 3.0000000000000004,
+    "g2": 4.000000000000001,
+    "b2": 3.0000000000000004
+  }
+]
