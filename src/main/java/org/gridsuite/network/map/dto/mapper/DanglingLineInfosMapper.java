@@ -23,8 +23,8 @@ public final class DanglingLineInfosMapper {
     private DanglingLineInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
-        switch (infoType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             default:

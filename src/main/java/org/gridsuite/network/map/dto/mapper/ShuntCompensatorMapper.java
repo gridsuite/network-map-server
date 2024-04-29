@@ -14,7 +14,7 @@ import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensato
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.gridsuite.network.map.NetworkMapServerConstants.QUERY_PARAM_OPERATION;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_OPERATION;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -26,10 +26,10 @@ public final class ShuntCompensatorMapper {
     private ShuntCompensatorMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
-        String operationStr = additionalOptionalParams.getAdditionalParams() == null ? null : additionalOptionalParams.getAdditionalParams().getOrDefault(QUERY_PARAM_OPERATION, null);
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        String operationStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_OPERATION, null);
         ElementInfos.Operation operation = operationStr == null ? null : ElementInfos.Operation.valueOf(operationStr);
-        switch (infoType) {
+        switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:

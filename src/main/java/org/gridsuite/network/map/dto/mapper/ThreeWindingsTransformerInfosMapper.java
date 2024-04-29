@@ -28,8 +28,8 @@ public final class ThreeWindingsTransformerInfosMapper {
     private ThreeWindingsTransformerInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.InfoType infoType, InfoTypeParameters additionalOptionalParams) {
-        switch (infoType) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        switch (infoTypeParameters.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);
             case TAB:
