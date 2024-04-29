@@ -1504,6 +1504,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnBusBarSectionFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.FORM, null, resourceToString("/bus-bar-section-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.FORM, null, resourceToString("/bus-bar-section-form-data.json"));
+    }
+
+    @Test
     public void shouldReturnLoadsIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, ElementType.LOAD, List.of(), List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, List.of(), List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString());
