@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusListInfos;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 
@@ -23,8 +24,8 @@ public final class BusInfosMapper {
     private BusInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        switch (infoTypeParameters.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);
             case TAB:
@@ -45,14 +46,14 @@ public final class BusInfosMapper {
     public static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
         Bus bus = (Bus) identifiable;
         BusTabInfos.BusTabInfosBuilder<?, ?> builder = BusTabInfos.builder().id(bus.getId())
-            .angle(bus.getAngle())
-            .v(bus.getV())
-            .voltageLevelId(bus.getVoltageLevel().getId())
-            .nominalVoltage(bus.getVoltageLevel().getNominalV())
-            .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
-            .synchronousComponentNum(bus.getSynchronousComponent().getNum())
-            .properties(getProperties(bus))
-            .connectedComponentNum(bus.getConnectedComponent().getNum());
+                .angle(bus.getAngle())
+                .v(bus.getV())
+                .voltageLevelId(bus.getVoltageLevel().getId())
+                .nominalVoltage(bus.getVoltageLevel().getNominalV())
+                .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
+                .synchronousComponentNum(bus.getSynchronousComponent().getNum())
+                .properties(getProperties(bus))
+                .connectedComponentNum(bus.getConnectedComponent().getNum());
 
         return builder.build();
     }
