@@ -25,11 +25,6 @@ public class ElementInfos {
         TOOLTIP
     }
 
-    public enum Operation {
-        CREATION,
-        MODIFICATION
-    }
-
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
