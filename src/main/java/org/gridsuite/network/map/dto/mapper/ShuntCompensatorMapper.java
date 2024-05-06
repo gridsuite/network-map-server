@@ -34,6 +34,8 @@ public final class ShuntCompensatorMapper {
                 return toTabInfos(identifiable);
             case FORM:
                 return toFormInfos(identifiable, operation);
+            case LIST:
+                return ElementInfosMapper.toInfosWithType(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
