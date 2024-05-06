@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
 
@@ -23,8 +24,8 @@ public final class LoadInfosMapper {
     private LoadInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:

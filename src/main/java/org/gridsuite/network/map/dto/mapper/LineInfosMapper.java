@@ -6,11 +6,16 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Line;
+import com.powsybl.iidm.network.Substation;
+import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -20,18 +25,20 @@ public final class LineInfosMapper {
     private LineInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
+        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
                 return toFormInfos(identifiable);
             case MAP:
-                return toMapInfos(identifiable, dataType.getDcPowerFactor());
+                return toMapInfos(identifiable, dcPowerFactor);
             case LIST:
                 return toListInfos(identifiable);
             case TOOLTIP:
-                return toTooltipInfos(identifiable, dataType.getDcPowerFactor());
+                return toTooltipInfos(identifiable, dcPowerFactor);
             default:
                 throw new UnsupportedOperationException("TODO");
         }

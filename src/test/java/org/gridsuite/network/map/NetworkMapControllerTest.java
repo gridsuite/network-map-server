@@ -71,6 +71,8 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_SUBSTATIONS_IDS = "substationsIds";
     public static final String QUERY_PARAM_ELEMENT_TYPE = "elementType";
     public static final String QUERY_PARAM_INFO_TYPE = "infoType";
+    public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "optionalParameters";
+    public static final String QUERY_FORMAT_ADDITIONAL_PARAMS = QUERY_PARAM_ADDITIONAL_PARAMS + "[%s]";
     public static final String QUERY_PARAM_INFO_OPERATION = "operation";
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
 
@@ -1043,7 +1045,6 @@ public class NetworkMapControllerTest {
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-
                     )
                     .andExpect(status().isOk())
                     .andReturn();
@@ -1052,7 +1053,7 @@ public class NetworkMapControllerTest {
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                            .queryParam(QUERY_PARAM_INFO_OPERATION, operation != null ? operation.name() : null)
+                            .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_INFO_OPERATION), operation != null ? operation.name() : null)
                     )
                     .andExpect(status().isOk())
                     .andReturn();
@@ -1065,7 +1066,7 @@ public class NetworkMapControllerTest {
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                 .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                 .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                .queryParam(QUERY_PARAM_DC_POWER_FACTOR, Double.toString(dcPowerFactor))
+                .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_DC_POWER_FACTOR), Double.toString(dcPowerFactor))
             )
             .andExpect(status().isOk())
             .andReturn();
@@ -1174,7 +1175,7 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                         .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                         .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                        .queryParam(QUERY_PARAM_INFO_OPERATION, operation.name())
+                        .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_INFO_OPERATION), operation.name())
                 )
                 .andExpect(status().isNotImplemented());
     }
@@ -1500,6 +1501,12 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, InfoType.FORM, null, resourceToString("/loads-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, List.of("P2"), resourceToString("/partial-loads-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, InfoType.FORM, List.of("P2"), resourceToString("/partial-loads-form-data.json"));
+    }
+
+    @Test
+    public void shouldReturnBusBarSectionFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.FORM, null, resourceToString("/bus-bar-section-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.FORM, null, resourceToString("/bus-bar-section-form-data.json"));
     }
 
     @Test

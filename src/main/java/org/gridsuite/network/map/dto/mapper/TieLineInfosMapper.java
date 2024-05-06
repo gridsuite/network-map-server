@@ -6,12 +6,16 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.TieLine;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineMapInfos;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -21,10 +25,12 @@ public final class TieLineInfosMapper {
     private TieLineInfosMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
-        return switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
+        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable);
-            case MAP -> toMapInfos(identifiable, dataType.getDcPowerFactor());
+            case MAP -> toMapInfos(identifiable, dcPowerFactor);
             default -> throw new UnsupportedOperationException("TODO");
         };
     }

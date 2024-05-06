@@ -8,11 +8,13 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_OPERATION;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -24,12 +26,14 @@ public final class ShuntCompensatorMapper {
     private ShuntCompensatorMapper() {
     }
 
-    public static ElementInfos toData(Identifiable<?> identifiable, ElementInfos.ElementInfoType dataType) {
-        switch (dataType.getInfoType()) {
+    public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        String operationStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_OPERATION, null);
+        ElementInfos.Operation operation = operationStr == null ? null : ElementInfos.Operation.valueOf(operationStr);
+        switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
             case FORM:
-                return toFormInfos(identifiable, dataType.getOperation());
+                return toFormInfos(identifiable, operation);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
