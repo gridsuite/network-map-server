@@ -24,6 +24,8 @@ public final class BusBarSectionInfosMapper {
         switch (infoTypeParameters.getInfoType()) {
             case FORM:
                 return toFormInfos(identifiable);
+            case LIST:
+                return ElementInfosMapper.toInfosWithType(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
