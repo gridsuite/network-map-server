@@ -138,7 +138,8 @@ public final class HvdcInfosMapper {
                 .activePowerSetpoint(hvdcLine.getActivePowerSetpoint())
                 .convertersMode(hvdcLine.getConvertersMode())
                 .converterStation1(getConverterStationData(hvdcLine.getConverterStation1()))
-                .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()));
+                .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()))
+                .properties(getProperties(hvdcLine));
 
         builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
         builder.hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine));
