@@ -1045,13 +1045,37 @@ public class NetworkMapControllerTest {
     @SneakyThrows
     private void succeedingTestForElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) {
         if (elementId == null) {
-            mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid)
+            mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
+                            .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                            .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, List.of())))
+                    )
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(expectedJson))
+                    .andReturn();
+        } else {
+            mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
                     )
                     .andExpect(status().isOk())
                     .andReturn();
+        }
+    }
+
+    @SneakyThrows
+    private void succeedingTestForElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson, List<String> ids) {
+        if (elementId == null) {
+            mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
+                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, ids)))
+                     )
+                     .andExpect(status().isOk())
+                     .andReturn();
         } else {
             mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1091,12 +1115,14 @@ public class NetworkMapControllerTest {
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
-        queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
-        if (substationsIds != null) {
-            queryParams.addAll(QUERY_PARAM_SUBSTATIONS_IDS, substationsIds);
-        }
-        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid).queryParams(queryParams))
+
+        MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationsIds)))
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -1107,12 +1133,13 @@ public class NetworkMapControllerTest {
     private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds) {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
-        queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
-        if (!substationsIds.isEmpty()) {
-            queryParams.addAll(QUERY_PARAM_SUBSTATIONS_IDS, substationsIds);
-        }
-        mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid).queryParams(queryParams))
+        mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationsIds)))
+                )
                 .andExpect(status().isNotFound());
     }
 
@@ -1451,8 +1478,8 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnBatteriesFormData() throws Exception {
 
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, null, resourceToString("/batteries-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.FORM, null, resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, null, resourceToString("/batteries-map-data.json"), List.of("P1", "P2"));
+        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.FORM, null, resourceToString("/batteries-map-data.json"), List.of("P1", "P2"));
     }
 
     @Test

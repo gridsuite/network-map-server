@@ -63,15 +63,14 @@ public class NetworkMapController {
         return networkMapService.getAllElementsInfos(networkUuid, variantId, substationsIds);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/elements", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/networks/{networkUuid}/elements", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get network elements")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Elements description")})
     public List<ElementInfos> getElementsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                               @Parameter(description = "Substations id") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
-                                               @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                               @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters) {
-        return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, infoTypeParameters);
+                                                @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters,
+                                               @RequestBody EquipmentInfos equipmentInfos) {
+        return networkMapService.getElementsInfos(networkUuid, variantId, equipmentInfos.substationsIds(), equipmentInfos.elementType(), infoTypeParameters);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)
