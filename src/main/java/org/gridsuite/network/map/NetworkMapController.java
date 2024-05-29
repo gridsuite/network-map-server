@@ -16,6 +16,7 @@ import org.gridsuite.network.map.dto.AllElementsInfos;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.EquipmentInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -44,14 +45,13 @@ public class NetworkMapController {
         this.networkMapService = networkMapService;
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/elements-ids", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/networks/{networkUuid}/elements-ids", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get elements ids")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Equipments ids")})
     public List<String> getElementsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                       @Parameter(description = "Substations ids") @RequestParam(name = "substationsIds", required = false) List<String> substationsIds,
-                                       @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType) {
-        return networkMapService.getElementsIds(networkUuid, variantId, substationsIds, elementType);
+                                       @RequestBody EquipmentInfos equipmentInfos) {
+        return networkMapService.getElementsIds(networkUuid, variantId, equipmentInfos.substationsIds(), equipmentInfos.elementType());
     }
 
     @GetMapping(value = "/networks/{networkUuid}/all", produces = APPLICATION_JSON_VALUE)
