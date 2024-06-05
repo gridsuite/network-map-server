@@ -10,10 +10,11 @@ package org.gridsuite.network.map.dto;
 import lombok.Builder;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @Builder
-public record EquipmentInfos(ElementType elementType, List<String> substationsIds) {
+public record EquipmentInfos(ElementType elementType, List<String> substationsIds, Set<Double> nominalVoltages) {
 }

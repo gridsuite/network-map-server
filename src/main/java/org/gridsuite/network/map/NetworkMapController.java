@@ -51,7 +51,7 @@ public class NetworkMapController {
     public List<String> getElementsIds(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                        @RequestBody EquipmentInfos equipmentInfos) {
-        return networkMapService.getElementsIds(networkUuid, variantId, equipmentInfos.substationsIds(), equipmentInfos.elementType());
+        return networkMapService.getElementsIds(networkUuid, variantId, equipmentInfos);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/all", produces = APPLICATION_JSON_VALUE)
