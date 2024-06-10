@@ -27,6 +27,8 @@ public final class DanglingLineInfosMapper {
         switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
+            case LIST:
+                return ElementInfosMapper.toInfosWithType(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
