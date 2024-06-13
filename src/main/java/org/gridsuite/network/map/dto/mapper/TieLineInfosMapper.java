@@ -31,6 +31,7 @@ public final class TieLineInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
+            case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw new UnsupportedOperationException("TODO");
         };
     }
