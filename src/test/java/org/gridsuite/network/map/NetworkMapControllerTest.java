@@ -1688,7 +1688,7 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    public void shouldReturnVotlageLevelsListData() throws Exception {
+    public void shouldReturnVoltageLevelsListData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.LIST, null, resourceToString("/voltage-levels-list-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.LIST, null, resourceToString("/voltage-levels-list-data.json"));
 
