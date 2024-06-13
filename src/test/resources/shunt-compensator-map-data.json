@@ -12,6 +12,8 @@
     "connectionDirection": null
   },
   "busOrBusbarSectionId": "NGEN4",
+  "isLinear":true,
+  "bperSection":1.0,
   "qatNominalV": 576.0
 }
 
