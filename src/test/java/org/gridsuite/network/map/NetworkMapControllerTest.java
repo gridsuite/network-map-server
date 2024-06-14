@@ -1057,22 +1057,6 @@ public class NetworkMapControllerTest {
     }
 
     @SneakyThrows
-    private void succeedingTestForElementInfosWithSubstationId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String expectedJson, List<String> substationIds) {
-        MvcResult res = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationIds)))
-                )
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedJson))
-                .andReturn();
-
-        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
-
-    }
-
-    @SneakyThrows
     private void succeedingTestForElementInfosInDc(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, double dcPowerFactor, String expectedJson) {
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1098,10 +1082,6 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) {
-        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
-        queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
-
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                         .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
@@ -1462,8 +1442,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnBatteriesFormData() throws Exception {
-        succeedingTestForElementInfosWithSubstationId(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, resourceToString("/batteries-map-data.json"), List.of("P1", "P3"));
-        succeedingTestForElementInfosWithSubstationId(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.FORM, resourceToString("/batteries-map-data.json"), List.of("P1", "P3"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"));
     }
 
     @Test
