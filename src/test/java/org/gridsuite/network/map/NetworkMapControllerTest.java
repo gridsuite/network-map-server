@@ -653,6 +653,18 @@ public class NetworkMapControllerTest {
                 .setConverterStationId2("LCC2")
                 .add();
 
+        network.newHvdcLine()
+                .setId("HVDC5")
+                .setName("HVDC5")
+                .setR(1)
+                .setMaxP(100)
+                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+                .setNominalV(225)
+                .setActivePowerSetpoint(500)
+                .setConverterStationId1("VSC1")
+                .setConverterStationId2("VSC2")
+                .add();
+
         hvdcLineWithExtension.newExtension(HvdcOperatorActivePowerRangeAdder.class)
                 .withOprFromCS2toCS1(900F)
                 .withOprFromCS1toCS2(1000F)
@@ -1626,9 +1638,9 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnHvdcLinesIds() {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString(), new EquipmentInfos(ElementType.HVDC_LINE, null));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString(), new EquipmentInfos(ElementType.HVDC_LINE, null));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4").toString(), new EquipmentInfos(ElementType.HVDC_LINE, List.of("P1", "P3", "P4")));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2", "HVDC5").toString(), new EquipmentInfos(ElementType.HVDC_LINE, null));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2", "HVDC5").toString(), new EquipmentInfos(ElementType.HVDC_LINE, null));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC5").toString(), new EquipmentInfos(ElementType.HVDC_LINE, List.of("P1", "P3", "P4")));
     }
 
     @Test

@@ -10,7 +10,7 @@
     "nominalV": 225.0,
     "country": "FR",
     "terminalConnected": true,
-    "hvdcLineId": null,
+    "hvdcLineId": "HVDC5",
     "p": 10.0,
     "q": 30.0
   },
@@ -81,6 +81,6 @@
     "nominalV": 24.0,
     "country": "FR",
     "terminalConnected": true,
-    "hvdcLineId": null
+    "hvdcLineId": "HVDC5"
   }
 ]

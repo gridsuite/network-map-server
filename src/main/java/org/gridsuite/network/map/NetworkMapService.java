@@ -60,9 +60,10 @@ public class NetworkMapService {
     }
 
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
+        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
         return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, InfoTypeParameters.TAB))
+                .voltageLevels(getVoltageLevelsInfos(network, substationsId, InfoTypeParameters.TAB))
                 .hvdcLines(getHvdcLinesInfos(network, substationsId, InfoTypeParameters.TAB))
                 .lines(getElementsInfos(network, substationsId, ElementType.LINE, InfoTypeParameters.TAB))
                 .loads(getElementsInfos(network, substationsId, ElementType.LOAD, InfoTypeParameters.TAB))
@@ -71,10 +72,12 @@ public class NetworkMapService {
                 .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, InfoTypeParameters.TAB))
                 .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, InfoTypeParameters.TAB))
                 .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, InfoTypeParameters.TAB))
+                .tieLines(getTieLinesInfos(network, substationsId, InfoTypeParameters.TAB))
                 .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, InfoTypeParameters.TAB))
                 .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, InfoTypeParameters.TAB))
                 .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, InfoTypeParameters.TAB))
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoTypeParameters.TAB))
+                .buses(getBusesInfos(network, substationsId, InfoTypeParameters.TAB))
                 .build();
     }
 
@@ -330,6 +333,8 @@ public class NetworkMapService {
                 return network.getShuntCompensatorStream();
             case STATIC_VAR_COMPENSATOR:
                 return network.getStaticVarCompensatorStream();
+            case BUS:
+                return network.getBusbarSectionStream();
             default:
                 throw new IllegalStateException("Unexpected connectable type:" + elementType);
         }
