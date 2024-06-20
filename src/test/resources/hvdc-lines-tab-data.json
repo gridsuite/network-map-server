@@ -62,5 +62,19 @@
       "country1": "FR",
       "country2": "FR",
       "maxP": 100
-    }
+    },
+  {
+    "id": "HVDC5",
+    "name": "HVDC5",
+    "voltageLevelId1": "VLNEW2",
+    "voltageLevelId2": "VLGEN3",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "VSC1",
+    "converterStationId2": "VSC2",
+    "r": 1.0,
+    "country1": "FR",
+    "country2": "FR",
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0
+  }
 ]

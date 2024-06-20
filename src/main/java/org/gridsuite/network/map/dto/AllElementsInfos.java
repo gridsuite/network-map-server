@@ -18,17 +18,19 @@ import java.util.List;
 @Getter
 public class AllElementsInfos {
     private List<ElementInfos> substations;
+    private List<ElementInfos> voltageLevels;
     private List<ElementInfos> lines;
     private List<ElementInfos> hvdcLines;
     private List<ElementInfos> loads;
-
     private List<ElementInfos> twoWindingsTransformers;
     private List<ElementInfos> threeWindingsTransformers;
     private List<ElementInfos> generators;
     private List<ElementInfos> batteries;
     private List<ElementInfos> danglingLines;
+    private List<ElementInfos> tieLines;
     private List<ElementInfos> lccConverterStations;
     private List<ElementInfos> shuntCompensators;
     private List<ElementInfos> staticVarCompensators;
     private List<ElementInfos> vscConverterStations;
+    private List<ElementInfos> buses;
 }
