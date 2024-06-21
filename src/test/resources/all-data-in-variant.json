@@ -97,6 +97,66 @@
       "country": "FR"
     }
   ],
+  "voltageLevels": [
+    {
+      "id": "VLGEN",
+      "substationId": "P1",
+      "nominalV": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLHV1",
+      "substationId": "P1",
+      "nominalV": 380.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLHV2",
+      "substationId": "P2",
+      "nominalV": 380.0
+    },
+    {
+      "id": "VLLOAD",
+      "substationId": "P2",
+      "nominalV": 150.0
+    },
+    {
+      "id": "VLNEW2",
+      "substationId": "P1",
+      "nominalV": 225.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN3",
+      "substationId": "P3",
+      "nominalV": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN6",
+      "substationId": "P6",
+      "nominalV": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN4",
+      "substationId": "P4",
+      "nominalV": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN5",
+      "substationId": "P5",
+      "nominalV": 24.0,
+      "country": "FR",
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0,
+      "identifiableShortCircuit": {
+        "ipMin": 0.0,
+        "ipMax": 100.0
+      }
+    }
+  ],
   "lines": [
     {
       "id": "NHV1_NHV2_1",
@@ -261,6 +321,20 @@
         "oprFromCS1toCS2": 1000.0,
         "oprFromCS2toCS1": 900.0
       }
+    },
+    {
+      "id": "HVDC5",
+      "name": "HVDC5",
+      "voltageLevelId1": "VLNEW2",
+      "voltageLevelId2": "VLGEN3",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC1",
+      "converterStationId2": "VSC2",
+      "r": 1.0,
+      "country1": "FR",
+      "country2": "FR",
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0
     }
   ],
   "loads": [
@@ -1012,6 +1086,27 @@
       "q0": 30.0
     }
   ],
+  "tieLines": [
+    {
+      "id": "TL1",
+      "voltageLevelId1": "VLGEN",
+      "nominalVoltage1": 24.0,
+      "voltageLevelId2": "VLGEN3",
+      "nominalVoltage2": 24.0,
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 45.0,
+      "q1": 75.0,
+      "r": 1.9999999999999996,
+      "x": 3.999999999999999,
+      "g1": 4.000000000000001,
+      "b1": 3.0000000000000004,
+      "g2": 4.000000000000001,
+      "b2": 3.0000000000000004
+    }
+  ],
   "lccConverterStations": [
     {
       "id": "LCC1",
@@ -1164,7 +1259,7 @@
       "nominalV": 225.0,
       "country": "FR",
       "terminalConnected": true,
-      "hvdcLineId": null,
+      "hvdcLineId": "HVDC5",
       "p": 10.0,
       "q": 30.0
     },
@@ -1235,7 +1330,77 @@
       "nominalV": 24.0,
       "country": "FR",
       "terminalConnected": true,
-      "hvdcLineId": null
+      "hvdcLineId": "HVDC5"
+    }
+  ],
+  "buses": [
+    {
+      "id": "VLGEN_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLGEN",
+      "nominalVoltage": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLHV1_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLHV1",
+      "nominalVoltage": 380.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLHV2_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLHV2",
+      "nominalVoltage": 380.0
+    },
+    {
+      "id": "VLLOAD_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLLOAD",
+      "nominalVoltage": 150.0
+    },
+    {
+      "id": "VLNEW2_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLNEW2",
+      "nominalVoltage": 225.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN3_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLGEN3",
+      "nominalVoltage": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN6_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLGEN6",
+      "nominalVoltage": 24.0,
+      "country": "FR"
     }
   ]
 }
