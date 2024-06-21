@@ -1093,7 +1093,7 @@ public class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @SneakyThrows//done
+    @SneakyThrows
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) {
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1107,7 +1107,7 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    @SneakyThrows//done
+    @SneakyThrows
     private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds) {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
