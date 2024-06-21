@@ -1422,9 +1422,11 @@ public class NetworkMapControllerTest {
     public void shouldReturnThreeWindingsTransformersIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("TWT", "TWT21", "TWT32").toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, null);
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("TWT", "TWT21", "TWT32").toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of().toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, List.of(75.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TWT", "TWT21", "TWT32").toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TWT", "TWT21", "TWT32").toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TWT", "TWT21", "TWT32").toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, List.of(2225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of().toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, List.of(75.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TWT", "TWT21", "TWT32").toString(), ElementType.THREE_WINDINGS_TRANSFORMER, null, List.of(225.0));
     }
 
     @Test
@@ -1461,9 +1463,11 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnBatteriesIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("BATTERY1", "BATTERY2").toString(), ElementType.BATTERY, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("BATTERY1", "BATTERY2").toString(), ElementType.BATTERY, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("BATTERY1", "BATTERY2").toString(), ElementType.BATTERY, null, List.of(24.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("BATTERY2").toString(), ElementType.BATTERY, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BATTERY1", "BATTERY2").toString(), ElementType.BATTERY, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BATTERY1", "BATTERY2").toString(), ElementType.BATTERY, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BATTERY1", "BATTERY2").toString(), ElementType.BATTERY, null, List.of(24.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BATTERY2").toString(), ElementType.BATTERY, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BATTERY1").toString(), ElementType.BATTERY, List.of("P1"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BATTERY1").toString(), ElementType.BATTERY, List.of("P1"), List.of(225.0));
     }
@@ -1542,9 +1546,11 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnLoadsIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of().toString(), ElementType.LOAD, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, List.of(150.0, 225.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of().toString(), ElementType.LOAD, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, List.of(150.0, 225.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, List.of("P1", "P2"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, List.of("P1", "P2"), List.of(150.0, 225.0, 380.0));
     }
@@ -1580,11 +1586,13 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnShuntCompensatorsIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SHUNT1", "SHUNT2", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SHUNT1", "SHUNT2", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SHUNT1", "SHUNT2", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, List.of(24.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SHUNT2", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SHUNT1", "SHUNT2", "SHUNT3", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SHUNT1", "SHUNT2", "SHUNT3", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SHUNT2", "SHUNT3", "SHUNT_VLNB", "SHUNT_NON_LINEAR").toString(), ElementType.SHUNT_COMPENSATOR, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString(), ElementType.SHUNT_COMPENSATOR, List.of("P1", "P2", "P3"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SHUNT1", "SHUNT2", "SHUNT3").toString(), ElementType.SHUNT_COMPENSATOR, List.of("P1", "P2", "P3"), List.of(24.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SHUNT1").toString(), ElementType.SHUNT_COMPENSATOR, List.of("P1", "P2", "P3"), List.of(225.0));
     }
 
     @Test
@@ -1610,9 +1618,11 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnStaticVarCompensatorsIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SVC1").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, List.of(24.0, 225.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SVC1").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, null, List.of(24.0, 225.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, List.of("P1", "P2"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("SVC1", "SVC2").toString(), ElementType.STATIC_VAR_COMPENSATOR, List.of("P1", "P2"), List.of(24.0, 225.0));
     }
@@ -1634,9 +1644,10 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnLccConverterStationsIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LCC1").toString(), ElementType.LCC_CONVERTER_STATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, null, List.of(24.0, 225.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LCC1").toString(), ElementType.LCC_CONVERTER_STATION, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, List.of("P1", "P2"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("LCC1", "LCC2").toString(), ElementType.LCC_CONVERTER_STATION, List.of("P1", "P2"), List.of(24.0, 225.0));
     }
@@ -1694,9 +1705,10 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnHvdcLinesIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString(), ElementType.HVDC_LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 150.0, 225.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString(), ElementType.HVDC_LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), List.of(24.0, 150.0, 225.0, 380.0));
     }
@@ -1704,9 +1716,10 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnTieLinesIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("TL1").toString(), ElementType.TIE_LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("TL1").toString(), ElementType.TIE_LINE, null, List.of(24.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 150.0, 225.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TL1").toString(), ElementType.TIE_LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TL1").toString(), ElementType.TIE_LINE, null, List.of(24.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TL1").toString(), ElementType.TIE_LINE, List.of("P1", "P3", "P4"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("TL1").toString(), ElementType.TIE_LINE, List.of("P1", "P3", "P4"), List.of(24.0, 380.0));
     }
