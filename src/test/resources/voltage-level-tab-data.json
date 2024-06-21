@@ -1,5 +1,6 @@
 {
   "id": "VLGEN4",
   "substationId": "P4",
-  "nominalVoltage": 24.0
+  "nominalV": 24.0,
+  "country":"FR"
 }

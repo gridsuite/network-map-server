@@ -1,5 +1,6 @@
 {
     "id": "LOAD",
+    "properties":{"Country":"FR"},
     "type": "UNDEFINED",
     "voltageLevelId": "VLLOAD",
     "terminalConnected": true,

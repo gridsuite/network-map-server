@@ -653,6 +653,18 @@ public class NetworkMapControllerTest {
                 .setConverterStationId2("LCC2")
                 .add();
 
+        network.newHvdcLine()
+                .setId("HVDC5")
+                .setName("HVDC5")
+                .setR(1)
+                .setMaxP(100)
+                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+                .setNominalV(225)
+                .setActivePowerSetpoint(500)
+                .setConverterStationId1("VSC1")
+                .setConverterStationId2("VSC2")
+                .add();
+
         hvdcLineWithExtension.newExtension(HvdcOperatorActivePowerRangeAdder.class)
                 .withOprFromCS2toCS1(900F)
                 .withOprFromCS1toCS2(1000F)
@@ -1043,23 +1055,40 @@ public class NetworkMapControllerTest {
     }
 
     @SneakyThrows
+    private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                        .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
+                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+
+    }
+    @SneakyThrows
     private void succeedingTestForElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) {
         if (elementId == null) {
-            mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid)
+            MvcResult res =  mvc.perform(get("/v1/networks/{networkUuid}/elements", networkUuid)
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
                     )
                     .andExpect(status().isOk())
                     .andReturn();
+            JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+
         } else {
-            mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
+            MvcResult res =    mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                             .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                             .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                             .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
                     )
                     .andExpect(status().isOk())
                     .andReturn();
+            JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+
         }
     }
 
@@ -1270,8 +1299,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationMapData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, "P4", resourceToString("/substation-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, "P4", resourceToString("/substation-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, "P4", resourceToString("/substation-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, "P4", resourceToString("/substation-map-data.json"));
     }
 
     @Test
@@ -1327,28 +1356,28 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLineFormData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.FORM, "NHV1_NHV2_1", resourceToString("/line-form-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.FORM, "NHV1_NHV2_1", resourceToString("/line-form-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.LINE, InfoType.FORM, "NHV1_NHV2_1", resourceToString("/line-form-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.FORM, "NHV1_NHV2_1", resourceToString("/line-form-data.json"));
     }
 
     @Test
     public void shouldReturnLineTooltipData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.TOOLTIP, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.TOOLTIP, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.LINE, InfoType.TOOLTIP, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.TOOLTIP, "NHV1_NHV2_1", resourceToString("/line-tooltip-data.json"));
 
         succeedingTestForElementInfosInDc(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.TOOLTIP, "LINE3", 0.80, resourceToString("/line-tooltip-data-dc.json"));
     }
 
     @Test
     public void shouldReturnHvdcLineMapData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, "HVDC1", resourceToString("/hvdc-line-map-data.json"));
     }
 
     @Test
     public void shouldReturnTieLineMapData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, "TL1", resourceToString("/tie-line-map-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, "TL1", resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, "TL1", resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, "TL1", resourceToString("/tie-line-map-data.json"));
     }
 
     @Test
@@ -1571,10 +1600,10 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnLoadFormData() throws Exception {
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, "LOAD", resourceToString("/load-form-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, InfoType.FORM, "LOAD", resourceToString("/load-form-data.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, "LOAD_WITH_NULL_NAME", resourceToString("/load-form-data-test-null-name.json"));
-        succeedingTestForElementInfos(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, "LOAD_ID", resourceToString("/load-form-data-not-null-name.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, "LOAD", resourceToString("/load-form-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, InfoType.FORM, "LOAD", resourceToString("/load-form-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, "LOAD_WITH_NULL_NAME", resourceToString("/load-form-data-test-null-name.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.LOAD, InfoType.FORM, "LOAD_ID", resourceToString("/load-form-data-not-null-name.json"));
     }
 
     @Test
@@ -1906,8 +1935,8 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnTieLinesMapData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, resourceToString("/tie-line-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, null, "[" + resourceToString("/tie-line-map-data.json") + "]");
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, null, "[" + resourceToString("/tie-line-map-data.json") + "]");
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.MAP, List.of("P2"), "[]");

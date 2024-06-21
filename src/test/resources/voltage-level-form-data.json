@@ -1,7 +1,7 @@
 {
   "id": "VLGEN4",
   "substationId": "P4",
-  "nominalVoltage": 24.0,
+  "nominalV": 24.0,
   "topologyKind": "NODE_BREAKER",
   "busbarCount": 1,
   "sectionCount": 2,

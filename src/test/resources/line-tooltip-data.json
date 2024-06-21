@@ -16,5 +16,9 @@
       { "name": "IT20", "value": 300.0, "acceptableDuration": 1200 },
       { "name": "IT10", "value": 200.0, "acceptableDuration": 600 }
     ]
-  }
+  },
+  "r":9.0,
+  "x":10.0,
+  "b1":5.0,
+  "b2":6.0
 }
