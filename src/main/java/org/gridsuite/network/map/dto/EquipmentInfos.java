@@ -10,6 +10,7 @@ package org.gridsuite.network.map.dto;
 import lombok.Builder;
 
 import java.util.List;
+// TODO : delete and adjust Get network elements endpoint
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
