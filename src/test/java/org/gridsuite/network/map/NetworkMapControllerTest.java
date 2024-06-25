@@ -19,7 +19,6 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import lombok.SneakyThrows;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
-import org.gridsuite.network.map.dto.EquipmentInfos;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,7 +69,6 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_SUBSTATION_ID = "substationId";
 
     public static final String QUERY_PARAM_VARIANT_ID = "variantId";
-    public static final String QUERY_PARAM_SUBSTATIONS_IDS = "substationsIds";
     public static final String QUERY_PARAM_ELEMENT_TYPE = "elementType";
     public static final String QUERY_PARAM_INFO_TYPE = "infoType";
     public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "optionalParameters";
@@ -1095,11 +1093,25 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) {
+        succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, null);
+    }
+
+    @SneakyThrows
+    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson, List<Double> nominalVoltages) {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
+        queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
+        if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
+            List<String> nominalVoltageStrings = nominalVoltages.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
+            queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
+        }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                        .queryParams(queryParams)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationsIds)))
+                        .content(objectMapper.writeValueAsString(substationsIds))
                 )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -1109,14 +1121,27 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds) {
+        notFoundTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, null);
+    }
+
+    @SneakyThrows
+    private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, List<Double> nominalVoltages) {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
+        queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
+
+        if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
+            List<String> nominalVoltageStrings = nominalVoltages.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
+            queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
+        }
+
         mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                        .queryParams(queryParams)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationsIds)))
+                        .content(objectMapper.writeValueAsString(substationsIds))
                 )
                 .andExpect(status().isNotFound());
     }
