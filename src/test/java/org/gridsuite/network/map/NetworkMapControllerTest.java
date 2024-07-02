@@ -1524,6 +1524,7 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnBatteriesFormData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"), List.of());
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"));
     }
 
@@ -1888,7 +1889,8 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"), List.of(24.0, 150.0, 225.0, 380.0, 400.0));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
@@ -1917,6 +1919,7 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.MAP, null, resourceToString("/lines-map-data.json"));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-lines-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-lines-map-data.json"), List.of(24.0, 380.0, 225.0));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-lines-map-data.json"));
     }
 
@@ -1951,6 +1954,7 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, null, resourceToString("/hvdc-lines-map-data.json"));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, List.of("P2"), "[]");
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, List.of("P2"), "[]", List.of(380.0));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, List.of("P2"), "[]");
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-map-hvdc-lines-data.json"));
