@@ -65,9 +65,11 @@ public class NetworkMapController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Elements description")})
     public List<ElementInfos> getElementsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters,
-                                               @RequestBody EquipmentInfos equipmentInfos) {
-        return networkMapService.getElementsInfos(networkUuid, variantId, equipmentInfos.substationsIds(), equipmentInfos.elementType(), infoTypeParameters);
+                                               @Parameter(description = "Nominal Voltages") @RequestParam(name = "nominalVoltages", required = false) List<Double> nominalVoltages,
+                                               @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
+                                               @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters,
+                                               @RequestBody(required = false) List<String> substationsIds) {
+        return networkMapService.getElementsInfos(networkUuid, variantId, substationsIds, elementType, infoTypeParameters, nominalVoltages);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/elements/{elementId}", produces = APPLICATION_JSON_VALUE)

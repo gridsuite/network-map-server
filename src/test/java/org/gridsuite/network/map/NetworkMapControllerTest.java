@@ -19,7 +19,6 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import lombok.SneakyThrows;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
-import org.gridsuite.network.map.dto.EquipmentInfos;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,7 +69,6 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_SUBSTATION_ID = "substationId";
 
     public static final String QUERY_PARAM_VARIANT_ID = "variantId";
-    public static final String QUERY_PARAM_SUBSTATIONS_IDS = "substationsIds";
     public static final String QUERY_PARAM_ELEMENT_TYPE = "elementType";
     public static final String QUERY_PARAM_INFO_TYPE = "infoType";
     public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "optionalParameters";
@@ -1095,11 +1093,25 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) {
+        succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, null);
+    }
+
+    @SneakyThrows
+    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson, List<Double> nominalVoltages) {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
+        queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
+        if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
+            List<String> nominalVoltageStrings = nominalVoltages.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
+            queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
+        }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                        .queryParams(queryParams)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationsIds)))
+                        .content(objectMapper.writeValueAsString(substationsIds))
                 )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -1109,14 +1121,27 @@ public class NetworkMapControllerTest {
 
     @SneakyThrows
     private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds) {
+        notFoundTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, null);
+    }
+
+    @SneakyThrows
+    private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, List<Double> nominalVoltages) {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
+        queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
+
+        if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
+            List<String> nominalVoltageStrings = nominalVoltages.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.toList());
+            queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
+        }
+
         mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                        .queryParams(queryParams)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(new EquipmentInfos(elementType, substationsIds)))
+                        .content(objectMapper.writeValueAsString(substationsIds))
                 )
                 .andExpect(status().isNotFound());
     }
@@ -1499,6 +1524,7 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnBatteriesFormData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"), List.of());
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.FORM, List.of("P1", "P3"), resourceToString("/batteries-map-data.json"));
     }
 
@@ -1863,7 +1889,8 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"), List.of(24.0, 150.0, 225.0, 380.0, 400.0));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, List.of("P1"), resourceToString("/partial-substations-map-data.json"));
@@ -1892,6 +1919,7 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.MAP, null, resourceToString("/lines-map-data.json"));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-lines-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-lines-map-data.json"), List.of(24.0, 380.0, 225.0));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-lines-map-data.json"));
     }
 
@@ -1926,6 +1954,7 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, null, resourceToString("/hvdc-lines-map-data.json"));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, List.of("P2"), "[]");
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, List.of("P2"), "[]", List.of(380.0));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.MAP, List.of("P2"), "[]");
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.MAP, List.of("P1"), resourceToString("/partial-map-hvdc-lines-data.json"));
