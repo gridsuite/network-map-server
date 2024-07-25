@@ -149,7 +149,10 @@ public class NetworkMapService {
     private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
-                .filter(substation -> substation.getVoltageLevelStream().anyMatch(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
+                .filter(substation ->
+                substation.getVoltageLevelStream().findAny().isEmpty() ||
+                        substation.getVoltageLevelStream().anyMatch(voltageLevel ->
+                                nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
                 .map(c -> ElementType.SUBSTATION.getInfosGetter().apply(c, infoTypeParameters))
                 .toList();
     }
