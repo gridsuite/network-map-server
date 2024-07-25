@@ -208,6 +208,9 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+        //add substation p0 that is not attached to voltage levels
+        Substation p0 = network.newSubstation().setId("P0").add();
+        p0 .setCountry(Country.FR);
 
         Substation p1 = network.getSubstation("P1");
 
@@ -1277,17 +1280,18 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnSubstationsTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.TAB, null, resourceToString("/substations-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.TAB, null, resourceToString("/substations-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.TAB, null, resourceToString("/substations-tab-data.json"));
     }
 
     @Test
     public void shouldReturnSubstationsIds() {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
     }
 
     @Test
