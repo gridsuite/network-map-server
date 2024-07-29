@@ -35,6 +35,10 @@
     ]
   },
   {
+    "id": "P0",
+    "voltageLevels": []
+  },
+  {
     "id": "P3",
     "voltageLevels": [
       {

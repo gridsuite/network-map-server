@@ -1287,11 +1287,11 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnSubstationsIds() {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P0", "P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2", "P3", "P4", "P5", "P6").toString(), ElementType.SUBSTATION, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("P1", "P2").toString(), ElementType.SUBSTATION, null, List.of(150.0, 225.0));
     }
 
     @Test
@@ -1892,8 +1892,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data_without_vl.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SUBSTATION, InfoType.MAP, null, resourceToString("/substations-map-data.json"), List.of(24.0, 150.0, 225.0, 380.0, 400.0));
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.MAP, List.of("P1"), resourceToString("/partial-substations-map-data.json"));

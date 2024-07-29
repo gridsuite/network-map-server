@@ -53,7 +53,8 @@ public class NetworkMapService {
     public List<String> getSubstationsIds(UUID networkUuid, String variantId, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
         return network.getSubstationStream()
-                .filter(substation -> substation.getVoltageLevelStream().findAny().isEmpty() ||
+                .filter(substation -> nominalVoltages == null &&
+                        substation.getVoltageLevelStream().findAny().isEmpty() ||
                         substation.getVoltageLevelStream().anyMatch(voltageLevel ->
                                 nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
                 .map(Substation::getId).toList();
@@ -151,7 +152,7 @@ public class NetworkMapService {
     private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
-                .filter(substation ->
+                .filter(substation -> nominalVoltages == null &&
                 substation.getVoltageLevelStream().findAny().isEmpty() ||
                         substation.getVoltageLevelStream().anyMatch(voltageLevel ->
                                 nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
