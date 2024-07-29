@@ -42,7 +42,7 @@
     </developers>
 
     <properties>
-        <gridsuite-dependencies.version>30</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>31</gridsuite-dependencies.version>
     </properties>
 
     <build>
