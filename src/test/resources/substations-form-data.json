@@ -1,5 +1,10 @@
 [
   {
+    "id": "P0",
+    "country": "FR",
+    "voltageLevels": []
+  },
+  {
     "id": "P1",
     "country": "FR",
     "voltageLevels": [
