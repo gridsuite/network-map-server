@@ -1,6 +1,11 @@
 {
   "substations": [
     {
+      "id": "P0",
+      "voltageLevels": [],
+      "country": "FR"
+    },
+    {
       "id": "P1",
       "voltageLevels": [
         {
