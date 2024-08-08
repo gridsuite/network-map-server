@@ -59,4 +59,7 @@ public class BatteryFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean terminalConnected;
+
 }

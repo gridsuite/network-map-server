@@ -15,7 +15,9 @@
       "connectionDirection": "TOP",
       "connectionPosition": 0,
       "connectionName": "feederName"
-    }
+    },
+    "terminalConnected": false,
+    "busOrBusbarSectionId": "NNEW2"
   },
   {
     "id": "BATTERY2",
@@ -38,6 +40,8 @@
       "connectionDirection": "TOP",
       "connectionPosition": 0,
       "connectionName": "feederName"
-    }
+    },
+    "terminalConnected": false,
+    "busOrBusbarSectionId": "NNEW2"
   }
 ]
