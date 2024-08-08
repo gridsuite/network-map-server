@@ -55,10 +55,20 @@ public final class BatteryInfosMapper {
     private static BatteryFormInfos toFormInfos(Identifiable<?> identifiable) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
-        BatteryFormInfos.BatteryFormInfosBuilder<?, ?> builder = BatteryFormInfos.builder().name(battery.getOptionalName().orElse(null))
-                .id(battery.getId()).voltageLevelId(terminal.getVoltageLevel().getId()).busOrBusbarSectionId(getBusOrBusbarSection(terminal)).targetP(battery.getTargetP())
-                .targetQ(nullIfNan(battery.getTargetQ())).minP(battery.getMinP()).maxP(battery.getMaxP()).p(nullIfNan(terminal.getP())).terminalConnected(terminal.isConnected())
-                .q(nullIfNan(terminal.getQ())).properties(getProperties(battery)).connectablePosition(toMapConnectablePosition(battery, 0));
+        BatteryFormInfos.BatteryFormInfosBuilder<?, ?> builder = BatteryFormInfos.builder()
+                .name(battery.getOptionalName().orElse(null))
+                .id(battery.getId())
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
+                .targetP(battery.getTargetP())
+                .targetQ(nullIfNan(battery.getTargetQ()))
+                .minP(battery.getMinP())
+                .maxP(battery.getMaxP())
+                .p(nullIfNan(terminal.getP()))
+                .terminalConnected(terminal.isConnected())
+                .q(nullIfNan(terminal.getQ()))
+                .properties(getProperties(battery))
+                .connectablePosition(toMapConnectablePosition(battery, 0));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
