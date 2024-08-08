@@ -1,56 +1,56 @@
 [
   {
-    "id":"P1",
-    "voltageLevels":[
+    "id": "P1",
+    "voltageLevels": [
       {
-        "id":"VLGEN",
-        "substationId":"P1",
-        "nominalV":24.0
+        "id": "VLGEN",
+        "substationId": "P1",
+        "nominalV": 24.0
       },
       {
-        "id":"VLHV1",
-        "substationId":"P1",
-        "nominalV":380.0
+        "id": "VLHV1",
+        "substationId": "P1",
+        "nominalV": 380.0
       },
       {
-        "id":"VLNEW2",
-        "substationId":"P1",
-        "nominalV":225.0
+        "id": "VLNEW2",
+        "substationId": "P1",
+        "nominalV": 225.0
       }
     ]
   },
   {
-    "id":"P2",
-    "voltageLevels":[
+    "id": "P2",
+    "voltageLevels": [
       {
-        "id":"VLHV2",
-        "substationId":"P2",
-        "nominalV":380.0
+        "id": "VLHV2",
+        "substationId": "P2",
+        "nominalV": 380.0
       },
       {
-        "id":"VLLOAD",
-        "substationId":"P2",
-        "nominalV":150.0
+        "id": "VLLOAD",
+        "substationId": "P2",
+        "nominalV": 150.0
       }
     ]
   },
   {
-    "id":"P3",
-    "voltageLevels":[
+    "id": "P3",
+    "voltageLevels": [
       {
-        "id":"VLGEN3",
-        "substationId":"P3",
-        "nominalV":24.0
+        "id": "VLGEN3",
+        "substationId": "P3",
+        "nominalV": 24.0
       }
     ]
   },
   {
-    "id":"P4",
-    "voltageLevels":[
+    "id": "P4",
+    "voltageLevels": [
       {
-        "id":"VLGEN4",
-        "substationId":"P4",
-        "nominalV":24.0
+        "id": "VLGEN4",
+        "substationId": "P4",
+        "nominalV": 24.0
       }
     ]
   },
@@ -67,7 +67,8 @@
   {
     "id": "P6",
     "voltageLevels": [
-      { "id": "VLGEN6",
+      {
+        "id": "VLGEN6",
         "substationId": "P6",
         "nominalV": 24.0
       }

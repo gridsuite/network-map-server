@@ -1,25 +1,21 @@
 [
   {
-    "id": "P0",
-    "voltageLevels": []
-  },
-  {
     "id": "P1",
     "voltageLevels": [
       {
         "id": "VLGEN",
         "substationId": "P1",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 24.0
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 380.0
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 225.0
       }
     ]
   },
@@ -29,14 +25,18 @@
       {
         "id": "VLHV2",
         "substationId": "P2",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 380.0
       },
       {
         "id": "VLLOAD",
         "substationId": "P2",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 150.0
       }
     ]
+  },
+  {
+    "id": "P0",
+    "voltageLevels": []
   },
   {
     "id": "P3",
@@ -44,7 +44,7 @@
       {
         "id": "VLGEN3",
         "substationId": "P3",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 24.0
       }
     ]
   },
@@ -54,7 +54,7 @@
       {
         "id": "VLGEN4",
         "substationId": "P4",
-        "topologyKind": "NODE_BREAKER"
+        "nominalV": 24.0
       }
     ]
   },
@@ -64,7 +64,7 @@
       {
         "id": "VLGEN5",
         "substationId": "P5",
-        "topologyKind": "NODE_BREAKER"
+        "nominalV": 24.0
       }
     ]
   },
@@ -74,7 +74,7 @@
       {
         "id": "VLGEN6",
         "substationId": "P6",
-        "topologyKind": "BUS_BREAKER"
+        "nominalV": 24.0
       }
     ]
   }
