@@ -7,12 +7,14 @@
 package org.gridsuite.network.map.dto.definition.staticvarcompensator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.StandByAutomatonInfos;
+
+import java.util.Optional;
 
 /**
  * @author REHILI Ghazwa <ghazwarhili@gmail.com>
@@ -27,10 +29,16 @@ public class StaticVarCompensatorFormInfos extends ElementInfosWithProperties {
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double bmin;
+    private Double minSusceptance;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double bmax;
+    private Double maxSusceptance;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double maxQAtNominalV;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double minQAtNominalV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double voltageSetpoint;
@@ -43,6 +51,17 @@ public class StaticVarCompensatorFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlId;
+
     private ConnectablePositionInfos connectablePosition;
+
+    private Optional<StandByAutomatonInfos> standByAutomatonInfos;
 
 }

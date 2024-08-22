@@ -6,15 +6,15 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.StaticVarCompensator;
+import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMapConnectablePosition;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -45,13 +45,17 @@ public final class StaticVarCompensatorInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .regulationMode(staticVarCompensator.getRegulationMode())
-                .bmax(staticVarCompensator.getBmax())
-                .bmin(staticVarCompensator.getBmin())
+                .maxSusceptance(staticVarCompensator.getBmax())
+                .minSusceptance(staticVarCompensator.getBmin())
                 .voltageSetpoint(staticVarCompensator.getVoltageSetpoint())
                 .reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint())
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
+                .regulatingTerminalConnectableId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getVoltageLevel().getId() : null)
                 .properties(getProperties(staticVarCompensator))
-                .connectablePosition(toMapConnectablePosition(staticVarCompensator, 0));
+                .connectablePosition(toMapConnectablePosition(staticVarCompensator, 0))
+                .standByAutomatonInfos(toStandByAutomaton(staticVarCompensator));
 
         return builder.build();
     }
