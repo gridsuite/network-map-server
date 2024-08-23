@@ -13,16 +13,16 @@ import lombok.Getter;
 public class StandByAutomatonInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean standBy;
+    private Boolean standby;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b0;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double lowVoltageSetPoint;
+    private Double lowVoltageSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double highVoltageSetPoint;
+    private Double highVoltageSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double lowVoltageThreshold;

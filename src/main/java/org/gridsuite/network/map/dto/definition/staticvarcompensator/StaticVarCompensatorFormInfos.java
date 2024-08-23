@@ -35,12 +35,6 @@ public class StaticVarCompensatorFormInfos extends ElementInfosWithProperties {
     private Double maxSusceptance;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double maxQAtNominalV;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double minQAtNominalV;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double voltageSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

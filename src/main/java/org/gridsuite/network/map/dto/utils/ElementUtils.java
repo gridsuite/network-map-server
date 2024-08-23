@@ -83,10 +83,10 @@ public final class ElementUtils {
         StandbyAutomaton standByAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
         return standByAutomatonInfos == null ? Optional.empty() :
                 Optional.of(StandByAutomatonInfos.builder()
-                        .standBy(standByAutomatonInfos.isStandby())
+                        .standby(standByAutomatonInfos.isStandby())
                         .b0(standByAutomatonInfos.getB0())
-                        .lowVoltageSetPoint(standByAutomatonInfos.getLowVoltageSetpoint())
-                                .highVoltageSetPoint(standByAutomatonInfos.getHighVoltageSetpoint())
+                        .lowVoltageSetpoint(standByAutomatonInfos.getLowVoltageSetpoint())
+                                .highVoltageSetpoint(standByAutomatonInfos.getHighVoltageSetpoint())
                         .highVoltageThreshold(standByAutomatonInfos.getHighVoltageThreshold())
                         .lowVoltageThreshold(standByAutomatonInfos.getLowVoltageThreshold()).build());
 
