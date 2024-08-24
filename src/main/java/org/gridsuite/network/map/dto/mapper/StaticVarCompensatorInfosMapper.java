@@ -44,6 +44,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .id(staticVarCompensator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalV(terminal.getVoltageLevel().getNominalV())
                 .regulationMode(staticVarCompensator.getRegulationMode())
                 .maxSusceptance(staticVarCompensator.getBmax())
                 .minSusceptance(staticVarCompensator.getBmin())

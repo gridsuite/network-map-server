@@ -24,7 +24,7 @@ import java.util.Optional;
 public class StaticVarCompensatorFormInfos extends ElementInfosWithProperties {
     private String voltageLevelId;
 
-    private Double nominalV; // nominal voltage of the voltage level of the regulating terminal
+    private Double nominalV;
 
     private Boolean terminalConnected;
 
