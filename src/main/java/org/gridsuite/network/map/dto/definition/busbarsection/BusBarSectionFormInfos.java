@@ -23,4 +23,7 @@ public class BusBarSectionFormInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer horizPos;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
+
 }

@@ -12,6 +12,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toOperatingStatus;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
@@ -25,7 +27,7 @@ public final class BusBarSectionInfosMapper {
             case FORM:
                 return toFormInfos(identifiable);
             case LIST:
-                return ElementInfosMapper.toInfosWithType(identifiable);
+                return toListInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -39,6 +41,15 @@ public final class BusBarSectionInfosMapper {
             builder.vertPos(busbarSectionPosition.getBusbarIndex()).horizPos(busbarSectionPosition.getSectionIndex());
         }
         return builder.build();
+    }
+
+    public static BusBarSectionFormInfos toListInfos(Identifiable<?> identifiable) {
+        BusbarSection busBarSection = (BusbarSection) identifiable;
+        return BusBarSectionFormInfos.builder()
+                .id(busBarSection.getId())
+                .name(busBarSection.getOptionalName().orElse(null))
+                .operatingStatus(toOperatingStatus(busBarSection))
+                .build();
     }
 
 }
