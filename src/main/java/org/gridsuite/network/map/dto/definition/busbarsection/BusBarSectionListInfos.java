@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
- * @author BOUTIER <charly.boutier@rte-france.com>
+ * @author BOUTIER Charly <charly.boutier at rte-france.com>
  */
 @SuperBuilder
 @Getter
