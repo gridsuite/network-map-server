@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionListInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.toOperatingStatus;
 
@@ -43,9 +44,9 @@ public final class BusBarSectionInfosMapper {
         return builder.build();
     }
 
-    public static BusBarSectionFormInfos toListInfos(Identifiable<?> identifiable) {
+    public static BusBarSectionListInfos toListInfos(Identifiable<?> identifiable) {
         BusbarSection busBarSection = (BusbarSection) identifiable;
-        return BusBarSectionFormInfos.builder()
+        return BusBarSectionListInfos.builder()
                 .id(busBarSection.getId())
                 .name(busBarSection.getOptionalName().orElse(null))
                 .operatingStatus(toOperatingStatus(busBarSection))
