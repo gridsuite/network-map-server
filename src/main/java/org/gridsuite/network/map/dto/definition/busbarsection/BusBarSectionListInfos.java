@@ -15,12 +15,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public class BusBarSectionListInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer vertPos;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer horizPos;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
 
 }
