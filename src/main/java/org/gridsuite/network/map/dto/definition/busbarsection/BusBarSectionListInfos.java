@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 
+/**
+ * @author BOUTIER <charly.boutier@rte-france.com>
+ */
 @SuperBuilder
 @Getter
 public class BusBarSectionListInfos extends ElementInfos {
