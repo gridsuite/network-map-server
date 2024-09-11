@@ -798,11 +798,12 @@ public class NetworkMapControllerTest {
                 .setLowVoltageLimit(20)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        vlgen5.getNodeBreakerView().newBusbarSection()
+        BusbarSection bbs1 = vlgen5.getNodeBreakerView().newBusbarSection()
                 .setId("NGEN5")
                 .setName("NGEN5")
                 .setNode(0)
                 .add();
+        bbs1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.FORCED_OUTAGE).add();
         vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
 
         // Create a connected shunt compensator on a NODE_BREAKER voltage level
@@ -1587,6 +1588,12 @@ public class NetworkMapControllerTest {
     public void shouldReturnBusBarSectionFormData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.FORM, null, resourceToString("/bus-bar-section-form-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.FORM, null, resourceToString("/bus-bar-section-form-data.json"));
+    }
+
+    @Test
+    public void shouldReturnBusBarSectionListData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.LIST, null, resourceToString("/bus-bar-section-list-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.LIST, null, resourceToString("/bus-bar-section-list-data.json"));
     }
 
     @Test

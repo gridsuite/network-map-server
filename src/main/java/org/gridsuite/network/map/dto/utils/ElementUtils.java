@@ -103,7 +103,8 @@ public final class ElementUtils {
     public static String toOperatingStatus(Extendable<?> extendable) {
         if (extendable instanceof Branch<?>
                 || extendable instanceof ThreeWindingsTransformer
-                || extendable instanceof HvdcLine) {
+                || extendable instanceof HvdcLine
+                || extendable instanceof BusbarSection) {
             var operatingStatus = extendable.getExtension(OperatingStatus.class);
             return operatingStatus == null ? null : operatingStatus.getStatus().name();
         }
