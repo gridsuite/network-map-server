@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023, RTE (http://www.rte-france.com)
+ * Copyright (c) 2024, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.dto.definition.extension.StandByAutomatonInfos;
+import org.gridsuite.network.map.dto.definition.extension.StandbyAutomatonInfos;
 
 import java.util.Optional;
 
@@ -56,6 +56,6 @@ public class StaticVarCompensatorFormInfos extends ElementInfosWithProperties {
 
     private ConnectablePositionInfos connectablePosition;
 
-    private Optional<StandByAutomatonInfos> standByAutomatonInfos;
+    private Optional<StandbyAutomatonInfos> standbyAutomatonInfos;
 
 }

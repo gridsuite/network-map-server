@@ -19,7 +19,7 @@
     "regulatingTerminalConnectableId": "SVC1",
     "regulatingTerminalConnectableType": "STATIC_VAR_COMPENSATOR",
     "regulatingTerminalVlId": "VLGEN",
-    "standByAutomatonInfos": {
+    "standbyAutomatonInfos": {
       "standby": true,
       "b0": 20.0,
       "highVoltageSetpoint": 224.0,
@@ -46,6 +46,6 @@
     "connectablePosition": {
       "connectionDirection": null
     },
-    "standByAutomatonInfos": null
+    "standbyAutomatonInfos": null
   }
 ]

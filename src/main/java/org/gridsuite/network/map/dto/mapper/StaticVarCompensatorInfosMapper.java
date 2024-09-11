@@ -44,19 +44,19 @@ public final class StaticVarCompensatorInfosMapper {
                 .id(staticVarCompensator.getId())
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
-                .nominalV(terminal.getVoltageLevel().getNominalV())
+                .nominalV(nullIfNan(terminal.getVoltageLevel().getNominalV()))
                 .regulationMode(staticVarCompensator.getRegulationMode())
-                .maxSusceptance(staticVarCompensator.getBmax())
-                .minSusceptance(staticVarCompensator.getBmin())
-                .voltageSetpoint(staticVarCompensator.getVoltageSetpoint())
-                .reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint())
+                .maxSusceptance(nullIfNan(staticVarCompensator.getBmax()))
+                .minSusceptance(nullIfNan(staticVarCompensator.getBmin()))
+                .voltageSetpoint(nullIfNan(staticVarCompensator.getVoltageSetpoint()))
+                .reactivePowerSetpoint(nullIfNan(staticVarCompensator.getReactivePowerSetpoint()))
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .regulatingTerminalConnectableId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getConnectable().getType().name() : null)
                 .regulatingTerminalVlId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getVoltageLevel().getId() : null)
                 .properties(getProperties(staticVarCompensator))
                 .connectablePosition(toMapConnectablePosition(staticVarCompensator, 0))
-                .standByAutomatonInfos(toStandByAutomaton(staticVarCompensator));
+                .standbyAutomatonInfos(toStandByAutomaton(staticVarCompensator));
 
         return builder.build();
     }

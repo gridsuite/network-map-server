@@ -79,17 +79,16 @@ public final class ElementUtils {
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
-    public static Optional<StandByAutomatonInfos> toStandByAutomaton(StaticVarCompensator staticVarCompensator) {
-        StandbyAutomaton standByAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
-        return standByAutomatonInfos == null ? Optional.empty() :
-                Optional.of(StandByAutomatonInfos.builder()
-                        .standby(standByAutomatonInfos.isStandby())
-                        .b0(standByAutomatonInfos.getB0())
-                        .lowVoltageSetpoint(standByAutomatonInfos.getLowVoltageSetpoint())
-                                .highVoltageSetpoint(standByAutomatonInfos.getHighVoltageSetpoint())
-                        .highVoltageThreshold(standByAutomatonInfos.getHighVoltageThreshold())
-                        .lowVoltageThreshold(standByAutomatonInfos.getLowVoltageThreshold()).build());
-
+    public static Optional<StandbyAutomatonInfos> toStandByAutomaton(StaticVarCompensator staticVarCompensator) {
+        StandbyAutomaton standbyAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
+        return standbyAutomatonInfos == null ? Optional.empty() :
+                Optional.of(StandbyAutomatonInfos.builder()
+                        .standby(standbyAutomatonInfos.isStandby())
+                        .b0(nullIfNan(standbyAutomatonInfos.getB0()))
+                        .lowVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getLowVoltageSetpoint()))
+                        .highVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getHighVoltageSetpoint()))
+                        .highVoltageThreshold(nullIfNan(standbyAutomatonInfos.getHighVoltageThreshold()))
+                        .lowVoltageThreshold(nullIfNan(standbyAutomatonInfos.getLowVoltageThreshold())).build());
     }
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
