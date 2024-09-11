@@ -339,8 +339,6 @@ public class NetworkMapService {
                 return network.getShuntCompensatorStream();
             case STATIC_VAR_COMPENSATOR:
                 return network.getStaticVarCompensatorStream();
-            case BUS:
-                return network.getBusbarSectionStream();
             default:
                 throw new IllegalStateException("Unexpected connectable type:" + elementType);
         }
