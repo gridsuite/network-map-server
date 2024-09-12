@@ -79,7 +79,7 @@ public final class ElementUtils {
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
-    public static Optional<StandbyAutomatonInfos> toStandByAutomaton(StaticVarCompensator staticVarCompensator) {
+    public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
         StandbyAutomaton standbyAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
         return standbyAutomatonInfos == null ? Optional.empty() :
                 Optional.of(StandbyAutomatonInfos.builder()

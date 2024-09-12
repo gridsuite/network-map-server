@@ -56,7 +56,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .regulatingTerminalVlId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getVoltageLevel().getId() : null)
                 .properties(getProperties(staticVarCompensator))
                 .connectablePosition(toMapConnectablePosition(staticVarCompensator, 0))
-                .standbyAutomatonInfos(toStandByAutomaton(staticVarCompensator));
+                .standbyAutomatonInfos(toStandbyAutomaton(staticVarCompensator));
 
         return builder.build();
     }
