@@ -42,7 +42,9 @@
     </developers>
 
     <properties>
-        <gridsuite-dependencies.version>32</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>33</gridsuite-dependencies.version>
+        <!-- FIXME: powsybl-network-store modules'version is overloaded in the dependencies section.The overloads and this property below have to be removed at next powsybl-ws-dependencies.version upgrade -->
+        <powsybl-network-store.version>1.17.1</powsybl-network-store.version>
     </properties>
 
     <build>
@@ -77,8 +79,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- overrides of imports -->
-
             <!-- imports -->
             <dependency>
                 <groupId>org.gridsuite</groupId>
@@ -101,9 +101,24 @@
         </dependency>
 
         <!-- Compilation dependencies -->
+        <!-- overrides of imports -->
+        <!-- FIXME: to be removed at next powsybl-ws-dependencies upgrade  -->
+        <dependency>
+            <groupId>com.powsybl</groupId>
+            <artifactId>powsybl-network-store-iidm-impl</artifactId>
+            <version>${powsybl-network-store.version}</version>
+        </dependency>
+        <!-- FIXME: to be removed at next powsybl-ws-dependencies upgrade  -->
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-network-store-client</artifactId>
+            <version>${powsybl-network-store.version}</version>
+        </dependency>
+        <!-- FIXME: to be removed at next powsybl-ws-dependencies upgrade  -->
+        <dependency>
+            <groupId>com.powsybl</groupId>
+            <artifactId>powsybl-network-store-model</artifactId>
+            <version>${powsybl-network-store.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
