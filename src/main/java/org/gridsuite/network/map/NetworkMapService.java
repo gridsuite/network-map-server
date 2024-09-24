@@ -59,7 +59,7 @@ public class NetworkMapService {
     }
 
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
+        Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
         return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, InfoTypeParameters.TAB, null))
                 .voltageLevels(getVoltageLevelsInfos(network, substationsId, InfoTypeParameters.TAB, null))
@@ -194,10 +194,9 @@ public class NetworkMapService {
                 .toList();
     }
 
-    public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters) {
-        Stream<Bus> buses = substationsId == null ? network.getBusView().getBusStream() :
-                network.getBusView().getBusStream()
-                        .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
+    public List<ElementInfos> getBusesInfos(Network network, List<String> substationsIds, InfoTypeParameters infoTypeParameters) {
+        Stream<Bus> buses = substationsIds == null ? network.getBusView().getBusStream() :
+                substationsIds.stream().flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream().flatMap(voltageLevel -> voltageLevel.getBusView().getBusStream()))
                         .filter(Objects::nonNull)
                         .distinct();
         return buses
@@ -339,8 +338,6 @@ public class NetworkMapService {
                 return network.getShuntCompensatorStream();
             case STATIC_VAR_COMPENSATOR:
                 return network.getStaticVarCompensatorStream();
-            case BUS:
-                return network.getBusbarSectionStream();
             default:
                 throw new IllegalStateException("Unexpected connectable type:" + elementType);
         }
