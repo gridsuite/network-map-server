@@ -39,6 +39,7 @@ public final class StaticVarCompensatorInfosMapper {
     private static StaticVarCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {
         StaticVarCompensator staticVarCompensator = (StaticVarCompensator) identifiable;
         Terminal terminal = staticVarCompensator.getTerminal();
+        Terminal regulatingTerminal = staticVarCompensator.getRegulatingTerminal();
         StaticVarCompensatorFormInfos.StaticVarCompensatorFormInfosBuilder<?, ?> builder = StaticVarCompensatorFormInfos.builder()
                 .name(staticVarCompensator.getOptionalName().orElse(null))
                 .id(staticVarCompensator.getId())
@@ -51,9 +52,9 @@ public final class StaticVarCompensatorInfosMapper {
                 .voltageSetpoint(nullIfNan(staticVarCompensator.getVoltageSetpoint()))
                 .reactivePowerSetpoint(nullIfNan(staticVarCompensator.getReactivePowerSetpoint()))
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
-                .regulatingTerminalConnectableId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getConnectable().getId() : null)
-                .regulatingTerminalConnectableType(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(staticVarCompensator.getRegulatingTerminal() != null ? staticVarCompensator.getRegulatingTerminal().getVoltageLevel().getId() : null)
+                .regulatingTerminalConnectableId(regulatingTerminal != null ? regulatingTerminal.getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(regulatingTerminal != null ? regulatingTerminal.getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(regulatingTerminal != null ? regulatingTerminal.getVoltageLevel().getId() : null)
                 .properties(getProperties(staticVarCompensator))
                 .connectablePosition(toMapConnectablePosition(staticVarCompensator, 0))
                 .standbyAutomatonInfos(toStandbyAutomaton(staticVarCompensator));
