@@ -11,10 +11,10 @@ import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -27,11 +27,39 @@ public final class StaticVarCompensatorInfosMapper {
         switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toTabInfos(identifiable);
+            case FORM:
+                return toFormInfos(identifiable);
             case LIST:
                 return ElementInfosMapper.toInfosWithType(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
+    }
+
+    private static StaticVarCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {
+        StaticVarCompensator staticVarCompensator = (StaticVarCompensator) identifiable;
+        Terminal terminal = staticVarCompensator.getTerminal();
+        Terminal regulatingTerminal = staticVarCompensator.getRegulatingTerminal();
+        StaticVarCompensatorFormInfos.StaticVarCompensatorFormInfosBuilder<?, ?> builder = StaticVarCompensatorFormInfos.builder()
+                .name(staticVarCompensator.getOptionalName().orElse(null))
+                .id(staticVarCompensator.getId())
+                .terminalConnected(terminal.isConnected())
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .nominalV(nullIfNan(terminal.getVoltageLevel().getNominalV()))
+                .regulationMode(staticVarCompensator.getRegulationMode())
+                .maxSusceptance(nullIfNan(staticVarCompensator.getBmax()))
+                .minSusceptance(nullIfNan(staticVarCompensator.getBmin()))
+                .voltageSetpoint(nullIfNan(staticVarCompensator.getVoltageSetpoint()))
+                .reactivePowerSetpoint(nullIfNan(staticVarCompensator.getReactivePowerSetpoint()))
+                .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
+                .regulatingTerminalConnectableId(regulatingTerminal != null ? regulatingTerminal.getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(regulatingTerminal != null ? regulatingTerminal.getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(regulatingTerminal != null ? regulatingTerminal.getVoltageLevel().getId() : null)
+                .properties(getProperties(staticVarCompensator))
+                .connectablePosition(toMapConnectablePosition(staticVarCompensator, 0))
+                .standbyAutomatonInfos(toStandbyAutomaton(staticVarCompensator));
+
+        return builder.build();
     }
 
     private static StaticVarCompensatorTabInfos toTabInfos(Identifiable<?> identifiable) {

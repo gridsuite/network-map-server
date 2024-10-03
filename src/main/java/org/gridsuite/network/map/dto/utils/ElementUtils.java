@@ -79,6 +79,18 @@ public final class ElementUtils {
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
+    public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
+        StandbyAutomaton standbyAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
+        return standbyAutomatonInfos == null ? Optional.empty() :
+                Optional.of(StandbyAutomatonInfos.builder()
+                        .standby(standbyAutomatonInfos.isStandby())
+                        .b0(nullIfNan(standbyAutomatonInfos.getB0()))
+                        .lowVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getLowVoltageSetpoint()))
+                        .highVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getHighVoltageSetpoint()))
+                        .highVoltageThreshold(nullIfNan(standbyAutomatonInfos.getHighVoltageThreshold()))
+                        .lowVoltageThreshold(nullIfNan(standbyAutomatonInfos.getLowVoltageThreshold())).build());
+    }
+
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
         return activePowerControl == null ? Optional.empty() :
