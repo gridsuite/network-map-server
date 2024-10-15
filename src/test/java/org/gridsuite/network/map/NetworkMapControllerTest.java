@@ -732,6 +732,20 @@ class NetworkMapControllerTest {
                 .add();
         svc1.getTerminal().setP(120);
         svc1.getTerminal().setQ(43);
+        svc1.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+        svc1.newExtension(StandbyAutomatonAdder.class)
+                .withStandbyStatus(true)
+                .withB0(20.0)
+                .withHighVoltageSetpoint(224.0)
+                .withLowVoltageSetpoint(100.0)
+                .withHighVoltageThreshold(200.0)
+                .withLowVoltageThreshold(120.0)
+                .add();
 
         vlnew2.newStaticVarCompensator()
                 .setId("SVC2")
@@ -2025,6 +2039,12 @@ class NetworkMapControllerTest {
     void shouldReturnStaticVarCompensatorTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.STATIC_VAR_COMPENSATOR, InfoType.TAB, null, resourceToString("/static-var-compensators-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.STATIC_VAR_COMPENSATOR, InfoType.TAB, null, resourceToString("/static-var-compensators-tab-data.json"));
+    }
+
+    @Test
+    void shouldReturnStaticVarCompensatorFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.STATIC_VAR_COMPENSATOR, InfoType.FORM, null, resourceToString("/static-var-compensators-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.STATIC_VAR_COMPENSATOR, InfoType.FORM, null, resourceToString("/static-var-compensators-form-data.json"));
     }
 
     @Test

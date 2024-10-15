@@ -1,0 +1,51 @@
+[
+  {
+    "id": "SVC1",
+    "name": "SVC1",
+    "voltageLevelId": "VLGEN",
+    "nominalV": 24.0,
+    "maxSusceptance": 30.0,
+    "minSusceptance": 2.0,
+    "terminalConnected": true,
+    "regulationMode": "VOLTAGE",
+    "voltageSetpoint": 200.0,
+    "reactivePowerSetpoint": 100.0,
+    "connectablePosition": {
+      "connectionName": "feederName",
+      "connectionPosition": 0,
+      "connectionDirection": "TOP"
+    },
+    "busOrBusbarSectionId": "NGEN",
+    "regulatingTerminalConnectableId": "SVC1",
+    "regulatingTerminalConnectableType": "STATIC_VAR_COMPENSATOR",
+    "regulatingTerminalVlId": "VLGEN",
+    "standbyAutomatonInfos": {
+      "standby": true,
+      "b0": 20.0,
+      "highVoltageSetpoint": 224.0,
+      "lowVoltageSetpoint": 100.0,
+      "highVoltageThreshold": 200.0,
+      "lowVoltageThreshold": 120.0
+    }
+  },
+  {
+    "id": "SVC2",
+    "name": "SVC2",
+    "voltageLevelId": "VLNEW2",
+    "nominalV": 225.0,
+    "maxSusceptance": 30.0,
+    "minSusceptance": 2.0,
+    "terminalConnected": true,
+    "regulationMode": "VOLTAGE",
+    "voltageSetpoint": 200.0,
+    "reactivePowerSetpoint": 100.0,
+    "busOrBusbarSectionId": "NNEW2",
+    "regulatingTerminalConnectableId": "SVC2",
+    "regulatingTerminalConnectableType": "STATIC_VAR_COMPENSATOR",
+    "regulatingTerminalVlId": "VLNEW2",
+    "connectablePosition": {
+      "connectionDirection": null
+    },
+    "standbyAutomatonInfos": null
+  }
+]
