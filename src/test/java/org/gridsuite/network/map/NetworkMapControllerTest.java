@@ -1037,6 +1037,9 @@ class NetworkMapControllerTest {
                 .newCurrentLimits()
                 .setPermanentLimit(54)
                 .add();
+
+        threeWindingsTransformer.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
+
     }
 
     private static String resourceToString(String resource) throws IOException {
@@ -1326,6 +1329,12 @@ class NetworkMapControllerTest {
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.LIST, List.of("P3"), resourceToString("/partial-lines-list-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.LIST, List.of("P3"), resourceToString("/partial-lines-list-data.json"));
+    }
+
+    @Test
+    void shouldReturnLinesOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.OPERATING_STATUS, null, resourceToString("/lines-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.OPERATING_STATUS, null, resourceToString("/lines-operating-status-data.json"));
     }
 
     @Test
@@ -2004,9 +2013,15 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
+    void shouldReturnTwoWindingsTransformerOperatingStatusData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
+    }
+
+    @Test
+    void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
     }
 
     @Test
