@@ -1579,6 +1579,12 @@ class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnBusBarSectionOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.OPERATING_STATUS, null, resourceToString("/bus-bar-section-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.OPERATING_STATUS, null, resourceToString("/bus-bar-section-operating-status-data.json"));
+    }
+
+    @Test
     void shouldReturnLoadsIds() throws Exception {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("LOAD", "LOAD_WITH_NULL_NAME", "LOAD_ID").toString(), ElementType.LOAD, null, null);
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of().toString(), ElementType.LOAD, null, List.of(24.0, 380.0));
