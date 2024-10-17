@@ -1998,15 +1998,17 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shoulNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
+    void shouldNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, null, null, "NOT_EXISTING_EQUIPMENT");
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_EQUIPMENT");
     }
+
     @Test
     void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
     }
+
     @Test
     void shouldReturnGeneratorsFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
