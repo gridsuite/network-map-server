@@ -4,16 +4,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.definition.busbarsection;
+package org.gridsuite.network.map.dto.definition.hvdc;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementInfosWithOperatingStatus;
 
 /**
- * @author BOUTIER Charly <charly.boutier at rte-france.com>
+ * @author Maissa Souissi <maissa.souissi at rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class BusBarSectionListInfos extends ElementInfos {
+public class HvdcOperatingStatusInfos extends ElementInfosWithOperatingStatus {
+
+    private String voltageLevelId1;
+
+    private String voltageLevelId2;
 }

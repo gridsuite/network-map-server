@@ -1,0 +1,20 @@
+[
+  {
+    "id": "NGEN_NHV1",
+    "operatingStatus": "PLANNED_OUTAGE",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLHV1"
+  },
+  {
+    "id": "NHV2_NLOAD",
+    "operatingStatus": "PLANNED_OUTAGE",
+    "voltageLevelId1": "VLHV2",
+    "voltageLevelId2": "VLLOAD"
+  },
+  {
+    "id": "NGEN_NHV2",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLHV1"
+  }
+]
+
