@@ -16,9 +16,6 @@
       "connectionDirection": "TOP"
     },
     "busOrBusbarSectionId": "NGEN",
-    "regulatingTerminalConnectableId": "SVC1",
-    "regulatingTerminalConnectableType": "STATIC_VAR_COMPENSATOR",
-    "regulatingTerminalVlId": "VLGEN",
     "standbyAutomatonInfos": {
       "standby": true,
       "b0": 20.0,
@@ -40,9 +37,6 @@
     "voltageSetpoint": 200.0,
     "reactivePowerSetpoint": 100.0,
     "busOrBusbarSectionId": "NNEW2",
-    "regulatingTerminalConnectableId": "SVC2",
-    "regulatingTerminalConnectableType": "STATIC_VAR_COMPENSATOR",
-    "regulatingTerminalVlId": "VLNEW2",
     "connectablePosition": {
       "connectionDirection": null
     },
