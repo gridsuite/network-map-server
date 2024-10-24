@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -1274,6 +1275,19 @@ class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
     }
 
+    private void succeedingTestForGetSubstationIdForVoltageLevel(UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id");
+        if (variantId != null) {
+            url.append("?variantId=" + variantId);
+        }
+
+        MvcResult res = mvc.perform(get(url.toString(), networkUuid, voltageLevelId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        assertEquals(res.getResponse().getContentAsString(), expectedJson);
+    }
+
     @Test
     void shouldReturnSubstationsTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SUBSTATION, InfoType.TAB, null, resourceToString("/substations-tab-data.json"));
@@ -2089,6 +2103,12 @@ class NetworkMapControllerTest {
     void shouldReturnCountries() throws Exception {
         succeedingTestForCountries(NETWORK_UUID, null, List.of("FR").toString());
         succeedingTestForCountries(NETWORK_UUID, VARIANT_ID_2, List.of("AF", "FR").toString());
+    }
+
+    @Test
+    void shouldReturnSubstationIdForVoltageLevel() throws Exception {
+        succeedingTestForGetSubstationIdForVoltageLevel(NETWORK_UUID, "VLGEN6", null, "P6");
+        succeedingTestForGetSubstationIdForVoltageLevel(NETWORK_UUID, "VLGEN6", VARIANT_ID_2, "P6");
     }
 
     @Test
