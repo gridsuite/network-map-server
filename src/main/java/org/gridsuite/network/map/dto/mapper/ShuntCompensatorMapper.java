@@ -98,8 +98,8 @@ public final class ShuntCompensatorMapper {
         }
         if (bPerSection != null) {
             Double qAtNominalV = Math.abs(Math.pow(terminal.getVoltageLevel().getNominalV(), 2) * bPerSection);
-            builder.maxQAtNominalV(qAtNominalV * shuntCompensator.getMaximumSectionCount());
-            builder.maxSusceptance(bPerSection * shuntCompensator.getMaximumSectionCount());
+            builder.maxQAtNominalV(qAtNominalV);
+            builder.maxSusceptance(bPerSection);
         }
         //TODO handle shuntCompensator non linear model
         if (!Double.isNaN(terminal.getQ())) {
