@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfosWithType;
 
 /**
@@ -21,6 +22,13 @@ public final class ElementInfosMapper {
                 .id(identifiable.getId())
                 .name(identifiable.getOptionalName().orElse(null))
                 .type(identifiable.getType())
+                .build();
+    }
+
+    public static ElementInfos toListInfos(Identifiable<?> identifiable) {
+        return ElementInfos.builder()
+                .id(identifiable.getId())
+                .name(identifiable.getOptionalName().orElse(null))
                 .build();
     }
 }

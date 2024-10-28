@@ -28,7 +28,7 @@ public final class BusBarSectionInfosMapper {
             case FORM:
                 return toFormInfos(identifiable);
             case LIST:
-                return toListInfos(identifiable);
+                return toListInfos(identifiable); // TODO:ElementInfosMapper.toListInfos()
             default:
                 throw new UnsupportedOperationException("TODO");
         }

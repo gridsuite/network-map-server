@@ -27,7 +27,7 @@ public final class BusInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         switch (infoTypeParameters.getInfoType()) {
             case LIST:
-                return toListInfos(identifiable);
+                return toListInfos(identifiable); // TODO:ElementInfosMapper.toListInfos()
             case TAB:
                 return toTabInfos(identifiable);
             default:

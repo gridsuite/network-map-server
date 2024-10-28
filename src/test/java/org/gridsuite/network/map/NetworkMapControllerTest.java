@@ -1849,21 +1849,17 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnBusesMapData() throws Exception {
-        succeedingBusOrBusbarSectionTest("configured-buses", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-map-data.json"));
-        succeedingBusOrBusbarSectionTest("configured-buses", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-map-data.json"));
-    }
-
-    @Test
     void shouldReturnAnErrorInsteadOfBusesMapData() throws Exception {
         failingBusOrBusbarSectionTest("configured-buses", NOT_FOUND_NETWORK_ID, "VLGEN", null);
         failingBusOrBusbarSectionTest("configured-buses", NETWORK_UUID, "VLGEN", VARIANT_ID_NOT_FOUND);
     }
 
     @Test
-    void shouldReturnBusbarSectionsMapData() throws Exception {
-        succeedingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-map-data.json"));
-        succeedingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-map-data.json"));
+    void shouldReturnBusesOrBusbarSectionsData() throws Exception {
+        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-data.json"));
+        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-data.json"));
+        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-data.json"));
+        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-data.json"));
     }
 
     @Test

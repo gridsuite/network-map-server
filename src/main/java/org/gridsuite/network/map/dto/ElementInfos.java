@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@SuperBuilder(builderMethodName = "")
+@SuperBuilder
 @Getter
 public class ElementInfos {
 

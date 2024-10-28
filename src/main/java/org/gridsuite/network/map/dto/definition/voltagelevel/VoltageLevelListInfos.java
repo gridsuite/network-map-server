@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.definition.voltagelevel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.TopologyKind;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -21,8 +20,4 @@ public class VoltageLevelListInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private TopologyKind topologyKind;
-
 }

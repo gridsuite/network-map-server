@@ -4,18 +4,15 @@
     "voltageLevels": [
       {
         "id": "VLNEW2",
-        "substationId": "P1",
-        "topologyKind": "BUS_BREAKER"
+        "substationId": "P1"
       },
       {
         "id": "VLGEN",
-        "substationId": "P1",
-        "topologyKind": "BUS_BREAKER"
+        "substationId": "P1"
       },
       {
         "id": "VLHV1",
-        "substationId": "P1",
-        "topologyKind": "BUS_BREAKER"
+        "substationId": "P1"
       }
     ]
   }
