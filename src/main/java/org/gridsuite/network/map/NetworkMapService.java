@@ -270,23 +270,29 @@ public class NetworkMapService {
         switch (side) {
             case ONE:
                 if (identifiable instanceof Branch<?>) {
-                    return ((Branch) identifiable).getTerminal1().getVoltageLevel().getId();
-                } else if (identifiable instanceof ThreeWindingsTransformer) {
-                    return ((ThreeWindingsTransformer) identifiable).getLeg1().getTerminal().getVoltageLevel().getId();
+                    return ((Branch<?>) identifiable).getTerminal1().getVoltageLevel().getId();
+                } else if (identifiable instanceof ThreeWindingsTransformer threeWindingsTransformer) {
+                    return threeWindingsTransformer.getLeg1().getTerminal().getVoltageLevel().getId();
                 }
+                break;
+
             case TWO:
                 if (identifiable instanceof Branch<?>) {
-                    return ((Branch) identifiable).getTerminal2().getVoltageLevel().getId();
-                } else if (identifiable instanceof ThreeWindingsTransformer) {
-                    return ((ThreeWindingsTransformer) identifiable).getLeg2().getTerminal().getVoltageLevel().getId();
+                    return ((Branch<?>) identifiable).getTerminal2().getVoltageLevel().getId();
+                } else if (identifiable instanceof ThreeWindingsTransformer threeWindingsTransformer) {
+                    return threeWindingsTransformer.getLeg2().getTerminal().getVoltageLevel().getId();
                 }
+                break;
+
             case THREE:
-                if (identifiable instanceof ThreeWindingsTransformer) {
-                    return ((ThreeWindingsTransformer) identifiable).getLeg3().getTerminal().getVoltageLevel().getId();
+                if (identifiable instanceof ThreeWindingsTransformer threeWindingsTransformer) {
+                    return threeWindingsTransformer.getLeg3().getTerminal().getVoltageLevel().getId();
                 }
+                break;
             default:
                 throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
     public HvdcShuntCompensatorsInfos getHvdcLineShuntCompensators(UUID networkUuid, String variantId, String hvdcId) {
