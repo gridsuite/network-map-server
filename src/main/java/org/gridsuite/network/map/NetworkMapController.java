@@ -104,7 +104,7 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get substation ID for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "substation ID for a voltage level")})
-    public @ResponseBody String getVoltageLevelSubstationId(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public String getVoltageLevelSubstationId(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                             @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelSubstationID(networkUuid, voltageLevelId, variantId);
