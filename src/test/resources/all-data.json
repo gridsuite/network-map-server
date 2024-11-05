@@ -750,8 +750,20 @@
         "validity": true
       },
       "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
         "value": 12,
         "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
       }
     },
     {
@@ -869,8 +881,20 @@
         "validity": true
       },
       "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
         "value": 12,
         "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
       }
     },
     {
@@ -988,8 +1012,20 @@
         "validity": true
       },
       "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
         "value": 12,
         "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
       }
     }
   ],

@@ -122,10 +122,10 @@ public final class ThreeWindingsTransformerInfosMapper {
 
         builder.measurementRatioTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1))
             .measurementPhaseTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_1))
-            .measurementRatioTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_2))
-            .measurementPhaseTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2))
-            .measurementRatioTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3))
-            .measurementPhaseTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3));
+            .measurementRatioTap2(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_2))
+            .measurementPhaseTap2(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2))
+            .measurementRatioTap3(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3))
+            .measurementPhaseTap3(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3));
 
         return builder.build();
     }

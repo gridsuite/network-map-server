@@ -1128,7 +1128,7 @@ class NetworkMapControllerTest {
         trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1).setValid(true).setValue(14).add();
         trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2).setValid(false).setValue(4).add();
         trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3).setValid(false).setValue(12).add();
-        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3).setValid(true).setValue(17).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3).setValid(true).setValue(17).add();
 
     }
 
