@@ -69,8 +69,6 @@ public final class HvdcInfosMapper {
         return HvdcListInfos.builder()
                 .id(hvdcLine.getId())
                 .name(hvdcLine.getOptionalName().orElse(null))
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .operatingStatus(toOperatingStatus(hvdcLine))

@@ -18,12 +18,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public class ThreeWindingsTransformerListInfos extends ElementInfos {
 
-    private String voltageLevelId1;
-
-    private String voltageLevelId2;
-
-    private String voltageLevelId3;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId1;
 

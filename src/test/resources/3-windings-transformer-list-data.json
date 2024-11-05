@@ -1,9 +1,6 @@
 {
   "id": "TWT",
   "name": "TWT",
-  "voltageLevelId1": "VLHV1",
-  "voltageLevelId2": "VLNEW2",
-  "voltageLevelId3": "VLGEN",
   "substationId1": "P1",
   "substationId2": "P1",
   "substationId3": "P1"

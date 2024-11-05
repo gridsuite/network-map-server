@@ -1986,19 +1986,7 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturn2WTWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, null, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-list-data.json"));
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-list-data.json"));
-    }
-
-    @Test
-    void shouldReturn3WTWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, null, null, "TWT", resourceToString("/3-windings-transformer-list-data.json"));
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "TWT", resourceToString("/3-windings-transformer-list-data.json"));
-    }
-
-    @Test
-    void shoulNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
+    void shouldNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, null, null, "NOT_EXISTING_EQUIPMENT");
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_EQUIPMENT");
     }

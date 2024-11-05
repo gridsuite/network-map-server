@@ -18,10 +18,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public class HvdcListInfos extends ElementInfos {
 
-    private String voltageLevelId1;
-
-    private String voltageLevelId2;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId1;
 

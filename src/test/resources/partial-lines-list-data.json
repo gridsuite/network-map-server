@@ -1,8 +1,6 @@
 [
   {
     "id": "LINE3",
-    "voltageLevelId1": "VLGEN",
-    "voltageLevelId2": "VLGEN3",
     "substationId1": "P1",
     "substationId2": "P3",
     "terminal1Connected": true,
@@ -11,8 +9,6 @@
   },
   {
     "id": "LINE4",
-    "voltageLevelId1": "VLGEN6",
-    "voltageLevelId2": "VLGEN3",
     "substationId1": "P6",
     "substationId2": "P3",
     "terminal1Connected": true,

@@ -1,7 +1,5 @@
 {
   "id": "NGEN_NHV1",
-  "voltageLevelId1": "VLGEN",
-  "voltageLevelId2": "VLHV1",
   "substationId1":"P1",
   "substationId2":"P1",
   "operatingStatus": "PLANNED_OUTAGE"

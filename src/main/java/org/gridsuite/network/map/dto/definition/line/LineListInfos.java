@@ -18,16 +18,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @Getter
 public class LineListInfos extends ElementInfos {
 
-    private String voltageLevelId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName1;
-
-    private String voltageLevelId2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName2;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId1;
 

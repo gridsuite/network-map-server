@@ -150,8 +150,6 @@ public final class TwoWindingsTransformerInfosMapper {
         return TwoWindingsTransformerListInfos.builder()
                 .id(twoWT.getId())
                 .name(twoWT.getOptionalName().orElse(null))
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .operatingStatus(toOperatingStatus(twoWT))
