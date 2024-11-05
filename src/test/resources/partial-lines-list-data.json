@@ -1,17 +1,9 @@
 [
   {
     "id": "LINE3",
-    "substationId1": "P1",
-    "substationId2": "P3",
-    "terminal1Connected": true,
-    "terminal2Connected": true,
     "operatingStatus": "PLANNED_OUTAGE"
   },
   {
-    "id": "LINE4",
-    "substationId1": "P6",
-    "substationId2": "P3",
-    "terminal1Connected": true,
-    "terminal2Connected": true
+    "id": "LINE4"
   }
 ]

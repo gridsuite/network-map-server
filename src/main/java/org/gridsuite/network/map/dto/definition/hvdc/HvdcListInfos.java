@@ -17,13 +17,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 @SuperBuilder
 @Getter
 public class HvdcListInfos extends ElementInfos {
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String substationId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String substationId2;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
 

@@ -41,16 +41,9 @@ public final class ThreeWindingsTransformerInfosMapper {
 
     public static ThreeWindingsTransformerListInfos toListInfos(Identifiable<?> identifiable) {
         ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
-        Terminal terminal1 = threeWT.getLeg1().getTerminal();
-        Terminal terminal2 = threeWT.getLeg2().getTerminal();
-        Terminal terminal3 = threeWT.getLeg3().getTerminal();
-
         return ThreeWindingsTransformerListInfos.builder()
                 .id(threeWT.getId())
                 .name(threeWT.getOptionalName().orElse(null))
-                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId3(terminal3.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .operatingStatus(toOperatingStatus(threeWT))
                 .build();
     }

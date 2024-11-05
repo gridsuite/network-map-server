@@ -144,14 +144,10 @@ public final class TwoWindingsTransformerInfosMapper {
 
     public static TwoWindingsTransformerListInfos toListInfos(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
-        Terminal terminal1 = twoWT.getTerminal1();
-        Terminal terminal2 = twoWT.getTerminal2();
 
         return TwoWindingsTransformerListInfos.builder()
                 .id(twoWT.getId())
                 .name(twoWT.getOptionalName().orElse(null))
-                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .operatingStatus(toOperatingStatus(twoWT))
                 .build();
     }

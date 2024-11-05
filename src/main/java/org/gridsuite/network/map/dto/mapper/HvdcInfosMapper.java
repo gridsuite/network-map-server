@@ -63,14 +63,9 @@ public final class HvdcInfosMapper {
 
     private static HvdcListInfos toListInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
-        Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
-        Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
-
         return HvdcListInfos.builder()
                 .id(hvdcLine.getId())
                 .name(hvdcLine.getOptionalName().orElse(null))
-                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .operatingStatus(toOperatingStatus(hvdcLine))
                 .build();
     }

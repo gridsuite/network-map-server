@@ -106,7 +106,6 @@ public final class VoltageLevelInfosMapper {
         return VoltageLevelListInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .id(voltageLevel.getId())
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .topologyKind(voltageLevel.getTopologyKind())
                 .build();
     }

@@ -20,9 +20,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 public class VoltageLevelListInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String substationId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
 
 }
