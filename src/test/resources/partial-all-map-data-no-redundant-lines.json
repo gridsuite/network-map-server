@@ -267,5 +267,6 @@
       "nominalVoltage": 24.0,
       "country": "FR"
     }
-  ]
+  ],
+  "busbarSections": []
 }

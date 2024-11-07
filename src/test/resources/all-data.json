@@ -1582,5 +1582,25 @@
       "nominalVoltage": 24.0,
       "country": "FR"
     }
+  ],
+  "busbarSections": [
+    {
+      "id": "NGEN4",
+      "name": "NGEN4",
+      "voltageLevelId": "VLGEN4",
+      "measurementV": {
+        "value": 385.0,
+        "validity": true
+      },
+      "measurementAngle": {
+        "value": 0.5,
+        "validity": false
+      }
+    },
+    {
+      "id": "NGEN5",
+      "name": "NGEN5",
+      "voltageLevelId": "VLGEN5"
+    }
   ]
 }
