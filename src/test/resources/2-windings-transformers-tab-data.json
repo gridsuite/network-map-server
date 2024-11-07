@@ -34,7 +34,7 @@
         },
         {
           "name": "N/A",
-          "value": 2.147483647e9,
+          "value": 2.147483647E9,
           "acceptableDuration": 664
         }
       ]
@@ -78,14 +78,14 @@
     "ratedU1": 24.0,
     "ratedU2": 400.0,
     "connectablePosition1": {
-      "connectionName": "feederName1",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "connectionName": "feederName1"
     },
     "connectablePosition2": {
-      "connectionName": "feederName2",
       "connectionDirection": "BOTTOM",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "connectionName": "feederName2"
     },
     "operatingStatus": "PLANNED_OUTAGE"
   },
@@ -148,14 +148,14 @@
     "ratedU1": 400.0,
     "ratedU2": 158.0,
     "connectablePosition1": {
-      "connectionName": "feederName1",
       "connectionDirection": "TOP",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "connectionName": "feederName1"
     },
     "connectablePosition2": {
-      "connectionName": "feederName2",
       "connectionDirection": "BOTTOM",
-      "connectionPosition": 0
+      "connectionPosition": 0,
+      "connectionName": "feederName2"
     },
     "operatingStatus": "PLANNED_OUTAGE"
   },
@@ -201,6 +201,22 @@
     },
     "connectablePosition2": {
       "connectionDirection": null
+    },
+    "measurementP1": {
+      "value": 27.0,
+      "validity": true
+    },
+    "measurementQ1": {
+      "value": 13.0,
+      "validity": true
+    },
+    "measurementRatioTap": {
+      "value": 11,
+      "validity": true
+    },
+    "measurementPhaseTap": {
+      "value": 7,
+      "validity": false
     }
   }
 ]

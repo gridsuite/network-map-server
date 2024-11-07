@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.line.*;
@@ -164,6 +165,11 @@ public final class LineInfosMapper {
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+
+        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
+            .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
+            .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
 
         return builder.build();
     }

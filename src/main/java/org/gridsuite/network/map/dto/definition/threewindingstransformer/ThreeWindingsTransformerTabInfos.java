@@ -12,6 +12,10 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
+
+import java.util.Optional;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -157,4 +161,40 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfosWithProperties
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId3;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP3;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ3;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap3;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap3;
 }

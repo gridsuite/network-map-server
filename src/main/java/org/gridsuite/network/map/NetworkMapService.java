@@ -81,6 +81,7 @@ public class NetworkMapService {
                 .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, InfoTypeParameters.TAB, null))
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoTypeParameters.TAB, null))
                 .buses(getBusesInfos(network, substationsId, InfoTypeParameters.TAB))
+                .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, InfoTypeParameters.TAB, null))
                 .build();
     }
 
@@ -216,7 +217,8 @@ public class NetworkMapService {
                 getConnectableStream(network, elementType) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                        .filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()))
+                        .filter(voltageLevel -> (elementType != ElementType.BUSBAR_SECTION || voltageLevel.getTopologyKind() != TopologyKind.BUS_BREAKER)
+                            && (nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
                         .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
                         .distinct();
         return connectables
