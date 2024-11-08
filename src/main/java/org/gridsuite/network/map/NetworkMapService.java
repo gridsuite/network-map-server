@@ -247,50 +247,15 @@ public class NetworkMapService {
         return elementType.getInfosGetter().apply(identifiable, infoTypeParameters);
     }
 
-     // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
-    public String getBranchOrThreeWindingsTransformerBySide(UUID networkUuid, String variantId, String equipmentId, ThreeSides side) {
+    public String getBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-
-        Line line = network.getLine(equipmentId);
-        if (line != null) {
-            return getVoltageLevelBySide(side, line);
-        }
-        TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
-        if (twoWT != null) {
-            return getVoltageLevelBySide(side, twoWT);
+        Branch<?> branch = network.getBranch(equipmentId);
+        if (branch != null) {
+            return branch.getTerminal(side.toTwoSides()).getVoltageLevel().getId();
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return getVoltageLevelBySide(side, threeWT);
-        }
-        throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-    }
-
-    public String getVoltageLevelBySide(ThreeSides side, Identifiable identifiable) {
-        switch (side) {
-            case ONE:
-                if (identifiable instanceof Branch<?>) {
-                    return ((Branch<?>) identifiable).getTerminal1().getVoltageLevel().getId();
-                } else if (identifiable instanceof ThreeWindingsTransformer threeWindingsTransformer) {
-                    return threeWindingsTransformer.getLeg1().getTerminal().getVoltageLevel().getId();
-                }
-                break;
-
-            case TWO:
-                if (identifiable instanceof Branch<?>) {
-                    return ((Branch<?>) identifiable).getTerminal2().getVoltageLevel().getId();
-                } else if (identifiable instanceof ThreeWindingsTransformer threeWindingsTransformer) {
-                    return threeWindingsTransformer.getLeg2().getTerminal().getVoltageLevel().getId();
-                }
-                break;
-
-            case THREE:
-                if (identifiable instanceof ThreeWindingsTransformer threeWindingsTransformer) {
-                    return threeWindingsTransformer.getLeg3().getTerminal().getVoltageLevel().getId();
-                }
-                break;
-            default:
-                throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+            return threeWT.getLeg(side).getTerminal().getVoltageLevel().getId();
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }

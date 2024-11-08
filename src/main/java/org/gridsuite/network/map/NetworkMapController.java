@@ -122,19 +122,19 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Retrieve the associated line, 2WT, or 3WT based on equipment ID.")
+    @Operation(summary = "Get the voltage level id for a branch or a 3wt side")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved line, 2WT, or 3WT description."),
-        @ApiResponse(responseCode = "204", description = "No element found.")
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved branch or 3WT side voltage level id"),
+        @ApiResponse(responseCode = "204", description = "No voltage level id found")
     })
-    public String getVoltageLevelIdByEquipmentIdAndSide(
+    public String getBranchOr3WTVoltageLevelId(
             @Parameter(description = "Network UUID")
             @PathVariable("networkUuid") UUID networkUuid,
             @Parameter(description = "Equipment ID")
             @PathVariable("equipmentId") String equipmentId,
             @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId,
             @Parameter(description = "Side") @RequestParam(name = "side") ThreeSides side) {
-        return networkMapService.getBranchOrThreeWindingsTransformerBySide(networkUuid, variantId, equipmentId, side);
+        return networkMapService.getBranchOr3WTVoltageLevelId(networkUuid, variantId, equipmentId, side);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/hvdc-lines/{hvdcId}/shunt-compensators", produces = APPLICATION_JSON_VALUE)

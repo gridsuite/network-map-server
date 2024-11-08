@@ -1055,10 +1055,9 @@ class NetworkMapControllerTest {
                 .andReturn();
 
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
-
     }
 
-    private void succeedingTestForVoltageLevelIdForBranchOr3WTBySide(UUID networkUuid, String variantId, String equipmentId, ThreeSides side, String expectedResult) throws Exception {
+    private void succeedingTestForBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side, String expectedResult) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                          .queryParam(QUERY_PARAM_SIDE, side.name())
@@ -1211,7 +1210,7 @@ class NetworkMapControllerTest {
         return url.toString();
     }
 
-    private void shouldNotExistVoltageLevelIdBySideForBranchOr3WT(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
+    private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
         mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                         .queryParam(QUERY_PARAM_SIDE, side.name())
@@ -1969,35 +1968,35 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnVoltageLevelIdForLineWhenGetBranchOr3WTBySide() throws Exception {
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "NHV1_NHV2_1", ThreeSides.ONE, "VLHV1");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "NHV1_NHV2_1", ThreeSides.TWO, "VLHV2");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "NHV1_NHV2_1", ThreeSides.ONE, "VLHV1");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "NHV1_NHV2_1", ThreeSides.TWO, "VLHV2");
+    void shouldReturnLineVoltageLevelId() throws Exception {
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "NHV1_NHV2_1", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "NHV1_NHV2_1", ThreeSides.TWO, "VLHV2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "NHV1_NHV2_1", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "NHV1_NHV2_1", ThreeSides.TWO, "VLHV2");
     }
 
     @Test
-    void shouldReturnVoltageLevelIdFor2WTWhenGetBranchOr3WTBySide() throws Exception {
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "NGEN_NHV1", ThreeSides.ONE, "VLGEN");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "TWT", ThreeSides.TWO, "VLNEW2");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "NGEN_NHV1", ThreeSides.ONE, "VLGEN");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.TWO, "VLNEW2");
+    void shouldReturn2WTVoltageLevelIdFor() throws Exception {
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "NGEN_NHV1", ThreeSides.ONE, "VLGEN");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.TWO, "VLNEW2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "NGEN_NHV1", ThreeSides.ONE, "VLGEN");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.TWO, "VLNEW2");
     }
 
     @Test
-    void shouldReturnVoltageLevelIdFor3WTWhenGetBranchOr3WTBySide() throws Exception {
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "TWT", ThreeSides.ONE, "VLHV1");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "TWT", ThreeSides.TWO, "VLNEW2");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, null, "TWT", ThreeSides.THREE, "VLGEN");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.ONE, "VLHV1");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.TWO, "VLNEW2");
-        succeedingTestForVoltageLevelIdForBranchOr3WTBySide(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.THREE, "VLGEN");
+    void shouldReturn3WTVoltageLevelId() throws Exception {
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.TWO, "VLNEW2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.THREE, "VLGEN");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.TWO, "VLNEW2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.THREE, "VLGEN");
     }
 
     @Test
-    void shoulNotExistVoltageLevelIdWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        shouldNotExistVoltageLevelIdBySideForBranchOr3WT(NETWORK_UUID, null, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
-        shouldNotExistVoltageLevelIdBySideForBranchOr3WT(NETWORK_UUID, VARIANT_ID, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
+    void shouldNotExistBranchOr3WTVoltageLevelId() throws Exception {
+        shouldNotExistBranchOr3WTVoltageLevelId(NETWORK_UUID, null, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
+        shouldNotExistBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
     }
 
     @Test
