@@ -17,7 +17,6 @@ import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabIn
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toOperatingStatus;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -35,6 +34,8 @@ public final class BusBarSectionInfosMapper {
                 return toFormInfos(identifiable);
             case LIST:
                 return toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -55,7 +56,6 @@ public final class BusBarSectionInfosMapper {
         return BusBarSectionListInfos.builder()
                 .id(busBarSection.getId())
                 .name(busBarSection.getOptionalName().orElse(null))
-                .operatingStatus(toOperatingStatus(busBarSection))
                 .build();
     }
 

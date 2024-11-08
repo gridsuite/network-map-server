@@ -7,7 +7,10 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
+import org.gridsuite.network.map.dto.ElementInfosWithOperatingStatus;
 import org.gridsuite.network.map.dto.ElementInfosWithType;
+
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toOperatingStatus;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -21,6 +24,14 @@ public final class ElementInfosMapper {
                 .id(identifiable.getId())
                 .name(identifiable.getOptionalName().orElse(null))
                 .type(identifiable.getType())
+                .build();
+    }
+
+    public static ElementInfosWithOperatingStatus toInfosWithOperatingStatus(Identifiable<?> identifiable) {
+        return ElementInfosWithOperatingStatus.builder()
+                .id(identifiable.getId())
+                .name(identifiable.getOptionalName().orElse(null))
+                .operatingStatus(toOperatingStatus(identifiable))
                 .build();
     }
 }

@@ -15,6 +15,7 @@ import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerOperatingStatusInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
@@ -34,6 +35,8 @@ public final class ThreeWindingsTransformerInfosMapper {
         switch (infoTypeParameters.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return toOperatingStatusInfos(identifiable);
             case TAB:
                 return toTabInfos(identifiable);
             default:
@@ -56,6 +59,21 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId3(terminal3.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .build();
+    }
+
+    public static ThreeWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+        ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
+        Terminal terminal1 = threeWT.getLeg1().getTerminal();
+        Terminal terminal2 = threeWT.getLeg2().getTerminal();
+        Terminal terminal3 = threeWT.getLeg3().getTerminal();
+
+        return ThreeWindingsTransformerOperatingStatusInfos.builder()
+                .id(threeWT.getId())
+                .name(threeWT.getOptionalName().orElse(null))
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelId3(terminal3.getVoltageLevel().getId())
                 .operatingStatus(toOperatingStatus(threeWT))
                 .build();
     }

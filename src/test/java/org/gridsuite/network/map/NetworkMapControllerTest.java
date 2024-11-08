@@ -1129,7 +1129,7 @@ class NetworkMapControllerTest {
         trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2).setValid(false).setValue(4).add();
         trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3).setValid(false).setValue(12).add();
         trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3).setValid(true).setValue(17).add();
-
+        threeWindingsTransformer.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
     }
 
     private static String resourceToString(String resource) throws IOException {
@@ -1422,6 +1422,12 @@ class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnLinesOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.OPERATING_STATUS, null, resourceToString("/lines-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.OPERATING_STATUS, null, resourceToString("/lines-operating-status-data.json"));
+    }
+
+    @Test
     void shouldReturnLinesIds() throws Exception {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, null);
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
@@ -1669,6 +1675,12 @@ class NetworkMapControllerTest {
     void shouldReturnBusBarSectionListData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.LIST, null, resourceToString("/bus-bar-section-list-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.LIST, null, resourceToString("/bus-bar-section-list-data.json"));
+    }
+
+    @Test
+    void shouldReturnBusBarSectionOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.OPERATING_STATUS, null, resourceToString("/bus-bar-section-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.OPERATING_STATUS, null, resourceToString("/bus-bar-section-operating-status-data.json"));
     }
 
     @Test
@@ -2085,9 +2097,21 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shoulNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
+    void shouldNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, null, null, "NOT_EXISTING_EQUIPMENT");
         shouldNotExistElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_EQUIPMENT");
+    }
+
+    @Test
+    void shouldReturnTwoWindingsTransformerOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
+    }
+
+    @Test
+    void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
     }
 
     @Test
