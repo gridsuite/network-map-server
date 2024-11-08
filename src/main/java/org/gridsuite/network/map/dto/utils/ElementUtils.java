@@ -390,4 +390,23 @@ public final class ElementUtils {
             .orElse(null);
     }
 
+    public static Optional<MeasurementsInfos> toMeasurement(Connectable<?> connectable, Measurement.Type type, int index) {
+        var measurements = connectable.getExtension(Measurements.class);
+        if (measurements == null) {
+            return Optional.empty();
+        } else {
+            return measurements.getMeasurements(type).stream().findFirst().filter(m -> ((Measurement) m).getSide() == null || ((Measurement) m).getSide().getNum() - 1 == index)
+                .map(m -> MeasurementsInfos.builder().value(((Measurement) m).getValue()).validity(((Measurement) m).isValid()).build());
+        }
+    }
+
+    public static Optional<TapChangerDiscreteMeasurementsInfos> toMeasurementTapChanger(Connectable<?> connectable, DiscreteMeasurement.Type type, DiscreteMeasurement.TapChanger tapChanger) {
+        var measurements = connectable.getExtension(DiscreteMeasurements.class);
+        if (measurements == null) {
+            return Optional.empty();
+        } else {
+            Optional<DiscreteMeasurement> measurement = measurements.getDiscreteMeasurements(type).stream().filter(m -> ((DiscreteMeasurement) m).getTapChanger() == tapChanger).findFirst();
+            return measurement.map(m -> TapChangerDiscreteMeasurementsInfos.builder().value(m.getValueAsInt()).validity(m.isValid()).build());
+        }
+    }
 }

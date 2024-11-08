@@ -31,8 +31,4 @@ public class LineOperatingStatusInfos extends ElementInfosWithOperatingStatus {
     private Boolean terminal1Connected;
 
     private Boolean terminal2Connected;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String operatingStatus;
-
 }

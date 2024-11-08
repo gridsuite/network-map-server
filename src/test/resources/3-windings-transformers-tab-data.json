@@ -104,7 +104,31 @@
     "regulationModeName1": "CURRENT_LIMITER",
     "isRegulatingRatio3": false,
     "isRegulatingPhase1": true,
-    "regulatingValue1": 25.0
+    "regulatingValue1": 25.0,
+    "measurementP1": {
+      "value": 3.0,
+      "validity": false
+    },
+    "measurementQ1": {
+      "value": 13.0,
+      "validity": true
+    },
+    "measurementRatioTap1": {
+      "value": 14,
+      "validity": true
+    },
+    "measurementPhaseTap2": {
+      "value": 4,
+      "validity": false
+    },
+    "measurementRatioTap3": {
+      "value": 12,
+      "validity": false
+    },
+    "measurementPhaseTap3": {
+      "value": 17,
+      "validity": true
+    }
   },
   {
     "id": "TWT21",
@@ -211,7 +235,31 @@
     "regulationModeName2": "CURRENT_LIMITER",
     "isRegulatingRatio1": false,
     "isRegulatingPhase2": true,
-    "regulatingValue2": 25.0
+    "regulatingValue2": 25.0,
+    "measurementP1": {
+      "value": 3.0,
+      "validity": false
+    },
+    "measurementQ1": {
+      "value": 13.0,
+      "validity": true
+    },
+    "measurementRatioTap1": {
+      "value": 14,
+      "validity": true
+    },
+    "measurementPhaseTap2": {
+      "value": 4,
+      "validity": false
+    },
+    "measurementRatioTap3": {
+      "value": 12,
+      "validity": false
+    },
+    "measurementPhaseTap3": {
+      "value": 17,
+      "validity": true
+    }
   },
   {
     "id": "TWT32",
@@ -318,6 +366,30 @@
     "regulationModeName3": "CURRENT_LIMITER",
     "isRegulatingRatio2": false,
     "isRegulatingPhase3": true,
-    "regulatingValue3": 25.0
+    "regulatingValue3": 25.0,
+    "measurementP1": {
+      "value": 3.0,
+      "validity": false
+    },
+    "measurementQ1": {
+      "value": 13.0,
+      "validity": true
+    },
+    "measurementRatioTap1": {
+      "value": 14,
+      "validity": true
+    },
+    "measurementPhaseTap2": {
+      "value": 4,
+      "validity": false
+    },
+    "measurementRatioTap3": {
+      "value": 12,
+      "validity": false
+    },
+    "measurementPhaseTap3": {
+      "value": 17,
+      "validity": true
+    }
   }
 ]

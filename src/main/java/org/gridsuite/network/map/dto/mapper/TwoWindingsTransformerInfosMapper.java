@@ -7,6 +7,8 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
@@ -138,6 +140,15 @@ public final class TwoWindingsTransformerInfosMapper {
         }
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+
+        builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
+            .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
+            .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+
+        builder.measurementRatioTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER))
+            .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
+
         return builder.build();
     }
 

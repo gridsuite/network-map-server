@@ -21,6 +21,14 @@
     "terminalConnected": true,
     "hvdcLineId": "HVDC1",
     "p": 110.0,
-    "q": 310.0
+    "q": 310.0,
+    "measurementP": {
+      "value": 5.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 55.0,
+      "validity": true
+    }
   }
 ]

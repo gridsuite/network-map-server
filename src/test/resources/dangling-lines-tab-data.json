@@ -10,7 +10,15 @@
     "p": 45.0,
     "q": 75.0,
     "p0": 50.0,
-    "q0": 30.0
+    "q0": 30.0,
+    "measurementP": {
+      "value": 66.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 77.0,
+      "validity": false
+    }
   },
   {
     "id": "DL2",

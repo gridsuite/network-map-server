@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorFormInfos;
@@ -89,6 +90,8 @@ public final class StaticVarCompensatorInfosMapper {
         if (!Double.isNaN(staticVarCompensator.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint());
         }
+
+        builder.measurementQ(toMeasurement(staticVarCompensator, Measurement.Type.REACTIVE_POWER, 0));
 
         return builder.build();
     }

@@ -6,14 +6,12 @@
  */
 package org.gridsuite.network.map.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 public class InfoTypeParameters {
     public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
     public static final String QUERY_PARAM_OPERATION = "operation";

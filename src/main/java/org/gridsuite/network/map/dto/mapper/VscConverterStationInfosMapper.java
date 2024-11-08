@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -68,6 +69,9 @@ public final class VscConverterStationInfosMapper {
             builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
         }
 
+        builder.measurementP(toMeasurement(vscConverterStation, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ(toMeasurement(vscConverterStation, Measurement.Type.REACTIVE_POWER, 0));
+
         return builder.build();
     }
 
@@ -104,5 +108,4 @@ public final class VscConverterStationInfosMapper {
 
         return builder.build();
     }
-
 }
