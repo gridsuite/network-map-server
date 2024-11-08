@@ -12,19 +12,27 @@
       "maxQ": 500.0
     },
     "connectablePosition": {
-      "connectionName": "feederName",
+      "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "connectionDirection": "TOP"
+      "connectionName": "feederName"
     },
     "terminalConnected": false,
     "nominalVoltage": 225.0,
-    "country": "FR"
+    "country": "FR",
+    "measurementP": {
+      "value": 12.0,
+      "validity": false
+    },
+    "measurementQ": {
+      "value": 44.0,
+      "validity": true
+    }
   },
   {
     "id": "BATTERY2",
     "name": "BATTERY2",
     "voltageLevelId": "VLGEN3",
-     "targetP": 1.0,
+    "targetP": 1.0,
     "targetQ": 1.0,
     "minP": 50.0,
     "maxP": 70.0,
@@ -45,17 +53,25 @@
         "maxQ": 5.0
       }
     ],
-    "activePowerControl":{
+    "activePowerControl": {
       "participate": true,
       "droop": 3.0
     },
     "connectablePosition": {
-      "connectionName": "feederName",
+      "connectionDirection": "TOP",
       "connectionPosition": 0,
-      "connectionDirection": "TOP"
+      "connectionName": "feederName"
     },
     "terminalConnected": false,
     "nominalVoltage": 24.0,
-    "country": "FR"
+    "country": "FR",
+    "measurementP": {
+      "value": 34.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 84.0,
+      "validity": true
+    }
   }
 ]
