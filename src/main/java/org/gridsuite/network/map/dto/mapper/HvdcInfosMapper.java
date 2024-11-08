@@ -9,11 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
-import org.gridsuite.network.map.dto.definition.hvdc.HvdcListInfos;
-import org.gridsuite.network.map.dto.definition.hvdc.HvdcMapInfos;
-import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
+import org.gridsuite.network.map.dto.definition.hvdc.*;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 
 import java.util.List;
@@ -38,6 +34,8 @@ public final class HvdcInfosMapper {
                 return toMapInfos(identifiable);
             case LIST:
                 return toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return toOperatingStatusInfos(identifiable);
             case FORM:
                 return toFormInfos(identifiable);
             default:
@@ -73,6 +71,19 @@ public final class HvdcInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .build();
+    }
+
+    private static HvdcOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+        HvdcLine hvdcLine = (HvdcLine) identifiable;
+        Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
+        Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
+
+        return HvdcOperatingStatusInfos.builder()
+                .id(hvdcLine.getId())
+                .name(hvdcLine.getOptionalName().orElse(null))
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .operatingStatus(toOperatingStatus(hvdcLine))
                 .build();
     }

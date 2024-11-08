@@ -38,6 +38,8 @@ public final class LineInfosMapper {
                 return toMapInfos(identifiable, dcPowerFactor);
             case LIST:
                 return toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return toOperatingStatusInfos(identifiable);
             case TOOLTIP:
                 return toTooltipInfos(identifiable, dcPowerFactor);
             default:
@@ -102,6 +104,23 @@ public final class LineInfosMapper {
                 .terminal2Connected(terminal2.isConnected())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .build();
+    }
+
+    public static LineOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+        Line line = (Line) identifiable;
+        Terminal terminal1 = line.getTerminal1();
+        Terminal terminal2 = line.getTerminal2();
+
+        return LineOperatingStatusInfos.builder()
+                .id(line.getId())
+                .name(line.getOptionalName().orElse(null))
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
                 .operatingStatus(toOperatingStatus(line))
                 .build();
     }
