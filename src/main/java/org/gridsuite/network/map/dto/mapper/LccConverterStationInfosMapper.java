@@ -9,12 +9,14 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.LccConverterStation;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -60,7 +62,9 @@ public final class LccConverterStationInfosMapper {
             builder.hvdcLineId(lccConverterStation.getHvdcLine().getId());
         }
 
+        builder.measurementP(toMeasurement(lccConverterStation, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ(toMeasurement(lccConverterStation, Measurement.Type.REACTIVE_POWER, 0));
+
         return builder.build();
     }
-
 }

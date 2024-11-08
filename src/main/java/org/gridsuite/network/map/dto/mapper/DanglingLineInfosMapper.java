@@ -9,12 +9,14 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.DanglingLine;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -55,6 +57,10 @@ public final class DanglingLineInfosMapper {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
+
+        builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));
+
         return builder.build();
     }
 }

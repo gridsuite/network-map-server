@@ -14,6 +14,10 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
+
+import java.util.Optional;
 
 
 /**
@@ -99,4 +103,21 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
 
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap;
 }
