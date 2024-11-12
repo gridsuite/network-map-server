@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
@@ -86,6 +87,9 @@ public final class LoadInfosMapper {
         }
 
         builder.connectablePosition(toMapConnectablePosition(load, 0));
+
+        builder.measurementP(toMeasurement(load, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ(toMeasurement(load, Measurement.Type.REACTIVE_POWER, 0));
 
         return builder.build();
     }

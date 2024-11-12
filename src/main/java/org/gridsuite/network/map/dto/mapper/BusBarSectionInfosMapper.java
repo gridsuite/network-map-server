@@ -8,12 +8,14 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
-import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionListInfos;
+import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabInfos;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toOperatingStatus;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -25,10 +27,14 @@ public final class BusBarSectionInfosMapper {
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         switch (infoTypeParameters.getInfoType()) {
+            case TAB:
+                return toTabInfos(identifiable);
             case FORM:
                 return toFormInfos(identifiable);
             case LIST:
-                return toListInfos(identifiable); // TODO:ElementInfosMapper.toListInfos()
+                return ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -44,13 +50,15 @@ public final class BusBarSectionInfosMapper {
         return builder.build();
     }
 
-    public static BusBarSectionListInfos toListInfos(Identifiable<?> identifiable) {
-        BusbarSection busBarSection = (BusbarSection) identifiable;
-        return BusBarSectionListInfos.builder()
-                .id(busBarSection.getId())
-                .name(busBarSection.getOptionalName().orElse(null))
-                .operatingStatus(toOperatingStatus(busBarSection))
-                .build();
+    public static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
+        BusbarSection busbarSection = (BusbarSection) identifiable;
+        return BusBarSectionTabInfos.builder()
+            .id(busbarSection.getId())
+            .name(busbarSection.getOptionalName().orElse(null))
+            .properties(getProperties(busbarSection))
+            .voltageLevelId(busbarSection.getTerminal().getVoltageLevel().getId())
+            .measurementV(toMeasurement(busbarSection, Measurement.Type.VOLTAGE, 0))
+            .measurementAngle(toMeasurement(busbarSection, Measurement.Type.ANGLE, 0))
+            .build();
     }
-
 }

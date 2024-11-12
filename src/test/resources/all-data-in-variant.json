@@ -1,11 +1,6 @@
 {
   "substations": [
     {
-      "id": "P0",
-      "voltageLevels": [],
-      "country": "FR"
-    },
-    {
       "id": "P1",
       "voltageLevels": [
         {
@@ -43,6 +38,11 @@
           "nominalV": 150.0
         }
       ]
+    },
+    {
+      "id": "P0",
+      "voltageLevels": [],
+      "country": "FR"
     },
     {
       "id": "P3",
@@ -241,7 +241,15 @@
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93E-4
+      "b2": 1.93E-4,
+      "measurementP1": {
+        "value": 11.0,
+        "validity": true
+      },
+      "measurementQ1": {
+        "value": 24.0,
+        "validity": false
+      }
     },
     {
       "id": "LINE4",
@@ -345,6 +353,9 @@
   "loads": [
     {
       "id": "LOAD",
+      "properties": {
+        "Country": "FR"
+      },
       "type": "UNDEFINED",
       "voltageLevelId": "VLLOAD",
       "nominalVoltage": 150.0,
@@ -355,9 +366,6 @@
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      },
-      "properties": {
-        "Country": "FR"
       }
     },
     {
@@ -371,6 +379,14 @@
       "q0": 200.0,
       "connectablePosition": {
         "connectionDirection": null
+      },
+      "measurementP": {
+        "value": 87.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 74.0,
+        "validity": false
       }
     },
     {
@@ -385,6 +401,14 @@
       "q0": 200.0,
       "connectablePosition": {
         "connectionDirection": null
+      },
+      "measurementP": {
+        "value": 17.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 91.0,
+        "validity": true
       }
     }
   ],
@@ -591,6 +615,22 @@
       },
       "connectablePosition2": {
         "connectionDirection": null
+      },
+      "measurementP1": {
+        "value": 27.0,
+        "validity": true
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementRatioTap": {
+        "value": 11,
+        "validity": true
+      },
+      "measurementPhaseTap": {
+        "value": 7,
+        "validity": false
       }
     }
   ],
@@ -700,7 +740,31 @@
       "regulationModeName1": "CURRENT_LIMITER",
       "isRegulatingRatio3": false,
       "isRegulatingPhase1": true,
-      "regulatingValue1": 25.0
+      "regulatingValue1": 25.0,
+      "measurementP1": {
+        "value": 3.0,
+        "validity": false
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
+        "value": 12,
+        "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
+      }
     },
     {
       "id": "TWT21",
@@ -807,7 +871,31 @@
       "regulationModeName2": "CURRENT_LIMITER",
       "isRegulatingRatio1": false,
       "isRegulatingPhase2": true,
-      "regulatingValue2": 25.0
+      "regulatingValue2": 25.0,
+      "measurementP1": {
+        "value": 3.0,
+        "validity": false
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
+        "value": 12,
+        "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
+      }
     },
     {
       "id": "TWT32",
@@ -914,7 +1002,31 @@
       "regulationModeName3": "CURRENT_LIMITER",
       "isRegulatingRatio2": false,
       "isRegulatingPhase3": true,
-      "regulatingValue3": 25.0
+      "regulatingValue3": 25.0,
+      "measurementP1": {
+        "value": 3.0,
+        "validity": false
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
+        "value": 12,
+        "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
+      }
     }
   ],
   "generators": [
@@ -944,10 +1056,6 @@
         "minQ": -500.0,
         "maxQ": 500.0
       },
-      "activePowerControl":{
-        "participate": true,
-        "droop": 4.0
-      },
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
@@ -962,6 +1070,14 @@
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
+      },
+      "measurementP": {
+        "value": 50.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 5.0,
+        "validity": true
       }
     },
     {
@@ -1001,6 +1117,14 @@
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
+      },
+      "measurementP": {
+        "value": 30.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 80.0,
+        "validity": false
       }
     }
   ],
@@ -1024,7 +1148,15 @@
       },
       "terminalConnected": false,
       "nominalVoltage": 225.0,
-      "country": "FR"
+      "country": "FR",
+      "measurementP": {
+        "value": 12.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 44.0,
+        "validity": true
+      }
     },
     {
       "id": "BATTERY2",
@@ -1051,7 +1183,7 @@
           "maxQ": 5.0
         }
       ],
-      "activePowerControl":{
+      "activePowerControl": {
         "participate": true,
         "droop": 3.0
       },
@@ -1062,7 +1194,15 @@
       },
       "terminalConnected": false,
       "nominalVoltage": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "measurementP": {
+        "value": 34.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 84.0,
+        "validity": true
+      }
     }
   ],
   "danglingLines": [
@@ -1077,7 +1217,15 @@
       "p": 45.0,
       "q": 75.0,
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "measurementP": {
+        "value": 66.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 77.0,
+        "validity": false
+      }
     },
     {
       "id": "DL2",
@@ -1135,7 +1283,15 @@
       "terminalConnected": true,
       "hvdcLineId": "HVDC1",
       "p": 110.0,
-      "q": 310.0
+      "q": 310.0,
+      "measurementP": {
+        "value": 5.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 55.0,
+        "validity": true
+      }
     }
   ],
   "shuntCompensators": [
@@ -1151,11 +1307,15 @@
       "maxSusceptance": 40.0,
       "maxQAtNominalV": 2025000.0,
       "maximumSectionCount": 8,
-      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
+      },
+      "targetV": 225.0,
+      "measurementQ": {
+        "value": 45.0,
+        "validity": false
       }
     },
     {
@@ -1169,12 +1329,12 @@
       "maxSusceptance": 3.0,
       "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
-      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      }
+      },
+      "targetV": 225.0
     },
     {
       "id": "SHUNT_VLNB",
@@ -1187,9 +1347,13 @@
       "maxSusceptance": 3.0,
       "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
-      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": null
+      },
+      "targetV": 225.0,
+      "measurementQ": {
+        "value": 69.0,
+        "validity": true
       }
     },
     {
@@ -1201,10 +1365,10 @@
       "terminalConnected": false,
       "sectionCount": 2,
       "maximumSectionCount": 2,
-      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": null
-      }
+      },
+      "targetV": 225.0
     },
     {
       "id": "SHUNT3",
@@ -1218,12 +1382,12 @@
       "maxSusceptance": 3.0,
       "maxQAtNominalV": 1728.0,
       "maximumSectionCount": 3,
-      "targetV": 225.0,
       "connectablePosition": {
         "connectionDirection": "TOP",
         "connectionPosition": 0,
         "connectionName": "feederName"
-      }
+      },
+      "targetV": 225.0
     }
   ],
   "staticVarCompensators": [
@@ -1238,7 +1402,11 @@
       "p": 120.0,
       "q": 43.0,
       "voltageSetpoint": 200.0,
-      "reactivePowerSetpoint": 100.0
+      "reactivePowerSetpoint": 100.0,
+      "measurementQ": {
+        "value": 58.0,
+        "validity": false
+      }
     },
     {
       "id": "SVC2",
@@ -1294,7 +1462,15 @@
       "terminalConnected": true,
       "hvdcLineId": "HVDC3",
       "p": 10.0,
-      "q": 30.0
+      "q": 30.0,
+      "measurementP": {
+        "value": 16.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 63.0,
+        "validity": false
+      }
     },
     {
       "id": "VSC5",
@@ -1308,7 +1484,15 @@
       "terminalConnected": true,
       "hvdcLineId": "HVDC4",
       "p": 10.0,
-      "q": 30.0
+      "q": 30.0,
+      "measurementP": {
+        "value": 88.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 33.0,
+        "validity": true
+      }
     },
     {
       "id": "VSC6",
@@ -1406,6 +1590,26 @@
       "voltageLevelId": "VLGEN6",
       "nominalVoltage": 24.0,
       "country": "FR"
+    }
+  ],
+  "busbarSections": [
+    {
+      "id": "NGEN4",
+      "name": "NGEN4",
+      "voltageLevelId": "VLGEN4",
+      "measurementV": {
+        "value": 385.0,
+        "validity": true
+      },
+      "measurementAngle": {
+        "value": 0.5,
+        "validity": false
+      }
+    },
+    {
+      "id": "NGEN5",
+      "name": "NGEN5",
+      "voltageLevelId": "VLGEN5"
     }
   ]
 }

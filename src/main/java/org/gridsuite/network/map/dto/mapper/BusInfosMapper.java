@@ -10,7 +10,6 @@ import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.bus.BusListInfos;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
@@ -27,20 +26,12 @@ public final class BusInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         switch (infoTypeParameters.getInfoType()) {
             case LIST:
-                return toListInfos(identifiable); // TODO:ElementInfosMapper.toListInfos()
+                return ElementInfosMapper.toListInfos(identifiable);
             case TAB:
                 return toTabInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
-    }
-
-    public static BusListInfos toListInfos(Identifiable<?> identifiable) {
-        Bus bus = (Bus) identifiable;
-        return BusListInfos.builder()
-                .id(bus.getId())
-                .name(bus.getOptionalName().orElse(null))
-                .build();
     }
 
     public static BusTabInfos toTabInfos(Identifiable<?> identifiable) {

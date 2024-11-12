@@ -7,12 +7,11 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerListInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTooltipInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
@@ -33,6 +32,8 @@ public final class TwoWindingsTransformerInfosMapper {
         switch (infoTypeParameters.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return toOperatingStatusInfos(identifiable);
             case TOOLTIP:
                 return toTooltipInfos(identifiable, dcPowerFactor);
             case TAB:
@@ -139,6 +140,15 @@ public final class TwoWindingsTransformerInfosMapper {
         }
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+
+        builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
+            .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
+            .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+
+        builder.measurementRatioTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER))
+            .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
+
         return builder.build();
     }
 
@@ -154,6 +164,19 @@ public final class TwoWindingsTransformerInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .build();
+    }
+
+    public static TwoWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+        TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
+        Terminal terminal1 = twoWT.getTerminal1();
+        Terminal terminal2 = twoWT.getTerminal2();
+
+        return TwoWindingsTransformerOperatingStatusInfos.builder()
+                .id(twoWT.getId())
+                .name(twoWT.getOptionalName().orElse(null))
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .operatingStatus(toOperatingStatus(twoWT))
                 .build();
     }

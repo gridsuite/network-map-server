@@ -10,9 +10,12 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
+import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerListInfos;
+import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerOperatingStatusInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
@@ -32,6 +35,8 @@ public final class ThreeWindingsTransformerInfosMapper {
         switch (infoTypeParameters.getInfoType()) {
             case LIST:
                 return toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return toOperatingStatusInfos(identifiable);
             case TAB:
                 return toTabInfos(identifiable);
             default:
@@ -54,6 +59,21 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .substationId3(terminal3.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .build();
+    }
+
+    public static ThreeWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+        ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
+        Terminal terminal1 = threeWT.getLeg1().getTerminal();
+        Terminal terminal2 = threeWT.getLeg2().getTerminal();
+        Terminal terminal3 = threeWT.getLeg3().getTerminal();
+
+        return ThreeWindingsTransformerOperatingStatusInfos.builder()
+                .id(threeWT.getId())
+                .name(threeWT.getOptionalName().orElse(null))
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .voltageLevelId3(terminal3.getVoltageLevel().getId())
                 .operatingStatus(toOperatingStatus(threeWT))
                 .build();
     }
@@ -110,6 +130,21 @@ public final class ThreeWindingsTransformerInfosMapper {
         }
         mapThreeWindingsTransformerRatioTapChangers(builder, threeWT);
         mapThreeWindingsTransformerPermanentLimits(builder, threeWT);
+
+        builder.measurementP1(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 0))
+            .measurementQ1(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 0))
+            .measurementP2(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 1))
+            .measurementQ2(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 1))
+            .measurementP3(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 2))
+            .measurementQ3(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 2));
+
+        builder.measurementRatioTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1))
+            .measurementPhaseTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_1))
+            .measurementRatioTap2(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_2))
+            .measurementPhaseTap2(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2))
+            .measurementRatioTap3(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3))
+            .measurementPhaseTap3(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3));
+
         return builder.build();
     }
 }
