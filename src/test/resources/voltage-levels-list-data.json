@@ -1,5 +1,10 @@
 [
   {
+    "id": "VL",
+    "name":"VL",
+    "topologyKind": "BUS_BREAKER"
+  },
+  {
     "id": "VLGEN",
     "topologyKind": "BUS_BREAKER"
   },

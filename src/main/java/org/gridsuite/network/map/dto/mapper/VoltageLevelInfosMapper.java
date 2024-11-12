@@ -126,7 +126,7 @@ public final class VoltageLevelInfosMapper {
         VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
-                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
+                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalV(voltageLevel.getNominalV())
                 .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
