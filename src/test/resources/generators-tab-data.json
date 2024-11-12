@@ -39,6 +39,14 @@
       "connectionDirection": "TOP",
       "connectionPosition": 0,
       "connectionName": "feederName"
+    },
+    "measurementP": {
+      "value": 50.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 5.0,
+      "validity": true
     }
   },
   {
@@ -55,9 +63,21 @@
     "energySource": "OTHER",
     "voltageRegulatorOn": true,
     "reactiveCapabilityCurvePoints": [
-      { "p": 0.0, "minQ": 6.0, "maxQ": 7.0 },
-      { "p": 1.0, "minQ": 4.0, "maxQ": 5.0 },
-      { "p": 3.0, "minQ": 4.0, "maxQ": 5.0 }
+      {
+        "p": 0.0,
+        "minQ": 6.0,
+        "maxQ": 7.0
+      },
+      {
+        "p": 1.0,
+        "minQ": 4.0,
+        "maxQ": 5.0
+      },
+      {
+        "p": 3.0,
+        "minQ": 4.0,
+        "maxQ": 5.0
+      }
     ],
     "coordinatedReactiveControl": {
       "qPercent": 10.0
@@ -66,6 +86,14 @@
       "connectionDirection": "TOP",
       "connectionPosition": 0,
       "connectionName": "feederName"
+    },
+    "measurementP": {
+      "value": 30.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 80.0,
+      "validity": false
     }
   }
 ]

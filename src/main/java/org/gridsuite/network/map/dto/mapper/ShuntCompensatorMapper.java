@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
@@ -110,6 +111,8 @@ public final class ShuntCompensatorMapper {
         }
 
         builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
+
+        builder.measurementQ(toMeasurement(shuntCompensator, Measurement.Type.REACTIVE_POWER, 0));
 
         return builder.build();
     }

@@ -10,7 +10,11 @@
     "p": 120.0,
     "q": 43.0,
     "voltageSetpoint": 200.0,
-    "reactivePowerSetpoint": 100.0
+    "reactivePowerSetpoint": 100.0,
+    "measurementQ": {
+      "value": 58.0,
+      "validity": false
+    }
   },
   {
     "id": "SVC2",
