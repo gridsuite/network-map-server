@@ -10,12 +10,16 @@ import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import org.gridsuite.network.map.dto.*;
+import org.gridsuite.network.map.dto.AllElementsInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -46,8 +50,8 @@ public class NetworkMapService {
         }
     }
 
-    private PreloadingStrategy getPreloadingStrategy(List<String> substationsIds) {
-        return substationsIds == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE;
+    private static PreloadingStrategy getPreloadingStrategy(@NonNull List<String> substationsIds) {
+        return substationsIds.isEmpty() ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE;
     }
 
     public List<String> getSubstationsIds(UUID networkUuid, String variantId, List<Double> nominalVoltages) {
@@ -58,7 +62,7 @@ public class NetworkMapService {
                 .map(Substation::getId).toList();
     }
 
-    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, List<String> substationsId) {
+    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
         return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, InfoTypeParameters.TAB, null))
@@ -77,17 +81,18 @@ public class NetworkMapService {
                 .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, InfoTypeParameters.TAB, null))
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoTypeParameters.TAB, null))
                 .buses(getBusesInfos(network, substationsId, InfoTypeParameters.TAB))
+                .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, InfoTypeParameters.TAB, null))
                 .build();
     }
 
-    public List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, List<String> substationsIds, List<Double> nominalVoltages) {
+    private List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         return getVoltageLevelStream(network, substationsIds, nominalVoltages).map(VoltageLevel::getId).toList();
     }
 
-    public List<ElementInfos> getVoltageLevelEquipments(UUID networkUuid, String voltageLevelId, String variantId, List<String> substationsId) {
+    public List<ElementInfos> getVoltageLevelEquipments(UUID networkUuid, String voltageLevelId, String variantId, @NonNull List<String> substationsId) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsId), variantId);
-        List<VoltageLevel> voltageLevels = substationsId == null ?
+        List<VoltageLevel> voltageLevels = substationsId.isEmpty() ?
                 List.of(network.getVoltageLevel(voltageLevelId)) :
                 substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId()))).toList();
 
@@ -115,9 +120,9 @@ public class NetworkMapService {
                 .map(BusbarSection::getId).collect(Collectors.toList());
     }
 
-    public List<String> getHvdcLinesIds(UUID networkUuid, String variantId, List<String> substationsIds, List<Double> nominalVoltages) {
+    private List<String> getHvdcLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-        if (substationsIds == null && nominalVoltages == null) {
+        if (substationsIds.isEmpty() && nominalVoltages == null) {
             return network.getHvdcLineStream()
                     .map(HvdcLine::getId).toList();
         } else {
@@ -131,9 +136,9 @@ public class NetworkMapService {
         }
     }
 
-    public List<String> getTieLinesIds(UUID networkUuid, String variantId, List<String> substationsIds, List<Double> nominalVoltages) {
+    private List<String> getTieLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-        if (substationsIds == null && nominalVoltages == null) {
+        if (substationsIds.isEmpty() && nominalVoltages == null) {
             return network.getTieLineStream()
                     .map(TieLine::getId).toList();
         } else {
@@ -147,8 +152,8 @@ public class NetworkMapService {
         }
     }
 
-    private List<ElementInfos> getSubstationsInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        Stream<Substation> substations = substationsId == null ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
+    private List<ElementInfos> getSubstationsInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        Stream<Substation> substations = substationsId.isEmpty() ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
                 .filter(substation -> nominalVoltages == null ||
                         substation.getVoltageLevelStream().anyMatch(voltageLevel -> nominalVoltages.contains(voltageLevel.getNominalV())))
@@ -156,14 +161,14 @@ public class NetworkMapService {
                 .toList();
     }
 
-    public List<ElementInfos> getVoltageLevelsInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    private List<ElementInfos> getVoltageLevelsInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         return getVoltageLevelStream(network, substationsId, nominalVoltages)
                 .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c, infoTypeParameters))
                 .toList();
     }
 
-    public List<ElementInfos> getHvdcLinesInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        Stream<HvdcLine> hvdcLines = substationsId == null ? network.getHvdcLineStream() :
+    private List<ElementInfos> getHvdcLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        Stream<HvdcLine> hvdcLines = substationsId.isEmpty() ? network.getHvdcLineStream() :
                 substationsId.stream()
                         .map(network::getSubstation)
                         .flatMap(Substation::getVoltageLevelStream)
@@ -178,8 +183,8 @@ public class NetworkMapService {
                 .toList();
     }
 
-    public List<ElementInfos> getTieLinesInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        Stream<TieLine> tieLines = substationsId == null ? network.getTieLineStream() :
+    private List<ElementInfos> getTieLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        Stream<TieLine> tieLines = substationsId.isEmpty() ? network.getTieLineStream() :
                 substationsId.stream()
                         .map(network::getSubstation)
                         .flatMap(Substation::getVoltageLevelStream)
@@ -194,8 +199,8 @@ public class NetworkMapService {
                 .toList();
     }
 
-    public List<ElementInfos> getBusesInfos(Network network, List<String> substationsId, InfoTypeParameters infoTypeParameters) {
-        Stream<Bus> buses = substationsId == null ? network.getBusView().getBusStream() :
+    private List<ElementInfos> getBusesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters) {
+        Stream<Bus> buses = substationsId.isEmpty() ? network.getBusView().getBusStream() :
                 network.getBusView().getBusStream()
                         .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
                         .filter(Objects::nonNull)
@@ -206,13 +211,14 @@ public class NetworkMapService {
                 .toList();
     }
 
-    private List<ElementInfos> getElementsInfos(Network network, List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    private List<ElementInfos> getElementsInfos(Network network, @NonNull List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
-        Stream<? extends Connectable> connectables = substationsIds == null ?
+        Stream<? extends Connectable> connectables = substationsIds.isEmpty() ?
                 getConnectableStream(network, elementType) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
-                        .filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()))
+                        .filter(voltageLevel -> (elementType != ElementType.BUSBAR_SECTION || voltageLevel.getTopologyKind() != TopologyKind.BUS_BREAKER)
+                            && (nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
                         .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
                         .distinct();
         return connectables
@@ -220,7 +226,7 @@ public class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, List<String> substationsIds, ElementType equipmentType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType equipmentType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         switch (equipmentType) {
             case SUBSTATION:
@@ -270,7 +276,7 @@ public class NetworkMapService {
         return HvdcInfosMapper.toHvdcShuntCompensatorsInfos(hvdcLine);
     }
 
-    public List<String> getElementsIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
+    public List<String> getElementsIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
         switch (elementType) {
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId, nominalVoltages);
@@ -285,9 +291,9 @@ public class NetworkMapService {
         }
     }
 
-    private List<String> getConnectablesIds(UUID networkUuid, String variantId, List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
+    private List<String> getConnectablesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-        if (substationsIds == null && nominalVoltages == null) {
+        if (substationsIds.isEmpty() && nominalVoltages == null) {
             return getConnectableStream(network, elementType)
                     .map(Connectable::getId)
                     .toList();
@@ -300,9 +306,9 @@ public class NetworkMapService {
         }
     }
 
-    private Stream<VoltageLevel> getVoltageLevelStream(Network network, List<String> substationsIds, List<Double> nominalVoltages) {
+    private Stream<VoltageLevel> getVoltageLevelStream(Network network, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
         Stream<VoltageLevel> voltageLevelStream =
-                substationsIds == null ?
+                substationsIds.isEmpty() ?
                         network.getVoltageLevelStream() :
                         substationsIds.stream().flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream());
         return voltageLevelStream.filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()));

@@ -19,9 +19,10 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +86,6 @@ class NetworkMapControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         Network network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l2 = network.getLine("NHV1_NHV2_2");
         l2.newCurrentLimits1().setPermanentLimit(Double.NaN).add();
@@ -243,6 +242,16 @@ class NetworkMapControllerTest {
                 .setAcceptableDuration(34)
                 .endTemporaryLimit()
                 .add();
+        t3.newExtension(MeasurementsAdder.class).add();
+        Measurements<TwoWindingsTransformer> t3Measurements = t3.getExtension(Measurements.class);
+        t3Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(27).add();
+        t3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(13).add();
+        t3Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.TWO).setValid(false).setValue(68).add();
+        t3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.TWO).setValid(false).setValue(53).add();
+        t3.newExtension(DiscreteMeasurementsAdder.class).add();
+        DiscreteMeasurements<TwoWindingsTransformer> t3DiscreteMeasurements = t3.getExtension(DiscreteMeasurements.class);
+        t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11).add();
+        t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7).add();
 
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
@@ -275,6 +284,10 @@ class NetworkMapControllerTest {
                 .withPlannedOutageRate(0.4)
                 .withForcedOutageRate(2)
                 .add();
+        gen.newExtension(MeasurementsAdder.class).add();
+        Measurements<Generator> genMeasurements = gen.getExtension(Measurements.class);
+        genMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(50).add();
+        genMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(5).add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
@@ -304,6 +317,10 @@ class NetworkMapControllerTest {
         gen2.newExtension(CoordinatedReactiveControlAdder.class)
                 .withQPercent(10.0)
                 .add();
+        gen2.newExtension(MeasurementsAdder.class).add();
+        Measurements<Generator> gen2Measurements = gen2.getExtension(Measurements.class);
+        gen2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(30).add();
+        gen2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(80).add();
 
         VoltageLevel vlnew2 = p1.newVoltageLevel()
                 .setId("VLNEW2")
@@ -361,6 +378,11 @@ class NetworkMapControllerTest {
                 .add();
         line3.getTerminal1().setP(200.);
         line3.getTerminal2().setP(100.);
+        line3.newExtension(MeasurementsAdder.class).add();
+        Measurements<Line> line3Measurements = line3.getExtension(Measurements.class);
+        line3Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(11).add();
+        line3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.ONE).setValid(false).setValue(24).add();
+        line3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.TWO).setValid(true).setValue(45).add();
 
         Substation p6 = network.newSubstation()
                 .setId("P6")
@@ -410,6 +432,10 @@ class NetworkMapControllerTest {
         b1.newMinMaxReactiveLimits().setMinQ(-500)
                 .setMaxQ(500)
                 .add();
+        b1.newExtension(MeasurementsAdder.class).add();
+        Measurements<Battery> b1Measurements = b1.getExtension(Measurements.class);
+        b1Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(12).add();
+        b1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(44).add();
 
         Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
@@ -443,6 +469,10 @@ class NetworkMapControllerTest {
                 .setMaxQ(5)
                 .endPoint()
                 .add();
+        b2.newExtension(MeasurementsAdder.class).add();
+        Measurements<Battery> b2Measurements = b2.getExtension(Measurements.class);
+        b2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(34).add();
+        b2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(84).add();
 
         VoltageLevel vl1 = network.getVoltageLevel("VLGEN");
         DanglingLine dl = vl1.newDanglingLine()
@@ -460,6 +490,10 @@ class NetworkMapControllerTest {
                 .add();
         dl.getTerminal().setP(45);
         dl.getTerminal().setQ(75);
+        dl.newExtension(MeasurementsAdder.class).add();
+        Measurements<DanglingLine> dlMeasurements = dl.getExtension(Measurements.class);
+        dlMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(66).add();
+        dlMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(77).add();
 
         vlgen3.newDanglingLine()
                 .setId("DL2")
@@ -535,6 +569,10 @@ class NetworkMapControllerTest {
                 .add();
         vsc4.getTerminal().setP(10);
         vsc4.getTerminal().setQ(30);
+        vsc4.newExtension(MeasurementsAdder.class).add();
+        Measurements<VscConverterStation> vsc4Measurements = vsc4.getExtension(Measurements.class);
+        vsc4Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(16).add();
+        vsc4Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(63).add();
 
         VscConverterStation vsc5 = vlnew2.newVscConverterStation()
                 .setId("VSC5")
@@ -549,6 +587,10 @@ class NetworkMapControllerTest {
         vsc5.newMinMaxReactiveLimits().setMinQ(40).setMaxQ(45).add();
         vsc5.getTerminal().setP(10);
         vsc5.getTerminal().setQ(30);
+        vsc5.newExtension(MeasurementsAdder.class).add();
+        Measurements<VscConverterStation> vsc5Measurements = vsc5.getExtension(Measurements.class);
+        vsc5Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(88).add();
+        vsc5Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(33).add();
 
         VscConverterStation vsc6 = vlnew2.newVscConverterStation()
                 .setId("VSC6")
@@ -606,6 +648,10 @@ class NetworkMapControllerTest {
                 .add();
         lcc2.getTerminal().setP(110);
         lcc2.getTerminal().setQ(310);
+        lcc2.newExtension(MeasurementsAdder.class).add();
+        Measurements<LccConverterStation> lcc2Measurements = lcc2.getExtension(Measurements.class);
+        lcc2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(5).add();
+        lcc2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(55).add();
 
         network.newHvdcLine()
                 .setId("HVDC1")
@@ -698,6 +744,9 @@ class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
+        shunt1.newExtension(MeasurementsAdder.class).add();
+        Measurements<ShuntCompensator> shunt1Measurements = shunt1.getExtension(Measurements.class);
+        shunt1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(45).add();
 
         var shunt2 = vlgen3.newShuntCompensator()
                 .setId("SHUNT2")
@@ -748,6 +797,9 @@ class NetworkMapControllerTest {
                 .withHighVoltageThreshold(200.0)
                 .withLowVoltageThreshold(120.0)
                 .add();
+        svc1.newExtension(MeasurementsAdder.class).add();
+        Measurements<StaticVarCompensator> staticVarMeasurements = svc1.getExtension(Measurements.class);
+        staticVarMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(58).add();
 
         vlnew2.newStaticVarCompensator()
                 .setId("SVC2")
@@ -772,11 +824,16 @@ class NetworkMapControllerTest {
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        vlgen4.getNodeBreakerView().newBusbarSection()
+        BusbarSection bbs4 = vlgen4.getNodeBreakerView().newBusbarSection()
                 .setId("NGEN4")
                 .setName("NGEN4")
                 .setNode(0)
                 .add();
+        bbs4.newExtension(MeasurementsAdder.class).add();
+        Measurements<BusbarSection> bbs4Measurements = bbs4.getExtension(Measurements.class);
+        bbs4Measurements.newMeasurement().setType(Measurement.Type.VOLTAGE).setValid(true).setValue(385.).add();
+        bbs4Measurements.newMeasurement().setType(Measurement.Type.ANGLE).setValid(false).setValue(0.5).add();
+
         vlgen4.getNodeBreakerView()
                 .getBusbarSection("NGEN4")
                 .newExtension(BusbarSectionPositionAdder.class)
@@ -805,7 +862,7 @@ class NetworkMapControllerTest {
         vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
 
         // Create a connected shunt compensator on a NODE_BREAKER voltage level
-        vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
+        ShuntCompensator shunt4 = vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
                 .setName("SHUNT_VLNB")
                 .newLinearModel()
                 .setMaximumSectionCount(3)
@@ -818,6 +875,9 @@ class NetworkMapControllerTest {
                 .setTargetDeadband(10)
                 .setNode(2)
                 .add();
+        shunt4.newExtension(MeasurementsAdder.class).add();
+        Measurements<ShuntCompensator> shunt4Measurements = shunt4.getExtension(Measurements.class);
+        shunt4Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(69).add();
 
         // Create a nonLinear shunt compensator on a NODE_BREAKER voltage level
         vlgen4.newShuntCompensator().setId("SHUNT_NON_LINEAR")
@@ -841,8 +901,17 @@ class NetworkMapControllerTest {
         createSwitch(vlgen4, "VL4_BBS_SHUNT_DISCONNECTOR", SwitchKind.DISCONNECTOR, false, 0, 1);
         createSwitch(vlgen4, "VL4_SHUNT_BREAKER", SwitchKind.BREAKER, false, 1, 2);
 
-        vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
-        vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
+        Load load1 = vlnew2.newLoad().setId("LOAD_WITH_NULL_NAME").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName(null).add();
+        load1.newExtension(MeasurementsAdder.class).add();
+        Measurements<Load> load1Measurements = load1.getExtension(Measurements.class);
+        load1Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(87).add();
+        load1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(74).add();
+
+        Load load2 = vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
+        load2.newExtension(MeasurementsAdder.class).add();
+        Measurements<Load> load2Measurements = load2.getExtension(Measurements.class);
+        load2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(17).add();
+        load2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(91).add();
 
         Load load = network.getLoad("LOAD");
         load.setProperty("Country", "FR");
@@ -896,7 +965,7 @@ class NetworkMapControllerTest {
                 .setCountry(Country.AF)
                 .setTso("RTE")
                 .add();
-        VoltageLevel vl = network.newVoltageLevel()
+        network.newVoltageLevel()
                 .setId("AF_VL")
                 .setNominalV(400.0)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
@@ -905,12 +974,19 @@ class NetworkMapControllerTest {
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
+
+        Mockito.verifyNoInteractions(networkStoreService);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.COLLECTION)).willReturn(network2);
         given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.NONE)).willReturn(network2);
+    }
+
+    @AfterAll
+    static void tearDown() {
+        Mockito.validateMockitoUsage();
     }
 
     private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
@@ -1039,6 +1115,23 @@ class NetworkMapControllerTest {
                 .newCurrentLimits()
                 .setPermanentLimit(54)
                 .add();
+
+        threeWindingsTransformer.newExtension(MeasurementsAdder.class).add();
+        Measurements<ThreeWindingsTransformer> trfMeasurements = threeWindingsTransformer.getExtension(Measurements.class);
+        trfMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.ONE).setValid(false).setValue(3).add();
+        trfMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(13).add();
+        trfMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.TWO).setValid(false).setValue(23).add();
+        trfMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.TWO).setValid(false).setValue(33).add();
+        trfMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.THREE).setValid(true).setValue(43).add();
+        trfMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.THREE).setValid(true).setValue(53).add();
+
+        threeWindingsTransformer.newExtension(DiscreteMeasurementsAdder.class).add();
+        DiscreteMeasurements<ThreeWindingsTransformer> trfDiscreteMeasurements = threeWindingsTransformer.getExtension(DiscreteMeasurements.class);
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1).setValid(true).setValue(14).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2).setValid(false).setValue(4).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3).setValid(false).setValue(12).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3).setValid(true).setValue(17).add();
+        threeWindingsTransformer.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
     }
 
     private static String resourceToString(String resource) throws IOException {
@@ -1322,6 +1415,12 @@ class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnLinesOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.LINE, InfoType.OPERATING_STATUS, null, resourceToString("/lines-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.LINE, InfoType.OPERATING_STATUS, null, resourceToString("/lines-operating-status-data.json"));
+    }
+
+    @Test
     void shouldReturnLinesIds() throws Exception {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, null);
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
@@ -1569,6 +1668,12 @@ class NetworkMapControllerTest {
     void shouldReturnBusBarSectionListData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.LIST, null, resourceToString("/bus-bar-section-list-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.LIST, null, resourceToString("/bus-bar-section-list-data.json"));
+    }
+
+    @Test
+    void shouldReturnBusBarSectionOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BUSBAR_SECTION, InfoType.OPERATING_STATUS, null, resourceToString("/bus-bar-section-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BUSBAR_SECTION, InfoType.OPERATING_STATUS, null, resourceToString("/bus-bar-section-operating-status-data.json"));
     }
 
     @Test
@@ -1997,6 +2102,18 @@ class NetworkMapControllerTest {
     void shouldNotExistBranchOr3WTVoltageLevelId() throws Exception {
         shouldNotExistBranchOr3WTVoltageLevelId(NETWORK_UUID, null, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
         shouldNotExistBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
+    }
+
+    @Test
+    void shouldReturnTwoWindingsTransformerOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
+    }
+
+    @Test
+    void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
     }
 
     @Test
