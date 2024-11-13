@@ -1,48 +1,33 @@
 [
   {
-    "id": "VLGEN",
-    "substationId": "P1",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VL",
+    "name":"VL"
+   },
+  {
+    "id": "VLGEN"
   },
   {
-    "id": "VLHV1",
-    "substationId": "P1",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VLHV1"
   },
   {
-    "id": "VLHV2",
-    "substationId": "P2",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VLHV2"
   },
   {
-    "id": "VLLOAD",
-    "substationId": "P2",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VLLOAD"
   },
   {
-    "id": "VLNEW2",
-    "substationId": "P1",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VLNEW2"
   },
   {
-    "id": "VLGEN3",
-    "substationId": "P3",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VLGEN3"
   },
   {
-    "id": "VLGEN4",
-    "substationId": "P4",
-    "topologyKind": "NODE_BREAKER"
+    "id": "VLGEN4"
   },
   {
-    "id": "VLGEN5",
-    "substationId": "P5",
-    "topologyKind": "NODE_BREAKER"
+    "id": "VLGEN5"
   },
   {
-    "id": "VLGEN6",
-    "substationId": "P6",
-    "topologyKind": "BUS_BREAKER"
+    "id": "VLGEN6"
   }
-
 ]

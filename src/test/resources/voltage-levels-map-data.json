@@ -1,5 +1,10 @@
 [
   {
+    "id": "VL",
+    "name":"VL",
+    "nominalV": 24.0
+  },
+  {
     "id": "VLGEN",
     "substationId": "P1",
     "nominalV": 24.0
