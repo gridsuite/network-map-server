@@ -261,20 +261,15 @@ public class NetworkMapService {
         return elementType.getInfosGetter().apply(identifiable, infoTypeParameters);
     }
 
-    // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
-    public ElementInfos getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+    public String getBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        Line line = network.getLine(equipmentId);
-        if (line != null) {
-            return LineInfosMapper.toListInfos(line);
-        }
-        TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
-        if (twoWT != null) {
-            return TwoWindingsTransformerInfosMapper.toListInfos(twoWT);
+        Branch<?> branch = network.getBranch(equipmentId);
+        if (branch != null) {
+            return branch.getTerminal(side.toTwoSides()).getVoltageLevel().getId();
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return ThreeWindingsTransformerInfosMapper.toListInfos(threeWT);
+            return threeWT.getLeg(side).getTerminal().getVoltageLevel().getId();
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }

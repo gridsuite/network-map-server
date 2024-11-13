@@ -18,6 +18,7 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,6 +70,7 @@ class NetworkMapControllerTest {
     public static final String QUERY_PARAM_VARIANT_ID = "variantId";
     public static final String QUERY_PARAM_ELEMENT_TYPE = "elementType";
     public static final String QUERY_PARAM_INFO_TYPE = "infoType";
+    public static final String QUERY_PARAM_SIDE = "side";
     public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "optionalParameters";
     public static final String QUERY_FORMAT_ADDITIONAL_PARAMS = QUERY_PARAM_ADDITIONAL_PARAMS + "[%s]";
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
@@ -1138,29 +1140,6 @@ class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private static String buildUrlForElement(String equipments, String variantId, List<String> immutableListSubstationIds) {
-        List<String> substationsIds = immutableListSubstationIds == null ? List.of() : immutableListSubstationIds.stream().collect(Collectors.toList());
-        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/" + equipments + "/{elementId}");
-        if (variantId == null && substationsIds.isEmpty()) {
-            return url.toString();
-        }
-
-        url.append("?");
-        url.append(variantId != null ? "variantId=" + variantId : "substationId=" + substationsIds.remove(0));
-        url.append(String.join("", substationsIds.stream().map(id -> String.format("&substationId=%s", id)).collect(Collectors.toList())));
-
-        return url.toString();
-    }
-
-    private void succeedingTestForElement(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
-    }
-
     private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1171,6 +1150,17 @@ class NetworkMapControllerTest {
                 .andReturn();
 
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestForBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side, String expectedResult) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                         .queryParam(QUERY_PARAM_SIDE, side.name())
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Assertions.assertEquals(expectedResult, res.getResponse().getContentAsString());
 
     }
 
@@ -1306,11 +1296,6 @@ class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    private void shouldNotExistElement(String equipments, UUID networkUuid, String variantId, List<String> substationsIds, String elementId) throws Exception {
-        mvc.perform(get(buildUrlForElement(equipments, variantId, substationsIds), networkUuid, elementId))
-                .andExpect(status().isNoContent());
-    }
-
     private static String buildUrlBusOrBusbarSection(String equipments, String variantId) {
         StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
         url.append(equipments);
@@ -1318,6 +1303,14 @@ class NetworkMapControllerTest {
             url.append("?variantId=" + variantId);
         }
         return url.toString();
+    }
+
+    private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
+        mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                        .queryParam(QUERY_PARAM_SIDE, side.name())
+                )
+                .andExpect(status().isNoContent());
     }
 
     private void failingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId) throws Exception {
@@ -2102,27 +2095,36 @@ class NetworkMapControllerTest {
         notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.HVDC_LINE, InfoType.MAP, List.of("P1"));
     }
 
-    public void shouldReturnLineWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, null, null, "NHV1_NHV2_1", resourceToString("/line-map-data-with-vl.json"));
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NHV1_NHV2_1", resourceToString("/line-map-data-with-vl.json"));
+    @Test
+    void shouldReturnLineVoltageLevelId() throws Exception {
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "NHV1_NHV2_1", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "NHV1_NHV2_1", ThreeSides.TWO, "VLHV2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "NHV1_NHV2_1", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "NHV1_NHV2_1", ThreeSides.TWO, "VLHV2");
     }
 
     @Test
-    void shouldReturn2WTWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, null, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-list-data.json"));
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NGEN_NHV1", resourceToString("/2-windings-transformer-list-data.json"));
+    void shouldReturn2WTVoltageLevelIdFor() throws Exception {
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "NGEN_NHV1", ThreeSides.ONE, "VLGEN");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.TWO, "VLNEW2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "NGEN_NHV1", ThreeSides.ONE, "VLGEN");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.TWO, "VLNEW2");
     }
 
     @Test
-    void shouldReturn3WTWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, null, null, "TWT", resourceToString("/3-windings-transformer-list-data.json"));
-        succeedingTestForElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "TWT", resourceToString("/3-windings-transformer-list-data.json"));
+    void shouldReturn3WTVoltageLevelId() throws Exception {
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.TWO, "VLNEW2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, null, "TWT", ThreeSides.THREE, "VLGEN");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.ONE, "VLHV1");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.TWO, "VLNEW2");
+        succeedingTestForBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, "TWT", ThreeSides.THREE, "VLGEN");
     }
 
     @Test
-    void shouldNotExistElementWhenGetBranchOrThreeWindingsTransformer() throws Exception {
-        shouldNotExistElement("branch-or-3wt", NETWORK_UUID, null, null, "NOT_EXISTING_EQUIPMENT");
-        shouldNotExistElement("branch-or-3wt", NETWORK_UUID, VARIANT_ID, null, "NOT_EXISTING_EQUIPMENT");
+    void shouldNotExistBranchOr3WTVoltageLevelId() throws Exception {
+        shouldNotExistBranchOr3WTVoltageLevelId(NETWORK_UUID, null, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
+        shouldNotExistBranchOr3WTVoltageLevelId(NETWORK_UUID, VARIANT_ID, ThreeSides.ONE, "NOT_EXISTING_EQUIPMENT");
     }
 
     @Test
