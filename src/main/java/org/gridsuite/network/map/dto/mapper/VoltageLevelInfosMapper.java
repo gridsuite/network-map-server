@@ -106,7 +106,6 @@ public final class VoltageLevelInfosMapper {
         return VoltageLevelListInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .id(voltageLevel.getId())
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .topologyKind(voltageLevel.getTopologyKind())
                 .build();
     }
@@ -127,7 +126,7 @@ public final class VoltageLevelInfosMapper {
         VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
-                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
+                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalV(voltageLevel.getNominalV())
                 .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))

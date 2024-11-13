@@ -1,5 +1,11 @@
 [
   {
+    "id": "VL",
+    "name":"VL",
+    "nominalV": 24.0,
+    "topologyKind": "BUS_BREAKER"
+  },
+  {
     "id": "VLGEN",
     "substationId": "P1",
     "nominalV": 24.0,

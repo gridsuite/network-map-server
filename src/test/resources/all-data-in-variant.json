@@ -144,6 +144,11 @@
       "country": "FR"
     },
     {
+      "id": "VL",
+      "name": "VL",
+      "nominalV": 24.0
+    },
+    {
       "id": "VLGEN4",
       "substationId": "P4",
       "nominalV": 24.0,
