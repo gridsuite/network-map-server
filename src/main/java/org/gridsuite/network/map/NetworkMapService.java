@@ -102,21 +102,24 @@ public class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<ElementInfos> getVoltageLevelBusesOrBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
-                .map(BusInfosMapper::toListInfos).collect(Collectors.toList());
+        TopologyKind topologyKind = network.getVoltageLevel(voltageLevelId).getTopologyKind();
+        switch (topologyKind) {
+            case NODE_BREAKER:
+                return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
+                        .map(ElementInfosMapper::toListInfos).toList();
+            case BUS_BREAKER:
+                return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
+                        .map(ElementInfosMapper::toListInfos).collect(Collectors.toList());
+            default:
+                return List.of();
+        }
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getSubstation().map(Substation::getId).orElse(null);
-    }
-
-    public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
-                .map(BusBarSectionInfosMapper::toFormInfos).collect(Collectors.toList());
     }
 
     public List<String> getVoltageLevelBusbarSectionsIds(UUID networkUuid, String voltageLevelId, String variantId) {
