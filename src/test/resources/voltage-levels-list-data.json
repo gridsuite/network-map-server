@@ -1,39 +1,33 @@
 [
   {
-    "id": "VLGEN",
-    "substationId": "P1"
+    "id": "VL",
+    "name":"VL"
+   },
+  {
+    "id": "VLGEN"
   },
   {
-    "id": "VLHV1",
-    "substationId": "P1"
+    "id": "VLHV1"
   },
   {
-    "id": "VLHV2",
-    "substationId": "P2"
+    "id": "VLHV2"
   },
   {
-    "id": "VLLOAD",
-    "substationId": "P2"
+    "id": "VLLOAD"
   },
   {
-    "id": "VLNEW2",
-    "substationId": "P1"
+    "id": "VLNEW2"
   },
   {
-    "id": "VLGEN3",
-    "substationId": "P3"
+    "id": "VLGEN3"
   },
   {
-    "id": "VLGEN4",
-    "substationId": "P4"
+    "id": "VLGEN4"
   },
   {
-    "id": "VLGEN5",
-    "substationId": "P5"
+    "id": "VLGEN5"
   },
   {
-    "id": "VLGEN6",
-    "substationId": "P6"
+    "id": "VLGEN6"
   }
-
 ]

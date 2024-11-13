@@ -13,7 +13,6 @@ import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
-import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelListInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 
@@ -38,7 +37,7 @@ public final class VoltageLevelInfosMapper {
             case FORM:
                 return toFormInfos(identifiable);
             case LIST:
-                return toListInfos(identifiable);
+                return ElementInfosMapper.toListInfos(identifiable);
             case MAP:
                 return toMapInfos(identifiable);
             default:
@@ -101,15 +100,6 @@ public final class VoltageLevelInfosMapper {
         return builder.build();
     }
 
-    protected static VoltageLevelListInfos toListInfos(Identifiable<?> identifiable) {
-        VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        return VoltageLevelListInfos.builder()
-                .name(voltageLevel.getOptionalName().orElse(null))
-                .id(voltageLevel.getId())
-                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
-                .build();
-    }
-
     protected static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         return VoltageLevelMapInfos.builder()
@@ -126,7 +116,7 @@ public final class VoltageLevelInfosMapper {
         VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
-                .substationId(voltageLevel.getSubstation().orElseThrow().getId())
+                .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalV(voltageLevel.getNominalV())
                 .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))

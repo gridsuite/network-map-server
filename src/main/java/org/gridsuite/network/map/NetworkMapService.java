@@ -117,6 +117,11 @@ public class NetworkMapService {
         }
     }
 
+    public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        return network.getVoltageLevel(voltageLevelId).getSubstation().map(Substation::getId).orElse(null);
+    }
+
     public List<String> getVoltageLevelBusbarSectionsIds(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()

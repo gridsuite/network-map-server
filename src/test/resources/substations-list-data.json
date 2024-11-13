@@ -1,72 +1,23 @@
 [
   {
-    "id": "P0",
-    "voltageLevels": []
+    "id": "P0"
   },
   {
-    "id": "P1",
-    "voltageLevels": [
-      {
-        "id": "VLGEN",
-        "substationId": "P1"
-      },
-      {
-        "id": "VLHV1",
-        "substationId": "P1"
-      },
-      {
-        "id": "VLNEW2",
-        "substationId": "P1"
-      }
-    ]
+    "id": "P1"
   },
   {
-    "id": "P2",
-    "voltageLevels": [
-      {
-        "id": "VLHV2",
-        "substationId": "P2"
-      },
-      {
-        "id": "VLLOAD",
-        "substationId": "P2"
-      }
-    ]
+    "id": "P2"
   },
   {
-    "id": "P3",
-    "voltageLevels": [
-      {
-        "id": "VLGEN3",
-        "substationId": "P3"
-      }
-    ]
+    "id": "P3"
   },
   {
-    "id": "P4",
-    "voltageLevels": [
-      {
-        "id": "VLGEN4",
-        "substationId": "P4"
-      }
-    ]
+    "id": "P4"
   },
   {
-    "id": "P5",
-    "voltageLevels": [
-      {
-        "id": "VLGEN5",
-        "substationId": "P5"
-      }
-    ]
+    "id": "P5"
   },
   {
-    "id": "P6",
-    "voltageLevels": [
-      {
-        "id": "VLGEN6",
-        "substationId": "P6"
-      }
-    ]
+    "id": "P6"
   }
 ]
