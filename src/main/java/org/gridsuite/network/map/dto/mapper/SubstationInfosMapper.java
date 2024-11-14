@@ -11,7 +11,6 @@ import com.powsybl.iidm.network.Substation;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.substation.SubstationFormInfos;
-import org.gridsuite.network.map.dto.definition.substation.SubstationListInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationMapInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationTabInfos;
 
@@ -38,7 +37,7 @@ public final class SubstationInfosMapper {
             case FORM:
                 return toFormInfos(identifiable);
             case LIST:
-                return toListInfos(identifiable);
+                return ElementInfosMapper.toListInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -53,14 +52,6 @@ public final class SubstationInfosMapper {
                 .properties(getProperties(substation))
                 .voltageLevels(List.of())
                 .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toFormInfos).collect(Collectors.toList()))
-                .build();
-    }
-
-    private static SubstationListInfos toListInfos(Identifiable<?> identifiable) {
-        Substation substation = (Substation) identifiable;
-        return SubstationListInfos.builder()
-                .id(substation.getId())
-                .name(substation.getOptionalName().orElse(null))
                 .build();
     }
 

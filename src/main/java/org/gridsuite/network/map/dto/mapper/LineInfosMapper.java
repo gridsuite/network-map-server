@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
-import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -37,7 +36,7 @@ public final class LineInfosMapper {
             case MAP:
                 return toMapInfos(identifiable, dcPowerFactor);
             case LIST:
-                return toListInfos(identifiable);
+                return ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS:
                 return toOperatingStatusInfos(identifiable);
             case TOOLTIP:
@@ -86,25 +85,6 @@ public final class LineInfosMapper {
                 .connectablePosition2(toMapConnectablePosition(line, 2));
 
         return builder.build();
-    }
-
-    public static LineListInfos toListInfos(Identifiable<?> identifiable) {
-        Line line = (Line) identifiable;
-        Terminal terminal1 = line.getTerminal1();
-        Terminal terminal2 = line.getTerminal2();
-
-        return LineListInfos.builder()
-                .id(line.getId())
-                .name(line.getOptionalName().orElse(null))
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected())
-                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .build();
     }
 
     public static LineOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
