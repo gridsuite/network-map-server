@@ -1,19 +1,5 @@
 [
   {
-    "id": "P1",
-    "voltageLevels": [
-      {
-        "id": "VLNEW2",
-        "topologyKind": "BUS_BREAKER"
-      },
-      {
-        "id": "VLGEN",
-        "topologyKind": "BUS_BREAKER"
-      },
-      {
-        "id": "VLHV1",
-        "topologyKind": "BUS_BREAKER"
-      }
-    ]
+    "id": "P1"
   }
 ]

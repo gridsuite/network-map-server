@@ -102,21 +102,24 @@ public class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getVoltageLevelBuses(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<ElementInfos> getVoltageLevelBusesOrBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
-                .map(BusInfosMapper::toListInfos).collect(Collectors.toList());
+        TopologyKind topologyKind = network.getVoltageLevel(voltageLevelId).getTopologyKind();
+        switch (topologyKind) {
+            case NODE_BREAKER:
+                return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
+                        .map(ElementInfosMapper::toListInfos).toList();
+            case BUS_BREAKER:
+                return network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
+                        .map(ElementInfosMapper::toListInfos).collect(Collectors.toList());
+            default:
+                return List.of();
+        }
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         return network.getVoltageLevel(voltageLevelId).getSubstation().map(Substation::getId).orElse(null);
-    }
-
-    public List<ElementInfos> getVoltageLevelBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        return network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
-                .map(BusBarSectionInfosMapper::toFormInfos).collect(Collectors.toList());
     }
 
     public List<String> getVoltageLevelBusbarSectionsIds(UUID networkUuid, String voltageLevelId, String variantId) {
@@ -258,20 +261,15 @@ public class NetworkMapService {
         return elementType.getInfosGetter().apply(identifiable, infoTypeParameters);
     }
 
-    // Ideally we should directly call the appropriate method but in some cases we receive only an ID without knowing its type
-    public ElementInfos getBranchOrThreeWindingsTransformer(UUID networkUuid, String variantId, String equipmentId) {
+    public String getBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        Line line = network.getLine(equipmentId);
-        if (line != null) {
-            return LineInfosMapper.toListInfos(line);
-        }
-        TwoWindingsTransformer twoWT = network.getTwoWindingsTransformer(equipmentId);
-        if (twoWT != null) {
-            return TwoWindingsTransformerInfosMapper.toListInfos(twoWT);
+        Branch<?> branch = network.getBranch(equipmentId);
+        if (branch != null) {
+            return branch.getTerminal(side.toTwoSides()).getVoltageLevel().getId();
         }
         ThreeWindingsTransformer threeWT = network.getThreeWindingsTransformer(equipmentId);
         if (threeWT != null) {
-            return ThreeWindingsTransformerInfosMapper.toListInfos(threeWT);
+            return threeWT.getLeg(side).getTerminal().getVoltageLevel().getId();
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }

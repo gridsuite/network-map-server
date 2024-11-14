@@ -7,6 +7,7 @@
 package org.gridsuite.network.map;
 
 import com.powsybl.iidm.network.Country;
+import com.powsybl.iidm.network.ThreeSides;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -88,22 +89,13 @@ public class NetworkMapController {
         return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoTypeParameters, elementId);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/configured-buses", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get buses description for a voltage level")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses description")})
-    public List<ElementInfos> getVoltageLevelBuses(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                   @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                   @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getVoltageLevelBuses(networkUuid, voltageLevelId, variantId);
-    }
-
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/busbar-sections", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get busbar sections description for a voltage level")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Busbar section description")})
-    public List<ElementInfos> getVoltageLevelBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/buses-or-busbar-sections", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get buses or busbar sections description for a voltage level")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses or Busbar section description")})
+    public List<ElementInfos> getVoltageLevelBusesOrBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                             @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getVoltageLevelBusbarSections(networkUuid, voltageLevelId, variantId);
+        return networkMapService.getVoltageLevelBusesOrBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id", produces = APPLICATION_JSON_VALUE)
@@ -134,16 +126,20 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelEquipments(networkUuid, voltageLevelId, variantId, substationsIds);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "From an equipment ID, get the associated line or 2WT or 3WT")
+    @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get the voltage level id for a branch or a 3wt side")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Line or 2WT or 3WT description"),
-        @ApiResponse(responseCode = "204", description = "No element found")
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved branch or 3WT side voltage level id"),
+        @ApiResponse(responseCode = "204", description = "No voltage level id found")
     })
-    public Object getBranchOrThreeWindingsTransformer(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                      @Parameter(description = "Equipment ID") @PathVariable("equipmentId") String equipmentId,
-                                                      @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getBranchOrThreeWindingsTransformer(networkUuid, variantId, equipmentId);
+    public String getBranchOr3WTVoltageLevelId(
+            @Parameter(description = "Network UUID")
+            @PathVariable("networkUuid") UUID networkUuid,
+            @Parameter(description = "Equipment ID")
+            @PathVariable("equipmentId") String equipmentId,
+            @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId,
+            @Parameter(description = "Side") @RequestParam(name = "side") ThreeSides side) {
+        return networkMapService.getBranchOr3WTVoltageLevelId(networkUuid, variantId, equipmentId, side);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/hvdc-lines/{hvdcId}/shunt-compensators", produces = APPLICATION_JSON_VALUE)

@@ -61,7 +61,6 @@ public final class SubstationInfosMapper {
         return SubstationListInfos.builder()
                 .id(substation.getId())
                 .name(substation.getOptionalName().orElse(null))
-                .voltageLevels(substation.getVoltageLevelStream().map(VoltageLevelInfosMapper::toListInfos).collect(Collectors.toList()))
                 .build();
     }
 
