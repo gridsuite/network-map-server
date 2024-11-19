@@ -33,7 +33,7 @@ public final class HvdcInfosMapper {
             case MAP:
                 return toMapInfos(identifiable);
             case LIST:
-                return toListInfos(identifiable);
+                return ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS:
                 return toOperatingStatusInfos(identifiable);
             case FORM:
@@ -56,21 +56,6 @@ public final class HvdcInfosMapper {
                 .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
                 .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
                 .operatingStatus(toOperatingStatus(hvdcLine))
-                .build();
-    }
-
-    private static HvdcListInfos toListInfos(Identifiable<?> identifiable) {
-        HvdcLine hvdcLine = (HvdcLine) identifiable;
-        Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
-        Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
-
-        return HvdcListInfos.builder()
-                .id(hvdcLine.getId())
-                .name(hvdcLine.getOptionalName().orElse(null))
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .build();
     }
 

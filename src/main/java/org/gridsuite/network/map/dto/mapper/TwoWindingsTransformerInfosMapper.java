@@ -31,7 +31,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         switch (infoTypeParameters.getInfoType()) {
             case LIST:
-                return toListInfos(identifiable);
+                return ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS:
                 return toOperatingStatusInfos(identifiable);
             case TOOLTIP:
@@ -150,21 +150,6 @@ public final class TwoWindingsTransformerInfosMapper {
             .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
 
         return builder.build();
-    }
-
-    public static TwoWindingsTransformerListInfos toListInfos(Identifiable<?> identifiable) {
-        TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
-        Terminal terminal1 = twoWT.getTerminal1();
-        Terminal terminal2 = twoWT.getTerminal2();
-
-        return TwoWindingsTransformerListInfos.builder()
-                .id(twoWT.getId())
-                .name(twoWT.getOptionalName().orElse(null))
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
-                .build();
     }
 
     public static TwoWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
