@@ -47,6 +47,22 @@
     "measurementQ": {
       "value": 5.0,
       "validity": true
+    },
+    "highVoltageLimit": 400.0,
+    "lowVoltageLimit": 200.0,
+    "isCondenser": false,
+    "substationId": "P1",
+    "substationName": "P1_Name",
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelName": "VLGEN_Name",
+    "voltageLevelProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelShortCircuit": {
+      "ipMin": 10,
+      "ipMax": 120
     }
   },
   {
@@ -94,6 +110,22 @@
     "measurementQ": {
       "value": 80.0,
       "validity": false
+    },
+    "highVoltageLimit": 400.0,
+    "lowVoltageLimit": 200.0,
+    "isCondenser": false,
+    "substationId": "P1",
+    "substationName": "P1_Name",
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelName": "VLGEN_Name",
+    "voltageLevelProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelShortCircuit": {
+      "ipMin": 10,
+      "ipMax": 120
     }
   }
 ]

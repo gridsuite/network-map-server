@@ -2,6 +2,7 @@
   {
     "id": "LINE3",
     "voltageLevelId1": "VLGEN",
+    "voltageLevelName1": "VLGEN_Name",
     "voltageLevelId2": "VLGEN3",
     "substationId1": "P1",
     "substationId2": "P3",

@@ -2,7 +2,7 @@
   {
     "id": "NGEN_NHV1",
     "voltageLevelId1": "VLGEN",
-    "voltageLevelName1": null,
+    "voltageLevelName1": "VLGEN_Name",
     "nominalVoltage1": 24.0,
     "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,
@@ -162,7 +162,7 @@
   {
     "id": "NGEN_NHV2",
     "voltageLevelId1": "VLGEN",
-    "voltageLevelName1": null,
+    "voltageLevelName1": "VLGEN_Name",
     "nominalVoltage1": 24.0,
     "voltageLevelId2": "VLHV1",
     "voltageLevelName2": null,

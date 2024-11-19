@@ -17,6 +17,7 @@ import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -102,4 +103,32 @@ public class GeneratorTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isCondenser;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double lowVoltageLimit;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double highVoltageLimit;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<IdentifiableShortCircuitInfos> voltageLevelShortCircuit;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties;
+
 }

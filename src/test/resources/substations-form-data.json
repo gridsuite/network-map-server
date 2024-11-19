@@ -6,13 +6,27 @@
   },
   {
     "id": "P1",
+    "name": "P1_Name",
+    "properties": {
+      "Country": "FR"
+    },
     "country": "FR",
     "voltageLevels": [
       {
         "id": "VLGEN",
         "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "name": "VLGEN_Name",
+        "lowVoltageLimit": 200.0,
+        "highVoltageLimit": 400.0,
+        "identifiableShortCircuit": {
+          "ipMin": 10.0,
+          "ipMax": 120.0
+        },
+        "properties": {
+          "Country": "FR"
+        }
       },
       {
         "id": "VLHV1",

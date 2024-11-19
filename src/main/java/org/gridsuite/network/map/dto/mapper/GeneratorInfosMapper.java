@@ -109,6 +109,19 @@ public final class GeneratorInfosMapper {
         builder.measurementP(toMeasurement(generator, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(generator, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.isCondenser(generator.isCondenser());
+
+        // substation attrubutes
+        builder.substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null));
+        builder.substationName(terminal.getVoltageLevel().getSubstation().map(Substation::getOptionalName).orElse(null).orElse(null));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
+        // voltage level attributes
+        builder.voltageLevelName(terminal.getVoltageLevel().getOptionalName().orElse(null));
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.lowVoltageLimit(terminal.getVoltageLevel().getLowVoltageLimit());
+        builder.highVoltageLimit(terminal.getVoltageLevel().getHighVoltageLimit());
+        builder.voltageLevelShortCircuit(toIdentifiableShortCircuit(terminal.getVoltageLevel()));
         return builder.build();
     }
 
