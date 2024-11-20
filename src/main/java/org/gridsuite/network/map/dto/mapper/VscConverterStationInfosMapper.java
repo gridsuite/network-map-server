@@ -87,6 +87,7 @@ public final class VscConverterStationInfosMapper {
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn())
                 .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
                 .reactivePowerSetpoint(nullIfNan(vscConverterStation.getReactivePowerSetpoint()))
+                .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .q(nullIfNan(terminal.getQ()))
                 .p(nullIfNan(terminal.getP()))
                 .connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
