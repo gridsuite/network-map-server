@@ -6,14 +6,14 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Line;
-import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import java.util.*;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -73,8 +73,27 @@ public final class LineInfosMapper {
                 .b2(line.getB2())
                 .properties(getProperties(line));
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        // TODO : pareil pour les transfos
+        // TODO : faire une fonction regroupant ça :
+        Collection<OperationalLimitsGroup> currentLimits1 = line.getOperationalLimitsGroups1();
+        List<CurrentLimitsData> currentLimits1Data = currentLimits1.stream()
+                .map(
+                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList();
+        builder.currentLimits1(currentLimits1Data);
+        if (line.getSelectedOperationalLimitsGroupId1().isPresent()) {
+            builder.selectedOperationalLimitsGroupId1(line.getSelectedOperationalLimitsGroupId1().get());
+        }
+
+        Collection<OperationalLimitsGroup> currentLimits2 = line.getOperationalLimitsGroups1();
+        List<CurrentLimitsData> currentLimits2Data = currentLimits2.stream()
+                .map(
+                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList();
+        builder.currentLimits2(currentLimits2Data);
+        if (line.getSelectedOperationalLimitsGroupId2().isPresent()) {
+            builder.selectedOperationalLimitsGroupId2(line.getSelectedOperationalLimitsGroupId2().get());
+        }
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));

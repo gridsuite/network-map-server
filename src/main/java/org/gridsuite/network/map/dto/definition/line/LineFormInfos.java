@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
+import java.util.List;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -53,10 +54,16 @@ public class LineFormInfos extends ElementInfosWithProperties {
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits1;
+    private List<CurrentLimitsData> currentLimits1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits2;
+    private List<CurrentLimitsData> currentLimits2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String selectedOperationalLimitsGroupId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String selectedOperationalLimitsGroupId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
