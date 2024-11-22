@@ -85,6 +85,25 @@
       "measurementQ1": {
         "value": 24.0,
         "validity": false
+      },
+      "branchObservability":{
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
       }
     }
   ],

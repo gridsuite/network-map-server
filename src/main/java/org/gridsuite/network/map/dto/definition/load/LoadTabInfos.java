@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.InjectionObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.Optional;
@@ -57,4 +58,7 @@ public class LoadTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<InjectionObservabilityInfos> injectionObservability;
 }

@@ -149,6 +149,8 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.measurementRatioTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER))
             .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
 
+        builder.branchObservability(toBranchObservability(twoWT));
+
         return builder.build();
     }
 

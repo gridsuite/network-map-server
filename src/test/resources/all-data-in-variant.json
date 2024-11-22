@@ -254,6 +254,25 @@
       "measurementQ1": {
         "value": 24.0,
         "validity": false
+      },
+      "branchObservability":{
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -392,6 +411,21 @@
       "measurementQ": {
         "value": 74.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 22.31,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 22.01,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.64,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -636,6 +670,25 @@
       "measurementPhaseTap": {
         "value": 7,
         "validity": false
+      },
+      "branchObservability":{
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
       }
     }
   ],
@@ -1083,6 +1136,21 @@
       "measurementQ": {
         "value": 5.0,
         "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1161,6 +1229,21 @@
       "measurementQ": {
         "value": 44.0,
         "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1230,6 +1313,21 @@
       "measurementQ": {
         "value": 77.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1296,6 +1394,21 @@
       "measurementQ": {
         "value": 55.0,
         "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     }
   ],
@@ -1321,6 +1434,21 @@
       "measurementQ": {
         "value": 45.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1411,6 +1539,21 @@
       "measurementQ": {
         "value": 58.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1475,6 +1618,21 @@
       "measurementQ": {
         "value": 63.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {

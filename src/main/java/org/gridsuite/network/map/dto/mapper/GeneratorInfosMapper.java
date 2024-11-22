@@ -109,6 +109,8 @@ public final class GeneratorInfosMapper {
         builder.measurementP(toMeasurement(generator, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(generator, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(generator));
+
         return builder.build();
     }
 

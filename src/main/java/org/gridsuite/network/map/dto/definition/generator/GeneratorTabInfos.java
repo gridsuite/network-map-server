@@ -102,4 +102,7 @@ public class GeneratorTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<InjectionObservabilityInfos> injectionObservability;
 }

@@ -170,6 +170,8 @@ public final class LineInfosMapper {
             .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
             .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
 
+        builder.branchObservability(toBranchObservability(line));
+
         return builder.build();
     }
 

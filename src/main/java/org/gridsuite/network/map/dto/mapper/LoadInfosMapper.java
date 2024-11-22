@@ -91,6 +91,8 @@ public final class LoadInfosMapper {
         builder.measurementP(toMeasurement(load, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(load, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(load));
+
         return builder.build();
     }
 }
