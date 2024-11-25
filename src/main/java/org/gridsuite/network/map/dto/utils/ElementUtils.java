@@ -440,9 +440,12 @@ public final class ElementUtils {
     }
 
     private static ObservabilityQualityInfos buildQualityInfos(ObservabilityQuality<?> quality) {
+        if (quality == null) {
+            return null;
+        }
         return ObservabilityQualityInfos.builder()
                 .standardDeviation(quality.getStandardDeviation())
-                .isRedundant(quality.isRedundant().orElse(Boolean.FALSE))
+                .isRedundant(quality.isRedundant().orElse(null))
                 .build();
     }
 }

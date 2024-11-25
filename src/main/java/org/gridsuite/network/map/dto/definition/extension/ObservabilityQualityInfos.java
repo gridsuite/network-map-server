@@ -18,7 +18,7 @@ import lombok.Getter;
 @Builder
 public class ObservabilityQualityInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double standardDeviation;
+    private double standardDeviation;
 
     private Boolean isRedundant;
 }
