@@ -28,6 +28,7 @@
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
@@ -155,6 +156,7 @@
     {
       "id": "TL1",
       "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
