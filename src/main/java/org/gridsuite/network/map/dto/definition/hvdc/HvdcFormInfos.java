@@ -12,9 +12,10 @@ import com.powsybl.iidm.network.HvdcLine;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
-import org.gridsuite.network.map.dto.definition.extension.HvdcOperatorActivePowerRangeInfos;
-import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.extension.HvdcAngleDroopActivePowerControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.HvdcOperatorActivePowerRangeInfos;
+import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationFormInfos;
+import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 
 import java.util.Optional;
 
@@ -29,10 +30,16 @@ public class HvdcFormInfos extends ElementInfosWithProperties {
     private HvdcLine.ConvertersMode convertersMode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VscConverterStationFormInfos converterStation1;
+    private VscConverterStationFormInfos vscConverterStation1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VscConverterStationFormInfos converterStation2;
+    private VscConverterStationFormInfos vscConverterStation2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private LccConverterStationFormInfos lccConverterStation1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private LccConverterStationFormInfos lccConverterStation2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;
