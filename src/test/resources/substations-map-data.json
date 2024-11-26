@@ -1,11 +1,13 @@
 [
   {
     "id": "P1",
+    "name": "P1_Name",
     "voltageLevels": [
       {
         "id": "VLGEN",
         "substationId": "P1",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "name": "VLGEN_Name"
       },
       {
         "id": "VLHV1",

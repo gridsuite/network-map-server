@@ -1,6 +1,7 @@
 {
   "id": "NGEN_NHV1",
   "voltageLevelId1": "VLGEN",
+  "voltageLevelName1": "VLGEN_Name",
   "voltageLevelId2": "VLHV1",
   "substationId1":"P1",
   "substationId2":"P1"

@@ -211,6 +211,15 @@ class NetworkMapControllerTest {
         p0 .setCountry(Country.FR);
 
         Substation p1 = network.getSubstation("P1");
+        p1.setProperty("Country", "FR");
+        p1.setName("P1_Name");
+
+        VoltageLevel vlgen = network.getVoltageLevel("VLGEN");
+        vlgen.setName("VLGEN_Name");
+        vlgen.setProperty("Country", "FR");
+        vlgen.setHighVoltageLimit(400.0);
+        vlgen.setLowVoltageLimit(200.0);
+        vlgen.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(10).withIpMax(120).add();
 
         TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
         twoWindingsTransformerAdder.setId("NGEN_NHV2")
