@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfo
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.definition.extension.InjectionObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.List;
@@ -73,4 +74,7 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<InjectionObservabilityInfos> injectionObservability;
 }

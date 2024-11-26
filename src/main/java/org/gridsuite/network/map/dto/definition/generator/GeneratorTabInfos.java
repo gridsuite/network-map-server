@@ -131,4 +131,6 @@ public class GeneratorTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> voltageLevelProperties;
 
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<InjectionObservabilityInfos> injectionObservability;
 }

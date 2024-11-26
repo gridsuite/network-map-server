@@ -114,6 +114,8 @@ public final class ShuntCompensatorMapper {
 
         builder.measurementQ(toMeasurement(shuntCompensator, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(shuntCompensator));
+
         return builder.build();
     }
 

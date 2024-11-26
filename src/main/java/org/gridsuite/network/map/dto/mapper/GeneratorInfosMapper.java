@@ -122,6 +122,8 @@ public final class GeneratorInfosMapper {
         builder.lowVoltageLimit(terminal.getVoltageLevel().getLowVoltageLimit());
         builder.highVoltageLimit(terminal.getVoltageLevel().getHighVoltageLimit());
         builder.voltageLevelShortCircuit(toIdentifiableShortCircuit(terminal.getVoltageLevel()));
+        builder.injectionObservability(toInjectionObservability(generator));
+
         return builder.build();
     }
 

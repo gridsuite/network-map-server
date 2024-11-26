@@ -93,6 +93,8 @@ public final class StaticVarCompensatorInfosMapper {
 
         builder.measurementQ(toMeasurement(staticVarCompensator, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(staticVarCompensator));
+
         return builder.build();
     }
 
