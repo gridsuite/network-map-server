@@ -19,7 +19,7 @@
 
     <groupId>org.gridsuite</groupId>
     <artifactId>gridsuite-network-map-server</artifactId>
-    <version>2.9.0</version>
+    <version>2.9.1</version>
 
     <packaging>jar</packaging>
     <name>Network map server</name>
