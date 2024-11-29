@@ -2,12 +2,26 @@
   "substations": [
     {
       "id": "P1",
+      "name": "P1_Name",
+      "properties": {
+        "Country": "FR"
+      },
       "voltageLevels": [
         {
           "id": "VLGEN",
           "substationId": "P1",
           "nominalV": 24.0,
-          "country": "FR"
+          "country": "FR",
+          "name": "VLGEN_Name",
+          "lowVoltageLimit": 200.0,
+          "highVoltageLimit": 400.0,
+          "identifiableShortCircuit": {
+            "ipMin": 10.0,
+            "ipMax": 120.0
+          },
+          "properties": {
+            "Country": "FR"
+          }
         },
         {
           "id": "VLHV1",
@@ -107,7 +121,17 @@
       "id": "VLGEN",
       "substationId": "P1",
       "nominalV": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "name": "VLGEN_Name",
+      "lowVoltageLimit": 200.0,
+      "highVoltageLimit": 400.0,
+      "identifiableShortCircuit": {
+        "ipMin": 10.0,
+        "ipMax": 120.0
+      },
+      "properties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLHV1",
@@ -232,6 +256,7 @@
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
@@ -254,6 +279,25 @@
       "measurementQ1": {
         "value": 24.0,
         "validity": false
+      },
+      "branchObservability":{
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -392,6 +436,21 @@
       "measurementQ": {
         "value": 74.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 22.31,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 22.01,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.64,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -421,7 +480,7 @@
     {
       "id": "NGEN_NHV1",
       "voltageLevelId1": "VLGEN",
-      "voltageLevelName1": null,
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLHV1",
       "voltageLevelName2": null,
@@ -581,7 +640,7 @@
     {
       "id": "NGEN_NHV2",
       "voltageLevelId1": "VLGEN",
-      "voltageLevelName1": null,
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLHV1",
       "voltageLevelName2": null,
@@ -636,6 +695,25 @@
       "measurementPhaseTap": {
         "value": 7,
         "validity": false
+      },
+      "branchObservability":{
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
       }
     }
   ],
@@ -1083,6 +1161,37 @@
       "measurementQ": {
         "value": 5.0,
         "validity": true
+      },
+      "highVoltageLimit": 400.0,
+      "lowVoltageLimit": 200.0,
+      "isCondenser": false,
+      "substationId": "P1",
+      "substationName": "P1_Name",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelName": "VLGEN_Name",
+      "voltageLevelProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelShortCircuit": {
+        "ipMin": 10,
+        "ipMax": 120
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1130,6 +1239,22 @@
       "measurementQ": {
         "value": 80.0,
         "validity": false
+      },
+      "highVoltageLimit": 400.0,
+      "lowVoltageLimit": 200.0,
+      "isCondenser": false,
+      "substationId": "P1",
+      "substationName": "P1_Name",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelName": "VLGEN_Name",
+      "voltageLevelProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelShortCircuit": {
+        "ipMin": 10,
+        "ipMax": 120
       }
     }
   ],
@@ -1161,6 +1286,21 @@
       "measurementQ": {
         "value": 44.0,
         "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1230,6 +1370,21 @@
       "measurementQ": {
         "value": 77.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1248,6 +1403,7 @@
     {
       "id": "TL1",
       "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
@@ -1296,6 +1452,21 @@
       "measurementQ": {
         "value": 55.0,
         "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     }
   ],
@@ -1321,6 +1492,21 @@
       "measurementQ": {
         "value": 45.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1392,6 +1578,21 @@
       "measurementQ": {
         "value": 58.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {
@@ -1456,6 +1657,21 @@
       "measurementQ": {
         "value": 63.0,
         "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
       }
     },
     {

@@ -63,6 +63,7 @@
     {
       "id": "LINE3",
       "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,
@@ -85,6 +86,25 @@
       "measurementQ1": {
         "value": 24.0,
         "validity": false
+      },
+      "branchObservability":{
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
       }
     }
   ],
@@ -173,6 +193,7 @@
     {
       "id": "TL1",
       "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
       "nominalVoltage1": 24.0,
       "voltageLevelId2": "VLGEN3",
       "nominalVoltage2": 24.0,

@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
+import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
@@ -120,4 +121,7 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<BranchObservabilityInfos> branchObservability;
 }

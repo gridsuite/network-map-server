@@ -18,6 +18,21 @@
     "measurementQ": {
       "value": 77.0,
       "validity": false
+    },
+    "injectionObservability": {
+      "qualityP": {
+        "standardDeviation": 19.65,
+        "isRedundant": true
+      },
+      "qualityQ": {
+        "standardDeviation": 12.76,
+        "isRedundant": true
+      },
+      "qualityV": {
+        "standardDeviation": 2.93,
+        "isRedundant": true
+      },
+      "observable": true
     }
   },
   {
