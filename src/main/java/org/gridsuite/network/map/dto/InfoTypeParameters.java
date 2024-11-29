@@ -14,7 +14,6 @@ import java.util.Map;
 @Data
 public class InfoTypeParameters {
     public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
-    public static final String QUERY_PARAM_CONVERTER_STATION_TYPE = "converterStationType";
 
     public static final InfoTypeParameters TAB = new InfoTypeParameters(ElementInfos.InfoType.TAB, null);
     public static final InfoTypeParameters FORM = new InfoTypeParameters(ElementInfos.InfoType.FORM, null);

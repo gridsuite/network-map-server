@@ -3,6 +3,40 @@
     "id": "HVDC1",
     "name": "HVDC1",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "lccConverterStation1": {
+      "id": "LCC1",
+      "name": "LCC1",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NGEN",
+      "mcsOnSide": [
+      ]
+    },
+    "lccConverterStation2": {
+      "id": "LCC2",
+      "name": "LCC2",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NNEW2",
+      "mcsOnSide": [
+        {
+          "id": "SHUNT1",
+          "name": "SHUNT1",
+          "maxQAtNominalV": 8.0,
+          "connectedToHvdc": true
+        }
+      ]
+    },
     "r": 1.0,
     "nominalV": 225.0,
     "activePowerSetpoint": 500.0,
@@ -12,7 +46,7 @@
     "id": "HVDC3",
     "name": "HVDC3",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "converterStation1": {
+    "vscConverterStation1": {
       "id": "VSC3",
       "name": "VSC3",
       "lossFactor": 1.0,
@@ -31,7 +65,7 @@
         "connectionDirection": null
       }
     },
-    "converterStation2": {
+    "vscConverterStation2": {
       "id": "VSC4",
       "name": "VSC4",
       "lossFactor": 1.0,
@@ -72,7 +106,7 @@
     "id": "HVDC4",
     "name": "HVDC4",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "converterStation1": {
+    "vscConverterStation1": {
       "id": "VSC5",
       "name": "VSC5",
       "lossFactor": 1.0,
@@ -91,7 +125,7 @@
         "connectionDirection": null
       }
     },
-    "converterStation2": {
+    "vscConverterStation2": {
       "id": "VSC6",
       "name": "VSC6",
       "lossFactor": 1.0,
@@ -127,25 +161,50 @@
     "id": "HVDC2",
     "name": "HVDC2",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "lccConverterStation1": {
+      "id": "LCC1",
+      "name": "LCC1",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NGEN",
+      "mcsOnSide": [
+      ]
+    },
+    "lccConverterStation2": {
+      "id": "LCC2",
+      "name": "LCC2",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NNEW2",
+      "mcsOnSide": [
+        {
+          "id": "SHUNT1",
+          "name": "SHUNT1",
+          "maxQAtNominalV": 8.0,
+          "connectedToHvdc": true
+        }
+      ]
+    },
     "r": 1.0,
     "nominalV": 225.0,
     "activePowerSetpoint": 500.0,
-    "maxP": 100.0,
-    "hvdcAngleDroopActivePowerControl": {
-      "droop": 180.0,
-      "isEnabled": true,
-      "p0": 190.0
-    },
-    "hvdcOperatorActivePowerRange": {
-      "oprFromCS1toCS2": 1000.0,
-      "oprFromCS2toCS1": 900.0
-    }
+    "maxP": 100.0
   },
   {
     "id": "HVDC5",
     "name": "HVDC5",
     "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-    "converterStation1": {
+    "vscConverterStation1": {
       "id": "VSC1",
       "name": "VSC1",
       "lossFactor": 1.0,
@@ -165,7 +224,7 @@
         "connectionDirection": null
       }
     },
-    "converterStation2": {
+    "vscConverterStation2": {
       "id": "VSC2",
       "name": "VSC2",
       "lossFactor": 1.0,
@@ -188,4 +247,4 @@
     "activePowerSetpoint": 500.0,
     "maxP": 100.0
   }
-  ]
+]

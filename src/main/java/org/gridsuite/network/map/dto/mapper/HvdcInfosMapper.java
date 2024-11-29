@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_CONVERTER_STATION_TYPE;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -28,8 +27,6 @@ public final class HvdcInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        String converterStationType = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_CONVERTER_STATION_TYPE,
-                String.valueOf(HvdcConverterStation.HvdcType.VSC));
         switch (infoTypeParameters.getInfoType()) {
             case TAB:
                 return toHvdcTabInfos(identifiable);
@@ -40,7 +37,7 @@ public final class HvdcInfosMapper {
             case OPERATING_STATUS:
                 return toOperatingStatusInfos(identifiable);
             case FORM:
-                return toFormInfos(identifiable, converterStationType);
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -128,7 +125,7 @@ public final class HvdcInfosMapper {
         return builder.build();
     }
 
-    private static HvdcFormInfos toFormInfos(Identifiable<?> identifiable, String converterStationType) {
+    private static HvdcFormInfos toFormInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         HvdcFormInfos.HvdcFormInfosBuilder<?, ?> builder = HvdcFormInfos.builder()
                 .id(hvdcLine.getId())
@@ -139,17 +136,18 @@ public final class HvdcInfosMapper {
                 .activePowerSetpoint(hvdcLine.getActivePowerSetpoint())
                 .convertersMode(hvdcLine.getConvertersMode())
                 .properties(getProperties(hvdcLine));
-        if (Objects.equals(converterStationType, String.valueOf(HvdcConverterStation.HvdcType.LCC))) {
-            builder.lccConverterStation1(getLccConverterStationData((LccConverterStation) hvdcLine.getConverterStation1()))
-                    .lccConverterStation2(getLccConverterStationData((LccConverterStation) hvdcLine.getConverterStation2()));
-        } else {
-            builder.vscConverterStation1(getVscConverterStationData((VscConverterStation) hvdcLine.getConverterStation1()))
-                    .vscConverterStation2(getVscConverterStationData((VscConverterStation) hvdcLine.getConverterStation2()))
+        if (hvdcLine.getConverterStation1() instanceof LccConverterStation lccConverterStation1
+                &&  hvdcLine.getConverterStation2() instanceof LccConverterStation lccConverterStation2) {
+            builder.lccConverterStation1(getLccConverterStationData(lccConverterStation1))
+                    .lccConverterStation2(getLccConverterStationData(lccConverterStation2));
+        } else if (hvdcLine.getConverterStation1() instanceof VscConverterStation vscConverterStation1
+                &&  hvdcLine.getConverterStation2() instanceof VscConverterStation vscConverterStation2) {
+            builder.vscConverterStation1(getVscConverterStationData(vscConverterStation1))
+                    .vscConverterStation2(getVscConverterStationData(vscConverterStation2))
                     .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
                     .hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine))
                     .operatingStatus(toOperatingStatus(hvdcLine));
         }
-
         return builder.build();
     }
 
