@@ -137,11 +137,11 @@ public final class HvdcInfosMapper {
                 .convertersMode(hvdcLine.getConvertersMode())
                 .properties(getProperties(hvdcLine));
         if (hvdcLine.getConverterStation1() instanceof LccConverterStation lccConverterStation1
-                &&  hvdcLine.getConverterStation2() instanceof LccConverterStation lccConverterStation2) {
+                && hvdcLine.getConverterStation2() instanceof LccConverterStation lccConverterStation2) {
             builder.lccConverterStation1(getLccConverterStationData(lccConverterStation1))
                     .lccConverterStation2(getLccConverterStationData(lccConverterStation2));
         } else if (hvdcLine.getConverterStation1() instanceof VscConverterStation vscConverterStation1
-                &&  hvdcLine.getConverterStation2() instanceof VscConverterStation vscConverterStation2) {
+                && hvdcLine.getConverterStation2() instanceof VscConverterStation vscConverterStation2) {
             builder.vscConverterStation1(getVscConverterStationData(vscConverterStation1))
                     .vscConverterStation2(getVscConverterStationData(vscConverterStation2))
                     .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
