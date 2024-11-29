@@ -14,9 +14,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -60,6 +58,8 @@ public final class DanglingLineInfosMapper {
 
         builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));
+
+        builder.injectionObservability(toInjectionObservability(danglingLine));
 
         return builder.build();
     }

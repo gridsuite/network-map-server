@@ -4,7 +4,8 @@
     "name":"VL"
    },
   {
-    "id": "VLGEN"
+    "id": "VLGEN",
+    "name":"VLGEN_Name"
   },
   {
     "id": "VLHV1"

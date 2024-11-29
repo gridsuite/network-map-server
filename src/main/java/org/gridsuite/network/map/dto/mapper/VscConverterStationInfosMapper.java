@@ -72,6 +72,8 @@ public final class VscConverterStationInfosMapper {
         builder.measurementP(toMeasurement(vscConverterStation, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(vscConverterStation, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(vscConverterStation));
+
         return builder.build();
     }
 

@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
+import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.Optional;
@@ -100,4 +101,7 @@ public class LineTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<BranchObservabilityInfos> branchObservability;
 }

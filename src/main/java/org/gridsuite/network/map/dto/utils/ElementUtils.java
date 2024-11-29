@@ -427,4 +427,43 @@ public final class ElementUtils {
             return measurement.map(m -> TapChangerDiscreteMeasurementsInfos.builder().value(m.getValueAsInt()).validity(m.isValid()).build());
         }
     }
+
+    public static Optional<InjectionObservabilityInfos> toInjectionObservability(Injection<?> injection) {
+        var observability = injection.getExtension(InjectionObservability.class);
+        if (observability == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(InjectionObservabilityInfos.builder()
+                .qualityQ(buildQualityInfos(observability.getQualityQ()))
+                .qualityP(buildQualityInfos(observability.getQualityP()))
+                .qualityV(buildQualityInfos(observability.getQualityV()))
+                .isObservable(observability.isObservable())
+                .build());
+    }
+
+    public static Optional<BranchObservabilityInfos> toBranchObservability(Branch<?> branch) {
+        var observability = branch.getExtension(BranchObservability.class);
+        if (observability == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(BranchObservabilityInfos.builder()
+                .qualityP1(buildQualityInfos(observability.getQualityP1()))
+                .qualityP2(buildQualityInfos(observability.getQualityP2()))
+                .qualityQ1(buildQualityInfos(observability.getQualityQ1()))
+                .qualityQ2(buildQualityInfos(observability.getQualityQ2()))
+                .isObservable(observability.isObservable())
+                .build());
+    }
+
+    private static ObservabilityQualityInfos buildQualityInfos(ObservabilityQuality<?> quality) {
+        if (quality == null) {
+            return null;
+        }
+        return ObservabilityQualityInfos.builder()
+                .standardDeviation(quality.getStandardDeviation())
+                .isRedundant(quality.isRedundant().orElse(null))
+                .build();
+    }
 }
