@@ -124,6 +124,8 @@ public final class BatteryInfosMapper {
         builder.measurementP(toMeasurement(battery, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(battery, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(battery));
+
         return builder.build();
     }
 

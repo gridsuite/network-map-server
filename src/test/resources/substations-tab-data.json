@@ -6,12 +6,26 @@
   },
   {
     "id": "P1",
+    "name": "P1_Name",
+    "properties": {
+      "Country": "FR"
+    },
     "voltageLevels": [
       {
         "id": "VLGEN",
         "substationId": "P1",
         "nominalV": 24.0,
-        "country": "FR"
+        "country": "FR",
+        "name": "VLGEN_Name",
+        "lowVoltageLimit": 200.0,
+        "highVoltageLimit": 400.0,
+        "identifiableShortCircuit": {
+          "ipMin": 10.0,
+          "ipMax": 120.0
+        },
+        "properties": {
+          "Country": "FR"
+        }
       },
       {
         "id": "VLHV1",

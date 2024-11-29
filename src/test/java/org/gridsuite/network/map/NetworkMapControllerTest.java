@@ -211,6 +211,15 @@ class NetworkMapControllerTest {
         p0 .setCountry(Country.FR);
 
         Substation p1 = network.getSubstation("P1");
+        p1.setProperty("Country", "FR");
+        p1.setName("P1_Name");
+
+        VoltageLevel vlgen = network.getVoltageLevel("VLGEN");
+        vlgen.setName("VLGEN_Name");
+        vlgen.setProperty("Country", "FR");
+        vlgen.setHighVoltageLimit(400.0);
+        vlgen.setLowVoltageLimit(200.0);
+        vlgen.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(10).withIpMax(120).add();
 
         TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
         twoWindingsTransformerAdder.setId("NGEN_NHV2")
@@ -253,6 +262,17 @@ class NetworkMapControllerTest {
         DiscreteMeasurements<TwoWindingsTransformer> t3DiscreteMeasurements = t3.getExtension(DiscreteMeasurements.class);
         t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11).add();
         t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7).add();
+        t3.newExtension(BranchObservabilityAdder.class)
+                .withStandardDeviationP1(23.31)
+                .withRedundantP1(true)
+                .withStandardDeviationQ1(23.25)
+                .withRedundantQ1(true)
+                .withStandardDeviationP2(23.31)
+                .withRedundantP2(true)
+                .withStandardDeviationQ2(23.25)
+                .withRedundantQ2(true)
+                .withObservable(true)
+                .add();
 
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
@@ -289,6 +309,16 @@ class NetworkMapControllerTest {
         Measurements<Generator> genMeasurements = gen.getExtension(Measurements.class);
         genMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(50).add();
         genMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(5).add();
+
+        gen.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
@@ -384,6 +414,17 @@ class NetworkMapControllerTest {
         line3Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(11).add();
         line3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.ONE).setValid(false).setValue(24).add();
         line3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.TWO).setValid(true).setValue(45).add();
+        line3.newExtension(BranchObservabilityAdder.class)
+                .withStandardDeviationP1(23.31)
+                .withRedundantP1(true)
+                .withStandardDeviationQ1(23.25)
+                .withRedundantQ1(true)
+                .withStandardDeviationP2(23.31)
+                .withRedundantP2(true)
+                .withStandardDeviationQ2(23.25)
+                .withRedundantQ2(true)
+                .withObservable(true)
+                .add();
 
         Substation p6 = network.newSubstation()
                 .setId("P6")
@@ -437,6 +478,16 @@ class NetworkMapControllerTest {
         Measurements<Battery> b1Measurements = b1.getExtension(Measurements.class);
         b1Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(12).add();
         b1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(44).add();
+
+        b1.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
@@ -496,6 +547,16 @@ class NetworkMapControllerTest {
         Measurements<DanglingLine> dlMeasurements = dl.getExtension(Measurements.class);
         dlMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(66).add();
         dlMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(77).add();
+
+        dl.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         vlgen3.newDanglingLine()
                 .setId("DL2")
@@ -575,6 +636,15 @@ class NetworkMapControllerTest {
         Measurements<VscConverterStation> vsc4Measurements = vsc4.getExtension(Measurements.class);
         vsc4Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(16).add();
         vsc4Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(63).add();
+        vsc4.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         VscConverterStation vsc5 = vlnew2.newVscConverterStation()
                 .setId("VSC5")
@@ -654,6 +724,15 @@ class NetworkMapControllerTest {
         Measurements<LccConverterStation> lcc2Measurements = lcc2.getExtension(Measurements.class);
         lcc2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(5).add();
         lcc2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(55).add();
+        lcc2.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         network.newHvdcLine()
                 .setId("HVDC1")
@@ -749,6 +828,15 @@ class NetworkMapControllerTest {
         shunt1.newExtension(MeasurementsAdder.class).add();
         Measurements<ShuntCompensator> shunt1Measurements = shunt1.getExtension(Measurements.class);
         shunt1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(45).add();
+        shunt1.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         var shunt2 = vlgen3.newShuntCompensator()
                 .setId("SHUNT2")
@@ -802,6 +890,15 @@ class NetworkMapControllerTest {
         svc1.newExtension(MeasurementsAdder.class).add();
         Measurements<StaticVarCompensator> staticVarMeasurements = svc1.getExtension(Measurements.class);
         staticVarMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(58).add();
+        svc1.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(19.65)
+                .withRedundantP(true)
+                .withStandardDeviationQ(12.76)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.93)
+                .withRedundantV(true)
+                .add();
 
         vlnew2.newStaticVarCompensator()
                 .setId("SVC2")
@@ -908,6 +1005,15 @@ class NetworkMapControllerTest {
         Measurements<Load> load1Measurements = load1.getExtension(Measurements.class);
         load1Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(87).add();
         load1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(74).add();
+        load1.newExtension(InjectionObservabilityAdder.class)
+                .withObservable(true)
+                .withStandardDeviationP(22.31)
+                .withRedundantP(true)
+                .withStandardDeviationQ(22.01)
+                .withRedundantQ(true)
+                .withStandardDeviationV(2.64)
+                .withRedundantV(true)
+                .add();
 
         Load load2 = vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
         load2.newExtension(MeasurementsAdder.class).add();

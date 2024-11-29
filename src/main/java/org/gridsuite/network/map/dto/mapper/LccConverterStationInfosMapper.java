@@ -67,6 +67,8 @@ public final class LccConverterStationInfosMapper {
         builder.measurementP(toMeasurement(lccConverterStation, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(lccConverterStation, Measurement.Type.REACTIVE_POWER, 0));
 
+        builder.injectionObservability(toInjectionObservability(lccConverterStation));
+
         return builder.build();
     }
 
