@@ -161,6 +161,24 @@ public final class ElementUtils {
         return empty ? null : builder.build();
     }
 
+    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
+        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
+        boolean empty = true;
+        if (operationalLimitsGroup.getCurrentLimits().isPresent()) {
+            CurrentLimits currentLimits = operationalLimitsGroup.getCurrentLimits().get();
+            builder.id(operationalLimitsGroup.getId());
+            if (!Double.isNaN(currentLimits.getPermanentLimit())) {
+                builder.permanentLimit(currentLimits.getPermanentLimit());
+                empty = false;
+            }
+            if (!CollectionUtils.isEmpty(currentLimits.getTemporaryLimits())) {
+                builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
+                empty = false;
+            }
+        }
+        return empty ? null : builder.build();
+    }
+
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
         return limits.stream()
                 .map(l -> TemporaryLimitData.builder()
