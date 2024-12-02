@@ -16,7 +16,6 @@ public class InfoTypeParameters {
     public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
 
     public static final InfoTypeParameters TAB = new InfoTypeParameters(ElementInfos.InfoType.TAB, null);
-    public static final InfoTypeParameters FORM = new InfoTypeParameters(ElementInfos.InfoType.FORM, null);
 
     public InfoTypeParameters(ElementInfos.InfoType infoType, Map<String, String> optionalParameters) {
         this.infoType = infoType;
