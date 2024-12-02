@@ -80,17 +80,21 @@ public final class LineInfosMapper {
                 .map(
                         ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
                 .toList();
-        builder.currentLimits1(currentLimits1Data);
+        if (!currentLimits1Data.isEmpty()) {
+            builder.currentLimits1(currentLimits1Data);
+        }
         if (line.getSelectedOperationalLimitsGroupId1().isPresent()) {
             builder.selectedOperationalLimitsGroupId1(line.getSelectedOperationalLimitsGroupId1().get());
         }
 
-        Collection<OperationalLimitsGroup> currentLimits2 = line.getOperationalLimitsGroups1();
+        Collection<OperationalLimitsGroup> currentLimits2 = line.getOperationalLimitsGroups2();
         List<CurrentLimitsData> currentLimits2Data = currentLimits2.stream()
                 .map(
                         ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
                 .toList();
-        builder.currentLimits2(currentLimits2Data);
+        if (!currentLimits2Data.isEmpty()) {
+            builder.currentLimits2(currentLimits2Data);
+        }
         if (line.getSelectedOperationalLimitsGroupId2().isPresent()) {
             builder.selectedOperationalLimitsGroupId2(line.getSelectedOperationalLimitsGroupId2().get());
         }

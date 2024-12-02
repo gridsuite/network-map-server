@@ -22,13 +22,13 @@ import java.util.List;
 @EqualsAndHashCode
 public class CurrentLimitsData {
     // may be null in case we just need the selected limit set and don't really need its name/id
-    @JsonInclude(JsonInclude.Include.USE_DEFAULTS)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double permanentLimit;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<TemporaryLimitData> temporaryLimits;
 }
 
