@@ -140,10 +140,10 @@ public final class HvdcInfosMapper {
                 && hvdcLine.getConverterStation2() instanceof LccConverterStation lccConverterStation2) {
             builder.lccConverterStation1(getLccConverterStationData(lccConverterStation1))
                     .lccConverterStation2(getLccConverterStationData(lccConverterStation2));
-        } else if (hvdcLine.getConverterStation1() instanceof VscConverterStation vscConverterStation1
-                && hvdcLine.getConverterStation2() instanceof VscConverterStation vscConverterStation2) {
-            builder.vscConverterStation1(getVscConverterStationData(vscConverterStation1))
-                    .vscConverterStation2(getVscConverterStationData(vscConverterStation2))
+        } else if (hvdcLine.getConverterStation1() instanceof VscConverterStation converterStation1
+                && hvdcLine.getConverterStation2() instanceof VscConverterStation converterStation2) {
+            builder.converterStation1(getVscConverterStationData(converterStation1))
+                    .converterStation2(getVscConverterStationData(converterStation2))
                     .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
                     .hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine))
                     .operatingStatus(toOperatingStatus(hvdcLine));

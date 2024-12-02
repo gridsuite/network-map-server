@@ -30,10 +30,10 @@ public class HvdcFormInfos extends ElementInfosWithProperties {
     private HvdcLine.ConvertersMode convertersMode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VscConverterStationFormInfos vscConverterStation1;
+    private VscConverterStationFormInfos converterStation1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VscConverterStationFormInfos vscConverterStation2;
+    private VscConverterStationFormInfos converterStation2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private LccConverterStationFormInfos lccConverterStation1;
