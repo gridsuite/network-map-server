@@ -85,7 +85,7 @@ public final class LccConverterStationInfosMapper {
                 .connectablePosition(toMapConnectablePosition(lccConverterStation, 0))
                 .lossFactor(lccConverterStation.getLossFactor())
                 .powerFactor(lccConverterStation.getPowerFactor());
-        builder.mcsOnSide(toShuntCompensatorInfos(getBusOrBusbarSection(terminal), terminal.getVoltageLevel().getShuntCompensatorStream()));
+        builder.shuntCompensatorsOnSide(toShuntCompensatorInfos(getBusOrBusbarSection(terminal), terminal.getVoltageLevel().getShuntCompensatorStream()));
         return builder.build();
     }
 }

@@ -39,6 +39,6 @@ public class LccConverterStationFormInfos extends ElementInfos {
     private String busOrBusbarSectionId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<HvdcShuntCompensatorsInfos.ShuntCompensatorInfos> mcsOnSide;
+    private List<HvdcShuntCompensatorsInfos.ShuntCompensatorInfos> shuntCompensatorsOnSide;
 }
 

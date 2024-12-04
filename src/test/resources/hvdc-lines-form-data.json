@@ -14,7 +14,7 @@
         "connectionDirection": null
       },
       "busOrBusbarSectionId": "NGEN",
-      "mcsOnSide": [
+      "shuntCompensatorsOnSide": [
       ]
     },
     "lccConverterStation2": {
@@ -28,7 +28,7 @@
         "connectionDirection": null
       },
       "busOrBusbarSectionId": "NNEW2",
-      "mcsOnSide": [
+      "shuntCompensatorsOnSide": [
         {
           "id": "SHUNT1",
           "name": "SHUNT1",
@@ -172,7 +172,7 @@
         "connectionDirection": null
       },
       "busOrBusbarSectionId": "NGEN",
-      "mcsOnSide": [
+      "shuntCompensatorsOnSide": [
       ]
     },
     "lccConverterStation2": {
@@ -186,7 +186,7 @@
         "connectionDirection": null
       },
       "busOrBusbarSectionId": "NNEW2",
-      "mcsOnSide": [
+      "shuntCompensatorsOnSide": [
         {
           "id": "SHUNT1",
           "name": "SHUNT1",
