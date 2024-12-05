@@ -1,5 +1,5 @@
 {
   "id": "HVDC1",
   "mcsOnSide1": [],
-  "mcsOnSide2": [{"id":"SHUNT1","connectedToHvdc":true}]
+  "mcsOnSide2": [{"id":"SHUNT1","name":"SHUNT1", "maxQAtNominalV": 8.0, "connectedToHvdc":true}]
 }

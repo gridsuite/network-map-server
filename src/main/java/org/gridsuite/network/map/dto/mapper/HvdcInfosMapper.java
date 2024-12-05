@@ -10,11 +10,11 @@ import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.*;
+import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -101,13 +101,15 @@ public final class HvdcInfosMapper {
         return builder.build();
     }
 
-    private static List<HvdcShuntCompensatorsInfos.ShuntCompensatorInfos> toShuntCompensatorInfos(String lccBusOrBusbarSectionId, Stream<ShuntCompensator> shuntCompensators) {
+    public static List<HvdcShuntCompensatorsInfos.ShuntCompensatorInfos> toShuntCompensatorInfos(String lccBusOrBusbarSectionId, Stream<ShuntCompensator> shuntCompensators) {
         return shuntCompensators
                 .map(s -> HvdcShuntCompensatorsInfos.ShuntCompensatorInfos.builder()
                         .id(s.getId())
+                        .name(s.getNameOrId())
                         .connectedToHvdc(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(s.getTerminal())))
+                        .maxQAtNominalV(s.getG())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static HvdcShuntCompensatorsInfos toHvdcShuntCompensatorsInfos(HvdcLine hvdcLine) {
@@ -133,20 +135,32 @@ public final class HvdcInfosMapper {
                 .maxP(hvdcLine.getMaxP())
                 .activePowerSetpoint(hvdcLine.getActivePowerSetpoint())
                 .convertersMode(hvdcLine.getConvertersMode())
-                .converterStation1(getConverterStationData(hvdcLine.getConverterStation1()))
-                .converterStation2(getConverterStationData(hvdcLine.getConverterStation2()))
                 .properties(getProperties(hvdcLine));
-
-        builder.hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine));
-        builder.hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine));
-        builder.operatingStatus(toOperatingStatus(hvdcLine));
-
+        if (hvdcLine.getConverterStation1() instanceof LccConverterStation lccConverterStation1
+                && hvdcLine.getConverterStation2() instanceof LccConverterStation lccConverterStation2) {
+            builder.lccConverterStation1(getLccConverterStationData(lccConverterStation1))
+                    .lccConverterStation2(getLccConverterStationData(lccConverterStation2));
+        } else if (hvdcLine.getConverterStation1() instanceof VscConverterStation converterStation1
+                && hvdcLine.getConverterStation2() instanceof VscConverterStation converterStation2) {
+            builder.converterStation1(getVscConverterStationData(converterStation1))
+                    .converterStation2(getVscConverterStationData(converterStation2))
+                    .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
+                    .hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine))
+                    .operatingStatus(toOperatingStatus(hvdcLine));
+        }
         return builder.build();
     }
 
-    private static VscConverterStationFormInfos getConverterStationData(HvdcConverterStation<?> converterStation) {
+    private static VscConverterStationFormInfos getVscConverterStationData(VscConverterStation converterStation) {
         if (converterStation.getHvdcType() == HvdcConverterStation.HvdcType.VSC) {
             return VscConverterStationInfosMapper.toFormInfos(converterStation);
+        }
+        return null;
+    }
+
+    private static LccConverterStationFormInfos getLccConverterStationData(LccConverterStation converterStation) {
+        if (converterStation.getHvdcType() == HvdcConverterStation.HvdcType.LCC) {
+            return LccConverterStationInfosMapper.toFormInfos(converterStation);
         }
         return null;
     }

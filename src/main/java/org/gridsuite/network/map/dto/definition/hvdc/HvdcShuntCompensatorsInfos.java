@@ -34,6 +34,8 @@ public class HvdcShuntCompensatorsInfos {
     @EqualsAndHashCode
     public static class ShuntCompensatorInfos {
         private String id;
+        private String name;
+        private double maxQAtNominalV;
         private boolean connectedToHvdc;
     }
 

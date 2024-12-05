@@ -12,8 +12,10 @@ import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
 
+import static org.gridsuite.network.map.dto.mapper.HvdcInfosMapper.toShuntCompensatorInfos;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -30,6 +32,8 @@ public final class LccConverterStationInfosMapper {
                 return toTabInfos(identifiable);
             case LIST:
                 return ElementInfosMapper.toInfosWithType(identifiable);
+            case FORM:
+                return toFormInfos(identifiable);
             default:
                 throw new UnsupportedOperationException("TODO");
         }
@@ -65,6 +69,23 @@ public final class LccConverterStationInfosMapper {
 
         builder.injectionObservability(toInjectionObservability(lccConverterStation));
 
+        return builder.build();
+    }
+
+    static LccConverterStationFormInfos toFormInfos(Identifiable<?> identifiable) {
+        LccConverterStation lccConverterStation = (LccConverterStation) identifiable;
+        Terminal terminal = lccConverterStation.getTerminal();
+        LccConverterStationFormInfos.LccConverterStationFormInfosBuilder<?, ?> builder = LccConverterStationFormInfos.builder();
+        builder
+                .name(lccConverterStation.getOptionalName().orElse(null))
+                .id(lccConverterStation.getId())
+                .voltageLevelId(terminal.getVoltageLevel().getId())
+                .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
+                .terminalConnected(terminal.isConnected())
+                .connectablePosition(toMapConnectablePosition(lccConverterStation, 0))
+                .lossFactor(lccConverterStation.getLossFactor())
+                .powerFactor(lccConverterStation.getPowerFactor());
+        builder.shuntCompensatorsOnSide(toShuntCompensatorInfos(getBusOrBusbarSection(terminal), terminal.getVoltageLevel().getShuntCompensatorStream()));
         return builder.build();
     }
 }
