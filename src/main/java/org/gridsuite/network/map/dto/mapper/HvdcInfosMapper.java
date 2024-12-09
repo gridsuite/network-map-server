@@ -27,14 +27,20 @@ public final class HvdcInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toHvdcTabInfos(identifiable);
-            case MAP -> toMapInfos(identifiable);
-            case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
-            case FORM -> toFormInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
-        };
+        switch (infoTypeParameters.getInfoType()) {
+            case TAB:
+                return toHvdcTabInfos(identifiable);
+            case MAP:
+                return toMapInfos(identifiable);
+            case LIST:
+                return ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS:
+                return toOperatingStatusInfos(identifiable);
+            case FORM:
+                return toFormInfos(identifiable);
+            default:
+                throw new UnsupportedOperationException("TODO");
+        }
     }
 
     private static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {

@@ -24,11 +24,14 @@ public final class DanglingLineInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable);
-            case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
-        };
+        switch (infoTypeParameters.getInfoType()) {
+            case TAB:
+                return toTabInfos(identifiable);
+            case LIST:
+                return ElementInfosMapper.toInfosWithType(identifiable);
+            default:
+                throw new UnsupportedOperationException("TODO");
+        }
     }
 
     private static DanglingLineTabInfos toTabInfos(Identifiable<?> identifiable) {
