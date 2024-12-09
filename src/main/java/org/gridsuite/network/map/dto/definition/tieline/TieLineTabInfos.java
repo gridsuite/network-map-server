@@ -56,6 +56,12 @@ public class TieLineTabInfos extends ElementInfosWithProperties {
     private Double q2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double i1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double i2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
