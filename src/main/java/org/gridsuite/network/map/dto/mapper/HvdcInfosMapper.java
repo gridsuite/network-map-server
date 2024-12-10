@@ -84,7 +84,9 @@ public final class HvdcInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
-                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)));
+                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
+                .i1(nullIfNan(terminal1.getI()))
+                .i2(nullIfNan(terminal2.getI()));
 
         builder
                 .convertersMode(hvdcLine.getConvertersMode())

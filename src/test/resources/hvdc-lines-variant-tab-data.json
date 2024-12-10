@@ -11,8 +11,7 @@
       "r": 1,
       "country1": "FR",
       "country2": "FR",
-      "maxP": 100,
-      "i2": 7033.787423824256
+      "maxP": 100
     },
     {
       "id": "HVDC2",
@@ -27,7 +26,6 @@
       "country1": "FR",
       "country2": "FR",
       "maxP": 100,
-      "i2": 7033.787423824256,
       "hvdcAngleDroopActivePowerControl": {
         "droop": 180.0,
         "isEnabled": true,
@@ -49,9 +47,7 @@
       "r": 1,
       "country1": "FR",
       "country2": "FR",
-      "maxP": 100,
-      "i1": 676.2006882779829,
-      "i2": 676.2006882779829
+      "maxP": 100
     },
     {
       "id": "HVDC4",
@@ -65,9 +61,7 @@
       "r": 1,
       "country1": "FR",
       "country2": "FR",
-      "maxP": 100,
-      "i1": 676.2006882779829,
-      "i2": 676.2006882779829
+      "maxP": 100
     },
   {
     "id": "HVDC5",
@@ -81,7 +75,6 @@
     "country1": "FR",
     "country2": "FR",
     "activePowerSetpoint": 500.0,
-    "maxP": 100.0,
-    "i1": 676.2006882779829
+    "maxP": 100.0
   }
 ]

@@ -5,6 +5,7 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "p1": 45.0
+    "p1": 45.0,
+    "p2": 45.0
   }
 

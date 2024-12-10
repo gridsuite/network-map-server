@@ -37,7 +37,7 @@ public final class TwoWindingsTransformerInfosMapper {
             case TOOLTIP:
                 return toTooltipInfos(identifiable, dcPowerFactor);
             case TAB:
-                return toTabInfos(identifiable);
+                return toTabInfos(identifiable, dcPowerFactor);
             case FORM:
                 return toFormInfos(identifiable);
             default:
@@ -50,7 +50,7 @@ public final class TwoWindingsTransformerInfosMapper {
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
 
-        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder builder = TwoWindingsTransformerFormInfos.builder()
+        TwoWindingsTransformerFormInfos.TwoWindingsTransformerFormInfosBuilder<?, ?> builder = TwoWindingsTransformerFormInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -94,13 +94,13 @@ public final class TwoWindingsTransformerInfosMapper {
         return builder.build();
     }
 
-    private static TwoWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static TwoWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
         Substation firstSubstationFound = ElementUtils.findFirstSubstation(List.of(terminal1, terminal2));
 
-        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder builder = TwoWindingsTransformerTabInfos.builder()
+        TwoWindingsTransformerTabInfos.TwoWindingsTransformerTabInfosBuilder<?, ?> builder = TwoWindingsTransformerTabInfos.builder()
                 .name(twoWT.getOptionalName().orElse(null))
                 .id(twoWT.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -124,10 +124,10 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.ratedS(nullIfNan(twoWT.getRatedS()));
         builder.p1(nullIfNan(terminal1.getP()));
         builder.q1(nullIfNan(terminal1.getQ()));
+        builder.i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)));
         builder.p2(nullIfNan(terminal2.getP()));
         builder.q2(nullIfNan(terminal2.getQ()));
-        builder.i1(nullIfNan(terminal1.getI()));
-        builder.i2(nullIfNan(terminal2.getI()));
+        builder.i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
 
         builder.operatingStatus(toOperatingStatus(twoWT));
         CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
