@@ -43,6 +43,8 @@
     "country": "FR",
     "terminalConnected": true,
     "pairingKey": "xnode1",
+    "p": 45,
+    "q": 75,
     "p0": 50.0,
     "q0": 30.0
   }
