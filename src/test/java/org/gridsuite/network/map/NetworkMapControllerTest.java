@@ -84,9 +84,11 @@ class NetworkMapControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private Network network;
+
     @BeforeEach
     void setUp() {
-        Network network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
+        network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l2 = network.getLine("NHV1_NHV2_2");
         l2.newCurrentLimits1().setPermanentLimit(Double.NaN).add();
         l2.newCurrentLimits2().setPermanentLimit(Double.NaN).add();
@@ -1959,8 +1961,11 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnHvdcLinesTabData() throws Exception {
+        network.getHvdcLine("HVDC1").getConverterStation1().getTerminal().getBusView().getBus().setV(27.);
+        network.getHvdcLine("HVDC1").getConverterStation2().getTerminal().getBusView().getBus().setV(27.); // to get a calculated i1/i2
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-tab-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-tab-data.json"));
+        // Rq: calculated i1/i2 not present in VARIANT_ID
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-variant-tab-data.json"));
     }
 
     @Test
@@ -2280,8 +2285,10 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnDanglingLineTabData() throws Exception {
+        network.getDanglingLine("DL1").getTerminal().getBusView().getBus().setV(27.); // to get a calculated I
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
+        // Rq: calculated I not present in VARIANT_ID
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-variant-tab-data.json"));
     }
 
     @Test
