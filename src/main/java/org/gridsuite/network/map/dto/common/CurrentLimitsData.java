@@ -28,7 +28,7 @@ public class CurrentLimitsData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double permanentLimit;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TemporaryLimitData> temporaryLimits;
 }
 
