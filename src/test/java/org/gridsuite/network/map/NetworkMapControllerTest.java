@@ -88,7 +88,7 @@ class NetworkMapControllerTest {
 
     @BeforeEach
     void setUp() {
-        Network network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
+        network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
                 .setQ(2.2);
