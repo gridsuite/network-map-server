@@ -55,6 +55,12 @@ public class HvdcTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double maxP;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double i1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double i2;
+
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<HvdcAngleDroopActivePowerControlInfos> hvdcAngleDroopActivePowerControl;
 

@@ -47,14 +47,10 @@ public final class DanglingLineInfosMapper {
                 .pairingKey(danglingLine.getPairingKey())
                 .p0(danglingLine.getP0())
                 .properties(getProperties(danglingLine))
-                .q0(danglingLine.getQ0());
-
-        if (!Double.isNaN(terminal.getP())) {
-            builder.p(terminal.getP());
-        }
-        if (!Double.isNaN(terminal.getQ())) {
-            builder.q(terminal.getQ());
-        }
+                .q0(danglingLine.getQ0())
+                .p(nullIfNan(terminal.getP()))
+                .q(nullIfNan(terminal.getQ()))
+                .i(nullIfNan(terminal.getI()));
 
         builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));

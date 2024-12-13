@@ -30,7 +30,7 @@ public final class LineInfosMapper {
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         switch (infoTypeParameters.getInfoType()) {
             case TAB:
-                return toTabInfos(identifiable);
+                return toTabInfos(identifiable, dcPowerFactor);
             case FORM:
                 return toFormInfos(identifiable);
             case MAP:
@@ -50,7 +50,7 @@ public final class LineInfosMapper {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineFormInfos.LineFormInfosBuilder builder = LineFormInfos.builder()
+        LineFormInfos.LineFormInfosBuilder<?, ?> builder = LineFormInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -127,7 +127,7 @@ public final class LineInfosMapper {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
 
-        LineMapInfos.LineMapInfosBuilder builder = LineMapInfos.builder()
+        LineMapInfos.LineMapInfosBuilder<?, ?> builder = LineMapInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
@@ -148,11 +148,11 @@ public final class LineInfosMapper {
         return builder.build();
     }
 
-    private static LineTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
-        LineTabInfos.LineTabInfosBuilder builder = LineTabInfos.builder()
+        LineTabInfos.LineTabInfosBuilder<?, ?> builder = LineTabInfos.builder()
                 .name(line.getOptionalName().orElse(null))
                 .id(line.getId())
                 .terminal1Connected(terminal1.isConnected())
@@ -167,10 +167,10 @@ public final class LineInfosMapper {
                 .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
                 .p1(nullIfNan(terminal1.getP()))
                 .q1(nullIfNan(terminal1.getQ()))
+                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
                 .p2(nullIfNan(terminal2.getP()))
                 .q2(nullIfNan(terminal2.getQ()))
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
+                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
                 .r(line.getR())
                 .x(line.getX())
                 .g1(line.getG1())

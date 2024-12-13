@@ -39,7 +39,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -84,6 +83,8 @@ class NetworkMapControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    private Network network;
 
     @BeforeEach
     void setUp() {
@@ -563,7 +564,7 @@ class NetworkMapControllerTest {
                 .withRedundantV(true)
                 .add();
 
-        vlgen3.newDanglingLine()
+        DanglingLine dl2 = vlgen3.newDanglingLine()
                 .setId("DL2")
                 .setName("DL2")
                 .setR(1)
@@ -576,6 +577,8 @@ class NetworkMapControllerTest {
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
+        dl2.getTerminal().setP(45);
+        dl2.getTerminal().setQ(75);
         network.newTieLine()
                 .setId("TL1")
                 .setName("TL1")
@@ -1309,7 +1312,7 @@ class NetworkMapControllerTest {
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
                     .map(String::valueOf)
-                    .collect(Collectors.toList());
+                    .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
@@ -1336,7 +1339,7 @@ class NetworkMapControllerTest {
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
                     .map(String::valueOf)
-                    .collect(Collectors.toList());
+                    .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
 
@@ -1355,7 +1358,7 @@ class NetworkMapControllerTest {
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
                     .map(String::valueOf)
-                    .collect(Collectors.toList());
+                    .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements-ids", networkUuid)
@@ -1374,7 +1377,7 @@ class NetworkMapControllerTest {
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
                     .map(String::valueOf)
-                    .collect(Collectors.toList());
+                    .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
         mvc.perform(post("/v1/networks/{networkUuid}/elements-ids", networkUuid)
@@ -1963,8 +1966,11 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnHvdcLinesTabData() throws Exception {
+        network.getHvdcLine("HVDC1").getConverterStation1().getTerminal().getBusView().getBus().setV(27.);
+        network.getHvdcLine("HVDC1").getConverterStation2().getTerminal().getBusView().getBus().setV(27.); // to get a calculated i1/i2
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-tab-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-tab-data.json"));
+        // Rq: calculated i1/i2 not present in VARIANT_ID
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.TAB, null, resourceToString("/hvdc-lines-variant-tab-data.json"));
     }
 
     @Test
@@ -2284,8 +2290,10 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnDanglingLineTabData() throws Exception {
+        network.getDanglingLine("DL1").getTerminal().getBusView().getBus().setV(27.); // to get a calculated I
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
+        // Rq: calculated I not present in VARIANT_ID
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-variant-tab-data.json"));
     }
 
     @Test
@@ -2372,5 +2380,6 @@ class NetworkMapControllerTest {
     void shouldReturnTieLinesTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
+        succeedingTestForElementInfosInDc(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.TAB, "TL1", 0.80, resourceToString("/tie-line-tab-data-dc.json"));
     }
 }

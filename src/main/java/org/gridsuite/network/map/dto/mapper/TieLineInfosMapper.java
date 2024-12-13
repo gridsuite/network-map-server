@@ -29,7 +29,7 @@ public final class TieLineInfosMapper {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw new UnsupportedOperationException("TODO");
@@ -62,11 +62,11 @@ public final class TieLineInfosMapper {
         return builder.build();
     }
 
-    private static TieLineTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static TieLineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         TieLine tieLine = (TieLine) identifiable;
         Terminal terminal1 = tieLine.getTerminal1();
         Terminal terminal2 = tieLine.getTerminal2();
-        TieLineTabInfos.TieLineTabInfosBuilder builder = TieLineTabInfos.builder()
+        TieLineTabInfos.TieLineTabInfosBuilder<?, ?> builder = TieLineTabInfos.builder()
             .name(tieLine.getOptionalName().orElse(null))
             .id(tieLine.getId())
             .terminal1Connected(terminal1.isConnected())
@@ -83,6 +83,8 @@ public final class TieLineInfosMapper {
             .q1(nullIfNan(terminal1.getQ()))
             .p2(nullIfNan(terminal2.getP()))
             .q2(nullIfNan(terminal2.getQ()))
+            .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
+            .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
             .r(tieLine.getR())
             .x(tieLine.getX())
             .g1(tieLine.getG1())
