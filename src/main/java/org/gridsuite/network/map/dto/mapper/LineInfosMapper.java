@@ -71,10 +71,10 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
+                .selectedOperationalLimitsGroupId1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroupId2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(line));
 
-        // TODO : pareil pour les transfos
-        // TODO : faire une fonction regroupant ça :
         Collection<OperationalLimitsGroup> currentLimits1 = line.getOperationalLimitsGroups1();
         List<CurrentLimitsData> currentLimits1Data = currentLimits1.stream()
                 .map(
@@ -82,9 +82,6 @@ public final class LineInfosMapper {
                 .toList();
         if (!currentLimits1Data.isEmpty()) {
             builder.currentLimits1(currentLimits1Data);
-        }
-        if (line.getSelectedOperationalLimitsGroupId1().isPresent()) {
-            builder.selectedOperationalLimitsGroupId1(line.getSelectedOperationalLimitsGroupId1().get());
         }
 
         Collection<OperationalLimitsGroup> currentLimits2 = line.getOperationalLimitsGroups2();
@@ -94,9 +91,6 @@ public final class LineInfosMapper {
                 .toList();
         if (!currentLimits2Data.isEmpty()) {
             builder.currentLimits2(currentLimits2Data);
-        }
-        if (line.getSelectedOperationalLimitsGroupId2().isPresent()) {
-            builder.selectedOperationalLimitsGroupId2(line.getSelectedOperationalLimitsGroupId2().get());
         }
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))

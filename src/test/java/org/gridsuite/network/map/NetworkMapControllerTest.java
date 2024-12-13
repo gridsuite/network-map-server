@@ -153,6 +153,10 @@ class NetworkMapControllerTest {
                 .setQ(12.2);
         t2.getTerminal2().setP(13.33)
                 .setQ(14.44);
+        t2.newOperationalLimitsGroup1("limit set 1");
+        t2.newOperationalLimitsGroup2("limit set 1");
+        t2.setSelectedOperationalLimitsGroup1("limit set 1");
+        t2.setSelectedOperationalLimitsGroup2("limit set 1");
         t2.newCurrentLimits1().setPermanentLimit(750.4)
                 .beginTemporaryLimit()
                 .setName("IT5")
