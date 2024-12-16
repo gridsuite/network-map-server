@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static com.powsybl.cgmes.model.CgmesNames.LINEAR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
