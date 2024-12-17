@@ -14,6 +14,8 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 
+import java.util.List;
+
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
@@ -51,11 +53,17 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits1;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<CurrentLimitsData> currentLimits1;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<CurrentLimitsData> currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits2;
+    private String selectedOperationalLimitsGroupId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String selectedOperationalLimitsGroupId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData phaseTapChanger;

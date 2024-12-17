@@ -11,9 +11,11 @@ import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
@@ -67,6 +69,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
+                .selectedOperationalLimitsGroupId1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroupId2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(twoWT));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
@@ -79,13 +83,22 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i1(nullIfNan(terminal1.getI()));
         builder.i2(nullIfNan(terminal2.getI()));
 
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
+        Collection<OperationalLimitsGroup> currentLimits1 = twoWT.getOperationalLimitsGroups1();
+        List<CurrentLimitsData> currentLimits1Data = currentLimits1.stream()
+                .map(
+                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList();
+        if (!currentLimits1Data.isEmpty()) {
+            builder.currentLimits1(currentLimits1Data);
         }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
+
+        Collection<OperationalLimitsGroup> currentLimits2 = twoWT.getOperationalLimitsGroups2();
+        List<CurrentLimitsData> currentLimits2Data = currentLimits2.stream()
+                .map(
+                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList();
+        if (!currentLimits2Data.isEmpty()) {
+            builder.currentLimits2(currentLimits2Data);
         }
 
         builder.operatingStatus(toOperatingStatus(twoWT));
