@@ -32,7 +32,7 @@
         {
           "id": "SHUNT1",
           "name": "SHUNT1",
-          "maxQAtNominalV": 8.0,
+          "maxQAtNominalV": 1012500.0,
           "connectedToHvdc": true
         }
       ]
@@ -190,7 +190,7 @@
         {
           "id": "SHUNT1",
           "name": "SHUNT1",
-          "maxQAtNominalV": 8.0,
+          "maxQAtNominalV": 1012500.0,
           "connectedToHvdc": true
         }
       ]
