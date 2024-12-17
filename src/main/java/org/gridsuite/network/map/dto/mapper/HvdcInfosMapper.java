@@ -105,11 +105,12 @@ public final class HvdcInfosMapper {
 
     public static List<HvdcShuntCompensatorsInfos.ShuntCompensatorInfos> toShuntCompensatorInfos(String lccBusOrBusbarSectionId, Stream<ShuntCompensator> shuntCompensators) {
         return shuntCompensators
-                .map(s -> HvdcShuntCompensatorsInfos.ShuntCompensatorInfos.builder()
-                        .id(s.getId())
-                        .name(s.getNameOrId())
-                        .connectedToHvdc(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(s.getTerminal())))
-                        .maxQAtNominalV(s.getG())
+                .filter(shuntCompensator -> shuntCompensator.getModelType() == ShuntCompensatorModelType.LINEAR)
+                .map(shuntCompensator -> HvdcShuntCompensatorsInfos.ShuntCompensatorInfos.builder()
+                        .id(shuntCompensator.getId())
+                        .name(shuntCompensator.getNameOrId())
+                        .connectedToHvdc(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(shuntCompensator.getTerminal())))
+                        .maxQAtNominalV(shuntCompensator.getB() * Math.pow(shuntCompensator.getTerminal().getVoltageLevel().getNominalV(), 2))
                         .build())
                 .toList();
     }
