@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -77,6 +78,16 @@ public final class ElementUtils {
                 Optional.of(HvdcOperatorActivePowerRangeInfos.builder()
                         .oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
+    }
+
+    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
+        List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
+                .map(
+                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList();
+        if (!currentLimitsData.isEmpty()) {
+            build.accept(currentLimitsData);
+        }
     }
 
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
@@ -162,21 +173,24 @@ public final class ElementUtils {
     }
 
     public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
-        boolean empty = true;
-        if (operationalLimitsGroup.getCurrentLimits().isPresent()) {
-            CurrentLimits currentLimits = operationalLimitsGroup.getCurrentLimits().get();
-            builder.id(operationalLimitsGroup.getId());
-            if (!Double.isNaN(currentLimits.getPermanentLimit())) {
-                builder.permanentLimit(currentLimits.getPermanentLimit());
-                empty = false;
-            }
-            if (!CollectionUtils.isEmpty(currentLimits.getTemporaryLimits())) {
-                builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
-                empty = false;
-            }
+        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
+            return null;
         }
-        return empty ? null : builder.build();
+        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
+        boolean containsLimitsData = false;
+
+        CurrentLimits currentLimits = operationalLimitsGroup.getCurrentLimits().get();
+        builder.id(operationalLimitsGroup.getId());
+        if (!Double.isNaN(currentLimits.getPermanentLimit())) {
+            builder.permanentLimit(currentLimits.getPermanentLimit());
+            containsLimitsData = true;
+        }
+        if (!CollectionUtils.isEmpty(currentLimits.getTemporaryLimits())) {
+            builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
+            containsLimitsData = true;
+        }
+
+        return containsLimitsData ? builder.build() : null;
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {

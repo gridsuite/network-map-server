@@ -10,10 +10,8 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
-import java.util.*;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -75,23 +73,8 @@ public final class LineInfosMapper {
                 .selectedOperationalLimitsGroupId2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(line));
 
-        Collection<OperationalLimitsGroup> currentLimits1 = line.getOperationalLimitsGroups1();
-        List<CurrentLimitsData> currentLimits1Data = currentLimits1.stream()
-                .map(
-                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
-                .toList();
-        if (!currentLimits1Data.isEmpty()) {
-            builder.currentLimits1(currentLimits1Data);
-        }
-
-        Collection<OperationalLimitsGroup> currentLimits2 = line.getOperationalLimitsGroups2();
-        List<CurrentLimitsData> currentLimits2Data = currentLimits2.stream()
-                .map(
-                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
-                .toList();
-        if (!currentLimits2Data.isEmpty()) {
-            builder.currentLimits2(currentLimits2Data);
-        }
+        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
+        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
