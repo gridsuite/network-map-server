@@ -67,8 +67,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
-                .selectedOperationalLimitsGroupId1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null))
-                .selectedOperationalLimitsGroupId2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null))
+                .selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(twoWT));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))

@@ -69,8 +69,8 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
-                .selectedOperationalLimitsGroupId1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
-                .selectedOperationalLimitsGroupId2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
+                .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(line));
 
         buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);

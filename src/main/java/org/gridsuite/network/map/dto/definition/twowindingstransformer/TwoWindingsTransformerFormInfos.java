@@ -60,10 +60,10 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
     private List<CurrentLimitsData> currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroupId1;
+    private String selectedOperationalLimitsGroup1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroupId2;
+    private String selectedOperationalLimitsGroup2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData phaseTapChanger;

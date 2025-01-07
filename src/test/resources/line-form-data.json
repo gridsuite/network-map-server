@@ -22,8 +22,8 @@
       "temporaryLimits":[{"name":"IT20","acceptableDuration":1200,"value":300.0},{"name":"IT10","acceptableDuration":600,"value":200.0}]
     }
   ],
-  "selectedOperationalLimitsGroupId1": "limit set 1",
-  "selectedOperationalLimitsGroupId2": "limit set 1",
+  "selectedOperationalLimitsGroup1": "limit set 1",
+  "selectedOperationalLimitsGroup2": "limit set 1",
   "r": 9.0,
   "x": 10.0,
   "g1": 7.0,
