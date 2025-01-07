@@ -11,8 +11,22 @@
   "q1": 12.2,
   "p2": 13.33,
   "q2": 14.44,
-  "currentLimits1": {"permanentLimit":750.4, "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}]},
-  "currentLimits2": {"permanentLimit":780.6, "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}]},
+  "currentLimits1": [
+    {
+      "id" : "limit set 1",
+      "permanentLimit":750.4,
+      "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}]
+    }
+  ],
+  "currentLimits2": [
+    {
+      "id" : "limit set 1",
+      "permanentLimit":780.6,
+      "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}]
+    }
+  ],
+  "selectedOperationalLimitsGroup1": "limit set 1",
+  "selectedOperationalLimitsGroup2": "limit set 1",
   "phaseTapChanger": {
     "lowTapPosition": 0,
     "highTapPosition": 1,
