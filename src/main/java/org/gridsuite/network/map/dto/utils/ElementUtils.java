@@ -273,7 +273,7 @@ public final class ElementUtils {
     }
 
     public static void mapThreeWindingsTransformerPermanentLimits(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder builder,
+            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
             ThreeWindingsTransformer transformer) {
         CurrentLimits limits1 = transformer.getLeg1().getCurrentLimits().orElse(null);
         CurrentLimits limits2 = transformer.getLeg2().getCurrentLimits().orElse(null);
@@ -290,7 +290,7 @@ public final class ElementUtils {
     }
 
     public static void mapThreeWindingsTransformerRatioTapChangers(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder builder,
+            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
             ThreeWindingsTransformer transformer) {
         ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
         ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
