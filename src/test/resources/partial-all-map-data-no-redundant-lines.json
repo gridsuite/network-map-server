@@ -87,7 +87,11 @@
         "value": 24.0,
         "validity": false
       },
-      "branchObservability":{
+      "measurementQ2": {
+        "value": 45.0,
+        "validity": true
+      },
+      "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,
           "isRedundant": true
@@ -185,8 +189,8 @@
       "country": "FR",
       "terminalConnected": true,
       "pairingKey": "xnode1",
-      "p": 45,
-      "q": 75,
+      "p": 45.0,
+      "q": 75.0,
       "p0": 50.0,
       "q0": 30.0
     }

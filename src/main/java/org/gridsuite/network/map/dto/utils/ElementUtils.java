@@ -305,7 +305,7 @@ public final class ElementUtils {
     }
 
     public static void mapThreeWindingsTransformerPermanentLimits(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder builder,
+            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
             ThreeWindingsTransformer transformer) {
         CurrentLimits limits1 = transformer.getLeg1().getCurrentLimits().orElse(null);
         CurrentLimits limits2 = transformer.getLeg2().getCurrentLimits().orElse(null);
@@ -322,7 +322,7 @@ public final class ElementUtils {
     }
 
     public static void mapThreeWindingsTransformerRatioTapChangers(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder builder,
+            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
             ThreeWindingsTransformer transformer) {
         ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
         ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
@@ -427,7 +427,7 @@ public final class ElementUtils {
         if (measurements == null) {
             return Optional.empty();
         } else {
-            return measurements.getMeasurements(type).stream().findFirst().filter(m -> ((Measurement) m).getSide() == null || ((Measurement) m).getSide().getNum() - 1 == index)
+            return measurements.getMeasurements(type).stream().filter(m -> ((Measurement) m).getSide() == null || ((Measurement) m).getSide().getNum() - 1 == index).findFirst()
                 .map(m -> MeasurementsInfos.builder().value(((Measurement) m).getValue()).validity(((Measurement) m).isValid()).build());
         }
     }
