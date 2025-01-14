@@ -113,6 +113,22 @@
       "value": 13.0,
       "validity": true
     },
+    "measurementP2": {
+      "value": 23.0,
+      "validity": false
+    },
+    "measurementQ2": {
+      "value": 33.0,
+      "validity": false
+    },
+    "measurementP3": {
+      "value": 43.0,
+      "validity": true
+    },
+    "measurementQ3": {
+      "value": 53.0,
+      "validity": true
+    },
     "measurementRatioTap1": {
       "value": 14,
       "validity": true
@@ -244,6 +260,22 @@
       "value": 13.0,
       "validity": true
     },
+    "measurementP2": {
+      "value": 23.0,
+      "validity": false
+    },
+    "measurementQ2": {
+      "value": 33.0,
+      "validity": false
+    },
+    "measurementP3": {
+      "value": 43.0,
+      "validity": true
+    },
+    "measurementQ3": {
+      "value": 53.0,
+      "validity": true
+    },
     "measurementRatioTap1": {
       "value": 14,
       "validity": true
@@ -373,6 +405,22 @@
     },
     "measurementQ1": {
       "value": 13.0,
+      "validity": true
+    },
+    "measurementP2": {
+      "value": 23.0,
+      "validity": false
+    },
+    "measurementQ2": {
+      "value": 33.0,
+      "validity": false
+    },
+    "measurementP3": {
+      "value": 43.0,
+      "validity": true
+    },
+    "measurementQ3": {
+      "value": 53.0,
       "validity": true
     },
     "measurementRatioTap1": {
