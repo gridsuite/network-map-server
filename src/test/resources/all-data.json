@@ -9,18 +9,18 @@
       "voltageLevels": [
         {
           "id": "VLGEN",
+          "name": "VLGEN_Name",
+          "properties": {
+            "Country": "FR"
+          },
           "substationId": "P1",
           "nominalV": 24.0,
           "country": "FR",
-          "name": "VLGEN_Name",
           "lowVoltageLimit": 200.0,
           "highVoltageLimit": 400.0,
           "identifiableShortCircuit": {
             "ipMin": 10.0,
             "ipMax": 120.0
-          },
-          "properties": {
-            "Country": "FR"
           }
         },
         {
@@ -119,18 +119,18 @@
   "voltageLevels": [
     {
       "id": "VLGEN",
+      "name": "VLGEN_Name",
+      "properties": {
+        "Country": "FR"
+      },
       "substationId": "P1",
       "nominalV": 24.0,
       "country": "FR",
-      "name": "VLGEN_Name",
       "lowVoltageLimit": 200.0,
       "highVoltageLimit": 400.0,
       "identifiableShortCircuit": {
         "ipMin": 10.0,
         "ipMax": 120.0
-      },
-      "properties": {
-        "Country": "FR"
       }
     },
     {
@@ -280,7 +280,11 @@
         "value": 24.0,
         "validity": false
       },
-      "branchObservability":{
+      "measurementQ2": {
+        "value": 45.0,
+        "validity": true
+      },
+      "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,
           "isRedundant": true
@@ -688,6 +692,14 @@
         "value": 13.0,
         "validity": true
       },
+      "measurementP2": {
+        "value": 68.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 53.0,
+        "validity": false
+      },
       "measurementRatioTap": {
         "value": 11,
         "validity": true
@@ -696,7 +708,7 @@
         "value": 7,
         "validity": false
       },
-      "branchObservability":{
+      "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,
           "isRedundant": true
@@ -832,6 +844,22 @@
         "value": 13.0,
         "validity": true
       },
+      "measurementP2": {
+        "value": 23.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 33.0,
+        "validity": false
+      },
+      "measurementP3": {
+        "value": 43.0,
+        "validity": true
+      },
+      "measurementQ3": {
+        "value": 53.0,
+        "validity": true
+      },
       "measurementRatioTap1": {
         "value": 14,
         "validity": true
@@ -961,6 +989,22 @@
       },
       "measurementQ1": {
         "value": 13.0,
+        "validity": true
+      },
+      "measurementP2": {
+        "value": 23.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 33.0,
+        "validity": false
+      },
+      "measurementP3": {
+        "value": 43.0,
+        "validity": true
+      },
+      "measurementQ3": {
+        "value": 53.0,
         "validity": true
       },
       "measurementRatioTap1": {
@@ -1094,6 +1138,22 @@
         "value": 13.0,
         "validity": true
       },
+      "measurementP2": {
+        "value": 23.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 33.0,
+        "validity": false
+      },
+      "measurementP3": {
+        "value": 43.0,
+        "validity": true
+      },
+      "measurementQ3": {
+        "value": 53.0,
+        "validity": true
+      },
       "measurementRatioTap1": {
         "value": 14,
         "validity": true
@@ -1162,8 +1222,6 @@
         "value": 5.0,
         "validity": true
       },
-      "highVoltageLimit": 400.0,
-      "lowVoltageLimit": 200.0,
       "isCondenser": false,
       "substationId": "P1",
       "substationName": "P1_Name",
@@ -1171,12 +1229,14 @@
         "Country": "FR"
       },
       "voltageLevelName": "VLGEN_Name",
+      "lowVoltageLimit": 200.0,
+      "highVoltageLimit": 400.0,
+      "voltageLevelShortCircuit": {
+        "ipMin": 10.0,
+        "ipMax": 120.0
+      },
       "voltageLevelProperties": {
         "Country": "FR"
-      },
-      "voltageLevelShortCircuit": {
-        "ipMin": 10,
-        "ipMax": 120
       },
       "injectionObservability": {
         "qualityP": {
@@ -1240,8 +1300,6 @@
         "value": 80.0,
         "validity": false
       },
-      "highVoltageLimit": 400.0,
-      "lowVoltageLimit": 200.0,
       "isCondenser": false,
       "substationId": "P1",
       "substationName": "P1_Name",
@@ -1249,12 +1307,14 @@
         "Country": "FR"
       },
       "voltageLevelName": "VLGEN_Name",
+      "lowVoltageLimit": 200.0,
+      "highVoltageLimit": 400.0,
+      "voltageLevelShortCircuit": {
+        "ipMin": 10.0,
+        "ipMax": 120.0
+      },
       "voltageLevelProperties": {
         "Country": "FR"
-      },
-      "voltageLevelShortCircuit": {
-        "ipMin": 10,
-        "ipMax": 120
       }
     }
   ],
@@ -1395,8 +1455,8 @@
       "country": "FR",
       "terminalConnected": true,
       "pairingKey": "xnode1",
-      "p": 45,
-      "q": 75,
+      "p": 45.0,
+      "q": 75.0,
       "p0": 50.0,
       "q0": 30.0
     }

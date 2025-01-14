@@ -210,6 +210,14 @@
       "value": 13.0,
       "validity": true
     },
+    "measurementP2": {
+      "value": 68.0,
+      "validity": false
+    },
+    "measurementQ2": {
+      "value": 53.0,
+      "validity": false
+    },
     "measurementRatioTap": {
       "value": 11,
       "validity": true
@@ -218,7 +226,7 @@
       "value": 7,
       "validity": false
     },
-    "branchObservability":{
+    "branchObservability": {
       "qualityP1": {
         "standardDeviation": 23.31,
         "isRedundant": true
