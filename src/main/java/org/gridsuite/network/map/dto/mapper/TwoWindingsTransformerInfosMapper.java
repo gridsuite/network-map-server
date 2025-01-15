@@ -67,6 +67,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
+                .selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(twoWT));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
@@ -79,14 +81,8 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i1(nullIfNan(terminal1.getI()));
         builder.i2(nullIfNan(terminal2.getI()));
 
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
+        buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
+        buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.operatingStatus(toOperatingStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
