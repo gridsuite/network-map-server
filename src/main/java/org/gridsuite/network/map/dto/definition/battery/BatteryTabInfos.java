@@ -59,9 +59,6 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
 
     private ConnectablePositionInfos connectablePosition;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId;
-
     private Boolean terminalConnected;
 
     private Double nominalVoltage;

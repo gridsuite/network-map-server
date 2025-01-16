@@ -153,15 +153,6 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfosWithProperties
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double regulatingValue3;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId3;
-
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementP1;
 

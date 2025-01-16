@@ -47,9 +47,6 @@ public class StaticVarCompensatorTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double reactivePowerSetpoint;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId;
-
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ;
 
