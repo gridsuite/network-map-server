@@ -51,9 +51,6 @@ public class DanglingLineTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId;
-
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementP;
 
