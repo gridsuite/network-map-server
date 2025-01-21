@@ -96,12 +96,6 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
     private ConnectablePositionInfos connectablePosition2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)

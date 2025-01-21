@@ -50,9 +50,6 @@ public class LoadTabInfos extends ElementInfosWithProperties {
 
     private ConnectablePositionInfos connectablePosition;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId;
-
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementP;
 

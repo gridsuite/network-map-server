@@ -41,9 +41,6 @@ public class HvdcTabInfos extends ElementInfosWithProperties {
     private Double r;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double nominalV;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
