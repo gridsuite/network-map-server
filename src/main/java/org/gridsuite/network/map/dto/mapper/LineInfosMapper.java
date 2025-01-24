@@ -123,9 +123,6 @@ public final class LineInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
-
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
         builder.operatingStatus(toOperatingStatus(line));
 
         return builder.build();
