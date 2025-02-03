@@ -15,7 +15,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.dto.mapper.*;
+import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
+import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -128,10 +129,11 @@ public class NetworkMapService {
                 .map(BusbarSection::getId).collect(Collectors.toList());
     }
 
-    private List<String> getHvdcLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
+    private List<String> getHvdcLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, String equipmentSubType, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds.isEmpty() && nominalVoltages == null) {
             return network.getHvdcLineStream()
+                    .filter(hvdcLine -> getEquipmentSubType(hvdcLine, equipmentSubType))
                     .map(HvdcLine::getId).toList();
         } else {
             return getVoltageLevelStream(network, substationsIds, nominalVoltages)
@@ -140,8 +142,16 @@ public class NetworkMapService {
                     .filter(Objects::nonNull)
                     .map(HvdcLine::getId)
                     .distinct()
-                    .collect(Collectors.toList());
+                    .toList();
         }
+    }
+
+    private boolean getEquipmentSubType(HvdcLine hvdcLine, String equipmentSubType) {
+        if (equipmentSubType == null) {
+            return true;
+        }
+        return equipmentSubType.equals(hvdcLine.getConverterStation1().getHvdcType().name()) &&
+                equipmentSubType.equals(hvdcLine.getConverterStation2().getHvdcType().name());
     }
 
     private List<String> getTieLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
@@ -284,14 +294,14 @@ public class NetworkMapService {
         return HvdcInfosMapper.toHvdcShuntCompensatorsInfos(hvdcLine);
     }
 
-    public List<String> getElementsIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
+    public List<String> getElementsIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType elementType, String equipmentSubType, List<Double> nominalVoltages) {
         switch (elementType) {
             case SUBSTATION:
                 return getSubstationsIds(networkUuid, variantId, nominalVoltages);
             case TIE_LINE:
                 return getTieLinesIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case HVDC_LINE:
-                return getHvdcLinesIds(networkUuid, variantId, substationsIds, nominalVoltages);
+                return getHvdcLinesIds(networkUuid, variantId, substationsIds, equipmentSubType, nominalVoltages);
             case VOLTAGE_LEVEL:
                 return getVoltageLevelsIds(networkUuid, variantId, substationsIds, nominalVoltages);
             default:

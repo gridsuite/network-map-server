@@ -53,8 +53,9 @@ public class NetworkMapController {
                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                        @Parameter(description = "Nominal Voltages") @RequestParam(name = "nominalVoltages", required = false) List<Double> nominalVoltages,
                                        @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
+                                       @Parameter(description = "Element type") @RequestParam(name = "equipmentSubType", required = false) String equipmentSubType,
                                        @RequestBody(required = false) Optional<List<String>> substationsIds) {
-        return networkMapService.getElementsIds(networkUuid, variantId, substationsIds.orElseGet(List::of), elementType, nominalVoltages);
+        return networkMapService.getElementsIds(networkUuid, variantId, substationsIds.orElseGet(List::of), elementType, equipmentSubType, nominalVoltages);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/all", produces = APPLICATION_JSON_VALUE)
