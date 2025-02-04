@@ -262,10 +262,13 @@ public class NetworkMapService {
         }
     }
 
-    public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoTypeParameters infoTypeParameters, String elementId) {
+    public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, String equipmentSubType, InfoTypeParameters infoTypeParameters, String elementId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Identifiable<?> identifiable = network.getIdentifiable(elementId);
         if (identifiable == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        if (identifiable instanceof HvdcLine hvdcLine && !getEquipmentSubType(hvdcLine, equipmentSubType)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return elementType.getInfosGetter().apply(identifiable, infoTypeParameters);
