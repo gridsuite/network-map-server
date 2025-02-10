@@ -100,6 +100,6 @@ class ListHandlingControllerTest {
         mvc.perform(requestWithOptionalSubstationId(post("/v1/networks/{networkUuid}/elements-ids", NETWORK_ID)
                 .queryParam("elementType", ElementType.LINE.toString()), parameter))
             .andExpect(status().is2xxSuccessful());
-        verify(networkMapService).getElementsIds(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()), same(ElementType.LINE), isNull(), isNull());
+        verify(networkMapService).getElementsIds(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()), same(ElementType.LINE), isNull());
     }
 }

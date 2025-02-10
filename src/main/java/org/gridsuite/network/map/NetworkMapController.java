@@ -53,9 +53,8 @@ public class NetworkMapController {
                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                        @Parameter(description = "Nominal Voltages") @RequestParam(name = "nominalVoltages", required = false) List<Double> nominalVoltages,
                                        @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                       @Parameter(description = "Equipment SubType") @RequestParam(name = "equipmentSubType", required = false) String equipmentSubType,
                                        @RequestBody(required = false) Optional<List<String>> substationsIds) {
-        return networkMapService.getElementsIds(networkUuid, variantId, substationsIds.orElseGet(List::of), elementType, equipmentSubType, nominalVoltages);
+        return networkMapService.getElementsIds(networkUuid, variantId, substationsIds.orElseGet(List::of), elementType, nominalVoltages);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/all", produces = APPLICATION_JSON_VALUE)
@@ -86,9 +85,8 @@ public class NetworkMapController {
                                         @Parameter(description = "Element id") @PathVariable("elementId") String elementId,
                                         @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
                                         @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
-                                        @Parameter(description = "Equipment SubType") @RequestParam(name = "equipmentSubType", required = false) String equipmentSubType,
                                         @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters) {
-        return networkMapService.getElementInfos(networkUuid, variantId, elementType, equipmentSubType, infoTypeParameters, elementId);
+        return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoTypeParameters, elementId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/buses-or-busbar-sections", produces = APPLICATION_JSON_VALUE)

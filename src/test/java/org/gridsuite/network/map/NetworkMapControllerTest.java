@@ -1969,9 +1969,15 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnHvdcLinesFormData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.FORM, null, resourceToString("/hvdc-lines-form-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.FORM, null, resourceToString("/hvdc-lines-form-data.json"));
+    void shouldReturnHvdcLinesLccFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE_LCC, InfoType.FORM, null, resourceToString("/hvdc-lines-lcc-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE_LCC, InfoType.FORM, null, resourceToString("/hvdc-lines-lcc-form-data.json"));
+    }
+
+    @Test
+    void shouldReturnHvdcLinesVscFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE_VSC, InfoType.FORM, null, resourceToString("/hvdc-lines-vsc-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE_VSC, InfoType.FORM, null, resourceToString("/hvdc-lines-vsc-form-data.json"));
     }
 
     @Test
