@@ -13,6 +13,9 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+
+import java.util.Optional;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -90,4 +93,15 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
 
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ2;
 }
