@@ -148,7 +148,7 @@ public class NetworkMapService {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds.isEmpty() && nominalVoltages == null) {
             return network.getHvdcLineStream()
-                    .filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType().name().equals(HvdcConverterStation.HvdcType.LCC))
+                    .filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType().equals(HvdcConverterStation.HvdcType.LCC))
                     .map(HvdcLine::getId).toList();
         } else {
             return getVoltageLevelStream(network, substationsIds, nominalVoltages)
@@ -165,7 +165,7 @@ public class NetworkMapService {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds.isEmpty() && nominalVoltages == null) {
             return network.getHvdcLineStream()
-                    .filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType().name().equals(HvdcConverterStation.HvdcType.VSC))
+                    .filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType().equals(HvdcConverterStation.HvdcType.VSC))
                     .map(HvdcLine::getId).toList();
         } else {
             return getVoltageLevelStream(network, substationsIds, nominalVoltages)
