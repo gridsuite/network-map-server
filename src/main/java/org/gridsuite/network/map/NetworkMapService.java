@@ -155,6 +155,7 @@ public class NetworkMapService {
                     .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
                     .map(HvdcConverterStation::getHvdcLine)
                     .filter(Objects::nonNull)
+                    .filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType().equals(HvdcConverterStation.HvdcType.LCC))
                     .map(HvdcLine::getId)
                     .distinct()
                     .toList();
@@ -172,6 +173,7 @@ public class NetworkMapService {
                     .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
                     .map(HvdcConverterStation::getHvdcLine)
                     .filter(Objects::nonNull)
+                    .filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType().equals(HvdcConverterStation.HvdcType.VSC))
                     .map(HvdcLine::getId)
                     .distinct()
                     .toList();
