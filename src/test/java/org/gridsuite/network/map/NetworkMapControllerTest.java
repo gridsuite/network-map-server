@@ -89,9 +89,6 @@ class NetworkMapControllerTest {
     @BeforeEach
     void setUp() {
         network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
-        Line l2 = network.getLine("NHV1_NHV2_2");
-        l2.newCurrentLimits1().setPermanentLimit(Double.NaN).add();
-        l2.newCurrentLimits2().setPermanentLimit(Double.NaN).add();
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
                 .setQ(2.2);
@@ -99,6 +96,10 @@ class NetworkMapControllerTest {
                 .setQ(4.44);
         l1.setB1(5).setB2(6).setG1(7).setG2(8);
         l1.setR(9).setX(10);
+        l1.newOperationalLimitsGroup1("limit set 1");
+        l1.newOperationalLimitsGroup2("limit set 1");
+        l1.setSelectedOperationalLimitsGroup1("limit set 1");
+        l1.setSelectedOperationalLimitsGroup2("limit set 1");
         l1.newCurrentLimits1().setPermanentLimit(700.4)
                 .beginTemporaryLimit()
                 .setName("IT5")
@@ -153,6 +154,10 @@ class NetworkMapControllerTest {
                 .setQ(12.2);
         t2.getTerminal2().setP(13.33)
                 .setQ(14.44);
+        t2.newOperationalLimitsGroup1("limit set 1");
+        t2.newOperationalLimitsGroup2("limit set 1");
+        t2.setSelectedOperationalLimitsGroup1("limit set 1");
+        t2.setSelectedOperationalLimitsGroup2("limit set 1");
         t2.newCurrentLimits1().setPermanentLimit(750.4)
                 .beginTemporaryLimit()
                 .setName("IT5")

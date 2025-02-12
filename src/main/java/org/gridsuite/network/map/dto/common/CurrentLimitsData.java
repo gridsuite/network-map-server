@@ -15,11 +15,15 @@ import java.util.List;
 
 /**
  * @author David Braquart <david.braquart at rte-france.com>
+ *     == a powsybl OperationalLimitsGroup == a LimitSet
  */
 @Builder
 @Getter
 @EqualsAndHashCode
 public class CurrentLimitsData {
+    // may be null in case we just need the selected limit set and don't really need its name/id
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double permanentLimit;

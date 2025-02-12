@@ -13,7 +13,7 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
-
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -55,11 +55,17 @@ public class LineFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits1;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<CurrentLimitsData> currentLimits1;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<CurrentLimitsData> currentLimits2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits2;
+    private String selectedOperationalLimitsGroup1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String selectedOperationalLimitsGroup2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
