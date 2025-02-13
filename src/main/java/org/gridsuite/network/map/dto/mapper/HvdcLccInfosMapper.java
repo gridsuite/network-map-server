@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.Identifiable;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
-import org.gridsuite.network.map.dto.definition.hvdc.hvdcLcc.HvdcLccFormInfos;
+import org.gridsuite.network.map.dto.definition.hvdc.hvdclcc.HvdcLccFormInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 

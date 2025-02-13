@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package org.gridsuite.network.map.dto.definition.hvdc.hvdcVsc;
+package org.gridsuite.network.map.dto.definition.hvdc.hvdcvsc;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
