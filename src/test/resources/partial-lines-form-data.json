@@ -47,6 +47,18 @@
       "connectionPosition": 0
     },
     "busOrBusbarSectionId1": "NGEN",
-    "busOrBusbarSectionId2": "NGEN3"
+    "busOrBusbarSectionId2": "NGEN3",
+    "measurementP1": {
+      "value": 11,
+      "validity": true
+    },
+    "measurementQ1": {
+      "value": 24,
+      "validity": false
+    },
+    "measurementQ2": {
+      "value": 45,
+      "validity": true
+    }
   }
 ]
