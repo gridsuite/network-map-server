@@ -26,22 +26,15 @@ public final class LineInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable, dcPowerFactor);
-            case FORM:
-                return toFormInfos(identifiable);
-            case MAP:
-                return toMapInfos(identifiable, dcPowerFactor);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return toOperatingStatusInfos(identifiable);
-            case TOOLTIP:
-                return toTooltipInfos(identifiable, dcPowerFactor);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case FORM -> toFormInfos(identifiable);
+            case MAP -> toMapInfos(identifiable, dcPowerFactor);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static LineFormInfos toFormInfos(Identifiable<?> identifiable) {
@@ -83,6 +76,11 @@ public final class LineInfosMapper {
 
         builder.connectablePosition1(toMapConnectablePosition(line, 1))
                 .connectablePosition2(toMapConnectablePosition(line, 2));
+
+        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
 
         return builder.build();
     }

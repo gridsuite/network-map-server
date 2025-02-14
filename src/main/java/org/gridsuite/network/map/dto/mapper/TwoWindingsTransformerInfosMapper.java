@@ -29,20 +29,14 @@ public final class TwoWindingsTransformerInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
-        switch (infoTypeParameters.getInfoType()) {
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return toOperatingStatusInfos(identifiable);
-            case TOOLTIP:
-                return toTooltipInfos(identifiable, dcPowerFactor);
-            case TAB:
-                return toTabInfos(identifiable, dcPowerFactor);
-            case FORM:
-                return toFormInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case FORM -> toFormInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static TwoWindingsTransformerFormInfos toFormInfos(Identifiable<?> identifiable) {
@@ -87,6 +81,12 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.operatingStatus(toOperatingStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+
+        builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+
         return builder.build();
     }
 
