@@ -1,0 +1,88 @@
+[
+  {
+    "id": "HVDC1",
+    "name": "HVDC1",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "lccConverterStation1": {
+      "id": "LCC1",
+      "name": "LCC1",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NGEN",
+      "shuntCompensatorsOnSide": [
+      ]
+    },
+    "lccConverterStation2": {
+      "id": "LCC2",
+      "name": "LCC2",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NNEW2",
+      "shuntCompensatorsOnSide": [
+        {
+          "id": "SHUNT1",
+          "name": "SHUNT1",
+          "maxQAtNominalV": 1012500.0,
+          "connectedToHvdc": true
+        }
+      ]
+    },
+    "r": 1.0,
+    "nominalV": 225.0,
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0
+  },
+  {
+    "id": "HVDC2",
+    "name": "HVDC2",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "lccConverterStation1": {
+      "id": "LCC1",
+      "name": "LCC1",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NGEN",
+      "shuntCompensatorsOnSide": [
+      ]
+    },
+    "lccConverterStation2": {
+      "id": "LCC2",
+      "name": "LCC2",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "busOrBusbarSectionId": "NNEW2",
+      "shuntCompensatorsOnSide": [
+        {
+          "id": "SHUNT1",
+          "name": "SHUNT1",
+          "maxQAtNominalV": 1012500.0,
+          "connectedToHvdc": true
+        }
+      ]
+    },
+    "r": 1.0,
+    "nominalV": 225.0,
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0
+  }
+]
