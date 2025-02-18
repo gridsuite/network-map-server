@@ -34,6 +34,8 @@ public class HvdcInfosMapper {
                 return toHvdcTabInfos(identifiable);
             case MAP:
                 return toMapInfos(identifiable);
+            case LIST:
+                return ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS:
                 return toOperatingStatusInfos(identifiable);
             default:
