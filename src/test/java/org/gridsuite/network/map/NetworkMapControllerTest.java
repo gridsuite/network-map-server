@@ -1974,9 +1974,17 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnHvdcLinesFormData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.FORM, null, resourceToString("/hvdc-lines-form-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.FORM, null, resourceToString("/hvdc-lines-form-data.json"));
+    void shouldReturnHvdcLinesLccFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE_LCC, InfoType.FORM, null, resourceToString("/hvdc-lines-lcc-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE_LCC, InfoType.FORM, null, resourceToString("/hvdc-lines-lcc-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE_LCC, InfoType.FORM, List.of("P1", "P2"), resourceToString("/partial-hvdc-line-lcc-form-data.json"));
+    }
+
+    @Test
+    void shouldReturnHvdcLinesVscFormData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE_VSC, InfoType.FORM, null, resourceToString("/hvdc-lines-vsc-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE_VSC, InfoType.FORM, null, resourceToString("/hvdc-lines-vsc-form-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE_VSC, InfoType.FORM, List.of("P3"), resourceToString("/partial-hvdc-line-vsc-form-data.json"));
     }
 
     @Test
@@ -1988,6 +1996,28 @@ class NetworkMapControllerTest {
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC5").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC4", "HVDC5", "HVDC3", "HVDC1").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC4", "HVDC5", "HVDC3", "HVDC1").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), List.of(24.0, 150.0, 225.0, 380.0));
+    }
+
+    @Test
+    void shouldReturnHvdcLinesLccIds() throws Exception {
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1", "HVDC2").toString(), ElementType.HVDC_LINE_LCC, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC1").toString(), ElementType.HVDC_LINE_LCC, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1").toString(), ElementType.HVDC_LINE_LCC, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC2").toString(), ElementType.HVDC_LINE_LCC, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1").toString(), ElementType.HVDC_LINE_LCC, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1").toString(), ElementType.HVDC_LINE_LCC, List.of("P1", "P3", "P4"), null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1").toString(), ElementType.HVDC_LINE_LCC, List.of("P1", "P3", "P4"), List.of(24.0, 150.0, 225.0, 380.0));
+    }
+
+    @Test
+    void shouldReturnHvdcLinesVscIds() throws Exception {
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC3", "HVDC4", "HVDC5").toString(), ElementType.HVDC_LINE_VSC, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("HVDC5").toString(), ElementType.HVDC_LINE_VSC, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC3", "HVDC4", "HVDC5").toString(), ElementType.HVDC_LINE_VSC, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC3", "HVDC4", "HVDC5").toString(), ElementType.HVDC_LINE_VSC, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC5").toString(), ElementType.HVDC_LINE_VSC, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC3", "HVDC4", "HVDC5").toString(), ElementType.HVDC_LINE_VSC, List.of("P1", "P3", "P4"), null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC3", "HVDC4", "HVDC5").toString(), ElementType.HVDC_LINE_VSC, List.of("P1", "P3", "P4"), List.of(24.0, 150.0, 225.0, 380.0));
     }
 
     @Test

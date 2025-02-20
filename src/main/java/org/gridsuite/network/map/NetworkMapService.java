@@ -15,7 +15,8 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.dto.mapper.*;
+import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
+import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -128,20 +129,31 @@ public class NetworkMapService {
                 .map(BusbarSection::getId).collect(Collectors.toList());
     }
 
-    private List<String> getHvdcLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
+    private List<String> getHvdcLinesIdsByHvdcType(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages, HvdcConverterStation.HvdcType type) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
-        if (substationsIds.isEmpty() && nominalVoltages == null) {
-            return network.getHvdcLineStream()
-                    .map(HvdcLine::getId).toList();
-        } else {
-            return getVoltageLevelStream(network, substationsIds, nominalVoltages)
-                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
-                    .map(HvdcConverterStation::getHvdcLine)
-                    .filter(Objects::nonNull)
-                    .map(HvdcLine::getId)
-                    .distinct()
-                    .collect(Collectors.toList());
+        Stream<HvdcLine> hvdcLineStream = (substationsIds.isEmpty() && nominalVoltages == null)
+                ? network.getHvdcLineStream()
+                : getVoltageLevelStream(network, substationsIds, nominalVoltages)
+                .flatMap(voltageLevel -> voltageLevel.getConnectableStream(HvdcConverterStation.class))
+                .map(HvdcConverterStation::getHvdcLine)
+                .filter(Objects::nonNull)
+                .distinct();
+        if (type != null) {
+            hvdcLineStream = hvdcLineStream.filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType() == type);
         }
+        return hvdcLineStream.map(HvdcLine::getId).toList();
+    }
+
+    private List<String> getHvdcLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
+        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, null);
+    }
+
+    private List<String> getHvdcLinesLccIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
+        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, HvdcConverterStation.HvdcType.LCC);
+    }
+
+    private List<String> getHvdcLinesVscIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
+        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, HvdcConverterStation.HvdcType.VSC);
     }
 
     private List<String> getTieLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
@@ -175,20 +187,43 @@ public class NetworkMapService {
                 .toList();
     }
 
+    private List<ElementInfos> getHvdcLinesInfosByHvdcType(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages, HvdcConverterStation.HvdcType type) {
+        Stream<HvdcLine> hvdcLineStream = substationsId.isEmpty()
+                ? network.getHvdcLineStream()
+                : substationsId.stream()
+                .map(network::getSubstation)
+                .flatMap(Substation::getVoltageLevelStream)
+                .filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()))
+                .flatMap(vl -> vl.getConnectableStream(HvdcConverterStation.class))
+                .map(HvdcConverterStation::getHvdcLine)
+                .filter(Objects::nonNull)
+                .distinct();
+        if (type != null) {
+            hvdcLineStream = hvdcLineStream.filter(hvdcLine -> hvdcLine.getConverterStation1().getHvdcType() == type);
+        }
+        return hvdcLineStream.map(c -> getElementTypeByHvdcType(type).getInfosGetter().apply(c, infoTypeParameters)).toList();
+    }
+
+    private ElementType getElementTypeByHvdcType(HvdcConverterStation.HvdcType type) {
+        if (type == HvdcConverterStation.HvdcType.LCC) {
+            return ElementType.HVDC_LINE_LCC;
+        } else if (type == HvdcConverterStation.HvdcType.VSC) {
+            return ElementType.HVDC_LINE_VSC;
+        } else {
+            return ElementType.HVDC_LINE;
+        }
+    }
+
     private List<ElementInfos> getHvdcLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        Stream<HvdcLine> hvdcLines = substationsId.isEmpty() ? network.getHvdcLineStream() :
-                substationsId.stream()
-                        .map(network::getSubstation)
-                        .flatMap(Substation::getVoltageLevelStream)
-                        .filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()))
-                        .flatMap(vl -> vl.getConnectableStream(HvdcConverterStation.class))
-                        .map(HvdcConverterStation::getHvdcLine)
-                        .filter(Objects::nonNull)
-                        .distinct();
-        return hvdcLines
-                .map(c -> ElementType.HVDC_LINE.getInfosGetter().apply(c, infoTypeParameters))
-                .distinct()
-                .toList();
+        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, null);
+    }
+
+    private List<ElementInfos> getHvdcLinesLccInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, HvdcConverterStation.HvdcType.LCC);
+    }
+
+    private List<ElementInfos> getHvdcLinesVscInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, HvdcConverterStation.HvdcType.VSC);
     }
 
     private List<ElementInfos> getTieLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
@@ -243,6 +278,10 @@ public class NetworkMapService {
                 return getVoltageLevelsInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case HVDC_LINE:
                 return getHvdcLinesInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
+            case HVDC_LINE_LCC:
+                return getHvdcLinesLccInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
+            case HVDC_LINE_VSC:
+                return getHvdcLinesVscInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case TIE_LINE:
                 return getTieLinesInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case BUS:
@@ -292,6 +331,10 @@ public class NetworkMapService {
                 return getTieLinesIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case HVDC_LINE:
                 return getHvdcLinesIds(networkUuid, variantId, substationsIds, nominalVoltages);
+            case HVDC_LINE_LCC:
+                return getHvdcLinesLccIds(networkUuid, variantId, substationsIds, nominalVoltages);
+            case HVDC_LINE_VSC:
+                return getHvdcLinesVscIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case VOLTAGE_LEVEL:
                 return getVoltageLevelsIds(networkUuid, variantId, substationsIds, nominalVoltages);
             default:

@@ -18,6 +18,8 @@ public enum ElementType {
     LINE(Line.class, LineInfosMapper::toData),
     TIE_LINE(TieLine.class, TieLineInfosMapper::toData),
     HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
+    HVDC_LINE_LCC(HvdcLine.class, HvdcLccInfosMapper::toData),
+    HVDC_LINE_VSC(HvdcLine.class, HvdcVscInfosMapper::toData),
     LOAD(Load.class, LoadInfosMapper::toData),
     TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData),
     THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, ThreeWindingsTransformerInfosMapper::toData),
