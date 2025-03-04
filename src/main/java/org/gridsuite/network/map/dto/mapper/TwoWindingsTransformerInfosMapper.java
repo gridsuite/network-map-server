@@ -9,12 +9,15 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
 import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -87,6 +90,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
                 .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
 
+        builder.toBeEstimated(toToBeEstimated(twoWT));
+
         return builder.build();
     }
 
@@ -146,6 +151,7 @@ public final class TwoWindingsTransformerInfosMapper {
             .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
 
         builder.branchObservability(toBranchObservability(twoWT));
+        builder.toBeEstimated(toToBeEstimated(twoWT));
 
         return builder.build();
     }
@@ -162,6 +168,17 @@ public final class TwoWindingsTransformerInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .operatingStatus(toOperatingStatus(twoWT))
                 .build();
+    }
+
+    private static Optional<TwoWindingsTransformerToBeEstimatedInfos> toToBeEstimated(TwoWindingsTransformer twoWT) {
+        var toBeEstimated = twoWT.getExtension(TwoWindingsTransformerToBeEstimated.class);
+        if (toBeEstimated == null) {
+            return Optional.empty();
+        }
+        return Optional.of(TwoWindingsTransformerToBeEstimatedInfos.builder()
+                .ratioTapChangerStatus(toBeEstimated.shouldEstimateRatioTapChanger())
+                .phaseTapChangerStatus(toBeEstimated.shouldEstimatePhaseTapChanger())
+                .build());
     }
 
     private static TwoWindingsTransformerTooltipInfos toTooltipInfos(Identifiable<?> identifiable, Double dcPowerFactor) {

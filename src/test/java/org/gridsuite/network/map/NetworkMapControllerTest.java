@@ -279,6 +279,10 @@ class NetworkMapControllerTest {
                 .withRedundantQ2(true)
                 .withObservable(true)
                 .add();
+        t3.newExtension(TwoWindingsTransformerToBeEstimatedAdder.class)
+                .withPhaseTapChangerStatus(true)
+                .withRatioTapChangerStatus(false)
+                .add();
 
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);

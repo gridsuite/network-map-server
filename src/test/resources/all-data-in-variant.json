@@ -726,6 +726,10 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "toBeEstimated": {
+        "ratioTapChangerStatus": false,
+        "phaseTapChangerStatus": true
       }
     }
   ],

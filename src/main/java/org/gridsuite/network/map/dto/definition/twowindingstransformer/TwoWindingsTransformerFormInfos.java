@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 
 import java.util.Optional;
 
@@ -112,4 +113,7 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TwoWindingsTransformerToBeEstimatedInfos> toBeEstimated;
 }
