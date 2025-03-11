@@ -64,7 +64,7 @@ public class NetworkMapService {
     }
 
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
+        Network network = getNetwork(networkUuid, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW, variantId);
         return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, InfoTypeParameters.TAB, null))
                 .voltageLevels(getVoltageLevelsInfos(network, substationsId, InfoTypeParameters.TAB, null))
