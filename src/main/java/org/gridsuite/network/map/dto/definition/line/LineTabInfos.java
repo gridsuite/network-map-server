@@ -15,6 +15,8 @@ import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -66,11 +68,23 @@ public class LineTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits1;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Map<String, CurrentLimitsData> operationalLimitsGroup1;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> operationalLimitsGroup1Names;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits2;
+    private String selectedOperationalLimitsGroup1;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Map<String, CurrentLimitsData> operationalLimitsGroup2;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> operationalLimitsGroup2Names;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String selectedOperationalLimitsGroup2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double r;

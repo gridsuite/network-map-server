@@ -131,14 +131,15 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
 
         builder.operatingStatus(toOperatingStatus(twoWT));
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
+
+        builder.operationalLimitsGroup1(buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups1()));
+        builder.operationalLimitsGroup1Names(twoWT.getOperationalLimitsGroups1().stream().map(OperationalLimitsGroup::getId).toList());
+        builder.selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null));
+
+        builder.operationalLimitsGroup2(buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups2()));
+        builder.operationalLimitsGroup2Names(twoWT.getOperationalLimitsGroups2().stream().map(OperationalLimitsGroup::getId).toList());
+        builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
+
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
 

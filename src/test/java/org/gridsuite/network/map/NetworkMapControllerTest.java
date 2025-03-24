@@ -129,6 +129,54 @@ class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+
+        Line l2 = network.getLine("NHV1_NHV2_2");
+        l2.newOperationalLimitsGroup1("group1").newCurrentLimits()
+            .setPermanentLimit(220.0)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(100)
+            .setValue(50.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .beginTemporaryLimit()
+            .setName("temporary2")
+            .setAcceptableDuration(150)
+            .setValue(70.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.newOperationalLimitsGroup1("group2").newCurrentLimits()
+            .setPermanentLimit(250.0)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(200)
+            .setValue(90.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.setSelectedOperationalLimitsGroup1("group1");
+
+        l2.newOperationalLimitsGroup2("group3").newCurrentLimits()
+            .setPermanentLimit(300.)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(150)
+            .setValue(110.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.newOperationalLimitsGroup2("group4").newCurrentLimits()
+            .setPermanentLimit(320.)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(200)
+            .setValue(130.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.setSelectedOperationalLimitsGroup2("group4");
+
         network.getSubstation("P2").setCountry(null);
 
         TwoWindingsTransformer t1 = network.getTwoWindingsTransformer("NHV2_NLOAD");
