@@ -17,8 +17,6 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -37,8 +35,6 @@ import java.util.stream.Stream;
 @ComponentScan(basePackageClasses = {NetworkStoreService.class})
 @Service
 public class NetworkMapService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkMapService.class);
 
     @Autowired
     private NetworkStoreService networkStoreService;
