@@ -347,34 +347,21 @@ public class NetworkMapService {
     }
 
     public Stream<? extends Connectable> getConnectableStream(Network network, ElementType elementType) {
-        switch (elementType) {
-            case BUSBAR_SECTION, BUS:
-                return network.getBusbarSectionStream();
-            case GENERATOR:
-                return network.getGeneratorStream();
-            case LINE:
-                return network.getLineStream();
-            case TWO_WINDINGS_TRANSFORMER:
-                return network.getTwoWindingsTransformerStream();
-            case THREE_WINDINGS_TRANSFORMER:
-                return network.getThreeWindingsTransformerStream();
-            case BATTERY:
-                return network.getBatteryStream();
-            case DANGLING_LINE:
-                return network.getDanglingLineStream();
-            case LCC_CONVERTER_STATION:
-                return network.getLccConverterStationStream();
-            case VSC_CONVERTER_STATION:
-                return network.getVscConverterStationStream();
-            case LOAD:
-                return network.getLoadStream();
-            case SHUNT_COMPENSATOR:
-                return network.getShuntCompensatorStream();
-            case STATIC_VAR_COMPENSATOR:
-                return network.getStaticVarCompensatorStream();
-            default:
-                throw new IllegalStateException("Unexpected connectable type:" + elementType);
-        }
+        return switch (elementType) {
+            case BUSBAR_SECTION, BUS -> network.getBusbarSectionStream();
+            case GENERATOR -> network.getGeneratorStream();
+            case LINE -> network.getLineStream();
+            case TWO_WINDINGS_TRANSFORMER -> network.getTwoWindingsTransformerStream();
+            case THREE_WINDINGS_TRANSFORMER -> network.getThreeWindingsTransformerStream();
+            case BATTERY -> network.getBatteryStream();
+            case DANGLING_LINE -> network.getDanglingLineStream();
+            case LCC_CONVERTER_STATION -> network.getLccConverterStationStream();
+            case VSC_CONVERTER_STATION -> network.getVscConverterStationStream();
+            case LOAD -> network.getLoadStream();
+            case SHUNT_COMPENSATOR -> network.getShuntCompensatorStream();
+            case STATIC_VAR_COMPENSATOR -> network.getStaticVarCompensatorStream();
+            default -> throw new IllegalStateException("Unexpected connectable type:" + elementType);
+        };
     }
 
     public Set<Country> getCountries(UUID networkUuid, String variantId) {
