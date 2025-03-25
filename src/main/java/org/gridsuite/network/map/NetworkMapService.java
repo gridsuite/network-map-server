@@ -348,7 +348,7 @@ public class NetworkMapService {
 
     public Stream<? extends Connectable> getConnectableStream(Network network, ElementType elementType) {
         switch (elementType) {
-            case BUSBAR_SECTION:
+            case BUSBAR_SECTION, BUS:
                 return network.getBusbarSectionStream();
             case GENERATOR:
                 return network.getGeneratorStream();
@@ -372,8 +372,6 @@ public class NetworkMapService {
                 return network.getShuntCompensatorStream();
             case STATIC_VAR_COMPENSATOR:
                 return network.getStaticVarCompensatorStream();
-            case BUS:
-                return network.getBusbarSectionStream();
             default:
                 throw new IllegalStateException("Unexpected connectable type:" + elementType);
         }
