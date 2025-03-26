@@ -91,14 +91,9 @@ public class NetworkMapService {
         return getVoltageLevelStream(network, substationsIds, nominalVoltages).map(VoltageLevel::getId).toList();
     }
 
-    public List<ElementInfos> getVoltageLevelEquipments(UUID networkUuid, String voltageLevelId, String variantId, @NonNull List<String> substationsId) {
+    public List<ElementInfos> getVoltageLevelEquipments(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        List<VoltageLevel> voltageLevels = substationsId.isEmpty() ?
-                List.of(network.getVoltageLevel(voltageLevelId)) :
-                substationsId.stream().flatMap(id -> network.getSubstation(id).getVoltageLevelStream().filter(voltageLevel -> voltageLevelId.equals(voltageLevel.getId()))).toList();
-
-        return voltageLevels.stream()
-                .flatMap(VoltageLevel::getConnectableStream)
+        return network.getVoltageLevel(voltageLevelId).getConnectableStream()
                 .map(ElementInfosMapper::toInfosWithType)
                 .collect(Collectors.toList());
     }

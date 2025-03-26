@@ -71,7 +71,7 @@ class ListHandlingControllerTest {
     void getVoltageLevelEquipmentsSubstationsIds(final Optional<String> parameter) throws Exception {
         mvc.perform(requestWithOptionalSubstationId(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/equipments", NETWORK_ID, "testId"), parameter))
             .andExpect(status().is2xxSuccessful());
-        verify(networkMapService).getVoltageLevelEquipments(eq(NETWORK_ID), eq("testId"), isNull(), eq(Collections.emptyList()));
+        verify(networkMapService).getVoltageLevelEquipments(eq(NETWORK_ID), eq("testId"), isNull());
     }
 
     /** Case of {@code substationId} for {@link NetworkMapController#getAll(UUID, String, List)} */
