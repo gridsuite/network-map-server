@@ -21,6 +21,7 @@ public class VoltageLevelMapInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
-    private double nominalV;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double nominalV;
 
 }

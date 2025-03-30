@@ -19,7 +19,7 @@ public class CoordinatedReactiveControlInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("qPercent")
     @Getter(AccessLevel.NONE)
-    private double qPercent;
+    private Double qPercent;
 
 }
 

@@ -30,7 +30,7 @@ public class VoltageLevelFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
-    private double nominalV;
+    private Double nominalV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double lowVoltageLimit;
