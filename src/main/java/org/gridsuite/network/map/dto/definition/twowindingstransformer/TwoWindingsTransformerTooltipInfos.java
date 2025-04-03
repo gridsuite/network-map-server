@@ -10,6 +10,7 @@ package org.gridsuite.network.map.dto.definition.twowindingstransformer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 
@@ -21,10 +22,10 @@ public class TwoWindingsTransformerTooltipInfos extends ElementInfos {
 
     private String voltageLevelId2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double i1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -33,13 +34,13 @@ public class TwoWindingsTransformerTooltipInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double r;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double x;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double b;
 
 }

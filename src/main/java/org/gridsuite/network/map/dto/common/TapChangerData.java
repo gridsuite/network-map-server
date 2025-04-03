@@ -8,7 +8,10 @@ package org.gridsuite.network.map.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.PhaseTapChanger;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 import java.util.List;
 
@@ -31,16 +34,16 @@ public class TapChangerData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean hasLoadTapChangingCapabilities;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double targetV;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double targetDeadband;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private PhaseTapChanger.RegulationMode regulationMode;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double regulationValue;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

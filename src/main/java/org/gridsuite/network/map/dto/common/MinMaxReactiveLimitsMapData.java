@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author Seddik Yengui <seddik.yengui at rte-france.com>
@@ -21,9 +22,9 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class MinMaxReactiveLimitsMapData {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double minQ;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double maxQ;
 }

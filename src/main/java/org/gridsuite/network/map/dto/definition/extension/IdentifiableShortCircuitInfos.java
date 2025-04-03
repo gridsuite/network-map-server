@@ -3,6 +3,7 @@ package org.gridsuite.network.map.dto.definition.extension;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author Souissi Maissa <maissa.souissi at rte-france.com>
@@ -12,10 +13,10 @@ import lombok.Getter;
 @Builder
 public class IdentifiableShortCircuitInfos {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double ipMin;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double ipMax;
 
 }

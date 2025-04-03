@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.definition.line;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 
@@ -33,16 +34,16 @@ public class LineMapInfos extends ElementInfos {
 
     private Boolean terminal2Connected;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double p1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double p2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double i1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

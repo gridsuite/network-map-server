@@ -11,10 +11,10 @@ import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
-import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
+import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
 
 import java.util.Collection;
 import java.util.List;
@@ -62,12 +62,12 @@ public final class BatteryInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .targetP(battery.getTargetP())
-                .targetQ(nullIfNan(battery.getTargetQ()))
+                .targetQ(battery.getTargetQ())
                 .minP(battery.getMinP())
                 .maxP(battery.getMaxP())
-                .p(nullIfNan(terminal.getP()))
+                .p(terminal.getP())
                 .terminalConnected(terminal.isConnected())
-                .q(nullIfNan(terminal.getQ()))
+                .q(terminal.getQ())
                 .properties(getProperties(battery))
                 .connectablePosition(toMapConnectablePosition(battery, 0));
 
@@ -99,12 +99,12 @@ public final class BatteryInfosMapper {
             .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
             .targetP(battery.getTargetP())
-            .targetQ(nullIfNan(battery.getTargetQ()))
+            .targetQ(battery.getTargetQ())
             .minP(battery.getMinP())
             .maxP(battery.getMaxP())
-            .p(nullIfNan(terminal.getP()))
+            .p(terminal.getP())
             .properties(getProperties(battery))
-            .q(nullIfNan(terminal.getQ()));
+            .q(terminal.getQ());
 
         builder.connectablePosition(toMapConnectablePosition(battery, 0))
                .activePowerControl(toActivePowerControl(battery));

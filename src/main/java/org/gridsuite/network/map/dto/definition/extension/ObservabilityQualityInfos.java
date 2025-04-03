@@ -10,6 +10,7 @@ package org.gridsuite.network.map.dto.definition.extension;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author Achour Berrahma <achour.berrahma at rte-france.com>
@@ -18,7 +19,8 @@ import lombok.Getter;
 @Builder
 public class ObservabilityQualityInfos {
 
-    private double standardDeviation;
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
+    private Double standardDeviation;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isRedundant;

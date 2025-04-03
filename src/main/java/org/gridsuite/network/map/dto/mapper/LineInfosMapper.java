@@ -6,7 +6,9 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Line;
+import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -53,12 +55,12 @@ public final class LineInfosMapper {
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .p1(nullIfNan(terminal1.getP()))
-                .q1(nullIfNan(terminal1.getQ()))
-                .p2(nullIfNan(terminal2.getP()))
-                .q2(nullIfNan(terminal2.getQ()))
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()))
+                .p1(terminal1.getP())
+                .q1(terminal1.getQ())
+                .p2(terminal2.getP())
+                .q2(terminal2.getQ())
+                .i1(terminal1.getI())
+                .i2(terminal2.getI())
                 .r(line.getR())
                 .x(line.getX())
                 .g1(line.getG1())
@@ -120,10 +122,10 @@ public final class LineInfosMapper {
                 .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .p1(nullIfNan(terminal1.getP()))
-                .p2(nullIfNan(terminal2.getP()))
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
+                .p1(terminal1.getP())
+                .p2(terminal2.getP())
+                .i1(ElementUtils.computeIntensity(terminal1, dcPowerFactor))
+                .i2(ElementUtils.computeIntensity(terminal2, dcPowerFactor));
 
         line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
@@ -149,12 +151,12 @@ public final class LineInfosMapper {
                 .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
                 .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
                 .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
-                .p1(nullIfNan(terminal1.getP()))
-                .q1(nullIfNan(terminal1.getQ()))
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .p2(nullIfNan(terminal2.getP()))
-                .q2(nullIfNan(terminal2.getQ()))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+                .p1(terminal1.getP())
+                .q1(terminal1.getQ())
+                .i1(ElementUtils.computeIntensity(terminal1, dcPowerFactor))
+                .p2(terminal2.getP())
+                .q2(terminal2.getQ())
+                .i2(ElementUtils.computeIntensity(terminal2, dcPowerFactor))
                 .r(line.getR())
                 .x(line.getX())
                 .g1(line.getG1())
@@ -195,8 +197,8 @@ public final class LineInfosMapper {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+                .i1(ElementUtils.computeIntensity(terminal1, dcPowerFactor))
+                .i2(ElementUtils.computeIntensity(terminal2, dcPowerFactor))
                 .r(line.getR())
                 .x(line.getX())
                 .b1(line.getB1())
