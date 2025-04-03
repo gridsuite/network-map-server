@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.definition.voltagelevel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
@@ -21,7 +22,7 @@ public class VoltageLevelMapInfos extends ElementInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String substationId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double nominalV;
 
 }

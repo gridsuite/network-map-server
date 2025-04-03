@@ -119,9 +119,9 @@ public final class VoltageLevelInfosMapper {
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalV(voltageLevel.getNominalV())
                 .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
-                .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
+                .lowVoltageLimit(voltageLevel.getLowVoltageLimit())
                 .properties(getProperties(voltageLevel))
-                .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
+                .highVoltageLimit(voltageLevel.getHighVoltageLimit());
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();

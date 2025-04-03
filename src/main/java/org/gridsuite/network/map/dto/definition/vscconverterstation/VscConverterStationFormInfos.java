@@ -10,6 +10,7 @@ package org.gridsuite.network.map.dto.definition.vscconverterstation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
@@ -24,13 +25,13 @@ import java.util.List;
 @SuperBuilder
 @Getter
 public class VscConverterStationFormInfos extends ElementInfos {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Float lossFactor;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double voltageSetpoint;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double reactivePowerSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,10 +40,10 @@ public class VscConverterStationFormInfos extends ElementInfos {
 
     private Boolean terminalConnected;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double p;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double q;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class CurrentLimitsData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double permanentLimit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -6,7 +6,10 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Substation;
+import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
 import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
@@ -14,7 +17,10 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerOperatingStatusInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
@@ -72,13 +78,13 @@ public final class TwoWindingsTransformerInfosMapper {
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
-        builder.ratedS(nullIfNan(twoWT.getRatedS()));
-        builder.p1(nullIfNan(terminal1.getP()));
-        builder.q1(nullIfNan(terminal1.getQ()));
-        builder.p2(nullIfNan(terminal2.getP()));
-        builder.q2(nullIfNan(terminal2.getQ()));
-        builder.i1(nullIfNan(terminal1.getI()));
-        builder.i2(nullIfNan(terminal2.getI()));
+        builder.ratedS(twoWT.getRatedS());
+        builder.p1(terminal1.getP());
+        builder.q1(terminal1.getQ());
+        builder.p2(terminal2.getP());
+        builder.q2(terminal2.getQ());
+        builder.i1(terminal1.getI());
+        builder.i2(terminal2.getI());
 
         buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
         buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
@@ -124,13 +130,13 @@ public final class TwoWindingsTransformerInfosMapper {
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2());
-        builder.ratedS(nullIfNan(twoWT.getRatedS()));
-        builder.p1(nullIfNan(terminal1.getP()));
-        builder.q1(nullIfNan(terminal1.getQ()));
-        builder.i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)));
-        builder.p2(nullIfNan(terminal2.getP()));
-        builder.q2(nullIfNan(terminal2.getQ()));
-        builder.i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
+        builder.ratedS(twoWT.getRatedS());
+        builder.p1(terminal1.getP());
+        builder.q1(terminal1.getQ());
+        builder.i1(ElementUtils.computeIntensity(terminal1, dcPowerFactor));
+        builder.p2(terminal2.getP());
+        builder.q2(terminal2.getQ());
+        builder.i2(ElementUtils.computeIntensity(terminal2, dcPowerFactor));
 
         builder.operatingStatus(toOperatingStatus(twoWT));
 
@@ -196,8 +202,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .name(twoWindingsTransformer.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+                .i1(ElementUtils.computeIntensity(terminal1, dcPowerFactor))
+                .i2(ElementUtils.computeIntensity(terminal2, dcPowerFactor))
                 .r(twoWindingsTransformer.getR())
                 .x(twoWindingsTransformer.getX())
                 .b(twoWindingsTransformer.getB());
