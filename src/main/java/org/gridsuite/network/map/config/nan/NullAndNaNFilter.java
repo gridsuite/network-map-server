@@ -1,7 +1,7 @@
 package org.gridsuite.network.map.config.nan;
 
 public class NullAndNaNFilter {
-    @SuppressWarnings("checkstyle:EqualsHashCode")
+
     @Override
     public boolean equals(Object value) {
         if (value == null) {
@@ -12,5 +12,10 @@ public class NullAndNaNFilter {
             return true; // Ignore NaN
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0; // 0 due to not important
     }
 }
