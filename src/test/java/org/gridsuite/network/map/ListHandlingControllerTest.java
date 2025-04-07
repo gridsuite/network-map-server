@@ -14,7 +14,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -32,7 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests to assure the {@link NetworkMapController} handle empty {@link List} and {@code null} values the same in endpoints parameters.
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-@WebMvcTest(controllers = NetworkMapController.class)
+@AutoConfigureMockMvc
+@SpringBootTest
 class ListHandlingControllerTest {
     private static final UUID NETWORK_ID = UUID.randomUUID();
 

@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.definition.extension;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author Rehili Ghazwa <ghazwa.rehili at rte-france.com>
@@ -20,19 +21,19 @@ public class StandbyAutomatonInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean standby;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double b0;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double lowVoltageSetpoint;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double highVoltageSetpoint;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double lowVoltageThreshold;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double highVoltageThreshold;
 }
 

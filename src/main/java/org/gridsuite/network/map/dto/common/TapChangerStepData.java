@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
@@ -19,22 +20,22 @@ public class TapChangerStepData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer index;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double rho;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double r;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double x;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double g;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double b;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double alpha;
 }
 

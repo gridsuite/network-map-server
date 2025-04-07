@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.InjectionObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
@@ -35,16 +36,16 @@ public class StaticVarCompensatorTabInfos extends ElementInfosWithProperties {
 
     private StaticVarCompensator.RegulationMode regulationMode;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double p;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double q;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double voltageSetpoint;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double reactivePowerSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)

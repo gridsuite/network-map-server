@@ -11,10 +11,10 @@ import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
-import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
+import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 
 import java.util.Collection;
 import java.util.List;
@@ -65,16 +65,16 @@ public final class GeneratorInfosMapper {
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .targetP(generator.getTargetP())
-                .targetQ(nullIfNan(generator.getTargetQ()))
-                .targetV(nullIfNan(generator.getTargetV()))
+                .targetQ(generator.getTargetQ())
+                .targetV(generator.getTargetV())
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
-                .ratedS(nullIfNan(generator.getRatedS()))
+                .ratedS(generator.getRatedS())
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
-                .p(nullIfNan(terminal.getP()))
+                .p(terminal.getP())
                 .properties(getProperties(generator))
-                .q(nullIfNan(terminal.getQ()));
+                .q(terminal.getQ());
 
         builder.activePowerControl(toActivePowerControl(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
@@ -136,15 +136,15 @@ public final class GeneratorInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(generator.getTargetP())
-                .targetQ(nullIfNan(generator.getTargetQ()))
-                .targetV(nullIfNan(generator.getTargetV()))
+                .targetQ(generator.getTargetQ())
+                .targetV(generator.getTargetV())
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
-                .ratedS(nullIfNan(generator.getRatedS()))
+                .ratedS(generator.getRatedS())
                 .energySource(generator.getEnergySource())
                 .voltageRegulatorOn(generator.isVoltageRegulatorOn())
-                .p(nullIfNan(terminal.getP()))
-                .q(nullIfNan(terminal.getQ()))
+                .p(terminal.getP())
+                .q(terminal.getQ())
                 .properties(getProperties(generator));
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .activePowerControl(toActivePowerControl(generator));

@@ -35,7 +35,7 @@ public class HvdcShuntCompensatorsInfos {
     public static class ShuntCompensatorInfos {
         private String id;
         private String name;
-        private double maxQAtNominalV;
+        private Double maxQAtNominalV;
         private boolean connectedToHvdc;
     }
 

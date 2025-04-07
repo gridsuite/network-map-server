@@ -241,8 +241,8 @@
   "buses": [
     {
       "id": "VLGEN3_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN3",

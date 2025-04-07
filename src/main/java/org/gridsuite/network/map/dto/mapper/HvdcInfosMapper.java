@@ -52,8 +52,8 @@ public class HvdcInfosMapper {
                 .voltageLevelId2(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getId())
                 .terminal1Connected(hvdcLine.getConverterStation1().getTerminal().isConnected())
                 .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
-                .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
-                .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
+                .p1(hvdcLine.getConverterStation1().getTerminal().getP())
+                .p2(hvdcLine.getConverterStation2().getTerminal().getP())
                 .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
                 .operatingStatus(toOperatingStatus(hvdcLine))
                 .build();
@@ -85,8 +85,8 @@ public class HvdcInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
                 .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
-                .i1(nullIfNan(terminal1.getI()))
-                .i2(nullIfNan(terminal2.getI()));
+                .i1(terminal1.getI())
+                .i2(terminal2.getI());
 
         builder
                 .convertersMode(hvdcLine.getConvertersMode())

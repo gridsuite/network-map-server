@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author David Braquart <david.braquart at rte-france.com>
@@ -20,7 +21,7 @@ import lombok.Getter;
 public class TemporaryLimitData {
     private String name;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double value;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
