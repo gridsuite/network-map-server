@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map.dto;
 
-import com.powsybl.iidm.network.SwitchKind;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -15,7 +14,6 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class ElementInfosWithSwitch extends ElementInfosWithType {
-    private SwitchKind switchKind;
-    private Boolean isOpen;
+public class ElementInfosWithSwitchStatus extends ElementInfos {
+    private boolean isOpen;
 }

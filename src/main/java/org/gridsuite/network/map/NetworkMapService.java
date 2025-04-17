@@ -107,15 +107,13 @@ public class NetworkMapService {
         };
     }
 
-    public List<ElementInfosWithSwitch> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<ElementInfosWithSwitchStatus> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
 
         return StreamSupport.stream(
                         network.getVoltageLevel(voltageLevelId).getSwitches().spliterator(), false)
-                .map(sw -> ElementInfosWithSwitch.builder()
+                .map(sw -> ElementInfosWithSwitchStatus.builder()
                         .id(sw.getId())
-                        .name(sw.getOptionalName().orElse(null))
-                        .switchKind(sw.getKind())
                         .isOpen(sw.isOpen())
                         .build())
                 .collect(Collectors.toList());
