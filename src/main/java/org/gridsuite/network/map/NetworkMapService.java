@@ -10,10 +10,7 @@ import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import org.gridsuite.network.map.dto.AllElementsInfos;
-import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.ElementType;
-import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
@@ -27,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -107,6 +105,18 @@ public class NetworkMapService {
             case BUS_BREAKER -> network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
                 .map(ElementInfosMapper::toListInfos).collect(Collectors.toList());
         };
+    }
+
+    public List<ElementInfosWithSwitchStatus> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+
+        return StreamSupport.stream(
+                        network.getVoltageLevel(voltageLevelId).getSwitches().spliterator(), false)
+                .map(sw -> ElementInfosWithSwitchStatus.builder()
+                        .id(sw.getId())
+                        .isOpen(sw.isOpen())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
