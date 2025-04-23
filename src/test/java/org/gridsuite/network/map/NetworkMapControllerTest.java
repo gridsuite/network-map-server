@@ -1510,6 +1510,23 @@ class NetworkMapControllerTest {
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    private void succeedingSwitchesTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlSwitches(equipments, variantId), networkUuid, voltageLevelId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private static String buildUrlSwitches(String equipments, String variantId) {
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
+        url.append(equipments);
+        if (variantId != null) {
+            url.append("?variantId=" + variantId);
+        }
+        return url.toString();
+    }
+
     private void succeedingTestForCountries(UUID networkUuid, String variantId, String expectedJson) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
@@ -2192,6 +2209,12 @@ class NetworkMapControllerTest {
     void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
+    }
+
+    @Test
+    void shouldReturnSwitchesData() throws Exception {
+        succeedingSwitchesTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
+        succeedingSwitchesTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test

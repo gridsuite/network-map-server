@@ -114,7 +114,7 @@ public class NetworkMapService {
                         network.getVoltageLevel(voltageLevelId).getSwitches().spliterator(), false)
                 .map(sw -> ElementInfosWithSwitchStatus.builder()
                         .id(sw.getId())
-                        .isOpen(sw.isOpen())
+                        .open(sw.isOpen())
                         .build())
                 .collect(Collectors.toList());
     }
