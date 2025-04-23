@@ -1477,14 +1477,6 @@ class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    private void succeedingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
     private static String buildUrlHvdcWithShuntCompensators(String variantId) {
         StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/hvdc-lines/{hvdcId}/shunt-compensators");
         if (variantId != null) {
@@ -1501,7 +1493,7 @@ class NetworkMapControllerTest {
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private void succeedingSwitchesTest(UUID networkUuid, String equipments, String voltageLevelId, String variantId, String expectedJson) throws Exception {
+    private void succeedingEquipmentsTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -2190,10 +2182,10 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnBusesOrBusbarSectionsData() throws Exception {
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-data.json"));
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-data.json"));
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-data.json"));
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-data.json"));
     }
 
     @Test
@@ -2204,8 +2196,8 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnSwitchesData() throws Exception {
-        succeedingSwitchesTest(NETWORK_UUID, "switches", "VLGEN4", null, resourceToString("/switches-data.json"));
-        succeedingSwitchesTest(NETWORK_UUID, "switches", "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
+        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
+        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test
