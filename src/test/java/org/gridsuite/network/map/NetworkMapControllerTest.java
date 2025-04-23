@@ -1464,15 +1464,6 @@ class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    private static String buildUrlBusOrBusbarSection(String equipments, String variantId) {
-        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
-        url.append(equipments);
-        if (variantId != null) {
-            url.append("?variantId=" + variantId);
-        }
-        return url.toString();
-    }
-
     private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
         mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1482,12 +1473,12 @@ class NetworkMapControllerTest {
     }
 
     private void failingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId) throws Exception {
-        mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
+        mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
                 .andExpect(status().isNotFound());
     }
 
     private void succeedingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
+        MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -1511,14 +1502,14 @@ class NetworkMapControllerTest {
     }
 
     private void succeedingSwitchesTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlSwitches(equipments, variantId), networkUuid, voltageLevelId))
+        MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private static String buildUrlSwitches(String equipments, String variantId) {
+    private static String buildUrlEquipments(String equipments, String variantId) {
         StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
         url.append(equipments);
         if (variantId != null) {
