@@ -1501,7 +1501,7 @@ class NetworkMapControllerTest {
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private void succeedingSwitchesTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
+    private void succeedingSwitchesTest(UUID networkUuid, String equipments, String voltageLevelId, String variantId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -2204,8 +2204,8 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnSwitchesData() throws Exception {
-        succeedingSwitchesTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
-        succeedingSwitchesTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
+        succeedingSwitchesTest(NETWORK_UUID, "switches", "VLGEN4", null, resourceToString("/switches-data.json"));
+        succeedingSwitchesTest(NETWORK_UUID, "switches", "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test
