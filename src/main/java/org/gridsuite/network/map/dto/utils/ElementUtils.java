@@ -108,7 +108,9 @@ public final class ElementUtils {
         return activePowerControl == null ? Optional.empty() :
                 Optional.of(ActivePowerControlInfos.builder()
                         .participate(activePowerControl.isParticipate())
-                        .droop(activePowerControl.getDroop()).build());
+                        .droop(activePowerControl.getDroop())
+                        .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
+                        .build());
     }
 
     public static String toOperatingStatus(Extendable<?> extendable) {
