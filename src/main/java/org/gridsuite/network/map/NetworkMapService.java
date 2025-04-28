@@ -24,7 +24,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -110,13 +109,13 @@ public class NetworkMapService {
     public List<ElementInfosWithSwitchStatus> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
 
-        return StreamSupport.stream(
-                        network.getVoltageLevel(voltageLevelId).getSwitches().spliterator(), false)
-                .map(sw -> ElementInfosWithSwitchStatus.builder()
+        List<ElementInfosWithSwitchStatus> switchInfosList = new ArrayList<>();
+        network.getVoltageLevel(voltageLevelId).getSwitches().forEach(sw ->
+                switchInfosList.add(ElementInfosWithSwitchStatus.builder()
                         .id(sw.getId())
                         .open(sw.isOpen())
-                        .build())
-                .collect(Collectors.toList());
+                        .build()));
+        return switchInfosList;
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
