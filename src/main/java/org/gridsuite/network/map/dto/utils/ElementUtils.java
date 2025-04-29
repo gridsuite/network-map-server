@@ -105,10 +105,15 @@ public final class ElementUtils {
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
-        return activePowerControl == null ? Optional.empty() :
-                Optional.of(ActivePowerControlInfos.builder()
+        if (activePowerControl == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(ActivePowerControlInfos.builder()
                         .participate(activePowerControl.isParticipate())
-                        .droop(activePowerControl.getDroop()).build());
+                        .droop(activePowerControl.getDroop())
+                        .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
+                        .build());
+        }
     }
 
     public static String toOperatingStatus(Extendable<?> extendable) {
