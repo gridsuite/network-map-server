@@ -14,6 +14,6 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-public class ElementInfosWithSwitchStatus extends ElementInfos {
+public class SwitchInfos extends ElementInfos {
     private boolean open;
 }

@@ -106,12 +106,12 @@ public class NetworkMapService {
         };
     }
 
-    public List<ElementInfosWithSwitchStatus> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<SwitchInfos> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
 
-        List<ElementInfosWithSwitchStatus> switchInfosList = new ArrayList<>();
+        List<SwitchInfos> switchInfosList = new ArrayList<>();
         network.getVoltageLevel(voltageLevelId).getSwitches().forEach(sw ->
-                switchInfosList.add(ElementInfosWithSwitchStatus.builder()
+                switchInfosList.add(SwitchInfos.builder()
                         .id(sw.getId())
                         .open(sw.isOpen())
                         .build()));
