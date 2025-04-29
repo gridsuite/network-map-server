@@ -337,7 +337,7 @@ class NetworkMapControllerTest {
         gen.getTerminal().setQ(32);
         gen.setTargetP(28);
         gen.setRatedS(27);
-        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).add();
+        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).withMaxTargetP(8000).add();
         gen.newExtension(ConnectablePositionAdder.class)
                 .newFeeder()
                 .withName("feederName")
