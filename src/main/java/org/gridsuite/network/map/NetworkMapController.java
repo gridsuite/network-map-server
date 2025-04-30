@@ -176,6 +176,6 @@ public class NetworkMapController {
     })
     public List<Double> getNominalVoltages(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                            @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getNominalVoltages(networkUuid, variantId).stream().sorted().toList();
+        return networkMapService.getNominalVoltages(networkUuid, variantId).stream().sorted(Comparator.reverseOrder()).toList();
     }
 }
