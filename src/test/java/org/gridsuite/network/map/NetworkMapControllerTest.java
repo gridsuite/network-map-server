@@ -2456,8 +2456,8 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnNominalVoltages() throws Exception {
-        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(24.0, 150.0, 225.0, 380.0).toString());
-        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(24.0, 150.0, 225.0, 380.0, 400.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(380.0, 225.0, 150.0, 24.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(400.0, 380.0, 225.0, 150.0, 24.0).toString());
     }
 
     @Test
