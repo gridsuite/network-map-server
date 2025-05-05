@@ -10,10 +10,7 @@ import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import org.gridsuite.network.map.dto.AllElementsInfos;
-import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.ElementType;
-import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
@@ -107,6 +104,18 @@ public class NetworkMapService {
             case BUS_BREAKER -> network.getVoltageLevel(voltageLevelId).getBusBreakerView().getBusStream()
                 .map(ElementInfosMapper::toListInfos).collect(Collectors.toList());
         };
+    }
+
+    public List<SwitchInfos> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+
+        List<SwitchInfos> switchInfosList = new ArrayList<>();
+        network.getVoltageLevel(voltageLevelId).getSwitches().forEach(sw ->
+                switchInfosList.add(SwitchInfos.builder()
+                        .id(sw.getId())
+                        .open(sw.isOpen())
+                        .build()));
+        return switchInfosList;
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {

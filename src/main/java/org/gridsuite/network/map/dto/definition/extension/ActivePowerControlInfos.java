@@ -18,6 +18,8 @@ public class ActivePowerControlInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double droop;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double maxTargetP;
 }
 
 
