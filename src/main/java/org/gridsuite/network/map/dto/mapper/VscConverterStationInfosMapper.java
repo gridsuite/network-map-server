@@ -11,9 +11,9 @@ import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
-import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -87,11 +87,11 @@ public final class VscConverterStationInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn())
-                .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
-                .reactivePowerSetpoint(nullIfNan(vscConverterStation.getReactivePowerSetpoint()))
+                .voltageSetpoint(vscConverterStation.getVoltageSetpoint())
+                .reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint())
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
-                .q(nullIfNan(terminal.getQ()))
-                .p(nullIfNan(terminal.getP()))
+                .q(terminal.getQ())
+                .p(terminal.getP())
                 .connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
 
         ReactiveLimits reactiveLimits = vscConverterStation.getReactiveLimits();

@@ -48,9 +48,9 @@ public final class DanglingLineInfosMapper {
                 .p0(danglingLine.getP0())
                 .properties(getProperties(danglingLine))
                 .q0(danglingLine.getQ0())
-                .p(nullIfNan(terminal.getP()))
-                .q(nullIfNan(terminal.getQ()))
-                .i(nullIfNan(terminal.getI()));
+                .p(terminal.getP())
+                .q(terminal.getQ())
+                .i(terminal.getI());
 
         builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));

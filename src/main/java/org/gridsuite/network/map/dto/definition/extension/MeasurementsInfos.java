@@ -10,6 +10,7 @@ package org.gridsuite.network.map.dto.definition.extension;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -17,7 +18,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MeasurementsInfos {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double value;
 
     private boolean validity;

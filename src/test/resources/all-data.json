@@ -1891,8 +1891,8 @@
   "buses": [
     {
       "id": "VLGEN_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN",
@@ -1901,8 +1901,8 @@
     },
     {
       "id": "VLHV1_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLHV1",
@@ -1911,8 +1911,8 @@
     },
     {
       "id": "VLHV2_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLHV2",
@@ -1920,8 +1920,8 @@
     },
     {
       "id": "VLLOAD_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLLOAD",
@@ -1929,8 +1929,8 @@
     },
     {
       "id": "VLNEW2_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLNEW2",
@@ -1939,8 +1939,8 @@
     },
     {
       "id": "VLGEN3_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN3",
@@ -1949,8 +1949,8 @@
     },
     {
       "id": "VLGEN6_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN6",
@@ -1959,8 +1959,8 @@
     },
     {
       "id": "VLGEN4_0",
-      "v": "NaN",
-      "angle": "NaN",
+      "v": null,
+      "angle": null,
       "synchronousComponentNum": 1,
       "connectedComponentNum": 1,
       "voltageLevelId": "VLGEN4",

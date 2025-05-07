@@ -15,11 +15,7 @@ import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -29,10 +25,6 @@ import java.util.stream.Collectors;
  */
 public final class ElementUtils {
     private ElementUtils() {
-    }
-
-    public static Double nullIfNan(double d) {
-        return Double.isNaN(d) ? null : d;
     }
 
     private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
@@ -96,11 +88,11 @@ public final class ElementUtils {
         return standbyAutomatonInfos == null ? Optional.empty() :
                 Optional.of(StandbyAutomatonInfos.builder()
                         .standby(standbyAutomatonInfos.isStandby())
-                        .b0(nullIfNan(standbyAutomatonInfos.getB0()))
-                        .lowVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getLowVoltageSetpoint()))
-                        .highVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getHighVoltageSetpoint()))
-                        .highVoltageThreshold(nullIfNan(standbyAutomatonInfos.getHighVoltageThreshold()))
-                        .lowVoltageThreshold(nullIfNan(standbyAutomatonInfos.getLowVoltageThreshold())).build());
+                        .b0(standbyAutomatonInfos.getB0())
+                        .lowVoltageSetpoint(standbyAutomatonInfos.getLowVoltageSetpoint())
+                        .highVoltageSetpoint(standbyAutomatonInfos.getHighVoltageSetpoint())
+                        .highVoltageThreshold(standbyAutomatonInfos.getHighVoltageThreshold())
+                        .lowVoltageThreshold(standbyAutomatonInfos.getLowVoltageThreshold()).build());
     }
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
@@ -140,8 +132,6 @@ public final class ElementUtils {
         CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
         if (coordinatedReactiveControl != null) {
             builder.qPercent(coordinatedReactiveControl.getQPercent());
-        } else {
-            builder.qPercent(Double.NaN);
         }
         return builder.build();
     }
@@ -150,10 +140,10 @@ public final class ElementUtils {
         GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
         return generatorStartup == null ? Optional.empty() :
                 Optional.of(GeneratorStartupInfos.builder()
-                        .plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()))
-                        .marginalCost(nullIfNan(generatorStartup.getMarginalCost()))
-                        .plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()))
-                        .forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate())).build());
+                        .plannedActivePowerSetPoint(generatorStartup.getPlannedActivePowerSetpoint())
+                        .marginalCost(generatorStartup.getMarginalCost())
+                        .plannedOutageRate(generatorStartup.getPlannedOutageRate())
+                        .forcedOutageRate(generatorStartup.getForcedOutageRate()).build());
     }
 
     public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
@@ -266,8 +256,8 @@ public final class ElementUtils {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
 
-        builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
-        builder.regulationValue(nullIfNan(tapChanger.getRegulationValue()));
+        builder.targetDeadband(tapChanger.getTargetDeadband());
+        builder.regulationValue(tapChanger.getRegulationValue());
         return builder.build();
     }
 
@@ -287,8 +277,8 @@ public final class ElementUtils {
                 .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
                 .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
 
-        builder.targetV(nullIfNan(tapChanger.getTargetV()));
-        builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
+        builder.targetV(tapChanger.getTargetV());
+        builder.targetDeadband(tapChanger.getTargetDeadband());
         return builder.build();
     }
 

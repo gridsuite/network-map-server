@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.config.nan.NullAndNaNFilter;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.InjectionObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
@@ -22,10 +23,10 @@ import java.util.Optional;
 @SuperBuilder
 @Getter
 public class LccConverterStationTabInfos extends ElementInfosWithProperties {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Float powerFactor;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Float lossFactor;
 
     private String voltageLevelId;
@@ -39,10 +40,10 @@ public class LccConverterStationTabInfos extends ElementInfosWithProperties {
 
     private String hvdcLineId;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double p;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = NullAndNaNFilter.class)
     private Double q;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
