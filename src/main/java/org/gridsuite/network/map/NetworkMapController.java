@@ -13,10 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.gridsuite.network.map.dto.AllElementsInfos;
-import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.ElementType;
-import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -98,6 +95,15 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelBusesOrBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/switches", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get switches description for a voltage level")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Switches description")})
+    public List<SwitchInfos> getVoltageLevelSwitches(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                     @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelSwitches(networkUuid, voltageLevelId, variantId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get substation ID for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "substation ID for a voltage level")})
@@ -170,6 +176,6 @@ public class NetworkMapController {
     })
     public List<Double> getNominalVoltages(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                            @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getNominalVoltages(networkUuid, variantId).stream().sorted().toList();
+        return networkMapService.getNominalVoltages(networkUuid, variantId).stream().sorted(Comparator.reverseOrder()).toList();
     }
 }
