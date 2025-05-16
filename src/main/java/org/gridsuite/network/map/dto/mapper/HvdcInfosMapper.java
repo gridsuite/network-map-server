@@ -110,6 +110,7 @@ public class HvdcInfosMapper {
                         .id(shuntCompensator.getId())
                         .name(shuntCompensator.getNameOrId())
                         .connectedToHvdc(Objects.equals(lccBusOrBusbarSectionId, getBusOrBusbarSection(shuntCompensator.getTerminal())))
+                        .terminalConnected(shuntCompensator.getTerminal().isConnected())
                         .maxQAtNominalV(shuntCompensator.getB() * Math.pow(shuntCompensator.getTerminal().getVoltageLevel().getNominalV(), 2))
                         .build())
                 .toList();

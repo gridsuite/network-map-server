@@ -37,6 +37,7 @@ public class HvdcShuntCompensatorsInfos {
         private String name;
         private double maxQAtNominalV;
         private boolean connectedToHvdc;
+        private boolean terminalConnected;
     }
 
 }
