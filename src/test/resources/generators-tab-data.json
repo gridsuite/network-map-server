@@ -33,7 +33,8 @@
     },
     "activePowerControl": {
       "participate": true,
-      "droop": 4.0
+      "droop": 4.0,
+      "maxTargetP": 8000.0
     },
     "connectablePosition": {
       "connectionDirection": "TOP",
@@ -47,6 +48,22 @@
     "measurementQ": {
       "value": 5.0,
       "validity": true
+    },
+    "isCondenser": false,
+    "substationId": "P1",
+    "substationName": "P1_Name",
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelName": "VLGEN_Name",
+    "lowVoltageLimit": 200.0,
+    "highVoltageLimit": 400.0,
+    "voltageLevelShortCircuit": {
+      "ipMin": 10.0,
+      "ipMax": 120.0
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     },
     "injectionObservability": {
       "qualityP": {
@@ -62,22 +79,6 @@
         "isRedundant": true
       },
       "observable": true
-    },
-    "highVoltageLimit": 400.0,
-    "lowVoltageLimit": 200.0,
-    "isCondenser": false,
-    "substationId": "P1",
-    "substationName": "P1_Name",
-    "substationProperties": {
-      "Country": "FR"
-    },
-    "voltageLevelName": "VLGEN_Name",
-    "voltageLevelProperties": {
-      "Country": "FR"
-    },
-    "voltageLevelShortCircuit": {
-      "ipMin": 10,
-      "ipMax": 120
     }
   },
   {
@@ -126,8 +127,6 @@
       "value": 80.0,
       "validity": false
     },
-    "highVoltageLimit": 400.0,
-    "lowVoltageLimit": 200.0,
     "isCondenser": false,
     "substationId": "P1",
     "substationName": "P1_Name",
@@ -135,12 +134,14 @@
       "Country": "FR"
     },
     "voltageLevelName": "VLGEN_Name",
+    "lowVoltageLimit": 200.0,
+    "highVoltageLimit": 400.0,
+    "voltageLevelShortCircuit": {
+      "ipMin": 10.0,
+      "ipMax": 120.0
+    },
     "voltageLevelProperties": {
       "Country": "FR"
-    },
-    "voltageLevelShortCircuit": {
-      "ipMin": 10,
-      "ipMax": 120
     }
   }
 ]

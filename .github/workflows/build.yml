@@ -8,14 +8,12 @@ on:
 
 jobs:
   build:
-    uses: powsybl/github-ci/.github/workflows/build-backend-app-generic.yml@8e3547c7f6d98c23095896b6097294f22100b122
+    uses: powsybl/github-ci/.github/workflows/build-backend-app-generic.yml@69b162754c0728d9aeb2ea568eaf47f28f60fafb
     with:
-      sonarOrganization: gridsuite
-      sonarProjectKey: org.gridsuite:network-map-server
       dockerImage: docker.io/gridsuite/network-map-server
       dockerUsername: gridsuiteci
       eventType: network_map_server_updated
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
-      docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       repo-token: ${{ secrets.REPO_ACCESS_TOKEN }}

@@ -9,5 +9,13 @@
   "connectablePosition": {
     "connectionDirection": null
   },
-  "busOrBusbarSectionId": "NNEW2"
+  "busOrBusbarSectionId": "NNEW2",
+  "measurementP": {
+    "value": 17.0,
+    "validity": true
+  },
+  "measurementQ": {
+    "value": 91.0,
+    "validity": true
+  }
 }

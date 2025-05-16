@@ -10,8 +10,11 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+
+import java.util.Map;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -160,8 +163,15 @@ public final class LineInfosMapper {
                 .properties(getProperties(line))
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(line.getOperationalLimitsGroups1());
+        builder.operationalLimitsGroup1(mapOperationalLimitsGroup1);
+        builder.operationalLimitsGroup1Names(mapOperationalLimitsGroup1.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null));
+
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(line.getOperationalLimitsGroups2());
+        builder.operationalLimitsGroup2(mapOperationalLimitsGroup2);
+        builder.operationalLimitsGroup2Names(mapOperationalLimitsGroup2.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
 
         builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))

@@ -30,7 +30,8 @@
   },
   "activePowerControl": {
     "participate": true,
-    "droop": 4.0
+    "droop": 4.0,
+    "maxTargetP": 8000.0
   },
   "connectablePosition": {
     "connectionDirection": "TOP",

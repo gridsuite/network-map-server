@@ -16,6 +16,7 @@ import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWi
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -104,10 +105,15 @@ public final class ElementUtils {
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
-        return activePowerControl == null ? Optional.empty() :
-                Optional.of(ActivePowerControlInfos.builder()
+        if (activePowerControl == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(ActivePowerControlInfos.builder()
                         .participate(activePowerControl.isParticipate())
-                        .droop(activePowerControl.getDroop()).build());
+                        .droop(activePowerControl.getDroop())
+                        .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
+                        .build());
+        }
     }
 
     public static String toOperatingStatus(Extendable<?> extendable) {
@@ -479,5 +485,16 @@ public final class ElementUtils {
                 .standardDeviation(quality.getStandardDeviation())
                 .isRedundant(quality.isRedundant().orElse(null))
                 .build();
+    }
+
+    public static Map<String, CurrentLimitsData> buildCurrentLimitsMap(Collection<OperationalLimitsGroup> operationalLimitsGroups) {
+        Map<String, CurrentLimitsData> res = new HashMap<>();
+        if (!CollectionUtils.isEmpty(operationalLimitsGroups)) {
+            operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits().ifPresent(limits -> {
+                CurrentLimitsData limitsData = toMapDataCurrentLimits(limits);
+                res.put(operationalLimitsGroup.getId(), limitsData);
+            }));
+        }
+        return res;
     }
 }

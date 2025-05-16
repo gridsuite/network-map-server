@@ -129,6 +129,54 @@ class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+
+        Line l2 = network.getLine("NHV1_NHV2_2");
+        l2.newOperationalLimitsGroup1("group1").newCurrentLimits()
+            .setPermanentLimit(220.0)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(100)
+            .setValue(50.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .beginTemporaryLimit()
+            .setName("temporary2")
+            .setAcceptableDuration(150)
+            .setValue(70.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.newOperationalLimitsGroup1("group2").newCurrentLimits()
+            .setPermanentLimit(250.0)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(200)
+            .setValue(90.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.setSelectedOperationalLimitsGroup1("group1");
+
+        l2.newOperationalLimitsGroup2("group3").newCurrentLimits()
+            .setPermanentLimit(300.)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(150)
+            .setValue(110.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.newOperationalLimitsGroup2("group4").newCurrentLimits()
+            .setPermanentLimit(320.)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(200)
+            .setValue(130.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        l2.setSelectedOperationalLimitsGroup2("group4");
+
         network.getSubstation("P2").setCountry(null);
 
         TwoWindingsTransformer t1 = network.getTwoWindingsTransformer("NHV2_NLOAD");
@@ -289,7 +337,7 @@ class NetworkMapControllerTest {
         gen.getTerminal().setQ(32);
         gen.setTargetP(28);
         gen.setRatedS(27);
-        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).add();
+        gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).withMaxTargetP(8000).add();
         gen.newExtension(ConnectablePositionAdder.class)
                 .newFeeder()
                 .withName("feederName")
@@ -1416,15 +1464,6 @@ class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    private static String buildUrlBusOrBusbarSection(String equipments, String variantId) {
-        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
-        url.append(equipments);
-        if (variantId != null) {
-            url.append("?variantId=" + variantId);
-        }
-        return url.toString();
-    }
-
     private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
         mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1434,16 +1473,8 @@ class NetworkMapControllerTest {
     }
 
     private void failingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId) throws Exception {
-        mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
+        mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
                 .andExpect(status().isNotFound());
-    }
-
-    private void succeedingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get(buildUrlBusOrBusbarSection(equipments, variantId), networkUuid, voltageLevelId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private static String buildUrlHvdcWithShuntCompensators(String variantId) {
@@ -1460,6 +1491,23 @@ class NetworkMapControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingEquipmentsTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private static String buildUrlEquipments(String equipments, String variantId) {
+        StringBuffer url = new StringBuffer("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/");
+        url.append(equipments);
+        if (variantId != null) {
+            url.append("?variantId=" + variantId);
+        }
+        return url.toString();
     }
 
     private void succeedingTestForCountries(UUID networkUuid, String variantId, String expectedJson) throws Exception {
@@ -2134,16 +2182,22 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnBusesOrBusbarSectionsData() throws Exception {
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-data.json"));
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-data.json"));
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-data.json"));
-        succeedingBusOrBusbarSectionTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", null, resourceToString("/busbar-sections-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/busbar-sections-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", null, resourceToString("/buses-data.json"));
+        succeedingEquipmentsTest("buses-or-busbar-sections", NETWORK_UUID, "VLGEN", VARIANT_ID, resourceToString("/buses-data.json"));
     }
 
     @Test
     void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
+    }
+
+    @Test
+    void shouldReturnSwitchesData() throws Exception {
+        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
+        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test
@@ -2402,8 +2456,8 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnNominalVoltages() throws Exception {
-        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(24.0, 150.0, 225.0, 380.0).toString());
-        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(24.0, 150.0, 225.0, 380.0, 400.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, null, List.of(380.0, 225.0, 150.0, 24.0).toString());
+        succeedingTestForNominalVoltages(NETWORK_UUID, VARIANT_ID_2, List.of(400.0, 380.0, 225.0, 150.0, 24.0).toString());
     }
 
     @Test

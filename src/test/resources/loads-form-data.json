@@ -26,7 +26,15 @@
     "connectablePosition": {
       "connectionDirection": null
     },
-    "busOrBusbarSectionId": "NNEW2"
+    "busOrBusbarSectionId": "NNEW2",
+    "measurementP": {
+      "value": 87.0,
+      "validity": false
+    },
+    "measurementQ": {
+      "value": 74.0,
+      "validity": false
+    }
   },
   {
     "id": "LOAD_ID",
@@ -38,6 +46,15 @@
     "q0": 200.0,
     "connectablePosition": {
       "connectionDirection": null
-    },    "busOrBusbarSectionId": "NNEW2"
+    },
+    "busOrBusbarSectionId": "NNEW2",
+    "measurementP": {
+      "value": 17.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 91.0,
+      "validity": true
+    }
   }
 ]

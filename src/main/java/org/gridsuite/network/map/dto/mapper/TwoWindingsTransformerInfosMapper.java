@@ -12,11 +12,13 @@ import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
@@ -131,14 +133,17 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
 
         builder.operatingStatus(toOperatingStatus(twoWT));
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
+
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups1());
+        builder.operationalLimitsGroup1(mapOperationalLimitsGroup1);
+        builder.operationalLimitsGroup1Names(mapOperationalLimitsGroup1.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null));
+
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups2());
+        builder.operationalLimitsGroup2(mapOperationalLimitsGroup2);
+        builder.operationalLimitsGroup2Names(mapOperationalLimitsGroup2.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
+
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
 
