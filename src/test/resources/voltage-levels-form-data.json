@@ -43,7 +43,10 @@
     "id": "VLNEW2",
     "substationId": "P1",
     "nominalV": 225.0,
-    "topologyKind": "BUS_BREAKER"
+    "topologyKind": "BUS_BREAKER",
+    "properties": {
+      "Country": "FR"
+    }
   },
   {
     "id": "VLGEN3",

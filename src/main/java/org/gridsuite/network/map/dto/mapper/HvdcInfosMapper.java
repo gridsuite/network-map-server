@@ -88,6 +88,12 @@ public class HvdcInfosMapper {
                 .i1(nullIfNan(terminal1.getI()))
                 .i2(nullIfNan(terminal2.getI()));
 
+        // voltageLevels and substations properties
+        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
+        builder.substationProperties1(getProperties(terminal1.getVoltageLevel().getSubstation().orElse(null)));
+        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
+        builder.substationProperties2(getProperties(terminal2.getVoltageLevel().getSubstation().orElse(null)));
+
         builder
                 .convertersMode(hvdcLine.getConvertersMode())
                 .converterStationId1(hvdcLine.getConverterStation1().getId())

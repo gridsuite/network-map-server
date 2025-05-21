@@ -69,6 +69,10 @@ public final class VscConverterStationInfosMapper {
             builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
         }
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         builder.measurementP(toMeasurement(vscConverterStation, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(vscConverterStation, Measurement.Type.REACTIVE_POWER, 0));
 

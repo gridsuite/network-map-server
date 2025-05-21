@@ -91,6 +91,10 @@ public final class StaticVarCompensatorInfosMapper {
             builder.reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint());
         }
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         builder.measurementQ(toMeasurement(staticVarCompensator, Measurement.Type.REACTIVE_POWER, 0));
 
         builder.injectionObservability(toInjectionObservability(staticVarCompensator));

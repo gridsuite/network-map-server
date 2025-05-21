@@ -99,7 +99,16 @@
       "connectionPosition": 0,
       "connectionName": "feederName2"
     },
-    "operatingStatus": "PLANNED_OUTAGE"
+    "operatingStatus": "PLANNED_OUTAGE",
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    }
   },
   {
     "id": "NHV2_NLOAD",
@@ -194,9 +203,7 @@
         ]
       }
     },
-    "operationalLimitsGroup1Names": [
-      "DEFAULT"
-    ],
+    "operationalLimitsGroup1Names": ["DEFAULT"],
     "selectedOperationalLimitsGroup1": "DEFAULT",
     "operationalLimitsGroup2": {
       "DEFAULT": {
@@ -210,9 +217,7 @@
         ]
       }
     },
-    "operationalLimitsGroup2Names": [
-      "DEFAULT"
-    ],
+    "operationalLimitsGroup2Names": ["DEFAULT"],
     "selectedOperationalLimitsGroup2": "DEFAULT",
     "g": 27.0,
     "b": 17.0,
@@ -272,6 +277,15 @@
     "toBeEstimated": {
       "ratioTapChangerStatus": false,
       "phaseTapChangerStatus": true
+    },
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
     }
   }
 ]

@@ -8,7 +8,13 @@
     "nominalV": 24.0,
     "country": "FR",
     "terminalConnected": true,
-    "hvdcLineId": "HVDC1"
+    "hvdcLineId": "HVDC1",
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    }
   },
   {
     "id": "LCC2",
@@ -44,6 +50,12 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   }
 ]

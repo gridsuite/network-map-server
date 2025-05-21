@@ -52,6 +52,10 @@ public final class DanglingLineInfosMapper {
                 .q(nullIfNan(terminal.getQ()))
                 .i(nullIfNan(terminal.getI()));
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));
 

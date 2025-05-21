@@ -64,6 +64,10 @@ public final class LccConverterStationInfosMapper {
             builder.hvdcLineId(lccConverterStation.getHvdcLine().getId());
         }
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         builder.measurementP(toMeasurement(lccConverterStation, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(lccConverterStation, Measurement.Type.REACTIVE_POWER, 0));
 

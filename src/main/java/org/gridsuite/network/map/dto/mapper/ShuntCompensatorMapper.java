@@ -110,6 +110,10 @@ public final class ShuntCompensatorMapper {
             builder.targetV(shuntCompensator.getTargetV());
         }
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
 
         builder.measurementQ(toMeasurement(shuntCompensator, Measurement.Type.REACTIVE_POWER, 0));

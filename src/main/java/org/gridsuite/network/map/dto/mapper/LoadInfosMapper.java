@@ -91,6 +91,10 @@ public final class LoadInfosMapper {
 
         builder.connectablePosition(toMapConnectablePosition(load, 0));
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         builder.measurementP(toMeasurement(load, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(load, Measurement.Type.REACTIVE_POWER, 0));
 

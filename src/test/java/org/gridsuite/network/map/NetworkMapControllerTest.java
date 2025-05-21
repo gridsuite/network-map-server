@@ -419,6 +419,7 @@ class NetworkMapControllerTest {
         vlnew2.getBusBreakerView().newBus()
                 .setId("NNEW2")
                 .add();
+        vlnew2.setProperty("Country", "FR");
 
         make3WindingsTransformer(p1, "TWT", ThreeWindingsTransformer::getLeg1, ThreeWindingsTransformer::getLeg3);
         make3WindingsTransformer(p1, "TWT21", ThreeWindingsTransformer::getLeg2, ThreeWindingsTransformer::getLeg1);

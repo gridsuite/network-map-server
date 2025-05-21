@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Map;
+
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 
 /**
@@ -78,4 +81,16 @@ public class TieLineTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties2;
 }

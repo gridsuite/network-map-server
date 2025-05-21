@@ -11,7 +11,19 @@
       "r": 1,
       "country1": "FR",
       "country2": "FR",
-      "maxP": 100
+      "maxP": 100,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
     {
       "id": "HVDC2",
@@ -33,7 +45,20 @@
       },
       "hvdcOperatorActivePowerRange": {
         "oprFromCS1toCS2": 1000,
-        "oprFromCS2toCS1": 900}
+        "oprFromCS2toCS1": 900
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
     {
       "id": "HVDC3",
@@ -47,7 +72,19 @@
       "r": 1,
       "country1": "FR",
       "country2": "FR",
-      "maxP": 100
+      "maxP": 100,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
     {
       "id": "HVDC4",
@@ -61,7 +98,19 @@
       "r": 1,
       "country1": "FR",
       "country2": "FR",
-      "maxP": 100
+      "maxP": 100,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
   {
     "id": "HVDC5",
@@ -75,6 +124,15 @@
     "country1": "FR",
     "country2": "FR",
     "activePowerSetpoint": 500.0,
-    "maxP": 100.0
+    "maxP": 100.0,
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    }
   }
 ]

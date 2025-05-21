@@ -109,6 +109,10 @@ public final class BatteryInfosMapper {
         builder.connectablePosition(toMapConnectablePosition(battery, 0))
                .activePowerControl(toActivePowerControl(battery));
 
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
             ReactiveLimitsKind limitsKind = reactiveLimits.getKind();

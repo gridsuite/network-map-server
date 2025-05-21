@@ -11,7 +11,10 @@
           "id": "VLNEW2",
           "substationId": "P1",
           "nominalV": 225.0,
-          "country": "FR"
+          "country": "FR",
+          "properties": {
+            "Country": "FR"
+          }
         },
         {
           "id": "VLGEN",
@@ -153,7 +156,10 @@
       "id": "VLNEW2",
       "substationId": "P1",
       "nominalV": 225.0,
-      "country": "FR"
+      "country": "FR",
+      "properties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLGEN3",
@@ -247,7 +253,10 @@
       "g1": 7.0,
       "b1": 5.0,
       "g2": 8.0,
-      "b2": 6.0
+      "b2": 6.0,
+      "substationProperties1": {
+        "Country": "FR"
+      }
     },
     {
       "id": "NHV1_NHV2_2",
@@ -322,7 +331,10 @@
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93E-4
+      "b2": 1.93E-4,
+      "substationProperties1": {
+        "Country": "FR"
+      }
     },
     {
       "id": "LINE3",
@@ -373,6 +385,15 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
       }
     },
     {
@@ -390,7 +411,10 @@
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
-      "b2": 1.93E-4
+      "b2": 1.93E-4,
+      "substationProperties2": {
+        "Country": "FR"
+      }
     }
   ],
   "hvdcLines": [
@@ -406,7 +430,19 @@
       "country1": "FR",
       "country2": "FR",
       "activePowerSetpoint": 500.0,
-      "maxP": 100.0
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
     {
       "id": "HVDC3",
@@ -420,7 +456,19 @@
       "country1": "FR",
       "country2": "FR",
       "activePowerSetpoint": 500.0,
-      "maxP": 100.0
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
     {
       "id": "HVDC4",
@@ -434,7 +482,19 @@
       "country1": "FR",
       "country2": "FR",
       "activePowerSetpoint": 500.0,
-      "maxP": 100.0
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
     },
     {
       "id": "HVDC2",
@@ -457,6 +517,18 @@
       "hvdcOperatorActivePowerRange": {
         "oprFromCS1toCS2": 1000.0,
         "oprFromCS2toCS1": 900.0
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
       }
     },
     {
@@ -471,7 +543,16 @@
       "country1": "FR",
       "country2": "FR",
       "activePowerSetpoint": 500.0,
-      "maxP": 100.0
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      }
     }
   ],
   "loads": [
@@ -526,6 +607,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -548,6 +635,12 @@
       "measurementQ": {
         "value": 91.0,
         "validity": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     }
   ],
@@ -579,9 +672,7 @@
           ]
         }
       },
-      "operationalLimitsGroup1Names": [
-        "limit set 1"
-      ],
+      "operationalLimitsGroup1Names": ["limit set 1"],
       "selectedOperationalLimitsGroup1": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
@@ -594,15 +685,13 @@
             },
             {
               "name": "N/A",
-              "value": 2.147483647E9,
+              "value": 2.147483647e9,
               "acceptableDuration": 664
             }
           ]
         }
       },
-      "operationalLimitsGroup2Names": [
-        "limit set 1"
-      ],
+      "operationalLimitsGroup2Names": ["limit set 1"],
       "selectedOperationalLimitsGroup2": "limit set 1",
       "phaseTapChanger": {
         "lowTapPosition": 0,
@@ -652,7 +741,16 @@
         "connectionPosition": 0,
         "connectionName": "feederName2"
       },
-      "operatingStatus": "PLANNED_OUTAGE"
+      "operatingStatus": "PLANNED_OUTAGE",
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      }
     },
     {
       "id": "NHV2_NLOAD",
@@ -747,9 +845,7 @@
           ]
         }
       },
-      "operationalLimitsGroup1Names": [
-        "DEFAULT"
-      ],
+      "operationalLimitsGroup1Names": ["DEFAULT"],
       "selectedOperationalLimitsGroup1": "DEFAULT",
       "operationalLimitsGroup2": {
         "DEFAULT": {
@@ -763,9 +859,7 @@
           ]
         }
       },
-      "operationalLimitsGroup2Names": [
-        "DEFAULT"
-      ],
+      "operationalLimitsGroup2Names": ["DEFAULT"],
       "selectedOperationalLimitsGroup2": "DEFAULT",
       "g": 27.0,
       "b": 17.0,
@@ -825,6 +919,15 @@
       "toBeEstimated": {
         "ratioTapChangerStatus": false,
         "phaseTapChangerStatus": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
       }
     }
   ],
@@ -974,6 +1077,21 @@
       "measurementPhaseTap3": {
         "value": 17,
         "validity": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "substationProperties3": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties3": {
+        "Country": "FR"
       }
     },
     {
@@ -1121,6 +1239,21 @@
       "measurementPhaseTap3": {
         "value": 17,
         "validity": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "substationProperties3": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties3": {
+        "Country": "FR"
       }
     },
     {
@@ -1268,6 +1401,21 @@
       "measurementPhaseTap3": {
         "value": 17,
         "validity": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "substationProperties3": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties3": {
+        "Country": "FR"
       }
     }
   ],
@@ -1461,6 +1609,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -1507,6 +1661,9 @@
       "measurementQ": {
         "value": 84.0,
         "validity": true
+      },
+      "substationProperties": {
+        "Country": "FR"
       }
     }
   ],
@@ -1545,6 +1702,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -1558,7 +1721,10 @@
       "p": 45.0,
       "q": 75.0,
       "p0": 50.0,
-      "q0": 30.0
+      "q0": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      }
     }
   ],
   "tieLines": [
@@ -1582,7 +1748,16 @@
       "g1": 4.000000000000001,
       "b1": 3.0000000000000004,
       "g2": 4.000000000000001,
-      "b2": 3.0000000000000004
+      "b2": 3.0000000000000004,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      }
     }
   ],
   "lccConverterStations": [
@@ -1595,7 +1770,13 @@
       "nominalV": 24.0,
       "country": "FR",
       "terminalConnected": true,
-      "hvdcLineId": "HVDC1"
+      "hvdcLineId": "HVDC1",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "LCC2",
@@ -1631,6 +1812,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     }
   ],
@@ -1671,6 +1858,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -1689,7 +1882,10 @@
         "connectionPosition": 0,
         "connectionName": "feederName"
       },
-      "targetV": 225.0
+      "targetV": 225.0,
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "SHUNT_VLNB",
@@ -1742,7 +1938,10 @@
         "connectionPosition": 0,
         "connectionName": "feederName"
       },
-      "targetV": 225.0
+      "targetV": 225.0,
+      "substationProperties": {
+        "Country": "FR"
+      }
     }
   ],
   "staticVarCompensators": [
@@ -1776,6 +1975,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -1787,7 +1992,13 @@
       "terminalConnected": true,
       "regulationMode": "VOLTAGE",
       "voltageSetpoint": 200.0,
-      "reactivePowerSetpoint": 100.0
+      "reactivePowerSetpoint": 100.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     }
   ],
   "vscConverterStations": [
@@ -1804,7 +2015,13 @@
       "terminalConnected": true,
       "hvdcLineId": "HVDC5",
       "p": 10.0,
-      "q": 30.0
+      "q": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VSC3",
@@ -1818,7 +2035,13 @@
       "terminalConnected": true,
       "hvdcLineId": "HVDC3",
       "p": 10.0,
-      "q": 30.0
+      "q": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VSC4",
@@ -1855,6 +2078,12 @@
           "isRedundant": true
         },
         "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -1877,6 +2106,12 @@
       "measurementQ": {
         "value": 33.0,
         "validity": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
       }
     },
     {
@@ -1891,7 +2126,13 @@
       "terminalConnected": true,
       "hvdcLineId": "HVDC4",
       "p": 10.0,
-      "q": 30.0
+      "q": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VSC2",
@@ -1904,7 +2145,10 @@
       "nominalV": 24.0,
       "country": "FR",
       "terminalConnected": true,
-      "hvdcLineId": "HVDC5"
+      "hvdcLineId": "HVDC5",
+      "substationProperties": {
+        "Country": "FR"
+      }
     }
   ],
   "buses": [
