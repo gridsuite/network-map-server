@@ -10,7 +10,10 @@
           "id": "VLGEN3",
           "substationId": "P3",
           "nominalV": 24.0,
-          "country": "FR"
+          "country": "FR",
+          "substationProperties": {
+            "Country": "FR"
+          }
         }
       ],
       "country": "FR"
@@ -33,7 +36,10 @@
       "id": "VLGEN3",
       "substationId": "P3",
       "nominalV": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLGEN6",
@@ -329,7 +335,10 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLGEN6_0",

@@ -13,6 +13,7 @@ import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -54,7 +55,7 @@ public final class DanglingLineInfosMapper {
 
         // voltageLevel and substation properties
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
-        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+        builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));

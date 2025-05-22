@@ -13,6 +13,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
@@ -52,6 +53,7 @@ public final class BusBarSectionInfosMapper {
 
     public static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
         BusbarSection busbarSection = (BusbarSection) identifiable;
+        Terminal terminal = busbarSection.getTerminal();
         return BusBarSectionTabInfos.builder()
             .id(busbarSection.getId())
             .name(busbarSection.getOptionalName().orElse(null))
@@ -59,6 +61,8 @@ public final class BusBarSectionInfosMapper {
             .voltageLevelId(busbarSection.getTerminal().getVoltageLevel().getId())
             .measurementV(toMeasurement(busbarSection, Measurement.Type.VOLTAGE, 0))
             .measurementAngle(toMeasurement(busbarSection, Measurement.Type.ANGLE, 0))
+            .voltageLevelProperties(getProperties(terminal.getVoltageLevel()))
+            .substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
             .build();
     }
 }

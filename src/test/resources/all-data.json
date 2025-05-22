@@ -21,13 +21,19 @@
           "identifiableShortCircuit": {
             "ipMin": 10.0,
             "ipMax": 120.0
+          },
+          "substationProperties": {
+            "Country": "FR"
           }
         },
         {
           "id": "VLHV1",
           "substationId": "P1",
           "nominalV": 380.0,
-          "country": "FR"
+          "country": "FR",
+          "substationProperties": {
+            "Country": "FR"
+          }
         },
         {
           "id": "VLNEW2",
@@ -35,6 +41,9 @@
           "nominalV": 225.0,
           "country": "FR",
           "properties": {
+            "Country": "FR"
+          },
+          "substationProperties": {
             "Country": "FR"
           }
         }
@@ -71,7 +80,10 @@
           "id": "VLGEN3",
           "substationId": "P3",
           "nominalV": 24.0,
-          "country": "FR"
+          "country": "FR",
+          "substationProperties": {
+            "Country": "FR"
+          }
         }
       ],
       "country": "FR"
@@ -134,13 +146,19 @@
       "identifiableShortCircuit": {
         "ipMin": 10.0,
         "ipMax": 120.0
+      },
+      "substationProperties": {
+        "Country": "FR"
       }
     },
     {
       "id": "VLHV1",
       "substationId": "P1",
       "nominalV": 380.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLHV2",
@@ -159,13 +177,19 @@
       "country": "FR",
       "properties": {
         "Country": "FR"
+      },
+      "substationProperties": {
+        "Country": "FR"
       }
     },
     {
       "id": "VLGEN3",
       "substationId": "P3",
       "nominalV": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLGEN6",
@@ -2132,7 +2156,13 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLHV1_0",
@@ -2142,7 +2172,10 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLHV1",
       "nominalVoltage": 380.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLHV2_0",
@@ -2170,7 +2203,13 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLGEN3_0",
@@ -2180,7 +2219,10 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
     },
     {
       "id": "VLGEN6_0",

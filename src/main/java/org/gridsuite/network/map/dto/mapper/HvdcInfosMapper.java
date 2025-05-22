@@ -13,6 +13,7 @@ import org.gridsuite.network.map.dto.definition.hvdc.HvdcMapInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcOperatingStatusInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -90,9 +91,9 @@ public class HvdcInfosMapper {
 
         // voltageLevels and substations properties
         builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
-        builder.substationProperties1(getProperties(terminal1.getVoltageLevel().getSubstation().orElse(null)));
+        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
         builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
-        builder.substationProperties2(getProperties(terminal2.getVoltageLevel().getSubstation().orElse(null)));
+        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder
                 .convertersMode(hvdcLine.getConvertersMode())

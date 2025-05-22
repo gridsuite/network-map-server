@@ -13,6 +13,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
@@ -111,7 +112,7 @@ public final class BatteryInfosMapper {
 
         // voltageLevel and substation properties
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
-        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+        builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
