@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -90,6 +91,10 @@ public final class StaticVarCompensatorInfosMapper {
         if (!Double.isNaN(staticVarCompensator.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint());
         }
+
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder.measurementQ(toMeasurement(staticVarCompensator, Measurement.Type.REACTIVE_POWER, 0));
 

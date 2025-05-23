@@ -136,4 +136,16 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TwoWindingsTransformerToBeEstimatedInfos> toBeEstimated;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties2;
 }

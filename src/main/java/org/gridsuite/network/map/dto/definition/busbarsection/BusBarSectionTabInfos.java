@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -27,4 +28,10 @@ public class BusBarSectionTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementAngle;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties;
 }

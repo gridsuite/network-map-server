@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Identifiable;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
@@ -44,7 +45,9 @@ public final class BusInfosMapper {
                 .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
                 .synchronousComponentNum(bus.getSynchronousComponent().getNum())
                 .properties(getProperties(bus))
-                .connectedComponentNum(bus.getConnectedComponent().getNum());
+                .connectedComponentNum(bus.getConnectedComponent().getNum())
+                .substationProperties(bus.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
+                .voltageLevelProperties(getProperties(bus.getVoltageLevel()));
 
         return builder.build();
     }

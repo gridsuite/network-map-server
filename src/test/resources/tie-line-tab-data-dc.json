@@ -20,5 +20,14 @@
     "g1": 4.000000000000001,
     "b1": 3.0000000000000004,
     "g2": 4.000000000000001,
-    "b2": 3.0000000000000004
+    "b2": 3.0000000000000004,
+    "substationProperties1": {
+        "Country": "FR"
+    },
+    "substationProperties2": {
+        "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+        "Country": "FR"
+    }
 }

@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Map;
+
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 
 /**
@@ -32,4 +35,10 @@ public class BusTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties;
 }

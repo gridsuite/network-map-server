@@ -33,6 +33,12 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "substationProperties": {
+        "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   },
   {
@@ -46,6 +52,9 @@
     "p": 45,
     "q": 75,
     "p0": 50.0,
-    "q0": 30.0
+    "q0": 30.0,
+    "substationProperties": {
+        "Country": "FR"
+    }
   }
 ]

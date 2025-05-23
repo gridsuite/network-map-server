@@ -147,6 +147,12 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
 
+        // voltageLevels and substations properties
+        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
+        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
+        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+
         builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
             .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))

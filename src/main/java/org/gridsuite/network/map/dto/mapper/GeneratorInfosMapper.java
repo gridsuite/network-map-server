@@ -13,6 +13,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 
@@ -114,7 +115,7 @@ public final class GeneratorInfosMapper {
         // substation attrubutes
         builder.substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null));
         builder.substationName(terminal.getVoltageLevel().getSubstation().map(Substation::getOptionalName).orElse(null).orElse(null));
-        builder.substationProperties(getProperties(terminal.getVoltageLevel().getSubstation().orElse(null)));
+        builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         // voltage level attributes
         builder.voltageLevelName(terminal.getVoltageLevel().getOptionalName().orElse(null));

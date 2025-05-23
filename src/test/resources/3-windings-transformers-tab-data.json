@@ -144,6 +144,21 @@
     "measurementPhaseTap3": {
       "value": 17,
       "validity": true
+    },
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "substationProperties3": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties3": {
+      "Country": "FR"
     }
   },
   {
@@ -291,6 +306,21 @@
     "measurementPhaseTap3": {
       "value": 17,
       "validity": true
+    },
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "substationProperties3": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties3": {
+      "Country": "FR"
     }
   },
   {
@@ -438,6 +468,21 @@
     "measurementPhaseTap3": {
       "value": 17,
       "validity": true
+    },
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "substationProperties3": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties3": {
+      "Country": "FR"
     }
   }
 ]

@@ -21,7 +21,6 @@ import org.gridsuite.network.map.dto.utils.ElementUtils;
 import java.util.List;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -111,6 +110,14 @@ public final class ThreeWindingsTransformerInfosMapper {
         }
         mapThreeWindingsTransformerRatioTapChangers(builder, threeWT);
         mapThreeWindingsTransformerPermanentLimits(builder, threeWT);
+
+        // voltageLevels and substations properties
+        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
+        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
+        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+        builder.voltageLevelProperties3(getProperties(terminal3.getVoltageLevel()));
+        builder.substationProperties3(terminal3.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder.measurementP1(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ1(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 0))

@@ -38,7 +38,10 @@
         "id": "VLNEW2",
         "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
-        "nominalV": 225.0
+        "nominalV": 225.0,
+        "properties": {
+          "Country": "FR"
+        }
       }
     ]
   },

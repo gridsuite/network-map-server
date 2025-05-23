@@ -35,6 +35,12 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   },
   {
@@ -53,7 +59,10 @@
       "connectionPosition": 0,
       "connectionName": "feederName"
     },
-    "targetV": 225.0
+    "targetV": 225.0,
+    "substationProperties": {
+      "Country": "FR"
+    }
   },
   {
     "id": "SHUNT_VLNB",
@@ -106,6 +115,9 @@
       "connectionPosition": 0,
       "connectionName": "feederName"
     },
-    "targetV": 225.0
+    "targetV": 225.0,
+    "substationProperties": {
+      "Country": "FR"
+    }
   }
 ]

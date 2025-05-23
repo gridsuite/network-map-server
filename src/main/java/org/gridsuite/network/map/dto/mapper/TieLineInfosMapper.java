@@ -93,6 +93,12 @@ public final class TieLineInfosMapper {
             .b2(tieLine.getB2())
             .properties(getProperties(tieLine));
 
+        // voltageLevels and substations properties
+        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
+        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
+        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+
         return builder.build();
     }
 }

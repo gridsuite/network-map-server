@@ -12,7 +12,13 @@
     "terminalConnected": true,
     "hvdcLineId": "HVDC5",
     "p": 10.0,
-    "q": 30.0
+    "q": 30.0,
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    }
   },
   {
     "id": "VSC3",
@@ -26,7 +32,13 @@
     "terminalConnected": true,
     "hvdcLineId": "HVDC3",
     "p": 10.0,
-    "q": 30.0
+    "q": 30.0,
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    }
   },
   {
     "id": "VSC4",
@@ -63,6 +75,12 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   },
   {
@@ -85,6 +103,12 @@
     "measurementQ": {
       "value": 33.0,
       "validity": true
+    },
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   },
   {
@@ -99,7 +123,13 @@
     "terminalConnected": true,
     "hvdcLineId": "HVDC4",
     "p": 10.0,
-    "q": 30.0
+    "q": 30.0,
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    }
   },
   {
     "id": "VSC2",
@@ -112,6 +142,9 @@
     "nominalV": 24.0,
     "country": "FR",
     "terminalConnected": true,
-    "hvdcLineId": "HVDC5"
+    "hvdcLineId": "HVDC5",
+    "substationProperties": {
+      "Country": "FR"
+    }
   }
 ]
