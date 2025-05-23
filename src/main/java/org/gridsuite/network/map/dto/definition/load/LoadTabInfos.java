@@ -33,6 +33,9 @@ public class LoadTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
+
     private Double nominalVoltage;
 
     private Boolean terminalConnected;

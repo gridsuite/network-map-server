@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.StaticVarCompensator;
+import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -76,6 +77,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
+                .substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .properties(getProperties(staticVarCompensator))
                 .regulationMode(staticVarCompensator.getRegulationMode());
 

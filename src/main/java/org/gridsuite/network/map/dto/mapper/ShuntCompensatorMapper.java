@@ -92,7 +92,8 @@ public final class ShuntCompensatorMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .properties(getProperties(shuntCompensator))
-                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)));
+                .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
+                .substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null));
 
         Double bPerSection = null;
         if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {
