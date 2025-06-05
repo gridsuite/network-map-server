@@ -67,6 +67,9 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
+
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementP;
 

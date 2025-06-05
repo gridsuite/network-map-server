@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
+import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -79,6 +80,7 @@ public final class LoadInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
+                .substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .p0(load.getP0())
                 .properties(getProperties(load))
                 .q0(load.getQ0());

@@ -42,6 +42,12 @@ public class TieLineTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country2;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId2;
+
     private Boolean terminal1Connected;
 
     private Boolean terminal2Connected;

@@ -19,6 +19,7 @@
     "terminalConnected": false,
     "nominalVoltage": 225.0,
     "country": "FR",
+    "substationId": "P1",
     "measurementP": {
       "value": 12.0,
       "validity": false
@@ -86,6 +87,7 @@
     "terminalConnected": false,
     "nominalVoltage": 24.0,
     "country": "FR",
+    "substationId": "P3",
     "measurementP": {
       "value": 34.0,
       "validity": true

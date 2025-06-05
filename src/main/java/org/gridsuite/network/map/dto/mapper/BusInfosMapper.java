@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Substation;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
@@ -43,6 +44,7 @@ public final class BusInfosMapper {
                 .voltageLevelId(bus.getVoltageLevel().getId())
                 .nominalVoltage(bus.getVoltageLevel().getNominalV())
                 .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
+                .substationId(bus.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .synchronousComponentNum(bus.getSynchronousComponent().getNum())
                 .properties(getProperties(bus))
                 .connectedComponentNum(bus.getConnectedComponent().getNum())

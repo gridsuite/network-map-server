@@ -48,6 +48,12 @@ public class HvdcTabInfos extends ElementInfosWithProperties {
     private Country country2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double activePowerSetpoint;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -19,6 +19,7 @@ import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWi
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -79,7 +80,8 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .nominalV1(terminal1.getVoltageLevel().getNominalV())
                 .nominalV2(terminal2.getVoltageLevel().getNominalV())
                 .nominalV3(terminal3.getVoltageLevel().getNominalV())
-                .country(mapCountry(firstSubstationFound));
+                .country(mapCountry(firstSubstationFound))
+                .substationId(Optional.ofNullable(firstSubstationFound).map(Substation::getId).orElse(null));
 
         if (!Double.isNaN(terminal1.getP())) {
             builder.p1(terminal1.getP());
