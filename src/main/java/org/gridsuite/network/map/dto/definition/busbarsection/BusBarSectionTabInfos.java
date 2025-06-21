@@ -34,4 +34,7 @@ public class BusBarSectionTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> voltageLevelProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
 }

@@ -31,6 +31,9 @@ public class ShuntCompensatorTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
+
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

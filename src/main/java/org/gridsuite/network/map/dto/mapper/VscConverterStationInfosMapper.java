@@ -48,6 +48,7 @@ public final class VscConverterStationInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
+                .substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .properties(getProperties(vscConverterStation))

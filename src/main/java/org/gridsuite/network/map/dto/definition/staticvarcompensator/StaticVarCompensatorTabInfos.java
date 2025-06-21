@@ -32,6 +32,9 @@ public class StaticVarCompensatorTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
+
     private Boolean terminalConnected;
 
     private StaticVarCompensator.RegulationMode regulationMode;

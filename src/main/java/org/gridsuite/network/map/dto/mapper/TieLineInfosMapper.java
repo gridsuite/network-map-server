@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.TieLine;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -79,6 +80,8 @@ public final class TieLineInfosMapper {
             .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
             .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
             .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
+            .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+            .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
             .p1(nullIfNan(terminal1.getP()))
             .q1(nullIfNan(terminal1.getQ()))
             .p2(nullIfNan(terminal2.getP()))
