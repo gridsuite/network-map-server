@@ -25,19 +25,31 @@
         },
         "properties": {
           "Country": "FR"
+        },
+        "substationProperties": {
+          "Country": "FR"
         }
       },
       {
         "id": "VLHV1",
         "substationId": "P1",
         "nominalV": 380.0,
-        "country": "FR"
+        "country": "FR",
+        "substationProperties": {
+          "Country": "FR"
+        }
       },
       {
         "id": "VLNEW2",
         "substationId": "P1",
         "nominalV": 225.0,
-        "country": "FR"
+        "country": "FR",
+        "properties": {
+          "Country": "FR"
+        },
+        "substationProperties": {
+          "Country": "FR"
+        }
       }
     ],
     "country": "FR"
@@ -67,7 +79,10 @@
         "id": "VLGEN3",
         "substationId": "P3",
         "nominalV": 24.0,
-        "country": "FR"
+        "country": "FR",
+        "substationProperties": {
+          "Country": "FR"
+        }
       }
     ],
     "country": "FR"

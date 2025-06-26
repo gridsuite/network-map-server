@@ -17,7 +17,10 @@ import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
+import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -65,11 +68,23 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits1;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Map<String, CurrentLimitsData> operationalLimitsGroup1;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> operationalLimitsGroup1Names;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CurrentLimitsData currentLimits2;
+    private String selectedOperationalLimitsGroup1;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Map<String, CurrentLimitsData> operationalLimitsGroup2;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> operationalLimitsGroup2Names;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String selectedOperationalLimitsGroup2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData phaseTapChanger;
@@ -118,4 +133,19 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<BranchObservabilityInfos> branchObservability;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TwoWindingsTransformerToBeEstimatedInfos> toBeEstimated;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties2;
 }

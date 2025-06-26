@@ -6,14 +6,15 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Line;
-import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+
+import java.util.Map;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -28,22 +29,15 @@ public final class LineInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable, dcPowerFactor);
-            case FORM:
-                return toFormInfos(identifiable);
-            case MAP:
-                return toMapInfos(identifiable, dcPowerFactor);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return toOperatingStatusInfos(identifiable);
-            case TOOLTIP:
-                return toTooltipInfos(identifiable, dcPowerFactor);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case FORM -> toFormInfos(identifiable);
+            case MAP -> toMapInfos(identifiable, dcPowerFactor);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static LineFormInfos toFormInfos(Identifiable<?> identifiable) {
@@ -71,10 +65,12 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
+                .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(line));
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
+        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
@@ -83,6 +79,11 @@ public final class LineInfosMapper {
 
         builder.connectablePosition1(toMapConnectablePosition(line, 1))
                 .connectablePosition2(toMapConnectablePosition(line, 2));
+
+        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
 
         return builder.build();
     }
@@ -159,8 +160,21 @@ public final class LineInfosMapper {
                 .properties(getProperties(line))
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(line.getOperationalLimitsGroups1());
+        builder.operationalLimitsGroup1(mapOperationalLimitsGroup1);
+        builder.operationalLimitsGroup1Names(mapOperationalLimitsGroup1.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null));
+
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(line.getOperationalLimitsGroups2());
+        builder.operationalLimitsGroup2(mapOperationalLimitsGroup2);
+        builder.operationalLimitsGroup2Names(mapOperationalLimitsGroup2.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
+
+        // voltageLevels and substations properties
+        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
+        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
+        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))

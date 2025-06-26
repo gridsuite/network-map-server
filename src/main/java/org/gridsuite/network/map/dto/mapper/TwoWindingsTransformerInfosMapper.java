@@ -9,12 +9,17 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
 import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData;
+import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -29,20 +34,14 @@ public final class TwoWindingsTransformerInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
-        switch (infoTypeParameters.getInfoType()) {
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return toOperatingStatusInfos(identifiable);
-            case TOOLTIP:
-                return toTooltipInfos(identifiable, dcPowerFactor);
-            case TAB:
-                return toTabInfos(identifiable, dcPowerFactor);
-            case FORM:
-                return toFormInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case FORM -> toFormInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static TwoWindingsTransformerFormInfos toFormInfos(Identifiable<?> identifiable) {
@@ -67,6 +66,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
+                .selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(twoWT));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
@@ -79,18 +80,20 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i1(nullIfNan(terminal1.getI()));
         builder.i2(nullIfNan(terminal2.getI()));
 
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
+        buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
+        buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.operatingStatus(toOperatingStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+
+        builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+
+        builder.toBeEstimated(toToBeEstimated(twoWT));
+
         return builder.build();
     }
 
@@ -130,16 +133,25 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
 
         builder.operatingStatus(toOperatingStatus(twoWT));
-        CurrentLimits limits1 = twoWT.getCurrentLimits1().orElse(null);
-        CurrentLimits limits2 = twoWT.getCurrentLimits2().orElse(null);
-        if (limits1 != null) {
-            builder.currentLimits1(toMapDataCurrentLimits(limits1));
-        }
-        if (limits2 != null) {
-            builder.currentLimits2(toMapDataCurrentLimits(limits2));
-        }
+
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups1());
+        builder.operationalLimitsGroup1(mapOperationalLimitsGroup1);
+        builder.operationalLimitsGroup1Names(mapOperationalLimitsGroup1.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null));
+
+        Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups2());
+        builder.operationalLimitsGroup2(mapOperationalLimitsGroup2);
+        builder.operationalLimitsGroup2Names(mapOperationalLimitsGroup2.keySet().stream().toList());
+        builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
+
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+
+        // voltageLevels and substations properties
+        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
+        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
+        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
+        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
@@ -150,6 +162,7 @@ public final class TwoWindingsTransformerInfosMapper {
             .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
 
         builder.branchObservability(toBranchObservability(twoWT));
+        builder.toBeEstimated(toToBeEstimated(twoWT));
 
         return builder.build();
     }
@@ -166,6 +179,17 @@ public final class TwoWindingsTransformerInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .operatingStatus(toOperatingStatus(twoWT))
                 .build();
+    }
+
+    private static Optional<TwoWindingsTransformerToBeEstimatedInfos> toToBeEstimated(TwoWindingsTransformer twoWT) {
+        var toBeEstimated = twoWT.getExtension(TwoWindingsTransformerToBeEstimated.class);
+        if (toBeEstimated == null) {
+            return Optional.empty();
+        }
+        return Optional.of(TwoWindingsTransformerToBeEstimatedInfos.builder()
+                .ratioTapChangerStatus(toBeEstimated.shouldEstimateRatioTapChanger())
+                .phaseTapChangerStatus(toBeEstimated.shouldEstimatePhaseTapChanger())
+                .build());
     }
 
     private static TwoWindingsTransformerTooltipInfos toTooltipInfos(Identifiable<?> identifiable, Double dcPowerFactor) {

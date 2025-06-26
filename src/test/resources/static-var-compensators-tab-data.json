@@ -29,6 +29,12 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   },
   {
@@ -40,6 +46,12 @@
     "terminalConnected": true,
     "regulationMode": "VOLTAGE",
     "voltageSetpoint": 200.0,
-    "reactivePowerSetpoint": 100.0
+    "reactivePowerSetpoint": 100.0,
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    }
   }
 ]

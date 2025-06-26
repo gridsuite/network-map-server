@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -121,7 +122,8 @@ public final class VoltageLevelInfosMapper {
                 .country(mapCountry(voltageLevel.getSubstation().orElse(null)))
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
                 .properties(getProperties(voltageLevel))
-                .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()));
+                .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()))
+                .substationProperties(voltageLevel.getSubstation().map(ElementUtils::getProperties).orElse(null));
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();

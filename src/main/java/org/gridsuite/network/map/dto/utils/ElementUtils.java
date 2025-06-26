@@ -16,9 +16,11 @@ import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWi
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,16 @@ public final class ElementUtils {
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
+    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
+        List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
+                .map(
+                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList();
+        if (!currentLimitsData.isEmpty()) {
+            build.accept(currentLimitsData);
+        }
+    }
+
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
         StandbyAutomaton standbyAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
         return standbyAutomatonInfos == null ? Optional.empty() :
@@ -93,10 +105,15 @@ public final class ElementUtils {
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
         var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
-        return activePowerControl == null ? Optional.empty() :
-                Optional.of(ActivePowerControlInfos.builder()
+        if (activePowerControl == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(ActivePowerControlInfos.builder()
                         .participate(activePowerControl.isParticipate())
-                        .droop(activePowerControl.getDroop()).build());
+                        .droop(activePowerControl.getDroop())
+                        .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
+                        .build());
+        }
     }
 
     public static String toOperatingStatus(Extendable<?> extendable) {
@@ -159,6 +176,27 @@ public final class ElementUtils {
             empty = false;
         }
         return empty ? null : builder.build();
+    }
+
+    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
+        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
+            return null;
+        }
+        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
+        boolean containsLimitsData = false;
+
+        CurrentLimits currentLimits = operationalLimitsGroup.getCurrentLimits().get();
+        builder.id(operationalLimitsGroup.getId());
+        if (!Double.isNaN(currentLimits.getPermanentLimit())) {
+            builder.permanentLimit(currentLimits.getPermanentLimit());
+            containsLimitsData = true;
+        }
+        if (!CollectionUtils.isEmpty(currentLimits.getTemporaryLimits())) {
+            builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
+            containsLimitsData = true;
+        }
+
+        return containsLimitsData ? builder.build() : null;
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
@@ -447,5 +485,16 @@ public final class ElementUtils {
                 .standardDeviation(quality.getStandardDeviation())
                 .isRedundant(quality.isRedundant().orElse(null))
                 .build();
+    }
+
+    public static Map<String, CurrentLimitsData> buildCurrentLimitsMap(Collection<OperationalLimitsGroup> operationalLimitsGroups) {
+        Map<String, CurrentLimitsData> res = new HashMap<>();
+        if (!CollectionUtils.isEmpty(operationalLimitsGroups)) {
+            operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits().ifPresent(limits -> {
+                CurrentLimitsData limitsData = toMapDataCurrentLimits(limits);
+                res.put(operationalLimitsGroup.getId(), limitsData);
+            }));
+        }
+        return res;
     }
 }

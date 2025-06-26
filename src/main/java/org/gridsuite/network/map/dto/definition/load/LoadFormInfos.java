@@ -10,8 +10,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.LoadType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Optional;
+
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -42,4 +46,10 @@ public class LoadFormInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ;
 }

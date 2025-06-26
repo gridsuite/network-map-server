@@ -41,6 +41,12 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
     }
   },
   {
@@ -87,6 +93,9 @@
     "measurementQ": {
       "value": 84.0,
       "validity": true
+    },
+    "substationProperties": {
+      "Country": "FR"
     }
   }
 ]

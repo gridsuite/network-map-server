@@ -14,31 +14,43 @@
     "q1": 12.2,
     "p2": 13.33,
     "q2": 14.44,
-    "currentLimits1": {
-      "permanentLimit": 750.4,
-      "temporaryLimits": [
-        {
-          "name": "IT5",
-          "value": 300.0,
-          "acceptableDuration": 2087
-        }
-      ]
+    "operationalLimitsGroup1": {
+      "limit set 1": {
+        "permanentLimit": 750.4,
+        "temporaryLimits": [
+          {
+            "name": "IT5",
+            "value": 300.0,
+            "acceptableDuration": 2087
+          }
+        ]
+      }
     },
-    "currentLimits2": {
-      "permanentLimit": 780.6,
-      "temporaryLimits": [
-        {
-          "name": "IT20",
-          "value": 1200.0,
-          "acceptableDuration": 961
-        },
-        {
-          "name": "N/A",
-          "value": 2.147483647E9,
-          "acceptableDuration": 664
-        }
-      ]
+    "operationalLimitsGroup1Names": [
+      "limit set 1"
+    ],
+    "selectedOperationalLimitsGroup1": "limit set 1",
+    "operationalLimitsGroup2": {
+      "limit set 1": {
+        "permanentLimit": 780.6,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 1200.0,
+            "acceptableDuration": 961
+          },
+          {
+            "name": "N/A",
+            "value": 2.147483647E9,
+            "acceptableDuration": 664
+          }
+        ]
+      }
     },
+    "operationalLimitsGroup2Names": [
+      "limit set 1"
+    ],
+    "selectedOperationalLimitsGroup2": "limit set 1",
     "phaseTapChanger": {
       "lowTapPosition": 0,
       "tapPosition": 1,
@@ -87,7 +99,16 @@
       "connectionPosition": 0,
       "connectionName": "feederName2"
     },
-    "operatingStatus": "PLANNED_OUTAGE"
+    "operatingStatus": "PLANNED_OUTAGE",
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    }
   },
   {
     "id": "NHV2_NLOAD",
@@ -170,26 +191,34 @@
     "country": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "currentLimits1": {
-      "permanentLimit": 300.4,
-      "temporaryLimits": [
-        {
-          "name": "IT20",
-          "value": 400.0,
-          "acceptableDuration": 87
-        }
-      ]
+    "operationalLimitsGroup1": {
+      "DEFAULT": {
+        "permanentLimit": 300.4,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 400.0,
+            "acceptableDuration": 87
+          }
+        ]
+      }
     },
-    "currentLimits2": {
-      "permanentLimit": 280.6,
-      "temporaryLimits": [
-        {
-          "name": "N/A",
-          "value": 98.0,
-          "acceptableDuration": 34
-        }
-      ]
+    "operationalLimitsGroup1Names": ["DEFAULT"],
+    "selectedOperationalLimitsGroup1": "DEFAULT",
+    "operationalLimitsGroup2": {
+      "DEFAULT": {
+        "permanentLimit": 280.6,
+        "temporaryLimits": [
+          {
+            "name": "N/A",
+            "value": 98.0,
+            "acceptableDuration": 34
+          }
+        ]
+      }
     },
+    "operationalLimitsGroup2Names": ["DEFAULT"],
+    "selectedOperationalLimitsGroup2": "DEFAULT",
     "g": 27.0,
     "b": 17.0,
     "r": 47.0,
@@ -244,6 +273,19 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "toBeEstimated": {
+      "ratioTapChangerStatus": false,
+      "phaseTapChangerStatus": true
+    },
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
     }
   }
 ]

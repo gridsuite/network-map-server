@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -188,4 +189,22 @@ public class ThreeWindingsTransformerTabInfos extends ElementInfosWithProperties
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties3;
 }

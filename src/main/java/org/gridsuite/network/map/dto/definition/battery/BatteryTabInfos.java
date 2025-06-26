@@ -19,6 +19,7 @@ import org.gridsuite.network.map.dto.definition.extension.InjectionObservability
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -74,4 +75,11 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<InjectionObservabilityInfos> injectionObservability;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties;
+
 }

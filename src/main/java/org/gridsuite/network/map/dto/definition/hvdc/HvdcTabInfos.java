@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.HvdcAngleDroopActivePowerControlInfos;
 import org.gridsuite.network.map.dto.definition.extension.HvdcOperatorActivePowerRangeInfos;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -63,5 +64,17 @@ public class HvdcTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<HvdcOperatorActivePowerRangeInfos> hvdcOperatorActivePowerRange;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> substationProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties2;
 
 }

@@ -13,6 +13,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
+import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -68,6 +69,10 @@ public final class VscConverterStationInfosMapper {
         if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
             builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
         }
+
+        // voltageLevel and substation properties
+        builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
+        builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         builder.measurementP(toMeasurement(vscConverterStation, Measurement.Type.ACTIVE_POWER, 0))
             .measurementQ(toMeasurement(vscConverterStation, Measurement.Type.REACTIVE_POWER, 0));
