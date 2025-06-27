@@ -6,64 +6,14 @@
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 1.1,
-    "p2": 3.33,
-    "currentLimits1": {
-      "permanentLimit": 700.4,
-      "temporaryLimits": [
-        {
-          "name": "IT5",
-          "value": 250.0,
-          "acceptableDuration": 300
-        }
-      ]
-    },
-    "currentLimits2": {
-      "permanentLimit": 800.8,
-      "temporaryLimits": [
-        {
-          "name": "IT20",
-          "value": 300.0,
-          "acceptableDuration": 1200
-        },
-        {
-          "name": "IT10",
-          "value": 200.0,
-          "acceptableDuration": 600
-        }
-      ]
-    }
+    "p2": 3.33
   },
   {
     "id": "NHV1_NHV2_2",
     "voltageLevelId1": "VLHV1",
     "voltageLevelId2": "VLHV2",
     "terminal1Connected": true,
-    "terminal2Connected": true,
-    "currentLimits1": {
-      "permanentLimit": 220.0,
-      "temporaryLimits": [
-        {
-          "name": "temporary2",
-          "value": 70.0,
-          "acceptableDuration": 150
-        },
-        {
-          "name": "temporary1",
-          "value": 50.0,
-          "acceptableDuration": 100
-        }
-      ]
-    },
-    "currentLimits2": {
-      "permanentLimit": 320.0,
-      "temporaryLimits": [
-        {
-          "name": "temporary1",
-          "value": 130.0,
-          "acceptableDuration": 200
-        }
-      ]
-    }
+    "terminal2Connected": true
   },
   {
     "id": "LINE3",
