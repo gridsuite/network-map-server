@@ -7,9 +7,12 @@
 package org.gridsuite.network.map.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.LoadingLimits;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ import java.util.List;
  */
 @Builder
 @Getter
+@Setter
 @EqualsAndHashCode
 public class CurrentLimitsData {
     // may be null in case we just need the selected limit set and don't really need its name/id
@@ -30,5 +34,24 @@ public class CurrentLimitsData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TemporaryLimitData> temporaryLimits;
+
+    @JsonInclude
+    private Applicability applicability;
+
+    public enum Applicability {
+        EQUIPMENT,
+        SIDE1,
+        SIDE2,
+    }
+
+    public boolean hasLimits() {
+        return !Double.isNaN(permanentLimit) || !CollectionUtils.isEmpty(temporaryLimits);
+    }
+
+    public boolean limitsEquals(CurrentLimitsData other) {
+        return permanentLimit != null && permanentLimit.equals(other.permanentLimit)
+            && (temporaryLimits != null && temporaryLimits.equals(other.temporaryLimits)
+            || temporaryLimits == null && other.temporaryLimits == null);
+    }
 }
 

@@ -72,6 +72,8 @@ public final class LineInfosMapper {
         buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
         buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
 
+        builder.currentLimits(mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2()));
+
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
@@ -210,5 +212,4 @@ public final class LineInfosMapper {
 
         return builder.build();
     }
-
 }

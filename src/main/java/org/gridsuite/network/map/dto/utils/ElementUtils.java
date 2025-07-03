@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +90,76 @@ public final class ElementUtils {
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
         }
+    }
+
+    private static String generateSetName(String basicName, String suffix, List<CurrentLimitsData> mergedList, List<CurrentLimitsData> otherList) {
+
+        boolean nameUsed;
+        String strIncrement = "";
+        int increment = 1;
+
+        do {
+            String currentId = basicName + suffix + strIncrement;
+            if (!mergedList.stream().filter(l -> l.getId().equals(currentId)).toList().isEmpty()
+                || !otherList.stream().filter(l -> l.getId().equals(currentId)).toList().isEmpty()) {
+                nameUsed = true;
+                increment++;
+                strIncrement = "(" + increment + ")";
+            } else {
+                nameUsed = false;
+            }
+        } while (nameUsed);
+
+        return basicName + suffix + strIncrement;
+    }
+
+    public static List<CurrentLimitsData> mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+                                                             Collection<OperationalLimitsGroup> operationalLimitsGroups2) {
+        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
+            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
+        List<CurrentLimitsData> currentLimitsData2 = operationalLimitsGroups2.stream()
+            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
+
+        final String orSuffix = "_OR";
+        final String exSuffix = "_EX";
+
+        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>(currentLimitsData1);
+        for (CurrentLimitsData limitsData : mergedLimitsData) {
+            if (limitsData.hasLimits()) {
+                limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE1);
+            }
+        }
+
+        for (CurrentLimitsData limitsData : currentLimitsData2) {
+            // Find limit Set by id
+            Optional<CurrentLimitsData> currentLimit = mergedLimitsData.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
+            if (currentLimit.isEmpty()) {
+                limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
+                mergedLimitsData.add(limitsData);
+                continue;
+            }
+
+            CurrentLimitsData currentLimitData = currentLimit.get();
+
+            // Applicability
+            if (currentLimitData.hasLimits()) {
+                if (limitsData.hasLimits()) {
+                    if (currentLimitData.limitsEquals(limitsData)) {
+                        currentLimitData.setApplicability(CurrentLimitsData.Applicability.EQUIPMENT);
+                    } else {
+                        String currentLimitId = currentLimitData.getId();
+                        currentLimitData.setId(generateSetName(currentLimitId, orSuffix, mergedLimitsData, currentLimitsData2));
+                        limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
+                        limitsData.setId(generateSetName(currentLimitId, exSuffix, mergedLimitsData, currentLimitsData2));
+                        mergedLimitsData.add(limitsData);
+                    }
+                }
+            } else if (limitsData.hasLimits()) {
+                currentLimitData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
+            }
+
+        }
+        return mergedLimitsData;
     }
 
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
