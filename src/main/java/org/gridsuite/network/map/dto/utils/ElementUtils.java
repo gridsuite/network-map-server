@@ -113,8 +113,11 @@ public final class ElementUtils {
         return basicName + suffix + strIncrement;
     }
 
-    public static List<CurrentLimitsData> mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
-                                                             Collection<OperationalLimitsGroup> operationalLimitsGroups2) {
+    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+                                                             Collection<OperationalLimitsGroup> operationalLimitsGroups2,
+                                                             String selectedLimitsGroup1, String selectedLimitsGroup2,
+                                                             Consumer<List<CurrentLimitsData>> build, Consumer<String> buildSelected1,
+                                                             Consumer<String> buildSelected2) {
         List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
             .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
         List<CurrentLimitsData> currentLimitsData2 = operationalLimitsGroups2.stream()
@@ -122,6 +125,8 @@ public final class ElementUtils {
 
         final String orSuffix = "_OR";
         final String exSuffix = "_EX";
+        String changedSelectedLimitsGroup1 = "";
+        String changedSelectedLimitsGroup2 = "";
 
         List<CurrentLimitsData> mergedLimitsData = new ArrayList<>(currentLimitsData1);
         for (CurrentLimitsData limitsData : mergedLimitsData) {
@@ -140,26 +145,45 @@ public final class ElementUtils {
             }
 
             CurrentLimitsData currentLimitData = currentLimit.get();
-
-            // Applicability
             if (currentLimitData.hasLimits()) {
                 if (limitsData.hasLimits()) {
+                    // if Limits sets have same limits : change applicability to equipment
+                    // if They are different : create 2 limit sets with OR / EX suffix
                     if (currentLimitData.limitsEquals(limitsData)) {
                         currentLimitData.setApplicability(CurrentLimitsData.Applicability.EQUIPMENT);
                     } else {
+                        // OR Limits Set
                         String currentLimitId = currentLimitData.getId();
-                        currentLimitData.setId(generateSetName(currentLimitId, orSuffix, mergedLimitsData, currentLimitsData2));
+                        String limitId = generateSetName(currentLimitId, orSuffix, mergedLimitsData, currentLimitsData2);
+                        currentLimitData.setId(limitId);
                         limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
-                        limitsData.setId(generateSetName(currentLimitId, exSuffix, mergedLimitsData, currentLimitsData2));
+                        if (selectedLimitsGroup1.equals(currentLimitId)) {
+                            // if name changed and is active limit set change also selected limit set
+                            changedSelectedLimitsGroup1 = limitId;
+                        }
+                        // EX limits Set
+                        limitId = generateSetName(currentLimitId, exSuffix, mergedLimitsData, currentLimitsData2);
+                        limitsData.setId(limitId);
+                        if (selectedLimitsGroup2.equals(currentLimitId)) {
+                            changedSelectedLimitsGroup2 = limitId;
+                        }
                         mergedLimitsData.add(limitsData);
                     }
                 }
             } else if (limitsData.hasLimits()) {
                 currentLimitData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
             }
-
         }
-        return mergedLimitsData;
+
+        if (!mergedLimitsData.isEmpty()) {
+            build.accept(mergedLimitsData);
+        }
+        if (!changedSelectedLimitsGroup1.isEmpty()) {
+            buildSelected1.accept(changedSelectedLimitsGroup1);
+        }
+        if (!changedSelectedLimitsGroup2.isEmpty()) {
+            buildSelected2.accept(changedSelectedLimitsGroup2);
+        }
     }
 
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
