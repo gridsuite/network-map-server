@@ -59,6 +59,7 @@ public final class BusBarSectionInfosMapper {
             .name(busbarSection.getOptionalName().orElse(null))
             .properties(getProperties(busbarSection))
             .voltageLevelId(busbarSection.getTerminal().getVoltageLevel().getId())
+            .substationId(busbarSection.getTerminal().getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
             .measurementV(toMeasurement(busbarSection, Measurement.Type.VOLTAGE, 0))
             .measurementAngle(toMeasurement(busbarSection, Measurement.Type.ANGLE, 0))
             .voltageLevelProperties(getProperties(terminal.getVoltageLevel()))
