@@ -37,6 +37,9 @@ public class BusTabInfos extends ElementInfosWithProperties {
     private Country country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String substationId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> substationProperties;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
