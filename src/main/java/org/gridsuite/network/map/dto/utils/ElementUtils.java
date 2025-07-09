@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.*;
+
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
@@ -113,66 +115,97 @@ public final class ElementUtils {
         return basicName + suffix + strIncrement;
     }
 
+    private static CurrentLimitsData duplicateCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability, String id) {
+        return CurrentLimitsData.builder()
+            .id(id.isEmpty() ? currentLimitsData.getId() : id)
+            .applicability(applicability)
+            .temporaryLimits(currentLimitsData.getTemporaryLimits())
+            .permanentLimit(currentLimitsData.getPermanentLimit()).build();
+    }
+
+    private static CurrentLimitsData duplicateCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability) {
+        return duplicateCurrentLimitsData(currentLimitsData, applicability, "");
+    }
+
     public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
                                                              Collection<OperationalLimitsGroup> operationalLimitsGroups2,
                                                              String selectedLimitsGroup1, String selectedLimitsGroup2,
                                                              Consumer<List<CurrentLimitsData>> build, Consumer<String> buildSelected1,
                                                              Consumer<String> buildSelected2) {
-        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
-            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
-        List<CurrentLimitsData> currentLimitsData2 = operationalLimitsGroups2.stream()
-            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
-
         final String orSuffix = "_OR";
         final String exSuffix = "_EX";
         String changedSelectedLimitsGroup1 = "";
         String changedSelectedLimitsGroup2 = "";
+        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>();
 
-        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>(currentLimitsData1);
-        for (CurrentLimitsData limitsData : mergedLimitsData) {
-            if (limitsData.hasLimits()) {
-                limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE1);
+        // Build temporary limit from side 1 and 2
+        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
+            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
+        ArrayList<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
+            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList());
+
+        // combine 2 sides in one list
+
+        // simple case : one of the arrays are empty
+        if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
+            for (CurrentLimitsData currentLimitsData : currentLimitsData1) {
+                mergedLimitsData.add(duplicateCurrentLimitsData(currentLimitsData, SIDE1));
             }
+            build.accept(mergedLimitsData);
+            return;
+        } else if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
+            for (CurrentLimitsData currentLimitsData : currentLimitsData2) {
+                mergedLimitsData.add(duplicateCurrentLimitsData(currentLimitsData, SIDE2));
+            }
+            build.accept(mergedLimitsData);
+            return;
         }
 
-        for (CurrentLimitsData limitsData : currentLimitsData2) {
-            // Find limit Set by id
-            Optional<CurrentLimitsData> currentLimit = mergedLimitsData.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
-            if (currentLimit.isEmpty()) {
-                limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
-                mergedLimitsData.add(limitsData);
-                continue;
-            }
+        // more complex case
+        for (CurrentLimitsData limitsData : currentLimitsData1) {
+            Optional<CurrentLimitsData> l2 = currentLimitsData2.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
 
-            CurrentLimitsData currentLimitData = currentLimit.get();
-            if (currentLimitData.hasLimits()) {
-                if (limitsData.hasLimits()) {
-                    // if Limits sets have same limits : change applicability to equipment
-                    // if They are different : create 2 limit sets with OR / EX suffix
-                    if (currentLimitData.limitsEquals(limitsData)) {
-                        currentLimitData.setApplicability(CurrentLimitsData.Applicability.EQUIPMENT);
+            if (l2.isPresent()) {
+                CurrentLimitsData limitsData2 = l2.get();
+                // Only side one has limits
+                if (limitsData.hasLimits() && !limitsData2.hasLimits()) {
+                    mergedLimitsData.add(duplicateCurrentLimitsData(limitsData, SIDE1));
+                    // only side two has limits
+                } else if (limitsData2.hasLimits() && !limitsData.hasLimits()) {
+                    mergedLimitsData.add(duplicateCurrentLimitsData(limitsData2, SIDE2));
+                } else {
+                    // both sides have limits and limits are equals
+                    if (limitsData.limitsEquals(limitsData2)) {
+                        mergedLimitsData.add(duplicateCurrentLimitsData(limitsData, EQUIPMENT));
+                        // both side have limits and they are differents : create 2 differents limitset with basename_Or and _Ex
                     } else {
-                        // OR Limits Set
-                        String currentLimitId = currentLimitData.getId();
+                        String currentLimitId = limitsData.getId();
+                        // Side 1
                         String limitId = generateSetName(currentLimitId, orSuffix, mergedLimitsData, currentLimitsData2);
-                        currentLimitData.setId(limitId);
-                        limitsData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
+                        mergedLimitsData.add(duplicateCurrentLimitsData(limitsData, SIDE1, limitId));
+                        // if name changed and is active limit set change also selected limit set
                         if (selectedLimitsGroup1.equals(currentLimitId)) {
-                            // if name changed and is active limit set change also selected limit set
                             changedSelectedLimitsGroup1 = limitId;
                         }
-                        // EX limits Set
+                        // Side 2
                         limitId = generateSetName(currentLimitId, exSuffix, mergedLimitsData, currentLimitsData2);
-                        limitsData.setId(limitId);
+                        mergedLimitsData.add(duplicateCurrentLimitsData(limitsData, SIDE2, limitId));
+                        // if name changed and is active limit set change also selected limit set
                         if (selectedLimitsGroup2.equals(currentLimitId)) {
                             changedSelectedLimitsGroup2 = limitId;
                         }
-                        mergedLimitsData.add(limitsData);
                     }
                 }
-            } else if (limitsData.hasLimits()) {
-                currentLimitData.setApplicability(CurrentLimitsData.Applicability.SIDE2);
+                // remove processed limits from side 2
+                currentLimitsData2.remove(l2.get());
+            } else {
+                mergedLimitsData.add(duplicateCurrentLimitsData(limitsData, SIDE1));
             }
+        }
+
+        // add remaining limits from side 2
+        for (CurrentLimitsData limitsData : currentLimitsData2) {
+            mergedLimitsData.add(duplicateCurrentLimitsData(limitsData, SIDE2));
         }
 
         if (!mergedLimitsData.isEmpty()) {
