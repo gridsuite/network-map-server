@@ -244,7 +244,8 @@
               "value": 250.0,
               "acceptableDuration": 300
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup1Names": [
@@ -265,7 +266,8 @@
               "value": 200.0,
               "acceptableDuration": 600
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup2Names": [
@@ -300,7 +302,8 @@
               "value": 90.0,
               "acceptableDuration": 200
             }
-          ]
+          ],
+          "applicability": null
         },
         "group1": {
           "permanentLimit": 220.0,
@@ -315,7 +318,8 @@
               "value": 50.0,
               "acceptableDuration": 100
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup1Names": [
@@ -332,7 +336,8 @@
               "value": 130.0,
               "acceptableDuration": 200
             }
-          ]
+          ],
+          "applicability": null
         },
         "group3": {
           "permanentLimit": 300.0,
@@ -342,7 +347,8 @@
               "value": 110.0,
               "acceptableDuration": 150
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup2Names": [
@@ -693,7 +699,8 @@
               "value": 300.0,
               "acceptableDuration": 2087
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup1Names": ["limit set 1"],
@@ -712,7 +719,8 @@
               "value": 2.147483647e9,
               "acceptableDuration": 664
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup2Names": ["limit set 1"],
@@ -866,7 +874,8 @@
               "value": 400.0,
               "acceptableDuration": 87
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup1Names": ["DEFAULT"],
@@ -880,7 +889,8 @@
               "value": 98.0,
               "acceptableDuration": 34
             }
-          ]
+          ],
+          "applicability": null
         }
       },
       "operationalLimitsGroup2Names": ["DEFAULT"],

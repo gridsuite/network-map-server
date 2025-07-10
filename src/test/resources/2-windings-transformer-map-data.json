@@ -13,20 +13,36 @@
   "q2": 14.44,
   "currentLimits1": [
     {
-      "id" : "limit set 1",
+      "id" : "limit set 1_OR",
       "permanentLimit":750.4,
-      "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}]
+      "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}],
+      "applicability": null
     }
   ],
   "currentLimits2": [
     {
-      "id" : "limit set 1",
+      "id" : "limit set 1_EX",
       "permanentLimit":780.6,
-      "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}]
+      "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}],
+      "applicability": null
     }
   ],
-  "selectedOperationalLimitsGroup1": "limit set 1",
-  "selectedOperationalLimitsGroup2": "limit set 1",
+  "currentLimits": [
+    {
+      "id" : "limit set 1_OR",
+      "permanentLimit":750.4,
+      "temporaryLimits":[{"name":"IT5","acceptableDuration":2087,"value":300}],
+      "applicability": "SIDE1"
+    },
+    {
+      "id" : "limit set 1_EX",
+      "permanentLimit":780.6,
+      "temporaryLimits":[{"name":"N/A","acceptableDuration":664,"value":2147483647},{"name":"IT20","acceptableDuration":961,"value":1200}],
+      "applicability": "SIDE2"
+    }
+  ],
+  "selectedOperationalLimitsGroup1": "limit set 1_OR",
+  "selectedOperationalLimitsGroup2": "limit set 1_EX",
   "phaseTapChanger": {
     "lowTapPosition": 0,
     "highTapPosition": 1,
