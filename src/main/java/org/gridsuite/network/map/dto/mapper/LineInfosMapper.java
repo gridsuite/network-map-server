@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement;
+import org.apache.commons.lang3.tuple.Pair;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
@@ -65,16 +66,18 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
-                .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
-                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
                 .properties(getProperties(line));
 
-        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
-        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
+        Pair<String, String> newSelectedOpLimitsGroups = mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(),
+                                                                            line.getSelectedOperationalLimitsGroupId1().orElse(null),
+                                                                            line.getSelectedOperationalLimitsGroupId2().orElse(null),
+                                                                            builder::currentLimits);
 
-        mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), line.getSelectedOperationalLimitsGroupId1().orElse(null),
-            line.getSelectedOperationalLimitsGroupId2().orElse(null), builder::currentLimits, builder::selectedOperationalLimitsGroup1,
-            builder::selectedOperationalLimitsGroup2);
+        builder.selectedOperationalLimitsGroup1(!newSelectedOpLimitsGroups.getLeft().isEmpty() ? newSelectedOpLimitsGroups.getLeft() : line.getSelectedOperationalLimitsGroupId1().orElse(null));
+        builder.selectedOperationalLimitsGroup2(!newSelectedOpLimitsGroups.getRight().isEmpty() ? newSelectedOpLimitsGroups.getRight() : line.getSelectedOperationalLimitsGroupId2().orElse(null));
+
+        buildCurrentLimits(line.getOperationalLimitsGroups1(), line.getSelectedOperationalLimitsGroupId1().orElse(null), newSelectedOpLimitsGroups.getLeft(), builder::currentLimits1);
+        buildCurrentLimits(line.getOperationalLimitsGroups2(), line.getSelectedOperationalLimitsGroupId2().orElse(null), newSelectedOpLimitsGroups.getRight(), builder::currentLimits2);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));

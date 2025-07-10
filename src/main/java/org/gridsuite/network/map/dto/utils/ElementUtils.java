@@ -10,6 +10,7 @@ import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
+import org.apache.commons.lang3.tuple.Pair;
 import org.gridsuite.network.map.dto.common.*;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
@@ -84,11 +85,22 @@ public final class ElementUtils {
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
-    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
-        List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
-                .map(
-                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
-                .toList();
+    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, String oldSelected, String newSelected, Consumer<List<CurrentLimitsData>> build) {
+
+        ArrayList<CurrentLimitsData> currentLimitsData = new ArrayList<>(currentLimits.stream()
+                .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .toList());
+
+        // if selected operationalLimitsGroups renamed, rename it also here
+        if (!newSelected.isEmpty()) {
+            Optional<CurrentLimitsData> limitsGroup = currentLimitsData.stream().filter(l -> l.getId().equals(oldSelected)).findFirst();
+            if (limitsGroup.isPresent()) {
+                CurrentLimitsData current = copyCurrentLimitsData(limitsGroup.get(), newSelected);
+                currentLimitsData.remove(limitsGroup.get());
+                currentLimitsData.add(current);
+            }
+        }
+
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
         }
@@ -127,11 +139,17 @@ public final class ElementUtils {
         return copyCurrentLimitsData(currentLimitsData, applicability, "");
     }
 
-    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
-                                                             Collection<OperationalLimitsGroup> operationalLimitsGroups2,
-                                                             String selectedLimitsGroup1, String selectedLimitsGroup2,
-                                                             Consumer<List<CurrentLimitsData>> build, Consumer<String> buildSelected1,
-                                                             Consumer<String> buildSelected2) {
+    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, String id) {
+        return CurrentLimitsData.builder()
+            .id(id.isEmpty() ? currentLimitsData.getId() : id)
+            .temporaryLimits(currentLimitsData.getTemporaryLimits())
+            .permanentLimit(currentLimitsData.getPermanentLimit()).build();
+    }
+
+    public static Pair<String, String> mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+                                                          Collection<OperationalLimitsGroup> operationalLimitsGroups2,
+                                                          String selectedLimitsGroup1, String selectedLimitsGroup2,
+                                                          Consumer<List<CurrentLimitsData>> build) {
         final String orSuffix = "_OR";
         final String exSuffix = "_EX";
         String changedSelectedLimitsGroup1 = "";
@@ -152,13 +170,13 @@ public final class ElementUtils {
                 mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE1));
             }
             build.accept(mergedLimitsData);
-            return;
+            return Pair.of("", "");
         } else if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
             for (CurrentLimitsData currentLimitsData : currentLimitsData2) {
                 mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE2));
             }
             build.accept(mergedLimitsData);
-            return;
+            return Pair.of("", "");
         }
 
         // more complex case
@@ -211,12 +229,8 @@ public final class ElementUtils {
         if (!mergedLimitsData.isEmpty()) {
             build.accept(mergedLimitsData);
         }
-        if (!changedSelectedLimitsGroup1.isEmpty()) {
-            buildSelected1.accept(changedSelectedLimitsGroup1);
-        }
-        if (!changedSelectedLimitsGroup2.isEmpty()) {
-            buildSelected2.accept(changedSelectedLimitsGroup2);
-        }
+
+        return Pair.of(changedSelectedLimitsGroup1, changedSelectedLimitsGroup2);
     }
 
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
