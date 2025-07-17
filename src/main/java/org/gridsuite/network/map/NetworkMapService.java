@@ -11,11 +11,11 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.HvdcConverterStation.HvdcType;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import lombok.Data;
 import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -32,10 +32,9 @@ import java.util.stream.Stream;
  */
 @ComponentScan(basePackageClasses = {NetworkStoreService.class})
 @Service
+@Data
 public class NetworkMapService {
-
-    @Autowired
-    private NetworkStoreService networkStoreService;
+    private final NetworkStoreService networkStoreService;
 
     private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy, String variantId) {
         try {

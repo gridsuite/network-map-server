@@ -7,11 +7,14 @@
 package org.gridsuite.network.map.dto;
 
 import com.powsybl.iidm.network.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.gridsuite.network.map.dto.mapper.*;
 
 import java.util.function.BiFunction;
 
-
+@AllArgsConstructor
+@Getter
 public enum ElementType {
     SUBSTATION(Substation.class, SubstationInfosMapper::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
@@ -36,18 +39,5 @@ public enum ElementType {
     private final Class<? extends Identifiable> elementClass;
 
     private final BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos> infosGetter;
-
-    public Class<? extends Identifiable> getElementClass() {
-        return elementClass;
-    }
-
-    public BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos> getInfosGetter() {
-        return infosGetter;
-    }
-
-    ElementType(Class<? extends Identifiable> typeClass, BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos> dataGetter) {
-        this.elementClass = typeClass;
-        this.infosGetter = dataGetter;
-    }
 }
 
