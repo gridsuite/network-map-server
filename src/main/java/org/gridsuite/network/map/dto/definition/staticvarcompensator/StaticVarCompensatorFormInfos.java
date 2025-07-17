@@ -43,6 +43,9 @@ public class StaticVarCompensatorFormInfos extends ElementInfosWithProperties {
     private StaticVarCompensator.RegulationMode regulationMode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isRegulating;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String busOrBusbarSectionId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
