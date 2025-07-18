@@ -142,6 +142,7 @@ public final class ElementUtils {
     private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, String id) {
         return CurrentLimitsData.builder()
             .id(id.isEmpty() ? currentLimitsData.getId() : id)
+            .applicability(currentLimitsData.getApplicability())
             .temporaryLimits(currentLimitsData.getTemporaryLimits())
             .permanentLimit(currentLimitsData.getPermanentLimit()).build();
     }
