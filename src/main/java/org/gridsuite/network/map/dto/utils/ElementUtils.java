@@ -146,6 +146,9 @@ public final class ElementUtils {
             .permanentLimit(currentLimitsData.getPermanentLimit()).build();
     }
 
+    /**
+     * @return id of the selected operation limits group 1 and 2 if they have been renamed
+     */
     public static Pair<String, String> mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
                                                           Collection<OperationalLimitsGroup> operationalLimitsGroups2,
                                                           String selectedLimitsGroup1, String selectedLimitsGroup2,
