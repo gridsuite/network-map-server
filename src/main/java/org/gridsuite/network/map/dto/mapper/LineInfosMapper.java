@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement;
+import org.apache.commons.lang3.tuple.Pair;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
@@ -65,9 +66,11 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
+                .properties(getProperties(line))
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
-                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
-                .properties(getProperties(line));
+                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
+
+        mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
 
         buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
         buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
@@ -210,5 +213,4 @@ public final class LineInfosMapper {
 
         return builder.build();
     }
-
 }
