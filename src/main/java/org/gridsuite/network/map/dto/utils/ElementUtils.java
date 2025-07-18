@@ -85,64 +85,21 @@ public final class ElementUtils {
                         .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
-    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, String oldSelected, String newSelected, Consumer<List<CurrentLimitsData>> build) {
+    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
 
         ArrayList<CurrentLimitsData> currentLimitsData = new ArrayList<>(currentLimits.stream()
                 .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
                 .toList());
-
-        // if selected operationalLimitsGroups renamed, rename it also here
-        if (!newSelected.isEmpty()) {
-            Optional<CurrentLimitsData> limitsGroup = currentLimitsData.stream().filter(l -> l.getId().equals(oldSelected)).findFirst();
-            if (limitsGroup.isPresent()) {
-                CurrentLimitsData current = copyCurrentLimitsData(limitsGroup.get(), newSelected);
-                currentLimitsData.remove(limitsGroup.get());
-                currentLimitsData.add(current);
-            }
-        }
 
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
         }
     }
 
-    private static String generateSetName(String basicName, String suffix, List<CurrentLimitsData> mergedList, List<CurrentLimitsData> otherList) {
-
-        boolean nameUsed;
-        String strIncrement = "";
-        int increment = 1;
-
-        do {
-            String currentId = basicName + suffix + strIncrement;
-            if (!mergedList.stream().filter(l -> l.getId().equals(currentId)).toList().isEmpty()
-                || !otherList.stream().filter(l -> l.getId().equals(currentId)).toList().isEmpty()) {
-                nameUsed = true;
-                increment++;
-                strIncrement = "(" + increment + ")";
-            } else {
-                nameUsed = false;
-            }
-        } while (nameUsed);
-
-        return basicName + suffix + strIncrement;
-    }
-
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability, String id) {
-        return CurrentLimitsData.builder()
-            .id(id.isEmpty() ? currentLimitsData.getId() : id)
-            .applicability(applicability)
-            .temporaryLimits(currentLimitsData.getTemporaryLimits())
-            .permanentLimit(currentLimitsData.getPermanentLimit()).build();
-    }
-
     private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability) {
-        return copyCurrentLimitsData(currentLimitsData, applicability, "");
-    }
-
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, String id) {
         return CurrentLimitsData.builder()
-            .id(id.isEmpty() ? currentLimitsData.getId() : id)
-            .applicability(currentLimitsData.getApplicability())
+            .id(currentLimitsData.getId())
+            .applicability(applicability)
             .temporaryLimits(currentLimitsData.getTemporaryLimits())
             .permanentLimit(currentLimitsData.getPermanentLimit()).build();
     }
@@ -150,14 +107,9 @@ public final class ElementUtils {
     /**
      * @return id of the selected operation limits group 1 and 2 if they have been renamed
      */
-    public static Pair<String, String> mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
                                                           Collection<OperationalLimitsGroup> operationalLimitsGroups2,
-                                                          String selectedLimitsGroup1, String selectedLimitsGroup2,
                                                           Consumer<List<CurrentLimitsData>> build) {
-        final String orSuffix = "_OR";
-        final String exSuffix = "_EX";
-        String changedSelectedLimitsGroup1 = "";
-        String changedSelectedLimitsGroup2 = "";
         List<CurrentLimitsData> mergedLimitsData = new ArrayList<>();
 
         // Build temporary limit from side 1 and 2
@@ -174,13 +126,13 @@ public final class ElementUtils {
                 mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE1));
             }
             build.accept(mergedLimitsData);
-            return Pair.of("", "");
+            return;
         } else if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
             for (CurrentLimitsData currentLimitsData : currentLimitsData2) {
                 mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE2));
             }
             build.accept(mergedLimitsData);
-            return Pair.of("", "");
+            return;
         }
 
         // more complex case
@@ -199,23 +151,12 @@ public final class ElementUtils {
                     // both sides have limits and limits are equals
                     if (limitsData.limitsEquals(limitsData2)) {
                         mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
-                        // both side have limits and they are differents : create 2 differents limitset with basename_Or and _Ex
+                        // both side have limits and they are different : create 2 different limit sets with basename_Or and _Ex
                     } else {
-                        String currentLimitId = limitsData.getId();
                         // Side 1
-                        String limitId = generateSetName(currentLimitId, orSuffix, mergedLimitsData, currentLimitsData2);
-                        mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1, limitId));
-                        // if name changed and is active limit set change also selected limit set
-                        if (selectedLimitsGroup1.equals(currentLimitId)) {
-                            changedSelectedLimitsGroup1 = limitId;
-                        }
+                        mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
                         // Side 2
-                        limitId = generateSetName(currentLimitId, exSuffix, mergedLimitsData, currentLimitsData2);
-                        mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2, limitId));
-                        // if name changed and is active limit set change also selected limit set
-                        if (selectedLimitsGroup2.equals(currentLimitId)) {
-                            changedSelectedLimitsGroup2 = limitId;
-                        }
+                        mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
                     }
                 }
                 // remove processed limits from side 2
@@ -233,8 +174,6 @@ public final class ElementUtils {
         if (!mergedLimitsData.isEmpty()) {
             build.accept(mergedLimitsData);
         }
-
-        return Pair.of(changedSelectedLimitsGroup1, changedSelectedLimitsGroup2);
     }
 
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {

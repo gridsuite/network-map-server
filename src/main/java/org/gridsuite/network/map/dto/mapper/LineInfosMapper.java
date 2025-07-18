@@ -66,18 +66,14 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
-                .properties(getProperties(line));
+                .properties(getProperties(line))
+                .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
+                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
 
-        Pair<String, String> newSelectedOpLimitsGroups = mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(),
-                                                                            line.getSelectedOperationalLimitsGroupId1().orElse(null),
-                                                                            line.getSelectedOperationalLimitsGroupId2().orElse(null),
-                                                                            builder::currentLimits);
+        mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
 
-        builder.selectedOperationalLimitsGroup1(!newSelectedOpLimitsGroups.getLeft().isEmpty() ? newSelectedOpLimitsGroups.getLeft() : line.getSelectedOperationalLimitsGroupId1().orElse(null));
-        builder.selectedOperationalLimitsGroup2(!newSelectedOpLimitsGroups.getRight().isEmpty() ? newSelectedOpLimitsGroups.getRight() : line.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        buildCurrentLimits(line.getOperationalLimitsGroups1(), line.getSelectedOperationalLimitsGroupId1().orElse(null), newSelectedOpLimitsGroups.getLeft(), builder::currentLimits1);
-        buildCurrentLimits(line.getOperationalLimitsGroups2(), line.getSelectedOperationalLimitsGroupId2().orElse(null), newSelectedOpLimitsGroups.getRight(), builder::currentLimits2);
+        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
+        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
