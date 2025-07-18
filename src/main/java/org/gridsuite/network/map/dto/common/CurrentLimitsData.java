@@ -36,7 +36,7 @@ public class CurrentLimitsData {
     private Applicability applicability;
 
     public enum Applicability {
-        EQUIPMENT,
+        EQUIPMENT, // applied to both sides
         SIDE1,
         SIDE2,
     }
