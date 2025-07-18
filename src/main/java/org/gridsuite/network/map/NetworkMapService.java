@@ -255,14 +255,16 @@ public class NetworkMapService {
     }
 
     private static List<ElementInfos> getElementsInfos(Network network, @NonNull List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        Class<? extends Connectable<?>> elementClass = (Class<? extends Connectable<?>>) elementType.getElementClass();
-        Stream<? extends Connectable<?>> connectables = substationsIds.isEmpty() ?
+        if (!elementType.isConnectable()) { // early break if not supported
+            throw new IllegalStateException("Unexpected non-connectable element type: " + elementType);
+        }
+        final Stream<? extends Connectable<?>> connectables = substationsIds.isEmpty() ?
                 getConnectableStream(network, elementType) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
                         .filter(voltageLevel -> (elementType != ElementType.BUSBAR_SECTION || voltageLevel.getTopologyKind() != TopologyKind.BUS_BREAKER)
                             && (nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV())))
-                        .flatMap(voltageLevel -> voltageLevel.getConnectableStream(elementClass))
+                        .flatMap(elementType::getVoltageLevelConnectableStream)
                         .distinct();
         return connectables
                 .map(c -> elementType.getInfosGetter().apply(c, infoTypeParameters))
@@ -272,6 +274,7 @@ public class NetworkMapService {
     public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType equipmentType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         return switch (equipmentType) {
+            // types that don't implement `Connectable<>` interface
             case SUBSTATION -> getSubstationsInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case VOLTAGE_LEVEL -> getVoltageLevelsInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case HVDC_LINE -> getHvdcLinesInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
@@ -279,6 +282,7 @@ public class NetworkMapService {
             case HVDC_LINE_VSC -> getHvdcLinesVscInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case TIE_LINE -> getTieLinesInfos(network, substationsIds, infoTypeParameters, nominalVoltages);
             case BUS -> getBusesInfos(network, substationsIds, infoTypeParameters);
+            // for others, it's okay
             default -> getElementsInfos(network, substationsIds, equipmentType, infoTypeParameters, nominalVoltages);
         };
     }
@@ -317,12 +321,14 @@ public class NetworkMapService {
 
     public List<String> getElementsIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
         return switch (elementType) {
+            // types that don't implement `Connectable<>` interface
             case SUBSTATION -> getSubstationsIds(networkUuid, variantId, nominalVoltages);
             case TIE_LINE -> getTieLinesIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case HVDC_LINE -> getHvdcLinesIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case HVDC_LINE_LCC -> getHvdcLinesLccIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case HVDC_LINE_VSC -> getHvdcLinesVscIds(networkUuid, variantId, substationsIds, nominalVoltages);
             case VOLTAGE_LEVEL -> getVoltageLevelsIds(networkUuid, variantId, substationsIds, nominalVoltages);
+            // for others, it's okay
             default -> getConnectablesIds(networkUuid, variantId, substationsIds, elementType, nominalVoltages);
         };
     }
@@ -334,8 +340,11 @@ public class NetworkMapService {
                     .map(Connectable::getId)
                     .toList();
         } else {
+            if (!elementType.isConnectable()) { // early break if not supported
+                throw new IllegalStateException("Unexpected non-connectable element type: " + elementType);
+            }
             return getVoltageLevelStream(network, substationsIds, nominalVoltages)
-                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream((Class<? extends Connectable>) elementType.getElementClass()))
+                    .flatMap(elementType::getVoltageLevelConnectableStream)
                     .map(Connectable::getId)
                     .distinct()
                     .collect(Collectors.toList());
@@ -350,10 +359,12 @@ public class NetworkMapService {
         return voltageLevelStream.filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()));
     }
 
+    // TODO: move as BiFunction<Network,Stream<? extends Connectable<?>>> property of ElementType
     private static Stream<? extends Connectable<?>> getConnectableStream(Network network, ElementType elementType) {
         return switch (elementType) {
             case BUSBAR_SECTION, BUS -> network.getBusbarSectionStream();
             case GENERATOR -> network.getGeneratorStream();
+            case BRANCH -> Stream.concat(network.getLineStream(), network.getTwoWindingsTransformerStream());
             case LINE -> network.getLineStream();
             case TWO_WINDINGS_TRANSFORMER -> network.getTwoWindingsTransformerStream();
             case THREE_WINDINGS_TRANSFORMER -> network.getThreeWindingsTransformerStream();

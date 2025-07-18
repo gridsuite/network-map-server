@@ -10,81 +10,26 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfosWithProperties;
-import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
-import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
-import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
-
-    private String voltageLevelId1;
-
+public class TwoWindingsTransformerTabInfos extends BranchTabInfos {
     private String voltageLevelName1;
-
-    private Double nominalVoltage1;
-
-    private String voltageLevelId2;
 
     private String voltageLevelName2;
 
-    private Double nominalVoltage2;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
-
-    private Boolean terminal1Connected;
-
-    private Boolean terminal2Connected;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i2;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Map<String, CurrentLimitsData> operationalLimitsGroup1;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> operationalLimitsGroup1Names;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup1;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Map<String, CurrentLimitsData> operationalLimitsGroup2;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> operationalLimitsGroup2Names;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData phaseTapChanger;
@@ -92,13 +37,13 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData ratioTapChanger;
 
-    private Double g;
-
-    private Double b;
-
     private Double r;
 
     private Double x;
+
+    private Double g;
+
+    private Double b;
 
     private Double ratedU1;
 
@@ -114,38 +59,11 @@ public class TwoWindingsTransformerTabInfos extends ElementInfosWithProperties {
     private String operatingStatus;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP1;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ1;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<BranchObservabilityInfos> branchObservability;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TwoWindingsTransformerToBeEstimatedInfos> toBeEstimated;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> substationProperties1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> voltageLevelProperties1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> substationProperties2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> voltageLevelProperties2;
 }
