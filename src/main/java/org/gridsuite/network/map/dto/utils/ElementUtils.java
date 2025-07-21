@@ -178,7 +178,7 @@ public final class ElementUtils {
         return empty ? null : builder.build();
     }
 
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
+    private static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
         if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
             return null;
         }
@@ -210,26 +210,20 @@ public final class ElementUtils {
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {
-        String busOrBusbarSectionId;
         if (terminal.getVoltageLevel().getTopologyKind().equals(TopologyKind.BUS_BREAKER)) {
             if (terminal.isConnected()) {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getBus().getId();
+                return terminal.getBusBreakerView().getBus().getId();
             } else {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getConnectableBus().getId();
+                return terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
-            busOrBusbarSectionId = getBusbarSectionId(terminal);
+            final BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
+            terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
+            return connectedBusbarSectionFinder.getFirstTraversedBbsId();
         }
-        return busOrBusbarSectionId;
     }
 
-    public static String getBusbarSectionId(Terminal terminal) {
-        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-        terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
-        return connectedBusbarSectionFinder.getFirstTraversedBbsId();
-    }
-
-    public static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
@@ -292,7 +286,7 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
