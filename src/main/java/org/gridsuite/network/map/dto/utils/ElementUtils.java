@@ -10,7 +10,6 @@ import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
-import org.apache.commons.lang3.tuple.Pair;
 import org.gridsuite.network.map.dto.common.*;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
@@ -151,7 +150,7 @@ public final class ElementUtils {
                     // both sides have limits and limits are equals
                     if (limitsData.limitsEquals(limitsData2)) {
                         mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
-                        // both side have limits and they are different : create 2 different limit sets with basename_Or and _Ex
+                        // both side have limits and they are different : create 2 different limit sets
                     } else {
                         // Side 1
                         mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));

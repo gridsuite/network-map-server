@@ -10,7 +10,6 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
 import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
-import org.apache.commons.lang3.tuple.Pair;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
