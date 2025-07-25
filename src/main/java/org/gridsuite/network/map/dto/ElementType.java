@@ -36,7 +36,7 @@ public enum ElementType {
     LCC_CONVERTER_STATION(LccConverterStation.class, LccConverterStationInfosMapper::toData),
     VSC_CONVERTER_STATION(VscConverterStation.class, VscConverterStationInfosMapper::toData);
 
-    private final Class<? extends Identifiable> elementClass;
+    private final Class<? extends Identifiable<?>> elementClass;
 
     private final BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos> infosGetter;
 }

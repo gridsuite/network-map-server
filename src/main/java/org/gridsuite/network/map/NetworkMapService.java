@@ -245,8 +245,8 @@ public class NetworkMapService {
     private List<ElementInfos> getBusesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters) {
         Stream<Bus> buses = substationsId.isEmpty() ? network.getBusView().getBusStream() :
                 network.getBusView().getBusStream()
-                        .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
                         .filter(Objects::nonNull)
+                        .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
                         .distinct();
         return buses
                 .map(c -> ElementType.BUS.getInfosGetter().apply(c, infoTypeParameters))
@@ -309,7 +309,7 @@ public class NetworkMapService {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         HvdcLine hvdcLine = network.getHvdcLine(hvdcId);
         if (hvdcLine == null) {
-            // called from a modification, then we must support un-existing equipment
+            // called from a modification, then we must support unexisting equipment
             return HvdcShuntCompensatorsInfos.builder().id(hvdcId).build();
         }
         return HvdcInfosMapper.toHvdcShuntCompensatorsInfos(hvdcLine);
