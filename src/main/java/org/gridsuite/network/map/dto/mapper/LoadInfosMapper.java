@@ -9,12 +9,13 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Load;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -56,10 +57,10 @@ public final class LoadInfosMapper {
         }
 
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));
-        builder.connectablePosition(toMapConnectablePosition(load, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(load, 0));
 
-        builder.measurementP(toMeasurement(load, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(load, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(load, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(load, Type.REACTIVE_POWER, 0));
 
         return builder.build();
     }
@@ -86,16 +87,16 @@ public final class LoadInfosMapper {
             builder.q(terminal.getQ());
         }
 
-        builder.connectablePosition(toMapConnectablePosition(load, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(load, 0));
 
         // voltageLevel and substation properties
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.measurementP(toMeasurement(load, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(load, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(load, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(load, Type.REACTIVE_POWER, 0));
 
-        builder.injectionObservability(toInjectionObservability(load));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(load));
 
         return builder.build();
     }

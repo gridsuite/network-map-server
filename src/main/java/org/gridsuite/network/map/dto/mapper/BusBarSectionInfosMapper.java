@@ -10,7 +10,7 @@ import com.powsybl.iidm.network.BusbarSection;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
@@ -18,7 +18,7 @@ import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabIn
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
+import static org.gridsuite.network.map.dto.utils.ExtensionUtils.toMeasurement;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -56,8 +56,8 @@ public final class BusBarSectionInfosMapper {
             .name(busbarSection.getOptionalName().orElse(null))
             .properties(getProperties(busbarSection))
             .voltageLevelId(busbarSection.getTerminal().getVoltageLevel().getId())
-            .measurementV(toMeasurement(busbarSection, Measurement.Type.VOLTAGE, 0))
-            .measurementAngle(toMeasurement(busbarSection, Measurement.Type.ANGLE, 0))
+            .measurementV(toMeasurement(busbarSection, Type.VOLTAGE, 0))
+            .measurementAngle(toMeasurement(busbarSection, Type.ANGLE, 0))
             .voltageLevelProperties(getProperties(terminal.getVoltageLevel()))
             .substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
             .build();

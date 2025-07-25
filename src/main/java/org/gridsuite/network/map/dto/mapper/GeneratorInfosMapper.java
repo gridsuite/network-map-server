@@ -10,7 +10,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.CoordinatedReactiveControl;
 import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
 import com.powsybl.iidm.network.extensions.GeneratorStartup;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -22,6 +22,7 @@ import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -81,7 +82,7 @@ public final class GeneratorInfosMapper {
                 .properties(getProperties(generator))
                 .q(nullIfNan(terminal.getQ()));
 
-        builder.activePowerControl(toActivePowerControl(generator))
+        builder.activePowerControl(ExtensionUtils.toActivePowerControl(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
                 .generatorShortCircuit(toGeneratorShortCircuit(generator))
                 .generatorStartup(toGeneratorStartup(generator));
@@ -109,10 +110,10 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        builder.connectablePosition(toMapConnectablePosition(generator, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
 
-        builder.measurementP(toMeasurement(generator, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(generator, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(generator, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(generator, Type.REACTIVE_POWER, 0));
 
         builder.isCondenser(generator.isCondenser());
 
@@ -126,8 +127,8 @@ public final class GeneratorInfosMapper {
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.lowVoltageLimit(terminal.getVoltageLevel().getLowVoltageLimit());
         builder.highVoltageLimit(terminal.getVoltageLevel().getHighVoltageLimit());
-        builder.voltageLevelShortCircuit(toIdentifiableShortCircuit(terminal.getVoltageLevel()));
-        builder.injectionObservability(toInjectionObservability(generator));
+        builder.voltageLevelShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(terminal.getVoltageLevel()));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(generator));
 
         return builder.build();
     }
@@ -152,7 +153,7 @@ public final class GeneratorInfosMapper {
                 .q(nullIfNan(terminal.getQ()))
                 .properties(getProperties(generator));
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
-                .activePowerControl(toActivePowerControl(generator));
+                .activePowerControl(ExtensionUtils.toActivePowerControl(generator));
 
         builder.generatorShortCircuit(toGeneratorShortCircuit(generator))
                 .generatorStartup(toGeneratorStartup(generator))
@@ -181,7 +182,7 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        builder.connectablePosition(toMapConnectablePosition(generator, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
         return builder.build();
     }
 

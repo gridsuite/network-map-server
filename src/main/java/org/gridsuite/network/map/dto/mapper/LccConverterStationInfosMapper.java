@@ -9,12 +9,13 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.LccConverterStation;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.mapper.HvdcInfosMapper.toShuntCompensatorInfos;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -65,10 +66,10 @@ public final class LccConverterStationInfosMapper {
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.measurementP(toMeasurement(lccConverterStation, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(lccConverterStation, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(lccConverterStation, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(lccConverterStation, Type.REACTIVE_POWER, 0));
 
-        builder.injectionObservability(toInjectionObservability(lccConverterStation));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(lccConverterStation));
 
         return builder.build();
     }
@@ -83,7 +84,7 @@ public final class LccConverterStationInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .terminalConnected(terminal.isConnected())
-                .connectablePosition(toMapConnectablePosition(lccConverterStation, 0))
+                .connectablePosition(ExtensionUtils.toMapConnectablePosition(lccConverterStation, 0))
                 .lossFactor(lccConverterStation.getLossFactor())
                 .powerFactor(lccConverterStation.getPowerFactor());
         builder.shuntCompensatorsOnSide(toShuntCompensatorInfos(getBusOrBusbarSection(terminal), terminal.getVoltageLevel().getShuntCompensatorStream()));

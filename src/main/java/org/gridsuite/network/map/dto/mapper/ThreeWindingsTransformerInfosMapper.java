@@ -18,6 +18,7 @@ import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWi
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelId3(terminal3.getVoltageLevel().getId())
-                .operatingStatus(toOperatingStatus(threeWT))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(threeWT))
                 .build();
     }
 
@@ -74,18 +75,18 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .id(threeWT.getId())
                 .properties(getProperties(threeWT))
                 .country(mapCountry(findFirstSubstation(List.of(terminal1, terminal2, terminal3))))
-                .measurementP1(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementP2(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementP3(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 2))
-                .measurementQ1(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementQ2(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 1))
-                .measurementQ3(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 2))
-                .measurementRatioTap1(toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_1))
-                .measurementRatioTap2(toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_2))
-                .measurementRatioTap3(toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_3))
-                .measurementPhaseTap1(toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_1))
-                .measurementPhaseTap2(toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_2))
-                .measurementPhaseTap3(toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_3));
+                .measurementP1(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementP3(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 2))
+                .measurementQ1(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementQ2(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 1))
+                .measurementQ3(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 2))
+                .measurementRatioTap1(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_1))
+                .measurementRatioTap2(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_2))
+                .measurementRatioTap3(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_3))
+                .measurementPhaseTap1(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_1))
+                .measurementPhaseTap2(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_2))
+                .measurementPhaseTap3(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_3));
 
         processTerminal(terminal1,
                 builder::terminal1Connected, builder::voltageLevelId1, builder::nominalV1, builder::voltageLevelProperties1, builder::substationProperties1,

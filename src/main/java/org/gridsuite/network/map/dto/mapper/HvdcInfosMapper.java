@@ -18,6 +18,7 @@ import org.gridsuite.network.map.dto.definition.hvdc.HvdcOperatingStatusInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class HvdcInfosMapper {
                 .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
                 .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
                 .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
-                .operatingStatus(toOperatingStatus(hvdcLine))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine))
                 .build();
     }
 
@@ -71,7 +72,7 @@ public class HvdcInfosMapper {
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .operatingStatus(toOperatingStatus(hvdcLine))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine))
                 .build();
     }
 

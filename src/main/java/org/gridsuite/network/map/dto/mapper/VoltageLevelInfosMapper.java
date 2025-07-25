@@ -16,6 +16,7 @@ import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInf
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
         }
 
-        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
+        builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
     }
@@ -119,7 +120,7 @@ public final class VoltageLevelInfosMapper {
                 .properties(getProperties(voltageLevel))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()))
                 .substationProperties(voltageLevel.getSubstation().map(ElementUtils::getProperties).orElse(null));
-        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
+        builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
     }
