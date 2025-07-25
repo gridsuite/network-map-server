@@ -50,6 +50,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(nullIfNan(terminal.getVoltageLevel().getNominalV()))
                 .regulationMode(staticVarCompensator.getRegulationMode())
+                .isRegulating(staticVarCompensator.isRegulating())
                 .maxSusceptance(nullIfNan(staticVarCompensator.getBmax()))
                 .minSusceptance(nullIfNan(staticVarCompensator.getBmin()))
                 .voltageSetpoint(nullIfNan(staticVarCompensator.getVoltageSetpoint()))
