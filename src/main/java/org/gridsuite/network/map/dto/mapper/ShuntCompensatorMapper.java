@@ -7,12 +7,13 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -26,16 +27,12 @@ public final class ShuntCompensatorMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toInfosWithType(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static ShuntCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {
@@ -74,7 +71,7 @@ public final class ShuntCompensatorMapper {
             builder.targetDeadband(shuntCompensator.getTargetDeadband());
         }
 
-        builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(shuntCompensator, 0));
 
         return builder.build();
     }
@@ -115,11 +112,11 @@ public final class ShuntCompensatorMapper {
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.connectablePosition(toMapConnectablePosition(shuntCompensator, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(shuntCompensator, 0));
 
-        builder.measurementQ(toMeasurement(shuntCompensator, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementQ(ExtensionUtils.toMeasurement(shuntCompensator, Type.REACTIVE_POWER, 0));
 
-        builder.injectionObservability(toInjectionObservability(shuntCompensator));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(shuntCompensator));
 
         return builder.build();
     }

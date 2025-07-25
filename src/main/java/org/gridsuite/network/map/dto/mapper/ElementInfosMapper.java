@@ -11,7 +11,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfosWithOperatingStatus;
 import org.gridsuite.network.map.dto.ElementInfosWithType;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toOperatingStatus;
+import static org.gridsuite.network.map.dto.utils.ExtensionUtils.toOperatingStatus;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
