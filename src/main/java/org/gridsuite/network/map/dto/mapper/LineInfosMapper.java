@@ -13,7 +13,7 @@ import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
-import org.gridsuite.network.map.dto.definition.line.*;
+import org.gridsuite.network.map.dto.definition.branch.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
