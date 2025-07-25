@@ -6,16 +6,23 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Substation;
+import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.*;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerFormInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerOperatingStatusInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
+import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -83,14 +90,14 @@ public final class TwoWindingsTransformerInfosMapper {
         buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
         buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
 
-        builder.operatingStatus(toOperatingStatus(twoWT));
-        builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
-                .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(twoWT));
+        builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
+                .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2));
 
-        builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+        builder.measurementP1(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 0))
+                .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 1))
+                .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 1));
 
         builder.toBeEstimated(toToBeEstimated(twoWT));
 
@@ -132,7 +139,7 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.q2(nullIfNan(terminal2.getQ()));
         builder.i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
 
-        builder.operatingStatus(toOperatingStatus(twoWT));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(twoWT));
 
         Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(twoWT.getOperationalLimitsGroups1());
         builder.operationalLimitsGroup1(mapOperationalLimitsGroup1);
@@ -144,8 +151,8 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.operationalLimitsGroup2Names(mapOperationalLimitsGroup2.keySet().stream().toList());
         builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
 
-        builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
-                .connectablePosition2(toMapConnectablePosition(twoWT, 2));
+        builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
+                .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2));
 
         // voltageLevels and substations properties
         builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
@@ -153,21 +160,21 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
         builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.measurementP1(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ1(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
-            .measurementP2(toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
-            .measurementQ2(toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+        builder.measurementP1(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 0))
+            .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 0))
+            .measurementP2(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 1))
+            .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 1));
 
-        builder.measurementRatioTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER))
-            .measurementPhaseTap(toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
+        builder.measurementRatioTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER))
+            .measurementPhaseTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER));
 
-        builder.branchObservability(toBranchObservability(twoWT));
+        builder.branchObservability(ExtensionUtils.toBranchObservability(twoWT));
         builder.toBeEstimated(toToBeEstimated(twoWT));
 
         return builder.build();
     }
 
-    public static TwoWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+    private static TwoWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
         TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         Terminal terminal1 = twoWT.getTerminal1();
         Terminal terminal2 = twoWT.getTerminal2();
@@ -177,7 +184,7 @@ public final class TwoWindingsTransformerInfosMapper {
                 .name(twoWT.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .operatingStatus(toOperatingStatus(twoWT))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT))
                 .build();
     }
 

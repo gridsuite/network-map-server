@@ -12,8 +12,9 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.hvdcvsc.HvdcVscFormInfos;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 
 /**
  * @author Ghazwa Rehili <ghazwa.rehili at rte-france.com>
@@ -45,7 +46,7 @@ public final class HvdcVscInfosMapper extends HvdcInfosMapper {
                 .converterStation2(VscConverterStationInfosMapper.toFormInfos(hvdcLine.getConverterStation2()))
                 .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
                 .hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine))
-                .operatingStatus(toOperatingStatus(hvdcLine));
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine));
 
         return builder.build();
     }

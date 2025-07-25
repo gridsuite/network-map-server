@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineMapInfos;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -54,7 +55,7 @@ public final class TieLineInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
-                .operatingStatus(toOperatingStatus(tieLine));
+                .operatingStatus(ExtensionUtils.toOperatingStatus(tieLine));
 
         tieLine.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
         tieLine.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
