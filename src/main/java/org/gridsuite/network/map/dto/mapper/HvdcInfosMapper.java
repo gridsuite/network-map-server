@@ -44,7 +44,7 @@ public class HvdcInfosMapper {
         }
     }
 
-    protected static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {
+    private static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         return HvdcMapInfos.builder()
                 .id(hvdcLine.getId())
@@ -60,7 +60,7 @@ public class HvdcInfosMapper {
                 .build();
     }
 
-    protected static HvdcOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+    private static HvdcOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
         Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
@@ -74,7 +74,7 @@ public class HvdcInfosMapper {
                 .build();
     }
 
-    protected static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
+    private static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         HvdcTabInfos.HvdcTabInfosBuilder<?, ?> builder = HvdcTabInfos.builder();
         Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();

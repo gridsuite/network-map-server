@@ -82,7 +82,7 @@ public final class VscConverterStationInfosMapper {
         return builder.build();
     }
 
-    public static VscConverterStationFormInfos toFormInfos(Identifiable<?> identifiable) {
+    static VscConverterStationFormInfos toFormInfos(Identifiable<?> identifiable) {
         VscConverterStation vscConverterStation = (VscConverterStation) identifiable;
         Terminal terminal = vscConverterStation.getTerminal();
         VscConverterStationFormInfos.VscConverterStationFormInfosBuilder<?, ?> builder = VscConverterStationFormInfos.builder()

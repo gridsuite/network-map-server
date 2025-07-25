@@ -35,7 +35,7 @@ public final class BusInfosMapper {
         }
     }
 
-    public static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
         Bus bus = (Bus) identifiable;
         BusTabInfos.BusTabInfosBuilder<?, ?> builder = BusTabInfos.builder().id(bus.getId())
                 .angle(bus.getAngle())

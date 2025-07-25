@@ -6,7 +6,9 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.BusbarSection;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -41,7 +43,7 @@ public final class BusBarSectionInfosMapper {
         }
     }
 
-    public static BusBarSectionFormInfos toFormInfos(Identifiable<?> identifiable) {
+    private static BusBarSectionFormInfos toFormInfos(Identifiable<?> identifiable) {
         BusbarSection busbarSection = (BusbarSection) identifiable;
         BusBarSectionFormInfos.BusBarSectionFormInfosBuilder<?, ?> builder = BusBarSectionFormInfos.builder().name(busbarSection.getOptionalName().orElse(null)).id(busbarSection.getId());
         var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
@@ -51,7 +53,7 @@ public final class BusBarSectionInfosMapper {
         return builder.build();
     }
 
-    public static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
         BusbarSection busbarSection = (BusbarSection) identifiable;
         Terminal terminal = busbarSection.getTerminal();
         return BusBarSectionTabInfos.builder()

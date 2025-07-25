@@ -42,7 +42,7 @@ public final class ThreeWindingsTransformerInfosMapper {
         }
     }
 
-    public static ThreeWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+    private static ThreeWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
         ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
         Terminal terminal1 = threeWT.getLeg1().getTerminal();
         Terminal terminal2 = threeWT.getLeg2().getTerminal();
