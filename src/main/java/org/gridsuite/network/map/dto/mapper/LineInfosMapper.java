@@ -6,7 +6,9 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Line;
+import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -88,7 +90,7 @@ public final class LineInfosMapper {
         return builder.build();
     }
 
-    public static LineOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+    private static LineOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();

@@ -26,16 +26,12 @@ public final class ShuntCompensatorMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toInfosWithType(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static ShuntCompensatorFormInfos toFormInfos(Identifiable<?> identifiable) {

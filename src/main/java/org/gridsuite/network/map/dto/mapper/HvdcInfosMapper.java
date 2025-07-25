@@ -30,21 +30,16 @@ public class HvdcInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toHvdcTabInfos(identifiable);
-            case MAP:
-                return toMapInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return toOperatingStatusInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toHvdcTabInfos(identifiable);
+            case MAP -> toMapInfos(identifiable);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
-    protected static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {
+    private static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         return HvdcMapInfos.builder()
                 .id(hvdcLine.getId())
@@ -60,7 +55,7 @@ public class HvdcInfosMapper {
                 .build();
     }
 
-    protected static HvdcOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+    private static HvdcOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
         Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
@@ -74,7 +69,7 @@ public class HvdcInfosMapper {
                 .build();
     }
 
-    protected static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
+    private static HvdcTabInfos toHvdcTabInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
         HvdcTabInfos.HvdcTabInfosBuilder<?, ?> builder = HvdcTabInfos.builder();
         Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
