@@ -15,6 +15,7 @@
       "connectionPosition": 0,
       "connectionDirection": "TOP"
     },
+    "isRegulating": false,
     "busOrBusbarSectionId": "NGEN",
     "standbyAutomatonInfos": {
       "standby": true,
@@ -36,6 +37,7 @@
     "regulationMode": "VOLTAGE",
     "voltageSetpoint": 200.0,
     "reactivePowerSetpoint": 100.0,
+    "isRegulating": false,
     "busOrBusbarSectionId": "NNEW2",
     "connectablePosition": {
       "connectionDirection": null
