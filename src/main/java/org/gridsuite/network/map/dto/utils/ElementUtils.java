@@ -9,18 +9,16 @@ package org.gridsuite.network.map.dto.utils;
 import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.iidm.network.extensions.ConnectablePosition.Feeder;
 import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.*;
 import org.gridsuite.network.map.dto.definition.extension.*;
-import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,13 @@ public final class ElementUtils {
         return Double.isNaN(d) ? null : d;
     }
 
-    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
+    public static void setIfNotNan(@NonNull final DoubleConsumer setter, final double value) {
+        if (!Double.isNaN(value)) {
+            setter.accept(value);
+        }
+    }
+
+    private static Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
         var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
         if (connectablePosition == null) {
             return null;
@@ -51,30 +55,13 @@ public final class ElementUtils {
 
     public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
         ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
-        ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
+        Feeder feeder = getFeederInfos(branch, index);
         if (feeder != null) {
             builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())
                     .connectionPosition(feeder.getOrder().orElse(null))
                     .connectionName(feeder.getName().orElse(null));
         }
         return builder.build();
-    }
-
-    public static Optional<HvdcAngleDroopActivePowerControlInfos> toHvdcAngleDroopActivePowerControlIdentifiable(HvdcLine hvdcLine) {
-        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
-        return hvdcAngleDroopActivePowerControl == null ? Optional.empty() :
-                Optional.of(HvdcAngleDroopActivePowerControlInfos.builder()
-                                .droop(hvdcAngleDroopActivePowerControl.getDroop())
-                                .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
-                                .p0(hvdcAngleDroopActivePowerControl.getP0()).build());
-    }
-
-    public static Optional<HvdcOperatorActivePowerRangeInfos> toHvdcOperatorActivePowerRange(HvdcLine hvdcLine) {
-        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
-        return hvdcOperatorActivePowerRange == null ? Optional.empty() :
-                Optional.of(HvdcOperatorActivePowerRangeInfos.builder()
-                        .oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
-                        .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 
     public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
@@ -85,18 +72,6 @@ public final class ElementUtils {
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
         }
-    }
-
-    public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
-        StandbyAutomaton standbyAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
-        return standbyAutomatonInfos == null ? Optional.empty() :
-                Optional.of(StandbyAutomatonInfos.builder()
-                        .standby(standbyAutomatonInfos.isStandby())
-                        .b0(nullIfNan(standbyAutomatonInfos.getB0()))
-                        .lowVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getLowVoltageSetpoint()))
-                        .highVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getHighVoltageSetpoint()))
-                        .highVoltageThreshold(nullIfNan(standbyAutomatonInfos.getHighVoltageThreshold()))
-                        .lowVoltageThreshold(nullIfNan(standbyAutomatonInfos.getLowVoltageThreshold())).build());
     }
 
     public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
@@ -121,35 +96,6 @@ public final class ElementUtils {
             return operatingStatus == null ? null : operatingStatus.getStatus().name();
         }
         return null;
-    }
-
-    public static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(Generator generator) {
-        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
-        return generatorShortCircuit == null ? Optional.empty() :
-                Optional.of(GeneratorShortCircuitInfos.builder()
-                        .directTransX(generatorShortCircuit.getDirectTransX())
-                        .stepUpTransformerX(generatorShortCircuit.getStepUpTransformerX()).build());
-    }
-
-    public static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(Generator generator) {
-        CoordinatedReactiveControlInfos.CoordinatedReactiveControlInfosBuilder builder = CoordinatedReactiveControlInfos.builder();
-        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
-        if (coordinatedReactiveControl != null) {
-            builder.qPercent(coordinatedReactiveControl.getQPercent());
-        } else {
-            builder.qPercent(Double.NaN);
-        }
-        return builder.build();
-    }
-
-    public static Optional<GeneratorStartupInfos> toGeneratorStartup(Generator generator) {
-        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
-        return generatorStartup == null ? Optional.empty() :
-                Optional.of(GeneratorStartupInfos.builder()
-                        .plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()))
-                        .marginalCost(nullIfNan(generatorStartup.getMarginalCost()))
-                        .plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()))
-                        .forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate())).build());
     }
 
     public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
@@ -300,79 +246,6 @@ public final class ElementUtils {
         }).collect(Collectors.toList());
     }
 
-    public static void mapThreeWindingsTransformerPermanentLimits(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
-            ThreeWindingsTransformer transformer) {
-        CurrentLimits limits1 = transformer.getLeg1().getCurrentLimits().orElse(null);
-        CurrentLimits limits2 = transformer.getLeg2().getCurrentLimits().orElse(null);
-        CurrentLimits limits3 = transformer.getLeg3().getCurrentLimits().orElse(null);
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
-        }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
-        }
-        if (limits3 != null && !Double.isNaN(limits3.getPermanentLimit())) {
-            builder.permanentLimit3(limits3.getPermanentLimit());
-        }
-    }
-
-    public static void mapThreeWindingsTransformerRatioTapChangers(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
-            ThreeWindingsTransformer transformer) {
-        ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
-        ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
-        ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
-        if (leg1.hasRatioTapChanger()) {
-            builder.ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
-                    .hasLoadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio1(leg1.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg1.getRatioTapChanger().getTargetV())) {
-                builder.targetV1(leg1.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg2.hasRatioTapChanger()) {
-            builder.ratioTapChanger2(toMapData(leg2.getRatioTapChanger()))
-                    .hasLoadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio2(leg2.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg2.getRatioTapChanger().getTargetV())) {
-                builder.targetV2(leg2.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg3.hasRatioTapChanger()) {
-            builder.ratioTapChanger3(toMapData(leg3.getRatioTapChanger()))
-                    .hasLoadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio3(leg3.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg3.getRatioTapChanger().getTargetV())) {
-                builder.targetV3(leg3.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg1.hasPhaseTapChanger()) {
-            builder.phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()))
-                    .regulationModeName1(leg1.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase1(leg1.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg1.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue1(leg1.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-        if (leg2.hasPhaseTapChanger()) {
-            builder.phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()))
-                    .regulationModeName2(leg2.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase2(leg2.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg2.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue2(leg2.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-        if (leg3.hasPhaseTapChanger()) {
-            builder.phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()))
-                    .regulationModeName3(leg3.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase3(leg3.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg3.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-    }
-
     public static Country mapCountry(Substation substation) {
         return Optional.ofNullable(substation)
                 .flatMap(Substation::getCountry)
@@ -405,7 +278,7 @@ public final class ElementUtils {
                         .maxQ(point.getMaxQ())
                         .minQ(point.getMinQ())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static Substation findFirstSubstation(List<Terminal> terminals) {

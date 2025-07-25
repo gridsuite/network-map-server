@@ -10,11 +10,17 @@ import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.StandbyAutomaton;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.extension.StandbyAutomatonInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
+import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos.StaticVarCompensatorTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.springframework.lang.NonNull;
+
+import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -99,4 +105,14 @@ public final class StaticVarCompensatorInfosMapper {
         return builder.build();
     }
 
+    private static Optional<StandbyAutomatonInfos> toStandbyAutomaton(@NonNull final StaticVarCompensator staticVarCompensator) {
+        return Optional.ofNullable((StandbyAutomaton) staticVarCompensator.getExtension(StandbyAutomaton.class))
+                .map(standbyAutomatonInfos -> StandbyAutomatonInfos.builder()
+                        .standby(standbyAutomatonInfos.isStandby())
+                        .b0(nullIfNan(standbyAutomatonInfos.getB0()))
+                        .lowVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getLowVoltageSetpoint()))
+                        .highVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getHighVoltageSetpoint()))
+                        .highVoltageThreshold(nullIfNan(standbyAutomatonInfos.getHighVoltageThreshold()))
+                        .lowVoltageThreshold(nullIfNan(standbyAutomatonInfos.getLowVoltageThreshold())).build());
+    }
 }

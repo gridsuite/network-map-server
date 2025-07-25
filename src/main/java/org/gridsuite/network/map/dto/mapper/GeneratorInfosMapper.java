@@ -7,18 +7,26 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.CoordinatedReactiveControl;
+import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
+import com.powsybl.iidm.network.extensions.GeneratorStartup;
 import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.definition.extension.CoordinatedReactiveControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.GeneratorShortCircuitInfos;
+import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
-import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.springframework.lang.NonNull;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -175,5 +183,30 @@ public final class GeneratorInfosMapper {
 
         builder.connectablePosition(toMapConnectablePosition(generator, 0));
         return builder.build();
+    }
+
+    private static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(@NonNull final Generator generator) {
+        return Optional.ofNullable((GeneratorShortCircuit) generator.getExtension(GeneratorShortCircuit.class))
+                .map(generatorShortCircuit -> GeneratorShortCircuitInfos.builder()
+                        .directTransX(generatorShortCircuit.getDirectTransX())
+                        .stepUpTransformerX(generatorShortCircuit.getStepUpTransformerX())
+                        .build());
+    }
+
+    private static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(@NonNull final Generator generator) {
+        final CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
+        return CoordinatedReactiveControlInfos.builder()
+                .qPercent(coordinatedReactiveControl != null ? coordinatedReactiveControl.getQPercent() : Double.NaN)
+                .build();
+    }
+
+    private static Optional<GeneratorStartupInfos> toGeneratorStartup(@NonNull final Generator generator) {
+        return Optional.ofNullable((GeneratorStartup) generator.getExtension(GeneratorStartup.class))
+                .map(generatorStartup -> GeneratorStartupInfos.builder()
+                        .plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()))
+                        .marginalCost(nullIfNan(generatorStartup.getMarginalCost()))
+                        .plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()))
+                        .forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()))
+                        .build());
     }
 }

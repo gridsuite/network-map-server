@@ -7,16 +7,22 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.HvdcAngleDroopActivePowerControl;
+import com.powsybl.iidm.network.extensions.HvdcOperatorActivePowerRange;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.extension.HvdcAngleDroopActivePowerControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.HvdcOperatorActivePowerRangeInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcMapInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcOperatingStatusInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -129,5 +135,20 @@ public class HvdcInfosMapper {
             builder.mcsOnSide2(toShuntCompensatorInfos(getBusOrBusbarSection(terminalLcc2), terminalLcc2.getVoltageLevel().getShuntCompensatorStream()));
         }
         return builder.build();
+    }
+
+    protected static Optional<HvdcAngleDroopActivePowerControlInfos> toHvdcAngleDroopActivePowerControlIdentifiable(@NonNull final HvdcLine hvdcLine) {
+        return Optional.ofNullable((HvdcAngleDroopActivePowerControl) hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class))
+                .map(hvdcAngleDroopActivePowerControl -> HvdcAngleDroopActivePowerControlInfos.builder()
+                        .droop(hvdcAngleDroopActivePowerControl.getDroop())
+                        .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
+                        .p0(hvdcAngleDroopActivePowerControl.getP0()).build());
+    }
+
+    protected static Optional<HvdcOperatorActivePowerRangeInfos> toHvdcOperatorActivePowerRange(@NonNull final HvdcLine hvdcLine) {
+        return Optional.ofNullable((HvdcOperatorActivePowerRange) hvdcLine.getExtension(HvdcOperatorActivePowerRange.class))
+                .map(hvdcOperatorActivePowerRange -> HvdcOperatorActivePowerRangeInfos.builder()
+                        .oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
+                        .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
     }
 }
