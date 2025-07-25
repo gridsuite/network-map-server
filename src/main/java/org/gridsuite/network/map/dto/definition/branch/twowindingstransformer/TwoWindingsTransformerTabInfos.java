@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 
@@ -24,10 +25,6 @@ import java.util.Optional;
 @SuperBuilder
 @Getter
 public class TwoWindingsTransformerTabInfos extends BranchTabInfos {
-    private String voltageLevelName1;
-
-    private String voltageLevelName2;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
@@ -36,10 +33,6 @@ public class TwoWindingsTransformerTabInfos extends BranchTabInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData ratioTapChanger;
-
-    private Double r;
-
-    private Double x;
 
     private Double g;
 
@@ -57,6 +50,18 @@ public class TwoWindingsTransformerTabInfos extends BranchTabInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ2;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap;

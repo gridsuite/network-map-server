@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public enum ElementType {
     SUBSTATION(Substation.class, SubstationInfosMapper::toData),
     VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
-    BRANCH(Branch.class, null, Line.class, TwoWindingsTransformer.class), //TODO
+    BRANCH(Branch.class, BranchInfosMapper::toData, Line.class, TwoWindingsTransformer.class),
     LINE(Line.class, LineInfosMapper::toData),
     TIE_LINE(TieLine.class, TieLineInfosMapper::toData),
     HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
@@ -62,7 +62,8 @@ public enum ElementType {
             @NonNull final BiFunction<T, InfoTypeParameters, ElementInfos> dataGetter,
             @Nullable final Class</*? extends T*/? extends Identifiable<?>>... subTypes) {
         this.elementClass = typeClass;
-        this.infosGetter = (BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos>) dataGetter; //TODO
+        //noinspection unchecked
+        this.infosGetter = (BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos>) dataGetter;
         if (subTypes != null && subTypes.length > 0) {
             this.subClasses = Set.of(subTypes);
             if (subClasses.stream().anyMatch(subType -> !typeClass.isAssignableFrom(subType))) {

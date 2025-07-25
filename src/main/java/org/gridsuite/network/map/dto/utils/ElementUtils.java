@@ -13,7 +13,10 @@ import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTra
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
@@ -38,26 +41,11 @@ public final class ElementUtils {
 
     public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
         List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
-                .map(
-                        ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+                .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
                 .toList();
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
         }
-    }
-
-    public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
-        boolean empty = true;
-        if (!Double.isNaN(limits.getPermanentLimit())) {
-            builder.permanentLimit(limits.getPermanentLimit());
-            empty = false;
-        }
-        if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
-            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
-            empty = false;
-        }
-        return empty ? null : builder.build();
     }
 
     private static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
@@ -81,7 +69,7 @@ public final class ElementUtils {
         return containsLimitsData ? builder.build() : null;
     }
 
-    private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
+    public static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
         return limits.stream()
                 .map(l -> TemporaryLimitData.builder()
                         .name(l.getName())
@@ -199,18 +187,6 @@ public final class ElementUtils {
         return properties.isEmpty() ? null : properties;
     }
 
-    public static double computeIntensity(Terminal terminal, Double dcPowerFactor) {
-        double intensity = terminal.getI();
-
-        if (Double.isNaN(intensity) && !Double.isNaN(terminal.getP()) && dcPowerFactor != null) {
-            // After a DC load flow, the current at a terminal can be undefined (NaN). In that case, we use the DC power factor,
-            // the nominal voltage and the active power at the terminal in order to approximate the current following formula
-            // P = sqrt(3) x Vnom x I x dcPowerFactor
-            intensity = 1000. * terminal.getP() / (Math.sqrt(3) * dcPowerFactor * terminal.getVoltageLevel().getNominalV());
-        }
-        return intensity;
-    }
-
     public static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePointsMapData(Collection<ReactiveCapabilityCurve.Point> points) {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
@@ -229,16 +205,5 @@ public final class ElementUtils {
             .findFirst()
             .flatMap(Function.identity())
             .orElse(null);
-    }
-
-    public static Map<String, CurrentLimitsData> buildCurrentLimitsMap(Collection<OperationalLimitsGroup> operationalLimitsGroups) {
-        Map<String, CurrentLimitsData> res = new HashMap<>();
-        if (!CollectionUtils.isEmpty(operationalLimitsGroups)) {
-            operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits().ifPresent(limits -> {
-                CurrentLimitsData limitsData = toMapDataCurrentLimits(limits);
-                res.put(operationalLimitsGroup.getId(), limitsData);
-            }));
-        }
-        return res;
     }
 }

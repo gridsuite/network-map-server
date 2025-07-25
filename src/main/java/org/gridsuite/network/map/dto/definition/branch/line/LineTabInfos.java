@@ -11,6 +11,9 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+
+import java.util.Optional;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -19,22 +22,10 @@ import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 @Getter
 public class LineTabInfos extends BranchTabInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double r;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double x;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double g1;
@@ -47,4 +38,16 @@ public class LineTabInfos extends BranchTabInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ2;
 }

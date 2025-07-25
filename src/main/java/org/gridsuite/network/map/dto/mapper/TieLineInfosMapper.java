@@ -22,8 +22,9 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 /**
  * @author Rehili Ghazwa <ghazwa.rehili at rte-france.com>
  */
-public final class TieLineInfosMapper {
+public final class TieLineInfosMapper extends BranchInfosMapper {
     private TieLineInfosMapper() {
+        super();
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
@@ -53,8 +54,8 @@ public final class TieLineInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()))
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+                .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
+                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
                 .operatingStatus(ExtensionUtils.toOperatingStatus(tieLine));
 
         tieLine.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
@@ -84,8 +85,8 @@ public final class TieLineInfosMapper {
             .q1(nullIfNan(terminal1.getQ()))
             .p2(nullIfNan(terminal2.getP()))
             .q2(nullIfNan(terminal2.getQ()))
-            .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-            .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+            .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
+            .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
             .r(tieLine.getR())
             .x(tieLine.getX())
             .g1(tieLine.getG1())

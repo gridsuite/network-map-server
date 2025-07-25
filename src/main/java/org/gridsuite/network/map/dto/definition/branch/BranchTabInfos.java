@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
-import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +17,9 @@ import java.util.Optional;
 public class BranchTabInfos extends ElementInfosWithProperties {
     private String voltageLevelId1;
     private String voltageLevelId2;
+
+    private String voltageLevelName1;
+    private String voltageLevelName2;
 
     private Double nominalVoltage1;
     private Double nominalVoltage2;
@@ -43,6 +45,9 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     @JsonInclude(Include.NON_NULL)
     private Double i2;
 
+    private Double r;
+    private Double x;
+
     @JsonInclude(Include.NON_EMPTY)
     private Map<String, CurrentLimitsData> operationalLimitsGroup1;
 
@@ -60,18 +65,6 @@ public class BranchTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(Include.NON_NULL)
     private String selectedOperationalLimitsGroup2;
-
-    @JsonInclude(Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP1;
-
-    @JsonInclude(Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ1;
-
-    @JsonInclude(Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP2;
-
-    @JsonInclude(Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ2;
 
     @JsonInclude(Include.NON_ABSENT)
     private Optional<BranchObservabilityInfos> branchObservability;
