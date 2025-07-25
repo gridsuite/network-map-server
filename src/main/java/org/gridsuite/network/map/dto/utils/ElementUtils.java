@@ -41,16 +41,12 @@ public final class ElementUtils {
             return null;
         }
 
-        switch (index) {
-            case 0:
-                return connectablePosition.getFeeder();
-            case 1:
-                return connectablePosition.getFeeder1();
-            case 2:
-                return connectablePosition.getFeeder2();
-            default:
-                throw new IllegalArgumentException("Invalid feeder index: " + index);
-        }
+        return switch (index) {
+            case 0 -> connectablePosition.getFeeder();
+            case 1 -> connectablePosition.getFeeder1();
+            case 2 -> connectablePosition.getFeeder2();
+            default -> throw new IllegalArgumentException("Invalid feeder index: " + index);
+        };
     }
 
     public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {

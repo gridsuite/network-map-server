@@ -29,18 +29,13 @@ public final class BusBarSectionInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static BusBarSectionFormInfos toFormInfos(Identifiable<?> identifiable) {

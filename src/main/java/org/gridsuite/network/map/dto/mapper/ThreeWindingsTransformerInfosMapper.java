@@ -30,16 +30,12 @@ public final class ThreeWindingsTransformerInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return toOperatingStatusInfos(identifiable);
-            case TAB:
-                return toTabInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
+            case TAB -> toTabInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static ThreeWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {

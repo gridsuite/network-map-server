@@ -25,14 +25,11 @@ public final class BusInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case TAB:
-                return toTabInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case TAB -> toTabInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
