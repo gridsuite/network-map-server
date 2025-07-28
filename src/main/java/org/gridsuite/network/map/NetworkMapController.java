@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Data;
 import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,15 +34,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/" + NetworkMapController.API_VERSION + "/")
 @Tag(name = "network-map-server")
 @ComponentScan(basePackageClasses = NetworkMapService.class)
+@Data
 public class NetworkMapController {
 
     public static final String API_VERSION = "v1";
 
     private final NetworkMapService networkMapService;
-
-    public NetworkMapController(NetworkMapService networkMapService) {
-        this.networkMapService = networkMapService;
-    }
 
     @PostMapping(value = "/networks/{networkUuid}/elements-ids", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get elements ids")
