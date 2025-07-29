@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.TopologyKind;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
+import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
 
 import java.util.List;
@@ -42,15 +43,12 @@ public class VoltageLevelFormInfos extends ElementInfosWithProperties {
     private Optional<IdentifiableShortCircuitInfos> identifiableShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer busbarCount;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer sectionCount;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SwitchKind> switchKinds;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isRetrievedBusbarSections;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    List<BusBarSectionFormInfos> busBarSectionInfos;
 
 }
