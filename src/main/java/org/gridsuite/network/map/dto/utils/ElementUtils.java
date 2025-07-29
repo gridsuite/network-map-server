@@ -126,7 +126,8 @@ public final class ElementUtils {
             }
             build.accept(mergedLimitsData);
             return;
-        } else if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
+        } 
+        if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
             for (CurrentLimitsData currentLimitsData : currentLimitsData2) {
                 mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE2));
             }
