@@ -85,11 +85,9 @@ public final class ElementUtils {
     }
 
     public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
-
-        ArrayList<CurrentLimitsData> currentLimitsData = new ArrayList<>(currentLimits.stream()
+        List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
                 .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
-                .toList());
-
+                .toList();
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
         }
