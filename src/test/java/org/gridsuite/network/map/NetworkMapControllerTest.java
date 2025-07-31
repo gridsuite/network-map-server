@@ -485,6 +485,23 @@ class NetworkMapControllerTest {
                 .withObservable(true)
                 .add();
 
+        line3.newOperationalLimitsGroup1("group1").newCurrentLimits()
+            .setPermanentLimit(220.0)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(100)
+            .setValue(50.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .beginTemporaryLimit()
+            .setName("temporary2")
+            .setAcceptableDuration(150)
+            .setValue(70.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        line3.setSelectedOperationalLimitsGroup1("group1");
+
         Substation p6 = network.newSubstation()
                 .setId("P6")
                 .setCountry(Country.FR)
