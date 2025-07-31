@@ -12,14 +12,30 @@
     {
       "id" : "limit set 1",
       "permanentLimit":700.4,
-      "temporaryLimits":[{"name":"IT5","acceptableDuration":300,"value":250.0}]
+      "temporaryLimits":[{"name":"IT5","acceptableDuration":300,"value":250.0}],
+      "applicability": null
     }
   ],
   "currentLimits2": [
     {
       "id" : "limit set 1",
       "permanentLimit":800.8,
-      "temporaryLimits":[{"name":"IT20","acceptableDuration":1200,"value":300.0},{"name":"IT10","acceptableDuration":600,"value":200.0}]
+      "temporaryLimits":[{"name":"IT20","acceptableDuration":1200,"value":300.0},{"name":"IT10","acceptableDuration":600,"value":200.0}],
+      "applicability": null
+    }
+  ],
+  "currentLimits": [
+    {
+      "id" : "limit set 1",
+      "permanentLimit":700.4,
+      "temporaryLimits":[{"name":"IT5","acceptableDuration":300,"value":250.0}],
+      "applicability": "SIDE1"
+    },
+    {
+      "id" : "limit set 1",
+      "permanentLimit":800.8,
+      "temporaryLimits":[{"name":"IT20","acceptableDuration":1200,"value":300.0},{"name":"IT10","acceptableDuration":600,"value":200.0}],
+      "applicability": "SIDE2"
     }
   ],
   "selectedOperationalLimitsGroup1": "limit set 1",
