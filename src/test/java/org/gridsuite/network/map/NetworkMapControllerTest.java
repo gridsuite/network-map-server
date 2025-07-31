@@ -532,6 +532,24 @@ class NetworkMapControllerTest {
                 .setB2(386E-6 / 2)
                 .add();
 
+        Line line4 = network.getLine("LINE4");
+        line4.newOperationalLimitsGroup2("group1").newCurrentLimits()
+            .setPermanentLimit(220.0)
+            .beginTemporaryLimit()
+            .setName("temporary1")
+            .setAcceptableDuration(100)
+            .setValue(50.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .beginTemporaryLimit()
+            .setName("temporary2")
+            .setAcceptableDuration(150)
+            .setValue(70.)
+            .setFictitious(false)
+            .endTemporaryLimit()
+            .add();
+        line4.setSelectedOperationalLimitsGroup2("group1");
+
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
                 .setName("BATTERY1")
