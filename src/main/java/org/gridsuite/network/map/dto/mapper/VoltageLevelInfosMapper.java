@@ -96,8 +96,8 @@ public final class VoltageLevelInfosMapper {
                     .map(bbsInfo -> {
                         return BusBarSectionFormInfos.builder()
                                 .id(bbsInfo.getBusbarSectionId())
-                                .horizPos(bbsInfo.getBusbarCount())
-                                .vertPos(bbsInfo.getSectionCount())
+                                .horizPos(bbsInfo.getSectionCount())
+                                .vertPos(bbsInfo.getBusbarCount())
                                 .build();
                     })
                     .toList());
