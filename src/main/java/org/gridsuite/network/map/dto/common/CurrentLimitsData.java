@@ -13,6 +13,7 @@ import lombok.Getter;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author David Braquart <david.braquart at rte-france.com>
@@ -46,9 +47,8 @@ public class CurrentLimitsData {
     }
 
     public boolean limitsEquals(CurrentLimitsData other) {
-        return permanentLimit != null && permanentLimit.equals(other.permanentLimit)
-            && (temporaryLimits != null && temporaryLimits.equals(other.temporaryLimits)
-            || temporaryLimits == null && other.temporaryLimits == null);
+        return Objects.equals(permanentLimit, other.permanentLimit)
+            && Objects.equals(temporaryLimits, other.temporaryLimits);
     }
 }
 
