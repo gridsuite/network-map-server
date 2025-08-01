@@ -5,25 +5,6 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "currentLimits2": [
-      {
-        "id": "group1",
-        "permanentLimit": 220.0,
-        "temporaryLimits": [
-          {
-            "name": "temporary2",
-            "value": 70.0,
-            "acceptableDuration": 150
-          },
-          {
-            "name": "temporary1",
-            "value": 50.0,
-            "acceptableDuration": 100
-          }
-        ],
-        "applicability": null
-      }
-    ],
     "currentLimits": [
       {
         "id": "group1",
@@ -66,25 +47,6 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "currentLimits1": [
-      {
-        "id": "group1",
-        "permanentLimit": 220.0,
-        "temporaryLimits": [
-          {
-            "name": "temporary2",
-            "value": 70.0,
-            "acceptableDuration": 150
-          },
-          {
-            "name": "temporary1",
-            "value": 50.0,
-            "acceptableDuration": 100
-          }
-        ],
-        "applicability": null
-      }
-    ],
     "currentLimits": [
       {
         "id": "group1",
