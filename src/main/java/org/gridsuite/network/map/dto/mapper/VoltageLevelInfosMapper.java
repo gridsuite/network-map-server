@@ -19,6 +19,7 @@ import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfo
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -46,33 +47,37 @@ public final class VoltageLevelInfosMapper {
 
     public static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
         VoltageLevelTopologyInfos topologyInfos = new VoltageLevelTopologyInfos();
-        List<BusbarSectionInfos> busbarSectionInfos = new ArrayList<>();
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
-
+        List<BusBarSectionFormInfos> busbarSectionInfos = new ArrayList<>();
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
             var extension = bbs.getExtension(BusbarSectionPosition.class);
-            BusbarSectionInfos busbarSectionInfo = new BusbarSectionInfos();
             if (extension != null) {
-                busbarSectionInfo.setBusbarSectionId(bbs.getId());
-                if (extension.getBusbarIndex() > busbarSectionInfo.busbarCount) {
-                    busbarSectionInfo.setBusbarCount(extension.getBusbarIndex());
+                if (extension.getBusbarIndex() > topologyInfos.getBusbarCount()) {
+                    topologyInfos.setBusbarCount(extension.getBusbarIndex());
                 }
-                if (extension.getSectionIndex() > busbarSectionInfo.sectionCount) {
-                    busbarSectionInfo.setSectionCount(extension.getSectionIndex());
+                if (extension.getSectionIndex() > topologyInfos.getSectionCount()) {
+                    topologyInfos.setSectionCount(extension.getSectionIndex());
                 }
-                busbarSectionInfos.add(busbarSectionInfo);
                 nbSectionsPerBusbar.putIfAbsent(extension.getBusbarIndex(), 1);
                 if (extension.getSectionIndex() > nbSectionsPerBusbar.get(extension.getBusbarIndex())) {
                     nbSectionsPerBusbar.put(extension.getBusbarIndex(), extension.getSectionIndex());
                 }
-            } else if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != busbarSectionInfo.sectionCount)) { // Non-symmetrical busbars (nb sections)
-                return new VoltageLevelTopologyInfos();
+                BusBarSectionFormInfos busbarSectionInfo = BusBarSectionFormInfos.builder()
+                        .id(bbs.getId())
+                        .vertPos(topologyInfos.getSectionCount())
+                        .horizPos(topologyInfos.getBusbarCount())
+                        .build();
+                busbarSectionInfos.add(busbarSectionInfo);
             } else {
                 return new VoltageLevelTopologyInfos();
             }
-            topologyInfos.setSwitchKinds(Collections.nCopies(busbarSectionInfo.getSectionCount() - 1, SwitchKind.DISCONNECTOR));
         }
+        if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.sectionCount)) { // Non-symmetrical busbars (nb sections)
+            return new VoltageLevelTopologyInfos();
+        }
+
         topologyInfos.setRetrievedBusbarSections(true);
+        topologyInfos.setSwitchKinds(Collections.nCopies(topologyInfos.getSectionCount() - 1, SwitchKind.DISCONNECTOR));
         topologyInfos.setBusbarSections(busbarSectionInfos);
 
         return topologyInfos;
@@ -92,17 +97,11 @@ public final class VoltageLevelInfosMapper {
 
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
             VoltageLevelTopologyInfos vlTopologyInfos = getTopologyInfos(voltageLevel);
-            builder.busBarSectionInfos((List<BusBarSectionFormInfos>) vlTopologyInfos.getBusbarSections().stream()
-                    .map(bbsInfo -> {
-                        return BusBarSectionFormInfos.builder()
-                                .id(bbsInfo.getBusbarSectionId())
-                                .horizPos(bbsInfo.getSectionCount())
-                                .vertPos(bbsInfo.getBusbarCount())
-                                .build();
-                    })
-                    .toList());
+            builder.busbarCount(vlTopologyInfos.getBusbarCount());
+            builder.sectionCount(vlTopologyInfos.getSectionCount());
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
+            builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
         }
 
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
@@ -141,16 +140,23 @@ public final class VoltageLevelInfosMapper {
     @Getter
     @Setter
     public static class VoltageLevelTopologyInfos {
-        List<BusbarSectionInfos> busbarSections = List.of();
+        List<BusBarSectionFormInfos> busbarSections = List.of();
         boolean isRetrievedBusbarSections = false;
-        List<SwitchKind> switchKinds = List.of();
-    }
-
-    @Getter
-    @Setter
-    public static class BusbarSectionInfos {
-        private String busbarSectionId;
         int busbarCount = 1;
         int sectionCount = 1;
+        List<SwitchKind> switchKinds = List.of();
+
+        public Map<String, List<Map<String, Object>>> getBusBarSectionInfosGrouped() {
+            return busbarSections.stream()
+                    .collect(Collectors.groupingBy(
+                            section -> "horizPos:" + section.getHorizPos(),
+                            Collectors.mapping(section -> {
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("id", section.getId());
+                                map.put("vertPos", section.getVertPos());
+                                return map;
+                            }, Collectors.toList())
+                    ));
+        }
     }
 }
