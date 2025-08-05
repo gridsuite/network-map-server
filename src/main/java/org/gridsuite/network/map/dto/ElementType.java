@@ -78,7 +78,7 @@ public enum ElementType {
     }
 
     public Stream<Connectable<?>> getVoltageLevelConnectableStream(@NonNull final VoltageLevel voltageLevel) {
-        if (this.isConnectable) {
+        if (!this.isConnectable) {
             throw new UnsupportedOperationException("This element type is not a connectable type");
         }
         if (this.subClasses == null) {
