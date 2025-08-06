@@ -1,9 +1,11 @@
 package org.gridsuite.network.map.utils;
 
 import com.powsybl.iidm.network.OperationalLimitsGroup;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
 import org.gridsuite.network.map.dto.common.TemporaryLimitData;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -11,12 +13,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 @ExtendWith({ SoftAssertionsExtension.class, MockitoExtension.class })
 class ElementUtilsTest implements WithAssertions {
@@ -93,8 +101,8 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = MockUtils.mockOperationalLimitsGroup("my id", clMock);
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isEqualTo(CurrentLimitsData.builder()
-                    .id("my id").applicability(null).permanentLimit(null).temporaryLimits(List.of(TemporaryLimitData.builder()
-                            .acceptableDuration(123).name("testLimit").value(456.789).build())).build());
+                .id("my id").applicability(null).permanentLimit(null).temporaryLimits(List.of(TemporaryLimitData.builder()
+                    .acceptableDuration(123).name("testLimit").value(456.789).build())).build());
             Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock).getPermanentLimit();
@@ -111,7 +119,7 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = MockUtils.mockOperationalLimitsGroup("my id", clMock);
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isEqualTo(CurrentLimitsData.builder()
-                    .id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
+                .id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
             Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
@@ -125,7 +133,7 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = MockUtils.mockOperationalLimitsGroup("my id", clMock);
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isEqualTo(CurrentLimitsData.builder()
-                    .id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
+                .id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
             Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
@@ -141,8 +149,8 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = MockUtils.mockOperationalLimitsGroup("my id", clMock);
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isEqualTo(CurrentLimitsData.builder()
-                    .id("my id").applicability(null).permanentLimit(0.0).temporaryLimits(List.of(TemporaryLimitData.builder()
-                            .acceptableDuration(123).name("testLimit").value(456.789).build())).build());
+                .id("my id").applicability(null).permanentLimit(0.0).temporaryLimits(List.of(TemporaryLimitData.builder()
+                    .acceptableDuration(123).name("testLimit").value(456.789).build())).build());
             Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
@@ -151,5 +159,126 @@ class ElementUtilsTest implements WithAssertions {
             Mockito.verify(tlMock).getName();
             Mockito.verify(tlMock, Mockito.times(2)).getValue();
         }
+    }
+
+    /** Tests for {@link ElementUtils#mergeCurrentLimits(Collection, Collection, Consumer)} */
+    @Nested
+    @DisplayName("fn mergeCurrentLimits(…, …, …)")
+    class MergeCurrentLimitsTest {
+        @ParameterizedTest(name = ParameterizedTest.INDEX_PLACEHOLDER)
+        @MethodSource("mergeCurrentLimitsTestData")
+        void shouldNotThrow(
+                final Collection<OperationalLimitsGroup> olg1,
+                final Collection<OperationalLimitsGroup> olg2,
+                final List<CurrentLimitsData> expected) {
+            AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
+            ElementUtils.mergeCurrentLimits(olg1, olg2, results::set);
+            assertThat(results.get()).as("Result").isEqualTo(expected);
+        }
+
+        private static Stream<Arguments> mergeCurrentLimitsTestData() {
+            return Stream.of(
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.EQUIPMENT).build()
+                )),
+                Arguments.of(List.of(), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE2).build()
+                )),
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE1).build()
+                )),
+                // TODO get two dto but because hasLimit() condition always false
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of())
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE2).build()
+                )),
+                // TODO java.lang.NullPointerException: Cannot invoke "org.gridsuite.network.map.dto.common.CurrentLimitsData.getId()" because "limitsData" is null
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", Double.NaN, List.of())
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE2).build()
+                )),
+                // TODO java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because "this.permanentLimit" is null
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", Double.NaN, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE2).build()
+                )),
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of())
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE1).build()
+                )),
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", Double.NaN, List.of())
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE1).build()
+                )),
+                Arguments.of(List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    MockUtils.mockOperationalLimitsGroup("group1", Double.NaN, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0)))
+                ), List.of(
+                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
+                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+                    )).applicability(Applicability.SIDE1).build()
+                ))
+            );
+        }
+
+        @Test
+        void shouldThrowOnNanLimit(final SoftAssertions softly) {
+            final var l1 = List.of(MockUtils.mockOperationalLimitsGroup("group1", Double.NaN, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0))));
+            final var l2 = List.of(MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0))));
+            AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
+            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l1, l2, results::set));
+            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l2, l1, results::set));
+        }
+
+        // TODO what to do when one side has duplicate ID?
     }
 }
