@@ -28,16 +28,12 @@ public final class LccConverterStationInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toInfosWithType(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static LccConverterStationTabInfos toTabInfos(Identifiable<?> identifiable) {
