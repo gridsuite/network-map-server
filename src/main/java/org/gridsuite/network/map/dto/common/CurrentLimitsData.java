@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.With;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Objects;
  *     == a powsybl OperationalLimitsGroup == a LimitSet
  */
 @Builder
+@With
 @Getter
 @EqualsAndHashCode
 public class CurrentLimitsData {

@@ -93,14 +93,6 @@ public final class ElementUtils {
         }
     }
 
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability) {
-        return CurrentLimitsData.builder()
-            .id(currentLimitsData.getId())
-            .applicability(applicability)
-            .temporaryLimits(currentLimitsData.getTemporaryLimits())
-            .permanentLimit(currentLimitsData.getPermanentLimit()).build();
-    }
-
     /**
      * Combine 2 sides in one list.
      * @return id of the selected operation limits group 1 and 2 if they have been renamed
@@ -120,14 +112,14 @@ public final class ElementUtils {
         // simple case : one of the arrays are empty
         if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
             for (final CurrentLimitsData currentLimitsData : currentLimitsData1) {
-                mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE1));
+                mergedLimitsData.add(currentLimitsData.withApplicability(SIDE1));
             }
             build.accept(mergedLimitsData);
             return;
         }
         if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
             for (final CurrentLimitsData currentLimitsData : currentLimitsData2) {
-                mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE2));
+                mergedLimitsData.add(currentLimitsData.withApplicability(SIDE2));
             }
             build.accept(mergedLimitsData);
             return;
@@ -139,24 +131,24 @@ public final class ElementUtils {
             if (l2.isPresent()) {
                 CurrentLimitsData limitsData2 = l2.get();
                 if (limitsData.hasLimits() && !limitsData2.hasLimits()) { // Only side one has limits
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                    mergedLimitsData.add(limitsData.withApplicability(SIDE1));
                 } else if (limitsData2.hasLimits() && !limitsData.hasLimits()) { // only side two has limits
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
+                    mergedLimitsData.add(limitsData2.withApplicability(SIDE2));
                 } else if (limitsData.limitsEquals(limitsData2)) { // both sides have limits and limits are equals
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
+                    mergedLimitsData.add(limitsData.withApplicability(EQUIPMENT));
                 } else { // both side have limits and are different : create 2 different limit sets
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
+                    mergedLimitsData.add(limitsData.withApplicability(SIDE1));
+                    mergedLimitsData.add(limitsData2.withApplicability(SIDE2));
                 }
                 currentLimitsData2.remove(l2.get()); // remove processed limits from side 2
             } else {
-                mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                mergedLimitsData.add(limitsData.withApplicability(SIDE1));
             }
         }
 
         // add remaining limits from side 2
         for (CurrentLimitsData limitsData : currentLimitsData2) {
-            mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE2));
+            mergedLimitsData.add(limitsData.withApplicability(SIDE2));
         }
 
         if (!mergedLimitsData.isEmpty()) {
