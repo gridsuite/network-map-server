@@ -13,6 +13,7 @@ import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.*;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -97,11 +98,9 @@ public final class ElementUtils {
      * Combine 2 sides in one list.
      * @return id of the selected operation limits group 1 and 2 if they have been renamed
      */
-    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
-                                                          Collection<OperationalLimitsGroup> operationalLimitsGroups2,
-                                                          Consumer<List<CurrentLimitsData>> build) {
-        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>();
-
+    @Nullable
+    public static List<CurrentLimitsData> mergeCurrentLimits(final Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+                                                             final Collection<OperationalLimitsGroup> operationalLimitsGroups2) {
         // Build temporary limit from side 1 and 2
         final List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
             .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
@@ -112,20 +111,19 @@ public final class ElementUtils {
         // simple case : one of the arrays are empty
         if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
             for (final CurrentLimitsData currentLimitsData : currentLimitsData1) {
-                mergedLimitsData.add(currentLimitsData.withApplicability(SIDE1));
+                currentLimitsData.setApplicability(SIDE1);
             }
-            build.accept(mergedLimitsData);
-            return;
+            return currentLimitsData1;
         }
         if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
             for (final CurrentLimitsData currentLimitsData : currentLimitsData2) {
-                mergedLimitsData.add(currentLimitsData.withApplicability(SIDE2));
+                currentLimitsData.setApplicability(SIDE2);
             }
-            build.accept(mergedLimitsData);
-            return;
+            return currentLimitsData2;
         }
 
         // more complex case
+        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>(currentLimitsData1.size() + currentLimitsData2.size());
         for (final CurrentLimitsData limitsData : currentLimitsData1) {
             final Optional<CurrentLimitsData> l2 = currentLimitsData2.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
             if (l2.isPresent()) {
@@ -151,9 +149,7 @@ public final class ElementUtils {
             mergedLimitsData.add(limitsData.withApplicability(SIDE2));
         }
 
-        if (!mergedLimitsData.isEmpty()) {
-            build.accept(mergedLimitsData);
-        }
+        return mergedLimitsData.isEmpty() ? null : mergedLimitsData;
     }
 
     public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {

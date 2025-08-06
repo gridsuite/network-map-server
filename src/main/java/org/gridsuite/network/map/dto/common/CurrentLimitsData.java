@@ -8,8 +8,8 @@ package org.gridsuite.network.map.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.With;
 import org.springframework.util.CollectionUtils;
 
@@ -22,7 +22,7 @@ import java.util.Objects;
  */
 @Builder
 @With
-@Getter
+@Data
 @EqualsAndHashCode
 public class CurrentLimitsData {
     // may be null in case we just need the selected limit set and don't really need its name/id

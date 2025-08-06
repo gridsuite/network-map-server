@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @ExtendWith({ SoftAssertionsExtension.class, MockitoExtension.class })
@@ -161,9 +160,9 @@ class ElementUtilsTest implements WithAssertions {
         }
     }
 
-    /** Tests for {@link ElementUtils#mergeCurrentLimits(Collection, Collection, Consumer)} */
+    /** Tests for {@link ElementUtils#mergeCurrentLimits(Collection, Collection)} */
     @Nested
-    @DisplayName("fn mergeCurrentLimits(…, …, …)")
+    @DisplayName("fn mergeCurrentLimits(…, …)")
     class MergeCurrentLimitsTest {
         @ParameterizedTest(name = ParameterizedTest.INDEX_PLACEHOLDER)
         @MethodSource("mergeCurrentLimitsTestData")
@@ -171,9 +170,7 @@ class ElementUtilsTest implements WithAssertions {
                 final Collection<OperationalLimitsGroup> olg1,
                 final Collection<OperationalLimitsGroup> olg2,
                 final List<CurrentLimitsData> expected) {
-            AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
-            ElementUtils.mergeCurrentLimits(olg1, olg2, results::set);
-            assertThat(results.get()).as("Result").isEqualTo(expected);
+            assertThat(ElementUtils.mergeCurrentLimits(olg1, olg2)).as("Result").isEqualTo(expected);
         }
 
         private static Stream<Arguments> mergeCurrentLimitsTestData() {
@@ -275,8 +272,8 @@ class ElementUtilsTest implements WithAssertions {
             final var l1 = List.of(MockUtils.mockOperationalLimitsGroup("group1", Double.NaN, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0))));
             final var l2 = List.of(MockUtils.mockOperationalLimitsGroup("group1", 220.0, List.of(MockUtils.mockTemporaryLimits(100, "temporary1", 50.0), MockUtils.mockTemporaryLimits(150, "temporary2", 70.0))));
             AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
-            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l1, l2, results::set));
-            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l2, l1, results::set));
+            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l1, l2));
+            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l2, l1));
         }
 
         // TODO what to do when one side has duplicate ID?
