@@ -16,6 +16,7 @@ import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInf
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,21 +33,16 @@ public final class VoltageLevelInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case MAP:
-                return toMapInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case MAP -> toMapInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
-    public static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
+    private static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
         VoltageLevelTopologyInfos topologyInfos = new VoltageLevelTopologyInfos();
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
@@ -66,7 +62,7 @@ public final class VoltageLevelInfosMapper {
                 return new VoltageLevelTopologyInfos();
             }
         }
-        if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.sectionCount)) { // Non-symmetrical busbars (nb sections)
+        if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.getSectionCount())) { // Non-symmetrical busbars (nb sections)
             return new VoltageLevelTopologyInfos();
         }
 
@@ -76,7 +72,7 @@ public final class VoltageLevelInfosMapper {
         return topologyInfos;
     }
 
-    protected static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
+    static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         VoltageLevelFormInfos.VoltageLevelFormInfosBuilder<?, ?> builder = VoltageLevelFormInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
@@ -96,12 +92,12 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
         }
 
-        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
+        builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
     }
 
-    protected static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
+    static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         return VoltageLevelMapInfos.builder()
                 .id(voltageLevel.getId())
@@ -111,7 +107,7 @@ public final class VoltageLevelInfosMapper {
                 .build();
     }
 
-    protected static VoltageLevelTabInfos toTabInfos(Identifiable<?> identifiable) {
+    static VoltageLevelTabInfos toTabInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
 
         VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
@@ -124,7 +120,7 @@ public final class VoltageLevelInfosMapper {
                 .properties(getProperties(voltageLevel))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()))
                 .substationProperties(voltageLevel.getSubstation().map(ElementUtils::getProperties).orElse(null));
-        builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
+        builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
     }
@@ -132,9 +128,9 @@ public final class VoltageLevelInfosMapper {
     @Getter
     @Setter
     public static class VoltageLevelTopologyInfos {
-        boolean isRetrievedBusbarSections = false;
-        int busbarCount = 1;
-        int sectionCount = 1;
-        List<SwitchKind> switchKinds = List.of();
+        private boolean isRetrievedBusbarSections = false;
+        private int busbarCount = 1;
+        private int sectionCount = 1;
+        private List<SwitchKind> switchKinds = List.of();
     }
 }

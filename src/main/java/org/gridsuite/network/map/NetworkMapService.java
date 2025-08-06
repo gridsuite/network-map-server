@@ -8,6 +8,7 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.HvdcConverterStation.HvdcType;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.*;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,7 +54,7 @@ public class NetworkMapService {
         return substationsIds.isEmpty() ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE;
     }
 
-    public List<String> getSubstationsIds(UUID networkUuid, String variantId, List<Double> nominalVoltages) {
+    private List<String> getSubstationsIds(UUID networkUuid, String variantId, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
         return network.getSubstationStream()
                 .filter(substation -> nominalVoltages == null ||
@@ -129,7 +131,7 @@ public class NetworkMapService {
                 .map(BusbarSection::getId).collect(Collectors.toList());
     }
 
-    private List<String> getHvdcLinesIdsByHvdcType(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages, HvdcConverterStation.HvdcType type) {
+    private List<String> getHvdcLinesIdsByHvdcType(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages, HvdcType type) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         Stream<HvdcLine> hvdcLineStream = (substationsIds.isEmpty() && nominalVoltages == null)
                 ? network.getHvdcLineStream()
@@ -149,11 +151,11 @@ public class NetworkMapService {
     }
 
     private List<String> getHvdcLinesLccIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
-        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, HvdcConverterStation.HvdcType.LCC);
+        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, HvdcType.LCC);
     }
 
     private List<String> getHvdcLinesVscIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
-        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, HvdcConverterStation.HvdcType.VSC);
+        return getHvdcLinesIdsByHvdcType(networkUuid, variantId, substationsIds, nominalVoltages, HvdcType.VSC);
     }
 
     private List<String> getTieLinesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
@@ -172,7 +174,7 @@ public class NetworkMapService {
         }
     }
 
-    private List<ElementInfos> getSubstationsInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    private static List<ElementInfos> getSubstationsInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         Stream<Substation> substations = substationsId.isEmpty() ? network.getSubstationStream() : substationsId.stream().map(network::getSubstation);
         return substations
                 .filter(substation -> nominalVoltages == null ||
@@ -181,13 +183,13 @@ public class NetworkMapService {
                 .toList();
     }
 
-    private List<ElementInfos> getVoltageLevelsInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    private static List<ElementInfos> getVoltageLevelsInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         return getVoltageLevelStream(network, substationsId, nominalVoltages)
                 .map(c -> ElementType.VOLTAGE_LEVEL.getInfosGetter().apply(c, infoTypeParameters))
                 .toList();
     }
 
-    private List<ElementInfos> getHvdcLinesInfosByHvdcType(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages, HvdcConverterStation.HvdcType type) {
+    private static List<ElementInfos> getHvdcLinesInfosByHvdcType(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages, HvdcType type) {
         Stream<HvdcLine> hvdcLineStream = substationsId.isEmpty()
                 ? network.getHvdcLineStream()
                 : substationsId.stream()
@@ -204,26 +206,29 @@ public class NetworkMapService {
         return hvdcLineStream.map(c -> getElementTypeByHvdcType(type).getInfosGetter().apply(c, infoTypeParameters)).toList();
     }
 
-    private ElementType getElementTypeByHvdcType(HvdcConverterStation.HvdcType type) {
-        if (type == HvdcConverterStation.HvdcType.LCC) {
+    @SuppressWarnings({
+        "java:S6880", // can't use switch-case for an enum value that can be null because java desugar it with `switch(enum.ordinal())`
+    })
+    private static ElementType getElementTypeByHvdcType(@Nullable final HvdcType type) {
+        if (type == HvdcType.LCC) {
             return ElementType.HVDC_LINE_LCC;
-        } else if (type == HvdcConverterStation.HvdcType.VSC) {
+        } else if (type == HvdcType.VSC) {
             return ElementType.HVDC_LINE_VSC;
         } else {
             return ElementType.HVDC_LINE;
         }
     }
 
-    private List<ElementInfos> getHvdcLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    private static List<ElementInfos> getHvdcLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
         return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, null);
     }
 
-    private List<ElementInfos> getHvdcLinesLccInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, HvdcConverterStation.HvdcType.LCC);
+    private static List<ElementInfos> getHvdcLinesLccInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, HvdcType.LCC);
     }
 
-    private List<ElementInfos> getHvdcLinesVscInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, HvdcConverterStation.HvdcType.VSC);
+    private static List<ElementInfos> getHvdcLinesVscInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        return getHvdcLinesInfosByHvdcType(network, substationsId, infoTypeParameters, nominalVoltages, HvdcType.VSC);
     }
 
     private List<ElementInfos> getTieLinesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
@@ -254,9 +259,9 @@ public class NetworkMapService {
                 .toList();
     }
 
-    private List<ElementInfos> getElementsInfos(Network network, @NonNull List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
-        Class<? extends Connectable> elementClass = (Class<? extends Connectable>) elementType.getElementClass();
-        Stream<? extends Connectable> connectables = substationsIds.isEmpty() ?
+    private static List<ElementInfos> getElementsInfos(Network network, @NonNull List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+        Class<? extends Connectable<?>> elementClass = (Class<? extends Connectable<?>>) elementType.getElementClass();
+        Stream<? extends Connectable<?>> connectables = substationsIds.isEmpty() ?
                 getConnectableStream(network, elementType) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
@@ -342,7 +347,7 @@ public class NetworkMapService {
         }
     }
 
-    private Stream<VoltageLevel> getVoltageLevelStream(Network network, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
+    private static Stream<VoltageLevel> getVoltageLevelStream(Network network, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {
         Stream<VoltageLevel> voltageLevelStream =
                 substationsIds.isEmpty() ?
                         network.getVoltageLevelStream() :
@@ -350,7 +355,7 @@ public class NetworkMapService {
         return voltageLevelStream.filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()));
     }
 
-    public Stream<? extends Connectable> getConnectableStream(Network network, ElementType elementType) {
+    private static Stream<? extends Connectable<?>> getConnectableStream(Network network, ElementType elementType) {
         return switch (elementType) {
             case BUSBAR_SECTION, BUS -> network.getBusbarSectionStream();
             case GENERATOR -> network.getGeneratorStream();
