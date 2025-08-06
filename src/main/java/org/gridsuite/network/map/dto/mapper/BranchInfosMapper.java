@@ -117,7 +117,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         return intensity;
     }
 
-    protected static CurrentLimitsData toMapDataCurrentLimits(@Nullable final CurrentLimits limits) {
+    protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits) {
         CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
         boolean empty = true;
         if (!Double.isNaN(limits.getPermanentLimit())) {
