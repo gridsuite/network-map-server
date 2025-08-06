@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -103,22 +104,21 @@ public final class ElementUtils {
                                                              final Collection<OperationalLimitsGroup> operationalLimitsGroups2) {
         // Build temporary limit from side 1 and 2
         final List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
-            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
+            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+            .filter(Objects::nonNull)
+            .map(cld -> cld.setApplicability(SIDE1))
+            .toList();
         final List<CurrentLimitsData> currentLimitsData2 = operationalLimitsGroups2.stream()
             .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
+            .filter(Objects::nonNull)
+            .map(cld -> cld.setApplicability(SIDE2))
             .collect(Collectors.toCollection(ArrayList::new));
 
         // simple case : one of the arrays are empty
         if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
-            for (final CurrentLimitsData currentLimitsData : currentLimitsData1) {
-                currentLimitsData.setApplicability(SIDE1);
-            }
             return currentLimitsData1;
         }
         if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
-            for (final CurrentLimitsData currentLimitsData : currentLimitsData2) {
-                currentLimitsData.setApplicability(SIDE2);
-            }
             return currentLimitsData2;
         }
 
@@ -129,26 +129,22 @@ public final class ElementUtils {
             if (l2.isPresent()) {
                 CurrentLimitsData limitsData2 = l2.get();
                 if (limitsData.hasLimits() && !limitsData2.hasLimits()) { // Only side one has limits
-                    mergedLimitsData.add(limitsData.withApplicability(SIDE1));
+                    mergedLimitsData.add(limitsData);
                 } else if (limitsData2.hasLimits() && !limitsData.hasLimits()) { // only side two has limits
-                    mergedLimitsData.add(limitsData2.withApplicability(SIDE2));
+                    mergedLimitsData.add(limitsData2);
                 } else if (limitsData.limitsEquals(limitsData2)) { // both sides have limits and limits are equals
-                    mergedLimitsData.add(limitsData.withApplicability(EQUIPMENT));
+                    mergedLimitsData.add(limitsData.setApplicability(EQUIPMENT));
                 } else { // both side have limits and are different : create 2 different limit sets
-                    mergedLimitsData.add(limitsData.withApplicability(SIDE1));
-                    mergedLimitsData.add(limitsData2.withApplicability(SIDE2));
+                    mergedLimitsData.add(limitsData);
+                    mergedLimitsData.add(limitsData2);
                 }
                 currentLimitsData2.remove(l2.get()); // remove processed limits from side 2
             } else {
-                mergedLimitsData.add(limitsData.withApplicability(SIDE1));
+                mergedLimitsData.add(limitsData);
             }
         }
-
         // add remaining limits from side 2
-        for (CurrentLimitsData limitsData : currentLimitsData2) {
-            mergedLimitsData.add(limitsData.withApplicability(SIDE2));
-        }
-
+        mergedLimitsData.addAll(currentLimitsData2);
         return mergedLimitsData.isEmpty() ? null : mergedLimitsData;
     }
 
@@ -239,6 +235,7 @@ public final class ElementUtils {
         return empty ? null : builder.build();
     }
 
+    @Nullable
     public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
         if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
             return null;

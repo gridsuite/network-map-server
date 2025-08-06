@@ -9,8 +9,7 @@ package org.gridsuite.network.map.dto.common;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.With;
+import lombok.experimental.Accessors;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -21,9 +20,8 @@ import java.util.Objects;
  *     == a powsybl OperationalLimitsGroup == a LimitSet
  */
 @Builder
-@With
 @Data
-@EqualsAndHashCode
+@Accessors(chain = true)
 public class CurrentLimitsData {
     // may be null in case we just need the selected limit set and don't really need its name/id
     @JsonInclude(JsonInclude.Include.NON_NULL)
