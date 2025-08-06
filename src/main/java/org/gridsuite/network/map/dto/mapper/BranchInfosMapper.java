@@ -36,7 +36,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         @NonNull final B builder, @NonNull final Branch<?> branch, @Nullable final Double dcPowerFactor
     ) {
         /* even if x & r properties are in branch properties doc, it is not in branch getter but each impls... */
-        //TODO https://github.com/powsybl/powsybl-core/issues/3521
+        //TODO https://github.com/powsybl/powsybl-core/issues/3521 tagged for release 09/2025
         switch (branch) {
             case Line line -> builder.r(line.getR()).x(line.getX());
             case TieLine tieLine -> builder.r(tieLine.getR()).x(tieLine.getX());

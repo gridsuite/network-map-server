@@ -263,7 +263,7 @@ public class NetworkMapService {
             throw new IllegalStateException("Unexpected non-connectable element type: " + elementType);
         }
         final Stream<? extends Connectable<?>> connectables = substationsIds.isEmpty() ?
-                getConnectableStream(network, elementType) :
+                elementType.getConnectableStream(network) :
                 substationsIds.stream()
                         .flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream())
                         .filter(voltageLevel -> (elementType != ElementType.BUSBAR_SECTION || voltageLevel.getTopologyKind() != TopologyKind.BUS_BREAKER)
@@ -340,9 +340,7 @@ public class NetworkMapService {
     private List<String> getConnectablesIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType elementType, List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         if (substationsIds.isEmpty() && nominalVoltages == null) {
-            return getConnectableStream(network, elementType)
-                    .map(Connectable::getId)
-                    .toList();
+            return elementType.getConnectableStream(network).map(Connectable::getId).toList();
         } else {
             if (!elementType.isConnectable()) { // early break if not supported
                 throw new IllegalStateException("Unexpected non-connectable element type: " + elementType);
@@ -361,26 +359,6 @@ public class NetworkMapService {
                         network.getVoltageLevelStream() :
                         substationsIds.stream().flatMap(substationId -> network.getSubstation(substationId).getVoltageLevelStream());
         return voltageLevelStream.filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()));
-    }
-
-    // TODO: move as BiFunction<Network,Stream<? extends Connectable<?>>> property of ElementType
-    private static Stream<? extends Connectable<?>> getConnectableStream(Network network, ElementType elementType) {
-        return switch (elementType) {
-            case BUSBAR_SECTION, BUS -> network.getBusbarSectionStream();
-            case GENERATOR -> network.getGeneratorStream();
-            case BRANCH -> Stream.concat(network.getLineStream(), network.getTwoWindingsTransformerStream());
-            case LINE -> network.getLineStream();
-            case TWO_WINDINGS_TRANSFORMER -> network.getTwoWindingsTransformerStream();
-            case THREE_WINDINGS_TRANSFORMER -> network.getThreeWindingsTransformerStream();
-            case BATTERY -> network.getBatteryStream();
-            case DANGLING_LINE -> network.getDanglingLineStream();
-            case LCC_CONVERTER_STATION -> network.getLccConverterStationStream();
-            case VSC_CONVERTER_STATION -> network.getVscConverterStationStream();
-            case LOAD -> network.getLoadStream();
-            case SHUNT_COMPENSATOR -> network.getShuntCompensatorStream();
-            case STATIC_VAR_COMPENSATOR -> network.getStaticVarCompensatorStream();
-            default -> throw new IllegalStateException("Unexpected connectable type:" + elementType);
-        };
     }
 
     public Set<Country> getCountries(UUID networkUuid, String variantId) {

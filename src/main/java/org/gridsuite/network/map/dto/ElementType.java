@@ -14,53 +14,73 @@ import org.springframework.lang.Nullable;
 
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public enum ElementType {
-    SUBSTATION(Substation.class, SubstationInfosMapper::toData),
-    VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData),
-    BRANCH(Branch.class, BranchInfosMapper::toData, Line.class, TwoWindingsTransformer.class),
-    LINE(Line.class, LineInfosMapper::toData),
-    TIE_LINE(TieLine.class, TieLineInfosMapper::toData),
-    HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData),
-    HVDC_LINE_LCC(HvdcLine.class, HvdcLccInfosMapper::toData),
-    HVDC_LINE_VSC(HvdcLine.class, HvdcVscInfosMapper::toData),
-    LOAD(Load.class, LoadInfosMapper::toData),
-    TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData),
-    THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, ThreeWindingsTransformerInfosMapper::toData),
-    BUSBAR_SECTION(BusbarSection.class, BusBarSectionInfosMapper::toData),
-    BUS(Bus.class, BusInfosMapper::toData),
-    GENERATOR(Generator.class, GeneratorInfosMapper::toData),
-    BATTERY(Battery.class, BatteryInfosMapper::toData),
-    SHUNT_COMPENSATOR(ShuntCompensator.class, ShuntCompensatorMapper::toData),
-    DANGLING_LINE(DanglingLine.class, DanglingLineInfosMapper::toData),
-    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, StaticVarCompensatorInfosMapper::toData),
-    LCC_CONVERTER_STATION(LccConverterStation.class, LccConverterStationInfosMapper::toData),
-    VSC_CONVERTER_STATION(VscConverterStation.class, VscConverterStationInfosMapper::toData);
+    SUBSTATION(Substation.class, SubstationInfosMapper::toData, null),
+    VOLTAGE_LEVEL(VoltageLevel.class, VoltageLevelInfosMapper::toData, null),
+    BRANCH(Branch.class, BranchInfosMapper::toData,
+        network -> Stream.concat(network.getLineStream(), network.getTwoWindingsTransformerStream()),
+        Line.class, TwoWindingsTransformer.class),
+    LINE(Line.class, LineInfosMapper::toData, Network::getLineStream),
+    TIE_LINE(TieLine.class, TieLineInfosMapper::toData, null),
+    HVDC_LINE(HvdcLine.class, HvdcInfosMapper::toData, null),
+    HVDC_LINE_LCC(HvdcLine.class, HvdcLccInfosMapper::toData, null),
+    HVDC_LINE_VSC(HvdcLine.class, HvdcVscInfosMapper::toData, null),
+    LOAD(Load.class, LoadInfosMapper::toData, Network::getLoadStream),
+    TWO_WINDINGS_TRANSFORMER(TwoWindingsTransformer.class, TwoWindingsTransformerInfosMapper::toData, Network::getTwoWindingsTransformerStream),
+    THREE_WINDINGS_TRANSFORMER(ThreeWindingsTransformer.class, ThreeWindingsTransformerInfosMapper::toData, Network::getThreeWindingsTransformerStream),
+    BUSBAR_SECTION(BusbarSection.class, BusBarSectionInfosMapper::toData, Network::getBusbarSectionStream),
+    BUS(Bus.class, BusInfosMapper::toData, Network::getBusbarSectionStream),
+    GENERATOR(Generator.class, GeneratorInfosMapper::toData, Network::getGeneratorStream),
+    BATTERY(Battery.class, BatteryInfosMapper::toData, Network::getBatteryStream),
+    SHUNT_COMPENSATOR(ShuntCompensator.class, ShuntCompensatorMapper::toData, Network::getShuntCompensatorStream),
+    DANGLING_LINE(DanglingLine.class, DanglingLineInfosMapper::toData, Network::getDanglingLineStream),
+    STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, StaticVarCompensatorInfosMapper::toData, Network::getStaticVarCompensatorStream),
+    LCC_CONVERTER_STATION(LccConverterStation.class, LccConverterStationInfosMapper::toData, Network::getLccConverterStationStream),
+    VSC_CONVERTER_STATION(VscConverterStation.class, VscConverterStationInfosMapper::toData, Network::getVscConverterStationStream);
 
     /**
-     * @since 2.21.0
+     * @since 2.22.0
      * @apiNote Is {@code null} if it's not a concrete class.
      */
     @NonNull private final Class<? extends Identifiable<?>> elementClass;
 
+    /**
+     * For composed element classes
+     * @since 2.22.0
+     */
     @Nullable private final Set<Class<? extends Identifiable<?>>> subClasses;
 
     /**
      * Is {@link #elementClass}, or all {@link #subClasses} if present, is an instance of {@link Connectable}?
      * @apiNote Is only to not have to do the test each time the information is needed.
-     * @since 2.21.0
+     * @since 2.22.0
      */
     @Getter final boolean isConnectable;
 
+    /**
+     * {@code toData()} function from the mapper
+     */
     @Getter @NonNull
     private final BiFunction</*? extends*/ Identifiable<?>, InfoTypeParameters, ElementInfos> infosGetter;
+
+    /**
+     * @since 2.22.0
+     */
+    @NonNull
+    private final Function<Network, Stream</*? extends*/ Connectable<?>>> connectableStream;
 
     @SafeVarargs
     <T extends Identifiable<T>> ElementType(
             @NonNull final Class<T> typeClass,
             @NonNull final BiFunction<T, InfoTypeParameters, ElementInfos> dataGetter,
+            @Nullable final Function<Network, Stream</*T*/ ? extends Connectable<?>>> connectableStream,
             @Nullable final Class</*? extends T*/? extends Identifiable<?>>... subTypes) {
+        this.connectableStream = connectableStream != null ? ((Function<Network, Stream<Connectable<?>>>) (Object) connectableStream) : (n -> {
+            throw new IllegalStateException("Unexpected connectable type:" + this);
+        });
         this.elementClass = typeClass;
         //noinspection unchecked
         this.infosGetter = (BiFunction<Identifiable<?>, InfoTypeParameters, ElementInfos>) dataGetter;
@@ -88,5 +108,9 @@ public enum ElementType {
                     .map(c -> (Class<? extends Connectable<?>>) c)
                     .flatMap(voltageLevel::getConnectableStream);
         }
+    }
+
+    public Stream<Connectable<?>> getConnectableStream(final Network network) {
+        return this.connectableStream.apply(network);
     }
 }
