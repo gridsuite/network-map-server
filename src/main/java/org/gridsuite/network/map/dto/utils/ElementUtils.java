@@ -13,14 +13,13 @@ import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTra
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -45,6 +44,87 @@ public final class ElementUtils {
                 .toList();
         if (!currentLimitsData.isEmpty()) {
             build.accept(currentLimitsData);
+        }
+    }
+
+    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability) {
+        return CurrentLimitsData.builder()
+                .id(currentLimitsData.getId())
+                .applicability(applicability)
+                .temporaryLimits(currentLimitsData.getTemporaryLimits())
+                .permanentLimit(currentLimitsData.getPermanentLimit()).build();
+    }
+
+    /**
+     * @return id of the selected operation limits group 1 and 2 if they have been renamed
+     */
+    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+                                          Collection<OperationalLimitsGroup> operationalLimitsGroups2,
+                                          Consumer<List<CurrentLimitsData>> build) {
+        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>();
+
+        // Build temporary limit from side 1 and 2
+        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
+                .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
+        ArrayList<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
+                .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList());
+
+        // combine 2 sides in one list
+
+        // simple case : one of the arrays are empty
+        if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
+            for (CurrentLimitsData currentLimitsData : currentLimitsData1) {
+                mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE1));
+            }
+            build.accept(mergedLimitsData);
+            return;
+        }
+        if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
+            for (CurrentLimitsData currentLimitsData : currentLimitsData2) {
+                mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE2));
+            }
+            build.accept(mergedLimitsData);
+            return;
+        }
+
+        // more complex case
+        for (CurrentLimitsData limitsData : currentLimitsData1) {
+            Optional<CurrentLimitsData> l2 = currentLimitsData2.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
+
+            if (l2.isPresent()) {
+                CurrentLimitsData limitsData2 = l2.get();
+                // Only side one has limits
+                if (limitsData.hasLimits() && !limitsData2.hasLimits()) {
+                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                    // only side two has limits
+                } else if (limitsData2.hasLimits() && !limitsData.hasLimits()) {
+                    mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
+                } else {
+                    // both sides have limits and limits are equals
+                    if (limitsData.limitsEquals(limitsData2)) {
+                        mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
+                        // both side have limits and they are different : create 2 different limit sets
+                    } else {
+                        // Side 1
+                        mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                        // Side 2
+                        mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
+                    }
+                }
+                // remove processed limits from side 2
+                currentLimitsData2.remove(l2.get());
+            } else {
+                mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+            }
+        }
+
+        // add remaining limits from side 2
+        for (CurrentLimitsData limitsData : currentLimitsData2) {
+            mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE2));
+        }
+
+        if (!mergedLimitsData.isEmpty()) {
+            build.accept(mergedLimitsData);
         }
     }
 

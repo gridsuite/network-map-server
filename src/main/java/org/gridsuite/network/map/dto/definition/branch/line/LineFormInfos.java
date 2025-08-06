@@ -56,8 +56,13 @@ public class LineFormInfos extends ElementInfosWithProperties {
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<CurrentLimitsData> currentLimits;
+
+    //TODO : remove when modification is done
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<CurrentLimitsData> currentLimits1;
 
+    //TODO : remove when modification is done
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<CurrentLimitsData> currentLimits2;
 

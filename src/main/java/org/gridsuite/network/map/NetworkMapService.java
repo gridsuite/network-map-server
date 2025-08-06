@@ -19,6 +19,7 @@ import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -204,7 +205,10 @@ public class NetworkMapService {
         return hvdcLineStream.map(c -> getElementTypeByHvdcType(type).getInfosGetter().apply(c, infoTypeParameters)).toList();
     }
 
-    private static ElementType getElementTypeByHvdcType(HvdcType type) {
+    @SuppressWarnings({
+        "java:S6880", // can't use switch-case for an enum value that can be null because java desugar it with `switch(enum.ordinal())`
+    })
+    private static ElementType getElementTypeByHvdcType(@Nullable final HvdcType type) {
         if (type == HvdcType.LCC) {
             return ElementType.HVDC_LINE_LCC;
         } else if (type == HvdcType.VSC) {
