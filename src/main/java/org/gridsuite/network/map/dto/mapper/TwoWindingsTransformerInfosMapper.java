@@ -68,6 +68,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .ratedU2(twoWT.getRatedU2())
                 .selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null))
                 .selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null))
+                .currentLimits1(buildCurrentLimits(twoWT.getOperationalLimitsGroups1()))
+                .currentLimits2(buildCurrentLimits(twoWT.getOperationalLimitsGroups2()))
                 .currentLimits(mergeCurrentLimits(twoWT.getOperationalLimitsGroups1(), twoWT.getOperationalLimitsGroups2()))
                 .properties(getProperties(twoWT));
 
@@ -80,9 +82,6 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.q2(nullIfNan(terminal2.getQ()));
         builder.i1(nullIfNan(terminal1.getI()));
         builder.i2(nullIfNan(terminal2.getI()));
-
-        buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
-        buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.operatingStatus(toOperatingStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
@@ -209,8 +208,8 @@ public final class TwoWindingsTransformerInfosMapper {
                 .x(twoWindingsTransformer.getX())
                 .b(twoWindingsTransformer.getB());
 
-        twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toCurrentLimitsData(limits1)));
+        twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toCurrentLimitsData(limits2)));
 
         return builder.build();
     }
