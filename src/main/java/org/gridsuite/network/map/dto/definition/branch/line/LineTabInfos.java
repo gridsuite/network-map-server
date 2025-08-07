@@ -38,16 +38,4 @@ public class LineTabInfos extends BranchTabInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP1;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ1;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ2;
 }

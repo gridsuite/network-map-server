@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.List;
 import java.util.Map;
@@ -80,4 +81,18 @@ public class BranchTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(Include.NON_NULL)
     private Map<String, String> voltageLevelProperties2;
+
+    /* * *  Extensions * * */
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ1;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementP2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementQ2;
 }

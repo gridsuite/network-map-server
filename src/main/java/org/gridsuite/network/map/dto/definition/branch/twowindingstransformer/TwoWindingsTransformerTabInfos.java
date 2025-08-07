@@ -52,18 +52,6 @@ public class TwoWindingsTransformerTabInfos extends BranchTabInfos {
     private String operatingStatus;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP1;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ1;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementP2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<MeasurementsInfos> measurementQ2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)

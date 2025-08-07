@@ -2,6 +2,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BranchObservability;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import lombok.NonNull;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -10,6 +11,7 @@ import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos.BranchTabInfosBuilder;
 import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
@@ -43,6 +45,14 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             case TwoWindingsTransformer twt -> builder.r(twt.getR()).x(twt.getX());
             default -> throw new UnsupportedOperationException("Unsupported branch implementation " + branch.getClass().getName());
         }
+        // extensions for connectable type
+        if (branch instanceof Connectable<?> connectable) {
+            builder.measurementP1(ExtensionUtils.toMeasurement(connectable, Type.ACTIVE_POWER, 0))
+                    .measurementQ1(ExtensionUtils.toMeasurement(connectable, Type.REACTIVE_POWER, 0))
+                    .measurementP2(ExtensionUtils.toMeasurement(connectable, Type.ACTIVE_POWER, 1))
+                    .measurementQ2(ExtensionUtils.toMeasurement(connectable, Type.REACTIVE_POWER, 1));
+        }
+        // common properties
         final Terminal terminal1 = branch.getTerminal1();
         final Terminal terminal2 = branch.getTerminal2();
         final Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups1());

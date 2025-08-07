@@ -96,11 +96,6 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2));
 
-        builder.measurementP1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementP2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
-
         builder.toBeEstimated(toToBeEstimated(twoWT));
 
         return builder.build();

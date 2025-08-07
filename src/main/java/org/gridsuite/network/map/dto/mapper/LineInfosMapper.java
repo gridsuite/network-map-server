@@ -83,11 +83,6 @@ public final class LineInfosMapper extends BranchInfosMapper {
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(line, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(line, 2));
 
-        builder.measurementP1(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 0))
-                .measurementQ1(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 0))
-                .measurementP2(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 1))
-                .measurementQ2(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 1));
-
         return builder.build();
     }
 
