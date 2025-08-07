@@ -69,9 +69,6 @@ public final class LineInfosMapper {
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
                 .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
 
-        // TODO pourquoi est-ce en double ?? : 
-        // mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
-
         mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
