@@ -65,14 +65,12 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
-                .properties(getProperties(line))
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
-                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
-
-        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
-        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
+                .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null))
+                .currentLimits1(buildCurrentLimits(line.getOperationalLimitsGroups1()))
+                .currentLimits2(buildCurrentLimits(line.getOperationalLimitsGroups2()))
+                .currentLimits(mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2()))
+                .properties(getProperties(line));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
@@ -207,8 +205,8 @@ public final class LineInfosMapper {
                 .b1(line.getB1())
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toCurrentLimitsData(limits1)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toCurrentLimitsData(limits2)));
 
         return builder.build();
     }

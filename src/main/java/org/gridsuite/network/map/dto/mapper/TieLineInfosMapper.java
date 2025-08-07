@@ -56,8 +56,8 @@ public final class TieLineInfosMapper {
                 .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
                 .operatingStatus(toOperatingStatus(tieLine));
 
-        tieLine.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        tieLine.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        tieLine.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toCurrentLimitsData(limits1)));
+        tieLine.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toCurrentLimitsData(limits2)));
 
         return builder.build();
     }

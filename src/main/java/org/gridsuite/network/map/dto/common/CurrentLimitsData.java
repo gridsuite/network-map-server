@@ -8,8 +8,8 @@ package org.gridsuite.network.map.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
+import lombok.With;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -17,24 +17,23 @@ import java.util.Objects;
 
 /**
  * @author David Braquart <david.braquart at rte-france.com>
- *     == a powsybl OperationalLimitsGroup == a LimitSet
  */
 @Builder
-@Getter
-@EqualsAndHashCode
+@Data
+@With // get rule to not have setter in DTOs but mergeCurrentLimits() need to get then set data...
 public class CurrentLimitsData {
     // may be null in case we just need the selected limit set and don't really need its name/id
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String id;
+    private final String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double permanentLimit;
+    private final Double permanentLimit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<TemporaryLimitData> temporaryLimits;
+    private final List<TemporaryLimitData> temporaryLimits;
 
     @JsonInclude
-    private Applicability applicability;
+    private final Applicability applicability;
 
     public enum Applicability {
         EQUIPMENT, // applied to both sides
@@ -51,4 +50,3 @@ public class CurrentLimitsData {
             && Objects.equals(temporaryLimits, other.temporaryLimits);
     }
 }
-
