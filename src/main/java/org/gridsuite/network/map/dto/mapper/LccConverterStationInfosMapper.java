@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.LccConverterStation;
+import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -50,6 +51,7 @@ public final class LccConverterStationInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
+                .substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(lccConverterStation.getLossFactor())
                 .properties(getProperties(lccConverterStation))

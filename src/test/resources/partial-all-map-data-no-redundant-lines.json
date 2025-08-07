@@ -57,6 +57,8 @@
       "nominalVoltage2": 24.0,
       "country1": "FR",
       "country2": "FR",
+      "substationId1": "P6",
+      "substationId2": "P3",
       "terminal1Connected": true,
       "terminal2Connected": true,
       "operationalLimitsGroup2": {
@@ -98,6 +100,8 @@
       "nominalVoltage2": 24.0,
       "country1": "FR",
       "country2": "FR",
+      "substationId1": "P1",
+      "substationId2": "P3",
       "terminal1Connected": true,
       "terminal2Connected": true,
       "operationalLimitsGroup1": {
@@ -162,10 +166,10 @@
       "substationProperties1": {
         "Country": "FR"
       },
-      "substationProperties2": {
+      "voltageLevelProperties1": {
         "Country": "FR"
       },
-      "voltageLevelProperties1": {
+      "substationProperties2": {
         "Country": "FR"
       }
     }
@@ -182,15 +186,17 @@
       "r": 1.0,
       "country1": "FR",
       "country2": "FR",
+      "substationId1": "P1",
+      "substationId2": "P3",
       "activePowerSetpoint": 500.0,
       "maxP": 100.0,
       "substationProperties1": {
         "Country": "FR"
       },
-      "substationProperties2": {
+      "voltageLevelProperties1": {
         "Country": "FR"
       },
-      "voltageLevelProperties1": {
+      "substationProperties2": {
         "Country": "FR"
       }
     }
@@ -237,6 +243,7 @@
       "terminalConnected": false,
       "nominalVoltage": 24.0,
       "country": "FR",
+      "substationId": "P3",
       "measurementP": {
         "value": 34.0,
         "validity": true
@@ -257,6 +264,7 @@
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
       "country": "FR",
+      "substationId": "P3",
       "terminalConnected": true,
       "pairingKey": "xnode1",
       "p": 45.0,
@@ -278,6 +286,8 @@
       "nominalVoltage2": 24.0,
       "country1": "FR",
       "country2": "FR",
+      "substationId1": "P1",
+      "substationId2": "P3",
       "terminal1Connected": true,
       "terminal2Connected": true,
       "p1": 45.0,
@@ -293,10 +303,10 @@
       "substationProperties1": {
         "Country": "FR"
       },
-      "substationProperties2": {
+      "voltageLevelProperties1": {
         "Country": "FR"
       },
-      "voltageLevelProperties1": {
+      "substationProperties2": {
         "Country": "FR"
       }
     }
@@ -309,6 +319,7 @@
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
       "country": "FR",
+      "substationId": "P3",
       "terminalConnected": true,
       "sectionCount": 2,
       "maxSusceptance": 3.0,
@@ -330,6 +341,7 @@
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
       "country": "FR",
+      "substationId": "P3",
       "terminalConnected": true,
       "q": 90.0,
       "sectionCount": 2,
@@ -359,6 +371,7 @@
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
       "country": "FR",
+      "substationId": "P3",
       "terminalConnected": true,
       "hvdcLineId": "HVDC5",
       "substationProperties": {
@@ -376,6 +389,7 @@
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
       "country": "FR",
+      "substationId": "P3",
       "substationProperties": {
         "Country": "FR"
       }
@@ -388,7 +402,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN6",
       "nominalVoltage": 24.0,
-      "country": "FR"
+      "country": "FR",
+      "substationId": "P6"
     }
   ],
   "busbarSections": []

@@ -1,117 +1,125 @@
 [
   {
-      "id": "HVDC1",
-      "name": "HVDC1",
-      "voltageLevelId1": "VLGEN",
-      "voltageLevelId2": "VLNEW2",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "LCC1",
-      "converterStationId2": "LCC2",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "country1": "FR",
-      "country2": "FR",
-      "maxP": 100,
-      "substationProperties1": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties1": {
-        "Country": "FR"
-      },
-      "substationProperties2": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties2": {
-        "Country": "FR"
-      }
+    "id": "HVDC1",
+    "name": "HVDC1",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLNEW2",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "LCC1",
+    "converterStationId2": "LCC2",
+    "r": 1.0,
+    "country1": "FR",
+    "country2": "FR",
+    "substationId1": "P1",
+    "substationId2": "P1",
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0,
+    "substationProperties1": {
+      "Country": "FR"
     },
-    {
-      "id": "HVDC2",
-      "name": "HVDC2",
-      "voltageLevelId1": "VLGEN",
-      "voltageLevelId2": "VLNEW2",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "LCC1",
-      "converterStationId2": "LCC2",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "country1": "FR",
-      "country2": "FR",
-      "maxP": 100,
-      "hvdcAngleDroopActivePowerControl": {
-        "droop": 180.0,
-        "isEnabled": true,
-        "p0": 190.0
-      },
-      "hvdcOperatorActivePowerRange": {
-        "oprFromCS1toCS2": 1000,
-        "oprFromCS2toCS1": 900
-      },
-      "substationProperties1": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties1": {
-        "Country": "FR"
-      },
-      "substationProperties2": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties2": {
-        "Country": "FR"
-      }
+    "voltageLevelProperties1": {
+      "Country": "FR"
     },
-    {
-      "id": "HVDC3",
-      "name": "HVDC3",
-      "voltageLevelId1": "VLNEW2",
-      "voltageLevelId2": "VLNEW2",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC3",
-      "converterStationId2": "VSC4",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "country1": "FR",
-      "country2": "FR",
-      "maxP": 100,
-      "substationProperties1": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties1": {
-        "Country": "FR"
-      },
-      "substationProperties2": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties2": {
-        "Country": "FR"
-      }
+    "substationProperties2": {
+      "Country": "FR"
     },
-    {
-      "id": "HVDC4",
-      "name": "HVDC4",
-      "voltageLevelId1": "VLNEW2",
-      "voltageLevelId2": "VLNEW2",
-      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
-      "converterStationId1": "VSC5",
-      "converterStationId2": "VSC6",
-      "activePowerSetpoint": 500.0,
-      "r": 1,
-      "country1": "FR",
-      "country2": "FR",
-      "maxP": 100,
-      "substationProperties1": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties1": {
-        "Country": "FR"
-      },
-      "substationProperties2": {
-        "Country": "FR"
-      },
-      "voltageLevelProperties2": {
-        "Country": "FR"
-      }
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    }
+  },
+  {
+    "id": "HVDC3",
+    "name": "HVDC3",
+    "voltageLevelId1": "VLNEW2",
+    "voltageLevelId2": "VLNEW2",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "VSC3",
+    "converterStationId2": "VSC4",
+    "r": 1.0,
+    "country1": "FR",
+    "country2": "FR",
+    "substationId1": "P1",
+    "substationId2": "P1",
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0,
+    "substationProperties1": {
+      "Country": "FR"
     },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    }
+  },
+  {
+    "id": "HVDC4",
+    "name": "HVDC4",
+    "voltageLevelId1": "VLNEW2",
+    "voltageLevelId2": "VLNEW2",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "VSC5",
+    "converterStationId2": "VSC6",
+    "r": 1.0,
+    "country1": "FR",
+    "country2": "FR",
+    "substationId1": "P1",
+    "substationId2": "P1",
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0,
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    }
+  },
+  {
+    "id": "HVDC2",
+    "name": "HVDC2",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLNEW2",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "LCC1",
+    "converterStationId2": "LCC2",
+    "r": 1.0,
+    "country1": "FR",
+    "country2": "FR",
+    "substationId1": "P1",
+    "substationId2": "P1",
+    "activePowerSetpoint": 500.0,
+    "maxP": 100.0,
+    "hvdcAngleDroopActivePowerControl": {
+      "droop": 180.0,
+      "isEnabled": true,
+      "p0": 190.0
+    },
+    "hvdcOperatorActivePowerRange": {
+      "oprFromCS1toCS2": 1000.0,
+      "oprFromCS2toCS1": 900.0
+    },
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties2": {
+      "Country": "FR"
+    }
+  },
   {
     "id": "HVDC5",
     "name": "HVDC5",
@@ -123,6 +131,8 @@
     "r": 1.0,
     "country1": "FR",
     "country2": "FR",
+    "substationId1": "P1",
+    "substationId2": "P3",
     "activePowerSetpoint": 500.0,
     "maxP": 100.0,
     "substationProperties1": {

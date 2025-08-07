@@ -8,6 +8,7 @@
     "voltageLevelName2": null,
     "nominalVoltage2": 380.0,
     "country": "FR",
+    "substationId": "P1",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 11.1,
@@ -120,6 +121,7 @@
     "voltageLevelId2": "VLLOAD",
     "voltageLevelName2": null,
     "nominalVoltage2": 150.0,
+    "substationId": "P2",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 5.5,
@@ -191,6 +193,7 @@
     "voltageLevelName2": null,
     "nominalVoltage2": 380.0,
     "country": "FR",
+    "substationId": "P1",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "operationalLimitsGroup1": {
