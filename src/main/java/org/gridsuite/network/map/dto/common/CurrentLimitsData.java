@@ -43,7 +43,7 @@ public class CurrentLimitsData {
     }
 
     public boolean hasLimits() {
-        return !Double.isNaN(permanentLimit) || !CollectionUtils.isEmpty(temporaryLimits);
+        return permanentLimit != null && !Double.isNaN(permanentLimit) || !CollectionUtils.isEmpty(temporaryLimits);
     }
 
     public boolean limitsEquals(CurrentLimitsData other) {
