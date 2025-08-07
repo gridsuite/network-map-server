@@ -10,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author David Braquart <david.braquart at rte-france.com>
@@ -30,5 +32,23 @@ public class CurrentLimitsData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TemporaryLimitData> temporaryLimits;
+
+    @JsonInclude
+    private Applicability applicability;
+
+    public enum Applicability {
+        EQUIPMENT, // applied to both sides
+        SIDE1,
+        SIDE2,
+    }
+
+    public boolean hasLimits() {
+        return permanentLimit != null && !Double.isNaN(permanentLimit) || !CollectionUtils.isEmpty(temporaryLimits);
+    }
+
+    public boolean limitsEquals(CurrentLimitsData other) {
+        return Objects.equals(permanentLimit, other.permanentLimit)
+            && Objects.equals(temporaryLimits, other.temporaryLimits);
+    }
 }
 
