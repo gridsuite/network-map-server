@@ -6,5 +6,11 @@
   "busbarCount": 1,
   "sectionCount": 2,
   "switchKinds": ["DISCONNECTOR"],
-  "isRetrievedBusbarSections": true
+  "isRetrievedBusbarSections": true,
+  "busBarSectionInfos" : {
+    "horizPos:1" : [ {
+      "vertPos" : 2,
+      "id" : "NGEN4"
+    } ]
+  }
 }
