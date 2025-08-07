@@ -80,6 +80,8 @@ public final class TwoWindingsTransformerInfosMapper {
         builder.selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null));
         builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
 
+        // TODO double ??
+        // mergeCurrentLimits(twoWT.getOperationalLimitsGroups1(), twoWT.getOperationalLimitsGroups2(), builder::currentLimits);
         mergeCurrentLimits(twoWT.getOperationalLimitsGroups1(), twoWT.getOperationalLimitsGroups2(), builder::currentLimits);
 
         builder.operatingStatus(toOperatingStatus(twoWT));
