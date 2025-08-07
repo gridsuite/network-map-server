@@ -6,9 +6,11 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.BusbarSection;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
@@ -16,7 +18,7 @@ import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabIn
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.toMeasurement;
+import static org.gridsuite.network.map.dto.utils.ExtensionUtils.toMeasurement;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
@@ -27,21 +29,16 @@ public final class BusBarSectionInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case OPERATING_STATUS:
-                return ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case OPERATING_STATUS -> ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
-    public static BusBarSectionFormInfos toFormInfos(Identifiable<?> identifiable) {
+    private static BusBarSectionFormInfos toFormInfos(Identifiable<?> identifiable) {
         BusbarSection busbarSection = (BusbarSection) identifiable;
         BusBarSectionFormInfos.BusBarSectionFormInfosBuilder<?, ?> builder = BusBarSectionFormInfos.builder().name(busbarSection.getOptionalName().orElse(null)).id(busbarSection.getId());
         var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
@@ -51,7 +48,7 @@ public final class BusBarSectionInfosMapper {
         return builder.build();
     }
 
-    public static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static BusBarSectionTabInfos toTabInfos(Identifiable<?> identifiable) {
         BusbarSection busbarSection = (BusbarSection) identifiable;
         Terminal terminal = busbarSection.getTerminal();
         return BusBarSectionTabInfos.builder()
@@ -59,8 +56,8 @@ public final class BusBarSectionInfosMapper {
             .name(busbarSection.getOptionalName().orElse(null))
             .properties(getProperties(busbarSection))
             .voltageLevelId(busbarSection.getTerminal().getVoltageLevel().getId())
-            .measurementV(toMeasurement(busbarSection, Measurement.Type.VOLTAGE, 0))
-            .measurementAngle(toMeasurement(busbarSection, Measurement.Type.ANGLE, 0))
+            .measurementV(toMeasurement(busbarSection, Type.VOLTAGE, 0))
+            .measurementAngle(toMeasurement(busbarSection, Type.ANGLE, 0))
             .voltageLevelProperties(getProperties(terminal.getVoltageLevel()))
             .substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
             .build();

@@ -4,74 +4,29 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.definition.twowindingstransformer;
+package org.gridsuite.network.map.dto.definition.branch.twowindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.ElementInfosWithProperties;
-import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 
 import java.util.Optional;
-
-import java.util.List;
 
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties {
-
-    private String voltageLevelId1;
-
-    private String voltageLevelName1;
-
-    private String voltageLevelId2;
-
-    private String voltageLevelName2;
-
-    private Boolean terminal1Connected;
-
-    private Boolean terminal2Connected;
-
+public class TwoWindingsTransformerTabInfos extends BranchTabInfos {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double i2;
-
-    // TODO : remove currentLimits1 and 2 to leave only currentLimits when modification is done
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CurrentLimitsData> currentLimits1;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CurrentLimitsData> currentLimits2;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CurrentLimitsData> currentLimits;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup2;
+    private Country country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TapChangerData phaseTapChanger;
@@ -83,10 +38,6 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
 
     private Double b;
 
-    private Double r;
-
-    private Double x;
-
     private Double ratedU1;
 
     private Double ratedU2;
@@ -96,12 +47,6 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
 
     private ConnectablePositionInfos connectablePosition1;
     private ConnectablePositionInfos connectablePosition2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String busOrBusbarSectionId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
@@ -117,6 +62,12 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ2;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementRatioTap;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<TapChangerDiscreteMeasurementsInfos> measurementPhaseTap;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<TwoWindingsTransformerToBeEstimatedInfos> toBeEstimated;

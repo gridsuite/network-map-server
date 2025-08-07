@@ -29,18 +29,13 @@ public final class SubstationInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case MAP:
-                return toMapInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case MAP -> toMapInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static SubstationFormInfos toFormInfos(Identifiable<?> identifiable) {
