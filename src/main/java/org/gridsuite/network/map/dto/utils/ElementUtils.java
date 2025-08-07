@@ -111,24 +111,22 @@ public final class ElementUtils {
 
         // Build temporary limit from side 1 and 2
         List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
-            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList();
+            .map(currentLimitsData ->
+                ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE1)).toList();
         ArrayList<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
-            .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits).toList());
+            .map(currentLimitsData ->
+                ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE2)).toList());
 
         // combine 2 sides in one list
 
         // simple case : one of the arrays are empty
         if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
-            for (CurrentLimitsData currentLimitsData : currentLimitsData1) {
-                mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE1));
-            }
+            mergedLimitsData.addAll(currentLimitsData1);
             build.accept(mergedLimitsData);
             return;
         }
         if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
-            for (CurrentLimitsData currentLimitsData : currentLimitsData2) {
-                mergedLimitsData.add(copyCurrentLimitsData(currentLimitsData, SIDE2));
-            }
+            mergedLimitsData.addAll(currentLimitsData2);
             build.accept(mergedLimitsData);
             return;
         }
@@ -141,10 +139,10 @@ public final class ElementUtils {
                 CurrentLimitsData limitsData2 = l2.get();
                 // Only side one has limits
                 if (limitsData.hasLimits() && !limitsData2.hasLimits()) {
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                    mergedLimitsData.add(limitsData);
                     // only side two has limits
                 } else if (limitsData2.hasLimits() && !limitsData.hasLimits()) {
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
+                    mergedLimitsData.add(limitsData2);
                 } else {
                     // both sides have limits and limits are equals
                     if (limitsData.limitsEquals(limitsData2)) {
@@ -152,22 +150,20 @@ public final class ElementUtils {
                         // both side have limits and they are different : create 2 different limit sets
                     } else {
                         // Side 1
-                        mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                        mergedLimitsData.add(limitsData);
                         // Side 2
-                        mergedLimitsData.add(copyCurrentLimitsData(limitsData2, SIDE2));
+                        mergedLimitsData.add(limitsData2);
                     }
                 }
                 // remove processed limits from side 2
                 currentLimitsData2.remove(l2.get());
             } else {
-                mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE1));
+                mergedLimitsData.add(limitsData);
             }
         }
 
         // add remaining limits from side 2
-        for (CurrentLimitsData limitsData : currentLimitsData2) {
-            mergedLimitsData.add(copyCurrentLimitsData(limitsData, SIDE2));
-        }
+        mergedLimitsData.addAll(currentLimitsData2);
 
         if (!mergedLimitsData.isEmpty()) {
             build.accept(mergedLimitsData);
@@ -262,6 +258,10 @@ public final class ElementUtils {
     }
 
     public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
+        return operationalLimitsGroupToMapDataCurrentLimits(operationalLimitsGroup, null);
+    }
+
+    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, CurrentLimitsData.Applicability applicability) {
         if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
             return null;
         }
@@ -278,6 +278,7 @@ public final class ElementUtils {
             builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
             containsLimitsData = true;
         }
+        builder.applicability(applicability);
 
         return containsLimitsData ? builder.build() : null;
     }
