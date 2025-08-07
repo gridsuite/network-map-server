@@ -1,6 +1,5 @@
 package org.gridsuite.network.map.utils;
 
-import com.powsybl.iidm.network.LoadingLimits;
 import com.powsybl.iidm.network.LoadingLimits.TemporaryLimit;
 import com.powsybl.iidm.network.OperationalLimitsGroup;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -9,7 +8,6 @@ import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData.CurrentLimitsDataBuilder;
 import org.gridsuite.network.map.dto.common.TemporaryLimitData;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.utils.MockDto.CurrentLimitsDtoTest;
@@ -18,7 +16,8 @@ import org.gridsuite.network.map.utils.MockDto.TemporaryLimitDtoTest;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -103,7 +102,6 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
-                .extracting(CurrentLimitsDataBuilder::build)
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(null).temporaryLimits(
                     List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
             Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
@@ -122,7 +120,6 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
-                .extracting(CurrentLimitsDataBuilder::build)
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
             Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
@@ -137,7 +134,6 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
-                .extracting(CurrentLimitsDataBuilder::build)
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
             Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
@@ -154,7 +150,6 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
-                .extracting(CurrentLimitsDataBuilder::build)
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.0).temporaryLimits(
                     List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
             Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
@@ -179,29 +174,25 @@ class ElementUtilsTest implements WithAssertions {
         @ParameterizedTest
         @MethodSource("testDtoHasLimitAfterMapData")
         void testDtoHasLimitAfterMapped(final boolean expected, final double pl, final Collection<TemporaryLimit> tl) {
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(new OperationalLimitsGroupDtoTest("id", new CurrentLimitsDtoTest(pl, tl)))).as("DTO builder")
-                    .extracting(CurrentLimitsDataBuilder::build).as("DTO")
-                    .extracting(CurrentLimitsData::hasLimits, InstanceOfAssertFactories.BOOLEAN).as("hasLimits")
-                    .isEqualTo(expected);
+            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(new OperationalLimitsGroupDtoTest("id", new CurrentLimitsDtoTest(pl, tl)))).as("DTO")
+                .extracting(CurrentLimitsData::hasLimits, InstanceOfAssertFactories.BOOLEAN).as("hasLimits")
+                .isEqualTo(expected);
         }
 
         private static Stream<Arguments> testDtoHasLimitAfterMapData() {
             return Stream.of(
-                    Arguments.of(false, Double.NaN, null),
-                    Arguments.of(false, Double.NaN, List.of()),
-                    Arguments.of(true, Double.NaN, List.of(new TemporaryLimitDtoTest("tl", 1.2, 123))),
-                    Arguments.of(true, 0.123, null),
-                    Arguments.of(true, 0.123, List.of()),
-                    Arguments.of(true, 0.123, List.of(new TemporaryLimitDtoTest("tl", 1.2, 123)))
+                Arguments.of(false, Double.NaN, null),
+                Arguments.of(false, Double.NaN, List.of()),
+                Arguments.of(true, Double.NaN, List.of(new TemporaryLimitDtoTest("tl", 1.2, 123))),
+                Arguments.of(true, 0.123, null),
+                Arguments.of(true, 0.123, List.of()),
+                Arguments.of(true, 0.123, List.of(new TemporaryLimitDtoTest("tl", 1.2, 123)))
             );
         }
 
         @ParameterizedTest(name = ParameterizedTest.INDEX_PLACEHOLDER)
         @MethodSource("mergeCurrentLimitsTestData")
-        void shouldNotThrow(
-                final Collection<OperationalLimitsGroup> olg1,
-                final Collection<OperationalLimitsGroup> olg2,
-                final List<CurrentLimitsData> expected) {
+        void shouldNotThrow(final Collection<OperationalLimitsGroup> olg1, final Collection<OperationalLimitsGroup> olg2, final List<CurrentLimitsData> expected) {
             AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
             ElementUtils.mergeCurrentLimits(olg1, olg2, results::set);
             assertThat(results.get()).as("Result").isEqualTo(expected);
