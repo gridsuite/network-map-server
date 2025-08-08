@@ -11,9 +11,6 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
-import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
-
-import java.util.Optional;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>

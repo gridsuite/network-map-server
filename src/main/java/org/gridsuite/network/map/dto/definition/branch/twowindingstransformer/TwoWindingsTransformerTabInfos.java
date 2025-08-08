@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
-import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TapChangerDiscreteMeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
 
