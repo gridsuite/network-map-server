@@ -1,6 +1,10 @@
 package org.gridsuite.network.map.utils;
 
 import com.powsybl.iidm.network.OperationalLimitsGroup;
+import jakarta.annotation.Nullable;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -11,10 +15,7 @@ import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.utils.MockDto.CurrentLimitsDtoTest;
 import org.gridsuite.network.map.utils.MockDto.OperationalLimitsGroupDtoTest;
 import org.gridsuite.network.map.utils.MockDto.TemporaryLimitDtoTest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,7 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -36,7 +36,7 @@ class ElementUtilsTest implements WithAssertions {
     @Nested
     @DisplayName("fn operationalLimitsGroupToMapDataCurrentLimits(…)")
     class OperationalLimitsGroupToMapDataCurrentLimits {
-        private Collection<Object> mocks = new ArrayList<>();
+        private final List<Object> mocks = new ArrayList<>();
 
         @AfterEach
         void setDown() {
@@ -57,111 +57,98 @@ class ElementUtilsTest implements WithAssertions {
          * operationalLimitsGroup(currentLimits={PermanentLimit=_non_NaN_, TemporaryLimits=[any], *=any}, *=any) -> (id=*, applicability=null, permanentLimit=*, temporaryLimits=[any])
          */
 
+        @SafeVarargs
+        private CurrentLimitsData testResult(final String id, @Nullable final Double permanentLimit, @Nullable final Triple<String, Double, Integer>... temporaryLimits) {
+            final var dtoMocks = MockDto.buildOperationalLimitsGroup(true, id, permanentLimit, temporaryLimits);
+            final TemporaryLimitDtoTest tlMock = CollectionUtils.isEmpty(dtoMocks.getRight()) ? null : dtoMocks.getRight().getFirst();
+            if (tlMock != null) {
+                mocks.add(tlMock);
+            }
+            final CurrentLimitsDtoTest clMock = dtoMocks.getMiddle();
+            if (clMock != null) {
+                mocks.add(clMock);
+            }
+            final OperationalLimitsGroupDtoTest olgMock = dtoMocks.getLeft();
+            if (olgMock != null) {
+                mocks.add(olgMock);
+            }
+            final CurrentLimitsData result = ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock);
+            if (id != null) {
+                Mockito.verify(olgMock, Mockito.times(permanentLimit == null ? 1 : 2)).getCurrentLimits();
+                if (permanentLimit != null) {
+                    Mockito.verify(olgMock).getId();
+                    Mockito.verify(clMock, Mockito.times(Double.isNaN(permanentLimit) ? 1 : 2)).getPermanentLimit();
+                    Mockito.verify(clMock, Mockito.times(ArrayUtils.isEmpty(temporaryLimits) ? 1 : 2)).getTemporaryLimits();
+                    if (ArrayUtils.isNotEmpty(temporaryLimits)) {
+                        Mockito.verify(tlMock).getName();
+                        Mockito.verify(tlMock, Mockito.times(2)).getValue();
+                        Mockito.verify(tlMock, Mockito.times(2)).getAcceptableDuration();
+                    }
+                }
+            }
+            return result;
+        }
+
         @Test
+        @Order(1)
         void nullInput() {
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(null)).isNull();
+            // null -> null
+            assertThat(testResult(null, null, (Triple<String, Double, Integer>[]) null)).isNull();
         }
 
         @Test
+        @Order(2)
         void emptyCurrentLimits() {
-            final var mock = Mockito.spy(new OperationalLimitsGroupDtoTest("id", Optional.empty()));
-            mocks.add(mock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(mock)).isNull();
-            Mockito.verify(mock).getCurrentLimits();
+            // OLG("id", null) -> null
+            assertThat(testResult("id", null /*,new Triple[0]*/)).isNull();
         }
 
         @Test
+        @Order(3)
         void nanPermLimitAndNullTempLimit() {
-            final var clMock = Mockito.spy(new CurrentLimitsDtoTest(Double.NaN, null));
-            mocks.add(clMock);
-            final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("id", clMock));
-            mocks.add(olgMock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isNull();
-            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
-            Mockito.verify(olgMock).getId();
-            Mockito.verify(clMock).getPermanentLimit();
-            Mockito.verify(clMock).getTemporaryLimits();
+            // OLG("id", CL(NaN, null)) -> null
+            assertThat(testResult("id", Double.NaN, (Triple<String, Double, Integer>[]) null)).isNull();
         }
 
         @Test
+        @Order(4)
         void nanPermLimitAndEmptyTempLimit() {
-            final var clMock = Mockito.spy(new CurrentLimitsDtoTest(Double.NaN, List.of()));
-            mocks.add(clMock);
-            final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("id", clMock));
-            mocks.add(olgMock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isNull();
-            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
-            Mockito.verify(olgMock).getId();
-            Mockito.verify(clMock).getPermanentLimit();
-            Mockito.verify(clMock).getTemporaryLimits();
+            // OLG("id", CL(NaN, [])) -> null
+            assertThat(testResult("id", Double.NaN /*,new Triple[0]*/)).isNull();
         }
 
         @Test
+        @Order(5)
         void nanPermLimitAndNonEmptyTempLimit() {
-            final var tlMock = Mockito.spy(new TemporaryLimitDtoTest("testLimit", 456.789, 123));
-            mocks.add(tlMock);
-            final var clMock = Mockito.spy(new CurrentLimitsDtoTest(Double.NaN, List.of(tlMock)));
-            mocks.add(clMock);
-            final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
-            mocks.add(olgMock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
+            // OLG("my id", CL(Nan, [TL("testLimit", 456.789, 123)])) -> CLD("my id", null, [TLD("testLimit", 456.789, 123)], null)
+            assertThat(testResult("my id", Double.NaN, Triple.of("testLimit", 456.789, 123)))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(null).temporaryLimits(
                     List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
-            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
-            Mockito.verify(olgMock).getId();
-            Mockito.verify(clMock).getPermanentLimit();
-            Mockito.verify(clMock, Mockito.times(2)).getTemporaryLimits();
-            Mockito.verify(tlMock, Mockito.times(2)).getAcceptableDuration();
-            Mockito.verify(tlMock).getName();
-            Mockito.verify(tlMock, Mockito.times(2)).getValue();
         }
 
         @Test
+        @Order(6)
         void nonNanPermLimitAndNullTempLimit() {
-            final var clMock = Mockito.spy(new CurrentLimitsDtoTest(0.123, null));
-            mocks.add(clMock);
-            final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
-            mocks.add(olgMock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
+            // OLG("my id", CL(0.123, null)) -> CLD("my id", 0.123, null, null)
+            assertThat(testResult("my id", 0.123, (Triple<String, Double, Integer>[]) null))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
-            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
-            Mockito.verify(olgMock).getId();
-            Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
-            Mockito.verify(clMock).getTemporaryLimits();
         }
 
         @Test
+        @Order(7)
         void nonNanPermLimitAndEmptyTempLimit() {
-            final var clMock = Mockito.spy(new CurrentLimitsDtoTest(0.123, List.of()));
-            mocks.add(clMock);
-            final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
-            mocks.add(olgMock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
+            // OLG("my id", CL(0.123, [])) -> CLD("my id", 0.123, [], null)
+            assertThat(testResult("my id", 0.123 /*,new Triple[0]*/))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
-            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
-            Mockito.verify(olgMock).getId();
-            Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
-            Mockito.verify(clMock).getTemporaryLimits();
         }
 
         @Test
+        @Order(8)
         void nonNanPermLimitAndNonEmptyTempLimit() {
-            final var tlMock = Mockito.spy(new TemporaryLimitDtoTest("testLimit", 456.789, 123));
-            mocks.add(tlMock);
-            final var clMock = Mockito.spy(new CurrentLimitsDtoTest(0.0, List.of(tlMock)));
-            mocks.add(clMock);
-            final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("my id", clMock));
-            mocks.add(olgMock);
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
+            // OLG("my id", CL(0.0, [TL("testLimit", 456.789, 123)])) -> CLD("my id", 0.0, [TLD("testLimit", 456.789, 123)], null)
+            assertThat(testResult("my id", 0.0, Triple.of("testLimit", 456.789, 123)))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.0).temporaryLimits(
                     List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
-            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
-            Mockito.verify(olgMock).getId();
-            Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
-            Mockito.verify(clMock, Mockito.times(2)).getTemporaryLimits();
-            Mockito.verify(tlMock, Mockito.times(2)).getAcceptableDuration();
-            Mockito.verify(tlMock).getName();
-            Mockito.verify(tlMock, Mockito.times(2)).getValue();
         }
     }
 
