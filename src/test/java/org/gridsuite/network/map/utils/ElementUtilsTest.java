@@ -1,11 +1,9 @@
 package org.gridsuite.network.map.utils;
 
 import com.powsybl.iidm.network.OperationalLimitsGroup;
-import jakarta.annotation.Nullable;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Triple;
-import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
@@ -23,11 +21,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 @ExtendWith({ SoftAssertionsExtension.class, MockitoExtension.class })
@@ -156,121 +157,79 @@ class ElementUtilsTest implements WithAssertions {
     @Nested
     @DisplayName("fn mergeCurrentLimits(…, …, …)")
     class MergeCurrentLimitsTest {
+        private static OperationalLimitsGroupDtoTest buildParam(final boolean withPL, final boolean withTL) {
+            if (!withTL) {
+                return MockDto.buildOperationalLimitsGroup(null, "group1", withPL ? 220.0 : Double.NaN);
+            }
+            return MockDto.buildOperationalLimitsGroup(null, "group1", withPL ? 220.0 : Double.NaN, Triple.of("temporary1", 50.0, 100), Triple.of("temporary2", 70.0, 150));
+        }
+
+        private static CurrentLimitsData buildResult(final boolean withPL, final boolean withTL, @Nullable final Boolean isSide1or2) {
+            return CurrentLimitsData.builder().id("group1").permanentLimit(withPL ? 220.0 : null).temporaryLimits(!withTL ? null : List.of(
+                TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
+                TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
+            )).applicability(isSide1or2 == null ? Applicability.EQUIPMENT : (isSide1or2 ? Applicability.SIDE1 : Applicability.SIDE2))
+            .build();
+        }
+
         @ParameterizedTest(name = ParameterizedTest.INDEX_PLACEHOLDER)
-        @MethodSource("mergeCurrentLimitsTestData")
+        @MethodSource({"mergeCurrentLimitsTestData", "mergeCurrentLimitsTestDataSwappable"}) // test al the combinations possible for the inputs
         void shouldNotThrow(final Collection<OperationalLimitsGroup> olg1, final Collection<OperationalLimitsGroup> olg2, final List<CurrentLimitsData> expected) {
+            System.out.print("L1: ");
+            System.out.println(olg1);
+            System.out.print("L2: ");
+            System.out.println(olg2);
+            System.out.print("Expect: ");
+            System.out.println(expected);
             AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
             ElementUtils.mergeCurrentLimits(olg1, olg2, results::set);
             assertThat(results.get()).as("Result").isEqualTo(expected);
         }
 
         private static Stream<Arguments> mergeCurrentLimitsTestData() {
+            // particular cases (p1&p2 the same if swapped)
             return Stream.of(
-                // 1
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.EQUIPMENT).build()
-                )),
-                // 2
-                Arguments.of(List.of(), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE2).build()
-                )),
+                // 1 - same limits on both sides for an id
+                Arguments.of(List.of(buildParam(true, true)), List.of(buildParam(true, true)), List.of(buildResult(true, true, null))),
+                // 2 - with no limits on either side for an id
+                Arguments.of(List.of(buildParam(false, false)), List.of(buildParam(false, false)), null),
                 // 3
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE1).build()
-                )),
+                Arguments.of(List.of(buildParam(true, false)), List.of(buildParam(true, false)), List.of(buildResult(true, false, null))),
                 // 4
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of()))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE2).build()
-                )),
-                // 5
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(Double.NaN, List.of()))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE2).build()
-                )),
-                // 6
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(Double.NaN, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE2).build()
-                )),
-                // 7
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of()))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE1).build()
-                )),
-                // 8
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(Double.NaN, List.of()))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE1).build()
-                )),
-                // 9
-                Arguments.of(List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(Double.NaN, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150))))
-                ), List.of(
-                    CurrentLimitsData.builder().id("group1").permanentLimit(220.0).temporaryLimits(List.of(
-                        TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
-                        TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
-                    )).applicability(Applicability.SIDE1).build()
-                ))
+                Arguments.of(List.of(buildParam(false, true)), List.of(buildParam(false, true)), List.of(buildResult(false, true, null)))
             );
         }
 
-        @Test
-        void shouldThrowOnNanLimit(final SoftAssertions softly) {
-            final Collection<OperationalLimitsGroup> l1 = List.of(new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(Double.NaN, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150)))));
-            final Collection<OperationalLimitsGroup> l2 = List.of(new OperationalLimitsGroupDtoTest("group1", new CurrentLimitsDtoTest(220.0, List.of(new TemporaryLimitDtoTest("temporary1", 50.0, 100), new TemporaryLimitDtoTest("temporary2", 70.0, 150)))));
-            AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
-            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l1, l2, results::set));
-            softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l2, l1, results::set));
+        private static Stream<Arguments> mergeCurrentLimitsTestDataSwappable() {
+                // cases with param1 and param2 swappable
+                // will map [l;r]->[(l,r)=s1, (r,l)=s2], so the pair is implicitly for case with side1 as result
+            return Stream.<Triple<OperationalLimitsGroupDtoTest, OperationalLimitsGroupDtoTest, Function<Boolean, CurrentLimitsData>>>of(
+                // 5&6 - id present only on one side
+                Triple.of(null, buildParam(true, true), s2 -> buildResult(true, true, s2)),
+                // 7&8
+                Triple.of(null, buildParam(true, false), s2 -> buildResult(true, false, s2)),
+                // 9&10
+                Triple.of(null, buildParam(false, true), s2 -> buildResult(false, true, s2)),
+                // 10&11 - after dto conversion, the same as test n°2
+                Triple.of(null, buildParam(false, false), s2 -> null),
+                // 12&13 -- TODO have 2 results on side2
+                Triple.of(buildParam(true, true), buildParam(true, false), s2 -> null),
+                // 14&15 -- TODO have 2 results on both sides
+                Triple.of(buildParam(true, true), buildParam(false, true), s2 -> null),
+                // 16&17 -- TODO have 2 results on side1
+                Triple.of(buildParam(true, true), buildParam(false, false), s2 -> buildResult(true, true, !s2)),
+                // 18&19
+                Triple.of(buildParam(true, false), buildParam(false, true), s2 -> buildResult(true, true, !s2)),
+                // 20&21 -- TODO have 2 results on side2
+                Triple.of(buildParam(true, false), buildParam(false, false), s2 -> buildResult(true, false, !s2)),
+                // 22&23
+                Triple.of(buildParam(false, true), buildParam(false, false), s2 -> buildResult(false, true, !s2))
+            ).mapMulti(((args, argsTests) -> {
+                final var arg1 = args.getLeft() == null ? List.of() : List.of(args.getLeft());
+                final var arg2 = args.getMiddle() == null ? List.of() : List.of(args.getMiddle());
+                argsTests.accept(Arguments.of(arg1, arg2, Optional.ofNullable(args.getRight().apply(false)).map(List::of).orElse(null)));
+                argsTests.accept(Arguments.of(arg2, arg1, Optional.ofNullable(args.getRight().apply(true)).map(List::of).orElse(null)));
+            }));
         }
     }
 }
