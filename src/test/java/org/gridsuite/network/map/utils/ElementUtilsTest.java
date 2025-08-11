@@ -76,7 +76,8 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("id", clMock));
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isNull();
-            Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
+            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
+            Mockito.verify(olgMock).getId();
             Mockito.verify(clMock).getPermanentLimit();
             Mockito.verify(clMock).getTemporaryLimits();
         }
@@ -88,7 +89,8 @@ class ElementUtilsTest implements WithAssertions {
             final var olgMock = Mockito.spy(new OperationalLimitsGroupDtoTest("id", clMock));
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock)).isNull();
-            Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
+            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
+            Mockito.verify(olgMock).getId();
             Mockito.verify(clMock).getPermanentLimit();
             Mockito.verify(clMock).getTemporaryLimits();
         }
@@ -104,7 +106,7 @@ class ElementUtilsTest implements WithAssertions {
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(null).temporaryLimits(
                     List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
-            Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
+            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock).getPermanentLimit();
             Mockito.verify(clMock, Mockito.times(2)).getTemporaryLimits();
@@ -121,7 +123,7 @@ class ElementUtilsTest implements WithAssertions {
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
-            Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
+            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
             Mockito.verify(clMock).getTemporaryLimits();
@@ -135,7 +137,7 @@ class ElementUtilsTest implements WithAssertions {
             mocks.add(olgMock);
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
-            Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
+            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
             Mockito.verify(clMock).getTemporaryLimits();
@@ -152,7 +154,7 @@ class ElementUtilsTest implements WithAssertions {
             assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.0).temporaryLimits(
                     List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
-            Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
+            Mockito.verify(olgMock, Mockito.times(2)).getCurrentLimits();
             Mockito.verify(olgMock).getId();
             Mockito.verify(clMock, Mockito.times(2)).getPermanentLimit();
             Mockito.verify(clMock, Mockito.times(2)).getTemporaryLimits();
