@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,10 +39,6 @@ public class CurrentLimitsData {
         EQUIPMENT, // applied to both sides
         SIDE1,
         SIDE2,
-    }
-
-    public boolean hasLimits() {
-        return permanentLimit != null && !Double.isNaN(permanentLimit) || !CollectionUtils.isEmpty(temporaryLimits);
     }
 
     public boolean limitsEquals(CurrentLimitsData other) {

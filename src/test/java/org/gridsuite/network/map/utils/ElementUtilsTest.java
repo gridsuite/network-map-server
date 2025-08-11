@@ -1,8 +1,6 @@
 package org.gridsuite.network.map.utils;
 
-import com.powsybl.iidm.network.LoadingLimits.TemporaryLimit;
 import com.powsybl.iidm.network.OperationalLimitsGroup;
-import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -13,7 +11,10 @@ import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.utils.MockDto.CurrentLimitsDtoTest;
 import org.gridsuite.network.map.utils.MockDto.OperationalLimitsGroupDtoTest;
 import org.gridsuite.network.map.utils.MockDto.TemporaryLimitDtoTest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -168,30 +169,6 @@ class ElementUtilsTest implements WithAssertions {
     @Nested
     @DisplayName("fn mergeCurrentLimits(…, …, …)")
     class MergeCurrentLimitsTest {
-        /**
-         * This test check that after that the two input collections has been converted with {@link ElementUtils#operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup)}
-         * that {@link CurrentLimitsData#hasLimits()} work as intended.
-         */
-        @Order(1)
-        @ParameterizedTest
-        @MethodSource("testDtoHasLimitAfterMapData")
-        void testDtoHasLimitAfterMapped(final boolean expected, final double pl, final Collection<TemporaryLimit> tl) {
-            assertThat(ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(new OperationalLimitsGroupDtoTest("id", new CurrentLimitsDtoTest(pl, tl)))).as("DTO")
-                .extracting(CurrentLimitsData::hasLimits, InstanceOfAssertFactories.BOOLEAN).as("hasLimits")
-                .isEqualTo(expected);
-        }
-
-        private static Stream<Arguments> testDtoHasLimitAfterMapData() {
-            return Stream.of(
-                Arguments.of(false, Double.NaN, null),
-                Arguments.of(false, Double.NaN, List.of()),
-                Arguments.of(true, Double.NaN, List.of(new TemporaryLimitDtoTest("tl", 1.2, 123))),
-                Arguments.of(true, 0.123, null),
-                Arguments.of(true, 0.123, List.of()),
-                Arguments.of(true, 0.123, List.of(new TemporaryLimitDtoTest("tl", 1.2, 123)))
-            );
-        }
-
         @ParameterizedTest(name = ParameterizedTest.INDEX_PLACEHOLDER)
         @MethodSource("mergeCurrentLimitsTestData")
         void shouldNotThrow(final Collection<OperationalLimitsGroup> olg1, final Collection<OperationalLimitsGroup> olg2, final List<CurrentLimitsData> expected) {
@@ -308,7 +285,5 @@ class ElementUtilsTest implements WithAssertions {
             softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l1, l2, results::set));
             softly.assertThatNullPointerException().isThrownBy(() -> ElementUtils.mergeCurrentLimits(l2, l1, results::set));
         }
-
-        // TODO what to do when one side has duplicate ID?
     }
 }
