@@ -173,7 +173,7 @@ class ElementUtilsTest implements WithAssertions {
         }
 
         @ParameterizedTest(name = ParameterizedTest.INDEX_PLACEHOLDER)
-        @MethodSource({"mergeCurrentLimitsTestData", "mergeCurrentLimitsTestDataSwappable"}) // test al the combinations possible for the inputs
+        @MethodSource({"mergeCurrentLimitsTestData", "mergeCurrentLimitsTestDataSwappable", "mergeCurrentLimitsTestDataNotMergeable"}) // test al the combinations possible for the inputs
         void shouldNotThrow(final Collection<OperationalLimitsGroup> olg1, final Collection<OperationalLimitsGroup> olg2, final List<CurrentLimitsData> expected) {
             System.out.print("L1: ");
             System.out.println(olg1);
@@ -201,35 +201,40 @@ class ElementUtilsTest implements WithAssertions {
         }
 
         private static Stream<Arguments> mergeCurrentLimitsTestDataSwappable() {
-                // cases with param1 and param2 swappable
-                // will map [l;r]->[(l,r)=s1, (r,l)=s2], so the pair is implicitly for case with side1 as result
+            // cases with param1 and param2 swappable
+            // will map [l;r]->[(l,r)=s1, (r,l)=s2], so the pair is implicitly for case with side1 as result
             return Stream.<Triple<OperationalLimitsGroupDtoTest, OperationalLimitsGroupDtoTest, Function<Boolean, CurrentLimitsData>>>of(
-                // 5&6 - id present only on one side
-                Triple.of(null, buildParam(true, true), s2 -> buildResult(true, true, s2)),
-                // 7&8
-                Triple.of(null, buildParam(true, false), s2 -> buildResult(true, false, s2)),
-                // 9&10
-                Triple.of(null, buildParam(false, true), s2 -> buildResult(false, true, s2)),
-                // 10&11 - after dto conversion, the same as test n°2
-                Triple.of(null, buildParam(false, false), s2 -> null),
-                // 12&13 -- TODO have 2 results on side2
-                Triple.of(buildParam(true, true), buildParam(true, false), s2 -> null),
-                // 14&15 -- TODO have 2 results on both sides
-                Triple.of(buildParam(true, true), buildParam(false, true), s2 -> null),
-                // 16&17 -- TODO have 2 results on side1
-                Triple.of(buildParam(true, true), buildParam(false, false), s2 -> buildResult(true, true, !s2)),
-                // 18&19
-                Triple.of(buildParam(true, false), buildParam(false, true), s2 -> buildResult(true, true, !s2)),
-                // 20&21 -- TODO have 2 results on side2
-                Triple.of(buildParam(true, false), buildParam(false, false), s2 -> buildResult(true, false, !s2)),
-                // 22&23
-                Triple.of(buildParam(false, true), buildParam(false, false), s2 -> buildResult(false, true, !s2))
-            ).mapMulti(((args, argsTests) -> {
+                    // 5 & 6 & 7 & 8 - id present only on one side, because OLG() with no limit is converted to null
+                    Triple.of(buildParam(true, true), null, s2 -> buildResult(true, true, !s2)),
+                    Triple.of(buildParam(true, true), buildParam(false, false), s2 -> buildResult(true, true, !s2)),
+                    // 9 & 10 & 11 & 12 - id present only on one side, because OLG() with no limit is converted to null
+                    Triple.of(buildParam(true, false), null, s2 -> buildResult(true, false, !s2)),
+                    Triple.of(buildParam(true, false), buildParam(false, false), s2 -> buildResult(true, false, !s2)),
+                    // 9 & 10 - id present only on one side, because OLG() with no limit is converted to null
+                    Triple.of(buildParam(false, true), null, s2 -> buildResult(false, true, !s2)),
+                    Triple.of(buildParam(false, true), buildParam(false, false), s2 -> buildResult(false, true, !s2)),
+                    // 11 & 12 - after dto conversion, the same as test n°2
+                    Triple.of(buildParam(false, false), null, s2 -> null)
+            ).mapMulti((args, argsTests) -> {
                 final var arg1 = args.getLeft() == null ? List.of() : List.of(args.getLeft());
                 final var arg2 = args.getMiddle() == null ? List.of() : List.of(args.getMiddle());
                 argsTests.accept(Arguments.of(arg1, arg2, Optional.ofNullable(args.getRight().apply(false)).map(List::of).orElse(null)));
                 argsTests.accept(Arguments.of(arg2, arg1, Optional.ofNullable(args.getRight().apply(true)).map(List::of).orElse(null)));
-            }));
+            });
+        }
+
+        private static Stream<Arguments> mergeCurrentLimitsTestDataNotMergeable() {
+            return Stream.of(
+                // 13 & 14
+                Arguments.of(List.of(buildParam(true, true)), List.of(buildParam(true, false)),
+                            List.of(buildResult(true, true, true), buildResult(true, false, false))),
+                // 15 & 16
+                Arguments.of(List.of(buildParam(true, true)), List.of(buildParam(false, true)),
+                            List.of(buildResult(true, true, true), buildResult(false, true, false))),
+                // 17 & 18
+                Arguments.of(List.of(buildParam(true, false)), List.of(buildParam(false, true)),
+                            List.of(buildResult(true, false, true), buildResult(false, true, false)))
+            );
         }
     }
 }
