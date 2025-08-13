@@ -11,16 +11,13 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.*;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -93,7 +90,7 @@ public final class ElementUtils {
         }
     }
 
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability) {
+    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, Applicability applicability) {
         return CurrentLimitsData.builder()
             .id(currentLimitsData.getId())
             .applicability(applicability)
@@ -111,15 +108,17 @@ public final class ElementUtils {
 
         // Build temporary limit from side 1 and 2
         List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
-            .map(currentLimitsData ->
-                ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE1)).toList();
+            .map(currentLimitsData -> ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE1))
+            .filter(Objects::nonNull)
+            .toList();
         ArrayList<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
-            .map(currentLimitsData ->
-                ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE2)).toList());
+            .map(currentLimitsData -> ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE2))
+            .filter(Objects::nonNull)
+            .toList());
 
         // combine 2 sides in one list
 
-        // simple case : one of the arrays are empty
+        // simple case: one of the arrays are empty
         if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
             mergedLimitsData.addAll(currentLimitsData1);
             build.accept(mergedLimitsData);
@@ -134,30 +133,22 @@ public final class ElementUtils {
         // more complex case
         for (CurrentLimitsData limitsData : currentLimitsData1) {
             Optional<CurrentLimitsData> l2 = currentLimitsData2.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
-
             if (l2.isPresent()) {
                 CurrentLimitsData limitsData2 = l2.get();
-                // Only side one has limits
-                if (limitsData.hasLimits() && !limitsData2.hasLimits()) {
-                    mergedLimitsData.add(limitsData);
-                    // only side two has limits
-                } else if (limitsData2.hasLimits() && !limitsData.hasLimits()) {
-                    mergedLimitsData.add(limitsData2);
+                // both sides have limits and limits are equals
+                if (limitsData.limitsEquals(limitsData2)) {
+                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
+                    // both sides have limits and are different: create 2 different limit sets
                 } else {
-                    // both sides have limits and limits are equals
-                    if (limitsData.limitsEquals(limitsData2)) {
-                        mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
-                        // both side have limits and they are different : create 2 different limit sets
-                    } else {
-                        // Side 1
-                        mergedLimitsData.add(limitsData);
-                        // Side 2
-                        mergedLimitsData.add(limitsData2);
-                    }
+                    // Side 1
+                    mergedLimitsData.add(limitsData);
+                    // Side 2
+                    mergedLimitsData.add(limitsData2);
                 }
                 // remove processed limits from side 2
                 currentLimitsData2.remove(l2.get());
             } else {
+                // only one side has limits
                 mergedLimitsData.add(limitsData);
             }
         }
@@ -261,7 +252,8 @@ public final class ElementUtils {
         return operationalLimitsGroupToMapDataCurrentLimits(operationalLimitsGroup, null);
     }
 
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, CurrentLimitsData.Applicability applicability) {
+    @Nullable
+    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, Applicability applicability) {
         if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
             return null;
         }
