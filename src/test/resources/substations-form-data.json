@@ -105,10 +105,7 @@
         ],
         "isRetrievedBusbarSections": true,
         "busBarSectionInfos" : {
-          "horizPos:1" : [ {
-            "vertPos" : 2,
-            "id" : "NGEN4"
-          } ]
+          "1" : ["NGEN4"]
         }
       }
     ]

@@ -146,16 +146,17 @@ public final class VoltageLevelInfosMapper {
         int sectionCount = 1;
         List<SwitchKind> switchKinds = List.of();
 
-        public Map<String, List<Map<String, Object>>> getBusBarSectionInfosGrouped() {
+        public Map<String, List<String>> getBusBarSectionInfosGrouped() {
             return busbarSections.stream()
                     .collect(Collectors.groupingBy(
-                            section -> "horizPos:" + section.getHorizPos(),
-                            Collectors.mapping(section -> {
-                                Map<String, Object> map = new HashMap<>();
-                                map.put("id", section.getId());
-                                map.put("vertPos", section.getVertPos());
-                                return map;
-                            }, Collectors.toList())
+                            section -> String.valueOf(section.getHorizPos()),
+                            Collectors.collectingAndThen(
+                                    Collectors.toList(),
+                                    list -> list.stream()
+                                            .sorted(Comparator.comparing(BusBarSectionFormInfos::getVertPos))
+                                            .map(BusBarSectionFormInfos::getId)
+                                            .toList()
+                            )
                     ));
         }
     }
