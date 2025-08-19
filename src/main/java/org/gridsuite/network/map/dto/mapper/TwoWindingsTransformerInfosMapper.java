@@ -82,9 +82,6 @@ public final class TwoWindingsTransformerInfosMapper {
 
         mergeCurrentLimits(twoWT.getOperationalLimitsGroups1(), twoWT.getOperationalLimitsGroups2(), builder::currentLimits);
 
-        buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
-        buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
-
         builder.operatingStatus(toOperatingStatus(twoWT));
         builder.connectablePosition1(toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(toMapConnectablePosition(twoWT, 2));
