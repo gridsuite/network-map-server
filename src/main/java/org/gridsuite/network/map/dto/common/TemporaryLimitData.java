@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * @author David Braquart <david.braquart at rte-france.com>
@@ -17,6 +18,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @EqualsAndHashCode
+@ToString
 public class TemporaryLimitData {
     private String name;
 
