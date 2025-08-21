@@ -7,7 +7,6 @@
 package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
-import com.powsybl.commons.report.ReportNode;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import com.powsybl.network.store.client.NetworkStoreService;

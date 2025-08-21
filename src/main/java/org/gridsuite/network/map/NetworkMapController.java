@@ -140,7 +140,6 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelConnections(networkUuid, voltageLevelId, variantId);
     }
 
-
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get the voltage level id for a branch or a 3wt side")
     @ApiResponses(value = {

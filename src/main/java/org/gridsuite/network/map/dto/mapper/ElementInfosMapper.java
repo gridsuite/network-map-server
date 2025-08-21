@@ -47,7 +47,6 @@ public final class ElementInfosMapper {
     }
 
     public static ElementInfosWithConnection toInfosWithConnection(Connectable<?> connectable, ConnectablePosition.Feeder feeder) {
-        if (feeder == null) {}
         return ElementInfosWithConnection.builder()
             .id(connectable.getId())
             .name(connectable.getOptionalName().orElse(null))
