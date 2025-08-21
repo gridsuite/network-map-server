@@ -12,16 +12,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -45,6 +44,7 @@ public final class VoltageLevelInfosMapper {
     private static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
         VoltageLevelTopologyInfos topologyInfos = new VoltageLevelTopologyInfos();
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
+        List<BusBarSectionFormInfos> busbarSectionInfos = new ArrayList<>();
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
             var extension = bbs.getExtension(BusbarSectionPosition.class);
             if (extension != null) {
@@ -58,6 +58,12 @@ public final class VoltageLevelInfosMapper {
                 if (extension.getSectionIndex() > nbSectionsPerBusbar.get(extension.getBusbarIndex())) {
                     nbSectionsPerBusbar.put(extension.getBusbarIndex(), extension.getSectionIndex());
                 }
+                BusBarSectionFormInfos busbarSectionInfo = BusBarSectionFormInfos.builder()
+                        .id(bbs.getId())
+                        .vertPos(extension.getSectionIndex())
+                        .horizPos(extension.getBusbarIndex())
+                        .build();
+                busbarSectionInfos.add(busbarSectionInfo);
             } else {
                 return new VoltageLevelTopologyInfos();
             }
@@ -68,6 +74,7 @@ public final class VoltageLevelInfosMapper {
 
         topologyInfos.setRetrievedBusbarSections(true);
         topologyInfos.setSwitchKinds(Collections.nCopies(topologyInfos.getSectionCount() - 1, SwitchKind.DISCONNECTOR));
+        topologyInfos.setBusbarSections(busbarSectionInfos);
 
         return topologyInfos;
     }
@@ -90,6 +97,7 @@ public final class VoltageLevelInfosMapper {
             builder.sectionCount(vlTopologyInfos.getSectionCount());
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
+            builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
         }
 
         builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
@@ -128,9 +136,24 @@ public final class VoltageLevelInfosMapper {
     @Getter
     @Setter
     public static class VoltageLevelTopologyInfos {
+        private List<BusBarSectionFormInfos> busbarSections = List.of();
         private boolean isRetrievedBusbarSections = false;
         private int busbarCount = 1;
         private int sectionCount = 1;
         private List<SwitchKind> switchKinds = List.of();
+
+        public Map<String, List<String>> getBusBarSectionInfosGrouped() {
+            return busbarSections.stream()
+                    .collect(Collectors.groupingBy(
+                            section -> String.valueOf(section.getHorizPos()),
+                            Collectors.collectingAndThen(
+                                    Collectors.toList(),
+                                    list -> list.stream()
+                                            .sorted(Comparator.comparing(BusBarSectionFormInfos::getVertPos))
+                                            .map(BusBarSectionFormInfos::getId)
+                                            .toList()
+                            )
+                    ));
+        }
     }
 }

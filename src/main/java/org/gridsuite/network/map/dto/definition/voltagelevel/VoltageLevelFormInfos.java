@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -53,4 +54,6 @@ public class VoltageLevelFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isRetrievedBusbarSections;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, List<String>> busBarSectionInfos;
 }
