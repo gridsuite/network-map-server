@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.springframework.util.CollectionUtils;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +22,7 @@ import java.util.Objects;
 @Builder
 @Getter
 @EqualsAndHashCode
+@ToString
 public class CurrentLimitsData {
     // may be null in case we just need the selected limit set and don't really need its name/id
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,10 +41,6 @@ public class CurrentLimitsData {
         EQUIPMENT, // applied to both sides
         SIDE1,
         SIDE2,
-    }
-
-    public boolean hasLimits() {
-        return !Double.isNaN(permanentLimit) || !CollectionUtils.isEmpty(temporaryLimits);
     }
 
     public boolean limitsEquals(CurrentLimitsData other) {
