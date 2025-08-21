@@ -7,7 +7,9 @@
 package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
+import com.powsybl.commons.report.ReportNode;
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.*;
@@ -24,6 +26,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.powsybl.iidm.modification.topology.TopologyModificationUtils.getFeedersByConnectable;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -93,6 +97,24 @@ public class NetworkMapService {
         return network.getVoltageLevel(voltageLevelId).getConnectableStream()
                 .map(ElementInfosMapper::toInfosWithType)
                 .collect(Collectors.toList());
+    }
+
+    public List<ElementInfos> getVoltageLevelConnections(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        Map<String, List<ConnectablePosition.Feeder>> feedersMap = getFeedersByConnectable(voltageLevel);
+        return network.getVoltageLevel(voltageLevelId).getConnectableStream()
+            .filter(connectable -> !(connectable instanceof BusbarSection))
+            .flatMap(connectable -> {
+                if (!feedersMap.containsKey(connectable.getId())) {
+                    return Stream.of(ElementInfosWithConnection.builder()
+                        .id(connectable.getId())
+                        .name((String) connectable.getOptionalName().orElse(""))
+                        .build());
+                }
+                return feedersMap.get(connectable.getId()).stream().map(feeder -> ElementInfosMapper.toInfosWithConnection(connectable, feeder));
+            })
+            .collect(Collectors.toList());
     }
 
     public List<ElementInfos> getVoltageLevelBusesOrBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {

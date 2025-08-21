@@ -131,6 +131,16 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelEquipments(networkUuid, voltageLevelId, variantId);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/connections", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get Voltage level connections")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level equipments")})
+    public List<ElementInfos> getVoltageLevelConnections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                        @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                        @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelConnections(networkUuid, voltageLevelId, variantId);
+    }
+
+
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get the voltage level id for a branch or a 3wt side")
     @ApiResponses(value = {

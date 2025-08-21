@@ -6,8 +6,11 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
+import com.powsybl.iidm.network.Connectable;
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementInfosWithConnection;
 import org.gridsuite.network.map.dto.ElementInfosWithOperatingStatus;
 import org.gridsuite.network.map.dto.ElementInfosWithType;
 
@@ -41,5 +44,16 @@ public final class ElementInfosMapper {
                 .name(identifiable.getOptionalName().orElse(null))
                 .operatingStatus(toOperatingStatus(identifiable))
                 .build();
+    }
+
+    public static ElementInfosWithConnection toInfosWithConnection(Connectable<?> connectable, ConnectablePosition.Feeder feeder) {
+        if (feeder == null) {}
+        return ElementInfosWithConnection.builder()
+            .id(connectable.getId())
+            .name(connectable.getOptionalName().orElse(null))
+            .connectionLabel(feeder.getName().orElse(connectable.getId()))
+            .connectionDirection(feeder.getDirection())
+            .connectionOrder(feeder.getOrder().orElse(null))
+            .build();
     }
 }
