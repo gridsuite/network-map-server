@@ -12,6 +12,7 @@ import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.gridsuite.network.map.dto.*;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
@@ -98,22 +99,22 @@ public class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getVoltageLevelConnections(UUID networkUuid, String voltageLevelId, String variantId) {
+    public Map<String, ConnectablePositionInfos> getVoltageLevelConnections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
         Map<String, List<ConnectablePosition.Feeder>> feedersMap = getFeedersByConnectable(voltageLevel);
-        return network.getVoltageLevel(voltageLevelId).getConnectableStream()
+        Map<String, ConnectablePositionInfos> connections = new HashMap<>();
+        network.getVoltageLevel(voltageLevelId).getConnectableStream()
             .filter(connectable -> !(connectable instanceof BusbarSection))
-            .flatMap(connectable -> {
+            .forEach(connectable -> {
                 if (!feedersMap.containsKey(connectable.getId())) {
-                    return Stream.of(ElementInfosWithConnection.builder()
-                        .id(connectable.getId())
-                        .name((String) connectable.getOptionalName().orElse(""))
+                    connections.put(connectable.getId(), ConnectablePositionInfos.builder()
                         .build());
                 }
-                return feedersMap.get(connectable.getId()).stream().map(feeder -> ElementInfosMapper.toInfosWithConnection(connectable, feeder));
-            })
-            .collect(Collectors.toList());
+                feedersMap.get(connectable.getId()).forEach(feeder ->
+                    connections.put(connectable.getId(), ElementInfosMapper.toConnectablePositionInfos(connectable, feeder)));
+            });
+        return connections;
     }
 
     public List<ElementInfos> getVoltageLevelBusesOrBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
