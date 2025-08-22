@@ -25,8 +25,11 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     private String voltageLevelId1;
     private String voltageLevelId2;
 
-    @JsonInclude(Include.NON_NULL) private String voltageLevelName1;
-    @JsonInclude(Include.NON_NULL) private String voltageLevelName2;
+    @JsonInclude(Include.NON_NULL)
+    private String voltageLevelName1;
+
+    @JsonInclude(Include.NON_NULL)
+    private String voltageLevelName2;
 
     private Double nominalVoltage1;
     private Double nominalVoltage2;
@@ -52,8 +55,11 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     @JsonInclude(Include.NON_NULL)
     private Double i2;
 
-    @JsonInclude(Include.NON_NULL) private Double r;
-    @JsonInclude(Include.NON_NULL) private Double x;
+    @JsonInclude(Include.NON_NULL)
+    private Double r;
+
+    @JsonInclude(Include.NON_NULL)
+    private Double x;
 
     @JsonInclude(Include.NON_EMPTY)
     private Map<String, CurrentLimitsData> operationalLimitsGroup1;

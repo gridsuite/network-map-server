@@ -11,7 +11,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.HvdcConverterStation.HvdcType;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
@@ -33,7 +33,7 @@ import java.util.stream.Stream;
  */
 @ComponentScan(basePackageClasses = {NetworkStoreService.class})
 @Service
-@Data
+@AllArgsConstructor
 public class NetworkMapService {
     private final NetworkStoreService networkStoreService;
 
