@@ -67,10 +67,9 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .g2(line.getG2())
                 .b2(line.getB2())
                 .properties(getProperties(line))
+                .currentLimits(mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2()))
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
                 .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
 
         buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
         buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
@@ -162,8 +161,8 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .b1(line.getB1())
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1, null, null)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2, null, null)));
 
         return builder.build();
     }

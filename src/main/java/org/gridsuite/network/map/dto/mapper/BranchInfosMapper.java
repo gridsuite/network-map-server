@@ -1,12 +1,17 @@
 package org.gridsuite.network.map.dto.mapper;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.LoadingLimits.TemporaryLimit;
 import com.powsybl.iidm.network.extensions.BranchObservability;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
 import lombok.NonNull;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
+import org.gridsuite.network.map.dto.common.CurrentLimitsData.CurrentLimitsDataBuilder;
+import org.gridsuite.network.map.dto.common.TemporaryLimitData;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos.BranchTabInfosBuilder;
 import org.gridsuite.network.map.dto.definition.extension.BranchObservabilityInfos;
@@ -16,8 +21,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
+import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE1;
+import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE2;
 import static org.gridsuite.network.map.dto.utils.ExtensionUtils.buildQualityInfos;
 
 public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMapper, TwoWindingsTransformerInfosMapper {
@@ -100,7 +110,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         }
         Map<String, CurrentLimitsData> res = HashMap.newHashMap(operationalLimitsGroups.size());
         operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits()
-                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits))));
+                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits, null, null))));
         return res;
     }
 
@@ -127,17 +137,103 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         return intensity;
     }
 
-    protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits) {
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
+    protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
+                                                              @Nullable final String id, @Nullable final Applicability applicability) {
+        CurrentLimitsDataBuilder builder = CurrentLimitsData.builder().id(id).applicability(applicability);
         boolean empty = true;
         if (!Double.isNaN(limits.getPermanentLimit())) {
             builder.permanentLimit(limits.getPermanentLimit());
             empty = false;
         }
         if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
-            builder.temporaryLimits(ElementUtils.toMapDataTemporaryLimit(limits.getTemporaryLimits()));
+            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
             empty = false;
         }
         return empty ? null : builder.build();
+    }
+
+    protected static void buildCurrentLimits(@NonNull final Collection<OperationalLimitsGroup> currentLimits, @NonNull final Consumer<List<CurrentLimitsData>> build) {
+        final List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
+            .map(olg -> operationalLimitsGroupToMapDataCurrentLimits(olg, null))
+            .toList();
+        if (!currentLimitsData.isEmpty()) {
+            build.accept(currentLimitsData);
+        }
+    }
+
+    /**
+     * Combine 2 sides in one list
+     */
+    @Nullable
+    protected static List<CurrentLimitsData> mergeCurrentLimits(@NonNull final Collection<OperationalLimitsGroup> operationalLimitsGroups1,
+                                                                @NonNull final Collection<OperationalLimitsGroup> operationalLimitsGroups2) {
+        // Build temporary limit from side 1 and 2
+        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
+            .map(currentLimitsData -> operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE1))
+            .filter(Objects::nonNull)
+            .toList();
+        List<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
+            .map(currentLimitsData -> operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE2))
+            .filter(Objects::nonNull)
+            .toList());
+
+        // simple case: one of the arrays is empty
+        if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
+            return currentLimitsData1;
+        }
+        if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
+            return currentLimitsData2;
+        }
+
+        // more complex case
+        final List<CurrentLimitsData> mergedLimitsData = Stream.concat(currentLimitsData1.stream(), currentLimitsData2.stream())
+                .collect(Collectors.groupingByConcurrent(CurrentLimitsData::getId))
+                .values()
+                .parallelStream()
+                .<CurrentLimitsData>mapMulti((currentLimitsData, acc) -> {
+                    if (currentLimitsData.isEmpty() || currentLimitsData.size() > 2) {
+                        throw new UnsupportedOperationException("IDs are assumed unique in each lists");
+                    } else if (currentLimitsData.size() == 2) {
+                        final CurrentLimitsData limitsData = currentLimitsData.get(0);
+                        if (limitsData.limitsEquals(currentLimitsData.get(1))) { // case 1: both sides have limits which are equals
+                            acc.accept(CurrentLimitsData.builder()
+                                .id(limitsData.getId())
+                                .applicability(Applicability.EQUIPMENT)
+                                .temporaryLimits(limitsData.getTemporaryLimits())
+                                .permanentLimit(limitsData.getPermanentLimit())
+                                .build());
+                            return;
+                        }
+                    }
+                    // case 2: both sides have limits and are different: create 2 different limit sets
+                    // case 3: only one side has limits
+                    currentLimitsData.forEach(acc);
+                })
+                .toList();
+
+        if (!mergedLimitsData.isEmpty()) {
+            return mergedLimitsData;
+        }
+        return null;
+    }
+
+    @VisibleForTesting // or else is private
+    @Nullable
+    static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(@Nullable final OperationalLimitsGroup operationalLimitsGroup,
+                                                                          @Nullable final Applicability applicability) {
+        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
+            return null;
+        }
+        return toMapDataCurrentLimits(operationalLimitsGroup.getCurrentLimits().get(), operationalLimitsGroup.getId(), applicability);
+    }
+
+    private static List<TemporaryLimitData> toMapDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
+        return limits.stream()
+            .map(l -> TemporaryLimitData.builder()
+                .name(l.getName())
+                .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
+                .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
+                .build())
+            .collect(Collectors.toList());
     }
 }

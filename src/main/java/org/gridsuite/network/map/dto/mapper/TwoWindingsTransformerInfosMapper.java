@@ -73,7 +73,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
-                .properties(getProperties(twoWT));
+                .properties(getProperties(twoWT))
+                .currentLimits(mergeCurrentLimits(twoWT.getOperationalLimitsGroups1(), twoWT.getOperationalLimitsGroups2()));
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
@@ -86,8 +87,6 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         builder.i2(nullIfNan(terminal2.getI()));
         builder.selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null));
         builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        mergeCurrentLimits(twoWT.getOperationalLimitsGroups1(), twoWT.getOperationalLimitsGroups2(), builder::currentLimits);
 
         buildCurrentLimits(twoWT.getOperationalLimitsGroups1(), builder::currentLimits1);
         buildCurrentLimits(twoWT.getOperationalLimitsGroups2(), builder::currentLimits2);
@@ -166,8 +165,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .x(twoWindingsTransformer.getX())
                 .b(twoWindingsTransformer.getB());
 
-        twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        twoWindingsTransformer.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1, null, null)));
+        twoWindingsTransformer.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2, null, null)));
 
         return builder.build();
     }

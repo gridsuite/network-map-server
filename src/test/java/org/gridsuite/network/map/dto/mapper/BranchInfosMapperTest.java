@@ -1,4 +1,4 @@
-package org.gridsuite.network.map.utils;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.OperationalLimitsGroup;
 import org.apache.commons.collections4.CollectionUtils;
@@ -9,7 +9,7 @@ import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
 import org.gridsuite.network.map.dto.common.TemporaryLimitData;
-import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.utils.MockDto;
 import org.gridsuite.network.map.utils.MockDto.CurrentLimitsDtoTest;
 import org.gridsuite.network.map.utils.MockDto.OperationalLimitsGroupDtoTest;
 import org.gridsuite.network.map.utils.MockDto.TemporaryLimitDtoTest;
@@ -26,14 +26,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 @ExtendWith({ SoftAssertionsExtension.class, MockitoExtension.class })
-class ElementUtilsTest implements WithAssertions {
-    /** Tests for {@link ElementUtils#operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup)} */
+class BranchInfosMapperTest implements WithAssertions {
+    /** Tests for {@link BranchInfosMapper#operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup, Applicability)} */
     @Nested
     @DisplayName("fn operationalLimitsGroupToMapDataCurrentLimits(…)")
     class OperationalLimitsGroupToMapDataCurrentLimits {
@@ -73,7 +71,7 @@ class ElementUtilsTest implements WithAssertions {
             if (olgMock != null) {
                 mocks.add(olgMock);
             }
-            final CurrentLimitsData result = ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(olgMock);
+            final CurrentLimitsData result = BranchInfosMapper.operationalLimitsGroupToMapDataCurrentLimits(olgMock, null);
             if (id != null) {
                 Mockito.verify(olgMock, Mockito.times(permanentLimit == null ? 1 : 2)).getCurrentLimits();
                 if (permanentLimit != null) {
@@ -153,7 +151,7 @@ class ElementUtilsTest implements WithAssertions {
         }
     }
 
-    /** Tests for {@link ElementUtils#mergeCurrentLimits(Collection, Collection, Consumer)} */
+    /** Tests for {@link BranchInfosMapper#mergeCurrentLimits(Collection, Collection)} */
     @Nested
     @DisplayName("fn mergeCurrentLimits(…, …, …)")
     class MergeCurrentLimitsTest {
@@ -181,9 +179,7 @@ class ElementUtilsTest implements WithAssertions {
             System.out.println(olg2);
             System.out.print("Expect: ");
             System.out.println(expected);
-            AtomicReference<List<CurrentLimitsData>> results = new AtomicReference<>();
-            ElementUtils.mergeCurrentLimits(olg1, olg2, results::set);
-            assertThat(results.get()).as("Result").isEqualTo(expected);
+            assertThat(BranchInfosMapper.mergeCurrentLimits(olg1, olg2)).as("Result").isEqualTo(expected);
         }
 
         private static Stream<Arguments> mergeCurrentLimitsTestData() {
