@@ -1352,7 +1352,6 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
