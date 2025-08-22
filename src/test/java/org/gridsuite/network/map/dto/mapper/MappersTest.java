@@ -1,4 +1,4 @@
-package org.gridsuite.network.map.mapper;
+package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import lombok.experimental.StandardException;
@@ -10,7 +10,6 @@ import org.assertj.core.api.WithAssumptions;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.mapper.*;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.BeforeParameterizedClassInvocation;
