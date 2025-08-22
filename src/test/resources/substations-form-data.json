@@ -1,10 +1,5 @@
 [
   {
-    "id": "P0",
-    "country": "FR",
-    "voltageLevels": []
-  },
-  {
     "id": "P1",
     "name": "P1_Name",
     "properties": {
@@ -14,18 +9,18 @@
     "voltageLevels": [
       {
         "id": "VLGEN",
+        "name": "VLGEN_Name",
+        "properties": {
+          "Country": "FR"
+        },
         "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
         "nominalV": 24.0,
-        "name": "VLGEN_Name",
         "lowVoltageLimit": 200.0,
         "highVoltageLimit": 400.0,
         "identifiableShortCircuit": {
           "ipMin": 10.0,
           "ipMax": 120.0
-        },
-        "properties": {
-          "Country": "FR"
         }
       },
       {
@@ -36,12 +31,12 @@
       },
       {
         "id": "VLNEW2",
-        "topologyKind": "BUS_BREAKER",
-        "substationId": "P1",
-        "nominalV": 225.0,
         "properties": {
           "Country": "FR"
-        }
+        },
+        "topologyKind": "BUS_BREAKER",
+        "substationId": "P1",
+        "nominalV": 225.0
       }
     ]
   },
@@ -61,6 +56,11 @@
         "nominalV": 150.0
       }
     ]
+  },
+  {
+    "id": "P0",
+    "country": "FR",
+    "voltageLevels": []
   },
   {
     "id": "P3",
@@ -104,8 +104,28 @@
           "DISCONNECTOR"
         ],
         "isRetrievedBusbarSections": true,
-        "busBarSectionInfos" : {
-          "1" : ["NGEN4"]
+        "busBarSectionInfos": {
+          "1": [
+            "NGEN4"
+          ]
+        },
+        "connectablePositionInfos": {
+          "SHUNT_VLNB": [
+            {
+              "busbarId": "NGEN4",
+              "connectablePositionInfos": {
+                "connectionDirection": null
+              }
+            }
+          ],
+          "SHUNT_NON_LINEAR": [
+            {
+              "busbarId": null,
+              "connectablePositionInfos": {
+                "connectionDirection": null
+              }
+            }
+          ]
         }
       }
     ]
@@ -129,7 +149,8 @@
         "sectionCount": 1,
         "switchKinds": [],
         "isRetrievedBusbarSections": false,
-        "busBarSectionInfos" : { }
+        "busBarSectionInfos": {},
+        "connectablePositionInfos": {}
       }
     ]
   }

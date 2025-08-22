@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.definition.voltagelevel.FeederBayInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
@@ -83,7 +84,7 @@ public final class VoltageLevelInfosMapper {
         return topologyInfos;
     }
 
-    protected static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
+    static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
         VoltageLevelFormInfos.VoltageLevelFormInfosBuilder<?, ?> builder = VoltageLevelFormInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
@@ -102,11 +103,36 @@ public final class VoltageLevelInfosMapper {
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
             builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
+            builder.connectablePositionInfos(getConnectionInfos(voltageLevel));
         }
 
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
+    }
+
+    private static Map<String, List<FeederBayInfos>> getConnectionInfos(VoltageLevel voltageLevel) {
+        Map<String, List<FeederBayInfos>> connections = new HashMap<>();
+        voltageLevel.getConnectableStream()
+            .filter(connectable -> !(connectable instanceof BusbarSection))
+            .forEach(connectable -> {
+                switch (connectable) {
+                    case Injection<?> injection -> connections.put(injection.getId(), List.of(new FeederBayInfos(getBusOrBusbarSection(injection.getTerminal()),
+                            toMapConnectablePosition(injection, 0))));
+                    case Branch<?> branch -> {
+                        List<FeederBayInfos> branchConnections = new ArrayList<>();
+                        if (branch.getTerminal1().getVoltageLevel().getId().equals(voltageLevel.getId())) {
+                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 1)));
+                        }
+                        if (branch.getTerminal2().getVoltageLevel().getId().equals(voltageLevel.getId())) {
+                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 2)));
+                        }
+                        connections.put(branch.getId(), branchConnections);
+                    }
+                    default -> throw new IllegalArgumentException("connectable type: " + connectable.getClass() + " not supported");
+                }
+            });
+        return connections;
     }
 
     protected static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {

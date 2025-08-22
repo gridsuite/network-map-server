@@ -14,12 +14,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.gridsuite.network.map.dto.*;
-import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -127,15 +129,6 @@ public class NetworkMapController {
                                                                @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getVoltageLevelEquipments(networkUuid, voltageLevelId, variantId);
-    }
-
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/connections", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get Voltage level connections")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Voltage level equipments")})
-    public Map<String, ConnectablePositionInfos> getVoltageLevelConnections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getVoltageLevelConnections(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", produces = APPLICATION_JSON_VALUE)

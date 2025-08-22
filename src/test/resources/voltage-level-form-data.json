@@ -1,13 +1,35 @@
 {
   "id": "VLGEN4",
+  "topologyKind": "NODE_BREAKER",
   "substationId": "P4",
   "nominalV": 24.0,
-  "topologyKind": "NODE_BREAKER",
   "busbarCount": 1,
   "sectionCount": 2,
-  "switchKinds": ["DISCONNECTOR"],
+  "switchKinds": [
+    "DISCONNECTOR"
+  ],
   "isRetrievedBusbarSections": true,
-  "busBarSectionInfos" : {
-    "1" : [ "NGEN4"]
+  "busBarSectionInfos": {
+    "1": [
+      "NGEN4"
+    ]
+  },
+  "connectablePositionInfos": {
+    "SHUNT_VLNB": [
+      {
+        "busbarId": "NGEN4",
+        "connectablePositionInfos": {
+          "connectionDirection": null
+        }
+      }
+    ],
+    "SHUNT_NON_LINEAR": [
+      {
+        "busbarId": null,
+        "connectablePositionInfos": {
+          "connectionDirection": null
+        }
+      }
+    ]
   }
 }
