@@ -1352,7 +1352,6 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1412,7 +1411,6 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 

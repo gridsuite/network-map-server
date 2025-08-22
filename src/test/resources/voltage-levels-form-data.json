@@ -1,74 +1,103 @@
 [
   {
-    "id": "VL",
-    "name":"VL",
-    "nominalV": 24.0,
-    "topologyKind": "BUS_BREAKER"
-  },
-  {
     "id": "VLGEN",
+    "name": "VLGEN_Name",
+    "properties": {
+      "Country": "FR"
+    },
+    "topologyKind": "BUS_BREAKER",
     "substationId": "P1",
     "nominalV": 24.0,
-    "topologyKind": "BUS_BREAKER",
-    "name": "VLGEN_Name",
     "lowVoltageLimit": 200.0,
     "highVoltageLimit": 400.0,
     "identifiableShortCircuit": {
       "ipMin": 10.0,
       "ipMax": 120.0
-    },
-    "properties": {
-      "Country": "FR"
     }
   },
   {
     "id": "VLHV1",
+    "topologyKind": "BUS_BREAKER",
     "substationId": "P1",
-    "nominalV": 380.0,
-    "topologyKind": "BUS_BREAKER"
+    "nominalV": 380.0
   },
   {
     "id": "VLHV2",
+    "topologyKind": "BUS_BREAKER",
     "substationId": "P2",
-    "nominalV": 380.0,
-    "topologyKind": "BUS_BREAKER"
+    "nominalV": 380.0
   },
   {
     "id": "VLLOAD",
+    "topologyKind": "BUS_BREAKER",
     "substationId": "P2",
-    "nominalV": 150.0,
-    "topologyKind": "BUS_BREAKER"
+    "nominalV": 150.0
   },
   {
     "id": "VLNEW2",
-    "substationId": "P1",
-    "nominalV": 225.0,
-    "topologyKind": "BUS_BREAKER",
     "properties": {
       "Country": "FR"
-    }
+    },
+    "topologyKind": "BUS_BREAKER",
+    "substationId": "P1",
+    "nominalV": 225.0
   },
   {
     "id": "VLGEN3",
+    "topologyKind": "BUS_BREAKER",
     "substationId": "P3",
-    "nominalV": 24.0,
-    "topologyKind": "BUS_BREAKER"
+    "nominalV": 24.0
+  },
+  {
+    "id": "VLGEN6",
+    "topologyKind": "BUS_BREAKER",
+    "substationId": "P6",
+    "nominalV": 24.0
+  },
+  {
+    "id": "VL",
+    "name": "VL",
+    "topologyKind": "BUS_BREAKER",
+    "nominalV": 24.0
   },
   {
     "id": "VLGEN4",
+    "topologyKind": "NODE_BREAKER",
     "substationId": "P4",
     "nominalV": 24.0,
-    "topologyKind": "NODE_BREAKER",
     "busbarCount": 1,
     "sectionCount": 2,
-    "switchKinds": ["DISCONNECTOR"],
+    "switchKinds": [
+      "DISCONNECTOR"
+    ],
     "isRetrievedBusbarSections": true,
-    "busBarSectionInfos" : {
-      "1" : [ "NGEN4" ]
+    "busBarSectionInfos": {
+      "1": [
+        "NGEN4"
+      ]
+    },
+    "connectablePositionInfos": {
+      "SHUNT_VLNB": [
+        {
+          "busbarId": "NGEN4",
+          "connectablePositionInfos": {
+            "connectionDirection": null
+          }
+        }
+      ],
+      "SHUNT_NON_LINEAR": [
+        {
+          "busbarId": null,
+          "connectablePositionInfos": {
+            "connectionDirection": null
+          }
+        }
+      ]
     }
   },
   {
     "id": "VLGEN5",
+    "topologyKind": "NODE_BREAKER",
     "substationId": "P5",
     "nominalV": 24.0,
     "lowVoltageLimit": 20.0,
@@ -77,17 +106,11 @@
       "ipMin": 0.0,
       "ipMax": 100.0
     },
-    "topologyKind": "NODE_BREAKER",
     "busbarCount": 1,
     "sectionCount": 1,
     "switchKinds": [],
     "isRetrievedBusbarSections": false,
-    "busBarSectionInfos" : { }
-  },
-  {
-    "id": "VLGEN6",
-    "topologyKind": "BUS_BREAKER",
-    "substationId": "P6",
-    "nominalV": 24.0
+    "busBarSectionInfos": {},
+    "connectablePositionInfos": {}
   }
 ]

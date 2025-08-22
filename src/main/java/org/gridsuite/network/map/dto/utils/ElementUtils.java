@@ -53,13 +53,17 @@ public final class ElementUtils {
         }
     }
 
-    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
+    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> identifiable, int index) {
+        ConnectablePosition.Feeder feeder = getFeederInfos(identifiable, index);
+        return convertFeederToConnectablePositionInfos(feeder);
+    }
+
+    public static ConnectablePositionInfos convertFeederToConnectablePositionInfos(ConnectablePosition.Feeder feeder) {
         ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
-        ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
         if (feeder != null) {
             builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())
-                    .connectionPosition(feeder.getOrder().orElse(null))
-                    .connectionName(feeder.getName().orElse(null));
+                .connectionPosition(feeder.getOrder().orElse(null))
+                .connectionName(feeder.getName().orElse(null));
         }
         return builder.build();
     }
