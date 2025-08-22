@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.branch.line.*;
@@ -80,6 +81,11 @@ public final class LineInfosMapper extends BranchInfosMapper {
 
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(line, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(line, 2));
+
+        builder.measurementP1(ExtensionUtils.toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementQ1(ExtensionUtils.toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementQ2(ExtensionUtils.toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
 
         return builder.build();
     }

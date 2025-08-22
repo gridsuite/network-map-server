@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement.TapChanger;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement.Type;
+import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -93,6 +94,11 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         builder.operatingStatus(ExtensionUtils.toOperatingStatus(twoWT));
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2));
+
+        builder.measurementP1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
 
         builder.toBeEstimated(toToBeEstimated(twoWT));
 
