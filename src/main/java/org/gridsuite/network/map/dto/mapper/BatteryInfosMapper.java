@@ -7,15 +7,16 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.definition.battery.BatteryFormInfos;
 import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
-import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -66,7 +67,7 @@ public final class BatteryInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .q(nullIfNan(terminal.getQ()))
                 .properties(getProperties(battery))
-                .connectablePosition(toMapConnectablePosition(battery, 0));
+                .connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -80,7 +81,7 @@ public final class BatteryInfosMapper {
             }
         }
 
-        builder.activePowerControl(toActivePowerControl(battery));
+        builder.activePowerControl(ExtensionUtils.toActivePowerControl(battery));
 
         return builder.build();
     }
@@ -103,8 +104,8 @@ public final class BatteryInfosMapper {
             .properties(getProperties(battery))
             .q(nullIfNan(terminal.getQ()));
 
-        builder.connectablePosition(toMapConnectablePosition(battery, 0))
-               .activePowerControl(toActivePowerControl(battery));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0))
+               .activePowerControl(ExtensionUtils.toActivePowerControl(battery));
 
         // voltageLevel and substation properties
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
@@ -122,10 +123,10 @@ public final class BatteryInfosMapper {
             }
         }
 
-        builder.measurementP(toMeasurement(battery, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(battery, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(battery, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(battery, Type.REACTIVE_POWER, 0));
 
-        builder.injectionObservability(toInjectionObservability(battery));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(battery));
 
         return builder.build();
     }

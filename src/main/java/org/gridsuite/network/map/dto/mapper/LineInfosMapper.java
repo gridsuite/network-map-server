@@ -9,12 +9,13 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.definition.line.*;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Map;
 
@@ -79,15 +80,15 @@ public final class LineInfosMapper {
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        builder.operatingStatus(toOperatingStatus(line));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
 
-        builder.connectablePosition1(toMapConnectablePosition(line, 1))
-                .connectablePosition2(toMapConnectablePosition(line, 2));
+        builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(line, 1))
+                .connectablePosition2(ExtensionUtils.toMapConnectablePosition(line, 2));
 
-        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
+        builder.measurementP1(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 0))
+                .measurementQ1(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 1))
+                .measurementQ2(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 1));
 
         return builder.build();
     }
@@ -106,7 +107,7 @@ public final class LineInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
-                .operatingStatus(toOperatingStatus(line))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line))
                 .build();
     }
 
@@ -128,7 +129,7 @@ public final class LineInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
-        builder.operatingStatus(toOperatingStatus(line));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
 
         return builder.build();
     }
@@ -180,12 +181,12 @@ public final class LineInfosMapper {
         builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
         builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
-            .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
-            .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
+        builder.measurementP1(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 0))
+            .measurementQ1(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 0))
+            .measurementP2(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 1))
+            .measurementQ2(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 1));
 
-        builder.branchObservability(toBranchObservability(line));
+        builder.branchObservability(ExtensionUtils.toBranchObservability(line));
 
         return builder.build();
     }

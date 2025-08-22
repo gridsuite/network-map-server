@@ -6,19 +6,25 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.Substation;
-import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.ThreeWindingsTransformer;
-import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
+import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.ThreeWindingsTransformer.Leg;
+import com.powsybl.iidm.network.extensions.DiscreteMeasurement.TapChanger;
+import com.powsybl.iidm.network.extensions.DiscreteMeasurement.Type;
 import com.powsybl.iidm.network.extensions.Measurement;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerOperatingStatusInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
+import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -50,85 +56,106 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelId3(terminal3.getVoltageLevel().getId())
-                .operatingStatus(toOperatingStatus(threeWT))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(threeWT))
                 .build();
     }
 
     private static ThreeWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable) {
         ThreeWindingsTransformer threeWT = (ThreeWindingsTransformer) identifiable;
 
-        Terminal terminal1 = threeWT.getLeg1().getTerminal();
-        Terminal terminal2 = threeWT.getLeg2().getTerminal();
-        Terminal terminal3 = threeWT.getLeg3().getTerminal();
-        Substation firstSubstationFound = ElementUtils.findFirstSubstation(List.of(terminal1, terminal2, terminal3));
+        final Leg leg1 = threeWT.getLeg1();
+        final Leg leg2 = threeWT.getLeg2();
+        final Leg leg3 = threeWT.getLeg3();
+        final Terminal terminal1 = leg1.getTerminal();
+        final Terminal terminal2 = leg2.getTerminal();
+        final Terminal terminal3 = leg3.getTerminal();
 
-        ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder = ThreeWindingsTransformerTabInfos.builder()
+        ThreeWindingsTransformerTabInfosBuilder<?, ?> builder = ThreeWindingsTransformerTabInfos.builder()
                 .name(threeWT.getOptionalName().orElse(null))
                 .id(threeWT.getId())
                 .properties(getProperties(threeWT))
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected())
-                .terminal3Connected(terminal3.isConnected())
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelId3(terminal3.getVoltageLevel().getId())
-                .nominalV1(terminal1.getVoltageLevel().getNominalV())
-                .nominalV2(terminal2.getVoltageLevel().getNominalV())
-                .nominalV3(terminal3.getVoltageLevel().getNominalV())
-                .country(mapCountry(firstSubstationFound));
+                .country(mapCountry(findFirstSubstation(List.of(terminal1, terminal2, terminal3))))
+                .measurementP1(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 1))
+                .measurementP3(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 2))
+                .measurementQ1(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 0))
+                .measurementQ2(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 1))
+                .measurementQ3(ExtensionUtils.toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 2))
+                .measurementRatioTap1(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_1))
+                .measurementRatioTap2(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_2))
+                .measurementRatioTap3(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER_3))
+                .measurementPhaseTap1(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_1))
+                .measurementPhaseTap2(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_2))
+                .measurementPhaseTap3(ExtensionUtils.toMeasurementTapChanger(threeWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER_3));
 
-        if (!Double.isNaN(terminal1.getP())) {
-            builder.p1(terminal1.getP());
-        }
-        if (!Double.isNaN(terminal1.getQ())) {
-            builder.q1(terminal1.getQ());
-        }
-        if (!Double.isNaN(terminal2.getP())) {
-            builder.p2(terminal2.getP());
-        }
-        if (!Double.isNaN(terminal2.getQ())) {
-            builder.q2(terminal2.getQ());
-        }
-        if (!Double.isNaN(terminal3.getP())) {
-            builder.p3(terminal3.getP());
-        }
-        if (!Double.isNaN(terminal3.getQ())) {
-            builder.q3(terminal3.getQ());
-        }
-        if (!Double.isNaN(terminal1.getI())) {
-            builder.i1(terminal1.getI());
-        }
-        if (!Double.isNaN(terminal2.getI())) {
-            builder.i2(terminal2.getI());
-        }
-        if (!Double.isNaN(terminal3.getI())) {
-            builder.i3(terminal3.getI());
-        }
-        mapThreeWindingsTransformerRatioTapChangers(builder, threeWT);
-        mapThreeWindingsTransformerPermanentLimits(builder, threeWT);
+        processTerminal(terminal1,
+                builder::terminal1Connected, builder::voltageLevelId1, builder::nominalV1, builder::voltageLevelProperties1, builder::substationProperties1,
+                builder::p1, builder::q1, builder::i1);
+        processTerminal(terminal2,
+                builder::terminal2Connected, builder::voltageLevelId2, builder::nominalV2, builder::voltageLevelProperties2, builder::substationProperties2,
+                builder::p2, builder::q2, builder::i2);
+        processTerminal(terminal3,
+                builder::terminal3Connected, builder::voltageLevelId3, builder::nominalV3, builder::voltageLevelProperties3, builder::substationProperties3,
+                builder::p3, builder::q3, builder::i3);
 
-        // voltageLevels and substations properties
-        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
-        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
-        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
-        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
-        builder.voltageLevelProperties3(getProperties(terminal3.getVoltageLevel()));
-        builder.substationProperties3(terminal3.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
-
-        builder.measurementP1(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ1(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 0))
-            .measurementP2(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 1))
-            .measurementQ2(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 1))
-            .measurementP3(toMeasurement(threeWT, Measurement.Type.ACTIVE_POWER, 2))
-            .measurementQ3(toMeasurement(threeWT, Measurement.Type.REACTIVE_POWER, 2));
-
-        builder.measurementRatioTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1))
-            .measurementPhaseTap1(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_1))
-            .measurementRatioTap2(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_2))
-            .measurementPhaseTap2(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2))
-            .measurementRatioTap3(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3))
-            .measurementPhaseTap3(toMeasurementTapChanger(threeWT, DiscreteMeasurement.Type.TAP_POSITION, DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3));
+        processLeg(leg1,
+                builder::ratioTapChanger1, builder::hasLoadTapChanging1Capabilities, builder::isRegulatingRatio1, builder::targetV1,
+                builder::phaseTapChanger1, builder::regulationModeName1, builder::isRegulatingPhase1, builder::regulatingValue1,
+                builder::permanentLimit1);
+        processLeg(leg2,
+                builder::ratioTapChanger2, builder::hasLoadTapChanging2Capabilities, builder::isRegulatingRatio2, builder::targetV2,
+                builder::phaseTapChanger2, builder::regulationModeName2, builder::isRegulatingPhase2, builder::regulatingValue2,
+                builder::permanentLimit2);
+        processLeg(leg3,
+                builder::ratioTapChanger3, builder::hasLoadTapChanging3Capabilities, builder::isRegulatingRatio3, builder::targetV3,
+                builder::phaseTapChanger3, builder::regulationModeName3, builder::isRegulatingPhase3, builder::regulatingValue3,
+                builder::permanentLimit3);
 
         return builder.build();
+    }
+
+    private static void processTerminal(@NonNull final Terminal terminal,
+                                        @NonNull final Consumer<Boolean> setTerminalConnected,
+                                        @NonNull final Consumer<String> setVoltageLevelId,
+                                        @NonNull final DoubleConsumer setNominalV,
+                                        @NonNull final Consumer<Map<String, String>> setVoltageLevelProperties,
+                                        @NonNull final Consumer<Map<String, String>> setSubstationProperties,
+                                        @NonNull final DoubleConsumer p, @NonNull final DoubleConsumer q, @NonNull final DoubleConsumer i) {
+        setTerminalConnected.accept(terminal.isConnected());
+        final VoltageLevel voltageLevel = terminal.getVoltageLevel();
+        setVoltageLevelId.accept(voltageLevel.getId());
+        setNominalV.accept(voltageLevel.getNominalV());
+        setVoltageLevelProperties.accept(getProperties(voltageLevel));
+        setSubstationProperties.accept(voltageLevel.getSubstation().map(ElementUtils::getProperties).orElse(null));
+        setIfNotNan(p, terminal.getP());
+        setIfNotNan(q, terminal.getQ());
+        setIfNotNan(i, terminal.getI());
+    }
+
+    private static void processLeg(@NonNull final Leg leg,
+                                   @NonNull final Consumer<TapChangerData> setRatioTapChanger,
+                                   @NonNull final Consumer<Boolean> setHasLoadTapChangingCapabilities,
+                                   @NonNull final Consumer<Boolean> isRegulatingRatio,
+                                   @NonNull final DoubleConsumer setTargetV,
+                                   @NonNull final Consumer<TapChangerData> setPhaseTapChanger,
+                                   @NonNull final Consumer<String> setRegulationModeName,
+                                   @NonNull final Consumer<Boolean> isRegulatingPhase,
+                                   @NonNull final DoubleConsumer setRegulatingValue,
+                                   @NonNull final DoubleConsumer setPermanentLimit) {
+        if (leg.hasRatioTapChanger()) {
+            final RatioTapChanger ratioTapChanger = leg.getRatioTapChanger();
+            setRatioTapChanger.accept(toMapData(ratioTapChanger));
+            setHasLoadTapChangingCapabilities.accept(ratioTapChanger.hasLoadTapChangingCapabilities());
+            isRegulatingRatio.accept(ratioTapChanger.isRegulating());
+            setIfNotNan(setTargetV, ratioTapChanger.getTargetV());
+        }
+        if (leg.hasPhaseTapChanger()) {
+            final PhaseTapChanger phaseTapChanger = leg.getPhaseTapChanger();
+            setPhaseTapChanger.accept(toMapData(phaseTapChanger));
+            setRegulationModeName.accept(phaseTapChanger.getRegulationMode().name());
+            isRegulatingPhase.accept(phaseTapChanger.isRegulating());
+            setIfNotNan(setRegulatingValue, phaseTapChanger.getRegulationValue());
+        }
+        leg.getCurrentLimits().map(CurrentLimits::getPermanentLimit).ifPresent(value -> setIfNotNan(setPermanentLimit, value));
     }
 }

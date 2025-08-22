@@ -7,18 +7,27 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.CoordinatedReactiveControl;
+import com.powsybl.iidm.network.extensions.GeneratorShortCircuit;
+import com.powsybl.iidm.network.extensions.GeneratorStartup;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.definition.extension.CoordinatedReactiveControlInfos;
+import org.gridsuite.network.map.dto.definition.extension.GeneratorShortCircuitInfos;
+import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
-import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
-import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
+import org.springframework.lang.NonNull;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -73,7 +82,7 @@ public final class GeneratorInfosMapper {
                 .properties(getProperties(generator))
                 .q(nullIfNan(terminal.getQ()));
 
-        builder.activePowerControl(toActivePowerControl(generator))
+        builder.activePowerControl(ExtensionUtils.toActivePowerControl(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
                 .generatorShortCircuit(toGeneratorShortCircuit(generator))
                 .generatorStartup(toGeneratorStartup(generator));
@@ -101,10 +110,10 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        builder.connectablePosition(toMapConnectablePosition(generator, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
 
-        builder.measurementP(toMeasurement(generator, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(generator, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(generator, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(generator, Type.REACTIVE_POWER, 0));
 
         builder.isCondenser(generator.isCondenser());
 
@@ -118,8 +127,8 @@ public final class GeneratorInfosMapper {
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.lowVoltageLimit(terminal.getVoltageLevel().getLowVoltageLimit());
         builder.highVoltageLimit(terminal.getVoltageLevel().getHighVoltageLimit());
-        builder.voltageLevelShortCircuit(toIdentifiableShortCircuit(terminal.getVoltageLevel()));
-        builder.injectionObservability(toInjectionObservability(generator));
+        builder.voltageLevelShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(terminal.getVoltageLevel()));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(generator));
 
         return builder.build();
     }
@@ -144,7 +153,7 @@ public final class GeneratorInfosMapper {
                 .q(nullIfNan(terminal.getQ()))
                 .properties(getProperties(generator));
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
-                .activePowerControl(toActivePowerControl(generator));
+                .activePowerControl(ExtensionUtils.toActivePowerControl(generator));
 
         builder.generatorShortCircuit(toGeneratorShortCircuit(generator))
                 .generatorStartup(toGeneratorStartup(generator))
@@ -173,7 +182,32 @@ public final class GeneratorInfosMapper {
             }
         }
 
-        builder.connectablePosition(toMapConnectablePosition(generator, 0));
+        builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
         return builder.build();
+    }
+
+    private static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(@NonNull final Generator generator) {
+        return Optional.ofNullable((GeneratorShortCircuit) generator.getExtension(GeneratorShortCircuit.class))
+                .map(generatorShortCircuit -> GeneratorShortCircuitInfos.builder()
+                        .directTransX(generatorShortCircuit.getDirectTransX())
+                        .stepUpTransformerX(generatorShortCircuit.getStepUpTransformerX())
+                        .build());
+    }
+
+    private static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(@NonNull final Generator generator) {
+        final CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
+        return CoordinatedReactiveControlInfos.builder()
+                .qPercent(coordinatedReactiveControl != null ? coordinatedReactiveControl.getQPercent() : Double.NaN)
+                .build();
+    }
+
+    private static Optional<GeneratorStartupInfos> toGeneratorStartup(@NonNull final Generator generator) {
+        return Optional.ofNullable((GeneratorStartup) generator.getExtension(GeneratorStartup.class))
+                .map(generatorStartup -> GeneratorStartupInfos.builder()
+                        .plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()))
+                        .marginalCost(nullIfNan(generatorStartup.getMarginalCost()))
+                        .plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()))
+                        .forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate()))
+                        .build());
     }
 }

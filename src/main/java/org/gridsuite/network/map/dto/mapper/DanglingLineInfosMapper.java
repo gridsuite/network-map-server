@@ -9,11 +9,12 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.DanglingLine;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Terminal;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -54,10 +55,10 @@ public final class DanglingLineInfosMapper {
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.measurementP(toMeasurement(danglingLine, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(danglingLine, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(danglingLine, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(danglingLine, Type.REACTIVE_POWER, 0));
 
-        builder.injectionObservability(toInjectionObservability(danglingLine));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(danglingLine));
 
         return builder.build();
     }
