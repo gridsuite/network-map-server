@@ -8,11 +8,16 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.math.graph.TraversalType;
-import org.gridsuite.network.map.dto.common.*;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.common.TapChangerStepData;
 import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
 import org.springframework.lang.NonNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;

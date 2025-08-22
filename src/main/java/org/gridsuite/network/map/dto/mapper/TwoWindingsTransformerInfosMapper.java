@@ -9,9 +9,9 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
+import com.powsybl.iidm.network.extensions.DiscreteMeasurement;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement.TapChanger;
-import com.powsybl.iidm.network.extensions.DiscreteMeasurement.Type;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -95,10 +95,10 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2));
 
-        builder.measurementP1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementP2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1));
+        builder.measurementP1(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 0))
+                .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 1))
+                .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 1));
 
         builder.toBeEstimated(toToBeEstimated(twoWT));
 
@@ -119,8 +119,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT))
                 .connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2))
-                .measurementRatioTap(ExtensionUtils.toMeasurementTapChanger(twoWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER))
-                .measurementPhaseTap(ExtensionUtils.toMeasurementTapChanger(twoWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER))
+                .measurementRatioTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER))
+                .measurementPhaseTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER))
                 .toBeEstimated(toToBeEstimated(twoWT))
                 .build();
     }
