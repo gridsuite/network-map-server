@@ -8,20 +8,19 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.math.graph.TraversalType;
-import org.gridsuite.network.map.dto.common.*;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.common.TapChangerStepData;
 import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -38,137 +37,6 @@ public final class ElementUtils {
         if (!Double.isNaN(value)) {
             setter.accept(value);
         }
-    }
-
-    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
-        List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
-                .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
-                .toList();
-        if (!currentLimitsData.isEmpty()) {
-            build.accept(currentLimitsData);
-        }
-    }
-
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, Applicability applicability) {
-        return CurrentLimitsData.builder()
-                .id(currentLimitsData.getId())
-                .applicability(applicability)
-                .temporaryLimits(currentLimitsData.getTemporaryLimits())
-                .permanentLimit(currentLimitsData.getPermanentLimit()).build();
-    }
-
-    /**
-     * @return id of the selected operation limits group 1 and 2 if they have been renamed
-     */
-    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
-                                          Collection<OperationalLimitsGroup> operationalLimitsGroups2,
-                                          Consumer<List<CurrentLimitsData>> build) {
-        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>();
-
-        // Build temporary limit from side 1 and 2
-        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
-            .map(currentLimitsData -> ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE1))
-            .filter(Objects::nonNull)
-            .toList();
-        ArrayList<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
-            .map(currentLimitsData -> ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE2))
-            .filter(Objects::nonNull)
-            .toList());
-
-        // combine 2 sides in one list
-
-        // simple case: one of the arrays are empty
-        if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
-            mergedLimitsData.addAll(currentLimitsData1);
-            build.accept(mergedLimitsData);
-            return;
-        }
-        if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
-            mergedLimitsData.addAll(currentLimitsData2);
-            build.accept(mergedLimitsData);
-            return;
-        }
-
-        // more complex case
-        for (CurrentLimitsData limitsData : currentLimitsData1) {
-            Optional<CurrentLimitsData> l2 = currentLimitsData2.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
-            if (l2.isPresent()) {
-                CurrentLimitsData limitsData2 = l2.get();
-                // both sides have limits and limits are equals
-                if (limitsData.limitsEquals(limitsData2)) {
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
-                    // both sides have limits and are different: create 2 different limit sets
-                } else {
-                    // Side 1
-                    mergedLimitsData.add(limitsData);
-                    // Side 2
-                    mergedLimitsData.add(limitsData2);
-                }
-                // remove processed limits from side 2
-                currentLimitsData2.remove(l2.get());
-            } else {
-                // only one side has limits
-                mergedLimitsData.add(limitsData);
-            }
-        }
-
-        // add remaining limits from side 2
-        mergedLimitsData.addAll(currentLimitsData2);
-
-        if (!mergedLimitsData.isEmpty()) {
-            build.accept(mergedLimitsData);
-        }
-    }
-
-    public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
-        boolean empty = true;
-        if (!Double.isNaN(limits.getPermanentLimit())) {
-            builder.permanentLimit(limits.getPermanentLimit());
-            empty = false;
-        }
-        if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
-            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
-            empty = false;
-        }
-        return empty ? null : builder.build();
-    }
-
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
-        return operationalLimitsGroupToMapDataCurrentLimits(operationalLimitsGroup, null);
-    }
-
-    @Nullable
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, Applicability applicability) {
-        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
-            return null;
-        }
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
-        boolean containsLimitsData = false;
-
-        CurrentLimits currentLimits = operationalLimitsGroup.getCurrentLimits().get();
-        builder.id(operationalLimitsGroup.getId());
-        if (!Double.isNaN(currentLimits.getPermanentLimit())) {
-            builder.permanentLimit(currentLimits.getPermanentLimit());
-            containsLimitsData = true;
-        }
-        if (!CollectionUtils.isEmpty(currentLimits.getTemporaryLimits())) {
-            builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
-            containsLimitsData = true;
-        }
-        builder.applicability(applicability);
-
-        return containsLimitsData ? builder.build() : null;
-    }
-
-    private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
-        return limits.stream()
-                .map(l -> TemporaryLimitData.builder()
-                        .name(l.getName())
-                        .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
-                        .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
-                        .build())
-                .collect(Collectors.toList());
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {
@@ -279,18 +147,6 @@ public final class ElementUtils {
         return properties.isEmpty() ? null : properties;
     }
 
-    public static double computeIntensity(Terminal terminal, Double dcPowerFactor) {
-        double intensity = terminal.getI();
-
-        if (Double.isNaN(intensity) && !Double.isNaN(terminal.getP()) && dcPowerFactor != null) {
-            // After a DC load flow, the current at a terminal can be undefined (NaN). In that case, we use the DC power factor,
-            // the nominal voltage and the active power at the terminal in order to approximate the current following formula
-            // P = sqrt(3) x Vnom x I x dcPowerFactor
-            intensity = 1000. * terminal.getP() / (Math.sqrt(3) * dcPowerFactor * terminal.getVoltageLevel().getNominalV());
-        }
-        return intensity;
-    }
-
     public static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePointsMapData(Collection<ReactiveCapabilityCurve.Point> points) {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
@@ -309,16 +165,5 @@ public final class ElementUtils {
             .findFirst()
             .flatMap(Function.identity())
             .orElse(null);
-    }
-
-    public static Map<String, CurrentLimitsData> buildCurrentLimitsMap(Collection<OperationalLimitsGroup> operationalLimitsGroups) {
-        Map<String, CurrentLimitsData> res = new HashMap<>();
-        if (!CollectionUtils.isEmpty(operationalLimitsGroups)) {
-            operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits().ifPresent(limits -> {
-                CurrentLimitsData limitsData = toMapDataCurrentLimits(limits);
-                res.put(operationalLimitsGroup.getId(), limitsData);
-            }));
-        }
-        return res;
     }
 }

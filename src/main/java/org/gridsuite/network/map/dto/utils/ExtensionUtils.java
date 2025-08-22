@@ -85,18 +85,7 @@ public final class ExtensionUtils {
                         .build());
     }
 
-    public static Optional<BranchObservabilityInfos> toBranchObservability(@NonNull final Branch<?> branch) {
-        return Optional.ofNullable((BranchObservability<?>) branch.getExtension(BranchObservability.class))
-                .map(observability -> BranchObservabilityInfos.builder()
-                        .qualityP1(buildQualityInfos(observability.getQualityP1()))
-                        .qualityP2(buildQualityInfos(observability.getQualityP2()))
-                        .qualityQ1(buildQualityInfos(observability.getQualityQ1()))
-                        .qualityQ2(buildQualityInfos(observability.getQualityQ2()))
-                        .isObservable(observability.isObservable())
-                        .build());
-    }
-
-    private static ObservabilityQualityInfos buildQualityInfos(@Nullable final ObservabilityQuality<?> quality) {
+    public static ObservabilityQualityInfos buildQualityInfos(@Nullable final ObservabilityQuality<?> quality) {
         if (quality == null) {
             return null;
         }
