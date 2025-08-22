@@ -1,3 +1,9 @@
+/**
+ * Copyright © 2025, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package org.gridsuite.network.map.dto.definition.branch;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,8 +25,8 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     private String voltageLevelId1;
     private String voltageLevelId2;
 
-    private String voltageLevelName1;
-    private String voltageLevelName2;
+    @JsonInclude(Include.NON_NULL) private String voltageLevelName1;
+    @JsonInclude(Include.NON_NULL) private String voltageLevelName2;
 
     private Double nominalVoltage1;
     private Double nominalVoltage2;
@@ -46,8 +52,8 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     @JsonInclude(Include.NON_NULL)
     private Double i2;
 
-    private Double r;
-    private Double x;
+    @JsonInclude(Include.NON_NULL) private Double r;
+    @JsonInclude(Include.NON_NULL) private Double x;
 
     @JsonInclude(Include.NON_EMPTY)
     private Map<String, CurrentLimitsData> operationalLimitsGroup1;

@@ -11,7 +11,6 @@ import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement.TapChanger;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement.Type;
-import com.powsybl.iidm.network.extensions.Measurement;
 import com.powsybl.iidm.network.extensions.TwoWindingsTransformerToBeEstimated;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -114,10 +113,6 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT))
                 .connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2))
-                .measurementP1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementQ1(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementP2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Measurement.Type.REACTIVE_POWER, 1))
                 .measurementRatioTap(ExtensionUtils.toMeasurementTapChanger(twoWT, Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER))
                 .measurementPhaseTap(ExtensionUtils.toMeasurementTapChanger(twoWT, Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER))
                 .toBeEstimated(toToBeEstimated(twoWT))
