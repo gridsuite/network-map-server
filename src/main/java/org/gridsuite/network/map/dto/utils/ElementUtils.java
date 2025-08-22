@@ -41,16 +41,12 @@ public final class ElementUtils {
             return null;
         }
 
-        switch (index) {
-            case 0:
-                return connectablePosition.getFeeder();
-            case 1:
-                return connectablePosition.getFeeder1();
-            case 2:
-                return connectablePosition.getFeeder2();
-            default:
-                throw new IllegalArgumentException("Invalid feeder index: " + index);
-        }
+        return switch (index) {
+            case 0 -> connectablePosition.getFeeder();
+            case 1 -> connectablePosition.getFeeder1();
+            case 2 -> connectablePosition.getFeeder2();
+            default -> throw new IllegalArgumentException("Invalid feeder index: " + index);
+        };
     }
 
     public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
@@ -286,26 +282,20 @@ public final class ElementUtils {
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {
-        String busOrBusbarSectionId;
         if (terminal.getVoltageLevel().getTopologyKind().equals(TopologyKind.BUS_BREAKER)) {
             if (terminal.isConnected()) {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getBus().getId();
+                return terminal.getBusBreakerView().getBus().getId();
             } else {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getConnectableBus().getId();
+                return terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
-            busOrBusbarSectionId = getBusbarSectionId(terminal);
+            final BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
+            terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
+            return connectedBusbarSectionFinder.getFirstTraversedBbsId();
         }
-        return busOrBusbarSectionId;
     }
 
-    public static String getBusbarSectionId(Terminal terminal) {
-        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-        terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
-        return connectedBusbarSectionFinder.getFirstTraversedBbsId();
-    }
-
-    public static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
@@ -368,7 +358,7 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }

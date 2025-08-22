@@ -25,17 +25,14 @@ public final class BusInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case LIST:
-                return ElementInfosMapper.toListInfos(identifiable);
-            case TAB:
-                return toTabInfos(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case LIST -> ElementInfosMapper.toListInfos(identifiable);
+            case TAB -> toTabInfos(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
-    public static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
         Bus bus = (Bus) identifiable;
         BusTabInfos.BusTabInfosBuilder<?, ?> builder = BusTabInfos.builder().id(bus.getId())
                 .angle(bus.getAngle())
