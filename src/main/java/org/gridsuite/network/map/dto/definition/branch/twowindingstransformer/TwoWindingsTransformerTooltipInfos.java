@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package org.gridsuite.network.map.dto.definition.twowindingstransformer;
+package org.gridsuite.network.map.dto.definition.branch.twowindingstransformer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

@@ -7,14 +7,15 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationFormInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
-import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -26,16 +27,12 @@ public final class VscConverterStationInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        switch (infoTypeParameters.getInfoType()) {
-            case TAB:
-                return toTabInfos(identifiable);
-            case FORM:
-                return toFormInfos(identifiable);
-            case LIST:
-                return ElementInfosMapper.toInfosWithType(identifiable);
-            default:
-                throw new UnsupportedOperationException("TODO");
-        }
+        return switch (infoTypeParameters.getInfoType()) {
+            case TAB -> toTabInfos(identifiable);
+            case FORM -> toFormInfos(identifiable);
+            case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
+            default -> throw new UnsupportedOperationException("TODO");
+        };
     }
 
     private static VscConverterStationTabInfos toTabInfos(Identifiable<?> identifiable) {
@@ -74,15 +71,15 @@ public final class VscConverterStationInfosMapper {
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
         builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
-        builder.measurementP(toMeasurement(vscConverterStation, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ(toMeasurement(vscConverterStation, Measurement.Type.REACTIVE_POWER, 0));
+        builder.measurementP(ExtensionUtils.toMeasurement(vscConverterStation, Type.ACTIVE_POWER, 0))
+            .measurementQ(ExtensionUtils.toMeasurement(vscConverterStation, Type.REACTIVE_POWER, 0));
 
-        builder.injectionObservability(toInjectionObservability(vscConverterStation));
+        builder.injectionObservability(ExtensionUtils.toInjectionObservability(vscConverterStation));
 
         return builder.build();
     }
 
-    public static VscConverterStationFormInfos toFormInfos(Identifiable<?> identifiable) {
+    static VscConverterStationFormInfos toFormInfos(Identifiable<?> identifiable) {
         VscConverterStation vscConverterStation = (VscConverterStation) identifiable;
         Terminal terminal = vscConverterStation.getTerminal();
         VscConverterStationFormInfos.VscConverterStationFormInfosBuilder<?, ?> builder = VscConverterStationFormInfos.builder()
@@ -97,7 +94,7 @@ public final class VscConverterStationInfosMapper {
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .q(nullIfNan(terminal.getQ()))
                 .p(nullIfNan(terminal.getP()))
-                .connectablePositionInfos(toMapConnectablePosition(vscConverterStation, 0));
+                .connectablePositionInfos(ExtensionUtils.toMapConnectablePosition(vscConverterStation, 0));
 
         ReactiveLimits reactiveLimits = vscConverterStation.getReactiveLimits();
         if (reactiveLimits != null) {

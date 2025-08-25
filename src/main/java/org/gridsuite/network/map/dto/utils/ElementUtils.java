@@ -6,23 +6,21 @@
  */
 package org.gridsuite.network.map.dto.utils;
 
-import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
-import org.gridsuite.network.map.dto.common.*;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
-import org.gridsuite.network.map.dto.definition.extension.*;
-import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
-import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.common.TapChangerStepData;
+import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
+import org.springframework.lang.NonNull;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -35,277 +33,27 @@ public final class ElementUtils {
         return Double.isNaN(d) ? null : d;
     }
 
-    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
-        var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
-        if (connectablePosition == null) {
-            return null;
+    public static void setIfNotNan(@NonNull final DoubleConsumer setter, final double value) {
+        if (!Double.isNaN(value)) {
+            setter.accept(value);
         }
-
-        switch (index) {
-            case 0:
-                return connectablePosition.getFeeder();
-            case 1:
-                return connectablePosition.getFeeder1();
-            case 2:
-                return connectablePosition.getFeeder2();
-            default:
-                throw new IllegalArgumentException("Invalid feeder index: " + index);
-        }
-    }
-
-    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> branch, int index) {
-        ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
-        ConnectablePosition.Feeder feeder = getFeederInfos(branch, index);
-        if (feeder != null) {
-            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())
-                    .connectionPosition(feeder.getOrder().orElse(null))
-                    .connectionName(feeder.getName().orElse(null));
-        }
-        return builder.build();
-    }
-
-    public static Optional<HvdcAngleDroopActivePowerControlInfos> toHvdcAngleDroopActivePowerControlIdentifiable(HvdcLine hvdcLine) {
-        HvdcAngleDroopActivePowerControl hvdcAngleDroopActivePowerControl = hvdcLine.getExtension(HvdcAngleDroopActivePowerControl.class);
-        return hvdcAngleDroopActivePowerControl == null ? Optional.empty() :
-                Optional.of(HvdcAngleDroopActivePowerControlInfos.builder()
-                                .droop(hvdcAngleDroopActivePowerControl.getDroop())
-                                .isEnabled(hvdcAngleDroopActivePowerControl.isEnabled())
-                                .p0(hvdcAngleDroopActivePowerControl.getP0()).build());
-    }
-
-    public static Optional<HvdcOperatorActivePowerRangeInfos> toHvdcOperatorActivePowerRange(HvdcLine hvdcLine) {
-        HvdcOperatorActivePowerRange hvdcOperatorActivePowerRange = hvdcLine.getExtension(HvdcOperatorActivePowerRange.class);
-        return hvdcOperatorActivePowerRange == null ? Optional.empty() :
-                Optional.of(HvdcOperatorActivePowerRangeInfos.builder()
-                        .oprFromCS1toCS2(hvdcOperatorActivePowerRange.getOprFromCS1toCS2())
-                        .oprFromCS2toCS1(hvdcOperatorActivePowerRange.getOprFromCS2toCS1()).build());
-    }
-
-    public static void buildCurrentLimits(Collection<OperationalLimitsGroup> currentLimits, Consumer<List<CurrentLimitsData>> build) {
-        List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
-                .map(ElementUtils::operationalLimitsGroupToMapDataCurrentLimits)
-                .toList();
-        if (!currentLimitsData.isEmpty()) {
-            build.accept(currentLimitsData);
-        }
-    }
-
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, Applicability applicability) {
-        return CurrentLimitsData.builder()
-            .id(currentLimitsData.getId())
-            .applicability(applicability)
-            .temporaryLimits(currentLimitsData.getTemporaryLimits())
-            .permanentLimit(currentLimitsData.getPermanentLimit()).build();
-    }
-
-    /**
-     * @return id of the selected operation limits group 1 and 2 if they have been renamed
-     */
-    public static void mergeCurrentLimits(Collection<OperationalLimitsGroup> operationalLimitsGroups1,
-                                                          Collection<OperationalLimitsGroup> operationalLimitsGroups2,
-                                                          Consumer<List<CurrentLimitsData>> build) {
-        List<CurrentLimitsData> mergedLimitsData = new ArrayList<>();
-
-        // Build temporary limit from side 1 and 2
-        List<CurrentLimitsData> currentLimitsData1 = operationalLimitsGroups1.stream()
-            .map(currentLimitsData -> ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE1))
-            .filter(Objects::nonNull)
-            .toList();
-        ArrayList<CurrentLimitsData> currentLimitsData2 = new ArrayList<>(operationalLimitsGroups2.stream()
-            .map(currentLimitsData -> ElementUtils.operationalLimitsGroupToMapDataCurrentLimits(currentLimitsData, SIDE2))
-            .filter(Objects::nonNull)
-            .toList());
-
-        // combine 2 sides in one list
-
-        // simple case: one of the arrays are empty
-        if (currentLimitsData2.isEmpty() && !currentLimitsData1.isEmpty()) {
-            mergedLimitsData.addAll(currentLimitsData1);
-            build.accept(mergedLimitsData);
-            return;
-        }
-        if (currentLimitsData1.isEmpty() && !currentLimitsData2.isEmpty()) {
-            mergedLimitsData.addAll(currentLimitsData2);
-            build.accept(mergedLimitsData);
-            return;
-        }
-
-        // more complex case
-        for (CurrentLimitsData limitsData : currentLimitsData1) {
-            Optional<CurrentLimitsData> l2 = currentLimitsData2.stream().filter(l -> l.getId().equals(limitsData.getId())).findFirst();
-            if (l2.isPresent()) {
-                CurrentLimitsData limitsData2 = l2.get();
-                // both sides have limits and limits are equals
-                if (limitsData.limitsEquals(limitsData2)) {
-                    mergedLimitsData.add(copyCurrentLimitsData(limitsData, EQUIPMENT));
-                    // both sides have limits and are different: create 2 different limit sets
-                } else {
-                    // Side 1
-                    mergedLimitsData.add(limitsData);
-                    // Side 2
-                    mergedLimitsData.add(limitsData2);
-                }
-                // remove processed limits from side 2
-                currentLimitsData2.remove(l2.get());
-            } else {
-                // only one side has limits
-                mergedLimitsData.add(limitsData);
-            }
-        }
-
-        // add remaining limits from side 2
-        mergedLimitsData.addAll(currentLimitsData2);
-
-        if (!mergedLimitsData.isEmpty()) {
-            build.accept(mergedLimitsData);
-        }
-    }
-
-    public static Optional<StandbyAutomatonInfos> toStandbyAutomaton(StaticVarCompensator staticVarCompensator) {
-        StandbyAutomaton standbyAutomatonInfos = staticVarCompensator.getExtension(StandbyAutomaton.class);
-        return standbyAutomatonInfos == null ? Optional.empty() :
-                Optional.of(StandbyAutomatonInfos.builder()
-                        .standby(standbyAutomatonInfos.isStandby())
-                        .b0(nullIfNan(standbyAutomatonInfos.getB0()))
-                        .lowVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getLowVoltageSetpoint()))
-                        .highVoltageSetpoint(nullIfNan(standbyAutomatonInfos.getHighVoltageSetpoint()))
-                        .highVoltageThreshold(nullIfNan(standbyAutomatonInfos.getHighVoltageThreshold()))
-                        .lowVoltageThreshold(nullIfNan(standbyAutomatonInfos.getLowVoltageThreshold())).build());
-    }
-
-    public static Optional<ActivePowerControlInfos> toActivePowerControl(Identifiable<?> identifiable) {
-        var activePowerControl = identifiable.getExtension(ActivePowerControl.class);
-        if (activePowerControl == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(ActivePowerControlInfos.builder()
-                        .participate(activePowerControl.isParticipate())
-                        .droop(activePowerControl.getDroop())
-                        .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
-                        .build());
-        }
-    }
-
-    public static String toOperatingStatus(Extendable<?> extendable) {
-        if (extendable instanceof Branch<?>
-                || extendable instanceof ThreeWindingsTransformer
-                || extendable instanceof HvdcLine
-                || extendable instanceof BusbarSection) {
-            var operatingStatus = extendable.getExtension(OperatingStatus.class);
-            return operatingStatus == null ? null : operatingStatus.getStatus().name();
-        }
-        return null;
-    }
-
-    public static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(Generator generator) {
-        GeneratorShortCircuit generatorShortCircuit = generator.getExtension(GeneratorShortCircuit.class);
-        return generatorShortCircuit == null ? Optional.empty() :
-                Optional.of(GeneratorShortCircuitInfos.builder()
-                        .directTransX(generatorShortCircuit.getDirectTransX())
-                        .stepUpTransformerX(generatorShortCircuit.getStepUpTransformerX()).build());
-    }
-
-    public static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(Generator generator) {
-        CoordinatedReactiveControlInfos.CoordinatedReactiveControlInfosBuilder builder = CoordinatedReactiveControlInfos.builder();
-        CoordinatedReactiveControl coordinatedReactiveControl = generator.getExtension(CoordinatedReactiveControl.class);
-        if (coordinatedReactiveControl != null) {
-            builder.qPercent(coordinatedReactiveControl.getQPercent());
-        } else {
-            builder.qPercent(Double.NaN);
-        }
-        return builder.build();
-    }
-
-    public static Optional<GeneratorStartupInfos> toGeneratorStartup(Generator generator) {
-        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
-        return generatorStartup == null ? Optional.empty() :
-                Optional.of(GeneratorStartupInfos.builder()
-                        .plannedActivePowerSetPoint(nullIfNan(generatorStartup.getPlannedActivePowerSetpoint()))
-                        .marginalCost(nullIfNan(generatorStartup.getMarginalCost()))
-                        .plannedOutageRate(nullIfNan(generatorStartup.getPlannedOutageRate()))
-                        .forcedOutageRate(nullIfNan(generatorStartup.getForcedOutageRate())).build());
-    }
-
-    public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(VoltageLevel voltageLevel) {
-        IdentifiableShortCircuit<VoltageLevel> identifiableShortCircuit = voltageLevel.getExtension(IdentifiableShortCircuit.class);
-        return identifiableShortCircuit == null ? Optional.empty() :
-                Optional.of(IdentifiableShortCircuitInfos.builder()
-                        .ipMin(identifiableShortCircuit.getIpMin())
-                        .ipMax(identifiableShortCircuit.getIpMax()).build());
-    }
-
-    public static CurrentLimitsData toMapDataCurrentLimits(CurrentLimits limits) {
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
-        boolean empty = true;
-        if (!Double.isNaN(limits.getPermanentLimit())) {
-            builder.permanentLimit(limits.getPermanentLimit());
-            empty = false;
-        }
-        if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
-            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
-            empty = false;
-        }
-        return empty ? null : builder.build();
-    }
-
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup) {
-        return operationalLimitsGroupToMapDataCurrentLimits(operationalLimitsGroup, null);
-    }
-
-    @Nullable
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, Applicability applicability) {
-        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
-            return null;
-        }
-        CurrentLimitsData.CurrentLimitsDataBuilder builder = CurrentLimitsData.builder();
-        boolean containsLimitsData = false;
-
-        CurrentLimits currentLimits = operationalLimitsGroup.getCurrentLimits().get();
-        builder.id(operationalLimitsGroup.getId());
-        if (!Double.isNaN(currentLimits.getPermanentLimit())) {
-            builder.permanentLimit(currentLimits.getPermanentLimit());
-            containsLimitsData = true;
-        }
-        if (!CollectionUtils.isEmpty(currentLimits.getTemporaryLimits())) {
-            builder.temporaryLimits(toMapDataTemporaryLimit(currentLimits.getTemporaryLimits()));
-            containsLimitsData = true;
-        }
-        builder.applicability(applicability);
-
-        return containsLimitsData ? builder.build() : null;
-    }
-
-    private static List<TemporaryLimitData> toMapDataTemporaryLimit(Collection<LoadingLimits.TemporaryLimit> limits) {
-        return limits.stream()
-                .map(l -> TemporaryLimitData.builder()
-                        .name(l.getName())
-                        .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
-                        .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
-                        .build())
-                .collect(Collectors.toList());
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {
-        String busOrBusbarSectionId;
         if (terminal.getVoltageLevel().getTopologyKind().equals(TopologyKind.BUS_BREAKER)) {
             if (terminal.isConnected()) {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getBus().getId();
+                return terminal.getBusBreakerView().getBus().getId();
             } else {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getConnectableBus().getId();
+                return terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
-            busOrBusbarSectionId = getBusbarSectionId(terminal);
+            final BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
+            terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
+            return connectedBusbarSectionFinder.getFirstTraversedBbsId();
         }
-        return busOrBusbarSectionId;
     }
 
-    public static String getBusbarSectionId(Terminal terminal) {
-        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-        terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
-        return connectedBusbarSectionFinder.getFirstTraversedBbsId();
-    }
-
-    public static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
@@ -368,7 +116,7 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
@@ -386,79 +134,6 @@ public final class ElementUtils {
         }).collect(Collectors.toList());
     }
 
-    public static void mapThreeWindingsTransformerPermanentLimits(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
-            ThreeWindingsTransformer transformer) {
-        CurrentLimits limits1 = transformer.getLeg1().getCurrentLimits().orElse(null);
-        CurrentLimits limits2 = transformer.getLeg2().getCurrentLimits().orElse(null);
-        CurrentLimits limits3 = transformer.getLeg3().getCurrentLimits().orElse(null);
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
-        }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
-        }
-        if (limits3 != null && !Double.isNaN(limits3.getPermanentLimit())) {
-            builder.permanentLimit3(limits3.getPermanentLimit());
-        }
-    }
-
-    public static void mapThreeWindingsTransformerRatioTapChangers(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
-            ThreeWindingsTransformer transformer) {
-        ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
-        ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
-        ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
-        if (leg1.hasRatioTapChanger()) {
-            builder.ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
-                    .hasLoadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio1(leg1.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg1.getRatioTapChanger().getTargetV())) {
-                builder.targetV1(leg1.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg2.hasRatioTapChanger()) {
-            builder.ratioTapChanger2(toMapData(leg2.getRatioTapChanger()))
-                    .hasLoadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio2(leg2.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg2.getRatioTapChanger().getTargetV())) {
-                builder.targetV2(leg2.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg3.hasRatioTapChanger()) {
-            builder.ratioTapChanger3(toMapData(leg3.getRatioTapChanger()))
-                    .hasLoadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio3(leg3.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg3.getRatioTapChanger().getTargetV())) {
-                builder.targetV3(leg3.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg1.hasPhaseTapChanger()) {
-            builder.phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()))
-                    .regulationModeName1(leg1.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase1(leg1.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg1.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue1(leg1.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-        if (leg2.hasPhaseTapChanger()) {
-            builder.phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()))
-                    .regulationModeName2(leg2.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase2(leg2.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg2.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue2(leg2.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-        if (leg3.hasPhaseTapChanger()) {
-            builder.phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()))
-                    .regulationModeName3(leg3.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase3(leg3.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg3.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-    }
-
     public static Country mapCountry(Substation substation) {
         return Optional.ofNullable(substation)
                 .flatMap(Substation::getCountry)
@@ -472,18 +147,6 @@ public final class ElementUtils {
         return properties.isEmpty() ? null : properties;
     }
 
-    public static double computeIntensity(Terminal terminal, Double dcPowerFactor) {
-        double intensity = terminal.getI();
-
-        if (Double.isNaN(intensity) && !Double.isNaN(terminal.getP()) && dcPowerFactor != null) {
-            // After a DC load flow, the current at a terminal can be undefined (NaN). In that case, we use the DC power factor,
-            // the nominal voltage and the active power at the terminal in order to approximate the current following formula
-            // P = sqrt(3) x Vnom x I x dcPowerFactor
-            intensity = 1000. * terminal.getP() / (Math.sqrt(3) * dcPowerFactor * terminal.getVoltageLevel().getNominalV());
-        }
-        return intensity;
-    }
-
     public static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePointsMapData(Collection<ReactiveCapabilityCurve.Point> points) {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
@@ -491,7 +154,7 @@ public final class ElementUtils {
                         .maxQ(point.getMaxQ())
                         .minQ(point.getMinQ())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static Substation findFirstSubstation(List<Terminal> terminals) {
@@ -502,75 +165,5 @@ public final class ElementUtils {
             .findFirst()
             .flatMap(Function.identity())
             .orElse(null);
-    }
-
-    public static Optional<MeasurementsInfos> toMeasurement(Connectable<?> connectable, Measurement.Type type, int index) {
-        var measurements = connectable.getExtension(Measurements.class);
-        if (measurements == null) {
-            return Optional.empty();
-        } else {
-            return measurements.getMeasurements(type).stream().filter(m -> ((Measurement) m).getSide() == null || ((Measurement) m).getSide().getNum() - 1 == index).findFirst()
-                .map(m -> MeasurementsInfos.builder().value(((Measurement) m).getValue()).validity(((Measurement) m).isValid()).build());
-        }
-    }
-
-    public static Optional<TapChangerDiscreteMeasurementsInfos> toMeasurementTapChanger(Connectable<?> connectable, DiscreteMeasurement.Type type, DiscreteMeasurement.TapChanger tapChanger) {
-        var measurements = connectable.getExtension(DiscreteMeasurements.class);
-        if (measurements == null) {
-            return Optional.empty();
-        } else {
-            Optional<DiscreteMeasurement> measurement = measurements.getDiscreteMeasurements(type).stream().filter(m -> ((DiscreteMeasurement) m).getTapChanger() == tapChanger).findFirst();
-            return measurement.map(m -> TapChangerDiscreteMeasurementsInfos.builder().value(m.getValueAsInt()).validity(m.isValid()).build());
-        }
-    }
-
-    public static Optional<InjectionObservabilityInfos> toInjectionObservability(Injection<?> injection) {
-        var observability = injection.getExtension(InjectionObservability.class);
-        if (observability == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(InjectionObservabilityInfos.builder()
-                .qualityQ(buildQualityInfos(observability.getQualityQ()))
-                .qualityP(buildQualityInfos(observability.getQualityP()))
-                .qualityV(buildQualityInfos(observability.getQualityV()))
-                .isObservable(observability.isObservable())
-                .build());
-    }
-
-    public static Optional<BranchObservabilityInfos> toBranchObservability(Branch<?> branch) {
-        var observability = branch.getExtension(BranchObservability.class);
-        if (observability == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(BranchObservabilityInfos.builder()
-                .qualityP1(buildQualityInfos(observability.getQualityP1()))
-                .qualityP2(buildQualityInfos(observability.getQualityP2()))
-                .qualityQ1(buildQualityInfos(observability.getQualityQ1()))
-                .qualityQ2(buildQualityInfos(observability.getQualityQ2()))
-                .isObservable(observability.isObservable())
-                .build());
-    }
-
-    private static ObservabilityQualityInfos buildQualityInfos(ObservabilityQuality<?> quality) {
-        if (quality == null) {
-            return null;
-        }
-        return ObservabilityQualityInfos.builder()
-                .standardDeviation(quality.getStandardDeviation())
-                .isRedundant(quality.isRedundant().orElse(null))
-                .build();
-    }
-
-    public static Map<String, CurrentLimitsData> buildCurrentLimitsMap(Collection<OperationalLimitsGroup> operationalLimitsGroups) {
-        Map<String, CurrentLimitsData> res = new HashMap<>();
-        if (!CollectionUtils.isEmpty(operationalLimitsGroups)) {
-            operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits().ifPresent(limits -> {
-                CurrentLimitsData limitsData = toMapDataCurrentLimits(limits);
-                res.put(operationalLimitsGroup.getId(), limitsData);
-            }));
-        }
-        return res;
     }
 }
