@@ -1,4 +1,4 @@
-package org.gridsuite.network.map.utils;
+package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.LoadingLimits.TemporaryLimit;

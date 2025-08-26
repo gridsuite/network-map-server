@@ -6,15 +6,15 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.Measurement;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Line;
+import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData;
-import org.gridsuite.network.map.dto.definition.line.*;
-import org.gridsuite.network.map.dto.utils.ElementUtils;
-
-import java.util.Map;
+import org.gridsuite.network.map.dto.definition.branch.line.*;
+import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos.LineTabInfosBuilder;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -22,8 +22,9 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-public final class LineInfosMapper {
+public final class LineInfosMapper extends BranchInfosMapper {
     private LineInfosMapper() {
+        super();
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
@@ -66,28 +67,27 @@ public final class LineInfosMapper {
                 .g2(line.getG2())
                 .b2(line.getB2())
                 .properties(getProperties(line))
+                .currentLimits(mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2()))
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
                 .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2(), builder::currentLimits);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        builder.operatingStatus(toOperatingStatus(line));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
 
-        builder.connectablePosition1(toMapConnectablePosition(line, 1))
-                .connectablePosition2(toMapConnectablePosition(line, 2));
+        builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(line, 1))
+                .connectablePosition2(ExtensionUtils.toMapConnectablePosition(line, 2));
 
-        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
-                .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
-                .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
-                .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
+        builder.measurementP1(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 0))
+                .measurementQ1(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 0))
+                .measurementP2(ExtensionUtils.toMeasurement(line, Type.ACTIVE_POWER, 1))
+                .measurementQ2(ExtensionUtils.toMeasurement(line, Type.REACTIVE_POWER, 1));
 
         return builder.build();
     }
 
-    public static LineOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
+    private static LineOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
         Line line = (Line) identifiable;
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
@@ -101,7 +101,7 @@ public final class LineInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
-                .operatingStatus(toOperatingStatus(line))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line))
                 .build();
     }
 
@@ -121,68 +121,23 @@ public final class LineInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()))
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)));
-        builder.operatingStatus(toOperatingStatus(line));
+                .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
+                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
 
         return builder.build();
     }
 
     private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
-        Line line = (Line) identifiable;
-        Terminal terminal1 = line.getTerminal1();
-        Terminal terminal2 = line.getTerminal2();
-        LineTabInfos.LineTabInfosBuilder<?, ?> builder = LineTabInfos.builder()
-                .name(line.getOptionalName().orElse(null))
-                .id(line.getId())
-                .terminal1Connected(terminal1.isConnected())
-                .terminal2Connected(terminal2.isConnected())
-                .voltageLevelId1(terminal1.getVoltageLevel().getId())
-                .voltageLevelName1(terminal1.getVoltageLevel().getOptionalName().orElse(null))
-                .nominalVoltage1(terminal1.getVoltageLevel().getNominalV())
-                .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
-                .nominalVoltage2(terminal2.getVoltageLevel().getNominalV())
-                .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
-                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
-                .p1(nullIfNan(terminal1.getP()))
-                .q1(nullIfNan(terminal1.getQ()))
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .p2(nullIfNan(terminal2.getP()))
-                .q2(nullIfNan(terminal2.getQ()))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
-                .r(line.getR())
-                .x(line.getX())
+        final Line line = (Line) identifiable;
+        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor)
+                .country1(mapCountry(line.getTerminal1().getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(line.getTerminal2().getVoltageLevel().getSubstation().orElse(null)))
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
-                .properties(getProperties(line))
-                .b2(line.getB2());
-
-        Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(line.getOperationalLimitsGroups1());
-        builder.operationalLimitsGroup1(mapOperationalLimitsGroup1);
-        builder.operationalLimitsGroup1Names(mapOperationalLimitsGroup1.keySet().stream().toList());
-        builder.selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null));
-
-        Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(line.getOperationalLimitsGroups2());
-        builder.operationalLimitsGroup2(mapOperationalLimitsGroup2);
-        builder.operationalLimitsGroup2Names(mapOperationalLimitsGroup2.keySet().stream().toList());
-        builder.selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        // voltageLevels and substations properties
-        builder.voltageLevelProperties1(getProperties(terminal1.getVoltageLevel()));
-        builder.substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
-        builder.voltageLevelProperties2(getProperties(terminal2.getVoltageLevel()));
-        builder.substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
-
-        builder.measurementP1(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 0))
-            .measurementQ1(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 0))
-            .measurementP2(toMeasurement(line, Measurement.Type.ACTIVE_POWER, 1))
-            .measurementQ2(toMeasurement(line, Measurement.Type.REACTIVE_POWER, 1));
-
-        builder.branchObservability(toBranchObservability(line));
-
-        return builder.build();
+                .b2(line.getB2())
+                .build();
     }
 
     private static LineTooltipInfos toTooltipInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
@@ -197,15 +152,15 @@ public final class LineInfosMapper {
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .i1(nullIfNan(ElementUtils.computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(ElementUtils.computeIntensity(terminal2, dcPowerFactor)))
+                .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
+                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
                 .r(line.getR())
                 .x(line.getX())
                 .b1(line.getB1())
                 .b2(line.getB2());
 
-        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1)));
-        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2)));
+        line.getCurrentLimits1().ifPresent(limits1 -> builder.currentLimits1(toMapDataCurrentLimits(limits1, null, null)));
+        line.getCurrentLimits2().ifPresent(limits2 -> builder.currentLimits2(toMapDataCurrentLimits(limits2, null, null)));
 
         return builder.build();
     }
