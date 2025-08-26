@@ -69,8 +69,7 @@ public final class VoltageLevelInfosMapper {
             }
         }
         if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.getSectionCount())) { // Non-symmetrical busbars (nb sections)
-            topologyInfos.setBusbarSectionPositionFound(true);
-            return new VoltageLevelTopologyInfos(busbarSectionInfos);
+            return new VoltageLevelTopologyInfos(busbarSectionInfos, true);
         }
 
         topologyInfos.setRetrievedBusbarSections(true);
@@ -148,7 +147,8 @@ public final class VoltageLevelInfosMapper {
 
         public VoltageLevelTopologyInfos() { }
 
-        public VoltageLevelTopologyInfos(List<BusBarSectionFormInfos> busbarSectionInfos) {
+        public VoltageLevelTopologyInfos(List<BusBarSectionFormInfos> busbarSectionInfos, boolean isBusbarSectionPositionFound) {
+            this.isBusbarSectionPositionFound = isBusbarSectionPositionFound;
             this.busbarSections = busbarSectionInfos;
         }
 
