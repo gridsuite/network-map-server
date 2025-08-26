@@ -1055,6 +1055,23 @@ class NetworkMapControllerTest {
                 .add();
         bbs1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.FORCED_OUTAGE).add();
         vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
+        vlgen5.getNodeBreakerView()
+                .getBusbarSection("NGEN5")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(1)
+                .withSectionIndex(2)
+                .add();
+        vlgen5.getNodeBreakerView().newBusbarSection()
+                .setId("NGEN5_2")
+                .setName("NGEN5_2")
+                .setNode(1)
+                .add();
+        vlgen5.getNodeBreakerView()
+                .getBusbarSection("NGEN5_2")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(2)
+                .withSectionIndex(1)
+                .add();
 
         // Create a connected shunt compensator on a NODE_BREAKER voltage level
         ShuntCompensator shunt4 = vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
@@ -2196,6 +2213,12 @@ class NetworkMapControllerTest {
     void shouldReturnVotlageLevelFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
+    }
+
+    @Test
+    void shouldReturnVotlageLevelNonSymmetricalBusbarsFormData() throws Exception {
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
     }
 
     @Test
