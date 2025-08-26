@@ -116,7 +116,6 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
                 .ratedS(nullIfNan(twoWT.getRatedS()))
-                .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT))
                 .connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2))
                 .measurementRatioTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER))

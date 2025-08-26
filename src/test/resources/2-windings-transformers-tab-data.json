@@ -1,18 +1,24 @@
 [
   {
     "id": "NGEN_NHV1",
+    "type": "TWO_WINDINGS_TRANSFORMER",
     "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLHV1",
     "voltageLevelName1": "VLGEN_Name",
     "nominalVoltage1": 24.0,
-    "voltageLevelId2": "VLHV1",
     "nominalVoltage2": 380.0,
-    "country": "FR",
+    "substationId1": "P1",
+    "substationId2": "P1",
+    "country1": "FR",
+    "country2": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 11.1,
     "q1": 12.2,
     "p2": 13.33,
     "q2": 14.44,
+    "r": 0.26658461538461536,
+    "x": 11.104492831516762,
     "operationalLimitsGroup1": {
       "limit set 1": {
         "permanentLimit": 750.4,
@@ -52,6 +58,17 @@
       "limit set 1"
     ],
     "selectedOperationalLimitsGroup2": "limit set 1",
+    "substationProperties1": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
+      "Country": "FR"
+    },
+    "substationProperties2": {
+      "Country": "FR"
+    },
+    "operatingStatus": "PLANNED_OUTAGE",
+    "country": "FR",
     "phaseTapChanger": {
       "lowTapPosition": 0,
       "tapPosition": 1,
@@ -86,8 +103,6 @@
     },
     "g": 0.0,
     "b": 0.0,
-    "r": 0.26658461538461536,
-    "x": 11.104492831516762,
     "ratedU1": 24.0,
     "ratedU2": 400.0,
     "connectablePosition1": {
@@ -99,30 +114,26 @@
       "connectionDirection": "BOTTOM",
       "connectionPosition": 0,
       "connectionName": "feederName2"
-    },
-    "operatingStatus": "PLANNED_OUTAGE",
-    "substationProperties1": {
-      "Country": "FR"
-    },
-    "substationProperties2": {
-      "Country": "FR"
-    },
-    "voltageLevelProperties1": {
-      "Country": "FR"
     }
   },
   {
     "id": "NHV2_NLOAD",
+    "type": "TWO_WINDINGS_TRANSFORMER",
     "voltageLevelId1": "VLHV2",
-    "nominalVoltage1": 380.0,
     "voltageLevelId2": "VLLOAD",
+    "nominalVoltage1": 380.0,
     "nominalVoltage2": 150.0,
+    "substationId1": "P2",
+    "substationId2": "P2",
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 5.5,
     "q1": 6.6,
     "p2": 7.77,
     "q2": 8.88,
+    "r": 0.04724999999999999,
+    "x": 4.049724365620455,
+    "operatingStatus": "PLANNED_OUTAGE",
     "ratioTapChanger": {
       "lowTapPosition": 0,
       "tapPosition": 2,
@@ -163,8 +174,6 @@
     },
     "g": 0.0,
     "b": 0.0,
-    "r": 0.04724999999999999,
-    "x": 4.049724365620455,
     "ratedU1": 400.0,
     "ratedU2": 158.0,
     "connectablePosition1": {
@@ -176,19 +185,24 @@
       "connectionDirection": "BOTTOM",
       "connectionPosition": 0,
       "connectionName": "feederName2"
-    },
-    "operatingStatus": "PLANNED_OUTAGE"
+    }
   },
   {
     "id": "NGEN_NHV2",
+    "type": "TWO_WINDINGS_TRANSFORMER",
     "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLHV1",
     "voltageLevelName1": "VLGEN_Name",
     "nominalVoltage1": 24.0,
-    "voltageLevelId2": "VLHV1",
     "nominalVoltage2": 380.0,
-    "country": "FR",
+    "substationId1": "P1",
+    "substationId2": "P1",
+    "country1": "FR",
+    "country2": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
+    "r": 47.0,
+    "x": 23.0,
     "operationalLimitsGroup1": {
       "DEFAULT": {
         "permanentLimit": 300.4,
@@ -202,7 +216,9 @@
         "applicability": null
       }
     },
-    "operationalLimitsGroup1Names": ["DEFAULT"],
+    "operationalLimitsGroup1Names": [
+      "DEFAULT"
+    ],
     "selectedOperationalLimitsGroup1": "DEFAULT",
     "operationalLimitsGroup2": {
       "DEFAULT": {
@@ -217,44 +233,10 @@
         "applicability": null
       }
     },
-    "operationalLimitsGroup2Names": ["DEFAULT"],
+    "operationalLimitsGroup2Names": [
+      "DEFAULT"
+    ],
     "selectedOperationalLimitsGroup2": "DEFAULT",
-    "g": 27.0,
-    "b": 17.0,
-    "r": 47.0,
-    "x": 23.0,
-    "ratedU1": 400.0,
-    "ratedU2": 158.0,
-    "connectablePosition1": {
-      "connectionDirection": null
-    },
-    "connectablePosition2": {
-      "connectionDirection": null
-    },
-    "measurementP1": {
-      "value": 27.0,
-      "validity": true
-    },
-    "measurementQ1": {
-      "value": 13.0,
-      "validity": true
-    },
-    "measurementP2": {
-      "value": 68.0,
-      "validity": false
-    },
-    "measurementQ2": {
-      "value": 53.0,
-      "validity": false
-    },
-    "measurementRatioTap": {
-      "value": 11,
-      "validity": true
-    },
-    "measurementPhaseTap": {
-      "value": 7,
-      "validity": false
-    },
     "branchObservability": {
       "qualityP1": {
         "standardDeviation": 23.31,
@@ -274,18 +256,53 @@
       },
       "observable": true
     },
-    "toBeEstimated": {
-      "ratioTapChangerStatus": false,
-      "phaseTapChangerStatus": true
-    },
     "substationProperties1": {
+      "Country": "FR"
+    },
+    "voltageLevelProperties1": {
       "Country": "FR"
     },
     "substationProperties2": {
       "Country": "FR"
     },
-    "voltageLevelProperties1": {
-      "Country": "FR"
+    "measurementP1": {
+      "value": 27.0,
+      "validity": true
+    },
+    "measurementQ1": {
+      "value": 13.0,
+      "validity": true
+    },
+    "measurementP2": {
+      "value": 68.0,
+      "validity": false
+    },
+    "measurementQ2": {
+      "value": 53.0,
+      "validity": false
+    },
+    "country": "FR",
+    "g": 27.0,
+    "b": 17.0,
+    "ratedU1": 400.0,
+    "ratedU2": 158.0,
+    "connectablePosition1": {
+      "connectionDirection": null
+    },
+    "connectablePosition2": {
+      "connectionDirection": null
+    },
+    "measurementRatioTap": {
+      "value": 11,
+      "validity": true
+    },
+    "measurementPhaseTap": {
+      "value": 7,
+      "validity": false
+    },
+    "toBeEstimated": {
+      "ratioTapChangerStatus": false,
+      "phaseTapChangerStatus": true
     }
   }
 ]
