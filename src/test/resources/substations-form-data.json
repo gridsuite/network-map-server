@@ -104,6 +104,7 @@
           "DISCONNECTOR"
         ],
         "isRetrievedBusbarSections": true,
+        "isBusbarSectionPositionFound": true,
         "busBarSectionInfos" : {
           "1" : ["NGEN4"]
         }
@@ -129,6 +130,7 @@
         "sectionCount": 1,
         "switchKinds": [],
         "isRetrievedBusbarSections": false,
+        "isBusbarSectionPositionFound": false,
         "busBarSectionInfos" : { }
       }
     ]

@@ -69,11 +69,13 @@ public final class VoltageLevelInfosMapper {
             }
         }
         if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.getSectionCount())) { // Non-symmetrical busbars (nb sections)
-            return new VoltageLevelTopologyInfos();
+            topologyInfos.setBusbarSectionPositionFound(true);
+            return new VoltageLevelTopologyInfos(busbarSectionInfos);
         }
 
         topologyInfos.setRetrievedBusbarSections(true);
         topologyInfos.setSwitchKinds(Collections.nCopies(topologyInfos.getSectionCount() - 1, SwitchKind.DISCONNECTOR));
+        topologyInfos.setBusbarSectionPositionFound(true);
         topologyInfos.setBusbarSections(busbarSectionInfos);
 
         return topologyInfos;
@@ -97,6 +99,7 @@ public final class VoltageLevelInfosMapper {
             builder.sectionCount(vlTopologyInfos.getSectionCount());
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
+            builder.isBusbarSectionPositionFound(vlTopologyInfos.isBusbarSectionPositionFound());
             builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
         }
 
@@ -138,9 +141,16 @@ public final class VoltageLevelInfosMapper {
     public static class VoltageLevelTopologyInfos {
         private List<BusBarSectionFormInfos> busbarSections = List.of();
         private boolean isRetrievedBusbarSections = false;
+        private boolean isBusbarSectionPositionFound = false;
         private int busbarCount = 1;
         private int sectionCount = 1;
         private List<SwitchKind> switchKinds = List.of();
+
+        public VoltageLevelTopologyInfos() { }
+
+        public VoltageLevelTopologyInfos(List<BusBarSectionFormInfos> busbarSectionInfos) {
+            this.busbarSections = busbarSectionInfos;
+        }
 
         public Map<String, List<String>> getBusBarSectionInfosGrouped() {
             return busbarSections.stream()
