@@ -139,7 +139,7 @@ public final class VoltageLevelInfosMapper {
     @Setter
     public static class VoltageLevelTopologyInfos {
         private List<BusBarSectionFormInfos> busbarSections = List.of();
-        private boolean isRetrievedBusbarSections = false;
+        private boolean isRetrievedBusbarSections = false;   // true if busbar sections are symmetrical
         private boolean isBusbarSectionPositionFound = false;
         private int busbarCount = 1;
         private int sectionCount = 1;
