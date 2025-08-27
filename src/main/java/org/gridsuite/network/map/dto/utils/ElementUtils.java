@@ -6,21 +6,23 @@
  */
 package org.gridsuite.network.map.dto.utils;
 
+import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
-import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
-import org.gridsuite.network.map.dto.common.TapChangerData;
-import org.gridsuite.network.map.dto.common.TapChangerStepData;
-import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nullable;
+import lombok.NonNull;
+import org.apache.commons.collections4.CollectionUtils;
+import org.gridsuite.network.map.dto.common.*;
+import org.gridsuite.network.map.dto.definition.extension.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -31,6 +33,12 @@ public final class ElementUtils {
 
     public static Double nullIfNan(double d) {
         return Double.isNaN(d) ? null : d;
+    }
+
+    public static void setIfNotNan(@NonNull final DoubleConsumer setter, final double value) {
+        if (!Double.isNaN(value)) {
+            setter.accept(value);
+        }
     }
 
     private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
@@ -92,7 +100,7 @@ public final class ElementUtils {
         }
     }
 
-    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, Applicability applicability) {
+    private static CurrentLimitsData copyCurrentLimitsData(CurrentLimitsData currentLimitsData, CurrentLimitsData.Applicability applicability) {
         return CurrentLimitsData.builder()
             .id(currentLimitsData.getId())
             .applicability(applicability)
@@ -255,7 +263,7 @@ public final class ElementUtils {
     }
 
     @Nullable
-    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, Applicability applicability) {
+    public static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(OperationalLimitsGroup operationalLimitsGroup, CurrentLimitsData.Applicability applicability) {
         if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
             return null;
         }

@@ -17,5 +17,6 @@
   "busBarSectionInfos" : {
     "1" : [ "NGEN5"],
     "2" : [ "NGEN5_2"]
-  }
+  },
+  "feederBaysInfos": {}
 }
