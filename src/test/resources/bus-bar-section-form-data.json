@@ -7,6 +7,14 @@
   },
   {
     "id": "NGEN5",
-    "name": "NGEN5"
+    "name": "NGEN5",
+    "vertPos": 1,
+    "horizPos": 2
+  },
+  {
+    "id": "NGEN5_2",
+    "name": "NGEN5_2",
+    "vertPos": 2,
+    "horizPos": 1
   }
 ]

@@ -1,0 +1,21 @@
+{
+  "id": "VLGEN5",
+  "topologyKind": "NODE_BREAKER",
+  "substationId": "P5",
+  "nominalV": 24.0,
+  "lowVoltageLimit": 20.0,
+  "highVoltageLimit": 30.0,
+  "identifiableShortCircuit": {
+    "ipMin": 0.0,
+    "ipMax": 100.0
+  },
+  "busbarCount": 1,
+  "sectionCount": 1,
+  "switchKinds": [],
+  "isRetrievedBusbarSections": false,
+  "isBusbarSectionPositionFound": true,
+  "busBarSectionInfos" : {
+    "1" : [ "NGEN5"],
+    "2" : [ "NGEN5_2"]
+  }
+}

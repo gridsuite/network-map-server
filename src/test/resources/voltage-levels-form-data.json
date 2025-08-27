@@ -63,6 +63,7 @@
     "sectionCount": 2,
     "switchKinds": ["DISCONNECTOR"],
     "isRetrievedBusbarSections": true,
+    "isBusbarSectionPositionFound": true,
     "busBarSectionInfos" : {
       "1" : [ "NGEN4" ]
     }
@@ -82,7 +83,11 @@
     "sectionCount": 1,
     "switchKinds": [],
     "isRetrievedBusbarSections": false,
-    "busBarSectionInfos" : { }
+    "isBusbarSectionPositionFound": true,
+    "busBarSectionInfos" : {
+      "1" : [ "NGEN5"],
+      "2" : [ "NGEN5_2"]
+    }
   },
   {
     "id": "VLGEN6",
