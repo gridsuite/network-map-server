@@ -2353,6 +2353,11 @@
       "id": "NGEN5",
       "name": "NGEN5",
       "voltageLevelId": "VLGEN5"
+    },
+    {
+      "id": "NGEN5_2",
+      "name": "NGEN5_2",
+      "voltageLevelId": "VLGEN5"
     }
   ]
 }

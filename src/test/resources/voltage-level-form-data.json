@@ -7,6 +7,7 @@
   "sectionCount": 2,
   "switchKinds": ["DISCONNECTOR"],
   "isRetrievedBusbarSections": true,
+  "isBusbarSectionPositionFound": true,
   "busBarSectionInfos" : {
     "1" : [ "NGEN4"]
   }
