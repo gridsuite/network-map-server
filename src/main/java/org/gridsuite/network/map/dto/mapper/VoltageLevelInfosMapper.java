@@ -103,7 +103,7 @@ public final class VoltageLevelInfosMapper {
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
             builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
-            builder.connectablePositionInfos(getConnectionInfos(voltageLevel));
+            builder.feederBaysInfos(getConnectionInfos(voltageLevel));
         }
 
         builder.identifiableShortCircuit(toIdentifiableShortCircuit(voltageLevel));

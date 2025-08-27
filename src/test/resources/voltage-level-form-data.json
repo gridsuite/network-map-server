@@ -14,7 +14,7 @@
       "NGEN4"
     ]
   },
-  "connectablePositionInfos": {
+  "feederBaysInfos": {
     "SHUNT_VLNB": [
       {
         "busbarId": "NGEN4",
