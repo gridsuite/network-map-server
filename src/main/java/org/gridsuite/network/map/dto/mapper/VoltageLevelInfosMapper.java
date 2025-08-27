@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -42,7 +43,7 @@ public final class VoltageLevelInfosMapper {
     }
 
     private static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
-        VoltageLevelTopologyInfos topologyInfos = new VoltageLevelTopologyInfos();
+        VoltageLevelTopologyInfos topologyInfos = createDefaultTopologyInfosBuilder().build();
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
         List<BusBarSectionFormInfos> busbarSectionInfos = new ArrayList<>();
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
@@ -65,11 +66,13 @@ public final class VoltageLevelInfosMapper {
                         .build();
                 busbarSectionInfos.add(busbarSectionInfo);
             } else {
-                return new VoltageLevelTopologyInfos();
+                return createDefaultTopologyInfosBuilder().build();
             }
         }
         if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.getSectionCount())) { // Non-symmetrical busbars (nb sections)
-            return new VoltageLevelTopologyInfos(busbarSectionInfos, true);
+            return createDefaultTopologyInfosBuilder().busbarSections(busbarSectionInfos)
+                    .isBusbarSectionPositionFound(true)
+                    .build();
         }
 
         topologyInfos.setRetrievedBusbarSections(true);
@@ -135,22 +138,22 @@ public final class VoltageLevelInfosMapper {
         return builder.build();
     }
 
+    private static VoltageLevelTopologyInfos.VoltageLevelTopologyInfosBuilder createDefaultTopologyInfosBuilder() {
+        return VoltageLevelTopologyInfos.builder()
+                .busbarCount(1).sectionCount(1).isRetrievedBusbarSections(false)
+                .switchKinds(List.of()).busbarSections(List.of()).isBusbarSectionPositionFound(false);
+    }
+
+    @Builder
     @Getter
     @Setter
     public static class VoltageLevelTopologyInfos {
-        private List<BusBarSectionFormInfos> busbarSections = List.of();
-        private boolean isRetrievedBusbarSections = false;   // true if busbar sections are symmetrical
-        private boolean isBusbarSectionPositionFound = false;
-        private int busbarCount = 1;
-        private int sectionCount = 1;
-        private List<SwitchKind> switchKinds = List.of();
-
-        public VoltageLevelTopologyInfos() { }
-
-        public VoltageLevelTopologyInfos(List<BusBarSectionFormInfos> busbarSectionInfos, boolean isBusbarSectionPositionFound) {
-            this.isBusbarSectionPositionFound = isBusbarSectionPositionFound;
-            this.busbarSections = busbarSectionInfos;
-        }
+        private List<BusBarSectionFormInfos> busbarSections;
+        private boolean isRetrievedBusbarSections;   // true if busbar sections are symmetrical
+        private boolean isBusbarSectionPositionFound;
+        private int busbarCount;
+        private int sectionCount;
+        private List<SwitchKind> switchKinds;
 
         public Map<String, List<String>> getBusBarSectionInfosGrouped() {
             return busbarSections.stream()
