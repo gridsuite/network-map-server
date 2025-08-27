@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -42,41 +43,48 @@ public final class VoltageLevelInfosMapper {
     }
 
     private static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
-        VoltageLevelTopologyInfos topologyInfos = new VoltageLevelTopologyInfos();
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
         List<BusBarSectionFormInfos> busbarSectionInfos = new ArrayList<>();
+        int maxBusbarIndex = 1;
+        int maxSectionIndex = 1;
+        boolean busbarSectionPositionFound = true;
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
             var extension = bbs.getExtension(BusbarSectionPosition.class);
-            if (extension != null) {
-                if (extension.getBusbarIndex() > topologyInfos.getBusbarCount()) {
-                    topologyInfos.setBusbarCount(extension.getBusbarIndex());
-                }
-                if (extension.getSectionIndex() > topologyInfos.getSectionCount()) {
-                    topologyInfos.setSectionCount(extension.getSectionIndex());
-                }
-                nbSectionsPerBusbar.putIfAbsent(extension.getBusbarIndex(), 1);
-                if (extension.getSectionIndex() > nbSectionsPerBusbar.get(extension.getBusbarIndex())) {
-                    nbSectionsPerBusbar.put(extension.getBusbarIndex(), extension.getSectionIndex());
-                }
-                BusBarSectionFormInfos busbarSectionInfo = BusBarSectionFormInfos.builder()
-                        .id(bbs.getId())
-                        .vertPos(extension.getSectionIndex())
-                        .horizPos(extension.getBusbarIndex())
-                        .build();
-                busbarSectionInfos.add(busbarSectionInfo);
-            } else {
-                return new VoltageLevelTopologyInfos();
+            if (extension == null) {
+                busbarSectionPositionFound = false;
+                break;
             }
+            int busbarIndex = extension.getBusbarIndex();
+            int sectionIndex = extension.getSectionIndex();
+            maxBusbarIndex = Math.max(maxBusbarIndex, busbarIndex);
+            maxSectionIndex = Math.max(maxSectionIndex, sectionIndex);
+            nbSectionsPerBusbar.merge(busbarIndex, sectionIndex, Math::max);
+            busbarSectionInfos.add(BusBarSectionFormInfos.builder()
+                    .id(bbs.getId())
+                    .vertPos(sectionIndex)
+                    .horizPos(busbarIndex)
+                    .build());
         }
-        if (nbSectionsPerBusbar.values().stream().anyMatch(v -> v != topologyInfos.getSectionCount())) { // Non-symmetrical busbars (nb sections)
-            return new VoltageLevelTopologyInfos();
+        VoltageLevelTopologyInfos voltageLevelTopologyInfos = createDefaultTopologyInfosBuilder().build();
+        if (!busbarSectionPositionFound) {
+            return voltageLevelTopologyInfos;
         }
 
-        topologyInfos.setRetrievedBusbarSections(true);
-        topologyInfos.setSwitchKinds(Collections.nCopies(topologyInfos.getSectionCount() - 1, SwitchKind.DISCONNECTOR));
-        topologyInfos.setBusbarSections(busbarSectionInfos);
+        voltageLevelTopologyInfos.setBusbarSections(busbarSectionInfos);
+        voltageLevelTopologyInfos.setBusbarSectionPositionFound(true);
 
-        return topologyInfos;
+        int finalMaxSectionIndex = maxSectionIndex;
+        boolean isSymmetrical = nbSectionsPerBusbar.values()
+                .stream()
+                .allMatch(v -> v == finalMaxSectionIndex);
+
+        if (isSymmetrical) {
+            voltageLevelTopologyInfos.setBusbarCount(maxBusbarIndex);
+            voltageLevelTopologyInfos.setSectionCount(maxSectionIndex);
+            voltageLevelTopologyInfos.setRetrievedBusbarSections(true);
+            voltageLevelTopologyInfos.setSwitchKinds(Collections.nCopies(maxSectionIndex - 1, SwitchKind.DISCONNECTOR));
+        }
+        return voltageLevelTopologyInfos;
     }
 
     static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
@@ -97,6 +105,7 @@ public final class VoltageLevelInfosMapper {
             builder.sectionCount(vlTopologyInfos.getSectionCount());
             builder.switchKinds(vlTopologyInfos.getSwitchKinds());
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
+            builder.isBusbarSectionPositionFound(vlTopologyInfos.isBusbarSectionPositionFound());
             builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
         }
 
@@ -133,14 +142,22 @@ public final class VoltageLevelInfosMapper {
         return builder.build();
     }
 
+    private static VoltageLevelTopologyInfos.VoltageLevelTopologyInfosBuilder createDefaultTopologyInfosBuilder() {
+        return VoltageLevelTopologyInfos.builder()
+                .busbarCount(1).sectionCount(1).isRetrievedBusbarSections(false)
+                .switchKinds(List.of()).busbarSections(List.of()).isBusbarSectionPositionFound(false);
+    }
+
+    @Builder
     @Getter
     @Setter
     public static class VoltageLevelTopologyInfos {
-        private List<BusBarSectionFormInfos> busbarSections = List.of();
-        private boolean isRetrievedBusbarSections = false;
-        private int busbarCount = 1;
-        private int sectionCount = 1;
-        private List<SwitchKind> switchKinds = List.of();
+        private List<BusBarSectionFormInfos> busbarSections;
+        private boolean isRetrievedBusbarSections;   // true if busbar sections are symmetrical
+        private boolean isBusbarSectionPositionFound;
+        private int busbarCount;
+        private int sectionCount;
+        private List<SwitchKind> switchKinds;
 
         public Map<String, List<String>> getBusBarSectionInfosGrouped() {
             return busbarSections.stream()
