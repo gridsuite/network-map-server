@@ -58,7 +58,7 @@ public final class VoltageLevelInfosMapper {
             int sectionIndex = extension.getSectionIndex();
             maxBusbarIndex = Math.max(maxBusbarIndex, busbarIndex);
             maxSectionIndex = Math.max(maxSectionIndex, sectionIndex);
-            nbSectionsPerBusbar.merge(busbarIndex, sectionIndex, Math::max);
+            nbSectionsPerBusbar.merge(busbarIndex, 1, Integer::sum);
             busbarSectionInfos.add(BusBarSectionFormInfos.builder()
                     .id(bbs.getId())
                     .vertPos(sectionIndex)
@@ -73,10 +73,7 @@ public final class VoltageLevelInfosMapper {
         voltageLevelTopologyInfos.setBusbarSections(busbarSectionInfos);
         voltageLevelTopologyInfos.setBusbarSectionPositionFound(true);
 
-        int finalMaxSectionIndex = maxSectionIndex;
-        boolean isSymmetrical = nbSectionsPerBusbar.values()
-                .stream()
-                .allMatch(v -> v == finalMaxSectionIndex);
+        boolean isSymmetrical = nbSectionsPerBusbar.values().stream().distinct().count() == 1;
 
         if (isSymmetrical) {
             voltageLevelTopologyInfos.setBusbarCount(maxBusbarIndex);

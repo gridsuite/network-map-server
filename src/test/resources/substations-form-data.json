@@ -126,10 +126,10 @@
           "ipMin": 0.0,
           "ipMax": 100.0
         },
-        "busbarCount": 1,
-        "sectionCount": 1,
-        "switchKinds": [],
-        "isRetrievedBusbarSections": false,
+        "busbarCount": 2,
+        "sectionCount": 2,
+        "switchKinds": ["DISCONNECTOR"],
+        "isRetrievedBusbarSections": true,
         "isBusbarSectionPositionFound": true,
         "busBarSectionInfos" : {
           "1" : [ "NGEN5"],
