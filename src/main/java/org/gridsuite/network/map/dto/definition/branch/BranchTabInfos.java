@@ -1,12 +1,13 @@
 /**
- * Copyright (c) 2023, RTE (http://www.rte-france.com)
+ * Copyright © 2025, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.definition.line;
+package org.gridsuite.network.map.dto.definition.branch;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -19,90 +20,99 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * @author Slimane Amar <slimane.amar at rte-france.com>
- */
 @SuperBuilder
 @Getter
-public class LineTabInfos extends ElementInfosWithProperties {
+public class BranchTabInfos extends ElementInfosWithProperties {
+    private String type;
 
     private String voltageLevelId1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String voltageLevelName1;
-
-    private Double nominalVoltage1;
-
     private String voltageLevelId2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
+    private String voltageLevelName1;
+
+    @JsonInclude(Include.NON_NULL)
     private String voltageLevelName2;
 
+    private Double nominalVoltage1;
     private Double nominalVoltage2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
+    private String substationId1;
+
+    @JsonInclude(Include.NON_NULL)
+    private String substationId2;
+
+    @JsonInclude(Include.NON_NULL)
     private Country country1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Country country2;
 
     private Boolean terminal1Connected;
-
     private Boolean terminal2Connected;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double p1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double q1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double p2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double q2;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double i1;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double i2;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Map<String, CurrentLimitsData> operationalLimitsGroup1;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> operationalLimitsGroup1Names;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup1;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Map<String, CurrentLimitsData> operationalLimitsGroup2;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<String> operationalLimitsGroup2Names;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double r;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(Include.NON_NULL)
     private Double x;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double g1;
+    @JsonInclude(Include.NON_EMPTY)
+    private Map<String, CurrentLimitsData> operationalLimitsGroup1;
+
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> operationalLimitsGroup1Names;
+
+    @JsonInclude(Include.NON_NULL)
+    private String selectedOperationalLimitsGroup1;
+
+    @JsonInclude(Include.NON_EMPTY)
+    private Map<String, CurrentLimitsData> operationalLimitsGroup2;
+
+    @JsonInclude(Include.NON_EMPTY)
+    private List<String> operationalLimitsGroup2Names;
+
+    @JsonInclude(Include.NON_NULL)
+    private String selectedOperationalLimitsGroup2;
+
+    @JsonInclude(Include.NON_ABSENT)
+    private Optional<BranchObservabilityInfos> branchObservability;
+
+    @JsonInclude(Include.NON_NULL)
+    private Map<String, String> substationProperties1;
+
+    @JsonInclude(Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties1;
+
+    @JsonInclude(Include.NON_NULL)
+    private Map<String, String> substationProperties2;
+
+    @JsonInclude(Include.NON_NULL)
+    private Map<String, String> voltageLevelProperties2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b1;
+    private String operatingStatus;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double g2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b2;
+    /* * *  Extensions * * */
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementP1;
@@ -115,19 +125,4 @@ public class LineTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ2;
-
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<BranchObservabilityInfos> branchObservability;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> substationProperties1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> voltageLevelProperties1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> substationProperties2;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> voltageLevelProperties2;
 }

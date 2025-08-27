@@ -55,9 +55,11 @@ public class VoltageLevelFormInfos extends ElementInfosWithProperties {
     private Boolean isRetrievedBusbarSections;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    Map<String, List<String>> busBarSectionInfos;
+    private Boolean isBusbarSectionPositionFound;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    Map<String, List<FeederBayInfos>> feederBaysInfos;
+    private Map<String, List<String>> busBarSectionInfos;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, List<FeederBayInfos>> feederBaysInfos;
 }

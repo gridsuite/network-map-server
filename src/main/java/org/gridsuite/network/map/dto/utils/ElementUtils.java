@@ -6,23 +6,21 @@
  */
 package org.gridsuite.network.map.dto.utils;
 
-import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.math.graph.TraversalType;
-import org.gridsuite.network.map.dto.common.*;
-import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
-import org.gridsuite.network.map.dto.definition.extension.*;
-import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
-import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
+import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.common.TapChangerStepData;
+import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
+import org.springframework.lang.NonNull;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -290,26 +288,20 @@ public final class ElementUtils {
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {
-        String busOrBusbarSectionId;
         if (terminal.getVoltageLevel().getTopologyKind().equals(TopologyKind.BUS_BREAKER)) {
             if (terminal.isConnected()) {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getBus().getId();
+                return terminal.getBusBreakerView().getBus().getId();
             } else {
-                busOrBusbarSectionId = terminal.getBusBreakerView().getConnectableBus().getId();
+                return terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
-            busOrBusbarSectionId = getBusbarSectionId(terminal);
+            final BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
+            terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
+            return connectedBusbarSectionFinder.getFirstTraversedBbsId();
         }
-        return busOrBusbarSectionId;
     }
 
-    public static String getBusbarSectionId(Terminal terminal) {
-        BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-        terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
-        return connectedBusbarSectionFinder.getFirstTraversedBbsId();
-    }
-
-    public static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
@@ -372,7 +364,7 @@ public final class ElementUtils {
         return builder.build();
     }
 
-    public static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
         if (tapChangerStep == null) {
             return List.of();
         }
@@ -390,79 +382,6 @@ public final class ElementUtils {
         }).collect(Collectors.toList());
     }
 
-    public static void mapThreeWindingsTransformerPermanentLimits(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
-            ThreeWindingsTransformer transformer) {
-        CurrentLimits limits1 = transformer.getLeg1().getCurrentLimits().orElse(null);
-        CurrentLimits limits2 = transformer.getLeg2().getCurrentLimits().orElse(null);
-        CurrentLimits limits3 = transformer.getLeg3().getCurrentLimits().orElse(null);
-        if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1(limits1.getPermanentLimit());
-        }
-        if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2(limits2.getPermanentLimit());
-        }
-        if (limits3 != null && !Double.isNaN(limits3.getPermanentLimit())) {
-            builder.permanentLimit3(limits3.getPermanentLimit());
-        }
-    }
-
-    public static void mapThreeWindingsTransformerRatioTapChangers(
-            ThreeWindingsTransformerTabInfos.ThreeWindingsTransformerTabInfosBuilder<?, ?> builder,
-            ThreeWindingsTransformer transformer) {
-        ThreeWindingsTransformer.Leg leg1 = transformer.getLeg1();
-        ThreeWindingsTransformer.Leg leg2 = transformer.getLeg2();
-        ThreeWindingsTransformer.Leg leg3 = transformer.getLeg3();
-        if (leg1.hasRatioTapChanger()) {
-            builder.ratioTapChanger1(toMapData(leg1.getRatioTapChanger()))
-                    .hasLoadTapChanging1Capabilities(leg1.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio1(leg1.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg1.getRatioTapChanger().getTargetV())) {
-                builder.targetV1(leg1.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg2.hasRatioTapChanger()) {
-            builder.ratioTapChanger2(toMapData(leg2.getRatioTapChanger()))
-                    .hasLoadTapChanging2Capabilities(leg2.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio2(leg2.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg2.getRatioTapChanger().getTargetV())) {
-                builder.targetV2(leg2.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg3.hasRatioTapChanger()) {
-            builder.ratioTapChanger3(toMapData(leg3.getRatioTapChanger()))
-                    .hasLoadTapChanging3Capabilities(leg3.getRatioTapChanger().hasLoadTapChangingCapabilities())
-                    .isRegulatingRatio3(leg3.getRatioTapChanger().isRegulating());
-            if (!Double.isNaN(leg3.getRatioTapChanger().getTargetV())) {
-                builder.targetV3(leg3.getRatioTapChanger().getTargetV());
-            }
-        }
-        if (leg1.hasPhaseTapChanger()) {
-            builder.phaseTapChanger1(toMapData(leg1.getPhaseTapChanger()))
-                    .regulationModeName1(leg1.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase1(leg1.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg1.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue1(leg1.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-        if (leg2.hasPhaseTapChanger()) {
-            builder.phaseTapChanger2(toMapData(leg2.getPhaseTapChanger()))
-                    .regulationModeName2(leg2.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase2(leg2.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg2.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue2(leg2.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-        if (leg3.hasPhaseTapChanger()) {
-            builder.phaseTapChanger3(toMapData(leg3.getPhaseTapChanger()))
-                    .regulationModeName3(leg3.getPhaseTapChanger().getRegulationMode().name())
-                    .isRegulatingPhase3(leg3.getPhaseTapChanger().isRegulating());
-            if (!Double.isNaN(leg3.getPhaseTapChanger().getRegulationValue())) {
-                builder.regulatingValue3(leg3.getPhaseTapChanger().getRegulationValue());
-            }
-        }
-    }
-
     public static Country mapCountry(Substation substation) {
         return Optional.ofNullable(substation)
                 .flatMap(Substation::getCountry)
@@ -476,18 +395,6 @@ public final class ElementUtils {
         return properties.isEmpty() ? null : properties;
     }
 
-    public static double computeIntensity(Terminal terminal, Double dcPowerFactor) {
-        double intensity = terminal.getI();
-
-        if (Double.isNaN(intensity) && !Double.isNaN(terminal.getP()) && dcPowerFactor != null) {
-            // After a DC load flow, the current at a terminal can be undefined (NaN). In that case, we use the DC power factor,
-            // the nominal voltage and the active power at the terminal in order to approximate the current following formula
-            // P = sqrt(3) x Vnom x I x dcPowerFactor
-            intensity = 1000. * terminal.getP() / (Math.sqrt(3) * dcPowerFactor * terminal.getVoltageLevel().getNominalV());
-        }
-        return intensity;
-    }
-
     public static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePointsMapData(Collection<ReactiveCapabilityCurve.Point> points) {
         return points.stream()
                 .map(point -> ReactiveCapabilityCurveMapData.builder()
@@ -495,7 +402,7 @@ public final class ElementUtils {
                         .maxQ(point.getMaxQ())
                         .minQ(point.getMinQ())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static Substation findFirstSubstation(List<Terminal> terminals) {
@@ -506,75 +413,5 @@ public final class ElementUtils {
             .findFirst()
             .flatMap(Function.identity())
             .orElse(null);
-    }
-
-    public static Optional<MeasurementsInfos> toMeasurement(Connectable<?> connectable, Measurement.Type type, int index) {
-        var measurements = connectable.getExtension(Measurements.class);
-        if (measurements == null) {
-            return Optional.empty();
-        } else {
-            return measurements.getMeasurements(type).stream().filter(m -> ((Measurement) m).getSide() == null || ((Measurement) m).getSide().getNum() - 1 == index).findFirst()
-                .map(m -> MeasurementsInfos.builder().value(((Measurement) m).getValue()).validity(((Measurement) m).isValid()).build());
-        }
-    }
-
-    public static Optional<TapChangerDiscreteMeasurementsInfos> toMeasurementTapChanger(Connectable<?> connectable, DiscreteMeasurement.Type type, DiscreteMeasurement.TapChanger tapChanger) {
-        var measurements = connectable.getExtension(DiscreteMeasurements.class);
-        if (measurements == null) {
-            return Optional.empty();
-        } else {
-            Optional<DiscreteMeasurement> measurement = measurements.getDiscreteMeasurements(type).stream().filter(m -> ((DiscreteMeasurement) m).getTapChanger() == tapChanger).findFirst();
-            return measurement.map(m -> TapChangerDiscreteMeasurementsInfos.builder().value(m.getValueAsInt()).validity(m.isValid()).build());
-        }
-    }
-
-    public static Optional<InjectionObservabilityInfos> toInjectionObservability(Injection<?> injection) {
-        var observability = injection.getExtension(InjectionObservability.class);
-        if (observability == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(InjectionObservabilityInfos.builder()
-                .qualityQ(buildQualityInfos(observability.getQualityQ()))
-                .qualityP(buildQualityInfos(observability.getQualityP()))
-                .qualityV(buildQualityInfos(observability.getQualityV()))
-                .isObservable(observability.isObservable())
-                .build());
-    }
-
-    public static Optional<BranchObservabilityInfos> toBranchObservability(Branch<?> branch) {
-        var observability = branch.getExtension(BranchObservability.class);
-        if (observability == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(BranchObservabilityInfos.builder()
-                .qualityP1(buildQualityInfos(observability.getQualityP1()))
-                .qualityP2(buildQualityInfos(observability.getQualityP2()))
-                .qualityQ1(buildQualityInfos(observability.getQualityQ1()))
-                .qualityQ2(buildQualityInfos(observability.getQualityQ2()))
-                .isObservable(observability.isObservable())
-                .build());
-    }
-
-    private static ObservabilityQualityInfos buildQualityInfos(ObservabilityQuality<?> quality) {
-        if (quality == null) {
-            return null;
-        }
-        return ObservabilityQualityInfos.builder()
-                .standardDeviation(quality.getStandardDeviation())
-                .isRedundant(quality.isRedundant().orElse(null))
-                .build();
-    }
-
-    public static Map<String, CurrentLimitsData> buildCurrentLimitsMap(Collection<OperationalLimitsGroup> operationalLimitsGroups) {
-        Map<String, CurrentLimitsData> res = new HashMap<>();
-        if (!CollectionUtils.isEmpty(operationalLimitsGroups)) {
-            operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits().ifPresent(limits -> {
-                CurrentLimitsData limitsData = toMapDataCurrentLimits(limits);
-                res.put(operationalLimitsGroup.getId(), limitsData);
-            }));
-        }
-        return res;
     }
 }

@@ -9,6 +9,7 @@
     "DISCONNECTOR"
   ],
   "isRetrievedBusbarSections": true,
+  "isBusbarSectionPositionFound": true,
   "busBarSectionInfos": {
     "1": [
       "NGEN4"

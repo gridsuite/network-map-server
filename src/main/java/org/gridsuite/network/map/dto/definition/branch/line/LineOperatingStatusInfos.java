@@ -4,8 +4,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.gridsuite.network.map.dto.definition.twowindingstransformer;
+package org.gridsuite.network.map.dto.definition.branch.line;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithOperatingStatus;
@@ -15,9 +16,19 @@ import org.gridsuite.network.map.dto.ElementInfosWithOperatingStatus;
  */
 @SuperBuilder
 @Getter
-public class TwoWindingsTransformerOperatingStatusInfos extends ElementInfosWithOperatingStatus {
+public class LineOperatingStatusInfos extends ElementInfosWithOperatingStatus {
 
     private String voltageLevelId1;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName1;
+
     private String voltageLevelId2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String voltageLevelName2;
+
+    private Boolean terminal1Connected;
+
+    private Boolean terminal2Connected;
 }

@@ -7,5 +7,9 @@
     "id": "NGEN5",
     "name": "NGEN5",
     "operatingStatus": "FORCED_OUTAGE"
+  },
+    {
+    "id": "NGEN5_2",
+    "name": "NGEN5_2"
   }
 ]
