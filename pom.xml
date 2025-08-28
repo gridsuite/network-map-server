@@ -159,7 +159,14 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <!-- project specific dependencies (must be before to have priority during resolution)  -->
+            <dependency><!--TODO remove when springboot version will be updated-->
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.13.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- imports -->
             <dependency>
