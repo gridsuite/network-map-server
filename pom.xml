@@ -89,12 +89,12 @@
                     <classNames>
                         <className>org/gridsuite/network/map/dto/**TabInfos</className>
                     </classNames>
+                    <failIfNoClassesMatch>false</failIfNoClassesMatch>
                     <classpath>WITH_ALL_DEPENDENCIES</classpath>
                     <schemaFilePath>${project.build.outputDirectory}/schemas</schemaFilePath>
                     <schemaFileName>{1}/{0}-schema.json</schemaFileName>
                     <schemaVersion>DRAFT_2020_12</schemaVersion>
                     <options>
-                        <failIfNoClassesMatch>false</failIfNoClassesMatch>
                         <!--com.github.victools.jsonschema.generator.Option-->
                         <!--<preset>NONE</preset><!- - default: PLAIN_JSON-->
                         <preset>PLAIN_JSON</preset>
