@@ -5,20 +5,21 @@ import lombok.NonNull;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.definition.battery.BatteryTabInfos;
+import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
+import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos;
+import org.gridsuite.network.map.dto.definition.branch.twowindingstransformer.TwoWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabInfos;
 import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
-import org.gridsuite.network.map.dto.definition.line.LineTabInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
 import org.gridsuite.network.map.dto.definition.staticvarcompensator.StaticVarCompensatorTabInfos;
 import org.gridsuite.network.map.dto.definition.substation.SubstationTabInfos;
 import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.tieline.TieLineTabInfos;
-import org.gridsuite.network.map.dto.definition.twowindingstransformer.TwoWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
 import org.springframework.core.io.ResourceLoader;
@@ -55,6 +56,7 @@ public class SchemaService {
             case TWO_WINDINGS_TRANSFORMER -> TwoWindingsTransformerTabInfos.class;
             case VOLTAGE_LEVEL -> VoltageLevelTabInfos.class;
             case VSC_CONVERTER_STATION -> VscConverterStationTabInfos.class;
+            case BRANCH -> BranchTabInfos.class;
         };
     }
 

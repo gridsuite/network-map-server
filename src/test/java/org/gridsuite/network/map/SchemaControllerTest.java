@@ -84,6 +84,5 @@ class SchemaControllerTest implements WithAssertions {
         } else {
             result.andExpectAll(status().isNotImplemented());
         }
-        //assertThat("").isEqualToIgnoringWhitespace()
     }
 }

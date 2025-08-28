@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping(value = "/" + SchemaController.API_VERSION + "/schemas")
-@Tag(name = "network-map-server")
+@RequestMapping(value = "/" + NetworkMapApi.API_VERSION + "/schemas")
+@Tag(name = "Network map server - Schemas")
 @AllArgsConstructor
 public class SchemaController {
-    public static final String API_VERSION = "v1";
     public static final String APPLICATION_JSON_SCHEMA_VALUE = "application/schema+json";
     private final SchemaService schemaService;
 

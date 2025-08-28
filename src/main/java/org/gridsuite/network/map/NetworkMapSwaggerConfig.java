@@ -22,6 +22,6 @@ public class NetworkMapSwaggerConfig {
             .info(new Info()
                 .title("Network map API")
                 .description("This is the documentation of network map REST API")
-                .version(NetworkMapController.API_VERSION));
+                .version(NetworkMapApi.API_VERSION));
     }
 }
