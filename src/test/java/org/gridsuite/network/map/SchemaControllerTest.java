@@ -47,6 +47,7 @@ class SchemaControllerTest implements WithAssertions {
         }
         final String dtoPath = "schemas/org/gridsuite/network/map/dto/definition/";
         cases.get(ElementType.BATTERY).put(InfoType.TAB, dtoPath + "battery/BatteryTabInfos-schema.json");
+        cases.get(ElementType.BRANCH).put(InfoType.TAB, dtoPath + "branch/BranchTabInfos-schema.json");
         cases.get(ElementType.BUS).put(InfoType.TAB, dtoPath + "bus/BusTabInfos-schema.json");
         cases.get(ElementType.BUSBAR_SECTION).put(InfoType.TAB, dtoPath + "busbarsection/BusBarSectionTabInfos-schema.json");
         cases.get(ElementType.DANGLING_LINE).put(InfoType.TAB, dtoPath + "danglingline/DanglingLineTabInfos-schema.json");

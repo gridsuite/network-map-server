@@ -12,8 +12,8 @@ import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.branch.line.*;
-import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos.LineTabInfosBuilder;
+import org.gridsuite.network.map.dto.definition.line.*;
+import org.gridsuite.network.map.dto.definition.line.LineTabInfos.LineTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
