@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,7 +32,7 @@ class SchemaControllerTest implements WithAssertions {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean //need to init it for the controller
+    @SpyBean //need to init it for the controller
     private SchemaService schemaService;
 
     final ClassLoader cl = this.getClass().getClassLoader();
