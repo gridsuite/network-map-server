@@ -60,9 +60,9 @@
     "nominalV": 24.0,
     "topologyKind": "NODE_BREAKER",
     "busbarCount": 1,
-    "sectionCount": 2,
-    "switchKinds": ["DISCONNECTOR"],
-    "isRetrievedBusbarSections": true,
+    "sectionCount": 1,
+    "switchKinds": [],
+    "isRetrievedBusbarSections": false,
     "isBusbarSectionPositionFound": true,
     "busBarSectionInfos" : {
       "1" : [ "NGEN4" ]
