@@ -57,14 +57,14 @@ class SchemaControllerTest implements WithAssertions {
         cases.get(ElementType.HVDC_LINE_LCC).put(InfoType.TAB, hvdcTabInfosSchema);
         cases.get(ElementType.HVDC_LINE_VSC).put(InfoType.TAB, hvdcTabInfosSchema);
         cases.get(ElementType.LCC_CONVERTER_STATION).put(InfoType.TAB, dtoPath + "lccconverterstation/LccConverterStationTabInfos-schema.json");
-        cases.get(ElementType.LINE).put(InfoType.TAB, dtoPath + "line/LineTabInfos-schema.json");
+        cases.get(ElementType.LINE).put(InfoType.TAB, dtoPath + "branch/line/LineTabInfos-schema.json");
         cases.get(ElementType.LOAD).put(InfoType.TAB, dtoPath + "load/LoadTabInfos-schema.json");
         cases.get(ElementType.SHUNT_COMPENSATOR).put(InfoType.TAB, dtoPath + "shuntcompensator/ShuntCompensatorTabInfos-schema.json");
         cases.get(ElementType.STATIC_VAR_COMPENSATOR).put(InfoType.TAB, dtoPath + "staticvarcompensator/StaticVarCompensatorTabInfos-schema.json");
         cases.get(ElementType.SUBSTATION).put(InfoType.TAB, dtoPath + "substation/SubstationTabInfos-schema.json");
         cases.get(ElementType.THREE_WINDINGS_TRANSFORMER).put(InfoType.TAB, dtoPath + "threewindingstransformer/ThreeWindingsTransformerTabInfos-schema.json");
         cases.get(ElementType.TIE_LINE).put(InfoType.TAB, dtoPath + "tieline/TieLineTabInfos-schema.json");
-        cases.get(ElementType.TWO_WINDINGS_TRANSFORMER).put(InfoType.TAB, dtoPath + "twowindingstransformer/TwoWindingsTransformerTabInfos-schema.json");
+        cases.get(ElementType.TWO_WINDINGS_TRANSFORMER).put(InfoType.TAB, dtoPath + "branch/twowindingstransformer/TwoWindingsTransformerTabInfos-schema.json");
         cases.get(ElementType.VOLTAGE_LEVEL).put(InfoType.TAB, dtoPath + "voltagelevel/VoltageLevelTabInfos-schema.json");
         cases.get(ElementType.VSC_CONVERTER_STATION).put(InfoType.TAB, dtoPath + "vscconverterstation/VscConverterStationTabInfos-schema.json");
         return cases.entrySet().stream().flatMap(e1 -> e1.getValue().entrySet().stream().map(e2 -> Arguments.of(e1.getKey(), e2.getKey(), e2.getValue())));
