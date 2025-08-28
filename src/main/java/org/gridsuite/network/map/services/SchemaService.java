@@ -69,9 +69,14 @@ public class SchemaService {
         this.tabInfosSchemas = new EnumMap<>(ElementType.class);
         final var cl = this.getClass().getClassLoader();
         for (ElementType elementType : ElementType.values()) {
-            this.tabInfosSchemas.put(elementType,
-                objectMapper.readTree(resourceLoader.getResource("classpath:schemas/" + getTabInfosClass(elementType).getCanonicalName().replace('.', '/') + "-schema.json").getContentAsString(StandardCharsets.UTF_8)
-            ).toString()); // we store minimized version of the json
+            final var resource = resourceLoader.getResource(
+                    "classpath:schemas/" + getTabInfosClass(elementType).getCanonicalName().replace('.', '/') + "-schema.json"
+            );
+            if (resource.exists()) {
+                this.tabInfosSchemas.put(elementType,
+                        objectMapper.readTree(resource.getContentAsString(StandardCharsets.UTF_8)).toString()
+                );
+            }
         }
     }
 
