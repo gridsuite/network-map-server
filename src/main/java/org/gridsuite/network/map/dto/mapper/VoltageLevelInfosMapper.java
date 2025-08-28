@@ -73,13 +73,9 @@ public final class VoltageLevelInfosMapper {
         voltageLevelTopologyInfos.setBusbarSections(busbarSectionInfos);
         voltageLevelTopologyInfos.setBusbarSectionPositionFound(true);
 
-        boolean isSymmetrical = nbSectionsPerBusbar.values().stream()
-                .distinct()
-                .count() == 1
-                && nbSectionsPerBusbar.values().stream()
-                .findFirst()
-                .orElse(0)
-                .equals(maxSectionIndex);
+        boolean isSymmetrical = maxBusbarIndex == 1 ||
+                nbSectionsPerBusbar.values().stream().distinct().count() == 1
+                        && nbSectionsPerBusbar.values().stream().findFirst().orElse(0).equals(maxSectionIndex);
 
         if (isSymmetrical) {
             voltageLevelTopologyInfos.setBusbarCount(maxBusbarIndex);
