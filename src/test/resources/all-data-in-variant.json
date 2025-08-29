@@ -2367,8 +2367,13 @@
       "voltageLevelId": "VLGEN5"
     },
     {
-      "id": "NGEN5_2",
-      "name": "NGEN5_2",
+      "id": "NGEN5_2_1",
+      "name": "NGEN5_2_1",
+      "voltageLevelId": "VLGEN5"
+    },
+    {
+      "id": "NGEN5_2_2",
+      "name": "NGEN5_2_2",
       "voltageLevelId": "VLGEN5"
     }
   ]
