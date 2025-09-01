@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2025, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package org.gridsuite.network.map.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,7 +73,6 @@ public class SchemaService {
     public SchemaService(final ResourceLoader resourceLoader) throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper(); //just need a simple parser to minimize
         this.tabInfosSchemas = new EnumMap<>(ElementType.class);
-        final var cl = this.getClass().getClassLoader();
         for (ElementType elementType : ElementType.values()) {
             final var resource = resourceLoader.getResource(
                     "classpath:schemas/" + getTabInfosClass(elementType).getCanonicalName().replace('.', '/') + "-schema.json"
