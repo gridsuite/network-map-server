@@ -76,7 +76,7 @@ class SchemaControllerTest implements WithAssertions {
         ResultActions result = this.mockMvc.perform(get("/v1/schemas/{eType}/{iType}", eType, iType)).andDo(log());
         if (resultPath != null) {
             try (final InputStream json = cl.getResourceAsStream(resultPath)) {
-                if(json != null) {
+                if (json != null) {
                     result.andExpectAll(
                             status().isOk(),
                             content().contentType(SchemaController.APPLICATION_JSON_SCHEMA_VALUE),
