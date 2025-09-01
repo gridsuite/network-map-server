@@ -100,10 +100,9 @@
         "nominalV": 24.0,
         "busbarCount": 1,
         "sectionCount": 2,
-        "switchKinds": [
-          "DISCONNECTOR"
-        ],
+        "switchKinds": ["DISCONNECTOR"],
         "isRetrievedBusbarSections": true,
+        "isBusbarSectionPositionFound": true,
         "busBarSectionInfos" : {
           "1" : ["NGEN4"]
         }
@@ -129,7 +128,11 @@
         "sectionCount": 1,
         "switchKinds": [],
         "isRetrievedBusbarSections": false,
-        "busBarSectionInfos" : { }
+        "isBusbarSectionPositionFound": true,
+        "busBarSectionInfos" : {
+          "1" : [ "NGEN5"],
+          "2" : [ "NGEN5_2_1", "NGEN5_2_2"]
+        }
       }
     ]
   }

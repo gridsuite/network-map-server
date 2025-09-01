@@ -134,8 +134,6 @@ public final class LineInfosMapper extends BranchInfosMapper {
     private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
         final Line line = (Line) identifiable;
         return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor)
-                .country1(mapCountry(line.getTerminal1().getVoltageLevel().getSubstation().orElse(null)))
-                .country2(mapCountry(line.getTerminal2().getVoltageLevel().getSubstation().orElse(null)))
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())

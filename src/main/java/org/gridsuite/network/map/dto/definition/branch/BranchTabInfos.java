@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.definition.branch;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
@@ -22,6 +23,8 @@ import java.util.Optional;
 @SuperBuilder
 @Getter
 public class BranchTabInfos extends ElementInfosWithProperties {
+    private String type;
+
     private String voltageLevelId1;
     private String voltageLevelId2;
 
@@ -33,6 +36,18 @@ public class BranchTabInfos extends ElementInfosWithProperties {
 
     private Double nominalVoltage1;
     private Double nominalVoltage2;
+
+    @JsonInclude(Include.NON_NULL)
+    private String substationId1;
+
+    @JsonInclude(Include.NON_NULL)
+    private String substationId2;
+
+    @JsonInclude(Include.NON_NULL)
+    private Country country1;
+
+    @JsonInclude(Include.NON_NULL)
+    private Country country2;
 
     private Boolean terminal1Connected;
     private Boolean terminal2Connected;
@@ -93,6 +108,9 @@ public class BranchTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(Include.NON_NULL)
     private Map<String, String> voltageLevelProperties2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String operatingStatus;
 
     /* * *  Extensions * * */
 

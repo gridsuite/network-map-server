@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.definition.line;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
@@ -18,12 +17,6 @@ import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 @SuperBuilder
 @Getter
 public class LineTabInfos extends BranchTabInfos {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Country country1;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Country country2;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double g1;
 

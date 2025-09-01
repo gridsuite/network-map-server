@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE1;
 import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE2;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 import static org.gridsuite.network.map.dto.utils.ExtensionUtils.buildQualityInfos;
 
 public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMapper, TwoWindingsTransformerInfosMapper {
@@ -75,8 +76,13 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                 .selectedOperationalLimitsGroup2(branch.getSelectedOperationalLimitsGroupId2().orElse(null));
         //noinspection unchecked
         return (B) builder
+                .type(branch.getType().name())
                 .name(branch.getOptionalName().orElse(null))
                 .id(branch.getId())
+                .substationId1(terminal1.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .substationId2(terminal2.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null))
+                .country1(mapCountry(terminal1.getVoltageLevel().getSubstation().orElse(null)))
+                .country2(mapCountry(terminal2.getVoltageLevel().getSubstation().orElse(null)))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
@@ -96,7 +102,8 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                 .voltageLevelProperties2(ElementUtils.getProperties(terminal2.getVoltageLevel()))
                 .substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
-                .branchObservability(toBranchObservability(branch));
+                .branchObservability(toBranchObservability(branch))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(branch));
     }
 
     private static BranchTabInfos toTabInfos(@NonNull final Branch<?> branch, @Nullable final Double dcPowerFactor) {
