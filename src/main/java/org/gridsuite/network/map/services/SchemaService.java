@@ -37,7 +37,8 @@ import java.util.EnumMap;
 
 @Service
 public class SchemaService {
-    //TODO transform to a EnumMap<ElementType, EnumMap<InfoType, String>> later
+
+    // TODO transform to a EnumMap<ElementType, EnumMap<InfoType, String>> once multiple InfoType are handled
     private final EnumMap<ElementType, String> tabInfosSchemas;
 
     /**
