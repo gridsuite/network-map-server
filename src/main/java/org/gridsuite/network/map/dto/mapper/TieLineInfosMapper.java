@@ -16,7 +16,6 @@ import org.gridsuite.network.map.dto.definition.tieline.TieLineTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
-import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -28,8 +27,7 @@ public final class TieLineInfosMapper extends BranchInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
-        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        final Double dcPowerFactor = infoTypeParameters.getDcPowerFactor();
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable, dcPowerFactor);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);

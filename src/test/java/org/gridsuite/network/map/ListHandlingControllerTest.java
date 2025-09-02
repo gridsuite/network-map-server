@@ -19,7 +19,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -90,7 +93,12 @@ class ListHandlingControllerTest {
         mvc.perform(requestWithOptionalSubstationId(post("/v1/networks/{networkUuid}/elements", NETWORK_ID)
                 .queryParam("elementType", ElementType.LINE.toString()), parameter))
             .andExpect(status().is2xxSuccessful());
-        verify(networkMapService).getElementsInfos(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()), same(ElementType.LINE), eq(new InfoTypeParameters(null, Map.of())), isNull());
+        verify(networkMapService).getElementsInfos(eq(NETWORK_ID),
+                isNull(),
+                eq(Collections.emptyList()),
+                same(ElementType.LINE),
+                eq(new InfoTypeParameters(null, null)),
+                isNull());
     }
 
     /** Case of {@code substationsIds} for {@link NetworkMapController#getElementsIds(UUID, String, List, ElementType, Optional)} */

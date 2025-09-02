@@ -1401,7 +1401,7 @@ class NetworkMapControllerTest {
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                 .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
                 .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_DC_POWER_FACTOR), Double.toString(dcPowerFactor))
+                .queryParam(QUERY_PARAM_DC_POWER_FACTOR, Double.toString(dcPowerFactor))
             )
             .andExpect(status().isOk())
             .andReturn();

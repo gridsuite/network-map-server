@@ -26,7 +26,6 @@ import org.opentest4j.TestAbortedException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Map;
 
 /**
  * Just some tests for Sonar coverage until we really implement unit tests on mappers...
@@ -73,7 +72,7 @@ class MappersTest implements WithAssertions, WithAssumptions {
     @ParameterizedTest(name = "{0}")
     @EnumSource(InfoType.class)
     void shouldHandleInfoType(final InfoType infoType) throws Throwable {
-        final InfoTypeParameters parameters = new InfoTypeParameters(infoType, Map.of());
+        final InfoTypeParameters parameters = new InfoTypeParameters(infoType, null);
         // add possible implemented classes to avoid ClassCastException
         final Identifiable<?> identifiableMock = Mockito.mock(Identifiable.class, Mockito.withSettings()
             .defaultAnswer(invocation -> {

@@ -27,7 +27,6 @@ import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import java.util.List;
 import java.util.Optional;
 
-import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -39,8 +38,7 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
-        Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        final Double dcPowerFactor = infoTypeParameters.getDcPowerFactor();
         return switch (infoTypeParameters.getInfoType()) {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
