@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.WithAssumptions;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.ElementInfos.InfoType;
+import org.gridsuite.network.map.dto.InfoType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;

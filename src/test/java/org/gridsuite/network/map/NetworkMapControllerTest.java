@@ -16,7 +16,7 @@ import com.powsybl.iidm.network.test.NetworkTest1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
-import org.gridsuite.network.map.dto.ElementInfos.InfoType;
+import org.gridsuite.network.map.dto.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.AfterAll;

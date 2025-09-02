@@ -15,13 +15,13 @@ import java.util.Map;
 public class InfoTypeParameters {
     public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
 
-    public static final InfoTypeParameters TAB = new InfoTypeParameters(ElementInfos.InfoType.TAB, null);
+    public static final InfoTypeParameters TAB = new InfoTypeParameters(InfoType.TAB, null);
 
-    public InfoTypeParameters(ElementInfos.InfoType infoType, Map<String, String> optionalParameters) {
+    public InfoTypeParameters(InfoType infoType, Map<String, String> optionalParameters) {
         this.infoType = infoType;
         this.optionalParameters = optionalParameters == null ? new HashMap<>() : optionalParameters;
     }
 
-    private ElementInfos.InfoType infoType;
+    private InfoType infoType;
     private Map<String, String> optionalParameters;
 }
