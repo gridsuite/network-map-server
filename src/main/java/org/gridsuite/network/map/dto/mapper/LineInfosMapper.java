@@ -28,8 +28,9 @@ public final class LineInfosMapper extends BranchInfosMapper {
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         final Double dcPowerFactor = infoTypeParameters.getDcPowerFactor();
+        final boolean showOperatingLimitGroups = infoTypeParameters.isViewLineShowOperationalLimitsGroup();
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor, showOperatingLimitGroups);
             case FORM -> toFormInfos(identifiable);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
@@ -129,9 +130,9 @@ public final class LineInfosMapper extends BranchInfosMapper {
         return builder.build();
     }
 
-    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
+    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, final boolean showOlg) {
         final Line line = (Line) identifiable;
-        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor)
+        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor, showOlg)
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())

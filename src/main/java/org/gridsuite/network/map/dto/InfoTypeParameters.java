@@ -12,13 +12,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 @Data
-@NoArgsConstructor //needs with setter for spring mvc endpoint
+@NoArgsConstructor //needed with setter for spring mvc endpoint
 @AllArgsConstructor
 public class InfoTypeParameters {
     public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
 
-    public static final InfoTypeParameters TAB = new InfoTypeParameters(InfoType.TAB, null);
+    public static final InfoTypeParameters TAB = new InfoTypeParameters(InfoType.TAB, null, true, true, true, true);
 
     /*@NonNull*/ private InfoType infoType;
     @Nullable private Double dcPowerFactor;
+    private boolean viewBranchShowOperationalLimitsGroup = true;
+    private boolean viewLineShowOperationalLimitsGroup = true;
+    private boolean view2wtShowOperationalLimitsGroup = true;
+    private boolean viewGeneratorShowRegulatingTerminal = true;
 }

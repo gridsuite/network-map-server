@@ -42,8 +42,9 @@ public final class GeneratorInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        final boolean showRegulatingTerminals = infoTypeParameters.isViewGeneratorShowRegulatingTerminal();
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable);
+            case TAB -> toTabInfos(identifiable, showRegulatingTerminals);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw new UnsupportedOperationException("TODO");
@@ -60,7 +61,7 @@ public final class GeneratorInfosMapper {
                 .collect(Collectors.toList());
     }
 
-    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable, final boolean showRegulatingTerminals) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
         GeneratorTabInfos.GeneratorTabInfosBuilder<?, ?> builder = GeneratorTabInfos.builder()
@@ -87,13 +88,15 @@ public final class GeneratorInfosMapper {
                 .generatorShortCircuit(toGeneratorShortCircuit(generator))
                 .generatorStartup(toGeneratorStartup(generator));
 
-        Terminal regulatingTerminal = generator.getRegulatingTerminal();
-        //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
-        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
-            builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
-            builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
-            builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
-            builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+        if (showRegulatingTerminals) {
+            final Terminal regulatingTerminal = generator.getRegulatingTerminal();
+            //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
+            if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+                builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
+                builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
+                builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
+                builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+            }
         }
         ReactiveLimits reactiveLimits = generator.getReactiveLimits();
         if (reactiveLimits != null) {

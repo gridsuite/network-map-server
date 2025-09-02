@@ -72,7 +72,7 @@ class MappersTest implements WithAssertions, WithAssumptions {
     @ParameterizedTest(name = "{0}")
     @EnumSource(InfoType.class)
     void shouldHandleInfoType(final InfoType infoType) throws Throwable {
-        final InfoTypeParameters parameters = new InfoTypeParameters(infoType, null);
+        final InfoTypeParameters parameters = new InfoTypeParameters(infoType, null, true, true, true, true);
         // add possible implemented classes to avoid ClassCastException
         final Identifiable<?> identifiableMock = Mockito.mock(Identifiable.class, Mockito.withSettings()
             .defaultAnswer(invocation -> {

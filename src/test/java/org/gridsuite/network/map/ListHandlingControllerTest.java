@@ -97,7 +97,7 @@ class ListHandlingControllerTest {
                 isNull(),
                 eq(Collections.emptyList()),
                 same(ElementType.LINE),
-                eq(new InfoTypeParameters(null, null)),
+                eq(new InfoTypeParameters(null, null, true, true, true, true)),
                 isNull());
     }
 
