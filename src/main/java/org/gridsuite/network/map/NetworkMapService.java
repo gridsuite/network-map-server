@@ -81,6 +81,7 @@ public class NetworkMapService {
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoTypeParameters.TAB, null))
                 .buses(getBusesInfos(network, substationsId, InfoTypeParameters.TAB))
                 .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, InfoTypeParameters.TAB, null))
+                .branches(getElementsInfos(network, substationsId, ElementType.BRANCH, InfoTypeParameters.TAB, null))
                 .build();
     }
 
