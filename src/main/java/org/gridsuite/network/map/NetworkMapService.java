@@ -61,27 +61,32 @@ public class NetworkMapService {
                 .map(Substation::getId).toList();
     }
 
-    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters) {
+    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId, Map<String, Map<String, String>> additionalParametersByType) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW, variantId);
+
         return AllElementsInfos.builder()
-                .substations(getSubstationsInfos(network, substationsId, infoTypeParameters, null))
-                .voltageLevels(getVoltageLevelsInfos(network, substationsId, infoTypeParameters, null))
-                .hvdcLines(getHvdcLinesInfos(network, substationsId, infoTypeParameters, null))
-                .lines(getElementsInfos(network, substationsId, ElementType.LINE, infoTypeParameters, null))
-                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, infoTypeParameters, null))
-                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, infoTypeParameters, null))
-                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, infoTypeParameters, null))
-                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, infoTypeParameters, null))
-                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, infoTypeParameters, null))
-                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, infoTypeParameters, null))
-                .tieLines(getTieLinesInfos(network, substationsId, infoTypeParameters, null))
-                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, infoTypeParameters, null))
-                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, infoTypeParameters, null))
-                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, infoTypeParameters, null))
-                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, infoTypeParameters, null))
-                .buses(getBusesInfos(network, substationsId, infoTypeParameters))
-                .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, infoTypeParameters, null))
+                .substations(getSubstationsInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.SUBSTATION), null))
+                .voltageLevels(getVoltageLevelsInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.VOLTAGE_LEVEL), null))
+                .hvdcLines(getHvdcLinesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.HVDC_LINE), null))
+                .lines(getElementsInfos(network, substationsId, ElementType.LINE, getInfoTypeParameters(additionalParametersByType, ElementType.LINE), null))
+                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, getInfoTypeParameters(additionalParametersByType, ElementType.LOAD), null))
+                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, getInfoTypeParameters(additionalParametersByType, ElementType.GENERATOR), null))
+                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType, ElementType.TWO_WINDINGS_TRANSFORMER), null))
+                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType, ElementType.THREE_WINDINGS_TRANSFORMER), null))
+                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, getInfoTypeParameters(additionalParametersByType, ElementType.BATTERY), null))
+                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, getInfoTypeParameters(additionalParametersByType, ElementType.DANGLING_LINE), null))
+                .tieLines(getTieLinesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.TIE_LINE), null))
+                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.LCC_CONVERTER_STATION), null))
+                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, getInfoTypeParameters(additionalParametersByType, ElementType.SHUNT_COMPENSATOR), null))
+                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, getInfoTypeParameters(additionalParametersByType, ElementType.STATIC_VAR_COMPENSATOR), null))
+                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.VSC_CONVERTER_STATION), null))
+                .buses(getBusesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.BUS)))
+                .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, getInfoTypeParameters(additionalParametersByType, ElementType.BUSBAR_SECTION), null))
                 .build();
+    }
+
+    private static InfoTypeParameters getInfoTypeParameters(Map<String, Map<String, String>> additionalParametersByType, ElementType elementType) {
+        return new InfoTypeParameters(ElementInfos.InfoType.TAB, additionalParametersByType.get(String.valueOf(elementType)));
     }
 
     private List<String> getVoltageLevelsIds(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, List<Double> nominalVoltages) {

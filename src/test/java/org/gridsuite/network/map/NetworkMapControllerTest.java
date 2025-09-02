@@ -37,6 +37,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -1515,26 +1516,56 @@ class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    private void succeedingTestForEquipmentsInfos(UUID networkUuid, String variantId, String equipmentPath, List<String> substationsIds, String expectedJson, boolean withOptionalLoading) throws Exception {
+    private void succeedingTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson, boolean withOptionalLoading) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         if (substationsIds != null) {
             queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
         }
         queryParams.add(QUERY_PARAM_INFO_TYPE, InfoType.TAB.toString());
+        Map<String, Map<String, String>> body;
         if (withOptionalLoading) {
-            queryParams.add(String.format("optionalParameters[%s]", QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
-            queryParams.add(String.format("optionalParameters[%s]", QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
+            body = Map.of(
+                String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.TWO_WINDINGS_TRANSFORMER), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true))
+            );
+        } else {
+            body = Map.of();
         }
-        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/{equipmentPath}", networkUuid, equipmentPath).queryParams(queryParams))
+        MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
 
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    private void succeedingTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
+        succeedingTestForAllEquipmentsInfos(networkUuid, variantId, substationsIds, expectedJson, true);
+    }
+
+    private void notFoundTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        if (!substationsIds.isEmpty()) {
+            queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
+        }
+        mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(Map.of())))
+            .andExpect(status().isNotFound());
+    }
+
     private void succeedingTestForEquipmentsInfos(UUID networkUuid, String variantId, String equipmentPath, List<String> substationsIds, String expectedJson) throws Exception {
-        succeedingTestForEquipmentsInfos(networkUuid, variantId, equipmentPath, substationsIds, expectedJson, true);
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        if (substationsIds != null) {
+            queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
+        }
+        queryParams.add(QUERY_PARAM_INFO_TYPE, InfoType.TAB.toString());
+        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/{equipmentPath}", networkUuid, equipmentPath).queryParams(queryParams))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void notFoundTestForEquipmentsInfos(UUID networkUuid, String variantId, String infosPath, List<String> substationsIds) throws Exception {
@@ -1844,24 +1875,24 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnAllData() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", null, resourceToString("/all-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3"), resourceToString("/partial-all-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-data-in-variant.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, null, resourceToString("/all-data.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-all-data.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID, null, resourceToString("/all-data-in-variant.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
     }
 
     @Test
     void shouldReturnAllDataWithoutOptionals() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", null, resourceToString("/all-data-without-optionals.json"), false);
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, null, resourceToString("/all-data-without-optionals.json"), false);
     }
 
     @Test
     void shouldReturnNotFoundInsteadOfAllData() throws Exception {
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "all", List.of());
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "all", List.of());
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "all", List.of("P1"));
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "all", List.of("P1"));
+        notFoundTestForAllEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, List.of());
+        notFoundTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of());
+        notFoundTestForAllEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        notFoundTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
