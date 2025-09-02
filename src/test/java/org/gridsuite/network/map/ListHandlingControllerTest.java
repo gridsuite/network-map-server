@@ -80,7 +80,7 @@ class ListHandlingControllerTest {
     void getAllSubstationsIds(final Optional<String> parameter) throws Exception {
         mvc.perform(requestWithOptionalSubstationId(get("/v1/networks/{networkUuid}/all", NETWORK_ID), parameter))
             .andExpect(status().is2xxSuccessful());
-        verify(networkMapService).getAllElementsInfos(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()));
+        verify(networkMapService).getAllElementsInfos(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()), eq(new InfoTypeParameters(null, Map.of())));
     }
 
     /** Case of {@code substationsIds} for {@link NetworkMapController#getElementsInfos(UUID, String, List, ElementType, InfoTypeParameters, Optional)} */

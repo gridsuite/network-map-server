@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE1;
 import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE2;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
@@ -39,14 +40,19 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         final Branch<?> branch = (Branch<?>) identifiable;
         final Double dcPowerFactor = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_DC_POWERFACTOR))
                 .map(Double::valueOf).orElse(null);
+        final Boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
+            .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(branch, dcPowerFactor);
+            case TAB -> toTabInfos(branch, dcPowerFactor, loadOperationalLimitGroups);
             default -> throw new UnsupportedOperationException("TODO");
         };
     }
 
     protected static<T extends BranchTabInfos, B extends BranchTabInfosBuilder<T, ?>> B toTabBuilder(
-        @NonNull final B builder, @NonNull final Branch<?> branch, @Nullable final Double dcPowerFactor
+        @NonNull final B builder,
+        @NonNull final Branch<?> branch,
+        @Nullable final Double dcPowerFactor,
+        @NonNull final Boolean loadOperationalLimitGroups
     ) {
         /* even if x & r properties are in branch properties doc, it is not in branch getter but each impls... */
         //TODO https://github.com/powsybl/powsybl-core/issues/3521 tagged for release 09/2025
@@ -66,14 +72,16 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         // common properties
         final Terminal terminal1 = branch.getTerminal1();
         final Terminal terminal2 = branch.getTerminal2();
-        final Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups1());
-        builder.operationalLimitsGroup1(mapOperationalLimitsGroup1)
+        if (loadOperationalLimitGroups) {
+            final Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups1());
+            builder.operationalLimitsGroup1(mapOperationalLimitsGroup1)
                 .operationalLimitsGroup1Names(List.copyOf(mapOperationalLimitsGroup1.keySet()))
                 .selectedOperationalLimitsGroup1(branch.getSelectedOperationalLimitsGroupId1().orElse(null));
-        final Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups2());
-        builder.operationalLimitsGroup2(mapOperationalLimitsGroup2)
+            final Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups2());
+            builder.operationalLimitsGroup2(mapOperationalLimitsGroup2)
                 .operationalLimitsGroup2Names(List.copyOf(mapOperationalLimitsGroup2.keySet()))
                 .selectedOperationalLimitsGroup2(branch.getSelectedOperationalLimitsGroupId2().orElse(null));
+        }
         //noinspection unchecked
         return (B) builder
                 .type(branch.getType().name())
@@ -106,9 +114,9 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                 .operatingStatus(ExtensionUtils.toOperatingStatus(branch));
     }
 
-    private static BranchTabInfos toTabInfos(@NonNull final Branch<?> branch, @Nullable final Double dcPowerFactor) {
+    private static BranchTabInfos toTabInfos(@NonNull final Branch<?> branch, @Nullable final Double dcPowerFactor, @NonNull final Boolean loadOperationalLimitGroups) {
         /// Why is {@link BranchTabInfos#builder()} return wildcards in return type {@code BranchTabInfosBuilder<?, ?>}
-        return toTabBuilder((BranchTabInfosBuilder<BranchTabInfos, ?>) BranchTabInfos.builder(), branch, dcPowerFactor).build();
+        return toTabBuilder((BranchTabInfosBuilder<BranchTabInfos, ?>) BranchTabInfos.builder(), branch, dcPowerFactor, loadOperationalLimitGroups).build();
     }
 
     private static Map<String, CurrentLimitsData> buildCurrentLimitsMap(@NonNull final Collection<OperationalLimitsGroup> operationalLimitsGroups) {

@@ -1,0 +1,2146 @@
+{
+  "substations": [
+    {
+      "id": "P1",
+      "name": "P1_Name",
+      "properties": {
+        "Country": "FR"
+      },
+      "voltageLevels": [
+        {
+          "id": "VLGEN",
+          "name": "VLGEN_Name",
+          "properties": {
+            "Country": "FR"
+          },
+          "substationId": "P1",
+          "nominalV": 24.0,
+          "country": "FR",
+          "lowVoltageLimit": 200.0,
+          "highVoltageLimit": 400.0,
+          "identifiableShortCircuit": {
+            "ipMin": 10.0,
+            "ipMax": 120.0
+          },
+          "substationProperties": {
+            "Country": "FR"
+          }
+        },
+        {
+          "id": "VLHV1",
+          "substationId": "P1",
+          "nominalV": 380.0,
+          "country": "FR",
+          "substationProperties": {
+            "Country": "FR"
+          }
+        },
+        {
+          "id": "VLNEW2",
+          "properties": {
+            "Country": "FR"
+          },
+          "substationId": "P1",
+          "nominalV": 225.0,
+          "country": "FR",
+          "substationProperties": {
+            "Country": "FR"
+          }
+        }
+      ],
+      "country": "FR"
+    },
+    {
+      "id": "P2",
+      "voltageLevels": [
+        {
+          "id": "VLHV2",
+          "substationId": "P2",
+          "nominalV": 380.0
+        },
+        {
+          "id": "VLLOAD",
+          "substationId": "P2",
+          "nominalV": 150.0
+        }
+      ]
+    },
+    {
+      "id": "P0",
+      "voltageLevels": [],
+      "country": "FR"
+    },
+    {
+      "id": "P3",
+      "properties": {
+        "Country": "FR"
+      },
+      "voltageLevels": [
+        {
+          "id": "VLGEN3",
+          "substationId": "P3",
+          "nominalV": 24.0,
+          "country": "FR",
+          "substationProperties": {
+            "Country": "FR"
+          }
+        }
+      ],
+      "country": "FR"
+    },
+    {
+      "id": "P6",
+      "voltageLevels": [
+        {
+          "id": "VLGEN6",
+          "substationId": "P6",
+          "nominalV": 24.0,
+          "country": "FR"
+        }
+      ],
+      "country": "FR"
+    },
+    {
+      "id": "P4",
+      "voltageLevels": [
+        {
+          "id": "VLGEN4",
+          "substationId": "P4",
+          "nominalV": 24.0,
+          "country": "FR"
+        }
+      ],
+      "country": "FR"
+    },
+    {
+      "id": "P5",
+      "voltageLevels": [
+        {
+          "id": "VLGEN5",
+          "substationId": "P5",
+          "nominalV": 24.0,
+          "country": "FR",
+          "lowVoltageLimit": 20.0,
+          "highVoltageLimit": 30.0,
+          "identifiableShortCircuit": {
+            "ipMin": 0.0,
+            "ipMax": 100.0
+          }
+        }
+      ],
+      "country": "FR"
+    }
+  ],
+  "voltageLevels": [
+    {
+      "id": "VLGEN",
+      "name": "VLGEN_Name",
+      "properties": {
+        "Country": "FR"
+      },
+      "substationId": "P1",
+      "nominalV": 24.0,
+      "country": "FR",
+      "lowVoltageLimit": 200.0,
+      "highVoltageLimit": 400.0,
+      "identifiableShortCircuit": {
+        "ipMin": 10.0,
+        "ipMax": 120.0
+      },
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLHV1",
+      "substationId": "P1",
+      "nominalV": 380.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLHV2",
+      "substationId": "P2",
+      "nominalV": 380.0
+    },
+    {
+      "id": "VLLOAD",
+      "substationId": "P2",
+      "nominalV": 150.0
+    },
+    {
+      "id": "VLNEW2",
+      "properties": {
+        "Country": "FR"
+      },
+      "substationId": "P1",
+      "nominalV": 225.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLGEN3",
+      "substationId": "P3",
+      "nominalV": 24.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLGEN6",
+      "substationId": "P6",
+      "nominalV": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VL",
+      "name": "VL",
+      "nominalV": 24.0
+    },
+    {
+      "id": "VLGEN4",
+      "substationId": "P4",
+      "nominalV": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN5",
+      "substationId": "P5",
+      "nominalV": 24.0,
+      "country": "FR",
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0,
+      "identifiableShortCircuit": {
+        "ipMin": 0.0,
+        "ipMax": 100.0
+      }
+    }
+  ],
+  "lines": [
+    {
+      "id": "NHV1_NHV2_1",
+      "type": "LINE",
+      "voltageLevelId1": "VLHV1",
+      "voltageLevelId2": "VLHV2",
+      "nominalVoltage1": 380.0,
+      "nominalVoltage2": 380.0,
+      "substationId1": "P1",
+      "substationId2": "P2",
+      "country1": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 1.1,
+      "q1": 2.2,
+      "p2": 3.33,
+      "q2": 4.44,
+      "r": 9.0,
+      "x": 10.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "g1": 7.0,
+      "b1": 5.0,
+      "g2": 8.0,
+      "b2": 6.0
+    },
+    {
+      "id": "NHV1_NHV2_2",
+      "type": "LINE",
+      "voltageLevelId1": "VLHV1",
+      "voltageLevelId2": "VLHV2",
+      "nominalVoltage1": 380.0,
+      "nominalVoltage2": 380.0,
+      "substationId1": "P1",
+      "substationId2": "P2",
+      "country1": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 3.0,
+      "x": 33.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "g1": 0.0,
+      "b1": 1.93E-4,
+      "g2": 0.0,
+      "b2": 1.93E-4
+    },
+    {
+      "id": "LINE3",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLGEN3",
+      "voltageLevelName1": "VLGEN_Name",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "substationId1": "P1",
+      "substationId2": "P3",
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 200.0,
+      "p2": 100.0,
+      "r": 3.0,
+      "x": 33.0,
+      "branchObservability": {
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "operatingStatus": "PLANNED_OUTAGE",
+      "measurementP1": {
+        "value": 11.0,
+        "validity": true
+      },
+      "measurementQ1": {
+        "value": 24.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 45.0,
+        "validity": true
+      },
+      "g1": 0.0,
+      "b1": 1.93E-4,
+      "g2": 0.0,
+      "b2": 1.93E-4
+    },
+    {
+      "id": "LINE4",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN6",
+      "voltageLevelId2": "VLGEN3",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "substationId1": "P6",
+      "substationId2": "P3",
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 3.0,
+      "x": 33.0,
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "g1": 0.0,
+      "b1": 1.93E-4,
+      "g2": 0.0,
+      "b2": 1.93E-4
+    }
+  ],
+  "hvdcLines": [
+    {
+      "id": "HVDC1",
+      "name": "HVDC1",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLNEW2",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "LCC1",
+      "converterStationId2": "LCC2",
+      "r": 1.0,
+      "country1": "FR",
+      "country2": "FR",
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "HVDC3",
+      "name": "HVDC3",
+      "voltageLevelId1": "VLNEW2",
+      "voltageLevelId2": "VLNEW2",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC3",
+      "converterStationId2": "VSC4",
+      "r": 1.0,
+      "country1": "FR",
+      "country2": "FR",
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "HVDC4",
+      "name": "HVDC4",
+      "voltageLevelId1": "VLNEW2",
+      "voltageLevelId2": "VLNEW2",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC5",
+      "converterStationId2": "VSC6",
+      "r": 1.0,
+      "country1": "FR",
+      "country2": "FR",
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "HVDC2",
+      "name": "HVDC2",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLNEW2",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "LCC1",
+      "converterStationId2": "LCC2",
+      "r": 1.0,
+      "country1": "FR",
+      "country2": "FR",
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0,
+      "hvdcAngleDroopActivePowerControl": {
+        "droop": 180.0,
+        "isEnabled": true,
+        "p0": 190.0
+      },
+      "hvdcOperatorActivePowerRange": {
+        "oprFromCS1toCS2": 1000.0,
+        "oprFromCS2toCS1": 900.0
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "HVDC5",
+      "name": "HVDC5",
+      "voltageLevelId1": "VLNEW2",
+      "voltageLevelId2": "VLGEN3",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC1",
+      "converterStationId2": "VSC2",
+      "r": 1.0,
+      "country1": "FR",
+      "country2": "FR",
+      "activePowerSetpoint": 500.0,
+      "maxP": 100.0,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "loads": [
+    {
+      "id": "LOAD",
+      "properties": {
+        "Country": "FR"
+      },
+      "type": "UNDEFINED",
+      "voltageLevelId": "VLLOAD",
+      "nominalVoltage": 150.0,
+      "terminalConnected": true,
+      "p0": 600.0,
+      "q0": 200.0,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      }
+    },
+    {
+      "id": "LOAD_WITH_NULL_NAME",
+      "type": "UNDEFINED",
+      "voltageLevelId": "VLNEW2",
+      "country": "FR",
+      "nominalVoltage": 225.0,
+      "terminalConnected": true,
+      "p0": 600.0,
+      "q0": 200.0,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "measurementP": {
+        "value": 87.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 74.0,
+        "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 22.31,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 22.01,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.64,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "LOAD_ID",
+      "name": "LOAD_NAME",
+      "type": "UNDEFINED",
+      "voltageLevelId": "VLNEW2",
+      "country": "FR",
+      "nominalVoltage": 225.0,
+      "terminalConnected": true,
+      "p0": 600.0,
+      "q0": 200.0,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "measurementP": {
+        "value": 17.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 91.0,
+        "validity": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "twoWindingsTransformers": [
+    {
+      "id": "NGEN_NHV1",
+      "type": "TWO_WINDINGS_TRANSFORMER",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLHV1",
+      "voltageLevelName1": "VLGEN_Name",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 380.0,
+      "substationId1": "P1",
+      "substationId2": "P1",
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 11.1,
+      "q1": 12.2,
+      "p2": 13.33,
+      "q2": 14.44,
+      "r": 0.26658461538461536,
+      "x": 11.104492831516762,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "operatingStatus": "PLANNED_OUTAGE",
+      "country": "FR",
+      "phaseTapChanger": {
+        "lowTapPosition": 0,
+        "tapPosition": 1,
+        "highTapPosition": 1,
+        "isRegulating": true,
+        "targetDeadband": 0.0,
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 10.0,
+        "regulatingTerminalConnectableId": "NGEN_NHV1",
+        "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLGEN",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.8500000238418579,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "alpha": 1.0
+          },
+          {
+            "index": 1,
+            "rho": 0.8999999761581421,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "alpha": 1.0
+          }
+        ]
+      },
+      "g": 0.0,
+      "b": 0.0,
+      "ratedU1": 24.0,
+      "ratedU2": 400.0,
+      "connectablePosition1": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName1"
+      },
+      "connectablePosition2": {
+        "connectionDirection": "BOTTOM",
+        "connectionPosition": 0,
+        "connectionName": "feederName2"
+      }
+    },
+    {
+      "id": "NHV2_NLOAD",
+      "type": "TWO_WINDINGS_TRANSFORMER",
+      "voltageLevelId1": "VLHV2",
+      "voltageLevelId2": "VLLOAD",
+      "nominalVoltage1": 380.0,
+      "nominalVoltage2": 150.0,
+      "substationId1": "P2",
+      "substationId2": "P2",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 5.5,
+      "q1": 6.6,
+      "p2": 7.77,
+      "q2": 8.88,
+      "r": 0.04724999999999999,
+      "x": 4.049724365620455,
+      "operatingStatus": "PLANNED_OUTAGE",
+      "ratioTapChanger": {
+        "lowTapPosition": 0,
+        "tapPosition": 2,
+        "highTapPosition": 2,
+        "isRegulating": true,
+        "hasLoadTapChangingCapabilities": true,
+        "targetV": 158.0,
+        "targetDeadband": 0.0,
+        "regulatingTerminalConnectableId": "NHV2_NLOAD",
+        "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLLOAD",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.8505666905244191,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0006666666666666,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.150766642808914,
+            "r": 0.0,
+            "x": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          }
+        ]
+      },
+      "g": 0.0,
+      "b": 0.0,
+      "ratedU1": 400.0,
+      "ratedU2": 158.0,
+      "connectablePosition1": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName1"
+      },
+      "connectablePosition2": {
+        "connectionDirection": "BOTTOM",
+        "connectionPosition": 0,
+        "connectionName": "feederName2"
+      }
+    },
+    {
+      "id": "NGEN_NHV2",
+      "type": "TWO_WINDINGS_TRANSFORMER",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelId2": "VLHV1",
+      "voltageLevelName1": "VLGEN_Name",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 380.0,
+      "substationId1": "P1",
+      "substationId2": "P1",
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 47.0,
+      "x": 23.0,
+      "branchObservability": {
+        "qualityP1": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ1": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "qualityP2": {
+          "standardDeviation": 23.31,
+          "isRedundant": true
+        },
+        "qualityQ2": {
+          "standardDeviation": 23.25,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "measurementP1": {
+        "value": 27.0,
+        "validity": true
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementP2": {
+        "value": 68.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 53.0,
+        "validity": false
+      },
+      "country": "FR",
+      "g": 27.0,
+      "b": 17.0,
+      "ratedU1": 400.0,
+      "ratedU2": 158.0,
+      "connectablePosition1": {
+        "connectionDirection": null
+      },
+      "connectablePosition2": {
+        "connectionDirection": null
+      },
+      "measurementRatioTap": {
+        "value": 11,
+        "validity": true
+      },
+      "measurementPhaseTap": {
+        "value": 7,
+        "validity": false
+      },
+      "toBeEstimated": {
+        "ratioTapChangerStatus": false,
+        "phaseTapChangerStatus": true
+      }
+    }
+  ],
+  "threeWindingsTransformers": [
+    {
+      "id": "TWT",
+      "name": "TWT",
+      "voltageLevelId1": "VLHV1",
+      "nominalV1": 380.0,
+      "voltageLevelId2": "VLNEW2",
+      "nominalV2": 225.0,
+      "voltageLevelId3": "VLGEN",
+      "nominalV3": 24.0,
+      "country": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "terminal3Connected": true,
+      "p1": 375.0,
+      "q1": 48.0,
+      "p2": 225.0,
+      "q2": 28.0,
+      "p3": 200.0,
+      "q3": 18.0,
+      "permanentLimit1": 25.0,
+      "permanentLimit3": 54.0,
+      "phaseTapChanger1": {
+        "lowTapPosition": 0,
+        "tapPosition": 1,
+        "highTapPosition": 2,
+        "isRegulating": true,
+        "targetDeadband": 22.0,
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 25.0,
+        "regulatingTerminalConnectableId": "TWT",
+        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLHV1",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5,
+            "alpha": -10.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6,
+            "alpha": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7,
+            "alpha": 10.0
+          }
+        ]
+      },
+      "ratioTapChanger3": {
+        "lowTapPosition": 0,
+        "tapPosition": 2,
+        "highTapPosition": 2,
+        "isRegulating": false,
+        "hasLoadTapChangingCapabilities": false,
+        "targetV": 220.0,
+        "targetDeadband": 22.0,
+        "regulatingTerminalConnectableId": "TWT",
+        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLHV1",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7
+          }
+        ]
+      },
+      "hasLoadTapChanging3Capabilities": false,
+      "targetV3": 220.0,
+      "regulationModeName1": "CURRENT_LIMITER",
+      "isRegulatingRatio3": false,
+      "isRegulatingPhase1": true,
+      "regulatingValue1": 25.0,
+      "measurementP1": {
+        "value": 3.0,
+        "validity": false
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementP2": {
+        "value": 23.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 33.0,
+        "validity": false
+      },
+      "measurementP3": {
+        "value": 43.0,
+        "validity": true
+      },
+      "measurementQ3": {
+        "value": 53.0,
+        "validity": true
+      },
+      "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
+        "value": 12,
+        "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      },
+      "substationProperties3": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties3": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "TWT21",
+      "name": "TWT21",
+      "voltageLevelId1": "VLHV1",
+      "nominalV1": 380.0,
+      "voltageLevelId2": "VLNEW2",
+      "nominalV2": 225.0,
+      "voltageLevelId3": "VLGEN",
+      "nominalV3": 24.0,
+      "country": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "terminal3Connected": true,
+      "p1": 375.0,
+      "q1": 48.0,
+      "p2": 225.0,
+      "q2": 28.0,
+      "p3": 200.0,
+      "q3": 18.0,
+      "permanentLimit1": 54.0,
+      "permanentLimit2": 25.0,
+      "ratioTapChanger1": {
+        "lowTapPosition": 0,
+        "tapPosition": 2,
+        "highTapPosition": 2,
+        "isRegulating": false,
+        "hasLoadTapChangingCapabilities": false,
+        "targetV": 220.0,
+        "targetDeadband": 22.0,
+        "regulatingTerminalConnectableId": "TWT21",
+        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLHV1",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7
+          }
+        ]
+      },
+      "phaseTapChanger2": {
+        "lowTapPosition": 0,
+        "tapPosition": 1,
+        "highTapPosition": 2,
+        "isRegulating": true,
+        "targetDeadband": 22.0,
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 25.0,
+        "regulatingTerminalConnectableId": "TWT21",
+        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLHV1",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5,
+            "alpha": -10.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6,
+            "alpha": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7,
+            "alpha": 10.0
+          }
+        ]
+      },
+      "hasLoadTapChanging1Capabilities": false,
+      "targetV1": 220.0,
+      "regulationModeName2": "CURRENT_LIMITER",
+      "isRegulatingRatio1": false,
+      "isRegulatingPhase2": true,
+      "regulatingValue2": 25.0,
+      "measurementP1": {
+        "value": 3.0,
+        "validity": false
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementP2": {
+        "value": 23.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 33.0,
+        "validity": false
+      },
+      "measurementP3": {
+        "value": 43.0,
+        "validity": true
+      },
+      "measurementQ3": {
+        "value": 53.0,
+        "validity": true
+      },
+      "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
+        "value": 12,
+        "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      },
+      "substationProperties3": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties3": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "TWT32",
+      "name": "TWT32",
+      "voltageLevelId1": "VLHV1",
+      "nominalV1": 380.0,
+      "voltageLevelId2": "VLNEW2",
+      "nominalV2": 225.0,
+      "voltageLevelId3": "VLGEN",
+      "nominalV3": 24.0,
+      "country": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "terminal3Connected": true,
+      "p1": 375.0,
+      "q1": 48.0,
+      "p2": 225.0,
+      "q2": 28.0,
+      "p3": 200.0,
+      "q3": 18.0,
+      "permanentLimit2": 54.0,
+      "permanentLimit3": 25.0,
+      "ratioTapChanger2": {
+        "lowTapPosition": 0,
+        "tapPosition": 2,
+        "highTapPosition": 2,
+        "isRegulating": false,
+        "hasLoadTapChangingCapabilities": false,
+        "targetV": 220.0,
+        "targetDeadband": 22.0,
+        "regulatingTerminalConnectableId": "TWT32",
+        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLHV1",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7
+          }
+        ]
+      },
+      "phaseTapChanger3": {
+        "lowTapPosition": 0,
+        "tapPosition": 1,
+        "highTapPosition": 2,
+        "isRegulating": true,
+        "targetDeadband": 22.0,
+        "regulationMode": "CURRENT_LIMITER",
+        "regulationValue": 25.0,
+        "regulatingTerminalConnectableId": "TWT32",
+        "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
+        "regulatingTerminalVlId": "VLHV1",
+        "steps": [
+          {
+            "index": 0,
+            "rho": 0.99,
+            "r": 1.0,
+            "x": 4.0,
+            "g": 0.5,
+            "b": 1.5,
+            "alpha": -10.0
+          },
+          {
+            "index": 1,
+            "rho": 1.0,
+            "r": 1.1,
+            "x": 4.1,
+            "g": 0.6,
+            "b": 1.6,
+            "alpha": 0.0
+          },
+          {
+            "index": 2,
+            "rho": 1.01,
+            "r": 1.2,
+            "x": 4.2,
+            "g": 0.7,
+            "b": 1.7,
+            "alpha": 10.0
+          }
+        ]
+      },
+      "hasLoadTapChanging2Capabilities": false,
+      "targetV2": 220.0,
+      "regulationModeName3": "CURRENT_LIMITER",
+      "isRegulatingRatio2": false,
+      "isRegulatingPhase3": true,
+      "regulatingValue3": 25.0,
+      "measurementP1": {
+        "value": 3.0,
+        "validity": false
+      },
+      "measurementQ1": {
+        "value": 13.0,
+        "validity": true
+      },
+      "measurementP2": {
+        "value": 23.0,
+        "validity": false
+      },
+      "measurementQ2": {
+        "value": 33.0,
+        "validity": false
+      },
+      "measurementP3": {
+        "value": 43.0,
+        "validity": true
+      },
+      "measurementQ3": {
+        "value": 53.0,
+        "validity": true
+      },
+      "measurementRatioTap1": {
+        "value": 14,
+        "validity": true
+      },
+      "measurementPhaseTap2": {
+        "value": 4,
+        "validity": false
+      },
+      "measurementRatioTap3": {
+        "value": 12,
+        "validity": false
+      },
+      "measurementPhaseTap3": {
+        "value": 17,
+        "validity": true
+      },
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties2": {
+        "Country": "FR"
+      },
+      "substationProperties3": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties3": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "generators": [
+    {
+      "id": "GEN",
+      "voltageLevelId": "VLGEN",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "p": 25.0,
+      "q": 32.0,
+      "targetP": 28.0,
+      "targetQ": 301.0,
+      "targetV": 24.5,
+      "minP": -9999.99,
+      "maxP": 9999.99,
+      "energySource": "OTHER",
+      "ratedS": 27.0,
+      "voltageRegulatorOn": true,
+      "generatorStartup": {
+        "plannedActivePowerSetPoint": 0.3,
+        "marginalCost": 3.0,
+        "plannedOutageRate": 0.4,
+        "forcedOutageRate": 2.0
+      },
+      "minMaxReactiveLimits": {
+        "minQ": -500.0,
+        "maxQ": 500.0
+      },
+      "coordinatedReactiveControl": {
+        "qPercent": 10.0
+      },
+      "activePowerControl": {
+        "participate": true,
+        "droop": 4.0,
+        "maxTargetP": 8000.0
+      },
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
+      "measurementP": {
+        "value": 50.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 5.0,
+        "validity": true
+      },
+      "isCondenser": false,
+      "substationId": "P1",
+      "substationName": "P1_Name",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelName": "VLGEN_Name",
+      "lowVoltageLimit": 200.0,
+      "highVoltageLimit": 400.0,
+      "voltageLevelShortCircuit": {
+        "ipMin": 10.0,
+        "ipMax": 120.0
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      }
+    },
+    {
+      "id": "GEN2",
+      "voltageLevelId": "VLGEN",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "targetP": 607.0,
+      "targetQ": 301.0,
+      "targetV": 24.5,
+      "minP": -9999.99,
+      "maxP": 9999.99,
+      "energySource": "OTHER",
+      "voltageRegulatorOn": true,
+      "reactiveCapabilityCurvePoints": [
+        {
+          "p": 0.0,
+          "minQ": 6.0,
+          "maxQ": 7.0
+        },
+        {
+          "p": 1.0,
+          "minQ": 4.0,
+          "maxQ": 5.0
+        },
+        {
+          "p": 3.0,
+          "minQ": 4.0,
+          "maxQ": 5.0
+        }
+      ],
+      "coordinatedReactiveControl": {
+        "qPercent": 10.0
+      },
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
+      "measurementP": {
+        "value": 30.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 80.0,
+        "validity": false
+      },
+      "isCondenser": false,
+      "substationId": "P1",
+      "substationName": "P1_Name",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelName": "VLGEN_Name",
+      "lowVoltageLimit": 200.0,
+      "highVoltageLimit": 400.0,
+      "voltageLevelShortCircuit": {
+        "ipMin": 10.0,
+        "ipMax": 120.0
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "batteries": [
+    {
+      "id": "BATTERY1",
+      "name": "BATTERY1",
+      "voltageLevelId": "VLNEW2",
+      "targetP": 1.0,
+      "targetQ": 1.0,
+      "minP": 50.0,
+      "maxP": 70.0,
+      "minMaxReactiveLimits": {
+        "minQ": -500.0,
+        "maxQ": 500.0
+      },
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
+      "terminalConnected": false,
+      "nominalVoltage": 225.0,
+      "country": "FR",
+      "measurementP": {
+        "value": 12.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 44.0,
+        "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "BATTERY2",
+      "name": "BATTERY2",
+      "voltageLevelId": "VLGEN3",
+      "targetP": 1.0,
+      "targetQ": 1.0,
+      "minP": 50.0,
+      "maxP": 70.0,
+      "reactiveCapabilityCurvePoints": [
+        {
+          "p": 0.0,
+          "minQ": 6.0,
+          "maxQ": 7.0
+        },
+        {
+          "p": 1.0,
+          "minQ": 4.0,
+          "maxQ": 5.0
+        },
+        {
+          "p": 3.0,
+          "minQ": 4.0,
+          "maxQ": 5.0
+        }
+      ],
+      "activePowerControl": {
+        "participate": true,
+        "droop": 3.0
+      },
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
+      "terminalConnected": false,
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "measurementP": {
+        "value": 34.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 84.0,
+        "validity": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "danglingLines": [
+    {
+      "id": "DL1",
+      "name": "DL1",
+      "voltageLevelId": "VLGEN",
+      "nominalV": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "pairingKey": "xnode1",
+      "p": 45.0,
+      "q": 75.0,
+      "p0": 50.0,
+      "q0": 30.0,
+      "measurementP": {
+        "value": 66.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 77.0,
+        "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "DL2",
+      "name": "DL2",
+      "voltageLevelId": "VLGEN3",
+      "nominalV": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "pairingKey": "xnode1",
+      "p": 45.0,
+      "q": 75.0,
+      "p0": 50.0,
+      "q0": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "tieLines": [
+    {
+      "id": "TL1",
+      "voltageLevelId1": "VLGEN",
+      "voltageLevelName1": "VLGEN_Name",
+      "nominalVoltage1": 24.0,
+      "voltageLevelId2": "VLGEN3",
+      "nominalVoltage2": 24.0,
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "p1": 45.0,
+      "q1": 75.0,
+      "p2": 45.0,
+      "q2": 75.0,
+      "r": 1.9999999999999996,
+      "x": 3.999999999999999,
+      "g1": 4.000000000000001,
+      "b1": 3.0000000000000004,
+      "g2": 4.000000000000001,
+      "b2": 3.0000000000000004,
+      "substationProperties1": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties1": {
+        "Country": "FR"
+      },
+      "substationProperties2": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "lccConverterStations": [
+    {
+      "id": "LCC1",
+      "name": "LCC1",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLGEN",
+      "nominalV": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC1",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "LCC2",
+      "name": "LCC2",
+      "powerFactor": 0.5,
+      "lossFactor": 1.0,
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC1",
+      "p": 110.0,
+      "q": 310.0,
+      "measurementP": {
+        "value": 5.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 55.0,
+        "validity": true
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "shuntCompensators": [
+    {
+      "id": "SHUNT1",
+      "name": "SHUNT1",
+      "voltageLevelId": "VLNEW2",
+      "nominalVoltage": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "q": 90.0,
+      "sectionCount": 4,
+      "maxSusceptance": 40.0,
+      "maxQAtNominalV": 2025000.0,
+      "maximumSectionCount": 8,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
+      "targetV": 225.0,
+      "measurementQ": {
+        "value": 45.0,
+        "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "SHUNT2",
+      "name": "SHUNT2",
+      "voltageLevelId": "VLGEN3",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "sectionCount": 2,
+      "maxSusceptance": 3.0,
+      "maxQAtNominalV": 1728.0,
+      "maximumSectionCount": 3,
+      "connectablePosition": {
+        "connectionDirection": "TOP",
+        "connectionPosition": 0,
+        "connectionName": "feederName"
+      },
+      "targetV": 225.0,
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "SHUNT_VLNB",
+      "name": "SHUNT_VLNB",
+      "voltageLevelId": "VLGEN4",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "sectionCount": 2,
+      "maxSusceptance": 3.0,
+      "maxQAtNominalV": 1728.0,
+      "maximumSectionCount": 3,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "targetV": 225.0,
+      "measurementQ": {
+        "value": 69.0,
+        "validity": true
+      }
+    },
+    {
+      "id": "SHUNT_NON_LINEAR",
+      "name": "SHUNT_NON_LINEAR",
+      "voltageLevelId": "VLGEN4",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "terminalConnected": false,
+      "sectionCount": 2,
+      "maximumSectionCount": 2,
+      "connectablePosition": {
+        "connectionDirection": null
+      },
+      "targetV": 225.0
+    }
+  ],
+  "staticVarCompensators": [
+    {
+      "id": "SVC1",
+      "name": "SVC1",
+      "voltageLevelId": "VLGEN",
+      "nominalV": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "regulationMode": "VOLTAGE",
+      "p": 120.0,
+      "q": 43.0,
+      "voltageSetpoint": 200.0,
+      "reactivePowerSetpoint": 100.0,
+      "measurementQ": {
+        "value": 58.0,
+        "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "SVC2",
+      "name": "SVC2",
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "regulationMode": "VOLTAGE",
+      "voltageSetpoint": 200.0,
+      "reactivePowerSetpoint": 100.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "vscConverterStations": [
+    {
+      "id": "VSC1",
+      "name": "VSC1",
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": true,
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC5",
+      "p": 10.0,
+      "q": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VSC3",
+      "name": "VSC3",
+      "lossFactor": 1.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": false,
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC3",
+      "p": 10.0,
+      "q": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VSC4",
+      "name": "VSC4",
+      "lossFactor": 1.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": false,
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC3",
+      "p": 10.0,
+      "q": 30.0,
+      "measurementP": {
+        "value": 16.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 63.0,
+        "validity": false
+      },
+      "injectionObservability": {
+        "qualityP": {
+          "standardDeviation": 19.65,
+          "isRedundant": true
+        },
+        "qualityQ": {
+          "standardDeviation": 12.76,
+          "isRedundant": true
+        },
+        "qualityV": {
+          "standardDeviation": 2.93,
+          "isRedundant": true
+        },
+        "observable": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VSC5",
+      "name": "VSC5",
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "voltageRegulatorOn": true,
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC4",
+      "p": 10.0,
+      "q": 30.0,
+      "measurementP": {
+        "value": 88.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 33.0,
+        "validity": true
+      },
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VSC6",
+      "name": "VSC6",
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "voltageRegulatorOn": true,
+      "voltageLevelId": "VLNEW2",
+      "nominalV": 225.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC4",
+      "p": 10.0,
+      "q": 30.0,
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VSC2",
+      "name": "VSC2",
+      "lossFactor": 1.0,
+      "voltageSetpoint": 150.0,
+      "reactivePowerSetpoint": 40.0,
+      "voltageRegulatorOn": true,
+      "voltageLevelId": "VLGEN3",
+      "nominalV": 24.0,
+      "country": "FR",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC5",
+      "substationProperties": {
+        "Country": "FR"
+      }
+    }
+  ],
+  "buses": [
+    {
+      "id": "VLGEN_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLGEN",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLHV1_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLHV1",
+      "nominalVoltage": 380.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLHV2_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLHV2",
+      "nominalVoltage": 380.0
+    },
+    {
+      "id": "VLLOAD_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLLOAD",
+      "nominalVoltage": 150.0
+    },
+    {
+      "id": "VLNEW2_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLNEW2",
+      "nominalVoltage": 225.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      },
+      "voltageLevelProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLGEN3_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLGEN3",
+      "nominalVoltage": 24.0,
+      "country": "FR",
+      "substationProperties": {
+        "Country": "FR"
+      }
+    },
+    {
+      "id": "VLGEN6_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 0,
+      "connectedComponentNum": 0,
+      "voltageLevelId": "VLGEN6",
+      "nominalVoltage": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN4_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 1,
+      "connectedComponentNum": 1,
+      "voltageLevelId": "VLGEN4",
+      "nominalVoltage": 24.0,
+      "country": "FR"
+    }
+  ],
+  "busbarSections": [
+    {
+      "id": "NGEN4",
+      "name": "NGEN4",
+      "voltageLevelId": "VLGEN4",
+      "measurementV": {
+        "value": 385.0,
+        "validity": true
+      },
+      "measurementAngle": {
+        "value": 0.5,
+        "validity": false
+      }
+    },
+    {
+      "id": "NGEN5",
+      "name": "NGEN5",
+      "voltageLevelId": "VLGEN5"
+    },
+    {
+      "id": "NGEN5_2_1",
+      "name": "NGEN5_2_1",
+      "voltageLevelId": "VLGEN5"
+    },
+    {
+      "id": "NGEN5_2_2",
+      "name": "NGEN5_2_2",
+      "voltageLevelId": "VLGEN5"
+    }
+  ]
+}
