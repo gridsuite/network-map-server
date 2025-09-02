@@ -57,8 +57,12 @@ public class NetworkMapController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "all equipments descriptions")})
     public AllElementsInfos getAll(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                    @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                   @Parameter(description = "Substations id") @RequestParam(name = "substationId", defaultValue = "") List<String> substationsIds) {
-        return networkMapService.getAllElementsInfos(networkUuid, variantId, substationsIds);
+                                   @Parameter(description = "Substations id") @RequestParam(name = "substationId", defaultValue = "") List<String> substationsIds,
+                                   @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters) {
+        if (infoTypeParameters.getInfoType() == null) {
+            infoTypeParameters.setInfoType(InfoType.TAB);
+        }
+        return networkMapService.getAllElementsInfos(networkUuid, variantId, substationsIds, infoTypeParameters);
     }
 
     @PostMapping(value = "/networks/{networkUuid}/elements", produces = APPLICATION_JSON_VALUE)
