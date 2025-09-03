@@ -100,7 +100,9 @@
         "nominalV": 24.0,
         "busbarCount": 1,
         "sectionCount": 2,
-        "switchKinds": ["DISCONNECTOR"],
+        "switchKinds": [
+          "DISCONNECTOR"
+        ],
         "isRetrievedBusbarSections": true,
         "isBusbarSectionPositionFound": true,
         "busBarSectionInfos": {
@@ -114,6 +116,16 @@
               "busbarId": "NGEN4",
               "connectablePositionInfos": {
                 "connectionDirection": null
+              }
+            }
+          ],
+          "LINE7": [
+            {
+              "busbarId": "NGEN4",
+              "connectablePositionInfos": {
+                "connectionDirection": "BOTTOM",
+                "connectionPosition": 5,
+                "connectionName": "LINE7_Side_VLGEN4"
               }
             }
           ],
@@ -149,11 +161,42 @@
         "switchKinds": [],
         "isRetrievedBusbarSections": false,
         "isBusbarSectionPositionFound": true,
-        "busBarSectionInfos" : {
-          "1" : [ "NGEN5"],
-          "2" : [ "NGEN5_2_1", "NGEN5_2_2"]
+        "busBarSectionInfos": {
+          "1": [
+            "NGEN5"
+          ],
+          "2": [
+            "NGEN5_2_1",
+            "NGEN5_2_2"
+          ]
         },
         "feederBaysInfos": {}
+      },
+      {
+        "id": "VLGEN7",
+        "topologyKind": "NODE_BREAKER",
+        "substationId": "P5",
+        "nominalV": 24.0,
+        "lowVoltageLimit": 20.0,
+        "highVoltageLimit": 30.0,
+        "busbarCount": 1,
+        "sectionCount": 1,
+        "switchKinds": [],
+        "isRetrievedBusbarSections": false,
+        "isBusbarSectionPositionFound": false,
+        "busBarSectionInfos": {},
+        "feederBaysInfos": {
+          "LINE7": [
+            {
+              "busbarId": "NGEN7",
+              "connectablePositionInfos": {
+                "connectionDirection": "TOP",
+                "connectionPosition": 3,
+                "connectionName": "LINE7_Side_VLGEN8"
+              }
+            }
+          ]
+        }
       }
     ]
   }

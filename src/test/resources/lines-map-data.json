@@ -32,5 +32,12 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": true,
     "terminal2Connected": true
+  },
+  {
+    "id": "LINE7",
+    "voltageLevelId1": "VLGEN4",
+    "voltageLevelId2": "VLGEN7",
+    "terminal1Connected": true,
+    "terminal2Connected": true
   }
 ]

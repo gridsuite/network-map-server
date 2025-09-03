@@ -86,6 +86,16 @@
           }
         }
       ],
+      "LINE7": [
+        {
+          "busbarId": "NGEN4",
+          "connectablePositionInfos": {
+            "connectionDirection": "BOTTOM",
+            "connectionPosition": 5,
+            "connectionName": "LINE7_Side_VLGEN4"
+          }
+        }
+      ],
       "SHUNT_NON_LINEAR": [
         {
           "busbarId": null,
@@ -122,5 +132,31 @@
       ]
     },
     "feederBaysInfos": {}
+  },
+  {
+    "id": "VLGEN7",
+    "topologyKind": "NODE_BREAKER",
+    "substationId": "P5",
+    "nominalV": 24.0,
+    "lowVoltageLimit": 20.0,
+    "highVoltageLimit": 30.0,
+    "busbarCount": 1,
+    "sectionCount": 1,
+    "switchKinds": [],
+    "isRetrievedBusbarSections": false,
+    "isBusbarSectionPositionFound": false,
+    "busBarSectionInfos": {},
+    "feederBaysInfos": {
+      "LINE7": [
+        {
+          "busbarId": "NGEN7",
+          "connectablePositionInfos": {
+            "connectionDirection": "TOP",
+            "connectionPosition": 3,
+            "connectionName": "LINE7_Side_VLGEN8"
+          }
+        }
+      ]
+    }
   }
 ]

@@ -1,11 +1,7 @@
 [
   {
-    "id": "VL",
-    "name":"VL"
-   },
-  {
     "id": "VLGEN",
-    "name":"VLGEN_Name"
+    "name": "VLGEN_Name"
   },
   {
     "id": "VLHV1"
@@ -23,12 +19,19 @@
     "id": "VLGEN3"
   },
   {
+    "id": "VLGEN6"
+  },
+  {
+    "id": "VL",
+    "name": "VL"
+  },
+  {
     "id": "VLGEN4"
   },
   {
     "id": "VLGEN5"
   },
   {
-    "id": "VLGEN6"
+    "id": "VLGEN7"
   }
 ]

@@ -1,10 +1,5 @@
 [
   {
-    "id": "P0",
-    "voltageLevels": [],
-    "country": "FR"
-  },
-  {
     "id": "P1",
     "name": "P1_Name",
     "properties": {
@@ -13,18 +8,18 @@
     "voltageLevels": [
       {
         "id": "VLGEN",
+        "name": "VLGEN_Name",
+        "properties": {
+          "Country": "FR"
+        },
         "substationId": "P1",
         "nominalV": 24.0,
         "country": "FR",
-        "name": "VLGEN_Name",
         "lowVoltageLimit": 200.0,
         "highVoltageLimit": 400.0,
         "identifiableShortCircuit": {
           "ipMin": 10.0,
           "ipMax": 120.0
-        },
-        "properties": {
-          "Country": "FR"
         },
         "substationProperties": {
           "Country": "FR"
@@ -41,12 +36,12 @@
       },
       {
         "id": "VLNEW2",
-        "substationId": "P1",
-        "nominalV": 225.0,
-        "country": "FR",
         "properties": {
           "Country": "FR"
         },
+        "substationId": "P1",
+        "nominalV": 225.0,
+        "country": "FR",
         "substationProperties": {
           "Country": "FR"
         }
@@ -68,6 +63,11 @@
         "nominalV": 150.0
       }
     ]
+  },
+  {
+    "id": "P0",
+    "voltageLevels": [],
+    "country": "FR"
   },
   {
     "id": "P3",
@@ -125,6 +125,14 @@
           "ipMin": 0.0,
           "ipMax": 100.0
         }
+      },
+      {
+        "id": "VLGEN7",
+        "substationId": "P5",
+        "nominalV": 24.0,
+        "country": "FR",
+        "lowVoltageLimit": 20.0,
+        "highVoltageLimit": 30.0
       }
     ],
     "country": "FR"

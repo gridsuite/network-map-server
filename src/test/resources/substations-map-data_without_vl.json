@@ -5,9 +5,9 @@
     "voltageLevels": [
       {
         "id": "VLGEN",
+        "name": "VLGEN_Name",
         "substationId": "P1",
-        "nominalV": 24.0,
-        "name": "VLGEN_Name"
+        "nominalV": 24.0
       },
       {
         "id": "VLHV1",
@@ -51,6 +51,16 @@
     ]
   },
   {
+    "id": "P6",
+    "voltageLevels": [
+      {
+        "id": "VLGEN6",
+        "substationId": "P6",
+        "nominalV": 24.0
+      }
+    ]
+  },
+  {
     "id": "P4",
     "voltageLevels": [
       {
@@ -67,15 +77,10 @@
         "id": "VLGEN5",
         "substationId": "P5",
         "nominalV": 24.0
-      }
-    ]
-  },
-  {
-    "id": "P6",
-    "voltageLevels": [
+      },
       {
-        "id": "VLGEN6",
-        "substationId": "P6",
+        "id": "VLGEN7",
+        "substationId": "P5",
         "nominalV": 24.0
       }
     ]
