@@ -6,6 +6,7 @@
 package org.gridsuite.network.map;
 
 import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.InfoType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +20,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -65,7 +69,7 @@ class ListHandlingControllerTest {
         return parameter.map(s -> requestBuilder.queryParam("substationId", s)).orElse(requestBuilder);
     }
 
-    /** Case of {@code substationId} for {@link NetworkMapController#getVoltageLevelEquipments(UUID, String, String, List)} */
+    /** Case of {@code substationId} for {@link NetworkMapController#getVoltageLevelEquipments(UUID, String, String)} */
     @ParameterizedTest
     @MethodSource("testParameterList")
     void getVoltageLevelEquipmentsSubstationsIds(final Optional<String> parameter) throws Exception {
@@ -74,13 +78,13 @@ class ListHandlingControllerTest {
         verify(networkMapService).getVoltageLevelEquipments(eq(NETWORK_ID), eq("testId"), isNull());
     }
 
-    /** Case of {@code substationId} for {@link NetworkMapController#getAll(UUID, String, List)} */
+    /** Case of {@code substationId} for {@link NetworkMapController#getAll(UUID, String, List, InfoTypeParameters)} */
     @ParameterizedTest
     @MethodSource("testParameterList")
     void getAllSubstationsIds(final Optional<String> parameter) throws Exception {
         mvc.perform(requestWithOptionalSubstationId(get("/v1/networks/{networkUuid}/all", NETWORK_ID), parameter))
             .andExpect(status().is2xxSuccessful());
-        verify(networkMapService).getAllElementsInfos(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()));
+        verify(networkMapService).getAllElementsInfos(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()), eq(new InfoTypeParameters(InfoType.TAB, null, true, true, true, true)));
     }
 
     /** Case of {@code substationsIds} for {@link NetworkMapController#getElementsInfos(UUID, String, List, ElementType, InfoTypeParameters, Optional)} */
@@ -90,7 +94,12 @@ class ListHandlingControllerTest {
         mvc.perform(requestWithOptionalSubstationId(post("/v1/networks/{networkUuid}/elements", NETWORK_ID)
                 .queryParam("elementType", ElementType.LINE.toString()), parameter))
             .andExpect(status().is2xxSuccessful());
-        verify(networkMapService).getElementsInfos(eq(NETWORK_ID), isNull(), eq(Collections.emptyList()), same(ElementType.LINE), eq(new InfoTypeParameters(null, Map.of())), isNull());
+        verify(networkMapService).getElementsInfos(eq(NETWORK_ID),
+                isNull(),
+                eq(Collections.emptyList()),
+                same(ElementType.LINE),
+                eq(new InfoTypeParameters(null, null, true, true, true, true)),
+                isNull());
     }
 
     /** Case of {@code substationsIds} for {@link NetworkMapController#getElementsIds(UUID, String, List, ElementType, Optional)} */

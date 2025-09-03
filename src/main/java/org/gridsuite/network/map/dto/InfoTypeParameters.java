@@ -6,22 +6,23 @@
  */
 package org.gridsuite.network.map.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.HashMap;
-import java.util.Map;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
+import org.springframework.lang.Nullable;
 
 @Data
+@NoArgsConstructor //needed with setter for spring mvc endpoint
+@AllArgsConstructor
+@FieldNameConstants(innerTypeName = "ParametersNames")
 public class InfoTypeParameters {
-    public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
+    public static final InfoTypeParameters TAB = new InfoTypeParameters(InfoType.TAB, null, true, true, true, true);
 
-    public static final InfoTypeParameters TAB = new InfoTypeParameters(ElementInfos.InfoType.TAB, null);
-
-    public InfoTypeParameters(ElementInfos.InfoType infoType, Map<String, String> optionalParameters) {
-        this.infoType = infoType;
-        this.optionalParameters = optionalParameters == null ? new HashMap<>() : optionalParameters;
-    }
-
-    private ElementInfos.InfoType infoType;
-    private Map<String, String> optionalParameters;
+    /*@NonNull*/ private InfoType infoType;
+    @Nullable private Double dcPowerFactor;
+    private boolean viewBranchShowOperationalLimitsGroup = true;
+    private boolean viewLineShowOperationalLimitsGroup = true;
+    private boolean view2wtShowOperationalLimitsGroup = true;
+    private boolean viewGeneratorShowRegulatingTerminal = true;
 }

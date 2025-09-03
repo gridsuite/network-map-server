@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.WithAssumptions;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.ElementInfos.InfoType;
+import org.gridsuite.network.map.dto.InfoType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +25,6 @@ import org.opentest4j.TestAbortedException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Map;
 
 /**
  * Just some tests for Sonar coverage until we really implement unit tests on mappers...
@@ -73,7 +72,7 @@ class MappersTest implements WithAssertions, WithAssumptions {
     @ParameterizedTest(name = "{0}")
     @EnumSource(InfoType.class)
     void shouldHandleInfoType(final InfoType infoType) throws Throwable {
-        final InfoTypeParameters parameters = new InfoTypeParameters(infoType, Map.of());
+        final InfoTypeParameters parameters = new InfoTypeParameters(infoType, null, true, true, true, true);
         // add possible implemented classes to avoid ClassCastException
         final Identifiable<?> identifiableMock = Mockito.mock(Identifiable.class, Mockito.withSettings()
             .defaultAnswer(invocation -> {

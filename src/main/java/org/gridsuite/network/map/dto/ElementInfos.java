@@ -17,15 +17,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class ElementInfos {
 
-    public enum InfoType { //LevelOfDetail
-        LIST,
-        MAP,
-        FORM,
-        TAB,
-        TOOLTIP,
-        OPERATING_STATUS
-    }
-
     private String id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

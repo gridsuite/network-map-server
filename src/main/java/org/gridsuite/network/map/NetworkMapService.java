@@ -61,27 +61,27 @@ public class NetworkMapService {
                 .map(Substation::getId).toList();
     }
 
-    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId) {
+    public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId, final InfoTypeParameters infoTypeParameters) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW, variantId);
         return AllElementsInfos.builder()
-                .substations(getSubstationsInfos(network, substationsId, InfoTypeParameters.TAB, null))
-                .voltageLevels(getVoltageLevelsInfos(network, substationsId, InfoTypeParameters.TAB, null))
-                .hvdcLines(getHvdcLinesInfos(network, substationsId, InfoTypeParameters.TAB, null))
-                .lines(getElementsInfos(network, substationsId, ElementType.LINE, InfoTypeParameters.TAB, null))
-                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, InfoTypeParameters.TAB, null))
-                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, InfoTypeParameters.TAB, null))
-                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, InfoTypeParameters.TAB, null))
-                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, InfoTypeParameters.TAB, null))
-                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, InfoTypeParameters.TAB, null))
-                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, InfoTypeParameters.TAB, null))
-                .tieLines(getTieLinesInfos(network, substationsId, InfoTypeParameters.TAB, null))
-                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, InfoTypeParameters.TAB, null))
-                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, InfoTypeParameters.TAB, null))
-                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, InfoTypeParameters.TAB, null))
-                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, InfoTypeParameters.TAB, null))
-                .buses(getBusesInfos(network, substationsId, InfoTypeParameters.TAB))
-                .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, InfoTypeParameters.TAB, null))
-                .branches(getElementsInfos(network, substationsId, ElementType.BRANCH, InfoTypeParameters.TAB, null))
+                .substations(getSubstationsInfos(network, substationsId, infoTypeParameters, null))
+                .voltageLevels(getVoltageLevelsInfos(network, substationsId, infoTypeParameters, null))
+                .hvdcLines(getHvdcLinesInfos(network, substationsId, infoTypeParameters, null))
+                .lines(getElementsInfos(network, substationsId, ElementType.LINE, infoTypeParameters, null))
+                .loads(getElementsInfos(network, substationsId, ElementType.LOAD, infoTypeParameters, null))
+                .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, infoTypeParameters, null))
+                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, infoTypeParameters, null))
+                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, infoTypeParameters, null))
+                .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, infoTypeParameters, null))
+                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, infoTypeParameters, null))
+                .tieLines(getTieLinesInfos(network, substationsId, infoTypeParameters, null))
+                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, infoTypeParameters, null))
+                .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, infoTypeParameters, null))
+                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, infoTypeParameters, null))
+                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, infoTypeParameters, null))
+                .buses(getBusesInfos(network, substationsId, infoTypeParameters))
+                .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, infoTypeParameters, null))
+                .branches(getElementsInfos(network, substationsId, ElementType.BRANCH, infoTypeParameters, null))
                 .build();
     }
 
