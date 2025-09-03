@@ -9,14 +9,14 @@ package org.gridsuite.network.map.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.lang.Nullable;
 
 @Data
 @NoArgsConstructor //needed with setter for spring mvc endpoint
 @AllArgsConstructor
+@FieldNameConstants(innerTypeName = "ParametersNames")
 public class InfoTypeParameters {
-    public static final String QUERY_PARAM_DC_POWERFACTOR = "dcPowerFactor";
-
     public static final InfoTypeParameters TAB = new InfoTypeParameters(InfoType.TAB, null, true, true, true, true);
 
     /*@NonNull*/ private InfoType infoType;
