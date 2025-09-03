@@ -57,13 +57,6 @@ public class TwoWindingsTransformerFormInfos extends ElementInfosWithProperties 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double i2;
 
-    // TODO : remove currentLimits1 and 2 to leave only currentLimits when modification is done
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CurrentLimitsData> currentLimits1;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<CurrentLimitsData> currentLimits2;
-
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<CurrentLimitsData> currentLimits;
 
