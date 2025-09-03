@@ -43,7 +43,7 @@ public final class GeneratorInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        Boolean loadRegulatingTerminals = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
+        boolean loadRegulatingTerminals = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
             .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable, loadRegulatingTerminals);
@@ -63,7 +63,7 @@ public final class GeneratorInfosMapper {
                 .collect(Collectors.toList());
     }
 
-    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable, Boolean loadRegulatingTerminals) {
+    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable, boolean loadRegulatingTerminals) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
         GeneratorTabInfos.GeneratorTabInfosBuilder<?, ?> builder = GeneratorTabInfos.builder()

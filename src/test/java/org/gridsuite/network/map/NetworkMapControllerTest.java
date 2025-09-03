@@ -1569,16 +1569,6 @@ class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private void notFoundTestForEquipmentsInfos(UUID networkUuid, String variantId, String infosPath, List<String> substationsIds) throws Exception {
-        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
-        if (!substationsIds.isEmpty()) {
-            queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
-        }
-        mvc.perform(get("/v1/networks/{networkUuid}/{infosPath}", networkUuid, infosPath).queryParams(queryParams))
-                .andExpect(status().isNotFound());
-    }
-
     private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
         mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)

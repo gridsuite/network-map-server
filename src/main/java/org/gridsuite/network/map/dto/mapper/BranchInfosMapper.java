@@ -40,7 +40,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         final Branch<?> branch = (Branch<?>) identifiable;
         final Double dcPowerFactor = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_DC_POWERFACTOR))
                 .map(Double::valueOf).orElse(null);
-        final Boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
+        final boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
             .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(branch, dcPowerFactor, loadOperationalLimitGroups);
@@ -52,7 +52,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         @NonNull final B builder,
         @NonNull final Branch<?> branch,
         @Nullable final Double dcPowerFactor,
-        @NonNull final Boolean loadOperationalLimitGroups
+        @NonNull final boolean loadOperationalLimitGroups
     ) {
         /* even if x & r properties are in branch properties doc, it is not in branch getter but each impls... */
         //TODO https://github.com/powsybl/powsybl-core/issues/3521 tagged for release 09/2025
