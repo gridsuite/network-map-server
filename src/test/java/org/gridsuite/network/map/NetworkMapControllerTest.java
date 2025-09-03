@@ -1062,15 +1062,26 @@ class NetworkMapControllerTest {
                 .withSectionIndex(2)
                 .add();
         vlgen5.getNodeBreakerView().newBusbarSection()
-                .setId("NGEN5_2")
-                .setName("NGEN5_2")
+                .setId("NGEN5_2_1")
+                .setName("NGEN5_2_1")
                 .setNode(1)
                 .add();
         vlgen5.getNodeBreakerView()
-                .getBusbarSection("NGEN5_2")
+                .getBusbarSection("NGEN5_2_1")
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(2)
                 .withSectionIndex(1)
+                .add();
+        vlgen5.getNodeBreakerView().newBusbarSection()
+                .setId("NGEN5_2_2")
+                .setName("NGEN5_2_2")
+                .setNode(0)
+                .add();
+        vlgen5.getNodeBreakerView()
+                .getBusbarSection("NGEN5_2_2")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(2)
+                .withSectionIndex(2)
                 .add();
 
         // Create a connected shunt compensator on a NODE_BREAKER voltage level

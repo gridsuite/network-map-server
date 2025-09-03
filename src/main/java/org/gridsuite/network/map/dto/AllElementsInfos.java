@@ -34,4 +34,5 @@ public class AllElementsInfos {
     private List<ElementInfos> vscConverterStations;
     private List<ElementInfos> buses;
     private List<ElementInfos> busbarSections;
+    private List<ElementInfos> branches;
 }

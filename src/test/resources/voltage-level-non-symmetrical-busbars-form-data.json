@@ -14,9 +14,14 @@
   "switchKinds": [],
   "isRetrievedBusbarSections": false,
   "isBusbarSectionPositionFound": true,
-  "busBarSectionInfos" : {
-    "1" : [ "NGEN5"],
-    "2" : [ "NGEN5_2"]
+  "busBarSectionInfos": {
+    "1": [
+      "NGEN5"
+    ],
+    "2": [
+      "NGEN5_2_1",
+      "NGEN5_2_2"
+    ]
   },
   "feederBaysInfos": {}
 }

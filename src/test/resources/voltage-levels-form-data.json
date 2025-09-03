@@ -117,7 +117,8 @@
         "NGEN5"
       ],
       "2": [
-        "NGEN5_2"
+        "NGEN5_2_1",
+        "NGEN5_2_2"
       ]
     },
     "feederBaysInfos": {}
