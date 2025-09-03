@@ -63,7 +63,6 @@ public class NetworkMapService {
 
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId, Map<String, Map<String, String>> additionalParametersByType) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW, variantId);
-
         return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.SUBSTATION), null))
                 .voltageLevels(getVoltageLevelsInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.VOLTAGE_LEVEL), null))
@@ -82,6 +81,7 @@ public class NetworkMapService {
                 .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.VSC_CONVERTER_STATION), null))
                 .buses(getBusesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.BUS)))
                 .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, getInfoTypeParameters(additionalParametersByType, ElementType.BUSBAR_SECTION), null))
+                .branches(getElementsInfos(network, substationsId, ElementType.BRANCH, getInfoTypeParameters(additionalParametersByType, ElementType.BRANCH), null))
                 .build();
     }
 
