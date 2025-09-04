@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.WithAssertions;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.services.SchemaService;
@@ -34,14 +33,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SchemaController.class)
-class SchemaControllerTest implements WithAssertions {
+class SchemaControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @SpyBean //need to init it for the controller
+    @SpyBean
     private SchemaService schemaService;
-
-    final ClassLoader cl = this.getClass().getClassLoader();
 
     private static Stream<Arguments> schemaRequestValues() {
         final List<Pair<ElementType, InfoType>> cases = new ArrayList<>();
@@ -67,7 +64,7 @@ class SchemaControllerTest implements WithAssertions {
                     content().json(json)
             );
         } else {
-            result.andExpectAll(status().isNotImplemented());
+            result.andExpect(status().isNotImplemented());
         }
     }
 }
