@@ -6,7 +6,11 @@
  */
 package org.gridsuite.network.map.services;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
@@ -28,18 +32,13 @@ import org.gridsuite.network.map.dto.definition.threewindingstransformer.ThreeWi
 import org.gridsuite.network.map.dto.definition.tieline.TieLineTabInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 import org.gridsuite.network.map.dto.definition.vscconverterstation.VscConverterStationTabInfos;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.EnumMap;
-
 @Service
+@AllArgsConstructor
 public class SchemaService {
 
-    // TODO transform to a EnumMap<ElementType, EnumMap<InfoType, String>> once multiple InfoType are handled
-    private final EnumMap<ElementType, String> tabInfosSchemas;
+    private final ObjectMapper objectMapper;
 
     /**
      * @apiNote use class instance to be more secure with enum and classes rename/moving/etc with IDE
@@ -67,29 +66,11 @@ public class SchemaService {
         };
     }
 
-    /**
-     * Minimify the JSON and store in RAM for performance in giving it to clients.
-     * @implNote Not done as static because if a file is missing, the exception will block the class loading by the classloader.
-     */
-    public SchemaService(final ResourceLoader resourceLoader) throws IOException {
-        final ObjectMapper objectMapper = new ObjectMapper(); //just need a simple parser to minimize
-        this.tabInfosSchemas = new EnumMap<>(ElementType.class);
-        for (ElementType elementType : ElementType.values()) {
-            final var resource = resourceLoader.getResource(
-                    "classpath:schemas/" + getTabInfosClass(elementType).getCanonicalName().replace('.', '/') + "-schema.json"
-            );
-            if (resource.exists()) {
-                this.tabInfosSchemas.put(elementType,
-                        objectMapper.readTree(resource.getContentAsString(StandardCharsets.UTF_8)).toString()
-                );
-            }
-        }
-    }
-
-    public String getSchema(@NonNull final ElementType elementType, @NonNull final InfoType infoType) {
+    public JsonSchema getSchema(@NonNull final ElementType elementType, @NonNull final InfoType infoType) throws JsonMappingException {
         if (infoType != InfoType.TAB) {
             throw new UnsupportedOperationException("This info type is not currently supported.");
         }
-        return tabInfosSchemas.get(elementType);
+        JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(objectMapper);
+        return schemaGen.generateSchema(getTabInfosClass(elementType));
     }
 }

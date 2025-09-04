@@ -42,7 +42,6 @@
     </developers>
 
     <properties>
-        <victools.jsonschema.version>4.38.0</victools.jsonschema.version>
         <gridsuite-dependencies.version>42.0.0</gridsuite-dependencies.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
@@ -75,66 +74,6 @@
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>com.github.victools</groupId>
-                <artifactId>jsonschema-maven-plugin</artifactId>
-                <version>${victools.jsonschema.version}</version>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals><goal>generate</goal></goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <classNames>
-                        <className>org/gridsuite/network/map/dto/**TabInfos</className>
-                    </classNames>
-                    <failIfNoClassesMatch>false</failIfNoClassesMatch>
-                    <classpath>WITH_ALL_DEPENDENCIES</classpath>
-                    <schemaFilePath>${project.build.outputDirectory}/schemas</schemaFilePath>
-                    <schemaFileName>{1}/{0}-schema.json</schemaFileName>
-                    <schemaVersion>DRAFT_2020_12</schemaVersion>
-                    <options>
-                        <preset>PLAIN_JSON</preset>
-                        <enabled>
-                            <option>FLATTENED_ENUMS_FROM_TOSTRING</option>
-                            <option>STRICT_TYPE_INFO</option>
-                            <option>MAP_VALUES_AS_ADDITIONAL_PROPERTIES</option>
-                            <option>FORBIDDEN_ADDITIONAL_PROPERTIES_BY_DEFAULT</option>
-                            <option>NULLABLE_FIELDS_BY_DEFAULT</option>
-                            <option>NULLABLE_METHOD_RETURN_VALUES_BY_DEFAULT</option>
-                            <option>DEFINITIONS_FOR_ALL_OBJECTS</option>
-                            <option>INLINE_NULLABLE_SCHEMAS</option>
-                        </enabled>
-                    </options>
-                    <modules>
-                        <module>
-                            <name>Jackson</name>
-                            <options>
-                                <option>FLATTENED_ENUMS_FROM_JSONVALUE</option>
-                                <option>FLATTENED_ENUMS_FROM_JSONPROPERTY</option>
-                                <option>RESPECT_JSONPROPERTY_ORDER</option>
-                                <option>RESPECT_JSONPROPERTY_REQUIRED</option>
-                                <option>ALWAYS_REF_SUBTYPES</option>
-                            </options>
-                        </module>
-                        <module>
-                            <name>JakartaValidation</name>
-                            <options>
-                                <option>NOT_NULLABLE_FIELD_IS_REQUIRED</option>
-                                <option>INCLUDE_PATTERN_EXPRESSIONS</option>
-                            </options>
-                        </module>
-                        <module>
-                            <name>JavaxValidation</name>
-                            <options>
-                                <option>NOT_NULLABLE_FIELD_IS_REQUIRED</option>
-                                <option>INCLUDE_PATTERN_EXPRESSIONS</option>
-                            </options>
-                        </module>
-                    </modules>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -157,13 +96,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.github.victools</groupId>
-                <artifactId>jsonschema-generator-bom</artifactId>
-                <version>${victools.jsonschema.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- project specific dependencies -->
         </dependencies>
@@ -175,22 +107,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.victools</groupId>
-            <artifactId>jsonschema-generator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.victools</groupId>
-            <artifactId>jsonschema-module-jackson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.victools</groupId>
-            <artifactId>jsonschema-module-jakarta-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.victools</groupId>
-            <artifactId>jsonschema-module-javax-validation</artifactId>
         </dependency>
 
         <!-- Compilation dependencies -->
@@ -212,6 +128,11 @@
         </dependency>
 
         <!-- Runtime dependencies -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jsonSchema</artifactId>
+            <version>2.15.2</version> <!-- adapte à ta version de Spring Boot -->
+        </dependency>
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-config-classic</artifactId>
