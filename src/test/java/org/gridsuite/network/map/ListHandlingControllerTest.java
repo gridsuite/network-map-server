@@ -7,6 +7,7 @@ package org.gridsuite.network.map;
 
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.services.NetworkMapService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
