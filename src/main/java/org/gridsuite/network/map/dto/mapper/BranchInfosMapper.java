@@ -72,15 +72,23 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         // common properties
         final Terminal terminal1 = branch.getTerminal1();
         final Terminal terminal2 = branch.getTerminal2();
+
+        branch.getSelectedOperationalLimitsGroup1()
+            .flatMap(OperationalLimitsGroup::getCurrentLimits)
+            .map(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, null, null)));
+        branch.getSelectedOperationalLimitsGroupId1().map(name -> builder.selectedOperationalLimitsGroup1Name(name));
+        branch.getSelectedOperationalLimitsGroup2()
+            .flatMap(OperationalLimitsGroup::getCurrentLimits)
+            .map(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, null, null)));
+        branch.getSelectedOperationalLimitsGroupId2().map(name -> builder.selectedOperationalLimitsGroup2Name(name));
+
         if (loadOperationalLimitGroups) {
             final Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups1());
             builder.operationalLimitsGroup1(mapOperationalLimitsGroup1)
-                .operationalLimitsGroup1Names(List.copyOf(mapOperationalLimitsGroup1.keySet()))
-                .selectedOperationalLimitsGroup1(branch.getSelectedOperationalLimitsGroupId1().orElse(null));
+                .operationalLimitsGroup1Names(List.copyOf(mapOperationalLimitsGroup1.keySet()));
             final Map<String, CurrentLimitsData> mapOperationalLimitsGroup2 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups2());
             builder.operationalLimitsGroup2(mapOperationalLimitsGroup2)
-                .operationalLimitsGroup2Names(List.copyOf(mapOperationalLimitsGroup2.keySet()))
-                .selectedOperationalLimitsGroup2(branch.getSelectedOperationalLimitsGroupId2().orElse(null));
+                .operationalLimitsGroup2Names(List.copyOf(mapOperationalLimitsGroup2.keySet()));
         }
         //noinspection unchecked
         return (B) builder
