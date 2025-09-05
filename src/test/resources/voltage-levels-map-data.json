@@ -1,14 +1,9 @@
 [
   {
-    "id": "VL",
-    "name":"VL",
-    "nominalV": 24.0
-  },
-  {
     "id": "VLGEN",
+    "name": "VLGEN_Name",
     "substationId": "P1",
-    "nominalV": 24.0,
-    "name": "VLGEN_Name"
+    "nominalV": 24.0
   },
   {
     "id": "VLHV1",
@@ -41,12 +36,22 @@
     "nominalV": 24.0
   },
   {
+    "id": "VL",
+    "name": "VL",
+    "nominalV": 24.0
+  },
+  {
     "id": "VLGEN4",
     "substationId": "P4",
     "nominalV": 24.0
   },
   {
     "id": "VLGEN5",
+    "substationId": "P5",
+    "nominalV": 24.0
+  },
+  {
+    "id": "VLGEN7",
     "substationId": "P5",
     "nominalV": 24.0
   }
