@@ -95,7 +95,7 @@
             "connectionPosition": 5,
             "connectionName": "LINE7_Side_VLGEN4"
           },
-          "side": 1
+          "side": "ONE"
         }
       ],
       "SHUNT_NON_LINEAR": [
@@ -158,7 +158,7 @@
             "connectionPosition": 3,
             "connectionName": "LINE7_Side_VLGEN8"
           },
-          "side": 2
+          "side": "TWO"
         }
       ]
     }

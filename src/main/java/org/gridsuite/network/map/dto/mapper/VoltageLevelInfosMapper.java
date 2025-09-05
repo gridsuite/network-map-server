@@ -126,10 +126,10 @@ public final class VoltageLevelInfosMapper {
                     case Branch<?> branch -> {
                         List<FeederBayInfos> branchConnections = new ArrayList<>();
                         if (branch.getTerminal1().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 1), 1));
+                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 1), ThreeSides.ONE));
                         }
                         if (branch.getTerminal2().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal2()), toMapConnectablePosition(branch, 2), 2));
+                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal2()), toMapConnectablePosition(branch, 2), ThreeSides.TWO));
                         }
                         connections.put(branch.getId(), branchConnections);
                     }
