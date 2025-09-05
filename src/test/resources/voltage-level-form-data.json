@@ -21,7 +21,8 @@
         "busbarId": "NGEN4",
         "connectablePositionInfos": {
           "connectionDirection": null
-        }
+        },
+        "side": null
       }
     ],
     "LINE7": [
@@ -31,7 +32,8 @@
           "connectionDirection": "BOTTOM",
           "connectionPosition": 5,
           "connectionName": "LINE7_Side_VLGEN4"
-        }
+        },
+        "side": 1
       }
     ],
     "SHUNT_NON_LINEAR": [
@@ -39,7 +41,8 @@
         "busbarId": null,
         "connectablePositionInfos": {
           "connectionDirection": null
-        }
+        },
+        "side": null
       }
     ]
   }

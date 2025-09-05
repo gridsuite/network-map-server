@@ -122,14 +122,14 @@ public final class VoltageLevelInfosMapper {
             .forEach(connectable -> {
                 switch (connectable) {
                     case Injection<?> injection -> connections.put(injection.getId(), List.of(new FeederBayInfos(getBusOrBusbarSection(injection.getTerminal()),
-                            toMapConnectablePosition(injection, 0))));
+                            toMapConnectablePosition(injection, 0), null)));
                     case Branch<?> branch -> {
                         List<FeederBayInfos> branchConnections = new ArrayList<>();
                         if (branch.getTerminal1().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 1)));
+                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 1), 1));
                         }
                         if (branch.getTerminal2().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal2()), toMapConnectablePosition(branch, 2)));
+                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal2()), toMapConnectablePosition(branch, 2), 2));
                         }
                         connections.put(branch.getId(), branchConnections);
                     }

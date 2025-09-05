@@ -11,4 +11,4 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 /**
  * @author Etienne Lesot <etienne.lesot at rte-france.com>
  */
-public record FeederBayInfos(String busbarId, ConnectablePositionInfos connectablePositionInfos) { }
+public record FeederBayInfos(String busbarId, ConnectablePositionInfos connectablePositionInfos, Integer side) { }
