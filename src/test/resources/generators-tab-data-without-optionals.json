@@ -1,0 +1,144 @@
+[
+  {
+    "id": "GEN",
+    "voltageLevelId": "VLGEN",
+    "nominalVoltage": 24.0,
+    "country": "FR",
+    "terminalConnected": true,
+    "p": 25.0,
+    "q": 32.0,
+    "targetP": 28.0,
+    "targetQ": 301.0,
+    "targetV": 24.5,
+    "minP": -9999.99,
+    "maxP": 9999.99,
+    "energySource": "OTHER",
+    "ratedS": 27.0,
+    "voltageRegulatorOn": true,
+    "generatorStartup": {
+      "plannedActivePowerSetPoint": 0.3,
+      "marginalCost": 3.0,
+      "plannedOutageRate": 0.4,
+      "forcedOutageRate": 2.0
+    },
+    "minMaxReactiveLimits": {
+      "minQ": -500.0,
+      "maxQ": 500.0
+    },
+    "coordinatedReactiveControl": {
+      "qPercent": 10.0
+    },
+    "activePowerControl": {
+      "participate": true,
+      "droop": 4.0,
+      "maxTargetP": 8000.0
+    },
+    "connectablePosition": {
+      "connectionDirection": "TOP",
+      "connectionPosition": 0,
+      "connectionName": "feederName"
+    },
+    "measurementP": {
+      "value": 50.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 5.0,
+      "validity": true
+    },
+    "isCondenser": false,
+    "substationId": "P1",
+    "substationName": "P1_Name",
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelName": "VLGEN_Name",
+    "lowVoltageLimit": 200.0,
+    "highVoltageLimit": 400.0,
+    "voltageLevelShortCircuit": {
+      "ipMin": 10.0,
+      "ipMax": 120.0
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    },
+    "injectionObservability": {
+      "qualityP": {
+        "standardDeviation": 19.65,
+        "isRedundant": true
+      },
+      "qualityQ": {
+        "standardDeviation": 12.76,
+        "isRedundant": true
+      },
+      "qualityV": {
+        "standardDeviation": 2.93,
+        "isRedundant": true
+      },
+      "observable": true
+    }
+  },
+  {
+    "id": "GEN2",
+    "voltageLevelId": "VLGEN",
+    "nominalVoltage": 24.0,
+    "country": "FR",
+    "terminalConnected": true,
+    "targetP": 607.0,
+    "targetQ": 301.0,
+    "targetV": 24.5,
+    "minP": -9999.99,
+    "maxP": 9999.99,
+    "energySource": "OTHER",
+    "voltageRegulatorOn": true,
+    "reactiveCapabilityCurvePoints": [
+      {
+        "p": 0.0,
+        "minQ": 6.0,
+        "maxQ": 7.0
+      },
+      {
+        "p": 1.0,
+        "minQ": 4.0,
+        "maxQ": 5.0
+      },
+      {
+        "p": 3.0,
+        "minQ": 4.0,
+        "maxQ": 5.0
+      }
+    ],
+    "coordinatedReactiveControl": {
+      "qPercent": 10.0
+    },
+    "connectablePosition": {
+      "connectionDirection": "TOP",
+      "connectionPosition": 0,
+      "connectionName": "feederName"
+    },
+    "measurementP": {
+      "value": 30.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 80.0,
+      "validity": false
+    },
+    "isCondenser": false,
+    "substationId": "P1",
+    "substationName": "P1_Name",
+    "substationProperties": {
+      "Country": "FR"
+    },
+    "voltageLevelName": "VLGEN_Name",
+    "lowVoltageLimit": 200.0,
+    "highVoltageLimit": 400.0,
+    "voltageLevelShortCircuit": {
+      "ipMin": 10.0,
+      "ipMax": 120.0
+    },
+    "voltageLevelProperties": {
+      "Country": "FR"
+    }
+  }
+]
