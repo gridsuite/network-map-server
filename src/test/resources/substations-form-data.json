@@ -113,7 +113,7 @@
         "feederBaysInfos": {
           "SHUNT_VLNB": [
             {
-              "busOrBusbarSectionId": "NGEN4",
+              "busbarSectionId": "NGEN4",
               "connectablePositionInfos": {
                 "connectionDirection": null
               },
@@ -122,7 +122,7 @@
           ],
           "LINE7": [
             {
-              "busOrBusbarSectionId": "NGEN4",
+              "busbarSectionId": "NGEN4",
               "connectablePositionInfos": {
                 "connectionDirection": "BOTTOM",
                 "connectionPosition": 5,
@@ -133,7 +133,7 @@
           ],
           "SHUNT_NON_LINEAR": [
             {
-              "busOrBusbarSectionId": null,
+              "busbarSectionId": null,
               "connectablePositionInfos": {
                 "connectionDirection": null
               },
@@ -191,7 +191,7 @@
         "feederBaysInfos": {
           "LINE7": [
             {
-              "busOrBusbarSectionId": "NGEN7",
+              "busbarSectionId": "NGEN7",
               "connectablePositionInfos": {
                 "connectionDirection": "TOP",
                 "connectionPosition": 3,
