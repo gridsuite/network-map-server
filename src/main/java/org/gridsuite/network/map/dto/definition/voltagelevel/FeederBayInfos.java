@@ -12,4 +12,4 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 /**
  * @author Etienne Lesot <etienne.lesot at rte-france.com>
  */
-public record FeederBayInfos(String busbarId, ConnectablePositionInfos connectablePositionInfos, ThreeSides side) { }
+public record FeederBayInfos(String busOrBusbarSectionId, ConnectablePositionInfos connectablePositionInfos, ThreeSides connectionSide) { }
