@@ -7,12 +7,14 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
 import com.powsybl.math.graph.TraversalType;
+import lombok.NonNull;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
 import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
-import org.springframework.lang.NonNull;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +39,39 @@ public final class ElementUtils {
         if (!Double.isNaN(value)) {
             setter.accept(value);
         }
+    }
+
+    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
+        var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
+        if (connectablePosition == null) {
+            return null;
+        }
+
+        switch (index) {
+            case 0:
+                return connectablePosition.getFeeder();
+            case 1:
+                return connectablePosition.getFeeder1();
+            case 2:
+                return connectablePosition.getFeeder2();
+            default:
+                throw new IllegalArgumentException("Invalid feeder index: " + index);
+        }
+    }
+
+    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> identifiable, int index) {
+        ConnectablePosition.Feeder feeder = getFeederInfos(identifiable, index);
+        return convertFeederToConnectablePositionInfos(feeder);
+    }
+
+    public static ConnectablePositionInfos convertFeederToConnectablePositionInfos(ConnectablePosition.Feeder feeder) {
+        ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
+        if (feeder != null) {
+            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())
+                .connectionPosition(feeder.getOrder().orElse(null))
+                .connectionName(feeder.getName().orElse(null));
+        }
+        return builder.build();
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {
