@@ -37,6 +37,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -73,6 +74,8 @@ class NetworkMapControllerTest {
     public static final String QUERY_PARAM_ADDITIONAL_PARAMS = "optionalParameters";
     public static final String QUERY_FORMAT_ADDITIONAL_PARAMS = QUERY_PARAM_ADDITIONAL_PARAMS + "[%s]";
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
+    public static final String QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS = "loadOperationalLimitGroups";
+    public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
 
     @Autowired
@@ -1419,10 +1422,14 @@ class NetworkMapControllerTest {
     }
 
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) throws Exception {
-        succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, null);
+        succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, null, true);
     }
 
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson, List<Double> nominalVoltages) throws Exception {
+        succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, nominalVoltages, true);
+    }
+
+    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson, List<Double> nominalVoltages, boolean withOptionalLoading) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
@@ -1432,6 +1439,10 @@ class NetworkMapControllerTest {
                     .map(String::valueOf)
                     .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
+        }
+        if (withOptionalLoading) {
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
                         .queryParams(queryParams)
@@ -1505,27 +1516,57 @@ class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    private void succeedingTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson, boolean withOptionalLoading) throws Exception {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        if (substationsIds != null) {
+            queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
+        }
+        queryParams.add(QUERY_PARAM_INFO_TYPE, InfoType.TAB.toString());
+        Map<String, Map<String, String>> body;
+        if (withOptionalLoading) {
+            body = Map.of(
+                String.valueOf(ElementType.BRANCH), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.TWO_WINDINGS_TRANSFORMER), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true))
+            );
+        } else {
+            body = Map.of();
+        }
+        MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson) throws Exception {
+        succeedingTestForAllEquipmentsInfos(networkUuid, variantId, substationsIds, expectedJson, true);
+    }
+
+    private void notFoundTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds) throws Exception {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        if (!substationsIds.isEmpty()) {
+            queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
+        }
+        mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(Map.of())))
+            .andExpect(status().isNotFound());
+    }
+
     private void succeedingTestForEquipmentsInfos(UUID networkUuid, String variantId, String equipmentPath, List<String> substationsIds, String expectedJson) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         if (substationsIds != null) {
             queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
         }
+        queryParams.add(QUERY_PARAM_INFO_TYPE, InfoType.TAB.toString());
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/{equipmentPath}", networkUuid, equipmentPath).queryParams(queryParams))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
 
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
-    }
-
-    private void notFoundTestForEquipmentsInfos(UUID networkUuid, String variantId, String infosPath, List<String> substationsIds) throws Exception {
-        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
-        if (!substationsIds.isEmpty()) {
-            queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
-        }
-        mvc.perform(get("/v1/networks/{networkUuid}/{infosPath}", networkUuid, infosPath).queryParams(queryParams))
-                .andExpect(status().isNotFound());
     }
 
     private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
@@ -1825,19 +1866,24 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnAllData() throws Exception {
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", null, resourceToString("/all-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3"), resourceToString("/partial-all-data.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", null, resourceToString("/all-data-in-variant.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID, "all", List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
-        succeedingTestForEquipmentsInfos(NETWORK_UUID, null, "all", List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, null, resourceToString("/all-data.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, List.of("P3"), resourceToString("/partial-all-data.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID, null, resourceToString("/all-data-in-variant.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID, List.of("P3"), resourceToString("/partial-all-data-in-variant.json"));
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, List.of("P3", "P6"), resourceToString("/partial-all-map-data-no-redundant-lines.json"));
+    }
+
+    @Test
+    void shouldReturnAllDataWithoutOptionals() throws Exception {
+        succeedingTestForAllEquipmentsInfos(NETWORK_UUID, null, null, resourceToString("/all-data-without-optionals.json"), false);
     }
 
     @Test
     void shouldReturnNotFoundInsteadOfAllData() throws Exception {
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "all", List.of());
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "all", List.of());
-        notFoundTestForEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, "all", List.of("P1"));
-        notFoundTestForEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, "all", List.of("P1"));
+        notFoundTestForAllEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, List.of());
+        notFoundTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of());
+        notFoundTestForAllEquipmentsInfos(NOT_FOUND_NETWORK_ID, null, List.of("P1"));
+        notFoundTestForAllEquipmentsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, List.of("P1"));
     }
 
     @Test
@@ -2429,6 +2475,12 @@ class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnGeneratorsTabDataWithoutOptionals() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.TAB, null, resourceToString("/generators-tab-data-without-optionals.json"), null, false);
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, InfoType.TAB, null, resourceToString("/generators-tab-data-without-optionals.json"), null, false);
+    }
+
+    @Test
     void shouldReturnBatteryTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BATTERY, InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BATTERY, InfoType.TAB, null, resourceToString("/batteries-tab-data.json"));
@@ -2484,6 +2536,12 @@ class NetworkMapControllerTest {
     void shouldReturnTwoWindingsTransformerTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data.json"));
+    }
+
+    @Test
+    void shouldReturnTwoWindingsTransformerTabDataWithoutOptionals() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data-without-optionals.json"), null, false);
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data-without-optionals.json"), null, false);
     }
 
     @Test
