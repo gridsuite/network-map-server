@@ -107,7 +107,7 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
             builder.isBusbarSectionPositionFound(vlTopologyInfos.isBusbarSectionPositionFound());
             builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
-            builder.feederBaysInfos(getConnectionInfos(voltageLevel));
+            builder.feederBaysInfos(getFeederBaysInfos(voltageLevel));
         }
 
         builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
@@ -115,7 +115,7 @@ public final class VoltageLevelInfosMapper {
         return builder.build();
     }
 
-    private static Map<String, List<FeederBayInfos>> getConnectionInfos(VoltageLevel voltageLevel) {
+    private static Map<String, List<FeederBayInfos>> getFeederBaysInfos(VoltageLevel voltageLevel) {
         Map<String, List<FeederBayInfos>> connections = new HashMap<>();
         voltageLevel.getConnectableStream()
             .filter(connectable -> !(connectable instanceof BusbarSection))
