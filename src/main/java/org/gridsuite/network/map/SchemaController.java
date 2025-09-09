@@ -32,10 +32,10 @@ public class SchemaController {
     private final SchemaService schemaService;
 
     @GetMapping(value = "/{elementType}/{infoType}", produces = APPLICATION_JSON_SCHEMA_VALUE)
-    @Operation(summary = "Get network elements")
-    @ApiResponse(responseCode = "200", description = "Elements description")
+    @Operation(summary = "Get element schema description")
+    @ApiResponse(responseCode = "200", description = "Element schema")
     public JsonSchema getElementSchema(@Parameter(description = "Element type") @PathVariable(name = "elementType") ElementType elementType,
-                                   @Parameter(description = "Info type") @PathVariable(name = "infoType") InfoType infoType) {
+                                       @Parameter(description = "Info type") @PathVariable(name = "infoType") InfoType infoType) {
         try {
             return schemaService.getSchema(elementType, infoType);
         } catch (final UnsupportedOperationException | JsonMappingException ex) {
