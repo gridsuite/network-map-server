@@ -102,8 +102,6 @@
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jsonSchema</artifactId>
                 <version>${jackson-module-jsonSchema.version}</version>
-                <type>pom</type>
-                <scope>runtime</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
