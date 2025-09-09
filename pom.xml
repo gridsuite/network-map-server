@@ -42,7 +42,7 @@
     </developers>
 
     <properties>
-
+        <jackson-module-jsonSchema.version>2.15.2</jackson-module-jsonSchema.version>
         <gridsuite-dependencies.version>43.0.0</gridsuite-dependencies.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
@@ -131,7 +131,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jsonSchema</artifactId>
-            <version>2.15.2</version>
+            <version>${jackson-module-jsonSchema.version}</version>
         </dependency>
         <dependency>
             <groupId>com.powsybl</groupId>
