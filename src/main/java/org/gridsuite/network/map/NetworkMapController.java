@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.services.NetworkMapService;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +29,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 @RestController
-@RequestMapping(value = "/" + NetworkMapController.API_VERSION + "/")
-@Tag(name = "network-map-server")
+@RequestMapping(value = "/" + NetworkMapApi.API_VERSION + "/")
+@Tag(name = "Network map server")
 @ComponentScan(basePackageClasses = NetworkMapService.class)
 @AllArgsConstructor
 public class NetworkMapController {
-
-    public static final String API_VERSION = "v1";
-
     private final NetworkMapService networkMapService;
 
     @PostMapping(value = "/networks/{networkUuid}/elements-ids", produces = APPLICATION_JSON_VALUE)
