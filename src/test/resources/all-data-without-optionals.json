@@ -240,22 +240,6 @@
       "q2": 4.44,
       "r": 9.0,
       "x": 10.0,
-      "operationalLimitsGroup1": {
-        "limit set 1": {
-          "permanentLimit": 700.4,
-          "temporaryLimits": [
-            {
-              "name": "IT5",
-              "value": 250.0,
-              "acceptableDuration": 300
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 700.4,
         "temporaryLimits": [
@@ -268,27 +252,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
-      "operationalLimitsGroup2": {
-        "limit set 1": {
-          "permanentLimit": 800.8,
-          "temporaryLimits": [
-            {
-              "name": "IT20",
-              "value": 300.0,
-              "acceptableDuration": 1200
-            },
-            {
-              "name": "IT10",
-              "value": 200.0,
-              "acceptableDuration": 600
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 800.8,
         "temporaryLimits": [
@@ -328,39 +291,6 @@
       "terminal2Connected": true,
       "r": 3.0,
       "x": 33.0,
-      "operationalLimitsGroup1": {
-        "group2": {
-          "permanentLimit": 250.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary1",
-              "value": 90.0,
-              "acceptableDuration": 200
-            }
-          ],
-          "applicability": null
-        },
-        "group1": {
-          "permanentLimit": 220.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary2",
-              "value": 70.0,
-              "acceptableDuration": 150
-            },
-            {
-              "name": "temporary1",
-              "value": 50.0,
-              "acceptableDuration": 100
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "group2",
-        "group1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 220.0,
         "temporaryLimits": [
@@ -378,34 +308,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "group1",
-      "operationalLimitsGroup2": {
-        "group4": {
-          "permanentLimit": 320.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary1",
-              "value": 130.0,
-              "acceptableDuration": 200
-            }
-          ],
-          "applicability": null
-        },
-        "group3": {
-          "permanentLimit": 300.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary1",
-              "value": 110.0,
-              "acceptableDuration": 150
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "group4",
-        "group3"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 320.0,
         "temporaryLimits": [
@@ -444,27 +346,6 @@
       "p2": 100.0,
       "r": 3.0,
       "x": 33.0,
-      "operationalLimitsGroup1": {
-        "group1": {
-          "permanentLimit": 220.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary2",
-              "value": 70.0,
-              "acceptableDuration": 150
-            },
-            {
-              "name": "temporary1",
-              "value": 50.0,
-              "acceptableDuration": 100
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "group1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 220.0,
         "temporaryLimits": [
@@ -543,27 +424,6 @@
       "terminal2Connected": true,
       "r": 3.0,
       "x": 33.0,
-      "operationalLimitsGroup2": {
-        "group1": {
-          "permanentLimit": 220.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary2",
-              "value": 70.0,
-              "acceptableDuration": 150
-            },
-            {
-              "name": "temporary1",
-              "value": 50.0,
-              "acceptableDuration": 100
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "group1"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 220.0,
         "temporaryLimits": [
@@ -838,22 +698,6 @@
       "q2": 14.44,
       "r": 0.26658461538461536,
       "x": 11.104492831516762,
-      "operationalLimitsGroup1": {
-        "limit set 1": {
-          "permanentLimit": 750.4,
-          "temporaryLimits": [
-            {
-              "name": "IT5",
-              "value": 300.0,
-              "acceptableDuration": 2087
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 750.4,
         "temporaryLimits": [
@@ -866,27 +710,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
-      "operationalLimitsGroup2": {
-        "limit set 1": {
-          "permanentLimit": 780.6,
-          "temporaryLimits": [
-            {
-              "name": "IT20",
-              "value": 1200.0,
-              "acceptableDuration": 961
-            },
-            {
-              "name": "N/A",
-              "value": 2.147483647E9,
-              "acceptableDuration": 664
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 780.6,
         "temporaryLimits": [
@@ -1049,22 +872,6 @@
       "terminal2Connected": true,
       "r": 47.0,
       "x": 23.0,
-      "operationalLimitsGroup1": {
-        "DEFAULT": {
-          "permanentLimit": 300.4,
-          "temporaryLimits": [
-            {
-              "name": "IT20",
-              "value": 400.0,
-              "acceptableDuration": 87
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "DEFAULT"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 300.4,
         "temporaryLimits": [
@@ -1077,22 +884,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "DEFAULT",
-      "operationalLimitsGroup2": {
-        "DEFAULT": {
-          "permanentLimit": 280.6,
-          "temporaryLimits": [
-            {
-              "name": "N/A",
-              "value": 98.0,
-              "acceptableDuration": 34
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "DEFAULT"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 280.6,
         "temporaryLimits": [
@@ -1689,9 +1480,6 @@
         "minQ": -500.0,
         "maxQ": 500.0
       },
-      "regulatingTerminalConnectableId": "NHV1_NHV2_1",
-      "regulatingTerminalConnectableType": "LINE",
-      "regulatingTerminalVlId": "VLHV1",
       "coordinatedReactiveControl": {
         "qPercent": 10.0
       },
@@ -2519,22 +2307,6 @@
       "q2": 4.44,
       "r": 9.0,
       "x": 10.0,
-      "operationalLimitsGroup1": {
-        "limit set 1": {
-          "permanentLimit": 700.4,
-          "temporaryLimits": [
-            {
-              "name": "IT5",
-              "value": 250.0,
-              "acceptableDuration": 300
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 700.4,
         "temporaryLimits": [
@@ -2547,27 +2319,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
-      "operationalLimitsGroup2": {
-        "limit set 1": {
-          "permanentLimit": 800.8,
-          "temporaryLimits": [
-            {
-              "name": "IT20",
-              "value": 300.0,
-              "acceptableDuration": 1200
-            },
-            {
-              "name": "IT10",
-              "value": 200.0,
-              "acceptableDuration": 600
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 800.8,
         "temporaryLimits": [
@@ -2603,39 +2354,6 @@
       "terminal2Connected": true,
       "r": 3.0,
       "x": 33.0,
-      "operationalLimitsGroup1": {
-        "group2": {
-          "permanentLimit": 250.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary1",
-              "value": 90.0,
-              "acceptableDuration": 200
-            }
-          ],
-          "applicability": null
-        },
-        "group1": {
-          "permanentLimit": 220.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary2",
-              "value": 70.0,
-              "acceptableDuration": 150
-            },
-            {
-              "name": "temporary1",
-              "value": 50.0,
-              "acceptableDuration": 100
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "group2",
-        "group1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 220.0,
         "temporaryLimits": [
@@ -2653,34 +2371,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "group1",
-      "operationalLimitsGroup2": {
-        "group4": {
-          "permanentLimit": 320.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary1",
-              "value": 130.0,
-              "acceptableDuration": 200
-            }
-          ],
-          "applicability": null
-        },
-        "group3": {
-          "permanentLimit": 300.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary1",
-              "value": 110.0,
-              "acceptableDuration": 150
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "group4",
-        "group3"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 320.0,
         "temporaryLimits": [
@@ -2715,27 +2405,6 @@
       "p2": 100.0,
       "r": 3.0,
       "x": 33.0,
-      "operationalLimitsGroup1": {
-        "group1": {
-          "permanentLimit": 220.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary2",
-              "value": 70.0,
-              "acceptableDuration": 150
-            },
-            {
-              "name": "temporary1",
-              "value": 50.0,
-              "acceptableDuration": 100
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "group1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 220.0,
         "temporaryLimits": [
@@ -2810,27 +2479,6 @@
       "terminal2Connected": true,
       "r": 3.0,
       "x": 33.0,
-      "operationalLimitsGroup2": {
-        "group1": {
-          "permanentLimit": 220.0,
-          "temporaryLimits": [
-            {
-              "name": "temporary2",
-              "value": 70.0,
-              "acceptableDuration": 150
-            },
-            {
-              "name": "temporary1",
-              "value": 50.0,
-              "acceptableDuration": 100
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "group1"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 220.0,
         "temporaryLimits": [
@@ -2872,22 +2520,6 @@
       "q2": 14.44,
       "r": 0.26658461538461536,
       "x": 11.104492831516762,
-      "operationalLimitsGroup1": {
-        "limit set 1": {
-          "permanentLimit": 750.4,
-          "temporaryLimits": [
-            {
-              "name": "IT5",
-              "value": 300.0,
-              "acceptableDuration": 2087
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 750.4,
         "temporaryLimits": [
@@ -2900,27 +2532,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
-      "operationalLimitsGroup2": {
-        "limit set 1": {
-          "permanentLimit": 780.6,
-          "temporaryLimits": [
-            {
-              "name": "IT20",
-              "value": 1200.0,
-              "acceptableDuration": 961
-            },
-            {
-              "name": "N/A",
-              "value": 2.147483647E9,
-              "acceptableDuration": 664
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "limit set 1"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 780.6,
         "temporaryLimits": [
@@ -2984,22 +2595,6 @@
       "terminal2Connected": true,
       "r": 47.0,
       "x": 23.0,
-      "operationalLimitsGroup1": {
-        "DEFAULT": {
-          "permanentLimit": 300.4,
-          "temporaryLimits": [
-            {
-              "name": "IT20",
-              "value": 400.0,
-              "acceptableDuration": 87
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup1Names": [
-        "DEFAULT"
-      ],
       "selectedOperationalLimitsGroup1": {
         "permanentLimit": 300.4,
         "temporaryLimits": [
@@ -3012,22 +2607,6 @@
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "DEFAULT",
-      "operationalLimitsGroup2": {
-        "DEFAULT": {
-          "permanentLimit": 280.6,
-          "temporaryLimits": [
-            {
-              "name": "N/A",
-              "value": 98.0,
-              "acceptableDuration": 34
-            }
-          ],
-          "applicability": null
-        }
-      },
-      "operationalLimitsGroup2Names": [
-        "DEFAULT"
-      ],
       "selectedOperationalLimitsGroup2": {
         "permanentLimit": 280.6,
         "temporaryLimits": [
