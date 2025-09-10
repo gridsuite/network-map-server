@@ -76,9 +76,6 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
                 .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
 
-        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
-        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
-
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
