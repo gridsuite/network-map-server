@@ -115,7 +115,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
 
-        LineMapInfos.LineMapInfosBuilder<?, ?> builder = LineMapInfos.builder()
+        return LineMapInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
@@ -127,10 +127,10 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)));
-        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
-
-        return builder.build();
+                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
+                // TODO - lock and strip are hidden on map temporarly
+                //.operatingStatus(ExtensionUtils.toOperatingStatus(line))
+                .build();
     }
 
     private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, boolean loadOperationalLimitGroups) {

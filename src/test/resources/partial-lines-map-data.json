@@ -7,8 +7,7 @@
     "terminal1Connected": true,
     "terminal2Connected": true,
     "p1": 200.0,
-    "p2": 100.0,
-    "operatingStatus": "PLANNED_OUTAGE"
+    "p2": 100.0
   },
   {
     "id": "NHV1_NHV2_2",
