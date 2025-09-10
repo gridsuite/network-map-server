@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -41,11 +42,13 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
+            .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
             case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
-            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups);
             case FORM -> toFormInfos(identifiable);
             default -> throw new UnsupportedOperationException("TODO");
         };
@@ -102,9 +105,9 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         return builder.build();
     }
 
-    private static TwoWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
+    private static TwoWindingsTransformerTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, boolean loadOperationalLimitGroups) {
         final TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
-        return toTabBuilder((TwoWindingsTransformerTabInfosBuilder<TwoWindingsTransformerTabInfos, ?>) TwoWindingsTransformerTabInfos.builder(), twoWT, dcPowerFactor)
+        return toTabBuilder((TwoWindingsTransformerTabInfosBuilder<TwoWindingsTransformerTabInfos, ?>) TwoWindingsTransformerTabInfos.builder(), twoWT, dcPowerFactor, loadOperationalLimitGroups)
                 .country(ElementUtils.mapCountry(ElementUtils.findFirstSubstation(List.of(twoWT.getTerminal1(), twoWT.getTerminal2()))))
                 .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))

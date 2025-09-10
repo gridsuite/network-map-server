@@ -16,7 +16,10 @@ import org.gridsuite.network.map.dto.definition.branch.line.*;
 import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos.LineTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
+import java.util.Optional;
+
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -30,8 +33,10 @@ public final class LineInfosMapper extends BranchInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
+            .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups);
             case FORM -> toFormInfos(identifiable);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
@@ -128,9 +133,9 @@ public final class LineInfosMapper extends BranchInfosMapper {
         return builder.build();
     }
 
-    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
+    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, boolean loadOperationalLimitGroups) {
         final Line line = (Line) identifiable;
-        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor)
+        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor, loadOperationalLimitGroups)
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
