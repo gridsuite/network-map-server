@@ -20,6 +20,7 @@ public final class ExtensionUtils {
                     case 0 -> connectablePosition.getFeeder();
                     case 1 -> connectablePosition.getFeeder1();
                     case 2 -> connectablePosition.getFeeder2();
+                    case 3 -> connectablePosition.getFeeder3();
                     default -> throw new IllegalArgumentException("Invalid feeder index: " + index);
                 })
                 .ifPresent(feeder -> builder

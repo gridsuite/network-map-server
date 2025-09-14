@@ -133,6 +133,19 @@ public final class VoltageLevelInfosMapper {
                         }
                         connections.put(branch.getId(), branchConnections);
                     }
+                    case ThreeWindingsTransformer threeWindingsTransformer -> {
+                        List<FeederBayInfos> threeWTConnections = new ArrayList<>();
+                        if (threeWindingsTransformer.getLeg1().getTerminal().getVoltageLevel().getId().equals(voltageLevel.getId())) {
+                            threeWTConnections.add(new FeederBayInfos(getBusOrBusbarSection(threeWindingsTransformer.getLeg1().getTerminal()), toMapConnectablePosition(threeWindingsTransformer, 1), ThreeSides.ONE));
+                        }
+                        if (threeWindingsTransformer.getLeg2().getTerminal().getVoltageLevel().getId().equals(voltageLevel.getId())) {
+                            threeWTConnections.add(new FeederBayInfos(getBusOrBusbarSection(threeWindingsTransformer.getLeg2().getTerminal()), toMapConnectablePosition(threeWindingsTransformer, 2), ThreeSides.TWO));
+                        }
+                        if (threeWindingsTransformer.getLeg3().getTerminal().getVoltageLevel().getId().equals(voltageLevel.getId())) {
+                            threeWTConnections.add(new FeederBayInfos(getBusOrBusbarSection(threeWindingsTransformer.getLeg3().getTerminal()), toMapConnectablePosition(threeWindingsTransformer, 3), ThreeSides.THREE));
+                        }
+                        connections.put(threeWindingsTransformer.getId(), threeWTConnections);
+                    }
                     default -> throw new IllegalArgumentException("connectable type: " + connectable.getClass() + " not supported");
                 }
             });
