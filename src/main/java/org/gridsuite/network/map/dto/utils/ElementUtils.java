@@ -47,9 +47,10 @@ public final class ElementUtils {
                 return terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
-            final BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-            terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
-            return connectedBusbarSectionFinder.getFirstTraversedBbsId();
+            // NODE_BREAKER: explore all paths and choose the busbar with the closed disconnector
+            BusbarSectionFinderTraverser finder = new BusbarSectionFinderTraverser();
+            terminal.traverse(finder, TraversalType.BREADTH_FIRST);
+            return finder.getBusbarWithClosedDisconnector();
         }
     }
 
