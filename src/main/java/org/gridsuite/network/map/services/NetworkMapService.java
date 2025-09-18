@@ -26,6 +26,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_NETWORK_COMPONENTS;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -62,7 +65,16 @@ public class NetworkMapService {
     }
 
     public AllElementsInfos getAllElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsId, Map<String, Map<String, String>> additionalParametersByType) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW, variantId);
+        // With network components we have to traverse almost all the network to recompute so we can switch to
+        // ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW directly
+        boolean shouldLoadNetworkComponents = Optional.ofNullable(additionalParametersByType.get(ElementType.BUS.toString()))
+            .map(map -> map.get(QUERY_PARAM_LOAD_NETWORK_COMPONENTS))
+            .map(Boolean::valueOf)
+            .orElse(false);
+        PreloadingStrategy preloadingStrategy = shouldLoadNetworkComponents || substationsId.size() >= 5 ?
+            PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW :
+            PreloadingStrategy.NONE;
+        Network network = getNetwork(networkUuid, preloadingStrategy, variantId);
         return AllElementsInfos.builder()
                 .substations(getSubstationsInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.SUBSTATION), null))
                 .voltageLevels(getVoltageLevelsInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.VOLTAGE_LEVEL), null))
@@ -253,10 +265,11 @@ public class NetworkMapService {
 
     private List<ElementInfos> getBusesInfos(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters) {
         Stream<Bus> buses = substationsId.isEmpty() ? network.getBusView().getBusStream() :
-                network.getBusView().getBusStream()
-                        .filter(Objects::nonNull)
-                        .filter(bus -> bus.getVoltageLevel().getSubstation().stream().anyMatch(substation -> substationsId.contains(substation.getId())))
-                        .distinct();
+            substationsId
+                .stream()
+                .flatMap(id -> network.getSubstation(id).getVoltageLevelStream())
+                .flatMap(vl -> StreamSupport.stream(vl.getBusView().getBuses().spliterator(), false));
+
         return buses
                 .map(c -> ElementType.BUS.getInfosGetter().apply(c, infoTypeParameters))
                 .distinct()
