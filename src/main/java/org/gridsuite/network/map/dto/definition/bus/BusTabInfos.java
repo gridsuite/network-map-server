@@ -25,8 +25,10 @@ public class BusTabInfos extends ElementInfosWithProperties {
 
     private Double angle;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer synchronousComponentNum;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectedComponentNum;
 
     private String voltageLevelId;
