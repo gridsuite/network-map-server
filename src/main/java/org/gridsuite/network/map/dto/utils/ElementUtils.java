@@ -59,12 +59,12 @@ public final class ElementUtils {
         }
     }
 
-    public static ConnectablePositionInfos toMapConnectablePosition(Identifiable<?> identifiable, int index) {
+    public static ConnectablePositionInfos getConnectablePosition(Identifiable<?> identifiable, int index) {
         ConnectablePosition.Feeder feeder = getFeederInfos(identifiable, index);
-        return convertFeederToConnectablePositionInfos(feeder);
+        return buildConnectablePositionInfos(feeder);
     }
 
-    public static ConnectablePositionInfos convertFeederToConnectablePositionInfos(ConnectablePosition.Feeder feeder) {
+    public static ConnectablePositionInfos buildConnectablePositionInfos(ConnectablePosition.Feeder feeder) {
         ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
         if (feeder != null) {
             builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())

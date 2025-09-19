@@ -24,6 +24,7 @@ import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.powsybl.iidm.network.Terminal.getConnectableSide;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -116,40 +117,25 @@ public final class VoltageLevelInfosMapper {
     }
 
     private static Map<String, List<FeederBayInfos>> getFeederBaysInfos(VoltageLevel voltageLevel) {
-        Map<String, List<FeederBayInfos>> connections = new HashMap<>();
+        Map<String, List<FeederBayInfos>> feederBayInfos = new HashMap<>();
+        String currentVoltageLevelId = voltageLevel.getId();
         voltageLevel.getConnectableStream()
-            .filter(connectable -> !(connectable instanceof BusbarSection))
-            .forEach(connectable -> {
-                switch (connectable) {
-                    case Injection<?> injection -> connections.put(injection.getId(), List.of(new FeederBayInfos(getBusOrBusbarSection(injection.getTerminal()),
-                            toMapConnectablePosition(injection, 0), null)));
-                    case Branch<?> branch -> {
-                        List<FeederBayInfos> branchConnections = new ArrayList<>();
-                        if (branch.getTerminal1().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal1()), toMapConnectablePosition(branch, 1), ThreeSides.ONE));
+                .filter(connectable -> !(connectable instanceof BusbarSection))
+                .forEach(connectable -> {
+                    List<FeederBayInfos> connections = new ArrayList<>();
+                    for (Object obj : connectable.getTerminals()) {
+                        Terminal terminal = (Terminal) obj;
+                        if (terminal.getVoltageLevel().getId().equals(currentVoltageLevelId)) {
+                            connections.add(new FeederBayInfos(
+                                    getBusOrBusbarSection(terminal),
+                                    getConnectablePosition(connectable, getConnectableSide(terminal).map(ThreeSides::getNum).orElse(0)),
+                                    getConnectableSide(terminal).orElse(null)
+                            ));
                         }
-                        if (branch.getTerminal2().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            branchConnections.add(new FeederBayInfos(getBusOrBusbarSection(branch.getTerminal2()), toMapConnectablePosition(branch, 2), ThreeSides.TWO));
-                        }
-                        connections.put(branch.getId(), branchConnections);
                     }
-                    case ThreeWindingsTransformer threeWindingsTransformer -> {
-                        List<FeederBayInfos> threeWTConnections = new ArrayList<>();
-                        if (threeWindingsTransformer.getLeg1().getTerminal().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            threeWTConnections.add(new FeederBayInfos(getBusOrBusbarSection(threeWindingsTransformer.getLeg1().getTerminal()), toMapConnectablePosition(threeWindingsTransformer, 1), ThreeSides.ONE));
-                        }
-                        if (threeWindingsTransformer.getLeg2().getTerminal().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            threeWTConnections.add(new FeederBayInfos(getBusOrBusbarSection(threeWindingsTransformer.getLeg2().getTerminal()), toMapConnectablePosition(threeWindingsTransformer, 2), ThreeSides.TWO));
-                        }
-                        if (threeWindingsTransformer.getLeg3().getTerminal().getVoltageLevel().getId().equals(voltageLevel.getId())) {
-                            threeWTConnections.add(new FeederBayInfos(getBusOrBusbarSection(threeWindingsTransformer.getLeg3().getTerminal()), toMapConnectablePosition(threeWindingsTransformer, 3), ThreeSides.THREE));
-                        }
-                        connections.put(threeWindingsTransformer.getId(), threeWTConnections);
-                    }
-                    default -> throw new IllegalArgumentException("connectable type: " + connectable.getClass() + " not supported");
-                }
-            });
-        return connections;
+                    feederBayInfos.put(connectable.getId(), connections);
+                });
+        return feederBayInfos;
     }
 
     protected static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
