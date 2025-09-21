@@ -82,8 +82,11 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     @JsonInclude(Include.NON_EMPTY)
     private List<String> operationalLimitsGroup1Names;
 
+    @JsonInclude(Include.NON_EMPTY)
+    private CurrentLimitsData selectedOperationalLimitsGroup1;
+
     @JsonInclude(Include.NON_NULL)
-    private String selectedOperationalLimitsGroup1;
+    private String selectedOperationalLimitsGroup1Name;
 
     @JsonInclude(Include.NON_EMPTY)
     private Map<String, CurrentLimitsData> operationalLimitsGroup2;
@@ -91,8 +94,11 @@ public class BranchTabInfos extends ElementInfosWithProperties {
     @JsonInclude(Include.NON_EMPTY)
     private List<String> operationalLimitsGroup2Names;
 
+    @JsonInclude(Include.NON_EMPTY)
+    private CurrentLimitsData selectedOperationalLimitsGroup2;
+
     @JsonInclude(Include.NON_NULL)
-    private String selectedOperationalLimitsGroup2;
+    private String selectedOperationalLimitsGroup2Name;
 
     @JsonInclude(Include.NON_ABSENT)
     private Optional<BranchObservabilityInfos> branchObservability;

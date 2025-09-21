@@ -272,7 +272,18 @@
       "operationalLimitsGroup1Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup1": "limit set 1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 700.4,
+        "temporaryLimits": [
+          {
+            "name": "IT5",
+            "value": 250.0,
+            "acceptableDuration": 300
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
           "permanentLimit": 800.8,
@@ -294,7 +305,23 @@
       "operationalLimitsGroup2Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup2": "limit set 1",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 800.8,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 300.0,
+            "acceptableDuration": 1200
+          },
+          {
+            "name": "IT10",
+            "value": 200.0,
+            "acceptableDuration": 600
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "limit set 1",
       "substationProperties1": {
         "Country": "FR"
       },
@@ -350,7 +377,23 @@
         "group2",
         "group1"
       ],
-      "selectedOperationalLimitsGroup1": "group1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 220.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "group1",
       "operationalLimitsGroup2": {
         "group4": {
           "permanentLimit": 320.0,
@@ -379,7 +422,18 @@
         "group4",
         "group3"
       ],
-      "selectedOperationalLimitsGroup2": "group4",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 320.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary1",
+            "value": 130.0,
+            "acceptableDuration": 200
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "group4",
       "substationProperties1": {
         "Country": "FR"
       },
@@ -427,7 +481,23 @@
       "operationalLimitsGroup1Names": [
         "group1"
       ],
-      "selectedOperationalLimitsGroup1": "group1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 220.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "group1",
       "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,
@@ -510,7 +580,23 @@
       "operationalLimitsGroup2Names": [
         "group1"
       ],
-      "selectedOperationalLimitsGroup2": "group1",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 220.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "group1",
       "substationProperties2": {
         "Country": "FR"
       },
@@ -804,7 +890,18 @@
       "operationalLimitsGroup1Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup1": "limit set 1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 750.4,
+        "temporaryLimits": [
+          {
+            "name": "IT5",
+            "value": 300.0,
+            "acceptableDuration": 2087
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
           "permanentLimit": 780.6,
@@ -826,7 +923,23 @@
       "operationalLimitsGroup2Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup2": "limit set 1",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 780.6,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 1200.0,
+            "acceptableDuration": 961
+          },
+          {
+            "name": "N/A",
+            "value": 2.147483647E9,
+            "acceptableDuration": 664
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "limit set 1",
       "substationProperties1": {
         "Country": "FR"
       },
@@ -988,7 +1101,18 @@
       "operationalLimitsGroup1Names": [
         "DEFAULT"
       ],
-      "selectedOperationalLimitsGroup1": "DEFAULT",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 300.4,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 400.0,
+            "acceptableDuration": 87
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "DEFAULT",
       "operationalLimitsGroup2": {
         "DEFAULT": {
           "permanentLimit": 280.6,
@@ -1005,7 +1129,18 @@
       "operationalLimitsGroup2Names": [
         "DEFAULT"
       ],
-      "selectedOperationalLimitsGroup2": "DEFAULT",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 280.6,
+        "temporaryLimits": [
+          {
+            "name": "N/A",
+            "value": 98.0,
+            "acceptableDuration": 34
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "DEFAULT",
       "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,
@@ -2451,7 +2586,18 @@
       "operationalLimitsGroup1Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup1": "limit set 1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 700.4,
+        "temporaryLimits": [
+          {
+            "name": "IT5",
+            "value": 250.0,
+            "acceptableDuration": 300
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
           "permanentLimit": 800.8,
@@ -2473,7 +2619,23 @@
       "operationalLimitsGroup2Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup2": "limit set 1",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 800.8,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 300.0,
+            "acceptableDuration": 1200
+          },
+          {
+            "name": "IT10",
+            "value": 200.0,
+            "acceptableDuration": 600
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "limit set 1",
       "substationProperties1": {
         "Country": "FR"
       }
@@ -2525,7 +2687,23 @@
         "group2",
         "group1"
       ],
-      "selectedOperationalLimitsGroup1": "group1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 220.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "group1",
       "operationalLimitsGroup2": {
         "group4": {
           "permanentLimit": 320.0,
@@ -2554,7 +2732,18 @@
         "group4",
         "group3"
       ],
-      "selectedOperationalLimitsGroup2": "group4",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 320.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary1",
+            "value": 130.0,
+            "acceptableDuration": 200
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "group4",
       "substationProperties1": {
         "Country": "FR"
       }
@@ -2598,7 +2787,23 @@
       "operationalLimitsGroup1Names": [
         "group1"
       ],
-      "selectedOperationalLimitsGroup1": "group1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 220.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "group1",
       "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,
@@ -2677,7 +2882,23 @@
       "operationalLimitsGroup2Names": [
         "group1"
       ],
-      "selectedOperationalLimitsGroup2": "group1",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 220.0,
+        "temporaryLimits": [
+          {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "group1",
       "substationProperties2": {
         "Country": "FR"
       }
@@ -2734,7 +2955,18 @@
       "operationalLimitsGroup1Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup1": "limit set 1",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 750.4,
+        "temporaryLimits": [
+          {
+            "name": "IT5",
+            "value": 300.0,
+            "acceptableDuration": 2087
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
           "permanentLimit": 780.6,
@@ -2756,7 +2988,23 @@
       "operationalLimitsGroup2Names": [
         "limit set 1"
       ],
-      "selectedOperationalLimitsGroup2": "limit set 1",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 780.6,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 1200.0,
+            "acceptableDuration": 961
+          },
+          {
+            "name": "N/A",
+            "value": 2.147483647E9,
+            "acceptableDuration": 664
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "limit set 1",
       "substationProperties1": {
         "Country": "FR"
       },
@@ -2819,7 +3067,18 @@
       "operationalLimitsGroup1Names": [
         "DEFAULT"
       ],
-      "selectedOperationalLimitsGroup1": "DEFAULT",
+      "selectedOperationalLimitsGroup1": {
+        "permanentLimit": 300.4,
+        "temporaryLimits": [
+          {
+            "name": "IT20",
+            "value": 400.0,
+            "acceptableDuration": 87
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup1Name": "DEFAULT",
       "operationalLimitsGroup2": {
         "DEFAULT": {
           "permanentLimit": 280.6,
@@ -2836,7 +3095,18 @@
       "operationalLimitsGroup2Names": [
         "DEFAULT"
       ],
-      "selectedOperationalLimitsGroup2": "DEFAULT",
+      "selectedOperationalLimitsGroup2": {
+        "permanentLimit": 280.6,
+        "temporaryLimits": [
+          {
+            "name": "N/A",
+            "value": 98.0,
+            "acceptableDuration": 34
+          }
+        ],
+        "applicability": null
+      },
+      "selectedOperationalLimitsGroup2Name": "DEFAULT",
       "branchObservability": {
         "qualityP1": {
           "standardDeviation": 23.31,

@@ -16,7 +16,10 @@ import org.gridsuite.network.map.dto.definition.branch.line.*;
 import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos.LineTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
+import java.util.Optional;
+
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -30,8 +33,10 @@ public final class LineInfosMapper extends BranchInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         String dcPowerFactorStr = infoTypeParameters.getOptionalParameters().getOrDefault(QUERY_PARAM_DC_POWERFACTOR, null);
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
+        boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
+            .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable, dcPowerFactor);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups);
             case FORM -> toFormInfos(identifiable);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
@@ -70,9 +75,6 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .currentLimits(mergeCurrentLimits(line.getOperationalLimitsGroups1(), line.getOperationalLimitsGroups2()))
                 .selectedOperationalLimitsGroup1(line.getSelectedOperationalLimitsGroupId1().orElse(null))
                 .selectedOperationalLimitsGroup2(line.getSelectedOperationalLimitsGroupId2().orElse(null));
-
-        buildCurrentLimits(line.getOperationalLimitsGroups1(), builder::currentLimits1);
-        buildCurrentLimits(line.getOperationalLimitsGroups2(), builder::currentLimits2);
 
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
@@ -113,7 +115,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
 
-        LineMapInfos.LineMapInfosBuilder<?, ?> builder = LineMapInfos.builder()
+        return LineMapInfos.builder()
                 .id(line.getId())
                 .name(line.getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
@@ -125,15 +127,15 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
-                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)));
-        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
-
-        return builder.build();
+                .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
+                // TODO - lock and strip are hidden on map temporarly
+                //.operatingStatus(ExtensionUtils.toOperatingStatus(line))
+                .build();
     }
 
-    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor) {
+    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, boolean loadOperationalLimitGroups) {
         final Line line = (Line) identifiable;
-        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor)
+        return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor, loadOperationalLimitGroups)
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
