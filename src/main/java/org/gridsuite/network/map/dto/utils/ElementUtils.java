@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
@@ -48,9 +47,7 @@ public final class ElementUtils {
             }
         } else {
             // NODE_BREAKER: explore all paths and choose the busbar with the closed disconnector
-            BusbarSectionFinderTraverser finder = new BusbarSectionFinderTraverser();
-            terminal.traverse(finder, TraversalType.BREADTH_FIRST);
-            return finder.getBusbarWithClosedDisconnector();
+            return BusbarSectionFinderTraverser.findBusbar(terminal);
         }
     }
 

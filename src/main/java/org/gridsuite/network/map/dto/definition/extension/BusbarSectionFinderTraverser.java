@@ -11,7 +11,6 @@ import com.powsybl.iidm.network.Switch;
 import com.powsybl.iidm.network.SwitchKind;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.math.graph.TraverseResult;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +25,11 @@ public class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser 
     private final List<BusbarCandidate> busbarCandidates = new ArrayList<>();
     private final Set<String> visitedTerminals = new HashSet<>();
     private static final int MAX_VISITED = 50;
+    private final boolean allowTraversalThroughOpenDisconnectors;
+
+    public BusbarSectionFinderTraverser(boolean allowTraversalThroughOpenDisconnectors) {
+        this.allowTraversalThroughOpenDisconnectors = allowTraversalThroughOpenDisconnectors;
+    }
 
     @Override
     public TraverseResult traverse(Terminal terminal, boolean connected) {
@@ -56,7 +60,10 @@ public class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser 
         // KEY: Open disconnectors end this path but not the overall traversal
         // They block access to this busbar but not to the others
         if (aSwitch.isOpen() && aSwitch.getKind() == SwitchKind.DISCONNECTOR) {
-            return TraverseResult.TERMINATE_PATH; // Ends this path, not the whole traversal
+            // Use the parameter to control behavior
+            return allowTraversalThroughOpenDisconnectors ?
+                    TraverseResult.CONTINUE :
+                    TraverseResult.TERMINATE_PATH;
         }
         return TraverseResult.CONTINUE;
     }
@@ -64,26 +71,32 @@ public class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser 
     public String getBusbarWithClosedDisconnector() {
         // Search for a connected busbar (disconnector closed)
         for (BusbarCandidate candidate : busbarCandidates) {
-            if (candidate.isConnected()) {
-                return candidate.getId();
+            if (candidate.connected()) {
+                return candidate.id();
             }
         }
 
-        // If none is connected, return the first one found (fallback)
-        if (!busbarCandidates.isEmpty()) {
-            return busbarCandidates.getFirst().getId();
-        }
-        return null;
+        // Return first busbar found or null if none
+        return !busbarCandidates.isEmpty() ? busbarCandidates.getFirst().id() : null;
     }
 
-    @Getter
-    private static class BusbarCandidate {
-        private final String id;
-        private final boolean connected;
+    // Utility method with automatic fallback
+    public static String findBusbar(Terminal startTerminal) {
+        // Attempt 1: normal behavior (blocks on open disconnectors)
+        var traverser1 = new BusbarSectionFinderTraverser(false);
+        startTerminal.traverse(traverser1);
+        String result = traverser1.getBusbarWithClosedDisconnector();
 
-        public BusbarCandidate(String id, boolean connected) {
-            this.id = id;
-            this.connected = connected;
+        if (result != null) {
+            return result;
         }
+
+        // Attempt 2: if null, retry allowing traversal through open disconnectors
+        var traverser2 = new BusbarSectionFinderTraverser(true);
+        startTerminal.traverse(traverser2);
+        return traverser2.getBusbarWithClosedDisconnector();
+    }
+
+    private record BusbarCandidate(String id, boolean connected) {
     }
 }
