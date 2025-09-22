@@ -8,40 +8,82 @@ package org.gridsuite.network.map.dto.definition.extension;
 
 import com.powsybl.iidm.network.IdentifiableType;
 import com.powsybl.iidm.network.Switch;
+import com.powsybl.iidm.network.SwitchKind;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.math.graph.TraverseResult;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 public class BusbarSectionFinderTraverser implements Terminal.TopologyTraverser {
 
-    private final boolean onlyConnectedBbs;
-
-    private String firstTraversedBbsId;
-
-    public BusbarSectionFinderTraverser(boolean onlyConnectedBbs) {
-        this.onlyConnectedBbs = onlyConnectedBbs;
-    }
+    private final List<BusbarCandidate> busbarCandidates = new ArrayList<>();
+    private final Set<String> visitedTerminals = new HashSet<>();
+    private static final int MAX_VISITED = 50;
 
     @Override
     public TraverseResult traverse(Terminal terminal, boolean connected) {
-        if (terminal.getConnectable().getType() == IdentifiableType.BUSBAR_SECTION) {
-            firstTraversedBbsId = terminal.getConnectable().getId();
+        String terminalId = terminal.getConnectable().getId();
+        if (visitedTerminals.contains(terminalId)) {
+            return TraverseResult.TERMINATE_PATH;
+        }
+        visitedTerminals.add(terminalId);
+        if (visitedTerminals.size() > MAX_VISITED) {
             return TraverseResult.TERMINATE_TRAVERSER;
+        }
+
+        // If a busbar section is found, add it as a candidate
+        if (terminal.getConnectable().getType() == IdentifiableType.BUSBAR_SECTION) {
+            busbarCandidates.add(new BusbarCandidate(terminalId, connected));
+            // CONTINUE to explore other paths to other busbars
+            return TraverseResult.CONTINUE;
         }
         return TraverseResult.CONTINUE;
     }
 
     @Override
     public TraverseResult traverse(Switch aSwitch) {
-        if (onlyConnectedBbs && aSwitch.isOpen()) {
-            return TraverseResult.TERMINATE_PATH;
+        if (visitedTerminals.size() > MAX_VISITED) {
+            return TraverseResult.TERMINATE_TRAVERSER;
+        }
+
+        // KEY: Open disconnectors end this path but not the overall traversal
+        // They block access to this busbar but not to the others
+        if (aSwitch.isOpen() && aSwitch.getKind() == SwitchKind.DISCONNECTOR) {
+            return TraverseResult.TERMINATE_PATH; // Ends this path, not the whole traversal
         }
         return TraverseResult.CONTINUE;
     }
 
-    public String getFirstTraversedBbsId() {
-        return firstTraversedBbsId;
+    public String getBusbarWithClosedDisconnector() {
+        // Search for a connected busbar (disconnector closed)
+        for (BusbarCandidate candidate : busbarCandidates) {
+            if (candidate.isConnected()) {
+                return candidate.getId();
+            }
+        }
+
+        // If none is connected, return the first one found (fallback)
+        if (!busbarCandidates.isEmpty()) {
+            return busbarCandidates.getFirst().getId();
+        }
+        return null;
+    }
+
+    @Getter
+    private static class BusbarCandidate {
+        private final String id;
+        private final boolean connected;
+
+        public BusbarCandidate(String id, boolean connected) {
+            this.id = id;
+            this.connected = connected;
+        }
     }
 }
