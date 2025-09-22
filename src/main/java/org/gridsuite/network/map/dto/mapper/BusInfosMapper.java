@@ -13,6 +13,9 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
+import java.util.Optional;
+
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_NETWORK_COMPONENTS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 
@@ -25,14 +28,17 @@ public final class BusInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        boolean shouldLoadNetworkComponents = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_NETWORK_COMPONENTS))
+            .map(Boolean::valueOf)
+            .orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            case TAB -> toTabInfos(identifiable);
+            case TAB -> toTabInfos(identifiable, shouldLoadNetworkComponents);
             default -> throw new UnsupportedOperationException("TODO");
         };
     }
 
-    private static BusTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static BusTabInfos toTabInfos(Identifiable<?> identifiable, boolean shouldLoadNetworkComponents) {
         Bus bus = (Bus) identifiable;
         BusTabInfos.BusTabInfosBuilder<?, ?> builder = BusTabInfos.builder().id(bus.getId())
                 .angle(bus.getAngle())
@@ -40,11 +46,15 @@ public final class BusInfosMapper {
                 .voltageLevelId(bus.getVoltageLevel().getId())
                 .nominalVoltage(bus.getVoltageLevel().getNominalV())
                 .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
-                .synchronousComponentNum(bus.getSynchronousComponent().getNum())
                 .properties(getProperties(bus))
-                .connectedComponentNum(bus.getConnectedComponent().getNum())
                 .substationProperties(bus.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .voltageLevelProperties(getProperties(bus.getVoltageLevel()));
+
+        if (shouldLoadNetworkComponents) {
+            builder
+                .synchronousComponentNum(bus.getSynchronousComponent().getNum())
+                .connectedComponentNum(bus.getConnectedComponent().getNum());
+        }
 
         return builder.build();
     }
