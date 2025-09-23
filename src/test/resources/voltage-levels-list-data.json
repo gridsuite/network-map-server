@@ -30,5 +30,17 @@
   },
   {
     "id": "VLGEN6"
+  },
+  {
+    "id":"VLGEN7",
+    "name":"Fork Distribution Point"
+  },
+  {
+    "id":"VLGEN8",
+    "name":"Fork Destination Point 2"
+  },
+  {
+    "id":"VLGEN9",
+    "name":"Independent Line Destination"
   }
 ]

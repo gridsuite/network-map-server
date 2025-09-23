@@ -1157,37 +1157,6 @@ class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
 
-        // Add new variant
-        network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
-        network.getVariantManager().setWorkingVariant(VARIANT_ID);
-
-        // Disconnect shunt compensator "SHUNT_VLNB" in variant VARIANT_ID to test SJB retrieval even if equipment disconnected
-        network.getSwitch("VL4_SHUNT_BREAKER").setOpen(true);
-
-        // Create a shunt compensator only in variant VARIANT_ID
-        ShuntCompensator shunt3 = vlgen3.newShuntCompensator()
-                .setId("SHUNT3")
-                .setName("SHUNT3")
-                .newLinearModel()
-                .setMaximumSectionCount(3)
-                .setBPerSection(1)
-                .setGPerSection(2)
-                .add()
-                .setSectionCount(2)
-                .setTargetV(225)
-                .setVoltageRegulatorOn(true)
-                .setTargetDeadband(10)
-                .setConnectableBus("NGEN3")
-                .setBus("NGEN3")
-                .add();
-        shunt3.getTerminal().setQ(90);
-        shunt3.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
-
         /** VLGEN7 - Fork topology
          *
          *            BUS1 ═══════X════════ BUS2 ═══════════════/════ BUS3
@@ -1402,6 +1371,37 @@ class NetworkMapControllerTest {
                 .setId("AF_VL")
                 .setNominalV(400.0)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
+                .add();
+
+        // Add new variant
+        network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
+        network.getVariantManager().setWorkingVariant(VARIANT_ID);
+
+        // Disconnect shunt compensator "SHUNT_VLNB" in variant VARIANT_ID to test SJB retrieval even if equipment disconnected
+        network.getSwitch("VL4_SHUNT_BREAKER").setOpen(true);
+
+        // Create a shunt compensator only in variant VARIANT_ID
+        ShuntCompensator shunt3 = vlgen3.newShuntCompensator()
+                .setId("SHUNT3")
+                .setName("SHUNT3")
+                .newLinearModel()
+                .setMaximumSectionCount(3)
+                .setBPerSection(1)
+                .setGPerSection(2)
+                .add()
+                .setSectionCount(2)
+                .setTargetV(225)
+                .setVoltageRegulatorOn(true)
+                .setTargetDeadband(10)
+                .setConnectableBus("NGEN3")
+                .setBus("NGEN3")
+                .add();
+        shunt3.getTerminal().setQ(90);
+        shunt3.newExtension(ConnectablePositionAdder.class)
+                .newFeeder()
+                .withName("feederName")
+                .withOrder(0)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
@@ -1920,10 +1920,10 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnLinesIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString(), ElementType.LINE, List.of("P1"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString(), ElementType.LINE, List.of("P1"), List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of().toString(), ElementType.LINE, List.of("P1"), List.of(225.0));
@@ -2442,10 +2442,10 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnVoltageLevelsIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), List.of(24.0, 150.0, 225.0, 380.0));
     }

@@ -219,6 +219,27 @@
         "ipMin": 0.0,
         "ipMax": 100.0
       }
+    },
+    {
+      "id": "VLGEN7",
+      "name": "Fork Distribution Point",
+      "nominalV": 24.0,
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0
+    },
+    {
+      "id": "VLGEN8",
+      "name": "Fork Destination Point 2",
+      "nominalV": 24.0,
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0
+    },
+    {
+      "id": "VLGEN9",
+      "name": "Independent Line Destination",
+      "nominalV": 24.0,
+      "lowVoltageLimit": 20.0,
+      "highVoltageLimit": 30.0
     }
   ],
   "lines": [
@@ -448,6 +469,64 @@
       "b1": 1.93E-4,
       "g2": 0.0,
       "b2": 1.93E-4
+    },
+    {
+      "id": "LINE7_FORK",
+      "name": "Fork Branch 1 - Primary Line",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN4",
+      "voltageLevelId2": "VLGEN7",
+      "voltageLevelName2": "Fork Distribution Point",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "substationId1": "P4",
+      "country1": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 3.0,
+      "x": 33.0,
+      "g1": 0.0,
+      "b1": 1.93E-4,
+      "g2": 0.0,
+      "b2": 1.93E-4
+    },
+    {
+      "id": "LINE8_FORK",
+      "name": "Fork Branch 2 - Secondary Line",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN7",
+      "voltageLevelId2": "VLGEN8",
+      "voltageLevelName1": "Fork Distribution Point",
+      "voltageLevelName2": "Fork Destination Point 2",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "terminal1Connected": true,
+      "terminal2Connected": false,
+      "r": 2.5,
+      "x": 28.0,
+      "g1": 0.0,
+      "b1": 1.6E-4,
+      "g2": 0.0,
+      "b2": 1.6E-4
+    },
+    {
+      "id": "LINE9_INDEPENDENT",
+      "name": "Independent Line from BUS4",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN7",
+      "voltageLevelId2": "VLGEN9",
+      "voltageLevelName1": "Fork Distribution Point",
+      "voltageLevelName2": "Independent Line Destination",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 2.0,
+      "x": 25.0,
+      "g1": 0.0,
+      "b1": 1.5E-4,
+      "g2": 0.0,
+      "b2": 1.5E-4
     }
   ],
   "hvdcLines": [
@@ -2256,6 +2335,33 @@
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
       "country": "FR"
+    },
+    {
+      "id": "VLGEN7_1",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 1,
+      "connectedComponentNum": 1,
+      "voltageLevelId": "VLGEN7",
+      "nominalVoltage": 24.0
+    },
+    {
+      "id": "VLGEN7_11",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 2,
+      "connectedComponentNum": 2,
+      "voltageLevelId": "VLGEN7",
+      "nominalVoltage": 24.0
+    },
+    {
+      "id": "VLGEN9_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 2,
+      "connectedComponentNum": 2,
+      "voltageLevelId": "VLGEN9",
+      "nominalVoltage": 24.0
     }
   ],
   "busbarSections": [
@@ -2286,6 +2392,31 @@
       "id": "NGEN5_2_2",
       "name": "NGEN5_2_2",
       "voltageLevelId": "VLGEN5"
+    },
+    {
+      "id": "BUS1_NGEN7",
+      "name": "Primary Busbar VLGEN7",
+      "voltageLevelId": "VLGEN7"
+    },
+    {
+      "id": "BUS2_NGEN7",
+      "name": "Secondary Busbar VLGEN7",
+      "voltageLevelId": "VLGEN7"
+    },
+    {
+      "id": "BUS3_NGEN7",
+      "name": "Third Busbar VLGEN7",
+      "voltageLevelId": "VLGEN7"
+    },
+    {
+      "id": "BUS4_NGEN7",
+      "name": "Fourth Busbar VLGEN7",
+      "voltageLevelId": "VLGEN7"
+    },
+    {
+      "id": "BUS_NGEN9",
+      "name": "Main Busbar VLGEN9",
+      "voltageLevelId": "VLGEN9"
     }
   ],
   "branches": [
@@ -2663,6 +2794,52 @@
         "value": 53.0,
         "validity": false
       }
+    },
+    {
+      "id": "LINE7_FORK",
+      "name": "Fork Branch 1 - Primary Line",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN4",
+      "voltageLevelId2": "VLGEN7",
+      "voltageLevelName2": "Fork Distribution Point",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "substationId1": "P4",
+      "country1": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 3.0,
+      "x": 33.0
+    },
+    {
+      "id": "LINE8_FORK",
+      "name": "Fork Branch 2 - Secondary Line",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN7",
+      "voltageLevelId2": "VLGEN8",
+      "voltageLevelName1": "Fork Distribution Point",
+      "voltageLevelName2": "Fork Destination Point 2",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "terminal1Connected": true,
+      "terminal2Connected": false,
+      "r": 2.5,
+      "x": 28.0
+    },
+    {
+      "id": "LINE9_INDEPENDENT",
+      "name": "Independent Line from BUS4",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN7",
+      "voltageLevelId2": "VLGEN9",
+      "voltageLevelName1": "Fork Distribution Point",
+      "voltageLevelName2": "Independent Line Destination",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 2.0,
+      "x": 25.0
     }
   ]
 }

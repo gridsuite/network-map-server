@@ -15,5 +15,25 @@
   {
     "id": "NGEN5_2_2",
     "name": "NGEN5_2_2"
+  },
+  {
+    "id":"BUS1_NGEN7",
+    "name":"Primary Busbar VLGEN7"
+  },
+  {
+    "id":"BUS2_NGEN7",
+    "name":"Secondary Busbar VLGEN7"
+  },
+  {
+    "id":"BUS3_NGEN7",
+    "name":"Third Busbar VLGEN7"
+  },
+  {
+    "id":"BUS4_NGEN7",
+    "name":"Fourth Busbar VLGEN7"
+  },
+  {
+    "id":"BUS_NGEN9",
+    "name":"Main Busbar VLGEN9"
   }
 ]

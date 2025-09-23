@@ -32,5 +32,34 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": true,
     "terminal2Connected": true
+  },
+  {
+    "id":"LINE7_FORK",
+    "name":"Fork Branch 1 - Primary Line",
+    "voltageLevelId1":"VLGEN4",
+    "voltageLevelId2":"VLGEN7",
+    "voltageLevelName2":"Fork Distribution Point",
+    "terminal1Connected":true,
+    "terminal2Connected":true
+  },
+  {
+    "id":"LINE8_FORK",
+    "name":"Fork Branch 2 - Secondary Line",
+    "voltageLevelId1":"VLGEN7",
+    "voltageLevelName1":"Fork Distribution Point",
+    "voltageLevelId2":"VLGEN8",
+    "voltageLevelName2":"Fork Destination Point 2",
+    "terminal1Connected":true,
+    "terminal2Connected":false
+  },
+  {
+    "id":"LINE9_INDEPENDENT",
+    "name":"Independent Line from BUS4",
+    "voltageLevelId1":"VLGEN7",
+    "voltageLevelName1":"Fork Distribution Point",
+    "voltageLevelId2":"VLGEN9",
+    "voltageLevelName2":"Independent Line Destination",
+    "terminal1Connected":true,
+    "terminal2Connected":true
   }
 ]
