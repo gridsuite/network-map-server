@@ -2324,8 +2324,6 @@
       "id": "VLGEN7_1",
       "v": "NaN",
       "angle": "NaN",
-      "synchronousComponentNum": 1,
-      "connectedComponentNum": 1,
       "voltageLevelId": "VLGEN7",
       "nominalVoltage": 24.0
     },
@@ -2333,8 +2331,6 @@
       "id": "VLGEN7_11",
       "v": "NaN",
       "angle": "NaN",
-      "synchronousComponentNum": 2,
-      "connectedComponentNum": 2,
       "voltageLevelId": "VLGEN7",
       "nominalVoltage": 24.0
     },
@@ -2342,8 +2338,6 @@
       "id": "VLGEN9_0",
       "v": "NaN",
       "angle": "NaN",
-      "synchronousComponentNum": 2,
-      "connectedComponentNum": 2,
       "voltageLevelId": "VLGEN9",
       "nominalVoltage": 24.0
     }
