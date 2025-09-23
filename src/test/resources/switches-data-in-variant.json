@@ -6,5 +6,13 @@
   {
     "id": "VL4_SHUNT_BREAKER",
     "open": true
+  },
+  {
+    "id":"DISC_VLGEN4",
+    "open":false
+  },
+  {
+    "id":"BRKR_VLGEN4",
+    "open":false
   }
 ]

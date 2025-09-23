@@ -94,5 +94,47 @@
     "topologyKind": "BUS_BREAKER",
     "substationId": "P6",
     "nominalV": 24.0
+  },
+  {
+    "id": "VLGEN7",
+    "name": "Fork Distribution Point",
+    "topologyKind": "NODE_BREAKER",
+    "nominalV": 24.0,
+    "lowVoltageLimit": 20.0,
+    "highVoltageLimit": 30.0,
+    "busbarCount": 1,
+    "sectionCount": 1,
+    "switchKinds": [],
+    "isRetrievedBusbarSections": false,
+    "isBusbarSectionPositionFound": false,
+    "busBarSectionInfos": {}
+  },
+  {
+    "id": "VLGEN8",
+    "name": "Fork Destination Point 2",
+    "topologyKind": "NODE_BREAKER",
+    "nominalV": 24.0,
+    "lowVoltageLimit": 20.0,
+    "highVoltageLimit": 30.0,
+    "busbarCount": 1,
+    "sectionCount": 1,
+    "switchKinds": [],
+    "isRetrievedBusbarSections": true,
+    "isBusbarSectionPositionFound": true,
+    "busBarSectionInfos": {}
+  },
+  {
+    "id": "VLGEN9",
+    "name": "Independent Line Destination",
+    "topologyKind": "NODE_BREAKER",
+    "nominalV": 24.0,
+    "lowVoltageLimit": 20.0,
+    "highVoltageLimit": 30.0,
+    "busbarCount": 1,
+    "sectionCount": 1,
+    "switchKinds": [],
+    "isRetrievedBusbarSections": false,
+    "isBusbarSectionPositionFound": false,
+    "busBarSectionInfos": {}
   }
 ]

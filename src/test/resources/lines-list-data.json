@@ -10,5 +10,17 @@
   },
   {
     "id": "LINE4"
+  },
+  {
+    "id":"LINE7_FORK",
+    "name":"Fork Branch 1 - Primary Line"
+  },
+  {
+    "id":"LINE8_FORK",
+    "name":"Fork Branch 2 - Secondary Line"
+  },
+  {
+    "id":"LINE9_INDEPENDENT",
+    "name":"Independent Line from BUS4"
   }
 ]
