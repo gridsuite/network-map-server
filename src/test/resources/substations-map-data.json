@@ -75,5 +75,15 @@
         "nominalV": 24.0
       }
     ]
+  },
+  {
+    "id": "P7",
+    "voltageLevels": [
+      {
+        "id": "VLGEN7",
+        "substationId": "P5",
+        "nominalV": 24.0
+      }
+    ]
   }
 ]
