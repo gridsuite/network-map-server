@@ -73,13 +73,13 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         final Terminal terminal1 = branch.getTerminal1();
         final Terminal terminal2 = branch.getTerminal2();
 
-        branch.getSelectedOperationalLimitsGroup1().map(limitGrp ->
-            limitGrp.getCurrentLimits().map(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
-        branch.getSelectedOperationalLimitsGroupId1().map(builder::selectedOperationalLimitsGroup1Name);
+        branch.getSelectedOperationalLimitsGroup1().ifPresent(limitGrp ->
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
+        branch.getSelectedOperationalLimitsGroupId1().ifPresent(builder::selectedOperationalLimitsGroup1Name);
 
-        branch.getSelectedOperationalLimitsGroup2().map(limitGrp ->
-            limitGrp.getCurrentLimits().map(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
-        branch.getSelectedOperationalLimitsGroupId2().map(builder::selectedOperationalLimitsGroup2Name);
+        branch.getSelectedOperationalLimitsGroup2().ifPresent(limitGrp ->
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
+        branch.getSelectedOperationalLimitsGroupId2().ifPresent(builder::selectedOperationalLimitsGroup2Name);
 
         if (loadOperationalLimitGroups) {
             final Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups1());
