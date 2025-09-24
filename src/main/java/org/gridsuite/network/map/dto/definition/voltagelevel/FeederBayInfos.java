@@ -6,10 +6,10 @@
  */
 package org.gridsuite.network.map.dto.definition.voltagelevel;
 
-import com.powsybl.iidm.network.ThreeSides;
+import com.powsybl.iidm.network.TwoSides;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 
 /**
  * @author Etienne Lesot <etienne.lesot at rte-france.com>
  */
-public record FeederBayInfos(String busbarSectionId, ConnectablePositionInfos connectablePositionInfos, ThreeSides connectionSide) { }
+public record FeederBayInfos(String busbarSectionId, ConnectablePositionInfos connectablePositionInfos, TwoSides connectionSide) { }

@@ -41,26 +41,40 @@ public final class ElementUtils {
         }
     }
 
-    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, int index) {
+    public enum FeederSide {
+        INJECTION_SINGLE_SIDE,
+        BRANCH_SIDE_ONE,
+        BRANCH_SIDE_TWO;
+
+        public static FeederSide from(Optional<ThreeSides> connectableSide) {
+            ThreeSides threeSides = connectableSide.orElse(null);
+            if (threeSides == null) {
+                return INJECTION_SINGLE_SIDE;
+            }
+            return threeSides == ThreeSides.ONE ? BRANCH_SIDE_ONE : BRANCH_SIDE_TWO;
+        }
+    }
+
+    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, FeederSide side) {
         var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
         if (connectablePosition == null) {
             return null;
         }
 
-        switch (index) {
-            case 0:
+        switch (side) {
+            case INJECTION_SINGLE_SIDE:
                 return connectablePosition.getFeeder();
-            case 1:
+            case BRANCH_SIDE_ONE:
                 return connectablePosition.getFeeder1();
-            case 2:
+            case BRANCH_SIDE_TWO:
                 return connectablePosition.getFeeder2();
             default:
-                throw new IllegalArgumentException("Invalid feeder index: " + index);
+                throw new IllegalArgumentException("Invalid feeder side: " + side);
         }
     }
 
-    public static ConnectablePositionInfos getConnectablePosition(Identifiable<?> identifiable, int index) {
-        ConnectablePosition.Feeder feeder = getFeederInfos(identifiable, index);
+    public static ConnectablePositionInfos getConnectablePosition(Identifiable<?> identifiable, FeederSide side) {
+        ConnectablePosition.Feeder feeder = getFeederInfos(identifiable, side);
         return buildConnectablePositionInfos(feeder);
     }
 
