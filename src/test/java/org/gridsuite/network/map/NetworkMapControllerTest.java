@@ -76,6 +76,7 @@ class NetworkMapControllerTest {
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
     public static final String QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS = "loadOperationalLimitGroups";
     public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
+    public static final String QUERY_PARAM_LOAD_NETWORK_COMPONENTS = "loadNetworkComponents";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
 
     @Autowired
@@ -1229,6 +1230,7 @@ class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
+
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         // Add new variant 2
@@ -1424,6 +1426,7 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
+
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1483,6 +1486,7 @@ class NetworkMapControllerTest {
         if (withOptionalLoading) {
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_NETWORK_COMPONENTS), String.valueOf(true));
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
                         .queryParams(queryParams)
@@ -1491,6 +1495,7 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
+
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1565,17 +1570,19 @@ class NetworkMapControllerTest {
         Map<String, Map<String, String>> body;
         if (withOptionalLoading) {
             body = Map.of(
-                    String.valueOf(ElementType.BRANCH), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
-                    String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
-                    String.valueOf(ElementType.TWO_WINDINGS_TRANSFORMER), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
-                    String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true))
+                String.valueOf(ElementType.BRANCH), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.TWO_WINDINGS_TRANSFORMER), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true)),
+                String.valueOf(ElementType.BUS), Map.of(QUERY_PARAM_LOAD_NETWORK_COMPONENTS, String.valueOf(true))
             );
         } else {
             body = Map.of();
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
+
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1590,7 +1597,7 @@ class NetworkMapControllerTest {
             queryParams.addAll(QUERY_PARAM_SUBSTATION_ID, substationsIds);
         }
         mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(Map.of())))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     private void succeedingTestForEquipmentsInfos(UUID networkUuid, String variantId, String equipmentPath, List<String> substationsIds, String expectedJson) throws Exception {
@@ -1601,8 +1608,9 @@ class NetworkMapControllerTest {
         }
         queryParams.add(QUERY_PARAM_INFO_TYPE, InfoType.TAB.toString());
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/{equipmentPath}", networkUuid, equipmentPath).queryParams(queryParams))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
+
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
