@@ -73,14 +73,13 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         final Terminal terminal1 = branch.getTerminal1();
         final Terminal terminal2 = branch.getTerminal2();
 
-        branch.getSelectedOperationalLimitsGroup1()
-            .flatMap(OperationalLimitsGroup::getCurrentLimits)
-            .map(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, null, null)));
-        branch.getSelectedOperationalLimitsGroupId1().map(name -> builder.selectedOperationalLimitsGroup1Name(name));
-        branch.getSelectedOperationalLimitsGroup2()
-            .flatMap(OperationalLimitsGroup::getCurrentLimits)
-            .map(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, null, null)));
-        branch.getSelectedOperationalLimitsGroupId2().map(name -> builder.selectedOperationalLimitsGroup2Name(name));
+        branch.getSelectedOperationalLimitsGroup1().ifPresent(limitGrp ->
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
+        branch.getSelectedOperationalLimitsGroupId1().ifPresent(builder::selectedOperationalLimitsGroup1Name);
+
+        branch.getSelectedOperationalLimitsGroup2().ifPresent(limitGrp ->
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
+        branch.getSelectedOperationalLimitsGroupId2().ifPresent(builder::selectedOperationalLimitsGroup2Name);
 
         if (loadOperationalLimitGroups) {
             final Map<String, CurrentLimitsData> mapOperationalLimitsGroup1 = buildCurrentLimitsMap(branch.getOperationalLimitsGroups1());
@@ -133,7 +132,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         }
         Map<String, CurrentLimitsData> res = HashMap.newHashMap(operationalLimitsGroups.size());
         operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits()
-                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits, null, null))));
+                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits, operationalLimitsGroup.getId(), null))));
         return res;
     }
 

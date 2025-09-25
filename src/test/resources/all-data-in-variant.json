@@ -258,6 +258,7 @@
       "x": 10.0,
       "operationalLimitsGroup1": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 700.4,
           "temporaryLimits": [
             {
@@ -273,6 +274,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "limit set 1",
         "permanentLimit": 700.4,
         "temporaryLimits": [
           {
@@ -286,6 +288,7 @@
       "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 800.8,
           "temporaryLimits": [
             {
@@ -306,6 +309,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "limit set 1",
         "permanentLimit": 800.8,
         "temporaryLimits": [
           {
@@ -346,6 +350,7 @@
       "x": 33.0,
       "operationalLimitsGroup1": {
         "group2": {
+          "id": "group2",
           "permanentLimit": 250.0,
           "temporaryLimits": [
             {
@@ -357,6 +362,7 @@
           "applicability": null
         },
         "group1": {
+          "id": "group1",
           "permanentLimit": 220.0,
           "temporaryLimits": [
             {
@@ -378,6 +384,7 @@
         "group1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "group1",
         "permanentLimit": 220.0,
         "temporaryLimits": [
           {
@@ -396,6 +403,7 @@
       "selectedOperationalLimitsGroup1Name": "group1",
       "operationalLimitsGroup2": {
         "group4": {
+          "id": "group4",
           "permanentLimit": 320.0,
           "temporaryLimits": [
             {
@@ -407,6 +415,7 @@
           "applicability": null
         },
         "group3": {
+          "id": "group3",
           "permanentLimit": 300.0,
           "temporaryLimits": [
             {
@@ -423,6 +432,7 @@
         "group3"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "group4",
         "permanentLimit": 320.0,
         "temporaryLimits": [
           {
@@ -462,6 +472,7 @@
       "x": 33.0,
       "operationalLimitsGroup1": {
         "group1": {
+          "id": "group1",
           "permanentLimit": 220.0,
           "temporaryLimits": [
             {
@@ -482,6 +493,7 @@
         "group1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "group1",
         "permanentLimit": 220.0,
         "temporaryLimits": [
           {
@@ -561,6 +573,7 @@
       "x": 33.0,
       "operationalLimitsGroup2": {
         "group1": {
+          "id": "group1",
           "permanentLimit": 220.0,
           "temporaryLimits": [
             {
@@ -581,6 +594,7 @@
         "group1"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "group1",
         "permanentLimit": 220.0,
         "temporaryLimits": [
           {
@@ -876,6 +890,7 @@
       "x": 11.104492831516762,
       "operationalLimitsGroup1": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 750.4,
           "temporaryLimits": [
             {
@@ -891,6 +906,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "limit set 1",
         "permanentLimit": 750.4,
         "temporaryLimits": [
           {
@@ -904,6 +920,7 @@
       "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 780.6,
           "temporaryLimits": [
             {
@@ -924,6 +941,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "limit set 1",
         "permanentLimit": 780.6,
         "temporaryLimits": [
           {
@@ -1087,6 +1105,7 @@
       "x": 23.0,
       "operationalLimitsGroup1": {
         "DEFAULT": {
+          "id": "DEFAULT",
           "permanentLimit": 300.4,
           "temporaryLimits": [
             {
@@ -1102,6 +1121,7 @@
         "DEFAULT"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "DEFAULT",
         "permanentLimit": 300.4,
         "temporaryLimits": [
           {
@@ -1115,6 +1135,7 @@
       "selectedOperationalLimitsGroup1Name": "DEFAULT",
       "operationalLimitsGroup2": {
         "DEFAULT": {
+          "id": "DEFAULT",
           "permanentLimit": 280.6,
           "temporaryLimits": [
             {
@@ -1130,6 +1151,7 @@
         "DEFAULT"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "DEFAULT",
         "permanentLimit": 280.6,
         "temporaryLimits": [
           {
@@ -2594,6 +2616,7 @@
       "x": 10.0,
       "operationalLimitsGroup1": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 700.4,
           "temporaryLimits": [
             {
@@ -2609,6 +2632,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "limit set 1",
         "permanentLimit": 700.4,
         "temporaryLimits": [
           {
@@ -2622,6 +2646,7 @@
       "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 800.8,
           "temporaryLimits": [
             {
@@ -2642,6 +2667,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "limit set 1",
         "permanentLimit": 800.8,
         "temporaryLimits": [
           {
@@ -2678,6 +2704,7 @@
       "x": 33.0,
       "operationalLimitsGroup1": {
         "group2": {
+          "id": "group2",
           "permanentLimit": 250.0,
           "temporaryLimits": [
             {
@@ -2689,6 +2716,7 @@
           "applicability": null
         },
         "group1": {
+          "id": "group1",
           "permanentLimit": 220.0,
           "temporaryLimits": [
             {
@@ -2710,6 +2738,7 @@
         "group1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "group1",
         "permanentLimit": 220.0,
         "temporaryLimits": [
           {
@@ -2728,6 +2757,7 @@
       "selectedOperationalLimitsGroup1Name": "group1",
       "operationalLimitsGroup2": {
         "group4": {
+          "id": "group4",
           "permanentLimit": 320.0,
           "temporaryLimits": [
             {
@@ -2739,6 +2769,7 @@
           "applicability": null
         },
         "group3": {
+          "id": "group3",
           "permanentLimit": 300.0,
           "temporaryLimits": [
             {
@@ -2755,6 +2786,7 @@
         "group3"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "group4",
         "permanentLimit": 320.0,
         "temporaryLimits": [
           {
@@ -2790,6 +2822,7 @@
       "x": 33.0,
       "operationalLimitsGroup1": {
         "group1": {
+          "id": "group1",
           "permanentLimit": 220.0,
           "temporaryLimits": [
             {
@@ -2810,6 +2843,7 @@
         "group1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "group1",
         "permanentLimit": 220.0,
         "temporaryLimits": [
           {
@@ -2885,6 +2919,7 @@
       "x": 33.0,
       "operationalLimitsGroup2": {
         "group1": {
+          "id": "group1",
           "permanentLimit": 220.0,
           "temporaryLimits": [
             {
@@ -2905,6 +2940,7 @@
         "group1"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "group1",
         "permanentLimit": 220.0,
         "temporaryLimits": [
           {
@@ -2947,6 +2983,7 @@
       "x": 11.104492831516762,
       "operationalLimitsGroup1": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 750.4,
           "temporaryLimits": [
             {
@@ -2962,6 +2999,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "limit set 1",
         "permanentLimit": 750.4,
         "temporaryLimits": [
           {
@@ -2975,6 +3013,7 @@
       "selectedOperationalLimitsGroup1Name": "limit set 1",
       "operationalLimitsGroup2": {
         "limit set 1": {
+          "id": "limit set 1",
           "permanentLimit": 780.6,
           "temporaryLimits": [
             {
@@ -2995,6 +3034,7 @@
         "limit set 1"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "limit set 1",
         "permanentLimit": 780.6,
         "temporaryLimits": [
           {
@@ -3059,6 +3099,7 @@
       "x": 23.0,
       "operationalLimitsGroup1": {
         "DEFAULT": {
+          "id": "DEFAULT",
           "permanentLimit": 300.4,
           "temporaryLimits": [
             {
@@ -3074,6 +3115,7 @@
         "DEFAULT"
       ],
       "selectedOperationalLimitsGroup1": {
+        "id": "DEFAULT",
         "permanentLimit": 300.4,
         "temporaryLimits": [
           {
@@ -3087,6 +3129,7 @@
       "selectedOperationalLimitsGroup1Name": "DEFAULT",
       "operationalLimitsGroup2": {
         "DEFAULT": {
+          "id": "DEFAULT",
           "permanentLimit": 280.6,
           "temporaryLimits": [
             {
@@ -3102,6 +3145,7 @@
         "DEFAULT"
       ],
       "selectedOperationalLimitsGroup2": {
+        "id": "DEFAULT",
         "permanentLimit": 280.6,
         "temporaryLimits": [
           {

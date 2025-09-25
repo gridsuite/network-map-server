@@ -24,7 +24,6 @@ import java.util.Objects;
 @EqualsAndHashCode
 @ToString
 public class CurrentLimitsData {
-    // may be null in case we just need the selected limit set and don't really need its name/id
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
 

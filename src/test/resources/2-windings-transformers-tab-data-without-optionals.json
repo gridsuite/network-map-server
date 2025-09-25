@@ -20,6 +20,7 @@
     "r": 0.26658461538461536,
     "x": 11.104492831516762,
     "selectedOperationalLimitsGroup1": {
+      "id": "limit set 1",
       "permanentLimit": 750.4,
       "temporaryLimits": [
         {
@@ -32,6 +33,7 @@
     },
     "selectedOperationalLimitsGroup1Name": "limit set 1",
     "selectedOperationalLimitsGroup2": {
+      "id": "limit set 1",
       "permanentLimit": 780.6,
       "temporaryLimits": [
         {
@@ -194,6 +196,7 @@
     "r": 47.0,
     "x": 23.0,
     "selectedOperationalLimitsGroup1": {
+      "id": "DEFAULT",
       "permanentLimit": 300.4,
       "temporaryLimits": [
         {
@@ -206,6 +209,7 @@
     },
     "selectedOperationalLimitsGroup1Name": "DEFAULT",
     "selectedOperationalLimitsGroup2": {
+      "id": "DEFAULT",
       "permanentLimit": 280.6,
       "temporaryLimits": [
         {
