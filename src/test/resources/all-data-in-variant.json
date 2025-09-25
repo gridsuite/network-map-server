@@ -762,26 +762,6 @@
       "substationProperties2": {
         "Country": "FR"
       }
-    },
-    {
-      "id": "VLGEN4_0",
-      "v": "NaN",
-      "angle": "NaN",
-      "synchronousComponentNum": 1,
-      "connectedComponentNum": 1,
-      "voltageLevelId": "VLGEN4",
-      "nominalVoltage": 24.0,
-      "country": "FR"
-    },
-    {
-      "id": "VLGEN7_0",
-      "v": "NaN",
-      "angle": "NaN",
-      "synchronousComponentNum": 1,
-      "connectedComponentNum": 1,
-      "voltageLevelId": "VLGEN7",
-      "nominalVoltage": 24.0,
-      "country": "FR"
     }
   ],
   "loads": [
@@ -2534,6 +2514,26 @@
       "synchronousComponentNum": 0,
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN6",
+      "nominalVoltage": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN4_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 1,
+      "connectedComponentNum": 1,
+      "voltageLevelId": "VLGEN4",
+      "nominalVoltage": 24.0,
+      "country": "FR"
+    },
+    {
+      "id": "VLGEN7_0",
+      "v": "NaN",
+      "angle": "NaN",
+      "synchronousComponentNum": 1,
+      "connectedComponentNum": 1,
+      "voltageLevelId": "VLGEN7",
       "nominalVoltage": 24.0,
       "country": "FR"
     }

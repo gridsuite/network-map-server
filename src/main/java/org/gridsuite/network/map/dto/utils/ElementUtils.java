@@ -47,15 +47,12 @@ public final class ElementUtils {
         BRANCH_SIDE_TWO;
 
         public static FeederSide from(Optional<ThreeSides> connectableSide) {
-            if (connectableSide.isEmpty()) {
-                return INJECTION_SINGLE_SIDE;
-            }
-            return connectableSide.get() == ThreeSides.ONE ? BRANCH_SIDE_ONE : BRANCH_SIDE_TWO;
+            return connectableSide.map(threeSides -> threeSides == ThreeSides.ONE ? BRANCH_SIDE_ONE : BRANCH_SIDE_TWO).orElse(INJECTION_SINGLE_SIDE);
         }
     }
 
     private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, FeederSide side) {
-        var connectablePosition = identifiable.getExtension(ConnectablePosition.class);
+        ConnectablePosition<?> connectablePosition = (ConnectablePosition<?>) identifiable.getExtension(ConnectablePosition.class);
         if (connectablePosition == null) {
             return null;
         }

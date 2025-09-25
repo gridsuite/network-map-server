@@ -129,7 +129,7 @@ public final class VoltageLevelInfosMapper {
                             connections.add(new FeederBayInfos(
                                     getBusOrBusbarSection(terminal),
                                     getConnectablePosition(connectable, FeederSide.from(getConnectableSide(terminal))),
-                                    Objects.requireNonNull(getConnectableSide(terminal).orElse(null)).toTwoSides()
+                                    getConnectableSide(terminal).map(ThreeSides::toTwoSides).orElse(null)
                             ));
                         }
                     }

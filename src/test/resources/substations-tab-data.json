@@ -125,16 +125,16 @@
           "ipMin": 0.0,
           "ipMax": 100.0
         }
+      },
+      {
+        "id": "VLGEN7",
+        "substationId": "P5",
+        "nominalV": 24.0,
+        "country": "FR",
+        "lowVoltageLimit": 20.0,
+        "highVoltageLimit": 30.0
       }
     ],
     "country": "FR"
-  },
-  {
-    "id": "VLGEN7",
-    "substationId": "P5",
-    "nominalV": 24.0,
-    "country": "FR",
-    "lowVoltageLimit": 20.0,
-    "highVoltageLimit": 30.0
   }
 ]
