@@ -63,6 +63,11 @@
         "id": "VLGEN5",
         "substationId": "P5",
         "nominalV": 24.0
+      },
+      {
+        "id": "VLGEN7",
+        "substationId": "P5",
+        "nominalV": 24.0
       }
     ]
   },

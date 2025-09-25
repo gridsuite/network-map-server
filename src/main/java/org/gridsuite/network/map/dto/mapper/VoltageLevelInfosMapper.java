@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
+import org.gridsuite.network.map.dto.definition.voltagelevel.FeederBayInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
@@ -23,6 +24,7 @@ import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.powsybl.iidm.network.Terminal.getConnectableSide;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -106,11 +108,34 @@ public final class VoltageLevelInfosMapper {
             builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
             builder.isBusbarSectionPositionFound(vlTopologyInfos.isBusbarSectionPositionFound());
             builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
+            builder.feederBaysInfos(getFeederBaysInfos(voltageLevel));
         }
 
         builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
+    }
+
+    private static Map<String, List<FeederBayInfos>> getFeederBaysInfos(VoltageLevel voltageLevel) {
+        Map<String, List<FeederBayInfos>> feederBayInfos = new HashMap<>();
+        String currentVoltageLevelId = voltageLevel.getId();
+        voltageLevel.getConnectableStream()
+                .filter(connectable -> !(connectable instanceof BusbarSection))
+                .forEach(connectable -> {
+                    List<FeederBayInfos> connections = new ArrayList<>();
+                    for (Object obj : connectable.getTerminals()) {
+                        Terminal terminal = (Terminal) obj;
+                        if (terminal.getVoltageLevel().getId().equals(currentVoltageLevelId)) {
+                            connections.add(new FeederBayInfos(
+                                    getBusOrBusbarSection(terminal),
+                                    getConnectablePosition(connectable, FeederSide.from(getConnectableSide(terminal))),
+                                    getConnectableSide(terminal).map(ThreeSides::toTwoSides).orElse(null)
+                            ));
+                        }
+                    }
+                    feederBayInfos.put(connectable.getId(), connections);
+                });
+        return feederBayInfos;
     }
 
     static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
