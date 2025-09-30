@@ -7,10 +7,13 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
 import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -36,6 +39,49 @@ public final class ElementUtils {
         if (!Double.isNaN(value)) {
             setter.accept(value);
         }
+    }
+
+    public enum FeederSide {
+        INJECTION_SINGLE_SIDE,
+        BRANCH_SIDE_ONE,
+        BRANCH_SIDE_TWO;
+
+        public static FeederSide from(Optional<ThreeSides> connectableSide) {
+            return connectableSide.map(threeSides -> threeSides == ThreeSides.ONE ? BRANCH_SIDE_ONE : BRANCH_SIDE_TWO).orElse(INJECTION_SINGLE_SIDE);
+        }
+    }
+
+    private static ConnectablePosition.Feeder getFeederInfos(Identifiable<?> identifiable, FeederSide side) {
+        ConnectablePosition<?> connectablePosition = (ConnectablePosition<?>) identifiable.getExtension(ConnectablePosition.class);
+        if (connectablePosition == null) {
+            return null;
+        }
+
+        switch (side) {
+            case INJECTION_SINGLE_SIDE:
+                return connectablePosition.getFeeder();
+            case BRANCH_SIDE_ONE:
+                return connectablePosition.getFeeder1();
+            case BRANCH_SIDE_TWO:
+                return connectablePosition.getFeeder2();
+            default:
+                throw new IllegalArgumentException("Invalid feeder side: " + side);
+        }
+    }
+
+    public static ConnectablePositionInfos getConnectablePosition(Identifiable<?> identifiable, FeederSide side) {
+        ConnectablePosition.Feeder feeder = getFeederInfos(identifiable, side);
+        return buildConnectablePositionInfos(feeder);
+    }
+
+    public static ConnectablePositionInfos buildConnectablePositionInfos(ConnectablePosition.Feeder feeder) {
+        ConnectablePositionInfos.ConnectablePositionInfosBuilder builder = ConnectablePositionInfos.builder();
+        if (feeder != null) {
+            builder.connectionDirection(feeder.getDirection() == null ? null : feeder.getDirection())
+                    .connectionPosition(feeder.getOrder().orElse(null))
+                    .connectionName(feeder.getName().orElse(null));
+        }
+        return builder.build();
     }
 
     public static String getBusOrBusbarSection(Terminal terminal) {

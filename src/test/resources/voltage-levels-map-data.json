@@ -51,18 +51,8 @@
     "nominalV": 24.0
   },
   {
-    "id":"VLGEN7",
-    "name":"Fork Distribution Point",
-    "nominalV":24.0
-  },
-  {
-    "id":"VLGEN8",
-    "name":"Fork Destination Point 2",
-    "nominalV":24.0
-  },
-  {
-    "id":"VLGEN9",
-    "name":"Independent Line Destination",
-    "nominalV":24.0
+    "id": "VLGEN7",
+    "substationId": "P5",
+    "nominalV": 24.0
   }
 ]

@@ -1158,20 +1158,45 @@ class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
 
-        // Add new variant 2
-        network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID_2);
-        network.getVariantManager().setWorkingVariant(VARIANT_ID_2);
-
-        // Create a new substation outside of France in variant VARIANT_ID_2 to test a network with multi-countries
-        network.newSubstation()
-                .setId("AF_P1")
-                .setCountry(Country.AF)
-                .setTso("RTE")
+        VoltageLevel vlgen7 = p5.newVoltageLevel()
+                .setId("VLGEN7")
+                .setNominalV(24.0)
+                .setHighVoltageLimit(30)
+                .setLowVoltageLimit(20)
+                .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        network.newVoltageLevel()
-                .setId("AF_VL")
-                .setNominalV(400.0)
-                .setTopologyKind(TopologyKind.BUS_BREAKER)
+        vlgen7.getNodeBreakerView().newBusbarSection()
+                .setId("NGEN7")
+                .setName("NGEN7")
+                .setNode(0)
+                .add();
+        createSwitch(vlgen4, "b4", SwitchKind.DISCONNECTOR, false, 0, 10);
+        createSwitch(vlgen4, "br11", SwitchKind.BREAKER, false, 10, 11);
+        createSwitch(vlgen7, "b5", SwitchKind.DISCONNECTOR, false, 0, 1);
+        createSwitch(vlgen7, "br21", SwitchKind.BREAKER, false, 1, 2);
+        network.newLine()
+                .setId("LINE7")
+                .setVoltageLevel1("VLGEN4")
+                .setNode1(11)
+                .setVoltageLevel2("VLGEN7")
+                .setNode2(2)
+                .setR(3.0)
+                .setX(33.0)
+                .setG1(0.0)
+                .setB1(386E-6 / 2)
+                .setG2(0.0)
+                .setB2(386E-6 / 2)
+                .add();
+        Line line7 = network.getLine("LINE7");
+        line7.newExtension(ConnectablePositionAdder.class)
+                .newFeeder1()
+                .withName("LINE7_Side_VLGEN4")
+                .withOrder(5)
+                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+                .newFeeder2()
+                .withName("LINE7_Side_VLGEN8")
+                .withOrder(3)
+                .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
 
         // Add new variant
@@ -1203,6 +1228,24 @@ class NetworkMapControllerTest {
                 .withName("feederName")
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.TOP).add()
+                .add();
+
+        network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+
+        // Add new variant 2
+        network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID_2);
+        network.getVariantManager().setWorkingVariant(VARIANT_ID_2);
+
+        // Create a new substation outside of France in variant VARIANT_ID_2 to test a network with multi-countries
+        network.newSubstation()
+                .setId("AF_P1")
+                .setCountry(Country.AF)
+                .setTso("RTE")
+                .add();
+        network.newVoltageLevel()
+                .setId("AF_VL")
+                .setNominalV(400.0)
+                .setTopologyKind(TopologyKind.BUS_BREAKER)
                 .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
@@ -1723,10 +1766,10 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnLinesIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7_FORK", "LINE8_FORK", "LINE9_INDEPENDENT").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7").toString(), ElementType.LINE, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7").toString(), ElementType.LINE, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3", "LINE4", "LINE7").toString(), ElementType.LINE, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString(), ElementType.LINE, List.of("P1"), null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("NHV1_NHV2_1", "NHV1_NHV2_2", "LINE3").toString(), ElementType.LINE, List.of("P1"), List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of().toString(), ElementType.LINE, List.of("P1"), List.of(225.0));
@@ -2245,12 +2288,12 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnVoltageLevelsIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7", "VLGEN8", "VLGEN9").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), List.of(24.0, 150.0, 225.0, 380.0));
     }
 
     @Test
@@ -2268,9 +2311,14 @@ class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnVotlageLevelFormData() throws Exception {
+    void shouldReturnVoltageLevelFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN4", resourceToString("/voltage-level-form-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelFormDataWithFeederBaysInfos() throws Exception {
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-form-data-feederbays.json"));
     }
 
     @Test
