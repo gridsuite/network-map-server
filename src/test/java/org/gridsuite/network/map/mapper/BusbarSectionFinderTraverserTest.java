@@ -7,7 +7,6 @@ import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
-@AutoConfigureMockMvc
+
 @SpringBootTest
 public class BusbarSectionFinderTraverserTest {
 
@@ -37,8 +36,8 @@ public class BusbarSectionFinderTraverserTest {
     @BeforeEach
     void setUp() {
         network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
-        /** VLGEN7 - Fork topology
-         *
+        /*
+         * VLGEN7 - Fork topology with bypass
          *            BUS1 ═══════X════════ BUS2 ═══════════════/════ BUS3
          *          (node0)               (node5)            (node7)
          *             |                     |                  |
@@ -53,12 +52,49 @@ public class BusbarSectionFinderTraverserTest {
          *                    fork point                  Disconnector4
          *                     (node8)                   [open = false]
          *                        |                            |
-         *                    ┌───┴───┐                      LINE9
-         *                    |       |                    (→VLGEN9)
-         *                 LINE7   LINE8
-         *              (→VLGEN4) (→VLGEN8)
+         *                    ┌───┴───┐                 ┌──────┴──────┐
+         *                    |       |                 |             |
+         *                 LINE7   LINE8           Breaker10      Disconnector7
+         *              (→VLGEN4) (→VLGEN8)      [open = true]  [open = false]
+         *                                            |             |
+         *                                       Disconnector5      |
+         *                                      [open = false]      |
+         *                                            |             |
+         *                                            |_____________|
+         *                                                  |
+         *                                            bypass point
+         *                                              (node11)
+         *                                                  |
+         *                                            Disconnector6
+         *                                          [open = false]
+         *                                                  |
+         *                                               LINE9
+         *                                            (→VLGEN9)
+         *
+         * TOPOLOGY SUMMARY:
+         * ================
+         *
+         * VLGEN7 Node Mapping:
+         * - Node 0: BUS1 (Primary Busbar)
+         * - Node 5: BUS2 (Secondary Busbar)
+         * - Node 9: BUS3 (Third Busbar)
+         * - Node 13: BUS4 (Fourth Busbar)
+         * - Node 8: Fork point (connects BUS1 & BUS2 to LINE7 & LINE8)
+         * - Node 11: Bypass point (convergence for breaker and bypass paths to LINE9)
+         *
+         * Fork Configuration:
+         * - BUS1 is DISCONNECTED (SECT_BUS1 open)
+         * - BUS2 feeds the fork through SECT_BUS2 (closed) → FORK_SW2 (closed)
+         * - Fork splits to LINE7 and LINE8
+         *
+         * Bypass Configuration:
+         * - BUS4 connects to LINE9 via two parallel paths:
+         *   Path 1: BRKR10 (OPEN) → DISC5 → Node 11
+         *   Path 2: DISC7 (CLOSED) → DISC_BYPASS_CONV → Node 11 (Bypass active)
+         * - With BRKR10 open and DISC7 closed, LINE9 operates via bypass
          */
 
+        // ============ VLGEN4 - Source voltage level ============
         Substation p4 = network.newSubstation()
                 .setId("P4")
                 .setCountry(Country.FR)
@@ -86,7 +122,10 @@ public class BusbarSectionFinderTraverserTest {
                 .withBusbarIndex(1)
                 .withSectionIndex(2)
                 .add();
+        createSwitch(vlgen4, "DISC_VLGEN4", SwitchKind.DISCONNECTOR, false, 0, 10);
+        createSwitch(vlgen4, "BRKR_VLGEN4", SwitchKind.BREAKER, false, 10, 15);
 
+        // ============ VLGEN7 - Main voltage level with fork and bypass topology ============
         VoltageLevel vlgen7 = network.newVoltageLevel()
                 .setId("VLGEN7")
                 .setName("Fork Distribution Point")
@@ -96,7 +135,7 @@ public class BusbarSectionFinderTraverserTest {
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
 
-        // Create busbarSections
+        // Create 4 busbars
         vlgen7.getNodeBreakerView().newBusbarSection()
                 .setId("BUS1_NGEN7")
                 .setName("Primary Busbar VLGEN7")
@@ -120,36 +159,47 @@ public class BusbarSectionFinderTraverserTest {
                 .setNode(13)
                 .add();
 
-        createSwitch(vlgen7, "SECT_BUS1", SwitchKind.DISCONNECTOR, true, 0, 6);   // OPEN
-        createSwitch(vlgen7, "SECT_BUS2", SwitchKind.DISCONNECTOR, false, 5, 7);  // CLOSED
-        createSwitch(vlgen7, "SECT_BUS3", SwitchKind.DISCONNECTOR, false, 9, 10); // CLOSED
-        createSwitch(vlgen7, "SECT_BUS4", SwitchKind.DISCONNECTOR, false, 13, 14); // CLOSED
+        // Bus coupling disconnectors (SECT)
+        createSwitch(vlgen7, "SECT_BUS1", SwitchKind.DISCONNECTOR, true, 0, 6);    // OPEN - BUS1 disconnected
+        createSwitch(vlgen7, "SECT_BUS2", SwitchKind.DISCONNECTOR, false, 5, 7);   // CLOSED - BUS2 connected
+        createSwitch(vlgen7, "SECT_BUS3", SwitchKind.DISCONNECTOR, false, 9, 10);  // CLOSED - BUS3 connected
+        createSwitch(vlgen7, "SECT_BUS4", SwitchKind.DISCONNECTOR, false, 13, 14); // CLOSED - BUS4 connected
 
-        createSwitch(vlgen7, "FORK_SW1", SwitchKind.DISCONNECTOR, false, 6, 8);   // BUS1 to fork (CLOSED via node 6)
-        createSwitch(vlgen7, "FORK_SW2", SwitchKind.DISCONNECTOR, false, 7, 8);   // BUS2 to fork (CLOSED via node 7)
+        // Fork connections - BUS1 and BUS2 to fork point (node 8)
+        createSwitch(vlgen7, "FORK_SW1", SwitchKind.DISCONNECTOR, false, 6, 8);    // BUS1 to fork
+        createSwitch(vlgen7, "FORK_SW2", SwitchKind.DISCONNECTOR, false, 7, 8);    // BUS2 to fork
 
-        // LINE7 connection from fork
+        // LINE7 connection from fork point (node 8)
         createSwitch(vlgen7, "DISC_LINE7", SwitchKind.DISCONNECTOR, false, 8, 1);
         createSwitch(vlgen7, "BRKR_LINE7", SwitchKind.BREAKER, false, 1, 2);
 
-        // LINE8 connection from fork
+        // LINE8 connection from fork point (node 8)
         createSwitch(vlgen7, "DISC_LINE8", SwitchKind.DISCONNECTOR, false, 8, 3);
         createSwitch(vlgen7, "BRKR_LINE8", SwitchKind.BREAKER, false, 3, 4);
 
-        // LINE9 connection from BUS4 (Fixed connection point)
-        createSwitch(vlgen7, "DISC_LINE9", SwitchKind.DISCONNECTOR, false, 14, 12);  // Connect from node 14
-        createSwitch(vlgen7, "BRKR_LINE9", SwitchKind.BREAKER, false, 12, 11);
+        // ============ BYPASS TOPOLOGY - BUS4 with bypass for LINE9 ============
+       // BUS3 to BUS4 coupler section (already created above: SECT_BUS3)
 
-        // Assuming VLGEN4 exists, create its switches
-        createSwitch(vlgen4, "DISC_VLGEN4", SwitchKind.DISCONNECTOR, false, 0, 10);
-        createSwitch(vlgen4, "BRKR_VLGEN4", SwitchKind.BREAKER, false, 10, 15);
+        // Path 1: Breaker10 (OPEN) - Main breaker path
+        createSwitch(vlgen7, "BRKR10", SwitchKind.BREAKER, true, 14, 15);          // OPEN - Main breaker
+        createSwitch(vlgen7, "DISC5", SwitchKind.DISCONNECTOR, false, 15, 11);     // CLOSED - After breaker
 
-        // LINE7 - Fork Branch 1
+        // Path 2: Disconnector7 (CLOSED) - Bypass path
+        createSwitch(vlgen7, "DISC7", SwitchKind.DISCONNECTOR, false, 14, 16);     // CLOSED - Bypass disconnector
+
+        // Convergence to bypass point (node 11)
+        createSwitch(vlgen7, "DISC_BYPASS_CONV", SwitchKind.DISCONNECTOR, false, 16, 11); // Bypass convergence
+
+        // LINE9 connection from bypass point (node 11)
+        createSwitch(vlgen7, "DISC6", SwitchKind.DISCONNECTOR, false, 11, 12);     // CLOSED - Before LINE9
+        createSwitch(vlgen7, "BRKR_LINE9", SwitchKind.BREAKER, false, 12, 17);     // LINE9 breaker
+
+        // ============ LINE7 - Fork Branch 1 (VLGEN4 → VLGEN7) ============
         network.newLine()
                 .setId("LINE7_FORK")
                 .setName("Fork Branch 1 - Primary Line")
                 .setVoltageLevel1("VLGEN4")
-                .setNode1(15)  // Fixed node reference
+                .setNode1(15)
                 .setVoltageLevel2("VLGEN7")
                 .setNode2(2)
                 .setR(3.0)
@@ -174,7 +224,7 @@ public class BusbarSectionFinderTraverserTest {
                 .add()
                 .add();
 
-        // VLGEN8 - Fork destination 2
+        // ============ VLGEN8 - Fork destination 2 ============
         VoltageLevel vlgen8 = network.newVoltageLevel()
                 .setId("VLGEN8")
                 .setName("Fork Destination Point 2")
@@ -183,10 +233,16 @@ public class BusbarSectionFinderTraverserTest {
                 .setLowVoltageLimit(20.0)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
+        vlgen8.getNodeBreakerView().newBusbarSection()
+                .setId("BUS_NGEN8")
+                .setName("Main Busbar VLGEN8")
+                .setNode(0)
+                .add();
+
         createSwitch(vlgen8, "DISC_VLGEN8", SwitchKind.DISCONNECTOR, false, 0, 1);
         createSwitch(vlgen8, "BRKR_VLGEN8", SwitchKind.BREAKER, false, 1, 2);
 
-        // LINE8 - Fork Branch 2
+        // ============ LINE8 - Fork Branch 2 (VLGEN7 → VLGEN8) ============
         network.newLine()
                 .setId("LINE8_FORK")
                 .setName("Fork Branch 2 - Secondary Line")
@@ -215,7 +271,7 @@ public class BusbarSectionFinderTraverserTest {
                 .add()
                 .add();
 
-        // VLGEN9 - Independent line destination
+        // ============ VLGEN9 - Independent line destination ============
         VoltageLevel vlgen9 = network.newVoltageLevel()
                 .setId("VLGEN9")
                 .setName("Independent Line Destination")
@@ -234,12 +290,12 @@ public class BusbarSectionFinderTraverserTest {
         createSwitch(vlgen9, "DISC_VLGEN9", SwitchKind.DISCONNECTOR, false, 0, 1);
         createSwitch(vlgen9, "BRKR_VLGEN9", SwitchKind.BREAKER, false, 1, 2);
 
-        // LINE9 - Independent line from BUS4
+        // ============ LINE9 - Independent line from BUS4 with bypass ============
         network.newLine()
                 .setId("LINE9_INDEPENDENT")
                 .setName("Independent Line from BUS4")
                 .setVoltageLevel1("VLGEN7")
-                .setNode1(11)
+                .setNode1(17)  // Connected via bypass topology
                 .setVoltageLevel2("VLGEN9")
                 .setNode2(2)
                 .setR(2.0)
@@ -299,7 +355,7 @@ public class BusbarSectionFinderTraverserTest {
         BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
         assertEquals("BUS4_NGEN7", result.busbarSectionId());
-        assertEquals(3, result.depth());
+        assertEquals(5, result.depth());
         assertNotNull(result.lastSwitch());
         assertEquals("SECT_BUS4", result.lastSwitch().id());
         assertFalse(result.lastSwitch().isOpen());
