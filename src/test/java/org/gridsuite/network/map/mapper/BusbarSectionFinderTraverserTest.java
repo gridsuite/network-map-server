@@ -215,7 +215,7 @@ public class BusbarSectionFinderTraverserTest {
                 .add()
                 .add();
 
-// VLGEN9 - Independent line destination
+        // VLGEN9 - Independent line destination
         VoltageLevel vlgen9 = network.newVoltageLevel()
                 .setId("VLGEN9")
                 .setName("Independent Line Destination")
@@ -270,9 +270,9 @@ public class BusbarSectionFinderTraverserTest {
     void testLine7FindsBus2ViaFork() {
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2(); // VLGEN7 side
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarId());
+        assertEquals("BUS2_NGEN7", result.busbarSectionId());
         assertEquals(4, result.depth());
         assertNotNull(result.lastSwitch());
         assertEquals("SECT_BUS2", result.lastSwitch().id());
@@ -283,9 +283,9 @@ public class BusbarSectionFinderTraverserTest {
     void testLine8FindsBus2ViaFork() {
         Line line8 = network.getLine("LINE8_FORK");
         Terminal terminal = line8.getTerminal1(); // VLGEN7 side
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarId());
+        assertEquals("BUS2_NGEN7", result.busbarSectionId());
         assertEquals(4, result.depth());
         assertNotNull(result.lastSwitch());
         assertEquals("SECT_BUS2", result.lastSwitch().id());
@@ -296,9 +296,9 @@ public class BusbarSectionFinderTraverserTest {
     void testLine9FindsBus4DirectPath() {
         Line line9 = network.getLine("LINE9_INDEPENDENT");
         Terminal terminal = line9.getTerminal1(); // VLGEN7 side
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
-        assertEquals("BUS4_NGEN7", result.busbarId());
+        assertEquals("BUS4_NGEN7", result.busbarSectionId());
         assertEquals(3, result.depth());
         assertNotNull(result.lastSwitch());
         assertEquals("SECT_BUS4", result.lastSwitch().id());
@@ -309,10 +309,10 @@ public class BusbarSectionFinderTraverserTest {
     void testBus1AccessibleThroughOpenSwitch() {
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         // Should prefer BUS2 (closed) over BUS1 (open)
         assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarId());
+        assertEquals("BUS2_NGEN7", result.busbarSectionId());
     }
 
     @Test
@@ -322,9 +322,9 @@ public class BusbarSectionFinderTraverserTest {
         sectBus2.setOpen(true); // Open the switch to BUS2
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
-        assertEquals("BUS1_NGEN7", result.busbarId());
+        assertEquals("BUS1_NGEN7", result.busbarSectionId());
         assertEquals(4, result.depth());
         assertNotNull(result.lastSwitch());
         assertTrue(result.lastSwitch().isOpen());
@@ -337,16 +337,16 @@ public class BusbarSectionFinderTraverserTest {
         sectBus4.setOpen(true); // Open BUS4 connection
         Line line9 = network.getLine("LINE9_INDEPENDENT");
         Terminal terminal = line9.getTerminal1();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
-        assertEquals("BUS4_NGEN7", result.busbarId());
+        assertEquals("BUS4_NGEN7", result.busbarSectionId());
     }
 
     @Test
-    void testFindBusbarIdConvenienceMethod() {
+    void testFindBusbarSectionIdConvenienceMethod() {
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        String busbarId = BusbarSectionFinderTraverser.findBusbarId(terminal);
+        String busbarId = BusbarSectionFinderTraverser.findBusbarSectionId(terminal);
         assertNotNull(busbarId);
         assertEquals("BUS2_NGEN7", busbarId);
     }
@@ -363,9 +363,9 @@ public class BusbarSectionFinderTraverserTest {
         vlgen7.getNodeBreakerView().getSwitch("FORK_SW2").setOpen(true);
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
-        assertEquals("BUS1_NGEN7", result.busbarId());
+        assertEquals("BUS1_NGEN7", result.busbarSectionId());
         assertEquals(4, result.depth());
         assertEquals(3, result.switchesBeforeLast());
         assertNotNull(result.lastSwitch());
@@ -380,10 +380,10 @@ public class BusbarSectionFinderTraverserTest {
     void testPrefersShortestClosedPath() {
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         // BUS2 should be preferred (3 switches) over potential longer paths
         assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarId());
+        assertEquals("BUS2_NGEN7", result.busbarSectionId());
         assertEquals(4, result.depth());
     }
 
@@ -391,8 +391,8 @@ public class BusbarSectionFinderTraverserTest {
     void testForkTopologySharesBusbar() {
         Line line7 = network.getLine("LINE7_FORK");
         Line line8 = network.getLine("LINE8_FORK");
-        String busbar7 = BusbarSectionFinderTraverser.findBusbarId(line7.getTerminal2());
-        String busbar8 = BusbarSectionFinderTraverser.findBusbarId(line8.getTerminal1());
+        String busbar7 = BusbarSectionFinderTraverser.findBusbarSectionId(line7.getTerminal2());
+        String busbar8 = BusbarSectionFinderTraverser.findBusbarSectionId(line8.getTerminal1());
         assertEquals(busbar7, busbar8);
         assertEquals("BUS2_NGEN7", busbar7);
     }
@@ -401,7 +401,7 @@ public class BusbarSectionFinderTraverserTest {
     void testSwitchesBeforeLastCount() {
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
         assertEquals(4, result.depth());
         assertEquals(3, result.switchesBeforeLast());
@@ -411,7 +411,7 @@ public class BusbarSectionFinderTraverserTest {
     void testHandlesMixedSwitchTypes() {
         Line line7 = network.getLine("LINE7_FORK");
         Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
         assertNotNull(result);
         // Path contains both breakers and disconnectors
         assertTrue(result.depth() > 0);

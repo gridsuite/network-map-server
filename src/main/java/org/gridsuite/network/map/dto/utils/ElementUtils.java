@@ -92,7 +92,7 @@ public final class ElementUtils {
             }
         } else {
             // NODE_BREAKER: explore all paths and choose the busbar with the closed disconnector
-            return BusbarSectionFinderTraverser.findBusbarId(terminal);
+            return BusbarSectionFinderTraverser.findBusbarSectionId(terminal);
         }
     }
 
