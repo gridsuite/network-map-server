@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
