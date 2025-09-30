@@ -55,27 +55,23 @@ public final class BusbarSectionFinderTraverser {
         // Priority 1: Search for busbar with closed last switch
         List<BusbarResult> withClosedSwitch = results.stream().filter(r -> r.lastSwitch() != null && !r.lastSwitch().isOpen()).toList();
         if (!withClosedSwitch.isEmpty()) {
-            BusbarResult best = withClosedSwitch.stream().min(Comparator.comparingInt(BusbarResult::depth)
+            return withClosedSwitch.stream().min(Comparator.comparingInt(BusbarResult::depth)
                     .thenComparingInt(BusbarResult::switchesBeforeLast))
                     .get();
-            return best;
         }
 
         // Priority 2: Search for busbar with open last switch
         List<BusbarResult> withOpenSwitch = results.stream().filter(r -> r.lastSwitch() != null && r.lastSwitch().isOpen()).toList();
         if (!withOpenSwitch.isEmpty()) {
-            BusbarResult best = withOpenSwitch.stream().min(Comparator.comparingInt(BusbarResult::depth)
+            return withOpenSwitch.stream().min(Comparator.comparingInt(BusbarResult::depth)
                             .thenComparingInt(BusbarResult::switchesBeforeLast))
                             .get();
-
-            return best;
         }
 
         // Priority 3: Busbars without switch (direct connection)
         List<BusbarResult> withoutSwitch = results.stream().filter(r -> r.lastSwitch() == null).toList();
         if (!withoutSwitch.isEmpty()) {
-            BusbarResult best = withoutSwitch.stream().min(Comparator.comparingInt(BusbarResult::depth)).get();
-            return best;
+            return withoutSwitch.stream().min(Comparator.comparingInt(BusbarResult::depth)).get();
         }
 
         // Fallback: select first busbar
@@ -111,7 +107,7 @@ public final class BusbarSectionFinderTraverser {
                     SwitchInfo lastSwitch = current.lastSwitch();
                     // Calculate number of switches BEFORE the last one
                     int switchesBeforeLast = lastSwitch != null ? (depth - 1) : 0;
-                    results.add(new BusbarResult(busbarId, depth, switchesBeforeLast, lastSwitch, null));
+                    results.add(new BusbarResult(busbarId, depth, switchesBeforeLast, lastSwitch));
                     continue; // Don't explore beyond busbar
                 }
             }
@@ -147,7 +143,7 @@ public final class BusbarSectionFinderTraverser {
     /**
      * Record containing the result of a busbar search with selection metadata.
      */
-    public record BusbarResult(String busbarId, int depth, int switchesBeforeLast, SwitchInfo lastSwitch, String selectionReason) { }
+    public record BusbarResult(String busbarId, int depth, int switchesBeforeLast, SwitchInfo lastSwitch) { }
 
     /**
      * Convenience method to get only the busbar ID.
