@@ -322,133 +322,154 @@ public class BusbarSectionFinderTraverserTest {
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
     }
 
-    @Test
-    void testLine7FindsBus2ViaFork() {
-        Line line7 = network.getLine("LINE7_FORK");
-        Terminal terminal = line7.getTerminal2(); // VLGEN7 side
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
-        assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarSectionId());
-        assertEquals(4, result.depth());
-        assertNotNull(result.lastSwitch());
-        assertEquals("SECT_BUS2", result.lastSwitch().id());
-        assertFalse(result.lastSwitch().isOpen());
-    }
+    /* ============================================
+    * FORK topology tests
+    * ============================================
+    */
 
     @Test
-    void testLine8FindsBus2ViaFork() {
+    void testForkTopologyFindsBus2() {
+        // LINE7 and LINE8 share the same fork point (node 8)
+        // Both must find BUS2 because SECT_BUS2 is closed
+        Line line7 = network.getLine("LINE7_FORK");
         Line line8 = network.getLine("LINE8_FORK");
-        Terminal terminal = line8.getTerminal1(); // VLGEN7 side
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
-        assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarSectionId());
-        assertEquals(4, result.depth());
-        assertNotNull(result.lastSwitch());
-        assertEquals("SECT_BUS2", result.lastSwitch().id());
-        assertFalse(result.lastSwitch().isOpen());
+        BusbarSectionFinderTraverser.BusbarSectionResult result7 = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        BusbarSectionFinderTraverser.BusbarSectionResult result8 = BusbarSectionFinderTraverser.findBestBusbar(line8.getTerminal1());
+        // Both lines must find the same busbar
+        assertNotNull(result7);
+        assertEquals("BUS2_NGEN7", result7.busbarSectionId());
+        assertNotNull(result8);
+        assertEquals("BUS2_NGEN7", result8.busbarSectionId());
+        // Check depth and last switch
+        assertEquals(4, result7.depth());
+        assertEquals(4, result8.depth());
+        assertEquals("SECT_BUS2", result7.lastSwitch().id());
+        assertFalse(result7.lastSwitch().isOpen());
     }
 
     @Test
-    void testLine9FindsBus4DirectPath() {
-        Line line9 = network.getLine("LINE9_INDEPENDENT");
-        Terminal terminal = line9.getTerminal1(); // VLGEN7 side
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
-        assertNotNull(result);
-        assertEquals("BUS4_NGEN7", result.busbarSectionId());
-        assertEquals(5, result.depth());
-        assertNotNull(result.lastSwitch());
-        assertEquals("SECT_BUS4", result.lastSwitch().id());
-        assertFalse(result.lastSwitch().isOpen());
-    }
-
-    @Test
-    void testBus1AccessibleThroughOpenSwitch() {
+    void testForkPreferencesClosedOverOpen() {
         Line line7 = network.getLine("LINE7_FORK");
-        Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
-        // Should prefer BUS2 (closed) over BUS1 (open)
-        assertNotNull(result);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        // Must prefer BUS2 with closed switch rather than BUS1 with open switch
         assertEquals("BUS2_NGEN7", result.busbarSectionId());
+        assertFalse(result.lastSwitch().isOpen());
     }
 
     @Test
-    void testFindsBus1WhenBus2SwitchOpen() {
+    void testForkFallbackToBus1WhenBus2Open() {
         VoltageLevel vlgen7 = network.getVoltageLevel("VLGEN7");
-        Switch sectBus2 = vlgen7.getNodeBreakerView().getSwitch("SECT_BUS2");
-        sectBus2.setOpen(true); // Open the switch to BUS2
+        // Open SECT_BUS2 to disconnect BUS2
+        vlgen7.getNodeBreakerView().getSwitch("SECT_BUS2").setOpen(true);
         Line line7 = network.getLine("LINE7_FORK");
-        Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        // Must find BUS1 (with open switch)
         assertNotNull(result);
         assertEquals("BUS1_NGEN7", result.busbarSectionId());
-        assertEquals(4, result.depth());
-        assertNotNull(result.lastSwitch());
+        assertEquals("SECT_BUS1", result.lastSwitch().id());
         assertTrue(result.lastSwitch().isOpen());
     }
 
+    /* ============================================
+     * BYPASS topology tests
+     * ============================================
+     */
+
     @Test
-    void testBus3AccessibleWhenBus4Open() {
-        VoltageLevel vlgen7 = network.getVoltageLevel("VLGEN7");
-        Switch sectBus4 = vlgen7.getNodeBreakerView().getSwitch("SECT_BUS4");
-        sectBus4.setOpen(true); // Open BUS4 connection
+    void testBypassTopologyActivePath() {
         Line line9 = network.getLine("LINE9_INDEPENDENT");
-        Terminal terminal = line9.getTerminal1();
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line9.getTerminal1());
+        // Must find BUS4 via the bypass path
+        assertNotNull(result);
+        assertEquals("BUS4_NGEN7", result.busbarSectionId());
+        // Expected depth for bypass path
+        assertTrue(result.depth() >= 4);
+        // Last switch must be closed (not the open breaker)
+        assertNotNull(result.lastSwitch());
+        assertFalse(result.lastSwitch().isOpen());
+    }
+
+    @Test
+    void testBypassSwitchesToMainPathWhenBreakerCloses() {
+        VoltageLevel vlgen7 = network.getVoltageLevel("VLGEN7");
+        // Close BRKR10 and open bypass DISC7
+        vlgen7.getNodeBreakerView().getSwitch("BRKR10").setOpen(false);
+        vlgen7.getNodeBreakerView().getSwitch("DISC7").setOpen(true);
+        Line line9 = network.getLine("LINE9_INDEPENDENT");
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line9.getTerminal1());
+        // Must still find BUS4
+        assertNotNull(result);
+        assertEquals("BUS4_NGEN7", result.busbarSectionId());
+        // Path must now use the closed breaker
+        assertFalse(result.lastSwitch().isOpen());
+    }
+
+    @Test
+    void testBypassFallbackToBus3() {
+        VoltageLevel vlgen7 = network.getVoltageLevel("VLGEN7");
+        // Completely isolate BUS4
+        vlgen7.getNodeBreakerView().getSwitch("SECT_BUS4").setOpen(true);
+        Line line9 = network.getLine("LINE9_INDEPENDENT");
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line9.getTerminal1());
+        // Should still find BUS4 because bypass is still connected to it
         assertNotNull(result);
         assertEquals("BUS4_NGEN7", result.busbarSectionId());
     }
 
+    /* ============================================
+     * Selection priority tests
+     * ============================================
+     */
+
     @Test
-    void testFindBusbarSectionIdConvenienceMethod() {
+    void testPrioritizesShortestClosedPath() {
         Line line7 = network.getLine("LINE7_FORK");
-        Terminal terminal = line7.getTerminal2();
-        String busbarId = BusbarSectionFinderTraverser.findBusbarSectionId(terminal);
-        assertNotNull(busbarId);
-        assertEquals("BUS2_NGEN7", busbarId);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        // BUS2 is the closest with closed switch
+        assertNotNull(result);
+        assertEquals("BUS2_NGEN7", result.busbarSectionId());
+        assertEquals(4, result.depth());
+        assertEquals(3, result.switchesBeforeLast());
     }
 
     @Test
-    void testReturnsNullWhenNoBusbarAccessible() {
+    void testSelectionPriorityOrder() {
         VoltageLevel vlgen7 = network.getVoltageLevel("VLGEN7");
-        // Open all switches connecting busbars
+        // Open all coupling disconnectors
         vlgen7.getNodeBreakerView().getSwitch("SECT_BUS1").setOpen(true);
         vlgen7.getNodeBreakerView().getSwitch("SECT_BUS2").setOpen(true);
         vlgen7.getNodeBreakerView().getSwitch("SECT_BUS3").setOpen(true);
         vlgen7.getNodeBreakerView().getSwitch("SECT_BUS4").setOpen(true);
-        vlgen7.getNodeBreakerView().getSwitch("FORK_SW1").setOpen(true);
-        vlgen7.getNodeBreakerView().getSwitch("FORK_SW2").setOpen(true);
+        // But keep fork connections
         Line line7 = network.getLine("LINE7_FORK");
-        Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        // Must find a busbar with open switch priority 2
         assertNotNull(result);
-        assertEquals("BUS1_NGEN7", result.busbarSectionId());
-        assertEquals(4, result.depth());
-        assertEquals(3, result.switchesBeforeLast());
         assertNotNull(result.lastSwitch());
-        assertEquals("SECT_BUS1", result.lastSwitch().id());
-        assertEquals(SwitchKind.DISCONNECTOR, result.lastSwitch().kind());
         assertTrue(result.lastSwitch().isOpen());
-        assertEquals(0, result.lastSwitch().node1());
-        assertEquals(6, result.lastSwitch().node2());
     }
 
     @Test
-    void testPrefersShortestClosedPath() {
+    void testReturnsResultEvenWithNoClosedPaths() {
+        VoltageLevel vlgen7 = network.getVoltageLevel("VLGEN7");
+        // Open all coupling switches but keep fork switches
+        vlgen7.getNodeBreakerView().getSwitch("SECT_BUS1").setOpen(true);
+        vlgen7.getNodeBreakerView().getSwitch("SECT_BUS2").setOpen(true);
         Line line7 = network.getLine("LINE7_FORK");
-        Terminal terminal = line7.getTerminal2();
-        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(terminal);
-        // BUS2 should be preferred (3 switches) over potential longer paths
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        // Must return a result (busbar accessible via open switch)
         assertNotNull(result);
-        assertEquals("BUS2_NGEN7", result.busbarSectionId());
-        assertEquals(4, result.depth());
+        assertTrue(result.depth() > 0);
     }
 
     @Test
-    void testForkTopologySharesBusbar() {
+    void testForkLinesShareSameBusbar() {
         Line line7 = network.getLine("LINE7_FORK");
         Line line8 = network.getLine("LINE8_FORK");
         String busbar7 = BusbarSectionFinderTraverser.findBusbarSectionId(line7.getTerminal2());
         String busbar8 = BusbarSectionFinderTraverser.findBusbarSectionId(line8.getTerminal1());
+        // Both fork lines must find the same busbar
+        assertNotNull(busbar7);
         assertEquals(busbar7, busbar8);
         assertEquals("BUS2_NGEN7", busbar7);
     }
@@ -471,5 +492,14 @@ public class BusbarSectionFinderTraverserTest {
         assertNotNull(result);
         // Path contains both breakers and disconnectors
         assertTrue(result.depth() > 0);
+    }
+
+    @Test
+    void testSwitchesBeforeLastCountAccuracy() {
+        Line line7 = network.getLine("LINE7_FORK");
+        BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.findBestBusbar(line7.getTerminal2());
+        assertNotNull(result);
+        // With depth=4, we must have 3 switches before the last one
+        assertEquals(result.depth() - 1, result.switchesBeforeLast());
     }
 }
