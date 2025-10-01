@@ -44,7 +44,7 @@ public final class BusbarSectionFinderTraverser {
     }
 
     private static BusbarSectionResult selectBestBusbar(List<BusbarSectionResult> results) {
-        List<BusbarSectionResult> withoutSwitch = results.stream().filter(r -> r.lastSwitch() == null).toList();
+        List<BusbarSectionResult> withoutSwitch = results.stream().filter(r -> r.allSwitchesClosed).toList();
         if (!withoutSwitch.isEmpty()) {
             return withoutSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
                     .thenComparing(BusbarSectionResult::busbarSectionId)).orElse(null);
