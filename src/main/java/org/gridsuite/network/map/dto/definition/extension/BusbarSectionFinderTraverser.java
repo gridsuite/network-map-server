@@ -6,8 +6,10 @@
  */
 package org.gridsuite.network.map.dto.definition.extension;
 
-import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
+import com.powsybl.iidm.network.BusbarSection;
+import com.powsybl.iidm.network.Switch;
+import com.powsybl.iidm.network.Terminal;
+import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.math.graph.TraversalType;
 import com.powsybl.math.graph.TraverseResult;
 
@@ -33,7 +35,6 @@ public final class BusbarSectionFinderTraverser {
     }
 
     public static BusbarSectionResult getBusbarSectionResult(Terminal terminal) {
-        VoltageLevel.NodeBreakerView view = terminal.getVoltageLevel().getNodeBreakerView();
         int startNode = terminal.getNodeBreakerView().getNode();
         List<BusbarSectionResult> allResults = searchAllBusbars(terminal.getVoltageLevel(), startNode);
         if (allResults.isEmpty()) {
@@ -63,18 +64,26 @@ public final class BusbarSectionFinderTraverser {
 
     private static List<BusbarSectionResult> searchAllBusbars(VoltageLevel voltageLevel, int startNode) {
         List<BusbarSectionResult> results = new ArrayList<>();
-
+        Map<Integer, Integer> nodeDepths = new HashMap<>();
+        Map<Integer, SwitchInfo> nodeLastSwitch = new HashMap<>();
+        Map<Integer, Boolean> nodeAllClosed = new HashMap<>();
+        nodeDepths.put(startNode, 0);
+        nodeLastSwitch.put(startNode, null);
+        nodeAllClosed.put(startNode, true);
         voltageLevel.getNodeBreakerView().getTerminal(startNode).traverse(new Terminal.TopologyTraverser() {
-            int currentDepth = 0;
-            boolean allSwitchesClosed = true;
-            SwitchInfo lastSwitch = null;
             @Override
             public TraverseResult traverse(Terminal terminal, boolean connected) {
-                if (terminal.getVoltageLevel() != voltageLevel)
+                if (terminal.getVoltageLevel() != voltageLevel) {
                     return TraverseResult.TERMINATE_PATH;
-
+                }
+                int currentNode = terminal.getNodeBreakerView().getNode();
                 if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
-                    results.add(new BusbarSectionResult(busbarSection.getId(), currentDepth, lastSwitch,allSwitchesClosed));
+                    results.add(new BusbarSectionResult(
+                            busbarSection.getId(),
+                            nodeDepths.getOrDefault(currentNode, 0),
+                            nodeLastSwitch.get(currentNode),
+                            nodeAllClosed.getOrDefault(currentNode, true)
+                    ));
                     return TraverseResult.TERMINATE_PATH;
                 }
                 return TraverseResult.CONTINUE;
@@ -82,11 +91,17 @@ public final class BusbarSectionFinderTraverser {
 
             @Override
             public TraverseResult traverse(Switch aSwitch) {
-                currentDepth++;
-                lastSwitch = new SwitchInfo(aSwitch.getId(), aSwitch.isOpen());
-                if (!aSwitch.isOpen()) {
-                    allSwitchesClosed = false;
-                }
+                int node1 = voltageLevel.getNodeBreakerView().getNode1(aSwitch.getId());
+                int node2 = voltageLevel.getNodeBreakerView().getNode2(aSwitch.getId());
+                int sourceNode = nodeDepths.containsKey(node1) ? node1 : node2;
+                int targetNode = nodeDepths.containsKey(node1) ? node2 : node1;
+                int newDepth = nodeDepths.get(sourceNode) + 1;
+                SwitchInfo newLastSwitch = new SwitchInfo(aSwitch.getId(), aSwitch.isOpen());
+                boolean newAllClosed = nodeAllClosed.get(sourceNode) && !aSwitch.isOpen();
+
+                nodeDepths.put(targetNode, newDepth);
+                nodeLastSwitch.put(targetNode, newLastSwitch);
+                nodeAllClosed.put(targetNode, newAllClosed);
                 return TraverseResult.CONTINUE;
             }
         }, TraversalType.BREADTH_FIRST);
