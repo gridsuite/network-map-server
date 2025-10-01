@@ -68,12 +68,13 @@ public final class BusbarSectionFinderTraverser {
             SwitchInfo lastSwitch = null;
             @Override
             public TraverseResult traverse(Terminal terminal, boolean connected) {
+                currentDepth--;
                 if (terminal.getVoltageLevel() != voltageLevel) {
                     return TraverseResult.TERMINATE_PATH;
                 }
-
                 if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
                     results.add(new BusbarSectionResult(busbarSection.getId(), currentDepth, lastSwitch, allSwitchesClosed));
+                    allSwitchesClosed = true;
                     return TraverseResult.TERMINATE_PATH;
                 }
                 return TraverseResult.CONTINUE;
@@ -86,9 +87,7 @@ public final class BusbarSectionFinderTraverser {
                 }
                 currentDepth++;
                 lastSwitch = new SwitchInfo(aSwitch.getId(), aSwitch.isOpen());
-                if (aSwitch.isOpen()) {
-                    allSwitchesClosed = false;
-                }
+                allSwitchesClosed = allSwitchesClosed && !aSwitch.isOpen();
                 return TraverseResult.CONTINUE;
             }
         }, TraversalType.BREADTH_FIRST);
