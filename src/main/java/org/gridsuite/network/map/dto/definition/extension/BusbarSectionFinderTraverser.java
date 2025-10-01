@@ -74,6 +74,7 @@ public final class BusbarSectionFinderTraverser {
                 }
                 if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
                     results.add(new BusbarSectionResult(busbarSection.getId(), currentDepth, lastSwitch, allSwitchesClosed));
+                    // pas sûr pour cette affectation
                     allSwitchesClosed = true;
                     return TraverseResult.TERMINATE_PATH;
                 }
