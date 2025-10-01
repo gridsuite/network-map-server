@@ -23,7 +23,7 @@ public final class BusbarSectionFinderTraverser {
 
     private record NodePath(int startNode, List<SwitchInfo> traversedSwitches, SwitchInfo lastSwitch) { }
 
-    public record SwitchInfo(String id, SwitchKind kind, boolean isOpen) { }
+    public record SwitchInfo(String id, boolean isOpen) { }
 
     public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch, int busbarIndex, int sectionIndex) { }
 
@@ -136,7 +136,7 @@ public final class BusbarSectionFinderTraverser {
 
     private static NodePath createNodePath(NodePath currentNodePath, Switch sw, int nextNode) {
         List<SwitchInfo> newPathSwitches = new ArrayList<>(currentNodePath.traversedSwitches());
-        SwitchInfo switchInfo = new SwitchInfo(sw.getId(), sw.getKind(), sw.isOpen());
+        SwitchInfo switchInfo = new SwitchInfo(sw.getId(), sw.isOpen());
         newPathSwitches.add(switchInfo);
         return new NodePath(nextNode, newPathSwitches, switchInfo);
     }
