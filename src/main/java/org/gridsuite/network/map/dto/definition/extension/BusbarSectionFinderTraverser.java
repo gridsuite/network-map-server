@@ -23,11 +23,9 @@ public final class BusbarSectionFinderTraverser {
         throw new UnsupportedOperationException();
     }
 
-    private record NodePath(int startNode, List<SwitchInfo> traversedSwitches, SwitchInfo lastSwitch) { }
-
     public record SwitchInfo(String id, boolean isOpen) { }
 
-    public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch) { }
+    public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch, boolean allSwitchesClosed) { }
 
     public static String findBusbarSectionId(Terminal terminal) {
         BusbarSectionResult result = getBusbarSectionResult(terminal);
@@ -37,7 +35,7 @@ public final class BusbarSectionFinderTraverser {
     public static BusbarSectionResult getBusbarSectionResult(Terminal terminal) {
         VoltageLevel.NodeBreakerView view = terminal.getVoltageLevel().getNodeBreakerView();
         int startNode = terminal.getNodeBreakerView().getNode();
-        List<BusbarSectionResult> allResults = searchAllBusbars(view, startNode);
+        List<BusbarSectionResult> allResults = searchAllBusbars(terminal.getVoltageLevel(), startNode);
         if (allResults.isEmpty()) {
             return null;
         }
@@ -63,26 +61,22 @@ public final class BusbarSectionFinderTraverser {
         return results.getFirst();
     }
 
-    private static List<BusbarSectionResult> searchAllBusbars(VoltageLevel.NodeBreakerView view, int startNode) {
+    private static List<BusbarSectionResult> searchAllBusbars(VoltageLevel voltageLevel, int startNode) {
         List<BusbarSectionResult> results = new ArrayList<>();
-//        Set<Integer> visited = new HashSet<>();
-//        Queue<NodePath> nodePathsToVisit = new LinkedList<>();
-//        nodePathsToVisit.offer(new NodePath(startNode, new ArrayList<>(), null));
 
-
-        view.getTerminal(startNode).traverse(new Terminal.TopologyTraverser() {
+        voltageLevel.getNodeBreakerView().getTerminal(startNode).traverse(new Terminal.TopologyTraverser() {
             int currentDepth = 0;
+            boolean allSwitchesClosed = true;
             SwitchInfo lastSwitch = null;
             @Override
             public TraverseResult traverse(Terminal terminal, boolean connected) {
-                //if (terminal.getVoltageLevel() != view.
+                if (terminal.getVoltageLevel() != voltageLevel)
+                    return TraverseResult.TERMINATE_PATH;
 
                 if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
-                    // add busbar section to the path
-                    results.add(new BusbarSectionResult(busbarSection.getId(), currentDepth, lastSwitch));
+                    results.add(new BusbarSectionResult(busbarSection.getId(), currentDepth, lastSwitch,allSwitchesClosed));
                     return TraverseResult.TERMINATE_PATH;
                 }
-//                currentDepth++;
                 return TraverseResult.CONTINUE;
             }
 
@@ -90,79 +84,12 @@ public final class BusbarSectionFinderTraverser {
             public TraverseResult traverse(Switch aSwitch) {
                 currentDepth++;
                 lastSwitch = new SwitchInfo(aSwitch.getId(), aSwitch.isOpen());
+                if (!aSwitch.isOpen()) {
+                    allSwitchesClosed = false;
+                }
                 return TraverseResult.CONTINUE;
             }
         }, TraversalType.BREADTH_FIRST);
-
-//        while (!nodePathsToVisit.isEmpty()) {
-//            NodePath currentNodePath = nodePathsToVisit.poll();
-//            if (hasBeenVisited(currentNodePath.startNode(), visited)) {
-//                continue;
-//            }
-//            visited.add(currentNodePath.startNode());
-//            Optional<BusbarSectionResult> busbarSectionResult = findBusbarSectionAtNode(view, currentNodePath);
-//            if (busbarSectionResult.isPresent()) {
-//                results.add(busbarSectionResult.get());
-//            } else {
-////                exploreAdjacentNodes(view, currentNodePath, visited, nodePathsToVisit);
-//            }
-//        }
         return results;
-    }
-
-    private static boolean hasBeenVisited(int node, Set<Integer> visited) {
-        return visited.contains(node);
-    }
-
-    private static Optional<BusbarSectionResult> findBusbarSectionAtNode(VoltageLevel.NodeBreakerView view, NodePath currentNodePath) {
-        Optional<Terminal> nodeTerminal = view.getOptionalTerminal(currentNodePath.startNode());
-        if (nodeTerminal.isEmpty()) {
-            return Optional.empty();
-        }
-        Terminal terminal = nodeTerminal.get();
-        if (terminal.getConnectable().getType() == IdentifiableType.BUSBAR_SECTION) {
-            String busbarSectionId = terminal.getConnectable().getId();
-            int depth = currentNodePath.traversedSwitches().size();
-            SwitchInfo lastSwitch = currentNodePath.lastSwitch();
-            BusbarSection busbarSection = (BusbarSection) terminal.getConnectable();
-            int busbarIndex = 1;
-            int sectionIndex = 1;
-            var busbarSectionPosition = busbarSection.getExtension(BusbarSectionPosition.class);
-            if (busbarSectionPosition != null) {
-                busbarIndex = busbarSectionPosition.getBusbarIndex();
-                sectionIndex = busbarSectionPosition.getSectionIndex();
-            }
-            return Optional.of(new BusbarSectionResult(busbarSectionId, depth, lastSwitch));
-        }
-        return Optional.empty();
-    }
-
-    private static void exploreAdjacentNodes(VoltageLevel.NodeBreakerView view, NodePath currentNodePath, Set<Integer> visited, Queue<NodePath> nodePathsToVisit) {
-        view.getSwitchStream().forEach(sw -> {
-            int node1 = view.getNode1(sw.getId());
-            int node2 = view.getNode2(sw.getId());
-            Optional<Integer> nextNode = getNextNodeIfAdjacent(currentNodePath.startNode(), node1, node2);
-            if (nextNode.isPresent() && !visited.contains(nextNode.get())) {
-                NodePath newNodePath = createNodePath(currentNodePath, sw, nextNode.get());
-                nodePathsToVisit.offer(newNodePath);
-            }
-        });
-    }
-
-    private static Optional<Integer> getNextNodeIfAdjacent(int currentNode, int node1, int node2) {
-        if (node1 == currentNode) {
-            return Optional.of(node2);
-        }
-        if (node2 == currentNode) {
-            return Optional.of(node1);
-        }
-        return Optional.empty();
-    }
-
-    private static NodePath createNodePath(NodePath currentNodePath, Switch sw, int nextNode) {
-        List<SwitchInfo> newPathSwitches = new ArrayList<>(currentNodePath.traversedSwitches());
-        SwitchInfo switchInfo = new SwitchInfo(sw.getId(), sw.isOpen());
-        newPathSwitches.add(switchInfo);
-        return new NodePath(nextNode, newPathSwitches, switchInfo);
     }
 }
