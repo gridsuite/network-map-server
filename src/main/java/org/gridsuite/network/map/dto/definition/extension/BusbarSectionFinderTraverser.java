@@ -43,18 +43,21 @@ public final class BusbarSectionFinderTraverser {
     }
 
     private static BusbarSectionResult selectBestBusbar(List<BusbarSectionResult> results) {
+        // Priority 1: Busbars without switch direct connection
         List<BusbarSectionResult> withoutSwitch = results.stream().filter(r -> r.lastSwitch() == null).toList();
         if (!withoutSwitch.isEmpty()) {
             return withoutSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
                     .thenComparingInt(BusbarSectionResult::busbarIndex)
                     .thenComparingInt(BusbarSectionResult::sectionIndex)).orElse(null);
         }
+        // Priority 2: Search for busbar with closed last switch
         List<BusbarSectionResult> withClosedSwitch = results.stream().filter(r -> r.lastSwitch() != null && !r.lastSwitch().isOpen()).toList();
         if (!withClosedSwitch.isEmpty()) {
             return withClosedSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
                     .thenComparingInt(BusbarSectionResult::busbarIndex)
                     .thenComparingInt(BusbarSectionResult::sectionIndex)).orElse(null);
         }
+        // Priority 3: Search for busbar with open last switch
         List<BusbarSectionResult> withOpenSwitch = results.stream().filter(r -> r.lastSwitch() != null && r.lastSwitch().isOpen()).toList();
         if (!withOpenSwitch.isEmpty()) {
             return withOpenSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
