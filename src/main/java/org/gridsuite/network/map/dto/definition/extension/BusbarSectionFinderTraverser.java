@@ -8,6 +8,8 @@ package org.gridsuite.network.map.dto.definition.extension;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
+import com.powsybl.math.graph.TraversalType;
+import com.powsybl.math.graph.TraverseResult;
 
 import java.util.*;
 
@@ -25,7 +27,7 @@ public final class BusbarSectionFinderTraverser {
 
     public record SwitchInfo(String id, boolean isOpen) { }
 
-    public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch, int busbarIndex, int sectionIndex) { }
+    public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch) { }
 
     public static String findBusbarSectionId(Terminal terminal) {
         BusbarSectionResult result = getBusbarSectionResult(terminal);
@@ -46,42 +48,65 @@ public final class BusbarSectionFinderTraverser {
         List<BusbarSectionResult> withoutSwitch = results.stream().filter(r -> r.lastSwitch() == null).toList();
         if (!withoutSwitch.isEmpty()) {
             return withoutSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
-                    .thenComparingInt(BusbarSectionResult::busbarIndex)
-                    .thenComparingInt(BusbarSectionResult::sectionIndex)).orElse(null);
+                    .thenComparing(BusbarSectionResult::busbarSectionId)).orElse(null);
         }
         List<BusbarSectionResult> withClosedSwitch = results.stream().filter(r -> r.lastSwitch() != null && !r.lastSwitch().isOpen()).toList();
         if (!withClosedSwitch.isEmpty()) {
             return withClosedSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
-                    .thenComparingInt(BusbarSectionResult::busbarIndex)
-                    .thenComparingInt(BusbarSectionResult::sectionIndex)).orElse(null);
+                    .thenComparing(BusbarSectionResult::busbarSectionId)).orElse(null);
         }
         List<BusbarSectionResult> withOpenSwitch = results.stream().filter(r -> r.lastSwitch() != null && r.lastSwitch().isOpen()).toList();
         if (!withOpenSwitch.isEmpty()) {
             return withOpenSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
-                    .thenComparingInt(BusbarSectionResult::busbarIndex)
-                    .thenComparingInt(BusbarSectionResult::sectionIndex)).orElse(null);
+                    .thenComparing(BusbarSectionResult::busbarSectionId)).orElse(null);
         }
         return results.getFirst();
     }
 
     private static List<BusbarSectionResult> searchAllBusbars(VoltageLevel.NodeBreakerView view, int startNode) {
         List<BusbarSectionResult> results = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
-        Queue<NodePath> nodePathsToVisit = new LinkedList<>();
-        nodePathsToVisit.offer(new NodePath(startNode, new ArrayList<>(), null));
-        while (!nodePathsToVisit.isEmpty()) {
-            NodePath currentNodePath = nodePathsToVisit.poll();
-            if (hasBeenVisited(currentNodePath.startNode(), visited)) {
-                continue;
+//        Set<Integer> visited = new HashSet<>();
+//        Queue<NodePath> nodePathsToVisit = new LinkedList<>();
+//        nodePathsToVisit.offer(new NodePath(startNode, new ArrayList<>(), null));
+
+
+        view.getTerminal(startNode).traverse(new Terminal.TopologyTraverser() {
+            int currentDepth = 0;
+            SwitchInfo lastSwitch = null;
+            @Override
+            public TraverseResult traverse(Terminal terminal, boolean connected) {
+                //if (terminal.getVoltageLevel() != view.
+
+                if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
+                    // add busbar section to the path
+                    results.add(new BusbarSectionResult(busbarSection.getId(), currentDepth, lastSwitch));
+                    return TraverseResult.TERMINATE_PATH;
+                }
+//                currentDepth++;
+                return TraverseResult.CONTINUE;
             }
-            visited.add(currentNodePath.startNode());
-            Optional<BusbarSectionResult> busbarSectionResult = findBusbarSectionAtNode(view, currentNodePath);
-            if (busbarSectionResult.isPresent()) {
-                results.add(busbarSectionResult.get());
-            } else {
-                exploreAdjacentNodes(view, currentNodePath, visited, nodePathsToVisit);
+
+            @Override
+            public TraverseResult traverse(Switch aSwitch) {
+                currentDepth++;
+                lastSwitch = new SwitchInfo(aSwitch.getId(), aSwitch.isOpen());
+                return TraverseResult.CONTINUE;
             }
-        }
+        }, TraversalType.BREADTH_FIRST);
+
+//        while (!nodePathsToVisit.isEmpty()) {
+//            NodePath currentNodePath = nodePathsToVisit.poll();
+//            if (hasBeenVisited(currentNodePath.startNode(), visited)) {
+//                continue;
+//            }
+//            visited.add(currentNodePath.startNode());
+//            Optional<BusbarSectionResult> busbarSectionResult = findBusbarSectionAtNode(view, currentNodePath);
+//            if (busbarSectionResult.isPresent()) {
+//                results.add(busbarSectionResult.get());
+//            } else {
+////                exploreAdjacentNodes(view, currentNodePath, visited, nodePathsToVisit);
+//            }
+//        }
         return results;
     }
 
@@ -107,7 +132,7 @@ public final class BusbarSectionFinderTraverser {
                 busbarIndex = busbarSectionPosition.getBusbarIndex();
                 sectionIndex = busbarSectionPosition.getSectionIndex();
             }
-            return Optional.of(new BusbarSectionResult(busbarSectionId, depth, lastSwitch, busbarIndex, sectionIndex));
+            return Optional.of(new BusbarSectionResult(busbarSectionId, depth, lastSwitch));
         }
         return Optional.empty();
     }
