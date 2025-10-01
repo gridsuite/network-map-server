@@ -126,13 +126,22 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         return toTabBuilder((BranchTabInfosBuilder<BranchTabInfos, ?>) BranchTabInfos.builder(), branch, dcPowerFactor, loadOperationalLimitGroups).build();
     }
 
+    private static Map<String, String> getTagProperties(OperationalLimitsGroup group) {
+        HashMap<String, String> properties = new HashMap<>();
+        for (String key : group.getPropertyNames()) {
+            properties.put(key, group.getProperty(key));
+        }
+        return properties;
+    }
+
     private static Map<String, CurrentLimitsData> buildCurrentLimitsMap(@NonNull final Collection<OperationalLimitsGroup> operationalLimitsGroups) {
         if (CollectionUtils.isEmpty(operationalLimitsGroups)) {
             return Map.of();
         }
         Map<String, CurrentLimitsData> res = HashMap.newHashMap(operationalLimitsGroups.size());
         operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits()
-                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits, operationalLimitsGroup.getId(), null))));
+                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits,
+                    operationalLimitsGroup.getId(), null, getTagProperties(operationalLimitsGroup)))));
         return res;
     }
 
@@ -160,7 +169,14 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
     }
 
     protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
-                                                              @Nullable final String id, @Nullable final Applicability applicability) {
+                                                              @Nullable final String id,
+                                                              @Nullable final Applicability applicability) {
+        return toMapDataCurrentLimits(limits, id, applicability, null);
+    }
+
+    protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
+                                                              @Nullable final String id, @Nullable final Applicability applicability,
+                                                              @Nullable Map<String, String> tagProperties) {
         CurrentLimitsDataBuilder builder = CurrentLimitsData.builder().id(id).applicability(applicability);
         boolean empty = true;
         if (!Double.isNaN(limits.getPermanentLimit())) {
@@ -170,6 +186,9 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
             builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
             empty = false;
+        }
+        if (tagProperties != null) {
+            builder.tagProperties(tagProperties);
         }
         return empty ? null : builder.build();
     }
