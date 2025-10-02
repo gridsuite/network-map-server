@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Properties;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -320,6 +322,8 @@ public class BusbarSectionFinderTraverserTest {
                 .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+        Properties properties = new Properties();
+        network.write("XIIDM", properties, "/tmp", "BusbarSectionFinderTraverserTest");
     }
 
     /* ============================================
