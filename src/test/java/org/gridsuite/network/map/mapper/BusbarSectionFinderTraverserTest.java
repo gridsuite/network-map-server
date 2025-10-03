@@ -387,7 +387,7 @@ public class BusbarSectionFinderTraverserTest {
         assertNotNull(result);
         assertEquals("BUS4_NGEN7", result.busbarSectionId());
         // Expected depth for bypass path
-        assertTrue(result.depth() >= 4);
+        assertEquals(5, result.depth());
         // Last switch must be closed (not the open breaker)
         assertNotNull(result.lastSwitch());
         assertFalse(result.lastSwitch().isOpen());
@@ -462,7 +462,7 @@ public class BusbarSectionFinderTraverserTest {
         BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.getBusbarSectionResult(line7.getTerminal2());
         // Must return a result (busbar accessible via open switch)
         assertNotNull(result);
-        assertTrue(result.depth() > 0);
+        assertEquals(4, result.depth());
     }
 
     @Test
@@ -493,7 +493,7 @@ public class BusbarSectionFinderTraverserTest {
         BusbarSectionFinderTraverser.BusbarSectionResult result = BusbarSectionFinderTraverser.getBusbarSectionResult(terminal);
         assertNotNull(result);
         // Path contains both breakers and disconnectors
-        assertTrue(result.depth() > 0);
+        assertEquals(4, result.depth());
     }
 
     @Test
