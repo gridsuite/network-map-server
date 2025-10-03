@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
+import com.powsybl.iidm.network.extensions.BatteryShortCircuit;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
@@ -67,7 +68,8 @@ public final class BatteryInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .q(nullIfNan(terminal.getQ()))
                 .properties(getProperties(battery))
-                .connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0));
+                .connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0))
+                .batteryShortCircuit(ExtensionUtils.toShortCircuit(() -> battery.getExtension(BatteryShortCircuit.class)));
 
         ReactiveLimits reactiveLimits = battery.getReactiveLimits();
         if (reactiveLimits != null) {
@@ -105,7 +107,8 @@ public final class BatteryInfosMapper {
             .q(nullIfNan(terminal.getQ()));
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0))
-               .activePowerControl(ExtensionUtils.toActivePowerControl(battery));
+               .activePowerControl(ExtensionUtils.toActivePowerControl(battery))
+                .batteryShortCircuit(ExtensionUtils.toShortCircuit(() -> battery.getExtension(BatteryShortCircuit.class)));
 
         // voltageLevel and substation properties
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));
