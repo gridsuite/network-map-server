@@ -67,6 +67,11 @@ public final class BusbarSectionFinderTraverser {
         record NodeState(int depth, SwitchInfo lastSwitch, boolean allClosed) { }
         Map<Integer, List<NodeState>> nodeStates = new HashMap<>();
         nodeStates.put(startNode, List.of(new NodeState(0, null, true)));
+        Map<Integer, BusbarSection> busbarsByNode = new HashMap<>();
+        voltageLevel.getNodeBreakerView().getBusbarSectionStream().forEach(busbar -> {
+            int node = busbar.getTerminal().getNodeBreakerView().getNode();
+            busbarsByNode.put(node, busbar);
+        });
         voltageLevel.getNodeBreakerView().getTerminal(startNode).traverse(new Terminal.TopologyTraverser() {
             @Override
             public TraverseResult traverse(Terminal terminal, boolean connected) {
@@ -74,8 +79,9 @@ public final class BusbarSectionFinderTraverser {
                     return TraverseResult.TERMINATE_PATH;
                 }
                 int currentNode = terminal.getNodeBreakerView().getNode();
-                List<NodeState> states = nodeStates.get(currentNode);
-                if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
+                if (busbarsByNode.containsKey(currentNode)) {
+                    BusbarSection busbarSection = busbarsByNode.get(currentNode);
+                    List<NodeState> states = nodeStates.get(currentNode);
                     if (states != null) {
                         for (NodeState state : states) {
                             results.add(new BusbarSectionResult(busbarSection.getId(), state.depth, state.lastSwitch, state.allClosed));
@@ -99,6 +105,10 @@ public final class BusbarSectionFinderTraverser {
                 for (NodeState sourceState : sourceStates) {
                     NodeState newState = new NodeState(sourceState.depth + 1, new SwitchInfo(aSwitch.getId(), aSwitch.isOpen()), sourceState.allClosed && !aSwitch.isOpen());
                     nodeStates.computeIfAbsent(targetNode, k -> new ArrayList<>()).add(newState);
+                    if (busbarsByNode.containsKey(targetNode)) {
+                        BusbarSection busbar = busbarsByNode.get(targetNode);
+                        results.add(new BusbarSectionResult(busbar.getId(), newState.depth, newState.lastSwitch, newState.allClosed));
+                    }
                 }
                 return TraverseResult.CONTINUE;
             }
