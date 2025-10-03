@@ -65,8 +65,8 @@ public final class BusbarSectionFinderTraverser {
     private static List<BusbarSectionResult> searchAllBusbars(VoltageLevel voltageLevel, int startNode) {
         List<BusbarSectionResult> results = new ArrayList<>();
         record NodeState(int depth, SwitchInfo lastSwitch, boolean allClosed) { }
-        Map<Integer, NodeState> nodeStates = new HashMap<>();
-        nodeStates.put(startNode, new NodeState(0, null, true));
+        Map<Integer, List<NodeState>> nodeStates = new HashMap<>();
+        nodeStates.put(startNode, List.of(new NodeState(0, null, true)));
         voltageLevel.getNodeBreakerView().getTerminal(startNode).traverse(new Terminal.TopologyTraverser() {
             @Override
             public TraverseResult traverse(Terminal terminal, boolean connected) {
@@ -74,10 +74,12 @@ public final class BusbarSectionFinderTraverser {
                     return TraverseResult.TERMINATE_PATH;
                 }
                 int currentNode = terminal.getNodeBreakerView().getNode();
-                NodeState state = nodeStates.get(currentNode);
+                List<NodeState> states = nodeStates.get(currentNode);
                 if (terminal.getConnectable() instanceof BusbarSection busbarSection) {
-                    if (state != null) {
-                        results.add(new BusbarSectionResult(busbarSection.getId(), state.depth, state.lastSwitch, state.allClosed));
+                    if (states != null) {
+                        for (NodeState state : states) {
+                            results.add(new BusbarSectionResult(busbarSection.getId(), state.depth, state.lastSwitch, state.allClosed));
+                        }
                     }
                     return TraverseResult.TERMINATE_PATH;
                 }
@@ -90,10 +92,14 @@ public final class BusbarSectionFinderTraverser {
                 int node2 = voltageLevel.getNodeBreakerView().getNode2(aSwitch.getId());
                 int sourceNode = nodeStates.containsKey(node1) ? node1 : node2;
                 int targetNode = nodeStates.containsKey(node1) ? node2 : node1;
-                NodeState sourceState = nodeStates.get(sourceNode);
-                NodeState newState = new NodeState(sourceState.depth + 1, new SwitchInfo(aSwitch.getId(), aSwitch.isOpen()),
-                        sourceState.allClosed && !aSwitch.isOpen());
-                nodeStates.put(targetNode, newState);
+                List<NodeState> sourceStates = nodeStates.get(sourceNode);
+                if (sourceStates == null) {
+                    return TraverseResult.CONTINUE;
+                }
+                for (NodeState sourceState : sourceStates) {
+                    NodeState newState = new NodeState(sourceState.depth + 1, new SwitchInfo(aSwitch.getId(), aSwitch.isOpen()), sourceState.allClosed && !aSwitch.isOpen());
+                    nodeStates.computeIfAbsent(targetNode, k -> new ArrayList<>()).add(newState);
+                }
                 return TraverseResult.CONTINUE;
             }
         }, TraversalType.BREADTH_FIRST);
