@@ -2,10 +2,6 @@ package org.gridsuite.network.map.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPositionAdder;
-import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import com.powsybl.iidm.network.extensions.ConnectablePositionAdder;
-import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
-import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Properties;
 
+import static org.gridsuite.network.map.NetworkMapControllerTest.createSwitch;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,77 +17,75 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 @SpringBootTest
-public class BusbarSectionFinderTraverserTest {
+class BusbarSectionFinderTraverserTest {
 
     private Network network;
 
-    public static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
-        vl.getNodeBreakerView().newSwitch()
-                .setId(id)
-                .setName(id)
-                .setKind(kind)
-                .setRetained(kind.equals(SwitchKind.BREAKER))
-                .setOpen(open)
-                .setFictitious(false)
-                .setNode1(node1)
-                .setNode2(node2)
-                .add();
-    }
-
     @BeforeEach
     void setUp() {
-        network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
+        network = NetworkFactory.findDefault().createNetwork("sim1", "test");
         Substation p4 = network.newSubstation()
                 .setId("P4")
                 .setCountry(Country.FR)
                 .setTso("RTE")
                 .setGeographicalTags("A")
                 .add();
-        VoltageLevel vlgen4 = p4.newVoltageLevel()
-                .setId("VLGEN4")
+        VoltageLevel vlgen1 = p4.newVoltageLevel()
+                .setId("VLGEN1")
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        vlgen4.getNodeBreakerView().newBusbarSection()
+        vlgen1.getNodeBreakerView().newBusbarSection()
+                .setId("BUS1")
+                .setName("BUS1")
+                .setNode(1)
+                .add();
+
+        VoltageLevel vlgen = p4.newVoltageLevel()
+                .setId("VLGEN")
+                .setNominalV(24.0)
+                .setTopologyKind(TopologyKind.NODE_BREAKER)
+                .add();
+        vlgen.getNodeBreakerView().newBusbarSection()
                 .setId("BUS1_1")
                 .setName("BUS1_1")
                 .setNode(1)
                 .add();
-        vlgen4.getNodeBreakerView().newBusbarSection()
+        vlgen.getNodeBreakerView().newBusbarSection()
                 .setId("BUS2_1")
                 .setName("BUS2_1")
                 .setNode(2)
                 .add();
-        vlgen4.getNodeBreakerView().newBusbarSection()
+        vlgen.getNodeBreakerView().newBusbarSection()
                 .setId("BUS1_2")
                 .setName("BUS1_2")
                 .setNode(3)
                 .add();
-        vlgen4.getNodeBreakerView().newBusbarSection()
+        vlgen.getNodeBreakerView().newBusbarSection()
                 .setId("BUS2_2")
                 .setName("BUS2_2")
                 .setNode(4)
                 .add();
 
-        vlgen4.getNodeBreakerView()
+        vlgen.getNodeBreakerView()
                 .getBusbarSection("BUS1_1")
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(1)
                 .withSectionIndex(1)
                 .add();
-        vlgen4.getNodeBreakerView()
+        vlgen.getNodeBreakerView()
                 .getBusbarSection("BUS1_2")
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(1)
                 .withSectionIndex(2)
                 .add();
-        vlgen4.getNodeBreakerView()
+        vlgen.getNodeBreakerView()
                 .getBusbarSection("BUS2_1")
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(2)
                 .withSectionIndex(1)
                 .add();
-        vlgen4.getNodeBreakerView()
+        vlgen.getNodeBreakerView()
                 .getBusbarSection("BUS2_2")
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(2)
@@ -98,22 +93,22 @@ public class BusbarSectionFinderTraverserTest {
                 .add();
 
         //Fork topology
-        createSwitch(vlgen4, "DISC_BUS1.1_BUS1.2", SwitchKind.DISCONNECTOR, false, 1, 3);
-        createSwitch(vlgen4, "DISC_BUS2.1_BUS2.2", SwitchKind.DISCONNECTOR, true, 2, 4);
-        createSwitch(vlgen4, "DISC_BUS1_2", SwitchKind.DISCONNECTOR, true, 3, 5);
-        createSwitch(vlgen4, "DISC_BUS2_2", SwitchKind.DISCONNECTOR, true, 4, 5);
-        createSwitch(vlgen4, "BRK_FORK", SwitchKind.BREAKER, true, 5, 6);
-        createSwitch(vlgen4, "DISC_LINE_1_2", SwitchKind.DISCONNECTOR, false, 6, 7);
-        createSwitch(vlgen4, "DISC_LINE_2_2", SwitchKind.DISCONNECTOR, false, 6, 8);
-        createSwitch(vlgen4, "BRK_LINE_1_2", SwitchKind.BREAKER, false, 7, 10);
-        createSwitch(vlgen4, "BRK_LINE_2_2", SwitchKind.BREAKER, false, 8, 9);
+        createSwitch(vlgen, "DISC_BUS1.1_BUS1.2", SwitchKind.DISCONNECTOR, false, 1, 3);
+        createSwitch(vlgen, "DISC_BUS2.1_BUS2.2", SwitchKind.DISCONNECTOR, true, 2, 4);
+        createSwitch(vlgen, "DISC_BUS1_2", SwitchKind.DISCONNECTOR, true, 3, 5);
+        createSwitch(vlgen, "DISC_BUS2_2", SwitchKind.DISCONNECTOR, true, 4, 5);
+        createSwitch(vlgen, "BRK_FORK", SwitchKind.BREAKER, true, 5, 6);
+        createSwitch(vlgen, "DISC_LINE_1_2", SwitchKind.DISCONNECTOR, false, 6, 7);
+        createSwitch(vlgen, "DISC_LINE_2_2", SwitchKind.DISCONNECTOR, false, 6, 8);
+        createSwitch(vlgen, "BRK_LINE_1_2", SwitchKind.BREAKER, false, 7, 10);
+        createSwitch(vlgen, "BRK_LINE_2_2", SwitchKind.BREAKER, false, 8, 9);
         network.newLine()
                 .setId("LINE_1_2")
                 .setName("LINE_1_2")
-                .setVoltageLevel1("VLGEN4")
+                .setVoltageLevel1("VLGEN")
                 .setNode1(10)
-                .setVoltageLevel2("VLGEN")
-                .setBus2("NGEN")
+                .setVoltageLevel2("VLGEN1")
+                .setNode2(11)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
@@ -121,105 +116,58 @@ public class BusbarSectionFinderTraverserTest {
                 .setG2(0.0)
                 .setB2(300E-6 / 2)
                 .add();
-        Line line12 = network.getLine("LINE_1_2");
-        line12.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("LINE_1_2")
-                .withOrder(3)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
-                .add()
-                .newFeeder2()
-                .withName("LINE_1_2")
-                .withOrder(1)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
-                .add();
+
         network.newLine()
                 .setId("LINE_2_2")
                 .setName("LINE_2_2")
-                .setVoltageLevel1("VLGEN4")
+                .setVoltageLevel1("VLGEN")
                 .setNode1(9)
-                .setVoltageLevel2("VLGEN")
-                .setBus2("NGEN")
+                .setVoltageLevel2("VLGEN1")
+                .setNode2(21)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
                 .setB1(300E-6 / 2)
                 .setG2(0.0)
                 .setB2(300E-6 / 2)
-                .add();
-        Line line22 = network.getLine("LINE_2_2");
-        line22.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("LINE_2_2")
-                .withOrder(3)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
-                .add()
-                .newFeeder2()
-                .withName("LINE_2_2")
-                .withOrder(1)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
                 .add();
 
         // BYPASS topology
-        createSwitch(vlgen4, "DISC_BUS1_1", SwitchKind.DISCONNECTOR, true, 1, 15);
-        createSwitch(vlgen4, "DISC_BUS2_1", SwitchKind.DISCONNECTOR, true, 2, 18);
-        createSwitch(vlgen4, "DISC_BYPASS", SwitchKind.DISCONNECTOR, true, 15, 18);
-        createSwitch(vlgen4, "DISC_LINE_1_1", SwitchKind.DISCONNECTOR, true, 15, 11);
-        createSwitch(vlgen4, "DISC_LINE_2_1", SwitchKind.DISCONNECTOR, true, 18, 21);
-        createSwitch(vlgen4, "BRK_LINE_1_1", SwitchKind.BREAKER, true, 11, 12);
-        createSwitch(vlgen4, "BRK_LINE_2_1", SwitchKind.BREAKER, true, 21, 23);
+        createSwitch(vlgen, "DISC_BUS1_1", SwitchKind.DISCONNECTOR, true, 1, 15);
+        createSwitch(vlgen, "DISC_BUS2_1", SwitchKind.DISCONNECTOR, true, 2, 18);
+        createSwitch(vlgen, "DISC_BYPASS", SwitchKind.DISCONNECTOR, true, 15, 18);
+        createSwitch(vlgen, "DISC_LINE_1_1", SwitchKind.DISCONNECTOR, true, 15, 11);
+        createSwitch(vlgen, "DISC_LINE_2_1", SwitchKind.DISCONNECTOR, true, 18, 21);
+        createSwitch(vlgen, "BRK_LINE_1_1", SwitchKind.BREAKER, true, 11, 12);
+        createSwitch(vlgen, "BRK_LINE_2_1", SwitchKind.BREAKER, true, 21, 23);
         network.newLine()
                 .setId("LINE_1_1")
                 .setName("LINE_1_1")
-                .setVoltageLevel1("VLGEN4")
+                .setVoltageLevel1("VLGEN")
                 .setNode1(12)
-                .setVoltageLevel2("VLGEN")
-                .setBus2("NGEN")
+                .setVoltageLevel2("VLGEN1")
+                .setNode2(3)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
                 .setB1(300E-6 / 2)
                 .setG2(0.0)
                 .setB2(300E-6 / 2)
-                .add();
-        Line line11 = network.getLine("LINE_1_1");
-        line11.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("LINE_1_1")
-                .withOrder(3)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
-                .add()
-                .newFeeder2()
-                .withName("LINE_1_1")
-                .withOrder(1)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
                 .add();
 
         network.newLine()
                 .setId("LINE_2_1")
                 .setName("LINE_2_1")
-                .setVoltageLevel1("VLGEN4")
+                .setVoltageLevel1("VLGEN")
                 .setNode1(23)
-                .setVoltageLevel2("VLGEN")
-                .setBus2("NGEN")
+                .setVoltageLevel2("VLGEN1")
+                .setNode2(41)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
                 .setB1(300E-6 / 2)
                 .setG2(0.0)
                 .setB2(300E-6 / 2)
-                .add();
-        Line line21 = network.getLine("LINE_2_1");
-        line21.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("LINE_2_1")
-                .withOrder(3)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
-                .add()
-                .newFeeder2()
-                .withName("LINE_2_1")
-                .withOrder(1)
-                .withDirection(ConnectablePosition.Direction.BOTTOM)
                 .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
