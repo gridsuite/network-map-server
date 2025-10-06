@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
-import com.powsybl.math.graph.TraversalType;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
@@ -92,9 +91,8 @@ public final class ElementUtils {
                 return terminal.getBusBreakerView().getConnectableBus().getId();
             }
         } else {
-            final BusbarSectionFinderTraverser connectedBusbarSectionFinder = new BusbarSectionFinderTraverser(terminal.isConnected());
-            terminal.traverse(connectedBusbarSectionFinder, TraversalType.BREADTH_FIRST);
-            return connectedBusbarSectionFinder.getFirstTraversedBbsId();
+            // NODE_BREAKER: explore all paths and choose the busbar with the closed disconnector
+            return BusbarSectionFinderTraverser.findBusbarSectionId(terminal);
         }
     }
 
