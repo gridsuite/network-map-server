@@ -181,12 +181,10 @@ class BusbarSectionFinderTraverserTest {
         Line line22 = network.getLine("LINE_2_2");
         BusbarSectionFinderTraverser.BusbarSectionResult result12 = BusbarSectionFinderTraverser.getBusbarSectionResult(line12.getTerminal1());
         BusbarSectionFinderTraverser.BusbarSectionResult result22 = BusbarSectionFinderTraverser.getBusbarSectionResult(line22.getTerminal1());
-        // Both lines must find the same busbar
         assertNotNull(result12);
         assertEquals("BUS1_2", result12.busbarSectionId());
         assertNotNull(result22);
         assertEquals("BUS1_2", result22.busbarSectionId());
-        // Check depth and last switch
         assertEquals(4, result12.depth());
         assertEquals(4, result22.depth());
         assertEquals("DISC_BUS1_2", result12.lastSwitch().id());
@@ -197,23 +195,36 @@ class BusbarSectionFinderTraverserTest {
 
     @Test
     void testWithClosedLastSwitch() {
-        network.getSwitch("BRK_LINE_1_1").setOpen(false);
-        network.getSwitch("DISC_LINE_1_1").setOpen(false);
         network.getSwitch("DISC_BUS1_1").setOpen(false);
+        network.getSwitch("DISC_BUS2_2").setOpen(false);
         Line line11 = network.getLine("LINE_1_1");
         Line line21 = network.getLine("LINE_2_1");
+        Line line12 = network.getLine("LINE_1_2");
+        Line line22 = network.getLine("LINE_2_2");
         BusbarSectionFinderTraverser.BusbarSectionResult result11 = BusbarSectionFinderTraverser.getBusbarSectionResult(line11.getTerminal1());
         BusbarSectionFinderTraverser.BusbarSectionResult result21 = BusbarSectionFinderTraverser.getBusbarSectionResult(line21.getTerminal1());
+        BusbarSectionFinderTraverser.BusbarSectionResult result12 = BusbarSectionFinderTraverser.getBusbarSectionResult(line12.getTerminal1());
+        BusbarSectionFinderTraverser.BusbarSectionResult result22 = BusbarSectionFinderTraverser.getBusbarSectionResult(line22.getTerminal1());
         assertNotNull(result11);
         assertEquals("BUS1_1", result11.busbarSectionId());
+        assertEquals(3, result11.depth());
+        assertEquals("DISC_BUS1_1", result11.lastSwitch().id());
+        assertFalse(result11.lastSwitch().isOpen());
         assertNotNull(result21);
         assertEquals("BUS1_1", result21.busbarSectionId());
-        assertEquals(3, result11.depth());
         assertEquals(4, result21.depth());
-        assertEquals("DISC_BUS1_1", result11.lastSwitch().id());
         assertEquals("DISC_BUS1_1", result21.lastSwitch().id());
-        assertFalse(result11.lastSwitch().isOpen());
         assertFalse(result21.lastSwitch().isOpen());
+        assertNotNull(result12);
+        assertEquals("BUS2_2", result12.busbarSectionId());
+        assertEquals(4, result12.depth());
+        assertEquals("DISC_BUS2_2", result12.lastSwitch().id());
+        assertFalse(result12.lastSwitch().isOpen());
+        assertNotNull(result22);
+        assertEquals("BUS2_2", result22.busbarSectionId());
+        assertEquals(4, result22.depth());
+        assertEquals("DISC_BUS2_2", result22.lastSwitch().id());
+        assertFalse(result22.lastSwitch().isOpen());
     }
 
     @Test
@@ -230,13 +241,13 @@ class BusbarSectionFinderTraverserTest {
         BusbarSectionFinderTraverser.BusbarSectionResult result21 = BusbarSectionFinderTraverser.getBusbarSectionResult(line21.getTerminal1());
         assertNotNull(result11);
         assertEquals("BUS1_1", result11.busbarSectionId());
+        assertEquals(3, result11.depth());
+        assertTrue(result11.allClosedSwitch());
+        assertEquals("DISC_BUS1_1", result11.lastSwitch().id());
         assertNotNull(result21);
         assertEquals("BUS2_1", result21.busbarSectionId());
-        assertEquals(3, result11.depth());
         assertEquals(3, result21.depth());
-        assertEquals("DISC_BUS1_1", result11.lastSwitch().id());
         assertEquals("DISC_BUS2_1", result21.lastSwitch().id());
-        assertTrue(result11.allClosedSwitch());
         assertTrue(result21.allClosedSwitch());
     }
 }
