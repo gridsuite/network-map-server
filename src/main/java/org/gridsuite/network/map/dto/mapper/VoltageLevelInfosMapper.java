@@ -6,25 +6,17 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Substation;
+import com.powsybl.iidm.network.VoltageLevel;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
-import org.gridsuite.network.map.dto.definition.voltagelevel.FeederBayInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.powsybl.iidm.network.Terminal.getConnectableSide;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -44,53 +36,9 @@ public final class VoltageLevelInfosMapper {
         };
     }
 
-    private static VoltageLevelTopologyInfos getTopologyInfos(VoltageLevel voltageLevel) {
-        Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
-        List<BusBarSectionFormInfos> busbarSectionInfos = new ArrayList<>();
-        int maxBusbarIndex = 1;
-        int maxSectionIndex = 1;
-        boolean busbarSectionPositionFound = true;
-        for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
-            var extension = bbs.getExtension(BusbarSectionPosition.class);
-            if (extension == null) {
-                busbarSectionPositionFound = false;
-                break;
-            }
-            int busbarIndex = extension.getBusbarIndex();
-            int sectionIndex = extension.getSectionIndex();
-            maxBusbarIndex = Math.max(maxBusbarIndex, busbarIndex);
-            maxSectionIndex = Math.max(maxSectionIndex, sectionIndex);
-            nbSectionsPerBusbar.merge(busbarIndex, 1, Integer::sum);
-            busbarSectionInfos.add(BusBarSectionFormInfos.builder()
-                    .id(bbs.getId())
-                    .vertPos(sectionIndex)
-                    .horizPos(busbarIndex)
-                    .build());
-        }
-        VoltageLevelTopologyInfos voltageLevelTopologyInfos = createDefaultTopologyInfosBuilder().build();
-        if (!busbarSectionPositionFound) {
-            return voltageLevelTopologyInfos;
-        }
-
-        voltageLevelTopologyInfos.setBusbarSections(busbarSectionInfos);
-        voltageLevelTopologyInfos.setBusbarSectionPositionFound(true);
-
-        boolean isSymmetrical = maxBusbarIndex == 1 ||
-                nbSectionsPerBusbar.values().stream().distinct().count() == 1
-                        && nbSectionsPerBusbar.values().stream().findFirst().orElse(0).equals(maxSectionIndex);
-
-        if (isSymmetrical) {
-            voltageLevelTopologyInfos.setBusbarCount(maxBusbarIndex);
-            voltageLevelTopologyInfos.setSectionCount(maxSectionIndex);
-            voltageLevelTopologyInfos.setRetrievedBusbarSections(true);
-            voltageLevelTopologyInfos.setSwitchKinds(Collections.nCopies(maxSectionIndex - 1, SwitchKind.DISCONNECTOR));
-        }
-        return voltageLevelTopologyInfos;
-    }
-
     static VoltageLevelFormInfos toFormInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
-        VoltageLevelFormInfos.VoltageLevelFormInfosBuilder<?, ?> builder = VoltageLevelFormInfos.builder()
+        return VoltageLevelFormInfos.builder()
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .id(voltageLevel.getId())
                 .topologyKind(voltageLevel.getTopologyKind())
@@ -98,44 +46,9 @@ public final class VoltageLevelInfosMapper {
                 .nominalV(voltageLevel.getNominalV())
                 .lowVoltageLimit(Double.isNaN(voltageLevel.getLowVoltageLimit()) ? null : voltageLevel.getLowVoltageLimit())
                 .highVoltageLimit(Double.isNaN(voltageLevel.getHighVoltageLimit()) ? null : voltageLevel.getHighVoltageLimit())
-                .properties(getProperties(voltageLevel));
-
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            VoltageLevelTopologyInfos vlTopologyInfos = getTopologyInfos(voltageLevel);
-            builder.busbarCount(vlTopologyInfos.getBusbarCount());
-            builder.sectionCount(vlTopologyInfos.getSectionCount());
-            builder.switchKinds(vlTopologyInfos.getSwitchKinds());
-            builder.isRetrievedBusbarSections(vlTopologyInfos.isRetrievedBusbarSections());
-            builder.isBusbarSectionPositionFound(vlTopologyInfos.isBusbarSectionPositionFound());
-            builder.busBarSectionInfos(vlTopologyInfos.getBusBarSectionInfosGrouped());
-            builder.feederBaysInfos(getFeederBaysInfos(voltageLevel));
-        }
-
-        builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
-
-        return builder.build();
-    }
-
-    private static Map<String, List<FeederBayInfos>> getFeederBaysInfos(VoltageLevel voltageLevel) {
-        Map<String, List<FeederBayInfos>> feederBayInfos = new HashMap<>();
-        String currentVoltageLevelId = voltageLevel.getId();
-        voltageLevel.getConnectableStream()
-                .filter(connectable -> !(connectable instanceof BusbarSection))
-                .forEach(connectable -> {
-                    List<FeederBayInfos> connections = new ArrayList<>();
-                    for (Object obj : connectable.getTerminals()) {
-                        Terminal terminal = (Terminal) obj;
-                        if (terminal.getVoltageLevel().getId().equals(currentVoltageLevelId)) {
-                            connections.add(new FeederBayInfos(
-                                    getBusOrBusbarSection(terminal),
-                                    getConnectablePosition(connectable, FeederSide.from(getConnectableSide(terminal))),
-                                    getConnectableSide(terminal).map(ThreeSides::toTwoSides).orElse(null)
-                            ));
-                        }
-                    }
-                    feederBayInfos.put(connectable.getId(), connections);
-                });
-        return feederBayInfos;
+                .properties(getProperties(voltageLevel))
+                .identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel))
+                .build();
     }
 
     static VoltageLevelMapInfos toMapInfos(Identifiable<?> identifiable) {
@@ -164,37 +77,5 @@ public final class VoltageLevelInfosMapper {
         builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
         return builder.build();
-    }
-
-    private static VoltageLevelTopologyInfos.VoltageLevelTopologyInfosBuilder createDefaultTopologyInfosBuilder() {
-        return VoltageLevelTopologyInfos.builder()
-                .busbarCount(1).sectionCount(1).isRetrievedBusbarSections(false)
-                .switchKinds(List.of()).busbarSections(List.of()).isBusbarSectionPositionFound(false);
-    }
-
-    @Builder
-    @Getter
-    @Setter
-    public static class VoltageLevelTopologyInfos {
-        private List<BusBarSectionFormInfos> busbarSections;
-        private boolean isRetrievedBusbarSections;   // true if busbar sections are symmetrical
-        private boolean isBusbarSectionPositionFound;
-        private int busbarCount;
-        private int sectionCount;
-        private List<SwitchKind> switchKinds;
-
-        public Map<String, List<String>> getBusBarSectionInfosGrouped() {
-            return busbarSections.stream()
-                    .collect(Collectors.groupingBy(
-                            section -> String.valueOf(section.getHorizPos()),
-                            Collectors.collectingAndThen(
-                                    Collectors.toList(),
-                                    list -> list.stream()
-                                            .sorted(Comparator.comparing(BusBarSectionFormInfos::getVertPos))
-                                            .map(BusBarSectionFormInfos::getId)
-                                            .toList()
-                            )
-                    ));
-        }
     }
 }

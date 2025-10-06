@@ -8,15 +8,5 @@
   "identifiableShortCircuit": {
     "ipMin": 0.0,
     "ipMax": 100.0
-  },
-  "busbarCount": 1,
-  "sectionCount": 1,
-  "switchKinds": [],
-  "isRetrievedBusbarSections": false,
-  "isBusbarSectionPositionFound": true,
-  "busBarSectionInfos" : {
-    "1" : [ "NGEN5"],
-    "2" : [ "NGEN5_2_1","NGEN5_2_2"]
-  },
-  "feederBaysInfos": {}
+  }
 }

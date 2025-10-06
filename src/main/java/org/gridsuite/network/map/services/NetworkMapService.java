@@ -14,8 +14,10 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import lombok.AllArgsConstructor;
 import org.gridsuite.network.map.dto.*;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.dto.definition.topology.TopologyInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
+import org.gridsuite.network.map.dto.utils.TopologyUtils;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -134,6 +136,15 @@ public class NetworkMapService {
                         .open(sw.isOpen())
                         .build()));
         return switchInfosList;
+    }
+
+    public TopologyInfos getVoltageLevelTopology(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
+            return TopologyUtils.getTopologyInfos(voltageLevel);
+        }
+        return TopologyInfos.builder().topologyKind(TopologyKind.BUS_BREAKER).build();
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {

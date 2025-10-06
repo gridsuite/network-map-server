@@ -1,10 +1,5 @@
 [
   {
-    "id": "P0",
-    "country": "FR",
-    "voltageLevels": []
-  },
-  {
     "id": "P1",
     "name": "P1_Name",
     "properties": {
@@ -14,18 +9,18 @@
     "voltageLevels": [
       {
         "id": "VLGEN",
+        "name": "VLGEN_Name",
+        "properties": {
+          "Country": "FR"
+        },
         "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
         "nominalV": 24.0,
-        "name": "VLGEN_Name",
         "lowVoltageLimit": 200.0,
         "highVoltageLimit": 400.0,
         "identifiableShortCircuit": {
           "ipMin": 10.0,
           "ipMax": 120.0
-        },
-        "properties": {
-          "Country": "FR"
         }
       },
       {
@@ -36,12 +31,12 @@
       },
       {
         "id": "VLNEW2",
-        "topologyKind": "BUS_BREAKER",
-        "substationId": "P1",
-        "nominalV": 225.0,
         "properties": {
           "Country": "FR"
-        }
+        },
+        "topologyKind": "BUS_BREAKER",
+        "substationId": "P1",
+        "nominalV": 225.0
       }
     ]
   },
@@ -61,6 +56,11 @@
         "nominalV": 150.0
       }
     ]
+  },
+  {
+    "id": "P0",
+    "country": "FR",
+    "voltageLevels": []
   },
   {
     "id": "P3",
@@ -97,46 +97,7 @@
         "id": "VLGEN4",
         "topologyKind": "NODE_BREAKER",
         "substationId": "P4",
-        "nominalV": 24.0,
-        "busbarCount": 1,
-        "sectionCount": 2,
-        "switchKinds": ["DISCONNECTOR"],
-        "isRetrievedBusbarSections": true,
-        "isBusbarSectionPositionFound": true,
-        "busBarSectionInfos" : {
-          "1" : ["NGEN4"]
-        },
-        "feederBaysInfos": {
-          "SHUNT_VLNB": [
-            {
-              "busbarSectionId": "NGEN4",
-              "connectablePositionInfos": {
-                "connectionDirection": null
-              },
-              "connectionSide": null
-            }
-          ],
-          "LINE7": [
-            {
-              "busbarSectionId": "NGEN4",
-              "connectablePositionInfos": {
-                "connectionDirection": "BOTTOM",
-                "connectionPosition": 5,
-                "connectionName": "LINE7_Side_VLGEN4"
-              },
-              "connectionSide": "ONE"
-            }
-          ],
-          "SHUNT_NON_LINEAR": [
-            {
-              "busbarSectionId": null,
-              "connectablePositionInfos": {
-                "connectionDirection": null
-              },
-              "connectionSide": null
-            }
-          ]
-        }
+        "nominalV": 24.0
       }
     ]
   },
@@ -154,26 +115,7 @@
         "identifiableShortCircuit": {
           "ipMin": 0.0,
           "ipMax": 100.0
-        },
-        "busbarCount": 1,
-        "sectionCount": 1,
-        "switchKinds": [],
-        "isRetrievedBusbarSections": false,
-        "isBusbarSectionPositionFound": true,
-        "busBarSectionInfos" : {
-          "1" : [ "NGEN5"],
-          "2" : [ "NGEN5_2_1", "NGEN5_2_2"]
-        },
-        "busBarSectionInfos": {
-          "1": [
-            "NGEN5"
-          ],
-          "2": [
-            "NGEN5_2_1",
-            "NGEN5_2_2"
-          ]
-        },
-        "feederBaysInfos": {}
+        }
       },
       {
         "id": "VLGEN7",
@@ -181,26 +123,7 @@
         "substationId": "P5",
         "nominalV": 24.0,
         "lowVoltageLimit": 20.0,
-        "highVoltageLimit": 30.0,
-        "busbarCount": 1,
-        "sectionCount": 1,
-        "switchKinds": [],
-        "isRetrievedBusbarSections": false,
-        "isBusbarSectionPositionFound": false,
-        "busBarSectionInfos": {},
-        "feederBaysInfos": {
-          "LINE7": [
-            {
-              "busbarSectionId": "NGEN7",
-              "connectablePositionInfos": {
-                "connectionDirection": "TOP",
-                "connectionPosition": 3,
-                "connectionName": "LINE7_Side_VLGEN8"
-              },
-              "connectionSide": "TWO"
-            }
-          ]
-        }
+        "highVoltageLimit": 30.0
       }
     ]
   }

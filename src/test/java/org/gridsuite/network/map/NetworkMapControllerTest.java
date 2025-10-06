@@ -1417,6 +1417,15 @@ class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
+    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", networkUuid, voltageLevelId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
     private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1425,7 +1434,6 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1494,7 +1502,6 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -2318,11 +2325,12 @@ class NetworkMapControllerTest {
 
     @Test
     void shouldReturnVoltageLevelFormDataWithFeederBaysInfos() throws Exception {
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-form-data-feederbays.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN5", resourceToString("/voltage-level-form-data-feederbays.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", resourceToString("/topology-info.json"));
     }
 
     @Test
-    void shouldReturnVotlageLevelNonSymmetricalBusbarsFormData() throws Exception {
+    void shouldReturnVoltageLevelNonSymmetricalBusbarsFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
     }
