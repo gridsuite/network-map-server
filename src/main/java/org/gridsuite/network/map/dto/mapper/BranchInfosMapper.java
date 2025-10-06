@@ -11,6 +11,7 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData.CurrentLimitsDataBuilder;
+import org.gridsuite.network.map.dto.common.LimitsProperty;
 import org.gridsuite.network.map.dto.common.TemporaryLimitData;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos.BranchTabInfosBuilder;
@@ -126,10 +127,10 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         return toTabBuilder((BranchTabInfosBuilder<BranchTabInfos, ?>) BranchTabInfos.builder(), branch, dcPowerFactor, loadOperationalLimitGroups).build();
     }
 
-    private static Map<String, String> getTagProperties(OperationalLimitsGroup group) {
-        HashMap<String, String> properties = new HashMap<>();
-        for (String key : group.getPropertyNames()) {
-            properties.put(key, group.getProperty(key));
+    private static List<LimitsProperty> getLimitsProperties(OperationalLimitsGroup group) {
+        ArrayList<LimitsProperty> properties = new ArrayList<>();
+        for (String name : group.getPropertyNames()) {
+            properties.add(new LimitsProperty(name, group.getProperty(name)));
         }
         return properties;
     }
@@ -175,7 +176,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
 
     protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
                                                               @Nullable final String id, @Nullable final Applicability applicability,
-                                                              @Nullable Map<String, String> tagProperties) {
+                                                              @Nullable List<LimitsProperty> limitsProperties) {
         CurrentLimitsDataBuilder builder = CurrentLimitsData.builder().id(id).applicability(applicability);
         boolean empty = true;
         if (!Double.isNaN(limits.getPermanentLimit())) {
@@ -186,8 +187,8 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
             empty = false;
         }
-        if (tagProperties != null) {
-            builder.tagProperties(tagProperties);
+        if (limitsProperties != null) {
+            builder.limitsProperties(limitsProperties);
         }
         return empty ? null : builder.build();
     }
@@ -266,7 +267,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         }
 
         return toMapDataCurrentLimits(operationalLimitsGroup.getCurrentLimits().get(), operationalLimitsGroup.getId(), applicability,
-            getTagProperties(operationalLimitsGroup));
+            getLimitsProperties(operationalLimitsGroup));
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {

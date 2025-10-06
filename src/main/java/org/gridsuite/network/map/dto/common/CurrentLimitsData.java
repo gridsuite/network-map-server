@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -44,7 +43,7 @@ public class CurrentLimitsData {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    Map<String, String> tagProperties;
+    List<LimitsProperty> limitsProperties;
 
     public boolean limitsEquals(CurrentLimitsData other) {
         return Objects.equals(permanentLimit, other.permanentLimit)
