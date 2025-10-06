@@ -27,7 +27,7 @@ public final class BusbarSectionFinderTraverser {
 
     public record SwitchInfo(String id, boolean isOpen) { }
 
-    public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch, boolean allSwitchesClosed) { }
+    public record BusbarSectionResult(String busbarSectionId, int depth, SwitchInfo lastSwitch, boolean allClosedSwitch) { }
 
     public static String findBusbarSectionId(Terminal terminal) {
         BusbarSectionResult result = getBusbarSectionResult(terminal);
@@ -44,9 +44,9 @@ public final class BusbarSectionFinderTraverser {
     }
 
     private static BusbarSectionResult selectBestBusbar(List<BusbarSectionResult> results) {
-        List<BusbarSectionResult> withoutSwitch = results.stream().filter(r -> r.allSwitchesClosed).toList();
-        if (!withoutSwitch.isEmpty()) {
-            return withoutSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
+        List<BusbarSectionResult> withAllClosedSwitch = results.stream().filter(r -> r.allClosedSwitch).toList();
+        if (!withAllClosedSwitch.isEmpty()) {
+            return withAllClosedSwitch.stream().min(Comparator.comparingInt(BusbarSectionResult::depth)
                     .thenComparing(BusbarSectionResult::busbarSectionId)).orElse(null);
         }
         List<BusbarSectionResult> withClosedSwitch = results.stream().filter(r -> r.lastSwitch() != null && !r.lastSwitch().isOpen()).toList();
