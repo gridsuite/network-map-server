@@ -196,7 +196,7 @@ class BusbarSectionFinderTraverserTest {
     }
 
     @Test
-    void testWithClosedSwitch() {
+    void testWithClosedLastSwitch() {
         network.getSwitch("BRK_LINE_1_1").setOpen(false);
         network.getSwitch("DISC_LINE_1_1").setOpen(false);
         network.getSwitch("DISC_BUS1_1").setOpen(false);
@@ -236,7 +236,7 @@ class BusbarSectionFinderTraverserTest {
         assertEquals(3, result21.depth());
         assertEquals("DISC_BUS1_1", result11.lastSwitch().id());
         assertEquals("DISC_BUS2_1", result21.lastSwitch().id());
-        assertFalse(result11.lastSwitch().isOpen());
-        assertFalse(result21.lastSwitch().isOpen());
+        assertTrue(result11.allClosedSwitch());
+        assertTrue(result21.allClosedSwitch());
     }
 }
