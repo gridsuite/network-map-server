@@ -108,7 +108,7 @@ public final class BatteryInfosMapper {
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0))
                .activePowerControl(ExtensionUtils.toActivePowerControl(battery))
-                .batteryShortCircuit(ExtensionUtils.toShortCircuit(() -> battery.getExtension(BatteryShortCircuit.class)));
+               .batteryShortCircuit(ExtensionUtils.toShortCircuit(() -> battery.getExtension(BatteryShortCircuit.class)));
 
         // voltageLevel and substation properties
         builder.voltageLevelProperties(getProperties(terminal.getVoltageLevel()));

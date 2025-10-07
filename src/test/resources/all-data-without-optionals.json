@@ -2554,22 +2554,6 @@
       }
     },
     {
-      "id": "LINE7",
-      "type": "LINE",
-      "voltageLevelId1": "VLGEN4",
-      "voltageLevelId2": "VLGEN7",
-      "nominalVoltage1": 24.0,
-      "nominalVoltage2": 24.0,
-      "substationId1": "P4",
-      "substationId2": "P5",
-      "country1": "FR",
-      "country2": "FR",
-      "terminal1Connected": true,
-      "terminal2Connected": true,
-      "r": 3.0,
-      "x": 33.0
-    },
-    {
       "id": "NGEN_NHV1",
       "type": "TWO_WINDINGS_TRANSFORMER",
       "voltageLevelId1": "VLGEN",
@@ -2736,6 +2720,22 @@
         "value": 53.0,
         "validity": false
       }
+    },
+    {
+      "id": "LINE7",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN4",
+      "voltageLevelId2": "VLGEN7",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "substationId1": "P4",
+      "substationId2": "P5",
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 3.0,
+      "x": 33.0
     }
   ]
 }
