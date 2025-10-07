@@ -54,7 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @AutoConfigureMockMvc
 @SpringBootTest
-class NetworkMapControllerTest {
+public class NetworkMapControllerTest {
 
     private static final UUID NETWORK_UUID = UUID.fromString("7928181c-7977-4592-ba19-88027e4254e4");
     private static final UUID NETWORK_2_UUID = UUID.fromString("9828181c-7977-4592-ba19-8976e4254e");
@@ -1272,7 +1272,7 @@ class NetworkMapControllerTest {
         Mockito.validateMockitoUsage();
     }
 
-    private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
+    public static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
         vl.getNodeBreakerView().newSwitch()
                 .setId(id)
                 .setName(id)
