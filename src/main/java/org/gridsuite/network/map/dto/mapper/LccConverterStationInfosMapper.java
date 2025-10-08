@@ -33,7 +33,9 @@ public final class LccConverterStationInfosMapper {
             case TAB -> toTabInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             case FORM -> toFormInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for LCC Converter Station elements"
+            );
         };
     }
 

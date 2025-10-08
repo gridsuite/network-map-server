@@ -34,7 +34,9 @@ public final class BusInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case TAB -> toTabInfos(identifiable, shouldLoadNetworkComponents);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for Bus elements"
+            );
         };
     }
 

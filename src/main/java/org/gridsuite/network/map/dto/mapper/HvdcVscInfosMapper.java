@@ -27,7 +27,9 @@ public final class HvdcVscInfosMapper extends HvdcInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for HVDC VSC elements"
+            );
         };
     }
 

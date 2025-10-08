@@ -38,7 +38,9 @@ public final class BatteryInfosMapper {
             case TAB -> toTabInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for Battery elements"
+            );
         };
     }
 

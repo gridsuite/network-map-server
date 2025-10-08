@@ -42,7 +42,9 @@ public class HvdcInfosMapper {
             case MAP -> toMapInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for HVDC Line elements"
+            );
         };
     }
 

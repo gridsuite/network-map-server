@@ -34,7 +34,9 @@ public final class BusBarSectionInfosMapper {
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for BusBarSection elements"
+            );
         };
     }
 

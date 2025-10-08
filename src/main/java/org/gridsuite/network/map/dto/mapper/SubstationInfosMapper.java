@@ -34,7 +34,9 @@ public final class SubstationInfosMapper {
             case MAP -> toMapInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for Substation elements"
+            );
         };
     }
 

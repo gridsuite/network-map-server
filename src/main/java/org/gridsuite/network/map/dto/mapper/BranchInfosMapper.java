@@ -44,7 +44,9 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(branch, dcPowerFactor, loadOperationalLimitGroups);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw new UnsupportedOperationException(
+                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for Branch elements"
+            );
         };
     }
 
