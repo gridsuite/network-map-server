@@ -586,6 +586,10 @@ public class NetworkMapControllerTest {
                 .withStandardDeviationV(2.93)
                 .withRedundantV(true)
                 .add();
+        b1.newExtension(BatteryShortCircuitAdder.class)
+                .withDirectTransX(1.0)
+                .withStepUpTransformerX(2.0)
+                .add();
 
         Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
@@ -1494,7 +1498,6 @@ public class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1581,7 +1584,6 @@ public class NetworkMapControllerTest {
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
-
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 

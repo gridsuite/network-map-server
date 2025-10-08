@@ -11,12 +11,9 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
-import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfos;
-import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
-import org.gridsuite.network.map.dto.definition.extension.InjectionObservabilityInfos;
-import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 
 import java.util.List;
 import java.util.Map;
@@ -81,5 +78,8 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> voltageLevelProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ShortCircuitInfos> batteryShortCircuit;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public final class ExtensionUtils {
     private ExtensionUtils() { }
@@ -35,6 +36,14 @@ public final class ExtensionUtils {
                         .participate(activePowerControl.isParticipate())
                         .droop(activePowerControl.getDroop())
                         .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
+                        .build());
+    }
+
+    public static Optional<ShortCircuitInfos> toShortCircuit(@NonNull final Supplier<ShortCircuitExtension<?>> shortCircuitExtensionSupplier) {
+        return Optional.ofNullable(shortCircuitExtensionSupplier.get())
+                .map(shortCircuitExtension -> ShortCircuitInfos.builder()
+                        .directTransX(shortCircuitExtension.getDirectTransX())
+                        .stepUpTransformerX(shortCircuitExtension.getStepUpTransformerX())
                         .build());
     }
 

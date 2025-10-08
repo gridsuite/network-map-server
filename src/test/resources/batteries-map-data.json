@@ -17,7 +17,11 @@
       "connectionName": "feederName"
     },
     "terminalConnected": false,
-    "busOrBusbarSectionId": "NNEW2"
+    "busOrBusbarSectionId": "NNEW2",
+    "batteryShortCircuit": {
+      "directTransX": 1.0,
+      "stepUpTransformerX": 2.0
+    }
   },
   {
     "id": "BATTERY2",
@@ -32,7 +36,7 @@
       { "p": 1.0, "minQ": 4.0, "maxQ": 5.0 },
       { "p": 3.0, "minQ": 4.0, "maxQ": 5.0 }
     ],
-    "activePowerControl":{
+    "activePowerControl": {
       "participate": true,
       "droop": 3.0
     },

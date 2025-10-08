@@ -17,7 +17,6 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.definition.extension.CoordinatedReactiveControlInfos;
-import org.gridsuite.network.map.dto.definition.extension.GeneratorShortCircuitInfos;
 import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
@@ -87,7 +86,7 @@ public final class GeneratorInfosMapper {
 
         builder.activePowerControl(ExtensionUtils.toActivePowerControl(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
-                .generatorShortCircuit(toGeneratorShortCircuit(generator))
+                .generatorShortCircuit(ExtensionUtils.toShortCircuit(() -> generator.getExtension(GeneratorShortCircuit.class)))
                 .generatorStartup(toGeneratorStartup(generator));
 
         if (loadRegulatingTerminals) {
@@ -161,7 +160,7 @@ public final class GeneratorInfosMapper {
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .activePowerControl(ExtensionUtils.toActivePowerControl(generator));
 
-        builder.generatorShortCircuit(toGeneratorShortCircuit(generator))
+        builder.generatorShortCircuit(ExtensionUtils.toShortCircuit(() -> generator.getExtension(GeneratorShortCircuit.class)))
                 .generatorStartup(toGeneratorStartup(generator))
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator));
 
@@ -190,14 +189,6 @@ public final class GeneratorInfosMapper {
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
         return builder.build();
-    }
-
-    private static Optional<GeneratorShortCircuitInfos> toGeneratorShortCircuit(@NonNull final Generator generator) {
-        return Optional.ofNullable((GeneratorShortCircuit) generator.getExtension(GeneratorShortCircuit.class))
-                .map(generatorShortCircuit -> GeneratorShortCircuitInfos.builder()
-                        .directTransX(generatorShortCircuit.getDirectTransX())
-                        .stepUpTransformerX(generatorShortCircuit.getStepUpTransformerX())
-                        .build());
     }
 
     private static CoordinatedReactiveControlInfos toCoordinatedReactiveControl(@NonNull final Generator generator) {
