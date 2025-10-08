@@ -18,6 +18,7 @@ import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabIn
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.handleUnsupportedInfoType;
 import static org.gridsuite.network.map.dto.utils.ExtensionUtils.toMeasurement;
 
 /**
@@ -34,9 +35,7 @@ public final class BusBarSectionInfosMapper {
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> ElementInfosMapper.toInfosWithOperatingStatus(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for BusBarSection elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "BusBarSection");
         };
     }
 

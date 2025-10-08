@@ -29,9 +29,7 @@ public final class DanglingLineInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for DanglingLine elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "DanglingLine");
         };
     }
 

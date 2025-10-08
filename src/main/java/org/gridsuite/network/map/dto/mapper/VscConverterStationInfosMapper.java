@@ -31,9 +31,7 @@ public final class VscConverterStationInfosMapper {
             case TAB -> toTabInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for VSC Converter Station elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "VscConverterStation");
         };
     }
 

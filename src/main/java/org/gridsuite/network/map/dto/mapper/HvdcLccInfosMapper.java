@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.hvdclcc.HvdcLccFormInfos;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.handleUnsupportedInfoType;
 
 /**
  * @author Ghazwa Rehili <ghazwa.rehili at rte-france.com>
@@ -26,9 +27,7 @@ public final class HvdcLccInfosMapper extends HvdcInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for HVDC LCC elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "HVDC LCC");
         };
     }
 

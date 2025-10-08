@@ -40,9 +40,7 @@ public final class ThreeWindingsTransformerInfosMapper {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
             case TAB -> toTabInfos(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for ThreeWindingsTransformer elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "ThreeWindingsTransformer");
         };
     }
 

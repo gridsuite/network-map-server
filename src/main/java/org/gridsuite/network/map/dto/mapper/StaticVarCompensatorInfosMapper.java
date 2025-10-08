@@ -36,9 +36,7 @@ public final class StaticVarCompensatorInfosMapper {
             case TAB -> toTabInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for StaticVarCompensator elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "StaticVarCompensator");
         };
     }
 

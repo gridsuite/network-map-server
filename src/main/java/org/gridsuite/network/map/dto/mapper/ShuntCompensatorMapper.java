@@ -31,9 +31,7 @@ public final class ShuntCompensatorMapper {
             case TAB -> toTabInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException(
-                    "InfoType '" + infoTypeParameters.getInfoType() + "' is not supported for ShuntCompensator elements"
-            );
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "ShuntCompensator");
         };
     }
 
