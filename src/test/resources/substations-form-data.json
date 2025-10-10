@@ -113,7 +113,8 @@
               "connectablePositionInfos": {
                 "connectionDirection": null
               },
-              "connectionSide": null
+              "connectionSide": null,
+              "connectionEquipmentId": "SHUNT_VLNB"
             }
           ],
           "LINE7": [
@@ -124,7 +125,8 @@
                 "connectionPosition": 5,
                 "connectionName": "LINE7_Side_VLGEN4"
               },
-              "connectionSide": "ONE"
+              "connectionSide": "ONE",
+              "connectionEquipmentId": "LINE7"
             }
           ],
           "SHUNT_NON_LINEAR": [
@@ -133,7 +135,8 @@
               "connectablePositionInfos": {
                 "connectionDirection": null
               },
-              "connectionSide": null
+              "connectionSide": null,
+              "connectionEquipmentId": "SHUNT_NON_LINEAR"
             }
           ]
         }
@@ -164,15 +167,6 @@
           "1" : [ "NGEN5"],
           "2" : [ "NGEN5_2_1", "NGEN5_2_2"]
         },
-        "busBarSectionInfos": {
-          "1": [
-            "NGEN5"
-          ],
-          "2": [
-            "NGEN5_2_1",
-            "NGEN5_2_2"
-          ]
-        },
         "feederBaysInfos": {}
       },
       {
@@ -197,7 +191,8 @@
                 "connectionPosition": 3,
                 "connectionName": "LINE7_Side_VLGEN8"
               },
-              "connectionSide": "TWO"
+              "connectionSide": "TWO",
+              "connectionEquipmentId": "LINE7"
             }
           ]
         }
