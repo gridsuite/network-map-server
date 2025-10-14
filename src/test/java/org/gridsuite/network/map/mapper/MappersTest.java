@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.assertj.core.api.WithAssertions;
 import org.assertj.core.api.WithAssumptions;
+import org.gridsuite.network.map.MapperTestUtils;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -105,7 +106,7 @@ class MappersTest implements WithAssertions, WithAssumptions {
             }
         } catch (final InvocationTargetException ex) {
             final Throwable cause = ex.getCause();
-            if (cause instanceof UnsupportedOperationException && "TODO".equals(cause.getMessage())) {
+            if (cause instanceof UnsupportedOperationException && MapperTestUtils.isUnsupportedInfoTypeMessage(cause.getMessage())) {
                 throw new TestAbortedException("Type not supported by this mapper.");
             } else if (!(cause instanceof InterruptTest)) {
                 throw ex;

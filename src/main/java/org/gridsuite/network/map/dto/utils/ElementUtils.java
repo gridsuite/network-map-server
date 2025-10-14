@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
@@ -208,5 +209,11 @@ public final class ElementUtils {
             .findFirst()
             .flatMap(Function.identity())
             .orElse(null);
+    }
+
+    public static UnsupportedOperationException handleUnsupportedInfoType(@NonNull final ElementInfos.InfoType infoType, @NonNull final String elementTypeName) {
+        return new UnsupportedOperationException(
+                "InfoType '" + infoType + "' is not supported for " + elementTypeName + " elements"
+        );
     }
 }
