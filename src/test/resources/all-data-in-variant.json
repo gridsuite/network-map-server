@@ -1916,6 +1916,10 @@
       },
       "voltageLevelProperties": {
         "Country": "FR"
+      },
+      "batteryShortCircuit": {
+        "directTransX": 1.0,
+        "stepUpTransformerX": 2.0
       }
     },
     {

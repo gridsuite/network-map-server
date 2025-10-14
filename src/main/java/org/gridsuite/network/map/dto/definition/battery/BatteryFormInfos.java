@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.definition.extension.ActivePowerControlInfo
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
+import org.gridsuite.network.map.dto.definition.extension.ShortCircuitInfos;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,5 +62,8 @@ public class BatteryFormInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean terminalConnected;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ShortCircuitInfos> batteryShortCircuit;
 
 }
