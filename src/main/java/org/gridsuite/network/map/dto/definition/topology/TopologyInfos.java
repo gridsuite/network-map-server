@@ -34,13 +34,13 @@ public class TopologyInfos {
     private List<SwitchKind> switchKinds;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isRetrievedBusbarSections;
+    private Boolean isSymmetrical;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean isBusbarSectionPositionFound;
+    private Boolean isBusbarSectionPositionExtensionFound;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, List<String>> busBarSectionInfos;
+    private Map<String, List<String>> busBarSectionsInfos;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, List<FeederBayInfos>> feederBaysInfos;

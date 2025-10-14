@@ -55,7 +55,7 @@ public final class TopologyUtils {
             return voltageLevelTopologyInfos.build();
         }
 
-        voltageLevelTopologyInfos.busBarSectionInfos(busbarSectionInfos.stream()
+        voltageLevelTopologyInfos.busBarSectionsInfos(busbarSectionInfos.stream()
                 .collect(Collectors.groupingBy(
                         section -> String.valueOf(section.getHorizPos()),
                         Collectors.collectingAndThen(
@@ -66,7 +66,7 @@ public final class TopologyUtils {
                                         .toList()
                         )
                 )));
-        voltageLevelTopologyInfos.isBusbarSectionPositionFound(true);
+        voltageLevelTopologyInfos.isBusbarSectionPositionExtensionFound(true);
 
         boolean isSymmetrical = maxBusbarIndex == 1 ||
                 nbSectionsPerBusbar.values().stream().distinct().count() == 1
@@ -75,7 +75,7 @@ public final class TopologyUtils {
         if (isSymmetrical) {
             voltageLevelTopologyInfos.busbarCount(maxBusbarIndex);
             voltageLevelTopologyInfos.sectionCount(maxSectionIndex);
-            voltageLevelTopologyInfos.isRetrievedBusbarSections(true);
+            voltageLevelTopologyInfos.isSymmetrical(true);
             voltageLevelTopologyInfos.switchKinds(Collections.nCopies(maxSectionIndex - 1, SwitchKind.DISCONNECTOR));
         }
         voltageLevelTopologyInfos.feederBaysInfos(getFeederBaysInfos(voltageLevel));
@@ -108,10 +108,10 @@ public final class TopologyUtils {
         return TopologyInfos.builder()
                 .busbarCount(1)
                 .sectionCount(1)
-                .isRetrievedBusbarSections(false)
+                .isSymmetrical(false)
                 .switchKinds(List.of())
-                .busBarSectionInfos(Map.of())
-                .isBusbarSectionPositionFound(false)
+                .busBarSectionsInfos(Map.of())
+                .isBusbarSectionPositionExtensionFound(false)
                 .topologyKind(TopologyKind.NODE_BREAKER);
     }
 }

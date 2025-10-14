@@ -100,8 +100,8 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get topology description for a voltage level")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "topology description")})
+    @Operation(summary = "Get the voltage level topology description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Network topology information retrieved")})
     public TopologyInfos getVoltageLevelTopology(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                  @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                  @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
