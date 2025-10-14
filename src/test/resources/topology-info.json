@@ -5,9 +5,9 @@
   "switchKinds": [
     "DISCONNECTOR"
   ],
-  "isRetrievedBusbarSections": true,
-  "isBusbarSectionPositionFound": true,
-  "busBarSectionInfos": {
+  "isSymmetrical": true,
+  "isBusbarSectionPositionExtensionFound": true,
+  "busBarSectionsInfos": {
     "1": [
       "NGEN4"
     ]

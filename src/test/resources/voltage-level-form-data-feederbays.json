@@ -3,9 +3,9 @@
   "busbarCount": 1,
   "sectionCount": 1,
   "switchKinds": [],
-  "isRetrievedBusbarSections": false,
-  "isBusbarSectionPositionFound": true,
-  "busBarSectionInfos": {
+  "isSymmetrical": false,
+  "isBusbarSectionPositionExtensionFound": true,
+  "busBarSectionsInfos": {
     "1": [
       "NGEN5"
     ],
