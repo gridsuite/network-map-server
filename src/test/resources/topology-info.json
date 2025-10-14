@@ -35,7 +35,7 @@
     ],
     "SHUNT_NON_LINEAR": [
       {
-        "busbarSectionId": null,
+        "busbarSectionId": "NGEN4",
         "connectablePositionInfos": {
           "connectionDirection": null
         },
