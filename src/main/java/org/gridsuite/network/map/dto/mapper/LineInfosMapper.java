@@ -42,7 +42,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case OPERATING_STATUS -> toOperatingStatusInfos(identifiable);
             case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Line");
         };
     }
 

@@ -32,7 +32,7 @@ public final class VoltageLevelInfosMapper {
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case MAP -> toMapInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "VoltageLevel");
         };
     }
 
