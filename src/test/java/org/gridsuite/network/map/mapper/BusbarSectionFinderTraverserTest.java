@@ -7,8 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Properties;
-
 import static org.gridsuite.network.map.NetworkMapControllerTest.createSwitch;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -103,7 +101,7 @@ class BusbarSectionFinderTraverserTest {
         createSwitch(vl2, "BRK_LINE_1_2", SwitchKind.BREAKER, false, 9, 11);
         createSwitch(vl2, "BRK_LINE_2_2", SwitchKind.BREAKER, false, 10, 12);
 
-        // internal Equipment
+        // Internal Connection
         createSwitch(vl2, "DISC_BUS1_2_TD1", SwitchKind.DISCONNECTOR, false, 2, 13);
         createSwitch(vl2, "DISC_BUS2_2_TD1", SwitchKind.DISCONNECTOR, false, 5, 14);
 
@@ -188,8 +186,6 @@ class BusbarSectionFinderTraverserTest {
                 .setB(0.0)
                 .add();
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
-        Properties properties = new Properties();
-        network.write("XIIDM", properties, "/tmp", "BusbarSectionFinderTraverser");
     }
 
     @Test
@@ -268,7 +264,7 @@ class BusbarSectionFinderTraverserTest {
     }
 
     @Test
-    void testWithTD() {
+    void testWithInternalConnection() {
         TwoWindingsTransformer td1 = network.getTwoWindingsTransformer("TD1");
         BusbarSectionFinderTraverser.BusbarSectionResult result1 = BusbarSectionFinderTraverser.getBusbarSectionResult(td1.getTerminal1());
         BusbarSectionFinderTraverser.BusbarSectionResult result2 = BusbarSectionFinderTraverser.getBusbarSectionResult(td1.getTerminal2());
