@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Properties;
+
 import static org.gridsuite.network.map.NetworkMapControllerTest.createSwitch;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,7 +42,7 @@ class BusbarSectionFinderTraverserTest {
                 .add();
 
         VoltageLevel vl2 = s1.newVoltageLevel()
-                .setId("VLGEN2")
+                .setId("VL2")
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
@@ -64,6 +66,16 @@ class BusbarSectionFinderTraverserTest {
                 .setName("BBS2_2")
                 .setNode(4)
                 .add();
+        vl2.getNodeBreakerView().newBusbarSection()
+                .setId("BBS1_3")
+                .setName("BBS1_3")
+                .setNode(50)
+                .add();
+        vl2.getNodeBreakerView().newBusbarSection()
+                .setId("BBS2_3")
+                .setName("BBS2_3")
+                .setNode(60)
+                .add();
 
         vl2.getNodeBreakerView()
                 .getBusbarSection("BBS1_1")
@@ -78,6 +90,12 @@ class BusbarSectionFinderTraverserTest {
                 .withSectionIndex(2)
                 .add();
         vl2.getNodeBreakerView()
+                .getBusbarSection("BBS1_3")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(1)
+                .withSectionIndex(3)
+                .add();
+        vl2.getNodeBreakerView()
                 .getBusbarSection("BBS2_1")
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(2)
@@ -88,6 +106,12 @@ class BusbarSectionFinderTraverserTest {
                 .newExtension(BusbarSectionPositionAdder.class)
                 .withBusbarIndex(2)
                 .withSectionIndex(2)
+                .add();
+        vl2.getNodeBreakerView()
+                .getBusbarSection("BBS2_3")
+                .newExtension(BusbarSectionPositionAdder.class)
+                .withBusbarIndex(2)
+                .withSectionIndex(3)
                 .add();
 
         //Fork topology
@@ -103,7 +127,7 @@ class BusbarSectionFinderTraverserTest {
         network.newLine()
                 .setId("LINE_1_2")
                 .setName("LINE_1_2")
-                .setVoltageLevel1("VLGEN2")
+                .setVoltageLevel1("VL2")
                 .setNode1(10)
                 .setVoltageLevel2("VL1")
                 .setNode2(11)
@@ -118,7 +142,7 @@ class BusbarSectionFinderTraverserTest {
         network.newLine()
                 .setId("LINE_2_2")
                 .setName("LINE_2_2")
-                .setVoltageLevel1("VLGEN2")
+                .setVoltageLevel1("VL2")
                 .setNode1(9)
                 .setVoltageLevel2("VL1")
                 .setNode2(21)
@@ -141,7 +165,7 @@ class BusbarSectionFinderTraverserTest {
         network.newLine()
                 .setId("LINE_1_1")
                 .setName("LINE_1_1")
-                .setVoltageLevel1("VLGEN2")
+                .setVoltageLevel1("VL2")
                 .setNode1(12)
                 .setVoltageLevel2("VL1")
                 .setNode2(3)
@@ -156,7 +180,7 @@ class BusbarSectionFinderTraverserTest {
         network.newLine()
                 .setId("LINE_2_1")
                 .setName("LINE_2_1")
-                .setVoltageLevel1("VLGEN2")
+                .setVoltageLevel1("VL2")
                 .setNode1(23)
                 .setVoltageLevel2("VL1")
                 .setNode2(41)
@@ -168,7 +192,24 @@ class BusbarSectionFinderTraverserTest {
                 .setB2(300E-6 / 2)
                 .add();
 
+        // internal Equipment
+        createSwitch(vl2, "DISC_BBS1.2_BBS1.3", SwitchKind.DISCONNECTOR, true, 3, 50);
+        createSwitch(vl2, "DISC_BBS2.2_BBS2.3", SwitchKind.DISCONNECTOR, true, 4, 60);
+        createSwitch(vl2, "DISC_BBS1_3", SwitchKind.DISCONNECTOR, true, 51, 50);
+        createSwitch(vl2, "DISC_BBS2_3", SwitchKind.DISCONNECTOR, true, 61, 60);
+        s1.newTwoWindingsTransformer()
+                .setId("TD1")
+                .setName("TD1")
+                .setVoltageLevel1("VL2")
+                .setNode1(61)
+                .setVoltageLevel2("VL2")
+                .setNode2(51)
+                .setR(0.0)
+                .setX(0.0)
+                .add();
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
+        Properties properties = new Properties();
+        network.write("XIIDM", properties, "/tmp", "BusbarSectionFinderTraverserTest");
     }
 
     @Test
@@ -244,5 +285,24 @@ class BusbarSectionFinderTraverserTest {
         assertEquals(3, result21.depth());
         assertEquals("DISC_BBS2_1", result21.lastSwitch().id());
         assertTrue(result21.allClosedSwitch());
+    }
+
+    @Test
+    void testWithTD() {
+        network.getSwitch("DISC_BBS1_3").setOpen(false);
+        network.getSwitch("DISC_BBS2_3").setOpen(false);
+        TwoWindingsTransformer td1 = network.getTwoWindingsTransformer("TD1");
+        BusbarSectionFinderTraverser.BusbarSectionResult result1 = BusbarSectionFinderTraverser.getBusbarSectionResult(td1.getTerminal1());
+        BusbarSectionFinderTraverser.BusbarSectionResult result2 = BusbarSectionFinderTraverser.getBusbarSectionResult(td1.getTerminal2());
+        assertNotNull(result1);
+        assertEquals("BBS2_3", result1.busbarSectionId());
+        assertEquals(1, result1.depth());
+        assertTrue(result1.allClosedSwitch());
+        assertEquals("DISC_BBS2_3", result1.lastSwitch().id());
+        assertNotNull(result2);
+        assertEquals("BBS1_3", result2.busbarSectionId());
+        assertEquals(1, result2.depth());
+        assertEquals("DISC_BBS1_3", result2.lastSwitch().id());
+        assertTrue(result2.allClosedSwitch());
     }
 }
