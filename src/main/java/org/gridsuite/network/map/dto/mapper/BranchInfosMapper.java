@@ -52,7 +52,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         @NonNull final B builder,
         @NonNull final Branch<?> branch,
         @Nullable final Double dcPowerFactor,
-        @NonNull final boolean loadOperationalLimitGroups
+        final boolean loadOperationalLimitGroups
     ) {
         /* even if x & r properties are in branch properties doc, it is not in branch getter but each impls... */
         //TODO https://github.com/powsybl/powsybl-core/issues/3521 tagged for release 09/2025
