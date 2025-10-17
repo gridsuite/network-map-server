@@ -40,7 +40,7 @@ class BusbarSectionFinderTraverserTest {
                 .add();
 
         VoltageLevel vl2 = s1.newVoltageLevel()
-                .setId("VLGEN2")
+                .setId("VL2")
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
@@ -50,19 +50,19 @@ class BusbarSectionFinderTraverserTest {
                 .setNode(1)
                 .add();
         vl2.getNodeBreakerView().newBusbarSection()
-                .setId("BBS2_1")
-                .setName("BBS2_1")
+                .setId("BBS1_2")
+                .setName("BBS1_2")
                 .setNode(2)
                 .add();
         vl2.getNodeBreakerView().newBusbarSection()
-                .setId("BBS1_2")
-                .setName("BBS1_2")
-                .setNode(3)
+                .setId("BBS2_1")
+                .setName("BBS2_1")
+                .setNode(4)
                 .add();
         vl2.getNodeBreakerView().newBusbarSection()
                 .setId("BBS2_2")
                 .setName("BBS2_2")
-                .setNode(4)
+                .setNode(5)
                 .add();
 
         vl2.getNodeBreakerView()
@@ -91,20 +91,34 @@ class BusbarSectionFinderTraverserTest {
                 .add();
 
         //Fork topology
-        createSwitch(vl2, "DISC_BBS1.1_BBS1.2", SwitchKind.DISCONNECTOR, false, 1, 3);
-        createSwitch(vl2, "DISC_BBS2.1_BBS2.2", SwitchKind.DISCONNECTOR, true, 2, 4);
-        createSwitch(vl2, "DISC_BBS1_2", SwitchKind.DISCONNECTOR, true, 3, 5);
-        createSwitch(vl2, "DISC_BBS2_2", SwitchKind.DISCONNECTOR, true, 4, 5);
-        createSwitch(vl2, "BRK_FORK", SwitchKind.BREAKER, true, 5, 6);
-        createSwitch(vl2, "DISC_LINE_1_2", SwitchKind.DISCONNECTOR, false, 6, 7);
-        createSwitch(vl2, "DISC_LINE_2_2", SwitchKind.DISCONNECTOR, false, 6, 8);
-        createSwitch(vl2, "BRK_LINE_1_2", SwitchKind.BREAKER, false, 7, 10);
-        createSwitch(vl2, "BRK_LINE_2_2", SwitchKind.BREAKER, false, 8, 9);
+        createSwitch(vl2, "DISC_BBS1.1_BBS1.2", SwitchKind.DISCONNECTOR, false, 1, 2);
+        createSwitch(vl2, "DISC_BBS2.1_BBS2.2", SwitchKind.DISCONNECTOR, true, 4, 5);
+        createSwitch(vl2, "DISC_BBS1_2", SwitchKind.DISCONNECTOR, true, 2, 7);
+        createSwitch(vl2, "DISC_BBS2_2", SwitchKind.DISCONNECTOR, true, 5, 7);
+        createSwitch(vl2, "BRK_FORK", SwitchKind.BREAKER, true, 7, 8);
+        createSwitch(vl2, "DISC_LINE_1_2", SwitchKind.DISCONNECTOR, false, 8, 9);
+        createSwitch(vl2, "DISC_LINE_2_2", SwitchKind.DISCONNECTOR, false, 8, 10);
+        createSwitch(vl2, "BRK_LINE_1_2", SwitchKind.BREAKER, false, 9, 11);
+        createSwitch(vl2, "BRK_LINE_2_2", SwitchKind.BREAKER, false, 10, 12);
+
+        // Internal Connection
+        createSwitch(vl2, "DISC_BUS1_2_TD1", SwitchKind.DISCONNECTOR, false, 2, 13);
+        createSwitch(vl2, "DISC_BUS2_2_TD1", SwitchKind.DISCONNECTOR, false, 5, 14);
+
+        // BYPASS topology
+        createSwitch(vl2, "DISC_BBS1_1", SwitchKind.DISCONNECTOR, true, 1, 20);
+        createSwitch(vl2, "DISC_BBS2_1", SwitchKind.DISCONNECTOR, true, 4, 23);
+        createSwitch(vl2, "DISC_BYPASS", SwitchKind.DISCONNECTOR, true, 20, 23);
+        createSwitch(vl2, "DISC_LINE_1_1", SwitchKind.DISCONNECTOR, true, 20, 17);
+        createSwitch(vl2, "DISC_LINE_2_1", SwitchKind.DISCONNECTOR, true, 23, 26);
+        createSwitch(vl2, "BRK_LINE_1_1", SwitchKind.BREAKER, true, 17, 18);
+        createSwitch(vl2, "BRK_LINE_2_1", SwitchKind.BREAKER, true, 26, 27);
+
         network.newLine()
                 .setId("LINE_1_2")
                 .setName("LINE_1_2")
-                .setVoltageLevel1("VLGEN2")
-                .setNode1(10)
+                .setVoltageLevel1("VL2")
+                .setNode1(11)
                 .setVoltageLevel2("VL1")
                 .setNode2(11)
                 .setR(2.0)
@@ -118,10 +132,10 @@ class BusbarSectionFinderTraverserTest {
         network.newLine()
                 .setId("LINE_2_2")
                 .setName("LINE_2_2")
-                .setVoltageLevel1("VLGEN2")
-                .setNode1(9)
+                .setVoltageLevel1("VL2")
+                .setNode1(12)
                 .setVoltageLevel2("VL1")
-                .setNode2(21)
+                .setNode2(20)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
@@ -129,22 +143,13 @@ class BusbarSectionFinderTraverserTest {
                 .setG2(0.0)
                 .setB2(300E-6 / 2)
                 .add();
-
-        // BYPASS topology
-        createSwitch(vl2, "DISC_BBS1_1", SwitchKind.DISCONNECTOR, true, 1, 15);
-        createSwitch(vl2, "DISC_BBS2_1", SwitchKind.DISCONNECTOR, true, 2, 18);
-        createSwitch(vl2, "DISC_BYPASS", SwitchKind.DISCONNECTOR, true, 15, 18);
-        createSwitch(vl2, "DISC_LINE_1_1", SwitchKind.DISCONNECTOR, true, 15, 11);
-        createSwitch(vl2, "DISC_LINE_2_1", SwitchKind.DISCONNECTOR, true, 18, 21);
-        createSwitch(vl2, "BRK_LINE_1_1", SwitchKind.BREAKER, true, 11, 12);
-        createSwitch(vl2, "BRK_LINE_2_1", SwitchKind.BREAKER, true, 21, 23);
         network.newLine()
                 .setId("LINE_1_1")
                 .setName("LINE_1_1")
-                .setVoltageLevel1("VLGEN2")
-                .setNode1(12)
+                .setVoltageLevel1("VL2")
+                .setNode1(18)
                 .setVoltageLevel2("VL1")
-                .setNode2(3)
+                .setNode2(13)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
@@ -156,10 +161,10 @@ class BusbarSectionFinderTraverserTest {
         network.newLine()
                 .setId("LINE_2_1")
                 .setName("LINE_2_1")
-                .setVoltageLevel1("VLGEN2")
-                .setNode1(23)
+                .setVoltageLevel1("VL2")
+                .setNode1(27)
                 .setVoltageLevel2("VL1")
-                .setNode2(41)
+                .setNode2(14)
                 .setR(2.0)
                 .setX(25.0)
                 .setG1(0.0)
@@ -168,6 +173,18 @@ class BusbarSectionFinderTraverserTest {
                 .setB2(300E-6 / 2)
                 .add();
 
+        s1.newTwoWindingsTransformer()
+                .setId("TD1")
+                .setName("TD1")
+                .setVoltageLevel1("VL2")
+                .setNode1(13)
+                .setVoltageLevel2("VL2")
+                .setNode2(14)
+                .setR(0.24)
+                .setX(2.4)
+                .setG(0.0)
+                .setB(0.0)
+                .add();
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
     }
 
@@ -244,5 +261,22 @@ class BusbarSectionFinderTraverserTest {
         assertEquals(3, result21.depth());
         assertEquals("DISC_BBS2_1", result21.lastSwitch().id());
         assertTrue(result21.allClosedSwitch());
+    }
+
+    @Test
+    void testWithInternalConnection() {
+        TwoWindingsTransformer td1 = network.getTwoWindingsTransformer("TD1");
+        BusbarSectionFinderTraverser.BusbarSectionResult result1 = BusbarSectionFinderTraverser.getBusbarSectionResult(td1.getTerminal1());
+        BusbarSectionFinderTraverser.BusbarSectionResult result2 = BusbarSectionFinderTraverser.getBusbarSectionResult(td1.getTerminal2());
+        assertNotNull(result1);
+        assertEquals("BBS1_2", result1.busbarSectionId());
+        assertEquals(1, result1.depth());
+        assertTrue(result1.allClosedSwitch());
+        assertEquals("DISC_BUS1_2_TD1", result1.lastSwitch().id());
+        assertNotNull(result2);
+        assertEquals("BBS2_2", result2.busbarSectionId());
+        assertEquals(1, result2.depth());
+        assertEquals("DISC_BUS2_2_TD1", result2.lastSwitch().id());
+        assertTrue(result2.allClosedSwitch());
     }
 }
