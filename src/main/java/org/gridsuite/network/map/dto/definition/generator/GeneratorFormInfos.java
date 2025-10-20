@@ -70,7 +70,7 @@ public class GeneratorFormInfos extends ElementInfosWithProperties {
     private Boolean participate;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<GeneratorShortCircuitInfos> generatorShortCircuit;
+    private Optional<ShortCircuitInfos> generatorShortCircuit;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalConnectableId;

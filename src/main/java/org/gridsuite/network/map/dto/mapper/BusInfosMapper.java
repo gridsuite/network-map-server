@@ -16,8 +16,7 @@ import org.gridsuite.network.map.dto.utils.ElementUtils;
 import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_NETWORK_COMPONENTS;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
@@ -34,7 +33,7 @@ public final class BusInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case TAB -> toTabInfos(identifiable, shouldLoadNetworkComponents);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Bus");
         };
     }
 

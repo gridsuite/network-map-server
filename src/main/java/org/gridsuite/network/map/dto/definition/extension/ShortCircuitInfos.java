@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GeneratorShortCircuitInfos {
+public class ShortCircuitInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double directTransX;

@@ -54,7 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @AutoConfigureMockMvc
 @SpringBootTest
-class NetworkMapControllerTest {
+public class NetworkMapControllerTest {
 
     private static final UUID NETWORK_UUID = UUID.fromString("7928181c-7977-4592-ba19-88027e4254e4");
     private static final UUID NETWORK_2_UUID = UUID.fromString("9828181c-7977-4592-ba19-8976e4254e");
@@ -585,6 +585,10 @@ class NetworkMapControllerTest {
                 .withRedundantQ(true)
                 .withStandardDeviationV(2.93)
                 .withRedundantV(true)
+                .add();
+        b1.newExtension(BatteryShortCircuitAdder.class)
+                .withDirectTransX(1.0)
+                .withStepUpTransformerX(2.0)
                 .add();
 
         Battery b2 = vlgen3.newBattery()
@@ -1268,7 +1272,7 @@ class NetworkMapControllerTest {
         Mockito.validateMockitoUsage();
     }
 
-    private static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
+    public static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
         vl.getNodeBreakerView().newSwitch()
                 .setId(id)
                 .setName(id)
@@ -1494,7 +1498,6 @@ class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1581,7 +1584,6 @@ class NetworkMapControllerTest {
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
-
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 

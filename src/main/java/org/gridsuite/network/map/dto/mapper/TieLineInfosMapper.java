@@ -34,7 +34,7 @@ public final class TieLineInfosMapper extends BranchInfosMapper {
             case TAB -> toTabInfos(identifiable, dcPowerFactor);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "TieLine");
         };
     }
 
