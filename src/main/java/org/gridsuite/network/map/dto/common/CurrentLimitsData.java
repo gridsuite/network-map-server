@@ -47,7 +47,8 @@ public class CurrentLimitsData {
 
     public boolean limitsEquals(CurrentLimitsData other) {
         return Objects.equals(permanentLimit, other.permanentLimit)
-            && Objects.equals(temporaryLimits, other.temporaryLimits);
+            && Objects.equals(temporaryLimits, other.temporaryLimits)
+            && Objects.equals(limitsProperties, other.limitsProperties);
     }
 }
 

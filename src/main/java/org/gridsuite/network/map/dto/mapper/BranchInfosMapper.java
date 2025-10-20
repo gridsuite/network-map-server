@@ -243,6 +243,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                                 .applicability(Applicability.EQUIPMENT)
                                 .temporaryLimits(limitsData.getTemporaryLimits())
                                 .permanentLimit(limitsData.getPermanentLimit())
+                                .limitsProperties(limitsData.getLimitsProperties())
                                 .build());
                             return;
                         }
