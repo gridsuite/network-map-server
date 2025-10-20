@@ -1,16 +1,18 @@
 {
-  "topologyKind": "NODE_BREAKER",
-  "busbarCount": 1,
-  "sectionCount": 2,
-  "switchKinds": [
-    "DISCONNECTOR"
-  ],
-  "isSymmetrical": true,
-  "isBusbarSectionPositionExtensionFound": true,
   "busBarSectionsInfos": {
-    "1": [
-      "NGEN4"
-    ]
+    "id": null,
+    "topologyKind": "NODE_BREAKER",
+    "switchKinds": [
+      "DISCONNECTOR"
+    ],
+    "isSymmetrical": true,
+    "nominalV": 0.0,
+    "isBusbarSectionPositionFound": true,
+    "busBarSections": {
+      "1": [
+        "NGEN4"
+      ]
+    }
   },
   "feederBaysInfos": {
     "SHUNT_VLNB": [
@@ -42,5 +44,23 @@
         "connectionSide": null
       }
     ]
-  }
+  },
+  "switchesInfos": [
+    {
+      "id": "VL4_BBS_SHUNT_DISCONNECTOR",
+      "open": false
+    },
+    {
+      "id": "VL4_SHUNT_BREAKER",
+      "open": false
+    },
+    {
+      "id": "b4",
+      "open": false
+    },
+    {
+      "id": "br11",
+      "open": false
+    }
+  ]
 }

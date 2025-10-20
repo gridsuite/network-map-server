@@ -1,0 +1,33 @@
+{
+  "feederBaysInfos": {
+    "SHUNT_VLNB": [
+      {
+        "busbarSectionId": "NGEN4",
+        "connectablePositionInfos": {
+          "connectionDirection": null
+        },
+        "connectionSide": null
+      }
+    ],
+    "LINE7": [
+      {
+        "busbarSectionId": "NGEN4",
+        "connectablePositionInfos": {
+          "connectionDirection": "BOTTOM",
+          "connectionPosition": 5,
+          "connectionName": "LINE7_Side_VLGEN4"
+        },
+        "connectionSide": "ONE"
+      }
+    ],
+    "SHUNT_NON_LINEAR": [
+      {
+        "busbarSectionId": "NGEN4",
+        "connectablePositionInfos": {
+          "connectionDirection": null
+        },
+        "connectionSide": null
+      }
+    ]
+  }
+}

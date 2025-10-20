@@ -99,8 +99,8 @@ public class NetworkMapController {
     public TopologyInfos getVoltageLevelTopology(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                  @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                  @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                 @Parameter(description = "Filters : switches, feeder_bays, busbar_sections") @RequestParam(name = "filter") Optional<List<String>> filter) {
-        return networkMapService.getVoltageLevelTopology(networkUuid, voltageLevelId, variantId, filter.orElseGet(List::of));
+                                                 @Parameter(description = "Filters : switches, feeder_bays, busbar_sections") @RequestParam(name = "filters") List<String> filters) {
+        return networkMapService.getVoltageLevelTopology(networkUuid, voltageLevelId, variantId, filters);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id", produces = APPLICATION_JSON_VALUE)

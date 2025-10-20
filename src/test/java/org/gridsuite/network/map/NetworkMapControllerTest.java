@@ -78,6 +78,7 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
     public static final String QUERY_PARAM_LOAD_NETWORK_COMPONENTS = "loadNetworkComponents";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
+    public static final String QUERY_PARAM_FILTERS = "filters";
 
     @Autowired
     private MockMvc mvc;
@@ -1421,13 +1422,22 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", networkUuid, voltageLevelId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, List<String> filters, String expectedJson) throws Exception {
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
+        if (filters != null && !filters.isEmpty()) {
+            List<String> filtersStr = filters.stream()
+                    .map(String::valueOf)
+                    .toList();
+            queryParams.addAll(QUERY_PARAM_FILTERS, filtersStr);
+        }
+        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", networkUuid, voltageLevelId)
+                        .queryParams(queryParams)
+                        .content(objectMapper.writeValueAsString(filters))
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) throws Exception {
@@ -2327,9 +2337,24 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnVoltageLevelFormDataWithFeederBaysInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN5", resourceToString("/voltage-level-form-data-feederbays.json"));
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", resourceToString("/topology-info.json"));
+    void shouldReturnVoltageLevelBusbarSectionsFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("busbar_sections"), resourceToString("/busbar-sections-all-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelFeederBaysFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("feeder_bays"), resourceToString("/feeder-bays-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelSwitchesFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("switches"), resourceToString("/switches-data.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, VARIANT_ID, "VLGEN4", List.of("switches"), resourceToString("/switches-data-in-variant.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelTopologyFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("feeder_bays, busbar_sections, switches"), resourceToString("/topology-form-data.json"));
     }
 
     @Test
@@ -2368,12 +2393,6 @@ public class NetworkMapControllerTest {
     void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
-    }
-
-    @Test
-    void shouldReturnSwitchesData() throws Exception {
-        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
-        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test

@@ -8,5 +8,9 @@
   "identifiableShortCircuit": {
     "ipMin": 0.0,
     "ipMax": 100.0
-  }
+  },
+  "busbarCount": 1,
+  "sectionCount": 1,
+  "switchKinds": [],
+  "isSymmetrical": false
 }

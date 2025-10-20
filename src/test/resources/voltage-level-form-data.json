@@ -1,6 +1,10 @@
 {
   "id": "VLGEN4",
-  "topologyKind": "NODE_BREAKER",
   "substationId": "P4",
-  "nominalV": 24.0
+  "nominalV": 24.0,
+  "topologyKind": "NODE_BREAKER",
+  "busbarCount": 1,
+  "sectionCount": 2,
+  "switchKinds": ["DISCONNECTOR"],
+  "isSymmetrical": true
 }
