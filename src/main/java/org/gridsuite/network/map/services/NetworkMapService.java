@@ -129,19 +129,14 @@ public class NetworkMapService {
         };
     }
 
-    public TopologyInfos getVoltageLevelTopology(UUID networkUuid, String voltageLevelId, String variantId, List<String> filter) {
-        Set<TopologyUtils.TopologyFilterType> filters = TopologyUtils.TopologyFilterType.fromList(filter);
+    public TopologyInfos getVoltageLevelTopology(UUID networkUuid, String voltageLevelId, String variantId, TopologyUtils.TopologyFilterType filter) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
         TopologyInfos topologyInfos = TopologyInfos.builder().build();
-        if (filters.contains(TopologyUtils.TopologyFilterType.SWITCHES)) {
-            topologyInfos.setSwitchesInfos(TopologyUtils.getSwitchesInfos(voltageLevelId, network));
-        }
-        if (filters.contains(TopologyUtils.TopologyFilterType.FEEDER_BAYS)) {
-            topologyInfos.setFeederBaysInfos(TopologyUtils.getFeederBaysInfos(voltageLevel));
-        }
-        if (filters.contains(TopologyUtils.TopologyFilterType.BUSBAR_SECTIONS)) {
-            topologyInfos.setBusBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
+        switch (filter) {
+            case SWITCHES -> topologyInfos.setSwitchesInfos(TopologyUtils.getSwitchesInfos(voltageLevelId, network));
+            case FEEDER_BAYS -> topologyInfos.setFeederBaysInfos(TopologyUtils.getFeederBaysInfos(voltageLevel));
+            case BUSBAR_SECTIONS -> topologyInfos.setBusBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
         }
         return topologyInfos;
     }

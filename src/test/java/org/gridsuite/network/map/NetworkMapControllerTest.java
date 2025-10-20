@@ -18,8 +18,8 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -1422,22 +1422,12 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, List<String> filters, String expectedJson) throws Exception {
-        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
-        if (filters != null && !filters.isEmpty()) {
-            List<String> filtersStr = filters.stream()
-                    .map(String::valueOf)
-                    .toList();
-            queryParams.addAll(QUERY_PARAM_FILTERS, filtersStr);
-        }
-        MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", networkUuid, voltageLevelId)
-                        .queryParams(queryParams)
-                        .content(objectMapper.writeValueAsString(filters))
-                )
+    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, String filters, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology-{filters}", networkUuid, voltageLevelId, filters)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) throws Exception {
@@ -2338,23 +2328,18 @@ public class NetworkMapControllerTest {
 
     @Test
     void shouldReturnVoltageLevelBusbarSectionsFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("busbar_sections"), resourceToString("/busbar-sections-all-data.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "busbar_sections", resourceToString("/busbar-sections-all-data.json"));
     }
 
     @Test
     void shouldReturnVoltageLevelFeederBaysFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("feeder_bays"), resourceToString("/feeder-bays-data.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "feeder_bays", resourceToString("/feeder-bays-data.json"));
     }
 
     @Test
     void shouldReturnVoltageLevelSwitchesFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("switches"), resourceToString("/switches-data.json"));
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, VARIANT_ID, "VLGEN4", List.of("switches"), resourceToString("/switches-data-in-variant.json"));
-    }
-
-    @Test
-    void shouldReturnVoltageLevelTopologyFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", List.of("feeder_bays, busbar_sections, switches"), resourceToString("/topology-form-data.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "switches", resourceToString("/switches-data.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, VARIANT_ID, "VLGEN4", "switches", resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test

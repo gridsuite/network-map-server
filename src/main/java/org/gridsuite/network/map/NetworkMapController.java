@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import static org.gridsuite.network.map.dto.utils.TopologyUtils.TopologyFilterType.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -93,14 +94,31 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelBusesOrBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology-switches", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get the voltage level topology description")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Network topology information retrieved")})
-    public TopologyInfos getVoltageLevelTopology(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+    public TopologyInfos getVoltageLevelTopologySwitches(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                  @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId,
-                                                 @Parameter(description = "Filters : switches, feeder_bays, busbar_sections") @RequestParam(name = "filters") List<String> filters) {
-        return networkMapService.getVoltageLevelTopology(networkUuid, voltageLevelId, variantId, filters);
+                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelTopology(networkUuid, voltageLevelId, variantId, SWITCHES);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology-feeder_bays", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get the voltage level topology description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Network topology information retrieved")})
+    public TopologyInfos getVoltageLevelTopologyFeederBays(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                 @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelTopology(networkUuid, voltageLevelId, variantId, FEEDER_BAYS);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology-busbar_sections", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get the voltage level topology description")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Network topology information retrieved")})
+    public TopologyInfos getVoltageLevelTopologyBusbarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                 @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getVoltageLevelTopology(networkUuid, voltageLevelId, variantId, BUSBAR_SECTIONS);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id", produces = APPLICATION_JSON_VALUE)
