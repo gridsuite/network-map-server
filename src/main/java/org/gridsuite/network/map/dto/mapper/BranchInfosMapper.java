@@ -264,12 +264,11 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
     @Nullable
     static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(@Nullable final OperationalLimitsGroup operationalLimitsGroup,
                                                                           @Nullable final Applicability applicability) {
-        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
-            return null;
-        }
 
-        return toMapDataCurrentLimits(operationalLimitsGroup.getCurrentLimits().get(), operationalLimitsGroup.getId(), applicability,
-            getLimitsProperties(operationalLimitsGroup));
+        CurrentLimits currentLimits = operationalLimitsGroup != null ? operationalLimitsGroup.getCurrentLimits().orElse(null) : null;
+
+        return currentLimits != null ? toMapDataCurrentLimits(currentLimits, operationalLimitsGroup.getId(), applicability,
+            getLimitsProperties(operationalLimitsGroup)) : null;
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
