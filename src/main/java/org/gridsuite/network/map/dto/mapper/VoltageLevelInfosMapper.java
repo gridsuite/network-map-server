@@ -54,11 +54,11 @@ public final class VoltageLevelInfosMapper {
                 .identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel))
                 .build();
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            VoltageLevelFormInfos barSectionsInfos = getVoltageLevelBusBarSectionsInfos(voltageLevel);
-            voltageLevelFormInfos.setBusbarCount(barSectionsInfos.getBusbarCount());
-            voltageLevelFormInfos.setSectionCount(barSectionsInfos.getSectionCount());
-            voltageLevelFormInfos.setSwitchKinds(barSectionsInfos.getSwitchKinds());
-            voltageLevelFormInfos.setIsSymmetrical(barSectionsInfos.getIsSymmetrical());
+            VoltageLevelFormInfos busBarSectionsInfos = getVoltageLevelBusBarSectionsInfos(voltageLevel);
+            voltageLevelFormInfos.setBusbarCount(busBarSectionsInfos.getBusbarCount());
+            voltageLevelFormInfos.setSectionCount(busBarSectionsInfos.getSectionCount());
+            voltageLevelFormInfos.setSwitchKinds(busBarSectionsInfos.getSwitchKinds());
+            voltageLevelFormInfos.setIsSymmetrical(busBarSectionsInfos.getIsSymmetrical());
         }
         return voltageLevelFormInfos;
     }

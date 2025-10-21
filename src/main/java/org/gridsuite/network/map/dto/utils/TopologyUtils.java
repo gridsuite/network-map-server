@@ -38,26 +38,6 @@ public final class TopologyUtils {
         TopologyFilterType(String value) {
             this.value = value;
         }
-
-        public static Set<TopologyFilterType> fromList(List<String> filters) {
-            Set<TopologyFilterType> result = new HashSet<>();
-            if (filters == null || filters.isEmpty()) {
-                return result;
-            }
-            for (String filter : filters) {
-                String trimmedValue = filter.trim();
-                if (trimmedValue.isEmpty()) {
-                    continue;
-                }
-                for (TopologyFilterType type : TopologyFilterType.values()) {
-                    if (type.value.equalsIgnoreCase(trimmedValue)) {
-                        result.add(type);
-                        break;
-                    }
-                }
-            }
-            return result;
-        }
     }
 
     private TopologyUtils() { }
