@@ -47,13 +47,16 @@ public final class ExtensionUtils {
                         .build());
     }
 
-    public static String toOperatingStatus(@NonNull final Extendable<?> extendable) {
+    public static String toOperatingStatus(@NonNull final Extendable<?> extendable, boolean isTerminalsConnected) {
         if (extendable instanceof Branch<?>
                 || extendable instanceof ThreeWindingsTransformer
                 || extendable instanceof HvdcLine
                 || extendable instanceof BusbarSection) {
             var operatingStatus = extendable.getExtension(OperatingStatus.class);
-            return operatingStatus == null ? null : operatingStatus.getStatus().name();
+            if (operatingStatus == null || !isTerminalsConnected) {
+                return null;
+            }
+            return operatingStatus.getStatus().name();
         }
         return null;
     }

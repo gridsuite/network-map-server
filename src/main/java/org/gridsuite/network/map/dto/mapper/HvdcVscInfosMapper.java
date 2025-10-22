@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.HvdcLine;
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Terminal;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcFormInfos;
@@ -34,6 +35,8 @@ public final class HvdcVscInfosMapper extends HvdcInfosMapper {
 
     private static HvdcFormInfos toFormInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
+        Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
+        Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
         HvdcFormInfos.HvdcFormInfosBuilder<?, ?> builder = HvdcVscFormInfos.builder()
                 .id(hvdcLine.getId())
                 .name(hvdcLine.getOptionalName().orElse(null))
@@ -47,7 +50,7 @@ public final class HvdcVscInfosMapper extends HvdcInfosMapper {
                 .converterStation2(VscConverterStationInfosMapper.toFormInfos(hvdcLine.getConverterStation2()))
                 .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
                 .hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine))
-                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine));
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, terminal1.isConnected() && terminal2.isConnected()));
 
         return builder.build();
     }

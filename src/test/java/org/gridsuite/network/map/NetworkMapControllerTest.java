@@ -1061,7 +1061,6 @@ public class NetworkMapControllerTest {
                 .setName("NGEN5")
                 .setNode(0)
                 .add();
-        bbs1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.FORCED_OUTAGE).add();
         vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
         vlgen5.getNodeBreakerView()
                 .getBusbarSection("NGEN5")

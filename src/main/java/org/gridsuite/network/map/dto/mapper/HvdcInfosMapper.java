@@ -48,18 +48,19 @@ public class HvdcInfosMapper {
 
     private static HvdcMapInfos toMapInfos(Identifiable<?> identifiable) {
         HvdcLine hvdcLine = (HvdcLine) identifiable;
+        Terminal terminal1 = hvdcLine.getConverterStation1().getTerminal();
+        Terminal terminal2 = hvdcLine.getConverterStation2().getTerminal();
         return HvdcMapInfos.builder()
                 .id(hvdcLine.getId())
                 .name(hvdcLine.getOptionalName().orElse(null))
-                .voltageLevelId1(hvdcLine.getConverterStation1().getTerminal().getVoltageLevel().getId())
-                .voltageLevelId2(hvdcLine.getConverterStation2().getTerminal().getVoltageLevel().getId())
-                .terminal1Connected(hvdcLine.getConverterStation1().getTerminal().isConnected())
-                .terminal2Connected(hvdcLine.getConverterStation2().getTerminal().isConnected())
-                .p1(nullIfNan(hvdcLine.getConverterStation1().getTerminal().getP()))
-                .p2(nullIfNan(hvdcLine.getConverterStation2().getTerminal().getP()))
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId())
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
+                .p1(nullIfNan(terminal1.getP()))
+                .p2(nullIfNan(terminal2.getP()))
                 .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
-                .operatingStatus(hvdcLine.getConverterStation1().getTerminal().isConnected() || hvdcLine.getConverterStation2().getTerminal().isConnected() ?
-                        ExtensionUtils.toOperatingStatus(hvdcLine) : null)
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, terminal1.isConnected() && terminal2.isConnected()))
                 .build();
     }
 
@@ -73,7 +74,7 @@ public class HvdcInfosMapper {
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .operatingStatus(terminal1.isConnected() || terminal2.isConnected() ? ExtensionUtils.toOperatingStatus(hvdcLine) : null)
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, terminal1.isConnected() && terminal2.isConnected()))
                 .build();
     }
 
