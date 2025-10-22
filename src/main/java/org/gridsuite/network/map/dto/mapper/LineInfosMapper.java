@@ -106,7 +106,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(line))
+                .operatingStatus(terminal1.isConnected() || terminal2.isConnected() ? ExtensionUtils.toOperatingStatus(line) : null)
                 .build();
     }
 
@@ -128,8 +128,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
-                // TODO - lock and strip are hidden on map temporarly
-                //.operatingStatus(ExtensionUtils.toOperatingStatus(line))
+                .operatingStatus(terminal1.isConnected() || terminal2.isConnected() ? ExtensionUtils.toOperatingStatus(line) : null)
                 .build();
     }
 
