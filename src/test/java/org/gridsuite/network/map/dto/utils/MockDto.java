@@ -249,7 +249,7 @@ public final class MockDto {
 
         @Override
         public Set<String> getPropertyNames() {
-            return Set.of();
+            throw new NotImplementedException("Not supported yet.");
         }
 
         @Override
