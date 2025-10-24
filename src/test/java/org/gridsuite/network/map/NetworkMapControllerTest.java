@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -133,6 +134,13 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+
+        // add limits properties on operational limits group side 1
+        Optional<OperationalLimitsGroup> op = l1.getOperationalLimitsGroup1("limit set 1");
+        if (op.isPresent()) {
+            op.get().setProperty("prop1", "value1");
+            op.get().setProperty("prop2", "value2");
+        }
 
         Line l2 = network.getLine("NHV1_NHV2_2");
         l2.newOperationalLimitsGroup1("group1").newCurrentLimits()

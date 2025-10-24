@@ -13,7 +13,10 @@
       "id" : "limit set 1",
       "permanentLimit":700.4,
       "temporaryLimits":[{"name":"IT5","acceptableDuration":300,"value":250.0}],
-      "applicability": "SIDE1"
+      "applicability": "SIDE1",
+      "limitsProperties": [{
+        "name": "prop1", "value": "value1"
+      }, {"name": "prop2", "value": "value2"}]
     },
     {
       "id" : "limit set 1",
