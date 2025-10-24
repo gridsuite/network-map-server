@@ -24,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -57,8 +56,7 @@ class BranchInfosMapperTest implements WithAssertions {
          */
 
         @SafeVarargs
-        private CurrentLimitsData testResult(final String id, @Nullable final Double permanentLimit,
-                                             @Nullable final Triple<String, Double, Integer>... temporaryLimits) {
+        private CurrentLimitsData testResult(final String id, @Nullable final Double permanentLimit, @Nullable final Triple<String, Double, Integer>... temporaryLimits) {
             final var dtoMocks = MockDto.buildOperationalLimitsGroup(true, id, permanentLimit, temporaryLimits);
             final TemporaryLimitDtoTest tlMock = CollectionUtils.isEmpty(dtoMocks.getRight()) ? null : dtoMocks.getRight().getFirst();
             if (tlMock != null) {
@@ -73,16 +71,16 @@ class BranchInfosMapperTest implements WithAssertions {
                 mocks.add(olgMock);
             }
             final CurrentLimitsData result = BranchInfosMapper.operationalLimitsGroupToMapDataCurrentLimits(olgMock, null);
-            if (id != null) {
-                Mockito.verify(olgMock, Mockito.atLeast(1)).getCurrentLimits();
+            if (id != null && result != null) {
+                Mockito.verify(olgMock).getId();
                 if (permanentLimit != null) {
-                    Mockito.verify(olgMock).getId();
-                    Mockito.verify(clMock, Mockito.atLeast(1)).getPermanentLimit();
-                    Mockito.verify(clMock, Mockito.atLeast(1)).getTemporaryLimits();
+                    Mockito.verify(olgMock, Mockito.atLeast(1)).getCurrentLimits();
+                    Mockito.verify(clMock, Mockito.times(Double.isNaN(permanentLimit) ? 1 : 2)).getPermanentLimit();
+                    Mockito.verify(clMock, Mockito.times(ArrayUtils.isEmpty(temporaryLimits) ? 1 : 2)).getTemporaryLimits();
                     if (ArrayUtils.isNotEmpty(temporaryLimits)) {
                         Mockito.verify(tlMock).getName();
-                        Mockito.verify(tlMock, Mockito.atLeast(1)).getValue();
-                        Mockito.verify(tlMock, Mockito.atLeast(1)).getAcceptableDuration();
+                        Mockito.verify(tlMock, Mockito.times(2)).getValue();
+                        Mockito.verify(tlMock, Mockito.times(2)).getAcceptableDuration();
                     }
                 }
             }
@@ -123,8 +121,7 @@ class BranchInfosMapperTest implements WithAssertions {
             // OLG("my id", CL(Nan, [TL("testLimit", 456.789, 123)])) -> CLD("my id", null, [TLD("testLimit", 456.789, 123)], null)
             assertThat(testResult("my id", Double.NaN, Triple.of("testLimit", 456.789, 123)))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(null).temporaryLimits(
-                    List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build()))
-                    .limitsProperties(Collections.emptyList()).build());
+                    List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
         }
 
         @Test
@@ -132,8 +129,7 @@ class BranchInfosMapperTest implements WithAssertions {
         void nonNanPermLimitAndNullTempLimit() {
             // OLG("my id", CL(0.123, null)) -> CLD("my id", 0.123, null, null)
             assertThat(testResult("my id", 0.123, (Triple<String, Double, Integer>[]) null))
-                .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null)
-                    .limitsProperties(Collections.emptyList()).build());
+                .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
         }
 
         @Test
@@ -141,8 +137,7 @@ class BranchInfosMapperTest implements WithAssertions {
         void nonNanPermLimitAndEmptyTempLimit() {
             // OLG("my id", CL(0.123, [])) -> CLD("my id", 0.123, [], null)
             assertThat(testResult("my id", 0.123 /*,new Triple[0]*/))
-                .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123)
-                    .temporaryLimits(null).limitsProperties(Collections.emptyList()).build());
+                .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.123).temporaryLimits(null).build());
         }
 
         @Test
@@ -151,8 +146,7 @@ class BranchInfosMapperTest implements WithAssertions {
             // OLG("my id", CL(0.0, [TL("testLimit", 456.789, 123)])) -> CLD("my id", 0.0, [TLD("testLimit", 456.789, 123)], null)
             assertThat(testResult("my id", 0.0, Triple.of("testLimit", 456.789, 123)))
                 .isEqualTo(CurrentLimitsData.builder().id("my id").applicability(null).permanentLimit(0.0).temporaryLimits(
-                    List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build()))
-                    .limitsProperties(Collections.emptyList()).build());
+                    List.of(TemporaryLimitData.builder().acceptableDuration(123).name("testLimit").value(456.789).build())).build());
         }
     }
 
@@ -172,7 +166,6 @@ class BranchInfosMapperTest implements WithAssertions {
                 TemporaryLimitData.builder().acceptableDuration(100).name("temporary1").value(50.0).build(),
                 TemporaryLimitData.builder().acceptableDuration(150).name("temporary2").value(70.0).build()
             )).applicability(isSide1or2 == null ? Applicability.EQUIPMENT : (isSide1or2 ? Applicability.SIDE1 : Applicability.SIDE2))
-                .limitsProperties(Collections.emptyList())
             .build();
         }
 

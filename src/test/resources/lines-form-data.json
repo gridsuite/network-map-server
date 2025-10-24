@@ -20,8 +20,7 @@
             "acceptableDuration": 300
           }
         ],
-        "applicability": "SIDE1",
-        "limitsProperties": []
+        "applicability": "SIDE1"
       },
       {
         "id": "limit set 1",
@@ -38,8 +37,7 @@
             "acceptableDuration": 600
           }
         ],
-        "applicability": "SIDE2",
-        "limitsProperties": []
+        "applicability": "SIDE2"
       }
     ],
     "selectedOperationalLimitsGroup1": "limit set 1",
@@ -80,8 +78,7 @@
             "acceptableDuration": 200
           }
         ],
-        "applicability": "SIDE1",
-        "limitsProperties": []
+        "applicability": "SIDE1"
       },
       {
         "id": "group1",
@@ -98,8 +95,8 @@
             "acceptableDuration": 100
           }
         ],
-        "applicability": "SIDE1",
-        "limitsProperties": []
+        "applicability": "SIDE1"
+
       },
       {
         "id": "group4",
@@ -111,8 +108,8 @@
             "acceptableDuration": 200
           }
         ],
-        "applicability": "SIDE2",
-        "limitsProperties": []
+        "applicability": "SIDE2"
+
       },
       {
         "id": "group3",
@@ -124,8 +121,8 @@
             "acceptableDuration": 150
           }
         ],
-        "applicability": "SIDE2",
-        "limitsProperties": []
+        "applicability": "SIDE2"
+
       }
     ],
     "selectedOperationalLimitsGroup1": "group1",
@@ -168,8 +165,8 @@
             "acceptableDuration": 100
           }
         ],
-        "applicability": "SIDE1",
-        "limitsProperties": []
+        "applicability": "SIDE1"
+
       }
     ],
     "selectedOperationalLimitsGroup1": "group1",
@@ -229,8 +226,8 @@
             "acceptableDuration": 100
           }
         ],
-        "applicability": "SIDE2",
-        "limitsProperties": []
+        "applicability": "SIDE2"
+
       }
     ],
     "selectedOperationalLimitsGroup2": "group1",

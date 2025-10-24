@@ -21,8 +21,8 @@
             "acceptableDuration": 100
           }
         ],
-        "applicability": "SIDE2",
-        "limitsProperties": []
+        "applicability": "SIDE2"
+        
       }
     ],
     "selectedOperationalLimitsGroup2": "group1",
@@ -64,8 +64,8 @@
             "acceptableDuration": 100
           }
         ],
-        "applicability": "SIDE1",
-        "limitsProperties": []
+        "applicability": "SIDE1"
+        
       }
     ],
     "selectedOperationalLimitsGroup1": "group1",
