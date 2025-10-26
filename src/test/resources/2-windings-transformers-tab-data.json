@@ -11,8 +11,8 @@
     "substationId2": "P1",
     "country1": "FR",
     "country2": "FR",
-    "terminal1Connected": true,
-    "terminal2Connected": true,
+    "terminal1Connected": false,
+    "terminal2Connected": false,
     "p1": 11.1,
     "q1": 12.2,
     "p2": 13.33,
@@ -98,7 +98,6 @@
     "substationProperties2": {
       "Country": "FR"
     },
-    "operatingStatus": "PLANNED_OUTAGE",
     "country": "FR",
     "phaseTapChanger": {
       "lowTapPosition": 0,
@@ -156,7 +155,7 @@
     "nominalVoltage2": 150.0,
     "substationId1": "P2",
     "substationId2": "P2",
-    "terminal1Connected": true,
+    "terminal1Connected": false,
     "terminal2Connected": true,
     "p1": 5.5,
     "q1": 6.6,
@@ -164,7 +163,6 @@
     "q2": 8.88,
     "r": 0.04724999999999999,
     "x": 4.049724365620455,
-    "operatingStatus": "PLANNED_OUTAGE",
     "ratioTapChanger": {
       "lowTapPosition": 0,
       "tapPosition": 2,

@@ -91,7 +91,7 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         builder.selectedOperationalLimitsGroup1(twoWT.getSelectedOperationalLimitsGroupId1().orElse(null));
         builder.selectedOperationalLimitsGroup2(twoWT.getSelectedOperationalLimitsGroupId2().orElse(null));
 
-        builder.operatingStatus(ExtensionUtils.toOperatingStatus(twoWT, terminal1.isConnected() || terminal2.isConnected()));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(twoWT, true));
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(twoWT, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(twoWT, 2));
 

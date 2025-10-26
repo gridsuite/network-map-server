@@ -119,7 +119,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                 .substationProperties1(terminal1.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .substationProperties2(terminal2.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .branchObservability(toBranchObservability(branch))
-                .operatingStatus(terminal1.isConnected() || terminal2.isConnected() ? ExtensionUtils.toOperatingStatus(branch, terminal1.isConnected() || terminal2.isConnected()) : null);
+                .operatingStatus(ExtensionUtils.toOperatingStatus(branch, true));
     }
 
     private static BranchTabInfos toTabInfos(@NonNull final Branch<?> branch, @Nullable final Double dcPowerFactor, @NonNull final Boolean loadOperationalLimitGroups) {

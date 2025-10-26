@@ -79,7 +79,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() || terminal2.isConnected()));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line, true));
 
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(line, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(line, 2));

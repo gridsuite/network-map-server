@@ -53,7 +53,7 @@ public final class ExtensionUtils {
                 || extendable instanceof HvdcLine
                 || extendable instanceof BusbarSection) {
             var operatingStatus = extendable.getExtension(OperatingStatus.class);
-            if (operatingStatus == null || !isTerminalsConnected) {
+            if (operatingStatus == null || isTerminalsConnected) {
                 return null;
             }
             return operatingStatus.getStatus().name();
