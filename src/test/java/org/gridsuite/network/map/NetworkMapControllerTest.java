@@ -2530,6 +2530,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnHvdcLinesOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.OPERATING_STATUS, null, resourceToString("/hvdc-lines-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.OPERATING_STATUS, null, resourceToString("/hvdc-lines-operating-status-data.json"));
+    }
+
+    @Test
     void shouldReturnGeneratorsFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
