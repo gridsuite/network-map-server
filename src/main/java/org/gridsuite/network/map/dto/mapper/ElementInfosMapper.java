@@ -39,7 +39,7 @@ public final class ElementInfosMapper {
         return ElementInfosWithOperatingStatus.builder()
                 .id(identifiable.getId())
                 .name(identifiable.getOptionalName().orElse(null))
-                .operatingStatus(toOperatingStatus(identifiable, true))
+                .operatingStatus(toOperatingStatus(identifiable, false))
                 .build();
     }
 }
