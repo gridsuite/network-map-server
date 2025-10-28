@@ -48,7 +48,7 @@ public final class GeneratorInfosMapper {
             case TAB -> toTabInfos(identifiable, loadRegulatingTerminals);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Generator");
         };
     }
 

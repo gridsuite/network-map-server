@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
-import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -34,7 +33,7 @@ public final class SubstationInfosMapper {
             case MAP -> toMapInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Substation");
         };
     }
 

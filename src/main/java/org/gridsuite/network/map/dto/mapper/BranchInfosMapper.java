@@ -29,6 +29,7 @@ import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_PO
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE1;
 import static org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability.SIDE2;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.handleUnsupportedInfoType;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.mapCountry;
 import static org.gridsuite.network.map.dto.utils.ExtensionUtils.buildQualityInfos;
 
@@ -44,7 +45,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(branch, dcPowerFactor, loadOperationalLimitGroups);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Branch");
         };
     }
 

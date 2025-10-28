@@ -50,7 +50,7 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
             case TOOLTIP -> toTooltipInfos(identifiable, dcPowerFactor);
             case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups);
             case FORM -> toFormInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "TwoWindingsTransformer");
         };
     }
 

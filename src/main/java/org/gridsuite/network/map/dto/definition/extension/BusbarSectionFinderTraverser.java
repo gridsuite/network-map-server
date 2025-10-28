@@ -91,6 +91,9 @@ public final class BusbarSectionFinderTraverser {
                 int sourceNode = visitedNodes.containsKey(node1) ? node1 : node2;
                 int targetNode = visitedNodes.containsKey(node1) ? node2 : node1;
                 NodeState sourceState = visitedNodes.get(sourceNode);
+                if (sourceState == null) {
+                    return TraverseResult.TERMINATE_PATH;
+                }
                 NodeState newState = new NodeState(sourceState.depth + 1, sourceState.allClosed && !aSwitch.isOpen());
                 visitedNodes.put(targetNode, newState);
                 lastSwitch = new SwitchInfo(aSwitch.getId(), aSwitch.isOpen());

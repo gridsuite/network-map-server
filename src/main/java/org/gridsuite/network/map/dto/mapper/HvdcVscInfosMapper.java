@@ -15,6 +15,7 @@ import org.gridsuite.network.map.dto.definition.hvdc.hvdcvsc.HvdcVscFormInfos;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import static org.gridsuite.network.map.dto.utils.ElementUtils.getProperties;
+import static org.gridsuite.network.map.dto.utils.ElementUtils.handleUnsupportedInfoType;
 
 /**
  * @author Ghazwa Rehili <ghazwa.rehili at rte-france.com>
@@ -27,7 +28,7 @@ public final class HvdcVscInfosMapper extends HvdcInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
-            default -> throw new UnsupportedOperationException("TODO");
+            default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "HVDC VSC");
         };
     }
 
