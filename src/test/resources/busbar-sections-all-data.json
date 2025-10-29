@@ -1,12 +1,10 @@
 {
   "busBarSectionsInfos": {
-    "id": null,
     "topologyKind": "NODE_BREAKER",
     "switchKinds": [
       "DISCONNECTOR"
     ],
     "isSymmetrical": true,
-    "nominalV": 0.0,
     "isBusbarSectionPositionFound": true,
     "busBarSections": {
       "1": [

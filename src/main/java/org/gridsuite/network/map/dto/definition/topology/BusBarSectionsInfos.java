@@ -7,10 +7,11 @@
 package org.gridsuite.network.map.dto.definition.topology;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.powsybl.iidm.network.SwitchKind;
+import com.powsybl.iidm.network.TopologyKind;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,16 @@ import java.util.Map;
 @SuperBuilder
 @Getter
 @Setter
-public class BusBarSectionsInfos extends VoltageLevelFormInfos {
+public class BusBarSectionsInfos {
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TopologyKind topologyKind;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<SwitchKind> switchKinds;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean isSymmetrical;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     Boolean isBusbarSectionPositionFound;
