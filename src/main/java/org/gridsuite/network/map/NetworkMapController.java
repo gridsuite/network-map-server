@@ -114,11 +114,11 @@ public class NetworkMapController {
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/switches", produces = APPLICATION_JSON_VALUE)
-    @Operation(summary = "get switches information")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "switches information retrieved")})
-    public List<SwitchInfos> getSwitchInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+    @Operation(summary = "Get switches description for a voltage level")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Switches description")})
+    public List<SwitchInfos> getVoltageLevelSwitches(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                     @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                     @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getSwitchInfos(networkUuid, voltageLevelId, variantId);
     }
 

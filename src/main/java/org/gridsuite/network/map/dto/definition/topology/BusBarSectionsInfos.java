@@ -7,7 +7,6 @@
 package org.gridsuite.network.map.dto.definition.topology;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.powsybl.iidm.network.SwitchKind;
 import com.powsybl.iidm.network.TopologyKind;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,9 +25,6 @@ public class BusBarSectionsInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private TopologyKind topologyKind;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<SwitchKind> switchKinds;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isSymmetrical;

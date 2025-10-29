@@ -72,7 +72,6 @@ public final class TopologyUtils {
 
         if (isSymmetrical) {
             busBarSectionsInfos.setIsSymmetrical(true);
-            busBarSectionsInfos.setSwitchKinds(Collections.nCopies(maxSectionIndex - 1, SwitchKind.DISCONNECTOR));
         }
         busBarSectionsInfos.setTopologyKind(voltageLevel.getTopologyKind());
         return busBarSectionsInfos;
