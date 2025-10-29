@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Etienne Lesot <etienne.lesot at rte-france.com>
@@ -19,7 +20,10 @@ import java.util.List;
 @SuperBuilder
 @Getter
 @Setter
-public class VoltageLevelTopologyModificationInfos {
+public class FeederBaysBusBarSectionsInfos {
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<SwitchInfos> switchesInfos;
+    private Map<String, List<FeederBayInfos>> feederBaysInfos;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private BusBarSectionsInfos busBarSectionsInfos;
 }

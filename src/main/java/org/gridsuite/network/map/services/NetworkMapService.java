@@ -17,9 +17,9 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
-import org.gridsuite.network.map.dto.definition.topology.CreateVoltageLevelSectionInfos;
-import org.gridsuite.network.map.dto.definition.topology.MoveVoltageLevelFeederBaysInfos;
-import org.gridsuite.network.map.dto.definition.topology.VoltageLevelTopologyModificationInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.FeederBaysBusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.SwitchInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
 import org.gridsuite.network.map.dto.utils.TopologyUtils;
@@ -131,29 +131,25 @@ public class NetworkMapService {
         };
     }
 
-    public CreateVoltageLevelSectionInfos getCreateVoltageLevelSectionInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+    public BusBarSectionsInfos getBusBarSectionsInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
-        CreateVoltageLevelSectionInfos.CreateVoltageLevelSectionInfosBuilder<?, ?> builder = CreateVoltageLevelSectionInfos.builder();
-        builder.busBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
-        return builder.build();
+        return TopologyUtils.getBusBarSectionsInfos(voltageLevel);
     }
 
-    public MoveVoltageLevelFeederBaysInfos getMoveVoltageLevelFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+    public FeederBaysBusBarSectionsInfos getMoveVoltageLevelFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
-        MoveVoltageLevelFeederBaysInfos.MoveVoltageLevelFeederBaysInfosBuilder<?, ?> builder = MoveVoltageLevelFeederBaysInfos.builder();
+        FeederBaysBusBarSectionsInfos.FeederBaysBusBarSectionsInfosBuilder<?, ?> builder = FeederBaysBusBarSectionsInfos.builder();
         builder.feederBaysInfos(TopologyUtils.getFeederBaysInfos(voltageLevel));
         builder.busBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
         return builder.build();
     }
 
-    public VoltageLevelTopologyModificationInfos getVoltageLevelTopologyModificationInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+    public List<SwitchInfos> getSwitchInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
-        VoltageLevelTopologyModificationInfos.VoltageLevelTopologyModificationInfosBuilder<?, ?> builder = VoltageLevelTopologyModificationInfos.builder();
-        builder.switchesInfos(TopologyUtils.getSwitchesInfos(voltageLevel.getId(), network));
-        return builder.build();
+        return TopologyUtils.getSwitchesInfos(voltageLevel.getId(), network);
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
