@@ -1422,8 +1422,25 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, String filters, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology-{filters}", networkUuid, voltageLevelId, filters)
+    private void succeedingTestGettingMoveFeederBaysInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/move-feeder-bays", networkUuid, voltageLevelId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+                .andExpect(status().isOk())
+                .andReturn();
+        System.out.println(res.getResponse().getContentAsString());
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestGettingCreateVoltageLevelSectionInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/create-voltage-level-section", networkUuid, voltageLevelId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestGettingVoltageLevelTopologyModificationInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/voltage-level-topology-modification", networkUuid, voltageLevelId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -2328,18 +2345,18 @@ public class NetworkMapControllerTest {
 
     @Test
     void shouldReturnVoltageLevelBusbarSectionsFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "busbar_sections", resourceToString("/busbar-sections-all-data.json"));
+        succeedingTestGettingCreateVoltageLevelSectionInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/busbar-sections-all-data.json"));
     }
 
     @Test
     void shouldReturnVoltageLevelFeederBaysFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "feeder_bays", resourceToString("/feeder-bays-data.json"));
+        succeedingTestGettingMoveFeederBaysInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/feeder-bays-data.json"));
     }
 
     @Test
     void shouldReturnVoltageLevelSwitchesFormInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "switches", resourceToString("/switches-data.json"));
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, VARIANT_ID, "VLGEN4", "switches", resourceToString("/switches-data-in-variant.json"));
+        succeedingTestGettingVoltageLevelTopologyModificationInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/switches-data.json"));
+        succeedingTestGettingVoltageLevelTopologyModificationInfos(NETWORK_UUID, VARIANT_ID, "VLGEN4", resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test

@@ -29,5 +29,18 @@
         "connectionSide": null
       }
     ]
+  },
+  "busBarSectionsInfos": {
+    "topologyKind": "NODE_BREAKER",
+    "switchKinds": [
+      "DISCONNECTOR"
+    ],
+    "isSymmetrical": true,
+    "isBusbarSectionPositionFound": true,
+    "busBarSections": {
+      "1": [
+        "NGEN4"
+      ]
+    }
   }
 }

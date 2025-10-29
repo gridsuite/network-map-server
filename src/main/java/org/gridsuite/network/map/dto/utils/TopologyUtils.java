@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
-import lombok.Getter;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionFormInfos;
 import org.gridsuite.network.map.dto.definition.topology.BusBarSectionsInfos;
 import org.gridsuite.network.map.dto.definition.topology.FeederBayInfos;
@@ -25,20 +24,6 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.getConnectablePos
  * @author Etienne Lesot <etienne.lesot at rte-france.com>
  */
 public final class TopologyUtils {
-
-    @Getter
-    public enum TopologyFilterType {
-
-        SWITCHES("switches"),
-        FEEDER_BAYS("feeder_bays"),
-        BUSBAR_SECTIONS("busbar_sections");
-
-        private final String value;
-
-        TopologyFilterType(String value) {
-            this.value = value;
-        }
-    }
 
     private TopologyUtils() { }
 
