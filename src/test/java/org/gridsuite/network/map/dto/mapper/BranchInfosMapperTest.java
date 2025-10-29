@@ -40,7 +40,7 @@ class BranchInfosMapperTest implements WithAssertions {
         @AfterEach
         void setDown() {
             if (!mocks.isEmpty()) {
-                //Mockito.verifyNoMoreInteractions(mocks.toArray(Object[]::new));
+                Mockito.verifyNoMoreInteractions(mocks.toArray(Object[]::new));
                 mocks.clear();
             }
         }
@@ -76,6 +76,7 @@ class BranchInfosMapperTest implements WithAssertions {
                 Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
                 if (permanentLimit != null) {
                     Mockito.verify(olgMock).getId();
+                    Mockito.verify(olgMock, Mockito.times(1)).getPropertyNames();
                     Mockito.verify(clMock, Mockito.times(Double.isNaN(permanentLimit) ? 1 : 2)).getPermanentLimit();
                     Mockito.verify(clMock, Mockito.times(ArrayUtils.isEmpty(temporaryLimits) ? 1 : 2)).getTemporaryLimits();
                     if (ArrayUtils.isNotEmpty(temporaryLimits)) {
