@@ -18,8 +18,8 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -78,6 +78,7 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
     public static final String QUERY_PARAM_LOAD_NETWORK_COMPONENTS = "loadNetworkComponents";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
+    public static final String QUERY_PARAM_FILTERS = "filters";
 
     @Autowired
     private MockMvc mvc;
@@ -1421,10 +1422,9 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology", networkUuid, voltageLevelId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                )
+    private void succeedingTestForTopologyInfosWithElementId(UUID networkUuid, String variantId, String voltageLevelId, String filters, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/topology-{filters}", networkUuid, voltageLevelId, filters)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
@@ -2327,9 +2327,19 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnVoltageLevelFormDataWithFeederBaysInfos() throws Exception {
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN5", resourceToString("/voltage-level-form-data-feederbays.json"));
-        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", resourceToString("/topology-info.json"));
+    void shouldReturnVoltageLevelBusbarSectionsFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "busbar_sections", resourceToString("/busbar-sections-all-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelFeederBaysFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "feeder_bays", resourceToString("/feeder-bays-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelSwitchesFormInfos() throws Exception {
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, null, "VLGEN4", "switches", resourceToString("/switches-data.json"));
+        succeedingTestForTopologyInfosWithElementId(NETWORK_UUID, VARIANT_ID, "VLGEN4", "switches", resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test
@@ -2368,12 +2378,6 @@ public class NetworkMapControllerTest {
     void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
-    }
-
-    @Test
-    void shouldReturnSwitchesData() throws Exception {
-        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
-        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test

@@ -1,5 +1,10 @@
 [
   {
+    "id": "P0",
+    "country": "FR",
+    "voltageLevels": []
+  },
+  {
     "id": "P1",
     "name": "P1_Name",
     "properties": {
@@ -9,18 +14,18 @@
     "voltageLevels": [
       {
         "id": "VLGEN",
-        "name": "VLGEN_Name",
-        "properties": {
-          "Country": "FR"
-        },
         "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
         "nominalV": 24.0,
+        "name": "VLGEN_Name",
         "lowVoltageLimit": 200.0,
         "highVoltageLimit": 400.0,
         "identifiableShortCircuit": {
           "ipMin": 10.0,
           "ipMax": 120.0
+        },
+        "properties": {
+          "Country": "FR"
         }
       },
       {
@@ -31,12 +36,12 @@
       },
       {
         "id": "VLNEW2",
-        "properties": {
-          "Country": "FR"
-        },
         "topologyKind": "BUS_BREAKER",
         "substationId": "P1",
-        "nominalV": 225.0
+        "nominalV": 225.0,
+        "properties": {
+          "Country": "FR"
+        }
       }
     ]
   },
@@ -56,11 +61,6 @@
         "nominalV": 150.0
       }
     ]
-  },
-  {
-    "id": "P0",
-    "country": "FR",
-    "voltageLevels": []
   },
   {
     "id": "P3",
@@ -97,7 +97,11 @@
         "id": "VLGEN4",
         "topologyKind": "NODE_BREAKER",
         "substationId": "P4",
-        "nominalV": 24.0
+        "nominalV": 24.0,
+        "busbarCount": 1,
+        "sectionCount": 2,
+        "switchKinds": ["DISCONNECTOR"],
+        "isSymmetrical": true
       }
     ]
   },
@@ -115,7 +119,11 @@
         "identifiableShortCircuit": {
           "ipMin": 0.0,
           "ipMax": 100.0
-        }
+        },
+        "busbarCount": 1,
+        "sectionCount": 1,
+        "switchKinds": [],
+        "isSymmetrical": false
       },
       {
         "id": "VLGEN7",
@@ -123,7 +131,11 @@
         "substationId": "P5",
         "nominalV": 24.0,
         "lowVoltageLimit": 20.0,
-        "highVoltageLimit": 30.0
+        "highVoltageLimit": 30.0,
+        "busbarCount": 1,
+        "sectionCount": 1,
+        "switchKinds": [],
+        "isSymmetrical": false
       }
     ]
   }

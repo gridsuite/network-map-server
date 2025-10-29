@@ -10,24 +10,23 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author Etienne Lesot <etienne.lesot at rte-france.com>
+ * @author Rehili Ghazwa <ghazwa.rehili at rte-france.com>
  */
 @SuperBuilder
 @Getter
 @Setter
-public class TopologyInfos {
+public class BusBarSectionsInfos extends VoltageLevelFormInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private BusBarSectionsInfos busBarSectionsInfos;
+    Boolean isBusbarSectionPositionFound;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, List<FeederBayInfos>> feederBaysInfos;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<SwitchInfos> switchesInfos;
+    Map<String, List<String>> busBarSections;
 }
+

@@ -1,17 +1,4 @@
 {
-  "topologyKind": "NODE_BREAKER",
-  "busbarCount": 1,
-  "sectionCount": 2,
-  "switchKinds": [
-    "DISCONNECTOR"
-  ],
-  "isSymmetrical": true,
-  "isBusbarSectionPositionExtensionFound": true,
-  "busBarSectionsInfos": {
-    "1": [
-      "NGEN4"
-    ]
-  },
   "feederBaysInfos": {
     "SHUNT_VLNB": [
       {

@@ -1,18 +1,20 @@
-[
-  {
-    "id": "VL4_BBS_SHUNT_DISCONNECTOR",
-    "open": false
-  },
-  {
-    "id": "VL4_SHUNT_BREAKER",
-    "open": false
-  },
-  {
-    "id": "b4",
-    "open": false
-  },
-  {
-    "id": "br11",
-    "open": false
-  }
-]
+{
+  "switchesInfos": [
+    {
+      "id": "VL4_BBS_SHUNT_DISCONNECTOR",
+      "open": false
+    },
+    {
+      "id": "VL4_SHUNT_BREAKER",
+      "open": false
+    },
+    {
+      "id": "b4",
+      "open": false
+    },
+    {
+      "id": "br11",
+      "open": false
+    }
+  ]
+}

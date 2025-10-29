@@ -12,7 +12,10 @@ import com.powsybl.iidm.network.HvdcConverterStation.HvdcType;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import lombok.AllArgsConstructor;
-import org.gridsuite.network.map.dto.*;
+import org.gridsuite.network.map.dto.AllElementsInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.definition.topology.TopologyInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
@@ -126,25 +129,16 @@ public class NetworkMapService {
         };
     }
 
-    public List<SwitchInfos> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
-        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-
-        List<SwitchInfos> switchInfosList = new ArrayList<>();
-        network.getVoltageLevel(voltageLevelId).getSwitches().forEach(sw ->
-                switchInfosList.add(SwitchInfos.builder()
-                        .id(sw.getId())
-                        .open(sw.isOpen())
-                        .build()));
-        return switchInfosList;
-    }
-
-    public TopologyInfos getVoltageLevelTopology(UUID networkUuid, String voltageLevelId, String variantId) {
+    public TopologyInfos getVoltageLevelTopology(UUID networkUuid, String voltageLevelId, String variantId, TopologyUtils.TopologyFilterType filter) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
-        if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            return TopologyUtils.getTopologyInfos(voltageLevel);
+        TopologyInfos topologyInfos = TopologyInfos.builder().build();
+        switch (filter) {
+            case SWITCHES -> topologyInfos.setSwitchesInfos(TopologyUtils.getSwitchesInfos(voltageLevelId, network));
+            case FEEDER_BAYS -> topologyInfos.setFeederBaysInfos(TopologyUtils.getFeederBaysInfos(voltageLevel));
+            case BUSBAR_SECTIONS -> topologyInfos.setBusBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
         }
-        return TopologyInfos.builder().topologyKind(TopologyKind.BUS_BREAKER).build();
+        return topologyInfos;
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {
