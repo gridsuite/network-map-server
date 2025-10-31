@@ -8,6 +8,8 @@ import org.gridsuite.network.map.dto.definition.extension.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -47,15 +49,22 @@ public final class ExtensionUtils {
                         .build());
     }
 
-    public static String toOperatingStatus(@NonNull final Extendable<?> extendable) {
+    public static String toOperatingStatus(@NonNull final Extendable<?> extendable, List<Boolean> terminalConnections) {
         if (extendable instanceof Branch<?>
                 || extendable instanceof ThreeWindingsTransformer
                 || extendable instanceof HvdcLine
                 || extendable instanceof BusbarSection) {
             var operatingStatus = extendable.getExtension(OperatingStatus.class);
-            return operatingStatus == null ? null : operatingStatus.getStatus().name();
+            if (operatingStatus == null) {
+                return null;
+            }
+            return terminalConnections.stream().noneMatch(Boolean::booleanValue) ? operatingStatus.getStatus().name() : null;
         }
         return null;
+    }
+
+    public static String toOperatingStatus(@NonNull final Extendable<?> extendable) {
+        return toOperatingStatus(extendable, Collections.emptyList());
     }
 
     public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(@NonNull final VoltageLevel voltageLevel) {

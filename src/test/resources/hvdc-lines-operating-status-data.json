@@ -1,0 +1,32 @@
+[
+  {
+    "id": "HVDC1",
+    "name": "HVDC1",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLNEW2"
+  },
+  {
+    "id": "HVDC3",
+    "name": "HVDC3",
+    "voltageLevelId1": "VLNEW2",
+    "voltageLevelId2": "VLNEW2"
+  },
+  {
+    "id": "HVDC4",
+    "name": "HVDC4",
+    "voltageLevelId1": "VLNEW2",
+    "voltageLevelId2": "VLNEW2"
+  },
+  {
+    "id": "HVDC2",
+    "name": "HVDC2",
+    "voltageLevelId1": "VLGEN",
+    "voltageLevelId2": "VLNEW2"
+  },
+  {
+    "id": "HVDC5",
+    "name": "HVDC5",
+    "voltageLevelId1": "VLNEW2",
+    "voltageLevelId2": "VLGEN3"
+  }
+]

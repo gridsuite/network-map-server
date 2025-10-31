@@ -105,6 +105,7 @@ public class NetworkMapControllerTest {
         l1.newOperationalLimitsGroup2("limit set 1");
         l1.setSelectedOperationalLimitsGroup1("limit set 1");
         l1.setSelectedOperationalLimitsGroup2("limit set 1");
+        l1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         l1.newCurrentLimits1().setPermanentLimit(700.4)
                 .beginTemporaryLimit()
                 .setName("IT5")
@@ -198,6 +199,7 @@ public class NetworkMapControllerTest {
                 .setQ(8.88);
         t1.getRatioTapChanger().setTapPosition(2);
         t1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
+        t1.getTerminal1().disconnect();
         t1.newExtension(ConnectablePositionAdder.class)
                 .newFeeder1()
                 .withName("feederName1")
@@ -210,6 +212,8 @@ public class NetworkMapControllerTest {
                 .add();
 
         TwoWindingsTransformer t2 = network.getTwoWindingsTransformer("NGEN_NHV1");
+        t2.getTerminal1().disconnect();
+        t2.getTerminal2().disconnect();
         t2.getTerminal1().setP(11.1)
                 .setQ(12.2);
         t2.getTerminal2().setP(13.33)
@@ -304,6 +308,7 @@ public class NetworkMapControllerTest {
                 .add();
 
         TwoWindingsTransformer t3 = network.getTwoWindingsTransformer("NGEN_NHV2");
+        t3.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         t3.newCurrentLimits1().setPermanentLimit(300.4)
                 .beginTemporaryLimit()
                 .setName("IT20")
@@ -436,6 +441,13 @@ public class NetworkMapControllerTest {
         make3WindingsTransformer(p1, "TWT", ThreeWindingsTransformer::getLeg1, ThreeWindingsTransformer::getLeg3);
         make3WindingsTransformer(p1, "TWT21", ThreeWindingsTransformer::getLeg2, ThreeWindingsTransformer::getLeg1);
         make3WindingsTransformer(p1, "TWT32", ThreeWindingsTransformer::getLeg3, ThreeWindingsTransformer::getLeg2);
+        ThreeWindingsTransformer threeWindingsTransformer = network.getThreeWindingsTransformer("TWT");
+        threeWindingsTransformer.getLeg1().getTerminal().disconnect();
+        threeWindingsTransformer.getLeg2().getTerminal().disconnect();
+        threeWindingsTransformer.getLeg3().getTerminal().disconnect();
+        ThreeWindingsTransformer threeWindingsTransformer21 = network.getThreeWindingsTransformer("TWT21");
+        threeWindingsTransformer21.getLeg1().getTerminal().disconnect();
+        threeWindingsTransformer21.getLeg2().getTerminal().disconnect();
 
         Substation p3 = network.newSubstation()
                 .setId("P3")
@@ -480,6 +492,8 @@ public class NetworkMapControllerTest {
                 .add();
         line3.getTerminal1().setP(200.);
         line3.getTerminal2().setP(100.);
+        line3.getTerminal1().disconnect();
+        line3.getTerminal2().disconnect();
         line3.newExtension(MeasurementsAdder.class).add();
         Measurements<Line> line3Measurements = line3.getExtension(Measurements.class);
         line3Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(11).add();
@@ -561,7 +575,8 @@ public class NetworkMapControllerTest {
             .endTemporaryLimit()
             .add();
         line4.setSelectedOperationalLimitsGroup2("group1");
-
+        line4.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
+        line4.getTerminal1().disconnect();
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
                 .setName("BATTERY1")
@@ -667,7 +682,7 @@ public class NetworkMapControllerTest {
                 .withStandardDeviationV(2.93)
                 .withRedundantV(true)
                 .add();
-
+        dl.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         DanglingLine dl2 = vlgen3.newDanglingLine()
                 .setId("DL2")
                 .setName("DL2")
@@ -689,6 +704,8 @@ public class NetworkMapControllerTest {
                 .setDanglingLine1("DL1")
                 .setDanglingLine2("DL2")
                 .add();
+        TieLine tieLine = network.getTieLine("TL1");
+        tieLine.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         VscConverterStation vsc1 = vlnew2.newVscConverterStation()
                 .setId("VSC1")
                 .setName("VSC1")
@@ -914,7 +931,7 @@ public class NetworkMapControllerTest {
                 .withDroop(180F)
                 .withEnabled(true)
                 .add();
-
+        hvdcLineWithExtension.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
                 .setId("SHUNT1")
                 .setName("SHUNT1")
@@ -1064,12 +1081,11 @@ public class NetworkMapControllerTest {
                 .setLowVoltageLimit(20)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        BusbarSection bbs1 = vlgen5.getNodeBreakerView().newBusbarSection()
+        vlgen5.getNodeBreakerView().newBusbarSection()
                 .setId("NGEN5")
                 .setName("NGEN5")
                 .setNode(0)
                 .add();
-        bbs1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.FORCED_OUTAGE).add();
         vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
         vlgen5.getNodeBreakerView()
                 .getBusbarSection("NGEN5")
@@ -2519,6 +2535,12 @@ public class NetworkMapControllerTest {
     void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
+    }
+
+    @Test
+    void shouldReturnHvdcLinesOperatingStatusData() throws Exception {
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.HVDC_LINE, InfoType.OPERATING_STATUS, null, resourceToString("/hvdc-lines-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.HVDC_LINE, InfoType.OPERATING_STATUS, null, resourceToString("/hvdc-lines-operating-status-data.json"));
     }
 
     @Test

@@ -16,6 +16,7 @@ import org.gridsuite.network.map.dto.definition.branch.line.*;
 import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos.LineTabInfosBuilder;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
@@ -106,7 +107,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(line))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line, List.of(terminal1.isConnected(), terminal2.isConnected())))
                 .build();
     }
 
@@ -128,8 +129,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
-                // TODO - lock and strip are hidden on map temporarly
-                //.operatingStatus(ExtensionUtils.toOperatingStatus(line))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line, List.of(terminal1.isConnected(), terminal2.isConnected())))
                 .build();
     }
 

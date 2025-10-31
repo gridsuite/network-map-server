@@ -60,8 +60,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
+      "terminal1Connected": false,
       "terminal2Connected": true,
+      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "operationalLimitsGroup2": {
@@ -124,8 +125,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
-      "terminal2Connected": true,
+      "terminal1Connected": false,
+      "terminal2Connected": false,
+      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -198,7 +200,6 @@
       "substationProperties2": {
         "Country": "FR"
       },
-      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 11.0,
         "validity": true
@@ -426,16 +427,6 @@
       "substationProperties": {
         "Country": "FR"
       }
-    },
-    {
-      "id": "VLGEN6_0",
-      "v": "NaN",
-      "angle": "NaN",
-      "synchronousComponentNum": 0,
-      "connectedComponentNum": 0,
-      "voltageLevelId": "VLGEN6",
-      "nominalVoltage": 24.0,
-      "country": "FR"
     }
   ],
   "busbarSections": [],
@@ -451,8 +442,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
+      "terminal1Connected": false,
       "terminal2Connected": true,
+      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "operationalLimitsGroup2": {
@@ -511,8 +503,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
-      "terminal2Connected": true,
+      "terminal1Connected": false,
+      "terminal2Connected": false,
+      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -585,7 +578,6 @@
       "substationProperties2": {
         "Country": "FR"
       },
-      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 11.0,
         "validity": true
