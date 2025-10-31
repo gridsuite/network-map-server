@@ -60,7 +60,7 @@ public class HvdcInfosMapper {
                 .p1(nullIfNan(terminal1.getP()))
                 .p2(nullIfNan(terminal2.getP()))
                 .hvdcType(hvdcLine.getConverterStation1().getHvdcType())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, terminal1.isConnected(), terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, List.of(terminal1.isConnected(), terminal2.isConnected())))
                 .build();
     }
 
@@ -74,7 +74,7 @@ public class HvdcInfosMapper {
                 .name(hvdcLine.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, terminal1.isConnected(), terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, List.of(terminal1.isConnected(), terminal2.isConnected())))
                 .build();
     }
 
