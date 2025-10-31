@@ -11,6 +11,7 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData.Applicability;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData.CurrentLimitsDataBuilder;
+import org.gridsuite.network.map.dto.common.LimitsProperty;
 import org.gridsuite.network.map.dto.common.TemporaryLimitData;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos.BranchTabInfosBuilder;
@@ -53,7 +54,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         @NonNull final B builder,
         @NonNull final Branch<?> branch,
         @Nullable final Double dcPowerFactor,
-        @NonNull final boolean loadOperationalLimitGroups
+        final boolean loadOperationalLimitGroups
     ) {
         /* even if x & r properties are in branch properties doc, it is not in branch getter but each impls... */
         //TODO https://github.com/powsybl/powsybl-core/issues/3521 tagged for release 09/2025
@@ -75,11 +76,11 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         final Terminal terminal2 = branch.getTerminal2();
 
         branch.getSelectedOperationalLimitsGroup1().ifPresent(limitGrp ->
-            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId()))));
         branch.getSelectedOperationalLimitsGroupId1().ifPresent(builder::selectedOperationalLimitsGroup1Name);
 
         branch.getSelectedOperationalLimitsGroup2().ifPresent(limitGrp ->
-            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId(), null))));
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId()))));
         branch.getSelectedOperationalLimitsGroupId2().ifPresent(builder::selectedOperationalLimitsGroup2Name);
 
         if (loadOperationalLimitGroups) {
@@ -127,13 +128,18 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         return toTabBuilder((BranchTabInfosBuilder<BranchTabInfos, ?>) BranchTabInfos.builder(), branch, dcPowerFactor, loadOperationalLimitGroups).build();
     }
 
+    private static List<LimitsProperty> getLimitsProperties(OperationalLimitsGroup group) {
+        return group.getPropertyNames().stream().map(propertyName -> new LimitsProperty(propertyName, group.getProperty(propertyName))).collect(Collectors.toCollection(ArrayList::new));
+    }
+
     private static Map<String, CurrentLimitsData> buildCurrentLimitsMap(@NonNull final Collection<OperationalLimitsGroup> operationalLimitsGroups) {
         if (CollectionUtils.isEmpty(operationalLimitsGroups)) {
             return Map.of();
         }
         Map<String, CurrentLimitsData> res = HashMap.newHashMap(operationalLimitsGroups.size());
         operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits()
-                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits, operationalLimitsGroup.getId(), null))));
+                .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits,
+                    operationalLimitsGroup.getId()))));
         return res;
     }
 
@@ -161,7 +167,13 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
     }
 
     protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
-                                                              @Nullable final String id, @Nullable final Applicability applicability) {
+                                                              @Nullable final String id) {
+        return toMapDataCurrentLimits(limits, id, null, null);
+    }
+
+    protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
+                                                              @Nullable final String id, @Nullable final Applicability applicability,
+                                                              @Nullable List<LimitsProperty> limitsProperties) {
         CurrentLimitsDataBuilder builder = CurrentLimitsData.builder().id(id).applicability(applicability);
         boolean empty = true;
         if (!Double.isNaN(limits.getPermanentLimit())) {
@@ -170,6 +182,10 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         }
         if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
             builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
+            empty = false;
+        }
+        if (!CollectionUtils.isEmpty(limitsProperties)) {
+            builder.limitsProperties(limitsProperties);
             empty = false;
         }
         return empty ? null : builder.build();
@@ -224,6 +240,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                                 .applicability(Applicability.EQUIPMENT)
                                 .temporaryLimits(limitsData.getTemporaryLimits())
                                 .permanentLimit(limitsData.getPermanentLimit())
+                                .limitsProperties(limitsData.getLimitsProperties())
                                 .build());
                             return;
                         }
@@ -244,10 +261,14 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
     @Nullable
     static CurrentLimitsData operationalLimitsGroupToMapDataCurrentLimits(@Nullable final OperationalLimitsGroup operationalLimitsGroup,
                                                                           @Nullable final Applicability applicability) {
-        if (operationalLimitsGroup == null || operationalLimitsGroup.getCurrentLimits().isEmpty()) {
+
+        if (operationalLimitsGroup == null) {
             return null;
         }
-        return toMapDataCurrentLimits(operationalLimitsGroup.getCurrentLimits().get(), operationalLimitsGroup.getId(), applicability);
+
+        Optional<CurrentLimits> currentLimits = operationalLimitsGroup.getCurrentLimits();
+        return currentLimits.map(limits -> toMapDataCurrentLimits(limits, operationalLimitsGroup.getId(), applicability,
+            getLimitsProperties(operationalLimitsGroup))).orElse(null);
     }
 
     private static List<TemporaryLimitData> toMapDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
@@ -256,7 +277,6 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
                 .name(l.getName())
                 .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
                 .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
-                .build())
-            .collect(Collectors.toList());
+                .build()).collect(Collectors.toList());
     }
 }

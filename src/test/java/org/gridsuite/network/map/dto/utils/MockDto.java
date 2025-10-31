@@ -13,6 +13,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.mockito.Mockito;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -152,9 +153,10 @@ public final class MockDto {
     public static class OperationalLimitsGroupDtoTest implements OperationalLimitsGroup {
         private String id;
         private Optional<CurrentLimits> currentLimits;
+        private HashMap<String, String>properties;
 
         public OperationalLimitsGroupDtoTest(String id, CurrentLimits currentLimits) {
-            this(id, Optional.ofNullable(currentLimits));
+            this(id, Optional.ofNullable(currentLimits), new HashMap<>());
         }
 
         @Override
@@ -229,7 +231,7 @@ public final class MockDto {
 
         @Override
         public String getProperty(String key) {
-            throw new NotImplementedException("Not supported yet.");
+            return properties.get(key);
         }
 
         @Override
@@ -239,17 +241,17 @@ public final class MockDto {
 
         @Override
         public String setProperty(String key, String value) {
-            throw new NotImplementedException("Not supported yet.");
+            return properties.put(key, value);
         }
 
         @Override
         public boolean removeProperty(String key) {
-            throw new NotImplementedException("Not supported yet.");
+            return properties.remove(key) != null;
         }
 
         @Override
         public Set<String> getPropertyNames() {
-            throw new NotImplementedException("Not supported yet.");
+            return properties.keySet();
         }
 
         @Override
