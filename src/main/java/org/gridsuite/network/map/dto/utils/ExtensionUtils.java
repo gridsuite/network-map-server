@@ -63,7 +63,7 @@ public final class ExtensionUtils {
     }
 
     public static String toOperatingStatus(@NonNull final Extendable<?> extendable) {
-        return toOperatingStatus(extendable, false);
+        return toOperatingStatus(extendable, false, false);
     }
 
     public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(@NonNull final VoltageLevel voltageLevel) {

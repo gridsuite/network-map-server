@@ -1073,7 +1073,7 @@ public class NetworkMapControllerTest {
                 .setLowVoltageLimit(20)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        BusbarSection bbs1 = vlgen5.getNodeBreakerView().newBusbarSection()
+        vlgen5.getNodeBreakerView().newBusbarSection()
                 .setId("NGEN5")
                 .setName("NGEN5")
                 .setNode(0)
