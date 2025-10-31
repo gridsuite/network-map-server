@@ -4,7 +4,6 @@
   "voltageLevelId2": "VLHV2",
   "terminal1Connected": true,
   "terminal2Connected": true,
-  "operatingStatus": "PLANNED_OUTAGE",
   "p1": 1.1,
   "q1": 2.2,
   "p2": 3.33,

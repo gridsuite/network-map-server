@@ -53,12 +53,16 @@ public final class ExtensionUtils {
                 || extendable instanceof HvdcLine
                 || extendable instanceof BusbarSection) {
             var operatingStatus = extendable.getExtension(OperatingStatus.class);
-            if (operatingStatus == null || isTerminalsConnected) {
-                return null;
+            if (operatingStatus != null && !isTerminalsConnected) {
+                return operatingStatus.getStatus().name();
             }
-            return operatingStatus.getStatus().name();
+            return null;
         }
         return null;
+    }
+
+    public static String toOperatingStatus(@NonNull final Extendable<?> extendable) {
+        return toOperatingStatus(extendable, true);
     }
 
     public static Optional<IdentifiableShortCircuitInfos> toIdentifiableShortCircuit(@NonNull final VoltageLevel voltageLevel) {

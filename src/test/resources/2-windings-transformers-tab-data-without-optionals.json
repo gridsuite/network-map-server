@@ -59,7 +59,6 @@
     "substationProperties2": {
       "Country": "FR"
     },
-    "operatingStatus": "PLANNED_OUTAGE",
     "country": "FR",
     "phaseTapChanger": {
       "lowTapPosition": 0,
@@ -125,7 +124,6 @@
     "q2": 8.88,
     "r": 0.04724999999999999,
     "x": 4.049724365620455,
-    "operatingStatus": "PLANNED_OUTAGE",
     "ratioTapChanger": {
       "lowTapPosition": 0,
       "tapPosition": 2,
@@ -193,7 +191,6 @@
     "country2": "FR",
     "terminal1Connected": true,
     "terminal2Connected": true,
-    "operatingStatus": "PLANNED_OUTAGE",
     "r": 47.0,
     "x": 23.0,
     "selectedOperationalLimitsGroup1": {

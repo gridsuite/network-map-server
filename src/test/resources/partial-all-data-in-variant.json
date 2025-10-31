@@ -44,7 +44,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "operationalLimitsGroup2": {
@@ -109,7 +108,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": false,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -426,7 +424,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "operationalLimitsGroup2": {
@@ -487,7 +484,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": false,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,

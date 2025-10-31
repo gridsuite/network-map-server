@@ -79,7 +79,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
         builder.busOrBusbarSectionId1(getBusOrBusbarSection(terminal1))
                 .busOrBusbarSectionId2(getBusOrBusbarSection(terminal2));
 
-        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line, false));
+        builder.operatingStatus(ExtensionUtils.toOperatingStatus(line));
 
         builder.connectablePosition1(ExtensionUtils.toMapConnectablePosition(line, 1))
                 .connectablePosition2(ExtensionUtils.toMapConnectablePosition(line, 2));
@@ -106,7 +106,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() || terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() && terminal2.isConnected()))
                 .build();
     }
 
@@ -128,7 +128,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
-                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() || terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() && terminal2.isConnected()))
                 .build();
     }
 

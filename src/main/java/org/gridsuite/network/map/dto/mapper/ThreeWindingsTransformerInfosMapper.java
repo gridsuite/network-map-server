@@ -56,7 +56,7 @@ public final class ThreeWindingsTransformerInfosMapper {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .voltageLevelId3(terminal3.getVoltageLevel().getId())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(threeWT, terminal1.isConnected() || terminal2.isConnected() || terminal3.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(threeWT, terminal1.isConnected() && terminal2.isConnected() && terminal3.isConnected()))
                 .build();
     }
 

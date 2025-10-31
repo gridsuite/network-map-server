@@ -56,7 +56,7 @@ public final class TieLineInfosMapper extends BranchInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
-                .operatingStatus(ExtensionUtils.toOperatingStatus(tieLine, terminal1.isConnected() || terminal2.isConnected()));
+                .operatingStatus(ExtensionUtils.toOperatingStatus(tieLine, terminal1.isConnected() && terminal2.isConnected()));
 
         tieLine.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId(), null))));
         tieLine.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId(), null))));

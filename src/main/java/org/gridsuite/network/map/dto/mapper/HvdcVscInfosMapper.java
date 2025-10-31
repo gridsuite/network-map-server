@@ -47,7 +47,7 @@ public final class HvdcVscInfosMapper extends HvdcInfosMapper {
                 .converterStation2(VscConverterStationInfosMapper.toFormInfos(hvdcLine.getConverterStation2()))
                 .hvdcAngleDroopActivePowerControl(toHvdcAngleDroopActivePowerControlIdentifiable(hvdcLine))
                 .hvdcOperatorActivePowerRange(toHvdcOperatorActivePowerRange(hvdcLine))
-                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine, false));
+                .operatingStatus(ExtensionUtils.toOperatingStatus(hvdcLine));
 
         return builder.build();
     }
