@@ -27,8 +27,7 @@
     "voltageLevelId1": "VLGEN6",
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": false,
-    "terminal2Connected": true,
-    "operatingStatus": "PLANNED_OUTAGE"
+    "terminal2Connected": true
   },
   {
     "id": "LINE7",

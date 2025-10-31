@@ -5,6 +5,7 @@
     "voltageLevelId2": "VLHV2",
     "terminal1Connected": true,
     "terminal2Connected": true,
+    "operatingStatus": "PLANNED_OUTAGE",
     "p1": 1.1,
     "q1": 2.2,
     "p2": 3.33,
@@ -146,6 +147,7 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": false,
     "terminal2Connected": false,
+    "operatingStatus": "PLANNED_OUTAGE",
     "currentLimits": [
       {
         "id": "group1",
@@ -205,6 +207,7 @@
     "voltageLevelId2": "VLGEN3",
     "terminal1Connected": false,
     "terminal2Connected": true,
+    "operatingStatus": "PLANNED_OUTAGE",
     "currentLimits": [
       {
         "id": "group1",

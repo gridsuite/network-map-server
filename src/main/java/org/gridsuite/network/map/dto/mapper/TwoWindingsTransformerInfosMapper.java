@@ -134,7 +134,7 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .name(twoWT.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT, terminal1.isConnected() && terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT, terminal1.isConnected(), terminal2.isConnected()))
                 .build();
     }
 

@@ -106,7 +106,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .voltageLevelName2(terminal2.getVoltageLevel().getOptionalName().orElse(null))
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() && terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected(), terminal2.isConnected()))
                 .build();
     }
 
@@ -128,7 +128,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .p2(nullIfNan(terminal2.getP()))
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
-                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected() && terminal2.isConnected()))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(line, terminal1.isConnected(), terminal2.isConnected()))
                 .build();
     }
 
