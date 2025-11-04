@@ -134,7 +134,7 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .name(twoWT.getOptionalName().orElse(null))
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
-                .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT))
+                .operatingStatus(ExtensionUtils.toOperatingStatus(twoWT, List.of(terminal1.isConnected(), terminal2.isConnected())))
                 .build();
     }
 
@@ -165,8 +165,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .x(twoWindingsTransformer.getX())
                 .b(twoWindingsTransformer.getB());
 
-        twoWindingsTransformer.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId(), null))));
-        twoWindingsTransformer.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId(), null))));
+        twoWindingsTransformer.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId()))));
+        twoWindingsTransformer.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId()))));
 
         return builder.build();
     }

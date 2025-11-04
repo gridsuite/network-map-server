@@ -42,9 +42,13 @@ public class CurrentLimitsData {
         SIDE2,
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    List<LimitsProperty> limitsProperties;
+
     public boolean limitsEquals(CurrentLimitsData other) {
         return Objects.equals(permanentLimit, other.permanentLimit)
-            && Objects.equals(temporaryLimits, other.temporaryLimits);
+            && Objects.equals(temporaryLimits, other.temporaryLimits)
+            && Objects.equals(limitsProperties, other.limitsProperties);
     }
 }
 

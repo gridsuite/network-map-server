@@ -43,8 +43,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
-      "terminal2Connected": true,
+      "terminal1Connected": false,
+      "terminal2Connected": false,
+      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -117,7 +118,6 @@
       "substationProperties2": {
         "Country": "FR"
       },
-      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 11.0,
         "validity": true
@@ -146,8 +146,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
+      "terminal1Connected": false,
       "terminal2Connected": true,
+      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "operationalLimitsGroup2": {
@@ -402,8 +403,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
-      "terminal2Connected": true,
+      "terminal1Connected": false,
+      "terminal2Connected": false,
+      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -476,7 +478,6 @@
       "substationProperties2": {
         "Country": "FR"
       },
-      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 11.0,
         "validity": true
@@ -501,8 +502,9 @@
       "substationId2": "P3",
       "country1": "FR",
       "country2": "FR",
-      "terminal1Connected": true,
+      "terminal1Connected": false,
       "terminal2Connected": true,
+      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "operationalLimitsGroup2": {

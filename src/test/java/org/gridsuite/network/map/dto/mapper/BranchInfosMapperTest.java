@@ -73,9 +73,10 @@ class BranchInfosMapperTest implements WithAssertions {
             }
             final CurrentLimitsData result = BranchInfosMapper.operationalLimitsGroupToMapDataCurrentLimits(olgMock, null);
             if (id != null) {
-                Mockito.verify(olgMock, Mockito.times(permanentLimit == null ? 1 : 2)).getCurrentLimits();
+                Mockito.verify(olgMock, Mockito.times(1)).getCurrentLimits();
                 if (permanentLimit != null) {
                     Mockito.verify(olgMock).getId();
+                    Mockito.verify(olgMock, Mockito.times(1)).getPropertyNames();
                     Mockito.verify(clMock, Mockito.times(Double.isNaN(permanentLimit) ? 1 : 2)).getPermanentLimit();
                     Mockito.verify(clMock, Mockito.times(ArrayUtils.isEmpty(temporaryLimits) ? 1 : 2)).getTemporaryLimits();
                     if (ArrayUtils.isNotEmpty(temporaryLimits)) {

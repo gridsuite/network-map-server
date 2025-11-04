@@ -10,7 +10,6 @@
   {
     "id": "TWT21",
     "name": "TWT21",
-    "operatingStatus": "PLANNED_OUTAGE",
     "voltageLevelId1": "VLHV1",
     "voltageLevelId2": "VLNEW2",
     "voltageLevelId3": "VLGEN"
@@ -18,7 +17,6 @@
   {
     "id": "TWT32",
     "name": "TWT32",
-    "operatingStatus": "PLANNED_OUTAGE",
     "voltageLevelId1": "VLHV1",
     "voltageLevelId2": "VLNEW2",
     "voltageLevelId3": "VLGEN"
