@@ -137,7 +137,7 @@ public class NetworkMapService {
         return TopologyUtils.getBusBarSectionsInfos(voltageLevel);
     }
 
-    public FeederBaysBusBarSectionsInfos getMoveVoltageLevelFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+    public FeederBaysBusBarSectionsInfos getFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
         FeederBaysBusBarSectionsInfos.FeederBaysBusBarSectionsInfosBuilder<?, ?> builder = FeederBaysBusBarSectionsInfos.builder();

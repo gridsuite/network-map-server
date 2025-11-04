@@ -8,6 +8,8 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
+import lombok.Builder;
+import lombok.Getter;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
@@ -18,9 +20,10 @@ import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static com.powsybl.iidm.network.TopologyKind.NODE_BREAKER;
+import static org.gridsuite.network.map.dto.mapper.VoltageLevelInfosMapper.TopologyInfos.setDefaultBuilder;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -54,11 +57,11 @@ public final class VoltageLevelInfosMapper {
                 .identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel))
                 .build();
         if (voltageLevel.getTopologyKind().equals(TopologyKind.NODE_BREAKER)) {
-            VoltageLevelFormInfos busBarSectionsInfos = getVoltageLevelBusBarSectionsInfos(voltageLevel);
-            voltageLevelFormInfos.setBusbarCount(busBarSectionsInfos.getBusbarCount());
-            voltageLevelFormInfos.setSectionCount(busBarSectionsInfos.getSectionCount());
-            voltageLevelFormInfos.setSwitchKinds(busBarSectionsInfos.getSwitchKinds());
-            voltageLevelFormInfos.setIsSymmetrical(busBarSectionsInfos.getIsSymmetrical());
+            TopologyInfos topologyInfos = getVoltageLevelBusBarSectionsInfos(voltageLevel);
+            voltageLevelFormInfos.setBusbarCount(topologyInfos.getBusbarCount());
+            voltageLevelFormInfos.setSectionCount(topologyInfos.getSectionCount());
+            voltageLevelFormInfos.setSwitchKinds(topologyInfos.getSwitchKinds());
+            voltageLevelFormInfos.setIsSymmetrical(topologyInfos.getIsSymmetrical());
         }
         return voltageLevelFormInfos;
     }
@@ -76,7 +79,7 @@ public final class VoltageLevelInfosMapper {
     static VoltageLevelTabInfos toTabInfos(Identifiable<?> identifiable) {
         VoltageLevel voltageLevel = (VoltageLevel) identifiable;
 
-        VoltageLevelTabInfos.VoltageLevelTabInfosBuilder builder = VoltageLevelTabInfos.builder()
+        VoltageLevelTabInfos.VoltageLevelTabInfosBuilder<?, ?> builder = VoltageLevelTabInfos.builder()
                 .id(voltageLevel.getId())
                 .name(voltageLevel.getOptionalName().orElse(null))
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
@@ -91,20 +94,34 @@ public final class VoltageLevelInfosMapper {
         return builder.build();
     }
 
-    public static VoltageLevelFormInfos getVoltageLevelBusBarSectionsInfos(VoltageLevel voltageLevel) {
+    @Builder
+    @Getter
+    public static class TopologyInfos {
+        private Integer busbarCount;
+
+        private Integer sectionCount;
+
+        private List<SwitchKind> switchKinds;
+
+        private Boolean isSymmetrical;
+
+        public static TopologyInfos.TopologyInfosBuilder setDefaultBuilder() {
+            return TopologyInfos.builder().busbarCount(1)
+                    .sectionCount(1)
+                    .switchKinds(Collections.emptyList())
+                    .isSymmetrical(false);
+        }
+    }
+
+    public static TopologyInfos getVoltageLevelBusBarSectionsInfos(VoltageLevel voltageLevel) {
         Map<Integer, Integer> nbSectionsPerBusbar = new HashMap<>();
+        TopologyInfos.TopologyInfosBuilder builder = setDefaultBuilder();
         int maxBusbarIndex = 1;
         int maxSectionIndex = 1;
         for (BusbarSection bbs : voltageLevel.getNodeBreakerView().getBusbarSections()) {
             var extension = bbs.getExtension(BusbarSectionPosition.class);
             if (extension == null) {
-                return VoltageLevelFormInfos.builder()
-                        .busbarCount(1)
-                        .sectionCount(1)
-                        .topologyKind(NODE_BREAKER)
-                        .switchKinds(Collections.emptyList())
-                        .isSymmetrical(false)
-                        .build();
+                return builder.build();
             }
             int busbarIndex = extension.getBusbarIndex();
             int sectionIndex = extension.getSectionIndex();
@@ -118,19 +135,12 @@ public final class VoltageLevelInfosMapper {
                         && nbSectionsPerBusbar.values().stream().findFirst().orElse(0).equals(maxSectionIndex);
 
         if (isSymmetrical) {
-            return VoltageLevelFormInfos.builder()
-                    .busbarCount(maxBusbarIndex)
+            return builder.busbarCount(maxBusbarIndex)
                     .sectionCount(maxSectionIndex)
                     .switchKinds(Collections.nCopies(maxSectionIndex - 1, SwitchKind.DISCONNECTOR))
                     .isSymmetrical(true)
                     .build();
         }
-        return VoltageLevelFormInfos.builder()
-                .busbarCount(1)
-                .sectionCount(1)
-                .topologyKind(NODE_BREAKER)
-                .switchKinds(Collections.emptyList())
-                .isSymmetrical(false)
-                .build();
+        return builder.build();
     }
 }

@@ -98,10 +98,10 @@ public class NetworkMapController {
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays-and-bus-bar-sections", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "get feeder bays and bus bar sections information")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = " feeder bays and bus bar sections information retrieved")})
-    public FeederBaysBusBarSectionsInfos getMoveVoltageLevelFeederBaysInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getMoveVoltageLevelFeederBaysInfos(networkUuid, voltageLevelId, variantId);
+    public FeederBaysBusBarSectionsInfos getFeederBaysInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getFeederBaysInfos(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/bus-bar-sections", produces = APPLICATION_JSON_VALUE)
