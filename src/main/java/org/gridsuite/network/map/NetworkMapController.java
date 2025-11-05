@@ -14,8 +14,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.gridsuite.network.map.dto.*;
+import org.gridsuite.network.map.dto.AllElementsInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.FeederBaysBusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.SwitchInfos;
 import org.gridsuite.network.map.services.NetworkMapService;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -89,13 +95,31 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelBusesOrBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays-and-bus-bar-sections", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "get feeder bays and bus bar sections information")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = " feeder bays and bus bar sections information retrieved")})
+    public FeederBaysBusBarSectionsInfos getFeederBaysInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getFeederBaysInfos(networkUuid, voltageLevelId, variantId);
+    }
+
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/bus-bar-sections", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "get bus bar sections information")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "bus bar sections information retrieved")})
+    public BusBarSectionsInfos getBusBarSectionsInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                      @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                      @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+        return networkMapService.getBusBarSectionsInfos(networkUuid, voltageLevelId, variantId);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/switches", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get switches description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Switches description")})
     public List<SwitchInfos> getVoltageLevelSwitches(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                      @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                      @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
-        return networkMapService.getVoltageLevelSwitches(networkUuid, voltageLevelId, variantId);
+        return networkMapService.getSwitchInfos(networkUuid, voltageLevelId, variantId);
     }
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/substation-id", produces = APPLICATION_JSON_VALUE)
