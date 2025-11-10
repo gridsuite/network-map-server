@@ -18,8 +18,8 @@ import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -79,6 +79,7 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
     public static final String QUERY_PARAM_LOAD_NETWORK_COMPONENTS = "loadNetworkComponents";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
+    public static final String QUERY_PARAM_FILTERS = "filters";
 
     @Autowired
     private MockMvc mvc;
@@ -1445,6 +1446,33 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
+    private void succeedingTestGettingFeederBaysAndBusBarSectionsInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays-and-bus-bar-sections", networkUuid, voltageLevelId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+                .andExpect(status().isOk())
+                .andReturn();
+        System.out.println(res.getResponse().getContentAsString());
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestGettingBusBarSectionsInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/bus-bar-sections", networkUuid, voltageLevelId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+                .andExpect(status().isOk())
+                .andReturn();
+        System.out.println(res.getResponse().getContentAsString());
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    private void succeedingTestGettingSwitchesInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/switches", networkUuid, voltageLevelId)
+                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+                .andExpect(status().isOk())
+                .andReturn();
+        System.out.println(res.getResponse().getContentAsString());
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
     private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -1453,7 +1481,6 @@ public class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -2343,12 +2370,23 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnVoltageLevelFormDataWithFeederBaysInfos() throws Exception {
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-form-data-feederbays.json"));
+    void shouldReturnVoltageLevelBusbarSectionsFormInfos() throws Exception {
+        succeedingTestGettingBusBarSectionsInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/busbar-sections-all-data.json"));
     }
 
     @Test
-    void shouldReturnVotlageLevelNonSymmetricalBusbarsFormData() throws Exception {
+    void shouldReturnVoltageLevelFeederBaysFormInfos() throws Exception {
+        succeedingTestGettingFeederBaysAndBusBarSectionsInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/feeder-bays-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelSwitchesFormInfos() throws Exception {
+        succeedingTestGettingSwitchesInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/switches-data.json"));
+        succeedingTestGettingSwitchesInfos(NETWORK_UUID, VARIANT_ID, "VLGEN4", resourceToString("/switches-data-in-variant.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelNonSymmetricalBusbarsFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
     }
@@ -2383,12 +2421,6 @@ public class NetworkMapControllerTest {
     void shouldReturnAnErrorInsteadOfBusbarSectionMapData() throws Exception {
         failingBusOrBusbarSectionTest("busbar-sections", NOT_FOUND_NETWORK_ID, "VLGEN4", null);
         failingBusOrBusbarSectionTest("busbar-sections", NETWORK_UUID, "VLGEN4", VARIANT_ID_NOT_FOUND);
-    }
-
-    @Test
-    void shouldReturnSwitchesData() throws Exception {
-        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", null, resourceToString("/switches-data.json"));
-        succeedingEquipmentsTest("switches", NETWORK_UUID, "VLGEN4", VARIANT_ID, resourceToString("/switches-data-in-variant.json"));
     }
 
     @Test

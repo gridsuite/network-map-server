@@ -12,10 +12,17 @@ import com.powsybl.iidm.network.HvdcConverterStation.HvdcType;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import lombok.AllArgsConstructor;
-import org.gridsuite.network.map.dto.*;
+import org.gridsuite.network.map.dto.AllElementsInfos;
+import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.FeederBaysBusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.SwitchInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
+import org.gridsuite.network.map.dto.utils.TopologyUtils;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -124,16 +131,25 @@ public class NetworkMapService {
         };
     }
 
-    public List<SwitchInfos> getVoltageLevelSwitches(UUID networkUuid, String voltageLevelId, String variantId) {
+    public BusBarSectionsInfos getBusBarSectionsInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        return TopologyUtils.getBusBarSectionsInfos(voltageLevel);
+    }
 
-        List<SwitchInfos> switchInfosList = new ArrayList<>();
-        network.getVoltageLevel(voltageLevelId).getSwitches().forEach(sw ->
-                switchInfosList.add(SwitchInfos.builder()
-                        .id(sw.getId())
-                        .open(sw.isOpen())
-                        .build()));
-        return switchInfosList;
+    public FeederBaysBusBarSectionsInfos getFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        FeederBaysBusBarSectionsInfos.FeederBaysBusBarSectionsInfosBuilder<?, ?> builder = FeederBaysBusBarSectionsInfos.builder();
+        builder.feederBaysInfos(TopologyUtils.getFeederBaysInfos(voltageLevel));
+        builder.busBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
+        return builder.build();
+    }
+
+    public List<SwitchInfos> getSwitchInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+        Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
+        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        return TopologyUtils.getSwitchesInfos(voltageLevel.getId(), network);
     }
 
     public String getVoltageLevelSubstationID(UUID networkUuid, String voltageLevelId, String variantId) {

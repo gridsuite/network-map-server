@@ -43,7 +43,7 @@
 
     <properties>
         <jackson-module-jsonSchema.version>2.15.2</jackson-module-jsonSchema.version>
-        <gridsuite-dependencies.version>43.3.0-SNAPSHOT</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>44.1.0-SNAPSHOT</gridsuite-dependencies.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
     </properties>

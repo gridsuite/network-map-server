@@ -1,0 +1,10 @@
+{
+  "topologyKind": "NODE_BREAKER",
+  "isSymmetrical": true,
+  "isBusbarSectionPositionFound": true,
+  "busBarSections": {
+    "1": [
+      "NGEN4"
+    ]
+  }
+}
