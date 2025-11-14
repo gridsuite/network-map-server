@@ -1446,8 +1446,8 @@ public class NetworkMapControllerTest {
         return new String(ByteStreams.toByteArray(NetworkMapControllerTest.class.getResourceAsStream(resource)), StandardCharsets.UTF_8);
     }
 
-    private void succeedingTestGettingFeederBaysAndBusBarSectionsInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
-        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays-and-bus-bar-sections", networkUuid, voltageLevelId)
+    private void succeedingTestGettingFeederBaysInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays", networkUuid, voltageLevelId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -2376,7 +2376,7 @@ public class NetworkMapControllerTest {
 
     @Test
     void shouldReturnVoltageLevelFeederBaysFormInfos() throws Exception {
-        succeedingTestGettingFeederBaysAndBusBarSectionsInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/feeder-bays-data.json"));
+        succeedingTestGettingFeederBaysInfos(NETWORK_UUID, null, "VLGEN4", resourceToString("/feeder-bays-data.json"));
     }
 
     @Test
