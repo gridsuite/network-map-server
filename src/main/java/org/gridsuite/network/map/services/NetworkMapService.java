@@ -18,7 +18,7 @@ import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.definition.topology.BusBarSectionsInfos;
-import org.gridsuite.network.map.dto.definition.topology.FeederBaysBusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.FeederBayInfos;
 import org.gridsuite.network.map.dto.definition.topology.SwitchInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
@@ -137,13 +137,10 @@ public class NetworkMapService {
         return TopologyUtils.getBusBarSectionsInfos(voltageLevel);
     }
 
-    public FeederBaysBusBarSectionsInfos getFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
+    public Map<String, List<FeederBayInfos>> getFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
-        FeederBaysBusBarSectionsInfos.FeederBaysBusBarSectionsInfosBuilder<?, ?> builder = FeederBaysBusBarSectionsInfos.builder();
-        builder.feederBaysInfos(TopologyUtils.getFeederBaysInfos(voltageLevel));
-        builder.busBarSectionsInfos(TopologyUtils.getBusBarSectionsInfos(voltageLevel));
-        return builder.build();
+        return TopologyUtils.getFeederBaysInfos(voltageLevel);
     }
 
     public List<SwitchInfos> getSwitchInfos(UUID networkUuid, String voltageLevelId, String variantId) {

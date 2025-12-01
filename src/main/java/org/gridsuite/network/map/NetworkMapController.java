@@ -20,7 +20,7 @@ import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcShuntCompensatorsInfos;
 import org.gridsuite.network.map.dto.definition.topology.BusBarSectionsInfos;
-import org.gridsuite.network.map.dto.definition.topology.FeederBaysBusBarSectionsInfos;
+import org.gridsuite.network.map.dto.definition.topology.FeederBayInfos;
 import org.gridsuite.network.map.dto.definition.topology.SwitchInfos;
 import org.gridsuite.network.map.services.NetworkMapService;
 import org.springframework.context.annotation.ComponentScan;
@@ -95,12 +95,12 @@ public class NetworkMapController {
         return networkMapService.getVoltageLevelBusesOrBusbarSections(networkUuid, voltageLevelId, variantId);
     }
 
-    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays-and-bus-bar-sections", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "get feeder bays and bus bar sections information")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = " feeder bays and bus bar sections information retrieved")})
-    public FeederBaysBusBarSectionsInfos getFeederBaysInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
-                                                            @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
-                                                            @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
+    public Map<String, List<FeederBayInfos>> getFeederBaysInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                                @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
+                                                                @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
         return networkMapService.getFeederBaysInfos(networkUuid, voltageLevelId, variantId);
     }
 
