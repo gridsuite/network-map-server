@@ -97,9 +97,9 @@ public class NetworkMapControllerTest {
         network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
-                .setQ(2.2);
+            .setQ(2.2);
         l1.getTerminal2().setP(3.33)
-                .setQ(4.44);
+            .setQ(4.44);
         l1.setB1(5).setB2(6).setG1(7).setG2(8);
         l1.setR(9).setX(10);
         l1.newOperationalLimitsGroup1("limit set 1");
@@ -108,34 +108,34 @@ public class NetworkMapControllerTest {
         l1.setSelectedOperationalLimitsGroup2("limit set 1");
         l1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         l1.newCurrentLimits1().setPermanentLimit(700.4)
-                .beginTemporaryLimit()
-                .setName("IT5")
-                .setValue(250.0)
-                .setAcceptableDuration(300)
-                .endTemporaryLimit()
-                .add();
+            .beginTemporaryLimit()
+            .setName("IT5")
+            .setValue(250.0)
+            .setAcceptableDuration(300)
+            .endTemporaryLimit()
+            .add();
         l1.newCurrentLimits2().setPermanentLimit(800.8)
-                .beginTemporaryLimit()
-                .setName("IT10")
-                .setValue(200.0)
-                .setAcceptableDuration(600)
-                .endTemporaryLimit()
-                .beginTemporaryLimit()
-                .setName("IT20")
-                .setValue(300.0)
-                .setAcceptableDuration(1200)
-                .endTemporaryLimit()
-                .add();
+            .beginTemporaryLimit()
+            .setName("IT10")
+            .setValue(200.0)
+            .setAcceptableDuration(600)
+            .endTemporaryLimit()
+            .beginTemporaryLimit()
+            .setName("IT20")
+            .setValue(300.0)
+            .setAcceptableDuration(1200)
+            .endTemporaryLimit()
+            .add();
         l1.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("feederName1")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .newFeeder2()
-                .withName("feederName2")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
-                .add();
+            .newFeeder1()
+            .withName("feederName1")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .newFeeder2()
+            .withName("feederName2")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+            .add();
 
         // add limits properties on operational limits group side 1
         Optional<OperationalLimitsGroup> op = l1.getOperationalLimitsGroup1("limit set 1");
@@ -195,91 +195,91 @@ public class NetworkMapControllerTest {
 
         TwoWindingsTransformer t1 = network.getTwoWindingsTransformer("NHV2_NLOAD");
         t1.getTerminal1().setP(5.5)
-                .setQ(6.6);
+            .setQ(6.6);
         t1.getTerminal2().setP(7.77)
-                .setQ(8.88);
+            .setQ(8.88);
         t1.getRatioTapChanger().setTapPosition(2);
         t1.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         t1.getTerminal1().disconnect();
         t1.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("feederName1")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .newFeeder2()
-                .withName("feederName2")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
-                .add();
+            .newFeeder1()
+            .withName("feederName1")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .newFeeder2()
+            .withName("feederName2")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+            .add();
 
         TwoWindingsTransformer t2 = network.getTwoWindingsTransformer("NGEN_NHV1");
         t2.getTerminal1().disconnect();
         t2.getTerminal2().disconnect();
         t2.getTerminal1().setP(11.1)
-                .setQ(12.2);
+            .setQ(12.2);
         t2.getTerminal2().setP(13.33)
-                .setQ(14.44);
+            .setQ(14.44);
         t2.newOperationalLimitsGroup1("limit set 1");
         t2.newOperationalLimitsGroup2("limit set 1");
         t2.setSelectedOperationalLimitsGroup1("limit set 1");
         t2.setSelectedOperationalLimitsGroup2("limit set 1");
         t2.newCurrentLimits1().setPermanentLimit(750.4)
-                .beginTemporaryLimit()
-                .setName("IT5")
-                .setValue(300)
-                .setAcceptableDuration(2087)
-                .endTemporaryLimit()
-                .add();
+            .beginTemporaryLimit()
+            .setName("IT5")
+            .setValue(300)
+            .setAcceptableDuration(2087)
+            .endTemporaryLimit()
+            .add();
         t2.newCurrentLimits2().setPermanentLimit(780.6)
-                .beginTemporaryLimit()
-                .setName("N/A")
-                .setValue(2147483647)
-                .setAcceptableDuration(664)
-                .endTemporaryLimit()
-                .beginTemporaryLimit()
-                .setName("IT20")
-                .setValue(1200)
-                .setAcceptableDuration(961)
-                .endTemporaryLimit()
-                .add();
+            .beginTemporaryLimit()
+            .setName("N/A")
+            .setValue(2147483647)
+            .setAcceptableDuration(664)
+            .endTemporaryLimit()
+            .beginTemporaryLimit()
+            .setName("IT20")
+            .setValue(1200)
+            .setAcceptableDuration(961)
+            .endTemporaryLimit()
+            .add();
         t2.newPhaseTapChanger()
-                .beginStep()
-                .setAlpha(1)
-                .setRho(0.85f)
-                .setR(0.0)
-                .setX(0.0)
-                .setG(0.0)
-                .setB(0.0)
-                .endStep()
-                .beginStep()
-                .setAlpha(1)
-                .setRho(0.90f)
-                .setR(0.0)
-                .setX(0.0)
-                .setG(0.0)
-                .setB(0.0)
-                .endStep()
-                .setTapPosition(1)
-                .setRegulating(true)
-                .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
-                .setRegulationValue(10)
-                .setRegulationTerminal(t2.getTerminal1())
-                .setTargetDeadband(0)
-                .add();
+            .beginStep()
+            .setAlpha(1)
+            .setRho(0.85f)
+            .setR(0.0)
+            .setX(0.0)
+            .setG(0.0)
+            .setB(0.0)
+            .endStep()
+            .beginStep()
+            .setAlpha(1)
+            .setRho(0.90f)
+            .setR(0.0)
+            .setX(0.0)
+            .setG(0.0)
+            .setB(0.0)
+            .endStep()
+            .setTapPosition(1)
+            .setRegulating(true)
+            .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
+            .setRegulationValue(10)
+            .setRegulationTerminal(t2.getTerminal1())
+            .setTargetDeadband(0)
+            .add();
         t2.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         t2.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("feederName1")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .newFeeder2()
-                .withName("feederName2")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
-                .add();
+            .newFeeder1()
+            .withName("feederName1")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .newFeeder2()
+            .withName("feederName2")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+            .add();
         //add substation p0 that is not attached to voltage levels
         Substation p0 = network.newSubstation().setId("P0").add();
-        p0 .setCountry(Country.FR);
+        p0.setCountry(Country.FR);
 
         Substation p1 = network.getSubstation("P1");
         p1.setProperty("Country", "FR");
@@ -294,36 +294,36 @@ public class NetworkMapControllerTest {
 
         TwoWindingsTransformerAdder twoWindingsTransformerAdder = p1.newTwoWindingsTransformer();
         twoWindingsTransformerAdder.setId("NGEN_NHV2")
-                .setVoltageLevel1("VLGEN")
-                .setBus1("NGEN")
-                .setConnectableBus1("NGEN")
-                .setRatedU1(400.)
-                .setVoltageLevel2("VLHV1")
-                .setBus2("NHV1")
-                .setConnectableBus2("NHV1")
-                .setRatedU2(158.)
-                .setR(47)
-                .setG(27)
-                .setB(17)
-                .setX(23)
-                .add();
+            .setVoltageLevel1("VLGEN")
+            .setBus1("NGEN")
+            .setConnectableBus1("NGEN")
+            .setRatedU1(400.)
+            .setVoltageLevel2("VLHV1")
+            .setBus2("NHV1")
+            .setConnectableBus2("NHV1")
+            .setRatedU2(158.)
+            .setR(47)
+            .setG(27)
+            .setB(17)
+            .setX(23)
+            .add();
 
         TwoWindingsTransformer t3 = network.getTwoWindingsTransformer("NGEN_NHV2");
         t3.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         t3.newCurrentLimits1().setPermanentLimit(300.4)
-                .beginTemporaryLimit()
-                .setName("IT20")
-                .setValue(400)
-                .setAcceptableDuration(87)
-                .endTemporaryLimit()
-                .add();
+            .beginTemporaryLimit()
+            .setName("IT20")
+            .setValue(400)
+            .setAcceptableDuration(87)
+            .endTemporaryLimit()
+            .add();
         t3.newCurrentLimits2().setPermanentLimit(280.6)
-                .beginTemporaryLimit()
-                .setName("N/A")
-                .setValue(98)
-                .setAcceptableDuration(34)
-                .endTemporaryLimit()
-                .add();
+            .beginTemporaryLimit()
+            .setName("N/A")
+            .setValue(98)
+            .setAcceptableDuration(34)
+            .endTemporaryLimit()
+            .add();
         t3.newExtension(MeasurementsAdder.class).add();
         Measurements<TwoWindingsTransformer> t3Measurements = t3.getExtension(Measurements.class);
         t3Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setSide(ThreeSides.ONE).setValid(true).setValue(27).add();
@@ -335,20 +335,20 @@ public class NetworkMapControllerTest {
         t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11).add();
         t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7).add();
         t3.newExtension(BranchObservabilityAdder.class)
-                .withStandardDeviationP1(23.31)
-                .withRedundantP1(true)
-                .withStandardDeviationQ1(23.25)
-                .withRedundantQ1(true)
-                .withStandardDeviationP2(23.31)
-                .withRedundantP2(true)
-                .withStandardDeviationQ2(23.25)
-                .withRedundantQ2(true)
-                .withObservable(true)
-                .add();
+            .withStandardDeviationP1(23.31)
+            .withRedundantP1(true)
+            .withStandardDeviationQ1(23.25)
+            .withRedundantQ1(true)
+            .withStandardDeviationP2(23.31)
+            .withRedundantP2(true)
+            .withStandardDeviationQ2(23.25)
+            .withRedundantQ2(true)
+            .withObservable(true)
+            .add();
         t3.newExtension(TwoWindingsTransformerToBeEstimatedAdder.class)
-                .withPhaseTapChangerStatus(true)
-                .withRatioTapChangerStatus(false)
-                .add();
+            .withPhaseTapChangerStatus(true)
+            .withRatioTapChangerStatus(false)
+            .add();
 
         Generator gen = network.getGenerator("GEN");
         gen.getTerminal().setP(25);
@@ -357,86 +357,86 @@ public class NetworkMapControllerTest {
         gen.setRatedS(27);
         gen.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(4).withMaxTargetP(8000).add();
         gen.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         gen.setRegulatingTerminal(network.getLine("NHV1_NHV2_1").getTerminal("VLHV1"));
         gen.newMinMaxReactiveLimits().setMinQ(-500)
-                .setMaxQ(500)
-                .add();
+            .setMaxQ(500)
+            .add();
         gen.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         gen.newExtension(CoordinatedReactiveControlAdder.class)
-                .withQPercent(10.0)
-                .add();
+            .withQPercent(10.0)
+            .add();
         gen.newExtension(GeneratorStartupAdder.class)
-                .withPlannedActivePowerSetpoint(0.3)
-                .withMarginalCost(3)
-                .withPlannedOutageRate(0.4)
-                .withForcedOutageRate(2)
-                .add();
+            .withPlannedActivePowerSetpoint(0.3)
+            .withMarginalCost(3)
+            .withPlannedOutageRate(0.4)
+            .withForcedOutageRate(2)
+            .add();
         gen.newExtension(MeasurementsAdder.class).add();
         Measurements<Generator> genMeasurements = gen.getExtension(Measurements.class);
         genMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(50).add();
         genMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(5).add();
 
         gen.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
 
         Generator gen2 = network.getGenerator("GEN2");
         //Setting regulating terminal to gen terminal itself should make "regulatingTerminal" to empty in json
         gen2.setRegulatingTerminal(gen2.getTerminal());
         gen2.newReactiveCapabilityCurve().beginPoint()
-                .setP(0)
-                .setMinQ(6)
-                .setMaxQ(7)
-                .endPoint()
-                .beginPoint()
-                .setP(1)
-                .setMaxQ(5)
-                .setMinQ(4)
-                .endPoint()
-                .beginPoint()
-                .setP(3)
-                .setMinQ(4)
-                .setMaxQ(5)
-                .endPoint()
-                .add();
+            .setP(0)
+            .setMinQ(6)
+            .setMaxQ(7)
+            .endPoint()
+            .beginPoint()
+            .setP(1)
+            .setMaxQ(5)
+            .setMinQ(4)
+            .endPoint()
+            .beginPoint()
+            .setP(3)
+            .setMinQ(4)
+            .setMaxQ(5)
+            .endPoint()
+            .add();
         gen2.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         gen2.newExtension(CoordinatedReactiveControlAdder.class)
-                .withQPercent(10.0)
-                .add();
+            .withQPercent(10.0)
+            .add();
         gen2.newExtension(MeasurementsAdder.class).add();
         Measurements<Generator> gen2Measurements = gen2.getExtension(Measurements.class);
         gen2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(30).add();
         gen2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(80).add();
 
         VoltageLevel vlnew2 = p1.newVoltageLevel()
-                .setId("VLNEW2")
-                .setNominalV(225.0)
-                .setTopologyKind(TopologyKind.BUS_BREAKER)
-                .add();
+            .setId("VLNEW2")
+            .setNominalV(225.0)
+            .setTopologyKind(TopologyKind.BUS_BREAKER)
+            .add();
         vlnew2.getBusBreakerView().newBus()
-                .setId("NNEW2")
-                .add();
+            .setId("NNEW2")
+            .add();
         vlnew2.setProperty("Country", "FR");
 
         make3WindingsTransformer(p1, "TWT", ThreeWindingsTransformer::getLeg1, ThreeWindingsTransformer::getLeg3);
@@ -451,46 +451,46 @@ public class NetworkMapControllerTest {
         threeWindingsTransformer21.getLeg2().getTerminal().disconnect();
 
         Substation p3 = network.newSubstation()
-                .setId("P3")
-                .setCountry(Country.FR)
-                .setTso("RTE")
-                .setGeographicalTags("A")
-                .add();
+            .setId("P3")
+            .setCountry(Country.FR)
+            .setTso("RTE")
+            .setGeographicalTags("A")
+            .add();
         p3.setProperty("Country", "FR");
         VoltageLevel vlgen3 = p3.newVoltageLevel()
-                .setId("VLGEN3")
-                .setNominalV(24.0)
-                .setTopologyKind(TopologyKind.BUS_BREAKER)
-                .add();
+            .setId("VLGEN3")
+            .setNominalV(24.0)
+            .setTopologyKind(TopologyKind.BUS_BREAKER)
+            .add();
         vlgen3.getBusBreakerView().newBus()
-                .setId("NGEN3")
-                .add();
+            .setId("NGEN3")
+            .add();
         Line line3 = network.newLine()
-                .setId("LINE3")
-                .setVoltageLevel1("VLGEN")
-                .setBus1("NGEN")
-                .setConnectableBus1("NGEN")
-                .setVoltageLevel2("VLGEN3")
-                .setBus2("NGEN3")
-                .setConnectableBus2("NGEN3")
-                .setR(3.0)
-                .setX(33.0)
-                .setG1(0.0)
-                .setB1(386E-6 / 2)
-                .setG2(0.0)
-                .setB2(386E-6 / 2)
-                .add();
+            .setId("LINE3")
+            .setVoltageLevel1("VLGEN")
+            .setBus1("NGEN")
+            .setConnectableBus1("NGEN")
+            .setVoltageLevel2("VLGEN3")
+            .setBus2("NGEN3")
+            .setConnectableBus2("NGEN3")
+            .setR(3.0)
+            .setX(33.0)
+            .setG1(0.0)
+            .setB1(386E-6 / 2)
+            .setG2(0.0)
+            .setB2(386E-6 / 2)
+            .add();
         line3.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         line3.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("feederName1")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .newFeeder2()
-                .withName("feederName2")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
-                .add();
+            .newFeeder1()
+            .withName("feederName1")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .newFeeder2()
+            .withName("feederName2")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+            .add();
         line3.getTerminal1().setP(200.);
         line3.getTerminal2().setP(100.);
         line3.getTerminal1().disconnect();
@@ -501,16 +501,16 @@ public class NetworkMapControllerTest {
         line3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.ONE).setValid(false).setValue(24).add();
         line3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.TWO).setValid(true).setValue(45).add();
         line3.newExtension(BranchObservabilityAdder.class)
-                .withStandardDeviationP1(23.31)
-                .withRedundantP1(true)
-                .withStandardDeviationQ1(23.25)
-                .withRedundantQ1(true)
-                .withStandardDeviationP2(23.31)
-                .withRedundantP2(true)
-                .withStandardDeviationQ2(23.25)
-                .withRedundantQ2(true)
-                .withObservable(true)
-                .add();
+            .withStandardDeviationP1(23.31)
+            .withRedundantP1(true)
+            .withStandardDeviationQ1(23.25)
+            .withRedundantQ1(true)
+            .withStandardDeviationP2(23.31)
+            .withRedundantP2(true)
+            .withStandardDeviationQ2(23.25)
+            .withRedundantQ2(true)
+            .withObservable(true)
+            .add();
 
         line3.newOperationalLimitsGroup1("group1").newCurrentLimits()
             .setPermanentLimit(220.0)
@@ -530,34 +530,34 @@ public class NetworkMapControllerTest {
         line3.setSelectedOperationalLimitsGroup1("group1");
 
         Substation p6 = network.newSubstation()
-                .setId("P6")
-                .setCountry(Country.FR)
-                .setTso("RTE")
-                .setGeographicalTags("A")
-                .add();
+            .setId("P6")
+            .setCountry(Country.FR)
+            .setTso("RTE")
+            .setGeographicalTags("A")
+            .add();
         VoltageLevel vlgen6 = p6.newVoltageLevel()
-                .setId("VLGEN6")
-                .setNominalV(24.0)
-                .setTopologyKind(TopologyKind.BUS_BREAKER)
-                .add();
+            .setId("VLGEN6")
+            .setNominalV(24.0)
+            .setTopologyKind(TopologyKind.BUS_BREAKER)
+            .add();
         vlgen6.getBusBreakerView().newBus()
-                .setId("NGEN6")
-                .add();
+            .setId("NGEN6")
+            .add();
         network.newLine()
-                .setId("LINE4")
-                .setVoltageLevel1("VLGEN6")
-                .setBus1("NGEN6")
-                .setConnectableBus1("NGEN6")
-                .setVoltageLevel2("VLGEN3")
-                .setBus2("NGEN3")
-                .setConnectableBus2("NGEN3")
-                .setR(3.0)
-                .setX(33.0)
-                .setG1(0.0)
-                .setB1(386E-6 / 2)
-                .setG2(0.0)
-                .setB2(386E-6 / 2)
-                .add();
+            .setId("LINE4")
+            .setVoltageLevel1("VLGEN6")
+            .setBus1("NGEN6")
+            .setConnectableBus1("NGEN6")
+            .setVoltageLevel2("VLGEN3")
+            .setBus2("NGEN3")
+            .setConnectableBus2("NGEN3")
+            .setR(3.0)
+            .setX(33.0)
+            .setG1(0.0)
+            .setB1(386E-6 / 2)
+            .setG2(0.0)
+            .setB2(386E-6 / 2)
+            .add();
 
         Line line4 = network.getLine("LINE4");
         line4.newOperationalLimitsGroup2("group1").newCurrentLimits()
@@ -579,74 +579,74 @@ public class NetworkMapControllerTest {
         line4.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         line4.getTerminal1().disconnect();
         Battery b1 = vlnew2.newBattery()
-                .setId("BATTERY1")
-                .setName("BATTERY1")
-                .setMinP(50)
-                .setMaxP(70)
-                .setTargetP(1)
-                .setTargetQ(1)
-                .setConnectableBus("NNEW2")
-                .add();
+            .setId("BATTERY1")
+            .setName("BATTERY1")
+            .setMinP(50)
+            .setMaxP(70)
+            .setTargetP(1)
+            .setTargetQ(1)
+            .setConnectableBus("NNEW2")
+            .add();
         b1.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         b1.newMinMaxReactiveLimits().setMinQ(-500)
-                .setMaxQ(500)
-                .add();
+            .setMaxQ(500)
+            .add();
         b1.newExtension(MeasurementsAdder.class).add();
         Measurements<Battery> b1Measurements = b1.getExtension(Measurements.class);
         b1Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(12).add();
         b1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(44).add();
 
         b1.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
         b1.newExtension(BatteryShortCircuitAdder.class)
-                .withDirectTransX(1.0)
-                .withStepUpTransformerX(2.0)
-                .add();
+            .withDirectTransX(1.0)
+            .withStepUpTransformerX(2.0)
+            .add();
 
         Battery b2 = vlgen3.newBattery()
-                .setId("BATTERY2")
-                .setName("BATTERY2")
-                .setMinP(50)
-                .setMaxP(70)
-                .setTargetP(1)
-                .setTargetQ(1)
-                .setConnectableBus("NNEW2")
-                .add();
+            .setId("BATTERY2")
+            .setName("BATTERY2")
+            .setMinP(50)
+            .setMaxP(70)
+            .setTargetP(1)
+            .setTargetQ(1)
+            .setConnectableBus("NNEW2")
+            .add();
         b2.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
         b2.newReactiveCapabilityCurve().beginPoint()
-                .setP(0)
-                .setMinQ(6)
-                .setMaxQ(7)
-                .endPoint()
-                .beginPoint()
-                .setP(1)
-                .setMaxQ(5)
-                .setMinQ(4)
-                .endPoint()
-                .beginPoint()
-                .setP(3)
-                .setMinQ(4)
-                .setMaxQ(5)
-                .endPoint()
-                .add();
+            .setP(0)
+            .setMinQ(6)
+            .setMaxQ(7)
+            .endPoint()
+            .beginPoint()
+            .setP(1)
+            .setMaxQ(5)
+            .setMinQ(4)
+            .endPoint()
+            .beginPoint()
+            .setP(3)
+            .setMinQ(4)
+            .setMaxQ(5)
+            .endPoint()
+            .add();
         b2.newExtension(MeasurementsAdder.class).add();
         Measurements<Battery> b2Measurements = b2.getExtension(Measurements.class);
         b2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(34).add();
@@ -655,18 +655,18 @@ public class NetworkMapControllerTest {
         network.newVoltageLevel().setId("VL").setName("VL").setNominalV(24.0).setTopologyKind(TopologyKind.BUS_BREAKER).add();
         VoltageLevel vl1 = network.getVoltageLevel("VLGEN");
         DanglingLine dl = vl1.newDanglingLine()
-                .setId("DL1")
-                .setName("DL1")
-                .setR(1)
-                .setX(2)
-                .setB(3)
-                .setG(4)
-                .setP0(50)
-                .setQ0(30)
-                .setPairingKey("xnode1")
-                .setConnectableBus("NGEN")
-                .setBus("NGEN")
-                .add();
+            .setId("DL1")
+            .setName("DL1")
+            .setR(1)
+            .setX(2)
+            .setB(3)
+            .setG(4)
+            .setP0(50)
+            .setQ0(30)
+            .setPairingKey("xnode1")
+            .setConnectableBus("NGEN")
+            .setBus("NGEN")
+            .add();
         dl.getTerminal().setP(45);
         dl.getTerminal().setQ(75);
         dl.newExtension(MeasurementsAdder.class).add();
@@ -675,91 +675,91 @@ public class NetworkMapControllerTest {
         dlMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(77).add();
 
         dl.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
         dl.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         DanglingLine dl2 = vlgen3.newDanglingLine()
-                .setId("DL2")
-                .setName("DL2")
-                .setR(1)
-                .setX(2)
-                .setB(3)
-                .setG(4)
-                .setP0(50)
-                .setQ0(30)
-                .setPairingKey("xnode1")
-                .setConnectableBus("NGEN3")
-                .setBus("NGEN3")
-                .add();
+            .setId("DL2")
+            .setName("DL2")
+            .setR(1)
+            .setX(2)
+            .setB(3)
+            .setG(4)
+            .setP0(50)
+            .setQ0(30)
+            .setPairingKey("xnode1")
+            .setConnectableBus("NGEN3")
+            .setBus("NGEN3")
+            .add();
         dl2.getTerminal().setP(45);
         dl2.getTerminal().setQ(75);
         network.newTieLine()
-                .setId("TL1")
-                .setName("TL1")
-                .setDanglingLine1("DL1")
-                .setDanglingLine2("DL2")
-                .add();
+            .setId("TL1")
+            .setName("TL1")
+            .setDanglingLine1("DL1")
+            .setDanglingLine2("DL2")
+            .add();
         TieLine tieLine = network.getTieLine("TL1");
         tieLine.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         VscConverterStation vsc1 = vlnew2.newVscConverterStation()
-                .setId("VSC1")
-                .setName("VSC1")
-                .setLossFactor(1)
-                .setReactivePowerSetpoint(40)
-                .setVoltageRegulatorOn(true)
-                .setVoltageSetpoint(150)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("VSC1")
+            .setName("VSC1")
+            .setLossFactor(1)
+            .setReactivePowerSetpoint(40)
+            .setVoltageRegulatorOn(true)
+            .setVoltageSetpoint(150)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         vsc1.newMinMaxReactiveLimits().setMinQ(5).setMaxQ(10).add();
         vsc1.getTerminal().setP(10);
         vsc1.getTerminal().setQ(30);
 
         VscConverterStation vsc3 = vlnew2.newVscConverterStation()
-                .setId("VSC3")
-                .setName("VSC3")
-                .setLossFactor(1)
-                .setReactivePowerSetpoint(40)
-                .setVoltageRegulatorOn(false)
-                .setVoltageSetpoint(Double.NaN)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("VSC3")
+            .setName("VSC3")
+            .setLossFactor(1)
+            .setReactivePowerSetpoint(40)
+            .setVoltageRegulatorOn(false)
+            .setVoltageSetpoint(Double.NaN)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         vsc3.newMinMaxReactiveLimits().setMinQ(55).setMaxQ(70).add();
         vsc3.getTerminal().setP(10);
         vsc3.getTerminal().setQ(30);
 
         VscConverterStation vsc4 = vlnew2.newVscConverterStation()
-                .setId("VSC4")
-                .setName("VSC4")
-                .setLossFactor(1)
-                .setReactivePowerSetpoint(40)
-                .setVoltageRegulatorOn(false)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("VSC4")
+            .setName("VSC4")
+            .setLossFactor(1)
+            .setReactivePowerSetpoint(40)
+            .setVoltageRegulatorOn(false)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         vsc4.newReactiveCapabilityCurve().beginPoint()
-                .setP(0)
-                .setMinQ(6)
-                .setMaxQ(7)
-                .endPoint()
-                .beginPoint()
-                .setP(1)
-                .setMaxQ(5)
-                .setMinQ(4)
-                .endPoint()
-                .beginPoint()
-                .setP(3)
-                .setMinQ(4)
-                .setMaxQ(5)
-                .endPoint()
-                .add();
+            .setP(0)
+            .setMinQ(6)
+            .setMaxQ(7)
+            .endPoint()
+            .beginPoint()
+            .setP(1)
+            .setMaxQ(5)
+            .setMinQ(4)
+            .endPoint()
+            .beginPoint()
+            .setP(3)
+            .setMinQ(4)
+            .setMaxQ(5)
+            .endPoint()
+            .add();
         vsc4.getTerminal().setP(10);
         vsc4.getTerminal().setQ(30);
         vsc4.newExtension(MeasurementsAdder.class).add();
@@ -767,25 +767,25 @@ public class NetworkMapControllerTest {
         vsc4Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(16).add();
         vsc4Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(63).add();
         vsc4.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
 
         VscConverterStation vsc5 = vlnew2.newVscConverterStation()
-                .setId("VSC5")
-                .setName("VSC5")
-                .setLossFactor(1)
-                .setReactivePowerSetpoint(Double.NaN)
-                .setVoltageRegulatorOn(true)
-                .setVoltageSetpoint(150)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("VSC5")
+            .setName("VSC5")
+            .setLossFactor(1)
+            .setReactivePowerSetpoint(Double.NaN)
+            .setVoltageRegulatorOn(true)
+            .setVoltageSetpoint(150)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         vsc5.newMinMaxReactiveLimits().setMinQ(40).setMaxQ(45).add();
         vsc5.getTerminal().setP(10);
         vsc5.getTerminal().setQ(30);
@@ -795,59 +795,59 @@ public class NetworkMapControllerTest {
         vsc5Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(33).add();
 
         VscConverterStation vsc6 = vlnew2.newVscConverterStation()
-                .setId("VSC6")
-                .setName("VSC6")
-                .setLossFactor(1)
-                .setVoltageRegulatorOn(true)
-                .setVoltageSetpoint(150)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("VSC6")
+            .setName("VSC6")
+            .setLossFactor(1)
+            .setVoltageRegulatorOn(true)
+            .setVoltageSetpoint(150)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         vsc6.newReactiveCapabilityCurve().beginPoint()
-                .setP(0)
-                .setMinQ(6)
-                .setMaxQ(7)
-                .endPoint()
-                .beginPoint()
-                .setP(1)
-                .setMaxQ(5)
-                .setMinQ(4)
-                .endPoint()
-                .add();
+            .setP(0)
+            .setMinQ(6)
+            .setMaxQ(7)
+            .endPoint()
+            .beginPoint()
+            .setP(1)
+            .setMaxQ(5)
+            .setMinQ(4)
+            .endPoint()
+            .add();
         vsc6.getTerminal().setP(10);
         vsc6.getTerminal().setQ(30);
         vlgen3.newVscConverterStation()
-                .setId("VSC2")
-                .setName("VSC2")
-                .setLossFactor(1)
-                .setReactivePowerSetpoint(40)
-                .setVoltageRegulatorOn(true)
-                .setVoltageSetpoint(150)
-                .setConnectableBus("NGEN3")
-                .setBus("NGEN3")
-                .add()
-                .newMinMaxReactiveLimits()
-                .setMinQ(25)
-                .setMaxQ(66)
-                .add();
+            .setId("VSC2")
+            .setName("VSC2")
+            .setLossFactor(1)
+            .setReactivePowerSetpoint(40)
+            .setVoltageRegulatorOn(true)
+            .setVoltageSetpoint(150)
+            .setConnectableBus("NGEN3")
+            .setBus("NGEN3")
+            .add()
+            .newMinMaxReactiveLimits()
+            .setMinQ(25)
+            .setMaxQ(66)
+            .add();
 
         vl1.newLccConverterStation()
-                .setId("LCC1")
-                .setName("LCC1")
-                .setLossFactor(1)
-                .setPowerFactor(0.5F)
-                .setConnectableBus("NGEN")
-                .setBus("NGEN")
-                .add();
+            .setId("LCC1")
+            .setName("LCC1")
+            .setLossFactor(1)
+            .setPowerFactor(0.5F)
+            .setConnectableBus("NGEN")
+            .setBus("NGEN")
+            .add();
 
         LccConverterStation lcc2 = vlnew2.newLccConverterStation()
-                .setId("LCC2")
-                .setName("LCC2")
-                .setLossFactor(1)
-                .setPowerFactor(0.5F)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("LCC2")
+            .setName("LCC2")
+            .setLossFactor(1)
+            .setPowerFactor(0.5F)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         lcc2.getTerminal().setP(110);
         lcc2.getTerminal().setQ(310);
         lcc2.newExtension(MeasurementsAdder.class).add();
@@ -855,305 +855,305 @@ public class NetworkMapControllerTest {
         lcc2Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(5).add();
         lcc2Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(55).add();
         lcc2.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
 
         network.newHvdcLine()
-                .setId("HVDC1")
-                .setName("HVDC1")
-                .setR(1)
-                .setMaxP(100)
-                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
-                .setNominalV(225)
-                .setActivePowerSetpoint(500)
-                .setConverterStationId1("LCC1")
-                .setConverterStationId2("LCC2")
-                .add();
+            .setId("HVDC1")
+            .setName("HVDC1")
+            .setR(1)
+            .setMaxP(100)
+            .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+            .setNominalV(225)
+            .setActivePowerSetpoint(500)
+            .setConverterStationId1("LCC1")
+            .setConverterStationId2("LCC2")
+            .add();
         network.newHvdcLine()
-                .setId("HVDC3")
-                .setName("HVDC3")
-                .setR(1)
-                .setMaxP(100)
-                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
-                .setNominalV(225)
-                .setActivePowerSetpoint(500)
-                .setConverterStationId1("VSC3")
-                .setConverterStationId2("VSC4")
-                .add();
+            .setId("HVDC3")
+            .setName("HVDC3")
+            .setR(1)
+            .setMaxP(100)
+            .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+            .setNominalV(225)
+            .setActivePowerSetpoint(500)
+            .setConverterStationId1("VSC3")
+            .setConverterStationId2("VSC4")
+            .add();
         network.newHvdcLine()
-                .setId("HVDC4")
-                .setName("HVDC4")
-                .setR(1)
-                .setMaxP(100)
-                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
-                .setNominalV(225)
-                .setActivePowerSetpoint(500)
-                .setConverterStationId1("VSC5")
-                .setConverterStationId2("VSC6")
-                .add();
+            .setId("HVDC4")
+            .setName("HVDC4")
+            .setR(1)
+            .setMaxP(100)
+            .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+            .setNominalV(225)
+            .setActivePowerSetpoint(500)
+            .setConverterStationId1("VSC5")
+            .setConverterStationId2("VSC6")
+            .add();
 
         HvdcLine hvdcLineWithExtension = network.newHvdcLine()
-                .setId("HVDC2")
-                .setName("HVDC2")
-                .setR(1)
-                .setMaxP(100)
-                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
-                .setNominalV(225)
-                .setActivePowerSetpoint(500)
-                .setConverterStationId1("LCC1")
-                .setConverterStationId2("LCC2")
-                .add();
+            .setId("HVDC2")
+            .setName("HVDC2")
+            .setR(1)
+            .setMaxP(100)
+            .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+            .setNominalV(225)
+            .setActivePowerSetpoint(500)
+            .setConverterStationId1("LCC1")
+            .setConverterStationId2("LCC2")
+            .add();
 
         network.newHvdcLine()
-                .setId("HVDC5")
-                .setName("HVDC5")
-                .setR(1)
-                .setMaxP(100)
-                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
-                .setNominalV(225)
-                .setActivePowerSetpoint(500)
-                .setConverterStationId1("VSC1")
-                .setConverterStationId2("VSC2")
-                .add();
+            .setId("HVDC5")
+            .setName("HVDC5")
+            .setR(1)
+            .setMaxP(100)
+            .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+            .setNominalV(225)
+            .setActivePowerSetpoint(500)
+            .setConverterStationId1("VSC1")
+            .setConverterStationId2("VSC2")
+            .add();
 
         hvdcLineWithExtension.newExtension(HvdcOperatorActivePowerRangeAdder.class)
-                .withOprFromCS2toCS1(900F)
-                .withOprFromCS1toCS2(1000F)
-                .add();
+            .withOprFromCS2toCS1(900F)
+            .withOprFromCS1toCS2(1000F)
+            .add();
 
         hvdcLineWithExtension.newExtension(HvdcAngleDroopActivePowerControlAdder.class)
-                .withP0(190F)
-                .withDroop(180F)
-                .withEnabled(true)
-                .add();
+            .withP0(190F)
+            .withDroop(180F)
+            .withEnabled(true)
+            .add();
         hvdcLineWithExtension.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
         ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
-                .setId("SHUNT1")
-                .setName("SHUNT1")
-                .newLinearModel()
-                .setMaximumSectionCount(8)
-                .setBPerSection(5)
-                .setGPerSection(2)
-                .add()
-                .setSectionCount(4)
-                .setTargetV(225)
-                .setVoltageRegulatorOn(true)
-                .setTargetDeadband(10)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("SHUNT1")
+            .setName("SHUNT1")
+            .newLinearModel()
+            .setMaximumSectionCount(8)
+            .setBPerSection(5)
+            .setGPerSection(2)
+            .add()
+            .setSectionCount(4)
+            .setTargetV(225)
+            .setVoltageRegulatorOn(true)
+            .setTargetDeadband(10)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
         shunt1.getTerminal().setQ(90);
         shunt1.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         shunt1.newExtension(MeasurementsAdder.class).add();
         Measurements<ShuntCompensator> shunt1Measurements = shunt1.getExtension(Measurements.class);
         shunt1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(45).add();
         shunt1.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
 
         var shunt2 = vlgen3.newShuntCompensator()
-                .setId("SHUNT2")
-                .setName("SHUNT2")
-                .newLinearModel()
-                .setMaximumSectionCount(3)
-                .setBPerSection(1)
-                .setGPerSection(2)
-                .add()
-                .setSectionCount(2)
-                .setTargetV(225)
-                .setVoltageRegulatorOn(true)
-                .setTargetDeadband(10)
-                .setConnectableBus("NGEN3")
-                .setBus("NGEN3")
-                .add();
+            .setId("SHUNT2")
+            .setName("SHUNT2")
+            .newLinearModel()
+            .setMaximumSectionCount(3)
+            .setBPerSection(1)
+            .setGPerSection(2)
+            .add()
+            .setSectionCount(2)
+            .setTargetV(225)
+            .setVoltageRegulatorOn(true)
+            .setTargetDeadband(10)
+            .setConnectableBus("NGEN3")
+            .setBus("NGEN3")
+            .add();
         shunt2.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
 
         StaticVarCompensator svc1 = vl1.newStaticVarCompensator()
-                .setId("SVC1")
-                .setName("SVC1")
-                .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
-                .setVoltageSetpoint(200)
-                .setReactivePowerSetpoint(100)
-                .setBmin(2)
-                .setBmax(30)
-                .setConnectableBus("NGEN")
-                .setBus("NGEN")
-                .add();
+            .setId("SVC1")
+            .setName("SVC1")
+            .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
+            .setVoltageSetpoint(200)
+            .setReactivePowerSetpoint(100)
+            .setBmin(2)
+            .setBmax(30)
+            .setConnectableBus("NGEN")
+            .setBus("NGEN")
+            .add();
         svc1.getTerminal().setP(120);
         svc1.getTerminal().setQ(43);
         svc1.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
         svc1.newExtension(StandbyAutomatonAdder.class)
-                .withStandbyStatus(true)
-                .withB0(20.0)
-                .withHighVoltageSetpoint(224.0)
-                .withLowVoltageSetpoint(100.0)
-                .withHighVoltageThreshold(200.0)
-                .withLowVoltageThreshold(120.0)
-                .add();
+            .withStandbyStatus(true)
+            .withB0(20.0)
+            .withHighVoltageSetpoint(224.0)
+            .withLowVoltageSetpoint(100.0)
+            .withHighVoltageThreshold(200.0)
+            .withLowVoltageThreshold(120.0)
+            .add();
         svc1.newExtension(MeasurementsAdder.class).add();
         Measurements<StaticVarCompensator> staticVarMeasurements = svc1.getExtension(Measurements.class);
         staticVarMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(58).add();
         svc1.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(19.65)
-                .withRedundantP(true)
-                .withStandardDeviationQ(12.76)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.93)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(19.65)
+            .withRedundantP(true)
+            .withStandardDeviationQ(12.76)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.93)
+            .withRedundantV(true)
+            .add();
 
         vlnew2.newStaticVarCompensator()
-                .setId("SVC2")
-                .setName("SVC2")
-                .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
-                .setVoltageSetpoint(200)
-                .setReactivePowerSetpoint(100)
-                .setBmin(2)
-                .setBmax(30)
-                .setConnectableBus("NNEW2")
-                .setBus("NNEW2")
-                .add();
+            .setId("SVC2")
+            .setName("SVC2")
+            .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
+            .setVoltageSetpoint(200)
+            .setReactivePowerSetpoint(100)
+            .setBmin(2)
+            .setBmax(30)
+            .setConnectableBus("NNEW2")
+            .setBus("NNEW2")
+            .add();
 
         Substation p4 = network.newSubstation()
-                .setId("P4")
-                .setCountry(Country.FR)
-                .setTso("RTE")
-                .setGeographicalTags("A")
-                .add();
+            .setId("P4")
+            .setCountry(Country.FR)
+            .setTso("RTE")
+            .setGeographicalTags("A")
+            .add();
         VoltageLevel vlgen4 = p4.newVoltageLevel()
-                .setId("VLGEN4")
-                .setNominalV(24.0)
-                .setTopologyKind(TopologyKind.NODE_BREAKER)
-                .add();
+            .setId("VLGEN4")
+            .setNominalV(24.0)
+            .setTopologyKind(TopologyKind.NODE_BREAKER)
+            .add();
         BusbarSection bbs4 = vlgen4.getNodeBreakerView().newBusbarSection()
-                .setId("NGEN4")
-                .setName("NGEN4")
-                .setNode(0)
-                .add();
+            .setId("NGEN4")
+            .setName("NGEN4")
+            .setNode(0)
+            .add();
         bbs4.newExtension(MeasurementsAdder.class).add();
         Measurements<BusbarSection> bbs4Measurements = bbs4.getExtension(Measurements.class);
         bbs4Measurements.newMeasurement().setType(Measurement.Type.VOLTAGE).setValid(true).setValue(385.).add();
         bbs4Measurements.newMeasurement().setType(Measurement.Type.ANGLE).setValid(false).setValue(0.5).add();
 
         vlgen4.getNodeBreakerView()
-                .getBusbarSection("NGEN4")
-                .newExtension(BusbarSectionPositionAdder.class)
-                .withBusbarIndex(1)
-                .withSectionIndex(2)
-                .add();
+            .getBusbarSection("NGEN4")
+            .newExtension(BusbarSectionPositionAdder.class)
+            .withBusbarIndex(1)
+            .withSectionIndex(2)
+            .add();
         Substation p5 = network.newSubstation()
-                .setId("P5")
-                .setCountry(Country.FR)
-                .setTso("RTE")
-                .setGeographicalTags("A")
-                .add();
+            .setId("P5")
+            .setCountry(Country.FR)
+            .setTso("RTE")
+            .setGeographicalTags("A")
+            .add();
         VoltageLevel vlgen5 = p5.newVoltageLevel()
-                .setId("VLGEN5")
-                .setNominalV(24.0)
-                .setHighVoltageLimit(30)
-                .setLowVoltageLimit(20)
-                .setTopologyKind(TopologyKind.NODE_BREAKER)
-                .add();
+            .setId("VLGEN5")
+            .setNominalV(24.0)
+            .setHighVoltageLimit(30)
+            .setLowVoltageLimit(20)
+            .setTopologyKind(TopologyKind.NODE_BREAKER)
+            .add();
         vlgen5.getNodeBreakerView().newBusbarSection()
-                .setId("NGEN5")
-                .setName("NGEN5")
-                .setNode(0)
-                .add();
+            .setId("NGEN5")
+            .setName("NGEN5")
+            .setNode(0)
+            .add();
         vlgen5.newExtension(IdentifiableShortCircuitAdder.class).withIpMin(0.0).withIpMax(100.0).add();
         vlgen5.getNodeBreakerView()
-                .getBusbarSection("NGEN5")
-                .newExtension(BusbarSectionPositionAdder.class)
-                .withBusbarIndex(1)
-                .withSectionIndex(2)
-                .add();
+            .getBusbarSection("NGEN5")
+            .newExtension(BusbarSectionPositionAdder.class)
+            .withBusbarIndex(1)
+            .withSectionIndex(2)
+            .add();
         vlgen5.getNodeBreakerView().newBusbarSection()
-                .setId("NGEN5_2_1")
-                .setName("NGEN5_2_1")
-                .setNode(1)
-                .add();
+            .setId("NGEN5_2_1")
+            .setName("NGEN5_2_1")
+            .setNode(1)
+            .add();
         vlgen5.getNodeBreakerView()
-                .getBusbarSection("NGEN5_2_1")
-                .newExtension(BusbarSectionPositionAdder.class)
-                .withBusbarIndex(2)
-                .withSectionIndex(1)
-                .add();
+            .getBusbarSection("NGEN5_2_1")
+            .newExtension(BusbarSectionPositionAdder.class)
+            .withBusbarIndex(2)
+            .withSectionIndex(1)
+            .add();
         vlgen5.getNodeBreakerView().newBusbarSection()
-                .setId("NGEN5_2_2")
-                .setName("NGEN5_2_2")
-                .setNode(0)
-                .add();
+            .setId("NGEN5_2_2")
+            .setName("NGEN5_2_2")
+            .setNode(0)
+            .add();
         vlgen5.getNodeBreakerView()
-                .getBusbarSection("NGEN5_2_2")
-                .newExtension(BusbarSectionPositionAdder.class)
-                .withBusbarIndex(2)
-                .withSectionIndex(2)
-                .add();
+            .getBusbarSection("NGEN5_2_2")
+            .newExtension(BusbarSectionPositionAdder.class)
+            .withBusbarIndex(2)
+            .withSectionIndex(2)
+            .add();
 
         // Create a connected shunt compensator on a NODE_BREAKER voltage level
         ShuntCompensator shunt4 = vlgen4.newShuntCompensator().setId("SHUNT_VLNB")
-                .setName("SHUNT_VLNB")
-                .newLinearModel()
-                .setMaximumSectionCount(3)
-                .setBPerSection(1)
-                .setGPerSection(2)
-                .add()
-                .setSectionCount(2)
-                .setTargetV(225)
-                .setVoltageRegulatorOn(true)
-                .setTargetDeadband(10)
-                .setNode(2)
-                .add();
+            .setName("SHUNT_VLNB")
+            .newLinearModel()
+            .setMaximumSectionCount(3)
+            .setBPerSection(1)
+            .setGPerSection(2)
+            .add()
+            .setSectionCount(2)
+            .setTargetV(225)
+            .setVoltageRegulatorOn(true)
+            .setTargetDeadband(10)
+            .setNode(2)
+            .add();
         shunt4.newExtension(MeasurementsAdder.class).add();
         Measurements<ShuntCompensator> shunt4Measurements = shunt4.getExtension(Measurements.class);
         shunt4Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(69).add();
 
         // Create a nonLinear shunt compensator on a NODE_BREAKER voltage level
         vlgen4.newShuntCompensator().setId("SHUNT_NON_LINEAR")
-                .setName("SHUNT_NON_LINEAR")
-                .newNonLinearModel()
-                .beginSection()
-                .setB(1.)
-                .setG(2.)
-                .endSection()
-                .beginSection()
-                .setB(3.)
-                .setG(4.)
-                .endSection()
-                .add()
-                .setSectionCount(2)
-                .setTargetV(225)
-                .setVoltageRegulatorOn(true)
-                .setTargetDeadband(10)
-                .setNode(3)
-                .add();
+            .setName("SHUNT_NON_LINEAR")
+            .newNonLinearModel()
+            .beginSection()
+            .setB(1.)
+            .setG(2.)
+            .endSection()
+            .beginSection()
+            .setB(3.)
+            .setG(4.)
+            .endSection()
+            .add()
+            .setSectionCount(2)
+            .setTargetV(225)
+            .setVoltageRegulatorOn(true)
+            .setTargetDeadband(10)
+            .setNode(3)
+            .add();
         createSwitch(vlgen4, "VL4_BBS_SHUNT_DISCONNECTOR", SwitchKind.DISCONNECTOR, false, 0, 1);
         createSwitch(vlgen4, "VL4_SHUNT_BREAKER", SwitchKind.BREAKER, false, 1, 2);
 
@@ -1163,14 +1163,14 @@ public class NetworkMapControllerTest {
         load1Measurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(false).setValue(87).add();
         load1Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(74).add();
         load1.newExtension(InjectionObservabilityAdder.class)
-                .withObservable(true)
-                .withStandardDeviationP(22.31)
-                .withRedundantP(true)
-                .withStandardDeviationQ(22.01)
-                .withRedundantQ(true)
-                .withStandardDeviationV(2.64)
-                .withRedundantV(true)
-                .add();
+            .withObservable(true)
+            .withStandardDeviationP(22.31)
+            .withRedundantP(true)
+            .withStandardDeviationQ(22.01)
+            .withRedundantQ(true)
+            .withStandardDeviationV(2.64)
+            .withRedundantV(true)
+            .add();
 
         Load load2 = vlnew2.newLoad().setId("LOAD_ID").setBus("NNEW2").setConnectableBus("NNEW2").setP0(600.0).setQ0(200.0).setName("LOAD_NAME").add();
         load2.newExtension(MeasurementsAdder.class).add();
@@ -1181,52 +1181,52 @@ public class NetworkMapControllerTest {
         Load load = network.getLoad("LOAD");
         load.setProperty("Country", "FR");
         load.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
 
         VoltageLevel vlgen7 = p5.newVoltageLevel()
-                .setId("VLGEN7")
-                .setNominalV(24.0)
-                .setHighVoltageLimit(30)
-                .setLowVoltageLimit(20)
-                .setTopologyKind(TopologyKind.NODE_BREAKER)
-                .add();
+            .setId("VLGEN7")
+            .setNominalV(24.0)
+            .setHighVoltageLimit(30)
+            .setLowVoltageLimit(20)
+            .setTopologyKind(TopologyKind.NODE_BREAKER)
+            .add();
         vlgen7.getNodeBreakerView().newBusbarSection()
-                .setId("NGEN7")
-                .setName("NGEN7")
-                .setNode(0)
-                .add();
+            .setId("NGEN7")
+            .setName("NGEN7")
+            .setNode(0)
+            .add();
         createSwitch(vlgen4, "b4", SwitchKind.DISCONNECTOR, false, 0, 10);
         createSwitch(vlgen4, "br11", SwitchKind.BREAKER, false, 10, 11);
         createSwitch(vlgen7, "b5", SwitchKind.DISCONNECTOR, false, 0, 1);
         createSwitch(vlgen7, "br21", SwitchKind.BREAKER, false, 1, 2);
         network.newLine()
-                .setId("LINE7")
-                .setVoltageLevel1("VLGEN4")
-                .setNode1(11)
-                .setVoltageLevel2("VLGEN7")
-                .setNode2(2)
-                .setR(3.0)
-                .setX(33.0)
-                .setG1(0.0)
-                .setB1(386E-6 / 2)
-                .setG2(0.0)
-                .setB2(386E-6 / 2)
-                .add();
+            .setId("LINE7")
+            .setVoltageLevel1("VLGEN4")
+            .setNode1(11)
+            .setVoltageLevel2("VLGEN7")
+            .setNode2(2)
+            .setR(3.0)
+            .setX(33.0)
+            .setG1(0.0)
+            .setB1(386E-6 / 2)
+            .setG2(0.0)
+            .setB2(386E-6 / 2)
+            .add();
         Line line7 = network.getLine("LINE7");
         line7.newExtension(ConnectablePositionAdder.class)
-                .newFeeder1()
-                .withName("LINE7_Side_VLGEN4")
-                .withOrder(5)
-                .withDirection(ConnectablePosition.Direction.BOTTOM).add()
-                .newFeeder2()
-                .withName("LINE7_Side_VLGEN8")
-                .withOrder(3)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder1()
+            .withName("LINE7_Side_VLGEN4")
+            .withOrder(5)
+            .withDirection(ConnectablePosition.Direction.BOTTOM).add()
+            .newFeeder2()
+            .withName("LINE7_Side_VLGEN8")
+            .withOrder(3)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
 
         // Add new variant
         network.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
@@ -1237,27 +1237,27 @@ public class NetworkMapControllerTest {
 
         // Create a shunt compensator only in variant VARIANT_ID
         ShuntCompensator shunt3 = vlgen3.newShuntCompensator()
-                .setId("SHUNT3")
-                .setName("SHUNT3")
-                .newLinearModel()
-                .setMaximumSectionCount(3)
-                .setBPerSection(1)
-                .setGPerSection(2)
-                .add()
-                .setSectionCount(2)
-                .setTargetV(225)
-                .setVoltageRegulatorOn(true)
-                .setTargetDeadband(10)
-                .setConnectableBus("NGEN3")
-                .setBus("NGEN3")
-                .add();
+            .setId("SHUNT3")
+            .setName("SHUNT3")
+            .newLinearModel()
+            .setMaximumSectionCount(3)
+            .setBPerSection(1)
+            .setGPerSection(2)
+            .add()
+            .setSectionCount(2)
+            .setTargetV(225)
+            .setVoltageRegulatorOn(true)
+            .setTargetDeadband(10)
+            .setConnectableBus("NGEN3")
+            .setBus("NGEN3")
+            .add();
         shunt3.getTerminal().setQ(90);
         shunt3.newExtension(ConnectablePositionAdder.class)
-                .newFeeder()
-                .withName("feederName")
-                .withOrder(0)
-                .withDirection(ConnectablePosition.Direction.TOP).add()
-                .add();
+            .newFeeder()
+            .withName("feederName")
+            .withOrder(0)
+            .withDirection(ConnectablePosition.Direction.TOP).add()
+            .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
@@ -1267,15 +1267,15 @@ public class NetworkMapControllerTest {
 
         // Create a new substation outside of France in variant VARIANT_ID_2 to test a network with multi-countries
         network.newSubstation()
-                .setId("AF_P1")
-                .setCountry(Country.AF)
-                .setTso("RTE")
-                .add();
+            .setId("AF_P1")
+            .setCountry(Country.AF)
+            .setTso("RTE")
+            .add();
         network.newVoltageLevel()
-                .setId("AF_VL")
-                .setNominalV(400.0)
-                .setTopologyKind(TopologyKind.BUS_BREAKER)
-                .add();
+            .setId("AF_VL")
+            .setNominalV(400.0)
+            .setTopologyKind(TopologyKind.BUS_BREAKER)
+            .add();
 
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
@@ -1299,52 +1299,52 @@ public class NetworkMapControllerTest {
 
     public static void createSwitch(VoltageLevel vl, String id, SwitchKind kind, boolean open, int node1, int node2) {
         vl.getNodeBreakerView().newSwitch()
-                .setId(id)
-                .setName(id)
-                .setKind(kind)
-                .setRetained(kind.equals(SwitchKind.BREAKER))
-                .setOpen(open)
-                .setFictitious(false)
-                .setNode1(node1)
-                .setNode2(node2)
-                .add();
+            .setId(id)
+            .setName(id)
+            .setKind(kind)
+            .setRetained(kind.equals(SwitchKind.BREAKER))
+            .setOpen(open)
+            .setFictitious(false)
+            .setNode1(node1)
+            .setNode2(node2)
+            .add();
     }
 
     private static void make3WindingsTransformer(Substation p1, String id,
                                                  Function<ThreeWindingsTransformer, ThreeWindingsTransformer.Leg> getPhaseLeg,
                                                  Function<ThreeWindingsTransformer, ThreeWindingsTransformer.Leg> getRatioLeg) {
         ThreeWindingsTransformer threeWindingsTransformer = p1.newThreeWindingsTransformer()
-                .setId(id)
-                .setName(id)
-                .setRatedU0(234)
-                .newLeg1()
-                .setVoltageLevel("VLHV1")
-                .setBus("NHV1")
-                .setR(45)
-                .setX(35)
-                .setG(25)
-                .setB(15)
-                .setRatedU(5)
-                .add()
-                .newLeg2()
-                .setVoltageLevel("VLNEW2")
-                .setBus("NNEW2")
-                .setR(47)
-                .setX(37)
-                .setG(27)
-                .setB(17)
-                .setRatedU(7)
-                .add()
-                .newLeg3()
-                .setVoltageLevel("VLGEN")
-                .setBus("NGEN")
-                .setR(49)
-                .setX(39)
-                .setG(29)
-                .setB(19)
-                .setRatedU(9)
-                .add()
-                .add();
+            .setId(id)
+            .setName(id)
+            .setRatedU0(234)
+            .newLeg1()
+            .setVoltageLevel("VLHV1")
+            .setBus("NHV1")
+            .setR(45)
+            .setX(35)
+            .setG(25)
+            .setB(15)
+            .setRatedU(5)
+            .add()
+            .newLeg2()
+            .setVoltageLevel("VLNEW2")
+            .setBus("NNEW2")
+            .setR(47)
+            .setX(37)
+            .setG(27)
+            .setB(17)
+            .setRatedU(7)
+            .add()
+            .newLeg3()
+            .setVoltageLevel("VLGEN")
+            .setBus("NGEN")
+            .setR(49)
+            .setX(39)
+            .setG(29)
+            .setB(19)
+            .setRatedU(9)
+            .add()
+            .add();
         threeWindingsTransformer.getTerminal(ThreeSides.ONE).setP(375);
         threeWindingsTransformer.getTerminal(ThreeSides.TWO).setP(225);
         threeWindingsTransformer.getTerminal(ThreeSides.THREE).setP(200);
@@ -1353,76 +1353,76 @@ public class NetworkMapControllerTest {
         threeWindingsTransformer.getTerminal(ThreeSides.THREE).setQ(18);
 
         getPhaseLeg.apply(threeWindingsTransformer).newPhaseTapChanger()
-                .setLowTapPosition(0)
-                .setTapPosition(1)
-                .setRegulating(true)
-                .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
-                .setRegulationValue(25)
-                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeSides.ONE))
-                .setTargetDeadband(22)
-                .beginStep()
-                .setAlpha(-10)
-                .setRho(0.99)
-                .setR(1.)
-                .setX(4.)
-                .setG(0.5)
-                .setB(1.5)
-                .endStep()
-                .beginStep()
-                .setAlpha(0)
-                .setRho(1)
-                .setR(1.1)
-                .setX(4.1)
-                .setG(0.6)
-                .setB(1.6)
-                .endStep()
-                .beginStep()
-                .setAlpha(10)
-                .setRho(1.01)
-                .setR(1.2)
-                .setX(4.2)
-                .setG(0.7)
-                .setB(1.7)
-                .endStep()
-                .add();
+            .setLowTapPosition(0)
+            .setTapPosition(1)
+            .setRegulating(true)
+            .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
+            .setRegulationValue(25)
+            .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeSides.ONE))
+            .setTargetDeadband(22)
+            .beginStep()
+            .setAlpha(-10)
+            .setRho(0.99)
+            .setR(1.)
+            .setX(4.)
+            .setG(0.5)
+            .setB(1.5)
+            .endStep()
+            .beginStep()
+            .setAlpha(0)
+            .setRho(1)
+            .setR(1.1)
+            .setX(4.1)
+            .setG(0.6)
+            .setB(1.6)
+            .endStep()
+            .beginStep()
+            .setAlpha(10)
+            .setRho(1.01)
+            .setR(1.2)
+            .setX(4.2)
+            .setG(0.7)
+            .setB(1.7)
+            .endStep()
+            .add();
         getRatioLeg.apply(threeWindingsTransformer).newRatioTapChanger()
-                .setLowTapPosition(0)
-                .setTapPosition(2)
-                .setRegulating(false)
-                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeSides.ONE))
-                .setTargetDeadband(22)
-                .setTargetV(220)
-                .beginStep()
-                .setRho(0.99)
-                .setR(1.)
-                .setX(4.)
-                .setG(0.5)
-                .setB(1.5)
-                .endStep()
-                .beginStep()
-                .setRho(1)
-                .setR(1.1)
-                .setX(4.1)
-                .setG(0.6)
-                .setB(1.6)
-                .endStep()
-                .beginStep()
-                .setRho(1.01)
-                .setR(1.2)
-                .setX(4.2)
-                .setG(0.7)
-                .setB(1.7)
-                .endStep()
-                .add();
+            .setLowTapPosition(0)
+            .setTapPosition(2)
+            .setRegulating(false)
+            .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeSides.ONE))
+            .setTargetDeadband(22)
+            .setTargetV(220)
+            .beginStep()
+            .setRho(0.99)
+            .setR(1.)
+            .setX(4.)
+            .setG(0.5)
+            .setB(1.5)
+            .endStep()
+            .beginStep()
+            .setRho(1)
+            .setR(1.1)
+            .setX(4.1)
+            .setG(0.6)
+            .setB(1.6)
+            .endStep()
+            .beginStep()
+            .setRho(1.01)
+            .setR(1.2)
+            .setX(4.2)
+            .setG(0.7)
+            .setB(1.7)
+            .endStep()
+            .add();
 
         getPhaseLeg.apply(threeWindingsTransformer)
-                .newCurrentLimits()
-                .setPermanentLimit(25)
-                .add();
+            .newCurrentLimits()
+            .setPermanentLimit(25)
+            .add();
         getRatioLeg.apply(threeWindingsTransformer)
-                .newCurrentLimits()
-                .setPermanentLimit(54)
-                .add();
+            .newCurrentLimits()
+            .setPermanentLimit(54)
+            .add();
 
         threeWindingsTransformer.newExtension(MeasurementsAdder.class).add();
         Measurements<ThreeWindingsTransformer> trfMeasurements = threeWindingsTransformer.getExtension(Measurements.class);
@@ -1448,49 +1448,49 @@ public class NetworkMapControllerTest {
 
     private void succeedingTestGettingFeederBaysInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays", networkUuid, voltageLevelId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
-                .andExpect(status().isOk())
-                .andReturn();
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+            .andExpect(status().isOk())
+            .andReturn();
         System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingTestGettingBusBarSectionsInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/bus-bar-sections", networkUuid, voltageLevelId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
-                .andExpect(status().isOk())
-                .andReturn();
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+            .andExpect(status().isOk())
+            .andReturn();
         System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingTestGettingSwitchesInfos(UUID networkUuid, String variantId, String voltageLevelId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/switches", networkUuid, voltageLevelId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
-                .andExpect(status().isOk())
-                .andReturn();
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
+            .andExpect(status().isOk())
+            .andReturn();
         System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingTestForElementInfosWithElementId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                )
-                .andExpect(status().isOk())
-                .andReturn();
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
+                .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+            )
+            .andExpect(status().isOk())
+            .andReturn();
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingTestForBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side, String expectedResult) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                         .queryParam(QUERY_PARAM_SIDE, side.name())
-                )
-                .andExpect(status().isOk())
-                .andReturn();
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                .queryParam(QUERY_PARAM_SIDE, side.name())
+            )
+            .andExpect(status().isOk())
+            .andReturn();
 
         Assertions.assertEquals(expectedResult, res.getResponse().getContentAsString());
 
@@ -1511,11 +1511,11 @@ public class NetworkMapControllerTest {
 
     private void notFoundTestForElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId) throws Exception {
         mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
-                        .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
-                )
-                .andExpect(status().isNotFound());
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
+                .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+            )
+            .andExpect(status().isNotFound());
     }
 
     private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson) throws Exception {
@@ -1533,8 +1533,8 @@ public class NetworkMapControllerTest {
         queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
-                    .map(String::valueOf)
-                    .toList();
+                .map(String::valueOf)
+                .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
         if (withOptionalLoading) {
@@ -1543,12 +1543,12 @@ public class NetworkMapControllerTest {
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_NETWORK_COMPONENTS), String.valueOf(true));
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParams(queryParams)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(substationsIds))
-                )
-                .andExpect(status().isOk())
-                .andReturn();
+                .queryParams(queryParams)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(substationsIds))
+            )
+            .andExpect(status().isOk())
+            .andReturn();
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1564,17 +1564,17 @@ public class NetworkMapControllerTest {
 
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
-                    .map(String::valueOf)
-                    .toList();
+                .map(String::valueOf)
+                .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
 
         mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
-                        .queryParams(queryParams)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(substationsIds))
-                )
-                .andExpect(status().isNotFound());
+                .queryParams(queryParams)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(substationsIds))
+            )
+            .andExpect(status().isNotFound());
     }
 
     private void succeedingTestForElementsIds(UUID networkUuid, String variantId, String expectedJson, ElementType elementType, List<String> substationsIds, List<Double> nominalVoltages) throws Exception {
@@ -1583,16 +1583,16 @@ public class NetworkMapControllerTest {
         queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
-                    .map(String::valueOf)
-                    .toList();
+                .map(String::valueOf)
+                .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements-ids", networkUuid)
                 .queryParams(queryParams)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(substationsIds)))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1602,15 +1602,15 @@ public class NetworkMapControllerTest {
         queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
         if (nominalVoltages != null && !nominalVoltages.isEmpty()) {
             List<String> nominalVoltageStrings = nominalVoltages.stream()
-                    .map(String::valueOf)
-                    .toList();
+                .map(String::valueOf)
+                .toList();
             queryParams.addAll(QUERY_PARAM_NOMINAL_VOLTAGES, nominalVoltageStrings);
         }
         mvc.perform(post("/v1/networks/{networkUuid}/elements-ids", networkUuid)
                 .queryParams(queryParams)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(substationsIds)))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     private void succeedingTestForAllEquipmentsInfos(UUID networkUuid, String variantId, List<String> substationsIds, String expectedJson, boolean withOptionalLoading) throws Exception {
@@ -1668,15 +1668,15 @@ public class NetworkMapControllerTest {
 
     private void shouldNotExistBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, ThreeSides side, String equipmentId) throws Exception {
         mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
-                        .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
-                        .queryParam(QUERY_PARAM_SIDE, side.name())
-                )
-                .andExpect(status().isNoContent());
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                .queryParam(QUERY_PARAM_SIDE, side.name())
+            )
+            .andExpect(status().isNoContent());
     }
 
     private void failingBusOrBusbarSectionTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId) throws Exception {
         mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
-                .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound());
     }
 
     private static String buildUrlHvdcWithShuntCompensators(String variantId) {
@@ -1689,17 +1689,17 @@ public class NetworkMapControllerTest {
 
     private void succeedingHvdcWithShuntCompensatorsTest(UUID networkUuid, String hvdcId, String variantId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrlHvdcWithShuntCompensators(variantId), networkUuid, hvdcId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andReturn();
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     private void succeedingEquipmentsTest(String equipments, UUID networkUuid, String voltageLevelId, String variantId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get(buildUrlEquipments(equipments, variantId), networkUuid, voltageLevelId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andReturn();
         JSONAssert.assertEquals(res.getResponse().getContentAsString(), expectedJson, JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1716,8 +1716,8 @@ public class NetworkMapControllerTest {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/countries", networkUuid).queryParams(queryParams))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
 
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
     }
@@ -1726,8 +1726,8 @@ public class NetworkMapControllerTest {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/nominal-voltages", networkUuid).queryParams(queryParams))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
 
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.STRICT_ORDER);
     }
@@ -1739,9 +1739,9 @@ public class NetworkMapControllerTest {
         }
 
         MvcResult res = mvc.perform(get(url.toString(), networkUuid, voltageLevelId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andReturn();
         assertEquals(res.getResponse().getContentAsString(), expectedJson);
     }
 
@@ -1752,8 +1752,8 @@ public class NetworkMapControllerTest {
         }
 
         MvcResult res = mvc.perform(get(url.toString(), networkUuid, voltageLevelId))
-                .andExpect(status().isOk())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andReturn();
         assertEquals(res.getResponse().getContentAsString(), expectedJson);
     }
 

@@ -161,6 +161,12 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
+                .p1(nullIfNan(terminal1.getP()))
+                .q1(nullIfNan(terminal1.getQ()))
+                .p2(nullIfNan(terminal2.getP()))
+                .q2(nullIfNan(terminal2.getQ()))
+                .ratioTapChanger(toMapData(twoWindingsTransformer.getRatioTapChanger()))
+                .phaseTapChanger(toMapData(twoWindingsTransformer.getPhaseTapChanger()))
                 .r(twoWindingsTransformer.getR())
                 .x(twoWindingsTransformer.getX())
                 .b(twoWindingsTransformer.getB());
