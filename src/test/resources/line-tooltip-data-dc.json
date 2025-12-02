@@ -6,6 +6,8 @@
   "terminal2Connected": false,
   "i1": 6014.065304058601,
   "i2": 3007.0326520293006,
+  "p1": 200.0,
+  "p2": 100.0,
   "currentLimits1": {
     "id": "group1",
     "permanentLimit": 220.0,
