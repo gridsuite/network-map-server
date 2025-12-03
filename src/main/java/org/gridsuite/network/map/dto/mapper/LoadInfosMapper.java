@@ -66,6 +66,7 @@ public final class LoadInfosMapper {
 
         return builder.build();
     }
+
     private static LoadTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
         Load load = (Load) identifiable;
         LoadTooltipInfos.LoadTooltipInfosBuilder<?, ?> builder = LoadTooltipInfos.builder()
