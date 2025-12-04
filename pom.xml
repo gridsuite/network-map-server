@@ -19,7 +19,7 @@
 
     <groupId>org.gridsuite</groupId>
     <artifactId>gridsuite-network-map-server</artifactId>
-    <version>2.27.0-SNAPSHOT</version>
+    <version>2.28.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>Network map server</name>
@@ -43,7 +43,7 @@
 
     <properties>
         <jackson-module-jsonSchema.version>2.15.2</jackson-module-jsonSchema.version>
-        <gridsuite-dependencies.version>44.1.0</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>45.0.0</gridsuite-dependencies.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
     </properties>
@@ -84,15 +84,6 @@
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jsonSchema</artifactId>
                 <version>${jackson-module-jsonSchema.version}</version>
-            </dependency>
-
-            <!-- project specific dependencies (must be before to have priority during resolution)  -->
-            <dependency><!--TODO remove when springboot version will be updated-->
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>5.13.4</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <!-- imports -->
