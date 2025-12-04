@@ -46,9 +46,15 @@ public class LineTooltipInfos extends ElementInfos {
     private Double x;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b1;
+    private Double p1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b2;
+    private Double q1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q2;
 
 }
