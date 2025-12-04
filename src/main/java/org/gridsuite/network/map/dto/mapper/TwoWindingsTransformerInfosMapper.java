@@ -168,8 +168,7 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .ratioTapChanger(toMapData(twoWindingsTransformer.getRatioTapChanger()))
                 .phaseTapChanger(toMapData(twoWindingsTransformer.getPhaseTapChanger()))
                 .r(twoWindingsTransformer.getR())
-                .x(twoWindingsTransformer.getX())
-                .b(twoWindingsTransformer.getB());
+                .x(twoWindingsTransformer.getX());
 
         twoWindingsTransformer.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId()))));
         twoWindingsTransformer.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId()))));
