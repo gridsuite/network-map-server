@@ -14,12 +14,9 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.mapper.*;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.BeforeParameterizedClassInvocation;
-import org.junit.jupiter.params.Parameter;
-import org.junit.jupiter.params.ParameterizedClass;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.opentest4j.TestAbortedException;
@@ -28,78 +25,86 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Just some tests for Sonar coverage until we really implement unit tests on mappers...
  */
-@ParameterizedClass(name = "{0}")
-@ValueSource(classes = {
-    //ElementInfosMapper.class,
-    BatteryInfosMapper.class,
-    BusBarSectionInfosMapper.class,
-    BusInfosMapper.class,
-    DanglingLineInfosMapper.class,
-    GeneratorInfosMapper.class,
-    HvdcInfosMapper.class,
-    HvdcLccInfosMapper.class,
-    HvdcVscInfosMapper.class,
-    LccConverterStationInfosMapper.class,
-    LineInfosMapper.class,
-    LoadInfosMapper.class,
-    ShuntCompensatorMapper.class,
-    StaticVarCompensatorInfosMapper.class,
-    SubstationInfosMapper.class,
-    TwoWindingsTransformerInfosMapper.class,
-    ThreeWindingsTransformerInfosMapper.class,
-    TieLineInfosMapper.class,
-    VoltageLevelInfosMapper.class,
-    VscConverterStationInfosMapper.class,
-})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 @Slf4j
 class MappersTest implements WithAssertions, WithAssumptions {
-    @Parameter private Class<?> classMapper;
-    private Method toDataMethod;
-
-    @BeforeParameterizedClassInvocation
-    void setUpAndCheck() throws NoSuchMethodException, SecurityException {
-        assertThat(this.classMapper).as("Mapper class").isNotInterface().isNotAnnotation().isNotRecord().isPublic().hasDeclaredMethods("toData");
-        this.toDataMethod = this.classMapper.getDeclaredMethod("toData", Identifiable.class, InfoTypeParameters.class);
-        assertThat(this.toDataMethod).as("Mapper#toData(Identifiable, InfoTypeParameters) method").isNotNull();
-        assertThat(this.toDataMethod.getReturnType()).as("Mapper#toData(...) return type").isSameAs(ElementInfos.class);
-        assertThat(Modifier.isStatic(this.toDataMethod.getModifiers())).as("Mapper#toData(...) is static").isTrue();
+    private static Stream<Arguments> mapperClassProvider() {
+        return Stream.of(
+                Arguments.of(BatteryInfosMapper.class),
+                Arguments.of(BusBarSectionInfosMapper.class),
+                Arguments.of(BusInfosMapper.class),
+                Arguments.of(DanglingLineInfosMapper.class),
+                Arguments.of(GeneratorInfosMapper.class),
+                Arguments.of(HvdcInfosMapper.class),
+                Arguments.of(HvdcLccInfosMapper.class),
+                Arguments.of(HvdcVscInfosMapper.class),
+                Arguments.of(LccConverterStationInfosMapper.class),
+                Arguments.of(LineInfosMapper.class),
+                Arguments.of(LoadInfosMapper.class),
+                Arguments.of(ShuntCompensatorMapper.class),
+                Arguments.of(StaticVarCompensatorInfosMapper.class),
+                Arguments.of(SubstationInfosMapper.class),
+                Arguments.of(TwoWindingsTransformerInfosMapper.class),
+                Arguments.of(ThreeWindingsTransformerInfosMapper.class),
+                Arguments.of(TieLineInfosMapper.class),
+                Arguments.of(VoltageLevelInfosMapper.class),
+                Arguments.of(VscConverterStationInfosMapper.class)
+        );
     }
 
-    @ParameterizedTest(name = "{0}")
-    @EnumSource(InfoType.class)
-    void shouldHandleInfoType(final InfoType infoType) throws Throwable {
+    private static Stream<Arguments> mapperAndInfoTypeProvider() {
+        return mapperClassProvider()
+                .flatMap(mapperArg -> Stream.of(InfoType.values())
+                        .map(infoType -> Arguments.of(mapperArg.get()[0], infoType)));
+    }
+
+    @ParameterizedTest(name = "[{index}] {0}")
+    @MethodSource("mapperClassProvider")
+    void shouldHaveValidMapperStructure(Class<?> classMapper) throws NoSuchMethodException, SecurityException {
+        assertThat(classMapper).as("Mapper class").isNotInterface().isNotAnnotation().isNotRecord().isPublic().hasDeclaredMethods("toData");
+        Method toDataMethod = classMapper.getDeclaredMethod("toData", Identifiable.class, InfoTypeParameters.class);
+        assertThat(toDataMethod).as("Mapper#toData(Identifiable, InfoTypeParameters) method").isNotNull();
+        assertThat(toDataMethod.getReturnType()).as("Mapper#toData(...) return type").isSameAs(ElementInfos.class);
+        assertThat(Modifier.isStatic(toDataMethod.getModifiers())).as("Mapper#toData(...) is static").isTrue();
+    }
+
+    @ParameterizedTest(name = "[{index}] {0} with {1}")
+    @MethodSource("mapperAndInfoTypeProvider")
+    void shouldHandleInfoType(Class<?> classMapper, InfoType infoType) throws Throwable {
+        Method toDataMethod = classMapper.getDeclaredMethod("toData", Identifiable.class, InfoTypeParameters.class);
+
         final InfoTypeParameters parameters = new InfoTypeParameters(infoType, Map.of());
         // add possible implemented classes to avoid ClassCastException
         final Identifiable<?> identifiableMock = Mockito.mock(Identifiable.class, Mockito.withSettings()
-            .defaultAnswer(invocation -> {
-                throw new InterruptTest("No real data to test with.");
-            }).extraInterfaces(// add possible implemented classes to avoid ClassCastException
-                Battery.class,
-                Bus.class,
-                BusbarSection.class,
-                DanglingLine.class,
-                Generator.class,
-                HvdcLine.class,
-                LccConverterStation.class,
-                Line.class,
-                Load.class,
-                ShuntCompensator.class,
-                StaticVarCompensator.class,
-                Substation.class,
-                TwoWindingsTransformer.class,
-                ThreeWindingsTransformer.class,
-                TieLine.class,
-                VoltageLevel.class,
-                VscConverterStation.class
-            ));
+                .defaultAnswer(invocation -> {
+                    throw new InterruptTest("No real data to test with.");
+                }).extraInterfaces(// add possible implemented classes to avoid ClassCastException
+                        Battery.class,
+                        Bus.class,
+                        BusbarSection.class,
+                        DanglingLine.class,
+                        Generator.class,
+                        HvdcLine.class,
+                        LccConverterStation.class,
+                        Line.class,
+                        Load.class,
+                        ShuntCompensator.class,
+                        StaticVarCompensator.class,
+                        Substation.class,
+                        TwoWindingsTransformer.class,
+                        ThreeWindingsTransformer.class,
+                        TieLine.class,
+                        VoltageLevel.class,
+                        VscConverterStation.class
+                ));
         try {
-            final Object result = this.toDataMethod.invoke(null, identifiableMock, parameters);
+            final Object result = toDataMethod.invoke(null, identifiableMock, parameters);
             assertThat(result).isNotNull();
             if (log.isDebugEnabled()) {
                 log.debug("Result: {}", ReflectionToStringBuilder.toString(result, RecursiveToStringStyle.SHORT_PREFIX_STYLE));
