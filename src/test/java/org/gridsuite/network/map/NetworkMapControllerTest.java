@@ -279,7 +279,7 @@ public class NetworkMapControllerTest {
             .add();
         //add substation p0 that is not attached to voltage levels
         Substation p0 = network.newSubstation().setId("P0").add();
-        p0.setCountry(Country.FR);
+        p0 .setCountry(Country.FR);
 
         Substation p1 = network.getSubstation("P1");
         p1.setProperty("Country", "FR");
