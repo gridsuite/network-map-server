@@ -19,8 +19,6 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 @Getter
 public class LoadTooltipInfos extends ElementInfosWithProperties {
 
-    private LoadType type;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p0;
 
