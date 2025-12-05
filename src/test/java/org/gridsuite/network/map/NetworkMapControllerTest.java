@@ -2580,6 +2580,7 @@ public class NetworkMapControllerTest {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, InfoType.FORM, "GEN", resourceToString("/generator-map-data.json"));
     }
+
     @Test
     void shouldReturnGeneratorsTooltipData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.TOOLTIP, "GEN", resourceToString("/generator-tooltip-data.json"));
