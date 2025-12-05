@@ -72,7 +72,7 @@ public final class LoadInfosMapper {
         LoadTooltipInfos.LoadTooltipInfosBuilder<?, ?> builder = LoadTooltipInfos.builder()
                 .name(load.getOptionalName().orElse(null))
                 .id(load.getId())
-                .type(load.getLoadType())
+                .properties(getProperties(load))
                 .p0(load.getP0())
                 .q0(load.getQ0());
         return builder.build();
