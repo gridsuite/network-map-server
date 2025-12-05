@@ -165,8 +165,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .x(twoWindingsTransformer.getX())
                 .b(twoWindingsTransformer.getB());
 
-        twoWindingsTransformer.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId()))));
-        twoWindingsTransformer.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId()))));
+        twoWindingsTransformer.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId(), ElementInfos.InfoType.TOOLTIP))));
+        twoWindingsTransformer.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId(), ElementInfos.InfoType.TOOLTIP))));
 
         return builder.build();
     }
