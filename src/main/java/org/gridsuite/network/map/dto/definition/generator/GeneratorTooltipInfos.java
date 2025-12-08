@@ -10,12 +10,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
-import org.gridsuite.network.map.dto.definition.extension.*;
-
-import java.util.Optional;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author Maissa Souissi <maissa.souissi@rte-france.com>
  */
 @SuperBuilder
 @Getter
@@ -39,8 +36,8 @@ public class GeneratorTooltipInfos extends ElementInfos {
 
     private Double maxP;
 
-    @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    private Optional<GeneratorStartupInfos> generatorStartup;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double plannedActivePowerSetPoint;
 
     private boolean voltageRegulatorOn;
 }

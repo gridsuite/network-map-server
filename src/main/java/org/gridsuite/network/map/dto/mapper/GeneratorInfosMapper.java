@@ -196,17 +196,27 @@ public final class GeneratorInfosMapper {
     private static GeneratorTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
-        GeneratorTooltipInfos.GeneratorTooltipInfosBuilder<?, ?> builder = GeneratorTooltipInfos.builder()
-            .name(generator.getOptionalName().orElse(null))
-            .id(generator.getId())
-            .targetP(generator.getTargetP())
-            .targetQ(nullIfNan(generator.getTargetQ()))
-            .targetV(nullIfNan(generator.getTargetV()))
-            .minP(generator.getMinP())
-            .maxP(generator.getMaxP())
-            .voltageRegulatorOn(generator.isVoltageRegulatorOn())
-            .p(nullIfNan(terminal.getP()))
-            .q(nullIfNan(terminal.getQ()));
+
+        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
+
+        GeneratorTooltipInfos.GeneratorTooltipInfosBuilder<?, ?> builder =
+            GeneratorTooltipInfos.builder()
+                .name(generator.getOptionalName().orElse(null))
+                .id(generator.getId())
+                .targetP(generator.getTargetP())
+                .targetQ(nullIfNan(generator.getTargetQ()))
+                .targetV(nullIfNan(generator.getTargetV()))
+                .minP(generator.getMinP())
+                .maxP(generator.getMaxP())
+                .plannedActivePowerSetPoint(
+                    generatorStartup != null
+                        ? nullIfNan(generatorStartup.getPlannedActivePowerSetpoint())
+                        : null
+                )
+                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+                .p(nullIfNan(terminal.getP()))
+                .q(nullIfNan(terminal.getQ()));
+
         return builder.build();
     }
 

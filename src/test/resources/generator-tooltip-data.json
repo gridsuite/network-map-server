@@ -7,5 +7,6 @@
   "targetV" : 24.5,
   "minP" : -9999.99,
   "maxP" : 9999.99,
-  "voltageRegulatorOn" : true
+  "voltageRegulatorOn" : true,
+  "plannedActivePowerSetPoint" :0.3
 }
