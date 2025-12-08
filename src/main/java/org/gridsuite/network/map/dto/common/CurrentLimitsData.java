@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -33,6 +34,9 @@ public class CurrentLimitsData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TemporaryLimitData> temporaryLimits;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, TemporaryLimitData> temporaryLimitsByName;  // only set in BranchInfosMapper when InfoType == TAB
+
     @JsonInclude
     private Applicability applicability;
 
@@ -48,6 +52,7 @@ public class CurrentLimitsData {
     public boolean limitsEquals(CurrentLimitsData other) {
         return Objects.equals(permanentLimit, other.permanentLimit)
             && Objects.equals(temporaryLimits, other.temporaryLimits)
+            && Objects.equals(temporaryLimitsByName, other.temporaryLimitsByName)
             && Objects.equals(limitsProperties, other.limitsProperties);
     }
 }
