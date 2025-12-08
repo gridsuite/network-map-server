@@ -106,8 +106,8 @@ public final class VoltageLevelInfosMapper {
                 .id(b.getId())
                 .u(makeNaNNull(b.getV()))
                 .angle(makeNaNNull(b.getAngle()))
-                .load(loadValue != null ? Math.abs(loadValue) : null)
-                .generation(generationValue)
+                .load(loadValue)
+                .generation(generationValue != null ? Math.abs(generationValue) : null)
                 .balance(balanceValue)
                 .icc(busIdToIccValues.getOrDefault(b.getId(), 0.0))
                 .build();

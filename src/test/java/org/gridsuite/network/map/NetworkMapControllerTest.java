@@ -35,6 +35,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_BUS_ID_TO_ICC_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -1484,6 +1487,18 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    private void succeedingTestForElementInfosWithElementIdAndIccByBusId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, Map<String, Double> iccByBusId, String expectedJson) throws Exception {
+        MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
+                .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
+                .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
+                .queryParam(QUERY_PARAM_INFO_TYPE, infoType.name())
+                .queryParam(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_BUS_ID_TO_ICC_VALUES), URLEncoder.encode(objectMapper.writeValueAsString(iccByBusId), StandardCharsets.UTF_8))
+            )
+            .andExpect(status().isOk())
+            .andReturn();
+        JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
+    }
+
     private void succeedingTestForBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side, String expectedResult) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/branch-or-3wt/{equipmentId}/voltage-level-id", networkUuid, equipmentId)
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
@@ -2337,6 +2352,40 @@ public class NetworkMapControllerTest {
 
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.MAP, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.MAP, List.of("P3"), resourceToString("/partial-voltage-levels-map-data.json"));
+    }
+
+    @Test
+    void shouldReturnVoltageLevelTooltipData() throws Exception {
+        /* network creation */
+        String voltageLevelId = "VLGEN";
+        Network networkWithLF = EurostagTutorialExample1Factory.createWithLFResults();
+        UUID networkWithLFUuid = UUID.randomUUID();
+        VoltageLevel vl = networkWithLF.getVoltageLevel(voltageLevelId);
+
+        vl.setLowVoltageLimit(200.0);
+        vl.setHighVoltageLimit(220.0);
+        vl.newLoad()
+                .setId("TEST_LOAD")
+                .setBus("NLOAD")
+                .setConnectableBus("NLOAD")
+                .setP0(600.0)
+                .setQ0(200.0)
+                .add();
+
+        networkWithLF.getLoad("TEST_LOAD").getTerminal()
+            .setP(300.0)
+            .setQ(100.0);
+
+        networkWithLF.getVariantManager().cloneVariant(VariantManagerConstants.INITIAL_VARIANT_ID, VARIANT_ID);
+        networkWithLF.getVariantManager().setWorkingVariant(VARIANT_ID);
+        given(networkStoreService.getNetwork(networkWithLFUuid, PreloadingStrategy.NONE)).willReturn(networkWithLF);
+
+        /* run tests */
+        succeedingTestForElementInfosWithElementId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, resourceToString("/voltage-level-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(networkWithLFUuid, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, resourceToString("/voltage-level-tooltip-data.json"));
+
+        succeedingTestForElementInfosWithElementIdAndIccByBusId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, Map.of("VLGEN_0", 10.0, "VLGEN_1", 20.0), resourceToString("/voltage-level-tooltip-with-icc-data.json"));
+        succeedingTestForElementInfosWithElementIdAndIccByBusId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, Map.of("VLGEN_0", 10.0, "VLGEN_1", 20.0), resourceToString("/voltage-level-tooltip-with-icc-data.json"));
     }
 
     @Test
