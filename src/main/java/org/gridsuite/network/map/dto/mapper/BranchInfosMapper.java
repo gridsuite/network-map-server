@@ -22,7 +22,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -76,11 +75,11 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         final Terminal terminal2 = branch.getTerminal2();
 
         branch.getSelectedOperationalLimitsGroup1().ifPresent(limitGrp ->
-            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId()))));
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup1(toMapDataCurrentLimits(cl, limitGrp.getId(), ElementInfos.InfoType.TAB))));
         branch.getSelectedOperationalLimitsGroupId1().ifPresent(builder::selectedOperationalLimitsGroup1Name);
 
         branch.getSelectedOperationalLimitsGroup2().ifPresent(limitGrp ->
-            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId()))));
+            limitGrp.getCurrentLimits().ifPresent(cl -> builder.selectedOperationalLimitsGroup2(toMapDataCurrentLimits(cl, limitGrp.getId(), ElementInfos.InfoType.TAB))));
         branch.getSelectedOperationalLimitsGroupId2().ifPresent(builder::selectedOperationalLimitsGroup2Name);
 
         if (loadOperationalLimitGroups) {
@@ -139,7 +138,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         Map<String, CurrentLimitsData> res = HashMap.newHashMap(operationalLimitsGroups.size());
         operationalLimitsGroups.forEach(operationalLimitsGroup -> operationalLimitsGroup.getCurrentLimits()
                 .ifPresent(limits -> res.put(operationalLimitsGroup.getId(), toMapDataCurrentLimits(limits,
-                    operationalLimitsGroup.getId()))));
+                    operationalLimitsGroup.getId(), ElementInfos.InfoType.TAB))));
         return res;
     }
 
@@ -167,13 +166,15 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
     }
 
     protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
-                                                              @Nullable final String id) {
-        return toMapDataCurrentLimits(limits, id, null, null);
+                                                              @Nullable final String id,
+                                                              @Nullable ElementInfos.InfoType infoType) {
+        return toMapDataCurrentLimits(limits, id, null, null, infoType);
     }
 
     protected static CurrentLimitsData toMapDataCurrentLimits(@NonNull final CurrentLimits limits,
                                                               @Nullable final String id, @Nullable final Applicability applicability,
-                                                              @Nullable List<LimitsProperty> limitsProperties) {
+                                                              @Nullable List<LimitsProperty> limitsProperties,
+                                                              @Nullable ElementInfos.InfoType infoType) {
         CurrentLimitsDataBuilder builder = CurrentLimitsData.builder().id(id).applicability(applicability);
         boolean empty = true;
         if (!Double.isNaN(limits.getPermanentLimit())) {
@@ -181,7 +182,11 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             empty = false;
         }
         if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
-            builder.temporaryLimits(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
+            builder.temporaryLimits(toListDataTemporaryLimit(limits.getTemporaryLimits()));
+
+            if (infoType == ElementInfos.InfoType.TAB) {
+                builder.temporaryLimitsByName(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
+            }
             empty = false;
         }
         if (!CollectionUtils.isEmpty(limitsProperties)) {
@@ -189,15 +194,6 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             empty = false;
         }
         return empty ? null : builder.build();
-    }
-
-    protected static void buildCurrentLimits(@NonNull final Collection<OperationalLimitsGroup> currentLimits, @NonNull final Consumer<List<CurrentLimitsData>> build) {
-        final List<CurrentLimitsData> currentLimitsData = currentLimits.stream()
-            .map(olg -> operationalLimitsGroupToMapDataCurrentLimits(olg, null))
-            .toList();
-        if (!currentLimitsData.isEmpty()) {
-            build.accept(currentLimitsData);
-        }
     }
 
     /**
@@ -268,15 +264,23 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
 
         Optional<CurrentLimits> currentLimits = operationalLimitsGroup.getCurrentLimits();
         return currentLimits.map(limits -> toMapDataCurrentLimits(limits, operationalLimitsGroup.getId(), applicability,
-            getLimitsProperties(operationalLimitsGroup))).orElse(null);
+            getLimitsProperties(operationalLimitsGroup), null)).orElse(null);
     }
 
-    private static List<TemporaryLimitData> toMapDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
+    private static Stream<TemporaryLimitData> toStreamDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
         return limits.stream()
             .map(l -> TemporaryLimitData.builder()
                 .name(l.getName())
                 .acceptableDuration(l.getAcceptableDuration() == Integer.MAX_VALUE ? null : l.getAcceptableDuration())
                 .value(l.getValue() == Double.MAX_VALUE ? null : l.getValue())
-                .build()).collect(Collectors.toList());
+                .build());
+    }
+
+    private static List<TemporaryLimitData> toListDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
+        return toStreamDataTemporaryLimit(limits).collect(Collectors.toList());
+    }
+
+    private static Map<String, TemporaryLimitData> toMapDataTemporaryLimit(@NonNull final Collection<TemporaryLimit> limits) {
+        return toStreamDataTemporaryLimit(limits).collect(Collectors.toMap(TemporaryLimitData::getName, data -> data));
     }
 }
