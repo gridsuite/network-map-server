@@ -2666,8 +2666,9 @@ public class NetworkMapControllerTest {
     @Test
     void shouldReturnTwoWindingsTransformerTooltipData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD", resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD", resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD", resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
     }
 
     @Test
