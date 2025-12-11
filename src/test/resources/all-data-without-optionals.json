@@ -250,7 +250,6 @@
       "country1": "FR",
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 1.1,
       "q1": 2.2,
       "p2": 3.33,
@@ -267,6 +266,13 @@
             "acceptableDuration": 300
           }
         ],
+        "temporaryLimitsByName": {
+          "IT5": {
+            "name": "IT5",
+            "value": 250.0,
+            "acceptableDuration": 300
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
@@ -285,12 +291,25 @@
             "acceptableDuration": 600
           }
         ],
+        "temporaryLimitsByName": {
+          "IT10": {
+            "name": "IT10",
+            "value": 200.0,
+            "acceptableDuration": 600
+          },
+          "IT20": {
+            "name": "IT20",
+            "value": 300.0,
+            "acceptableDuration": 1200
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "limit set 1",
       "substationProperties1": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "g1": 7.0,
       "b1": 5.0,
       "g2": 8.0,
@@ -325,6 +344,18 @@
             "acceptableDuration": 100
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary2": {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          "temporary1": {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "group1",
@@ -338,6 +369,13 @@
             "acceptableDuration": 200
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary1": {
+            "name": "temporary1",
+            "value": 130.0,
+            "acceptableDuration": 200
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "group4",
@@ -363,7 +401,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": false,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -383,6 +420,18 @@
             "acceptableDuration": 100
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary2": {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          "temporary1": {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "group1",
@@ -414,6 +463,7 @@
       "substationProperties2": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 11.0,
         "validity": true
@@ -444,7 +494,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "selectedOperationalLimitsGroup2": {
@@ -462,12 +511,25 @@
             "acceptableDuration": 100
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary2": {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          "temporary1": {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "group1",
       "substationProperties2": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "g1": 0.0,
       "b1": 1.93E-4,
       "g2": 0.0,
@@ -723,6 +785,7 @@
   ],
   "twoWindingsTransformers": [
     {
+      "b": 0.0,
       "id": "NGEN_NHV1",
       "type": "TWO_WINDINGS_TRANSFORMER",
       "voltageLevelId1": "VLGEN",
@@ -736,7 +799,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": false,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 11.1,
       "q1": 12.2,
       "p2": 13.33,
@@ -753,6 +815,13 @@
             "acceptableDuration": 2087
           }
         ],
+        "temporaryLimitsByName": {
+          "IT5": {
+            "name": "IT5",
+            "value": 300.0,
+            "acceptableDuration": 2087
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
@@ -771,6 +840,18 @@
             "acceptableDuration": 664
           }
         ],
+        "temporaryLimitsByName": {
+          "N/A": {
+            "name": "N/A",
+            "value": 2.147483647E9,
+            "acceptableDuration": 664
+          },
+          "IT20": {
+            "name": "IT20",
+            "value": 1200.0,
+            "acceptableDuration": 961
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "limit set 1",
@@ -783,6 +864,7 @@
       "substationProperties2": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "country": "FR",
       "phaseTapChanger": {
         "lowTapPosition": 0,
@@ -817,7 +899,6 @@
         ]
       },
       "g": 0.0,
-      "b": 0.0,
       "ratedU1": 24.0,
       "ratedU2": 400.0,
       "connectablePosition1": {
@@ -832,6 +913,7 @@
       }
     },
     {
+      "b": 0.0,
       "id": "NHV2_NLOAD",
       "type": "TWO_WINDINGS_TRANSFORMER",
       "voltageLevelId1": "VLHV2",
@@ -842,13 +924,13 @@
       "substationId2": "P2",
       "terminal1Connected": false,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 5.5,
       "q1": 6.6,
       "p2": 7.77,
       "q2": 8.88,
       "r": 0.04724999999999999,
       "x": 4.049724365620455,
+      "operatingStatus": "PLANNED_OUTAGE",
       "ratioTapChanger": {
         "lowTapPosition": 0,
         "tapPosition": 2,
@@ -888,7 +970,6 @@
         ]
       },
       "g": 0.0,
-      "b": 0.0,
       "ratedU1": 400.0,
       "ratedU2": 158.0,
       "connectablePosition1": {
@@ -903,6 +984,7 @@
       }
     },
     {
+      "b": 17.0,
       "id": "NGEN_NHV2",
       "type": "TWO_WINDINGS_TRANSFORMER",
       "voltageLevelId1": "VLGEN",
@@ -916,7 +998,6 @@
       "country2": "FR",
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "r": 47.0,
       "x": 23.0,
       "selectedOperationalLimitsGroup1": {
@@ -929,6 +1010,13 @@
             "acceptableDuration": 87
           }
         ],
+        "temporaryLimitsByName": {
+          "IT20": {
+            "name": "IT20",
+            "value": 400.0,
+            "acceptableDuration": 87
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "DEFAULT",
@@ -942,6 +1030,13 @@
             "acceptableDuration": 34
           }
         ],
+        "temporaryLimitsByName": {
+          "N/A": {
+            "name": "N/A",
+            "value": 98.0,
+            "acceptableDuration": 34
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "DEFAULT",
@@ -973,6 +1068,7 @@
       "substationProperties2": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 27.0,
         "validity": true
@@ -991,7 +1087,6 @@
       },
       "country": "FR",
       "g": 27.0,
-      "b": 17.0,
       "ratedU1": 400.0,
       "ratedU2": 158.0,
       "connectablePosition1": {
@@ -2343,7 +2438,6 @@
       "country1": "FR",
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 1.1,
       "q1": 2.2,
       "p2": 3.33,
@@ -2360,6 +2454,13 @@
             "acceptableDuration": 300
           }
         ],
+        "temporaryLimitsByName": {
+          "IT5": {
+            "name": "IT5",
+            "value": 250.0,
+            "acceptableDuration": 300
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
@@ -2378,12 +2479,25 @@
             "acceptableDuration": 600
           }
         ],
+        "temporaryLimitsByName": {
+          "IT10": {
+            "name": "IT10",
+            "value": 200.0,
+            "acceptableDuration": 600
+          },
+          "IT20": {
+            "name": "IT20",
+            "value": 300.0,
+            "acceptableDuration": 1200
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "limit set 1",
       "substationProperties1": {
         "Country": "FR"
-      }
+      },
+      "operatingStatus": "PLANNED_OUTAGE"
     },
     {
       "id": "NHV1_NHV2_2",
@@ -2414,6 +2528,18 @@
             "acceptableDuration": 100
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary2": {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          "temporary1": {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "group1",
@@ -2427,6 +2553,13 @@
             "acceptableDuration": 200
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary1": {
+            "name": "temporary1",
+            "value": 130.0,
+            "acceptableDuration": 200
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "group4",
@@ -2448,7 +2581,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": false,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 200.0,
       "p2": 100.0,
       "r": 3.0,
@@ -2468,6 +2600,18 @@
             "acceptableDuration": 100
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary2": {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          "temporary1": {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "group1",
@@ -2499,6 +2643,7 @@
       "substationProperties2": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 11.0,
         "validity": true
@@ -2525,7 +2670,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "r": 3.0,
       "x": 33.0,
       "selectedOperationalLimitsGroup2": {
@@ -2543,12 +2687,41 @@
             "acceptableDuration": 100
           }
         ],
+        "temporaryLimitsByName": {
+          "temporary2": {
+            "name": "temporary2",
+            "value": 70.0,
+            "acceptableDuration": 150
+          },
+          "temporary1": {
+            "name": "temporary1",
+            "value": 50.0,
+            "acceptableDuration": 100
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "group1",
       "substationProperties2": {
         "Country": "FR"
-      }
+      },
+      "operatingStatus": "PLANNED_OUTAGE"
+    },
+    {
+      "id": "LINE7",
+      "type": "LINE",
+      "voltageLevelId1": "VLGEN4",
+      "voltageLevelId2": "VLGEN7",
+      "nominalVoltage1": 24.0,
+      "nominalVoltage2": 24.0,
+      "substationId1": "P4",
+      "substationId2": "P5",
+      "country1": "FR",
+      "country2": "FR",
+      "terminal1Connected": true,
+      "terminal2Connected": true,
+      "r": 3.0,
+      "x": 33.0
     },
     {
       "id": "NGEN_NHV1",
@@ -2564,7 +2737,6 @@
       "country2": "FR",
       "terminal1Connected": false,
       "terminal2Connected": false,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 11.1,
       "q1": 12.2,
       "p2": 13.33,
@@ -2581,6 +2753,13 @@
             "acceptableDuration": 2087
           }
         ],
+        "temporaryLimitsByName": {
+          "IT5": {
+            "name": "IT5",
+            "value": 300.0,
+            "acceptableDuration": 2087
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "limit set 1",
@@ -2599,6 +2778,18 @@
             "acceptableDuration": 664
           }
         ],
+        "temporaryLimitsByName": {
+          "N/A": {
+            "name": "N/A",
+            "value": 2.147483647E9,
+            "acceptableDuration": 664
+          },
+          "IT20": {
+            "name": "IT20",
+            "value": 1200.0,
+            "acceptableDuration": 961
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "limit set 1",
@@ -2610,7 +2801,8 @@
       },
       "substationProperties2": {
         "Country": "FR"
-      }
+      },
+      "operatingStatus": "PLANNED_OUTAGE"
     },
     {
       "id": "NHV2_NLOAD",
@@ -2623,13 +2815,13 @@
       "substationId2": "P2",
       "terminal1Connected": false,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "p1": 5.5,
       "q1": 6.6,
       "p2": 7.77,
       "q2": 8.88,
       "r": 0.04724999999999999,
-      "x": 4.049724365620455
+      "x": 4.049724365620455,
+      "operatingStatus": "PLANNED_OUTAGE"
     },
     {
       "id": "NGEN_NHV2",
@@ -2645,7 +2837,6 @@
       "country2": "FR",
       "terminal1Connected": true,
       "terminal2Connected": true,
-      "operatingStatus": "PLANNED_OUTAGE",
       "r": 47.0,
       "x": 23.0,
       "selectedOperationalLimitsGroup1": {
@@ -2658,6 +2849,13 @@
             "acceptableDuration": 87
           }
         ],
+        "temporaryLimitsByName": {
+          "IT20": {
+            "name": "IT20",
+            "value": 400.0,
+            "acceptableDuration": 87
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup1Name": "DEFAULT",
@@ -2671,6 +2869,13 @@
             "acceptableDuration": 34
           }
         ],
+        "temporaryLimitsByName": {
+          "N/A": {
+            "name": "N/A",
+            "value": 98.0,
+            "acceptableDuration": 34
+          }
+        },
         "applicability": null
       },
       "selectedOperationalLimitsGroup2Name": "DEFAULT",
@@ -2702,6 +2907,7 @@
       "substationProperties2": {
         "Country": "FR"
       },
+      "operatingStatus": "PLANNED_OUTAGE",
       "measurementP1": {
         "value": 27.0,
         "validity": true
@@ -2718,22 +2924,6 @@
         "value": 53.0,
         "validity": false
       }
-    },
-    {
-      "id": "LINE7",
-      "type": "LINE",
-      "voltageLevelId1": "VLGEN4",
-      "voltageLevelId2": "VLGEN7",
-      "nominalVoltage1": 24.0,
-      "nominalVoltage2": 24.0,
-      "substationId1": "P4",
-      "substationId2": "P5",
-      "country1": "FR",
-      "country2": "FR",
-      "terminal1Connected": true,
-      "terminal2Connected": true,
-      "r": 3.0,
-      "x": 33.0
     }
   ]
 }
