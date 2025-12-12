@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.load.LoadFormInfos;
 import org.gridsuite.network.map.dto.definition.load.LoadTabInfos;
+import org.gridsuite.network.map.dto.definition.load.LoadTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
@@ -31,6 +32,7 @@ public final class LoadInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Load");
         };
@@ -62,6 +64,17 @@ public final class LoadInfosMapper {
         builder.measurementP(ExtensionUtils.toMeasurement(load, Type.ACTIVE_POWER, 0))
             .measurementQ(ExtensionUtils.toMeasurement(load, Type.REACTIVE_POWER, 0));
 
+        return builder.build();
+    }
+
+    private static LoadTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
+        Load load = (Load) identifiable;
+        LoadTooltipInfos.LoadTooltipInfosBuilder<?, ?> builder = LoadTooltipInfos.builder()
+                .name(load.getOptionalName().orElse(null))
+                .id(load.getId())
+                .properties(getProperties(load))
+                .p0(load.getP0())
+                .q0(load.getQ0());
         return builder.build();
     }
 
