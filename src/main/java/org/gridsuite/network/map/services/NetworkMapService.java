@@ -346,11 +346,12 @@ public class NetworkMapService {
         if (elementIds.isEmpty()) {
             return Collections.emptyList();
         }
-        Network network = getNetwork(networkUuid, PreloadingStrategy.COLLECTION, variantId);
-        return elementIds.stream()
-                .map(network::getIdentifiable)
-                .filter(Objects::nonNull)
-                .map(identifiable -> elementType.getInfosGetter().apply(identifiable, infoTypeParameters))
+
+        Set<String> idSet = new HashSet<>(elementIds);
+
+        return getElementsInfos(networkUuid, variantId, List.of(), elementType, infoTypeParameters, null)
+                .stream()
+                .filter(info -> idSet.contains(info.getId()))
                 .toList();
     }
 
