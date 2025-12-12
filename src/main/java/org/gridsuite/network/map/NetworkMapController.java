@@ -86,6 +86,19 @@ public class NetworkMapController {
         return networkMapService.getElementInfos(networkUuid, variantId, elementType, infoTypeParameters, elementId);
     }
 
+    @PostMapping(value = "/networks/{networkUuid}/elements-by-ids", produces = APPLICATION_JSON_VALUE)
+    @Operation(summary = "Get network elements by IDs")
+    @ApiResponse(responseCode = "200", description = "List of elements")
+    public List<ElementInfos> getElementsByIds(
+            @Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+            @Parameter(description = "Variant ID") @RequestParam(name = "variantId", required = false) String variantId,
+            @Parameter(description = "Element type") @RequestParam(name = "elementType") ElementType elementType,
+            @Parameter(description = "Info type parameters") InfoTypeParameters infoTypeParameters,
+            @Parameter(description = "List of element IDs") @RequestBody List<String> elementIds) {
+        return networkMapService.getElementsInfosByIds(
+                networkUuid, variantId, elementType, infoTypeParameters, elementIds);
+    }
+
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/buses-or-busbar-sections", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses or busbar sections description for a voltage level")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses or Busbar section description")})
