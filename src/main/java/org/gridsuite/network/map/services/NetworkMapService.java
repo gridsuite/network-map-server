@@ -331,6 +331,30 @@ public class NetworkMapService {
         return elementType.getInfosGetter().apply(identifiable, infoTypeParameters);
     }
 
+    /**
+     * Get element's infos by a list of element IDs.
+     * Elements that are not found in the network are silently ignored.
+     *
+     * @param networkUuid       the network UUID
+     * @param variantId         the variant ID (optional)
+     * @param elementType       the type of elements to retrieve
+     * @param infoTypeParameters the info type parameters
+     * @param elementIds        the list of element IDs to retrieve
+     * @return list of ElementInfos for found elements
+     */
+    public List<ElementInfos> getElementsInfosByIds(UUID networkUuid, String variantId, ElementType elementType, InfoTypeParameters infoTypeParameters, @NonNull List<String> elementIds) {
+        if (elementIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Set<String> idSet = new HashSet<>(elementIds);
+
+        return getElementsInfos(networkUuid, variantId, List.of(), elementType, infoTypeParameters, null)
+                .stream()
+                .filter(info -> idSet.contains(info.getId()))
+                .toList();
+    }
+
     public String getBranchOr3WTVoltageLevelId(UUID networkUuid, String variantId, String equipmentId, ThreeSides side) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         Branch<?> branch = network.getBranch(equipmentId);
