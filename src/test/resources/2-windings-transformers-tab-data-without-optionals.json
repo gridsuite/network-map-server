@@ -23,13 +23,6 @@
     "selectedOperationalLimitsGroup1": {
       "id": "limit set 1",
       "permanentLimit": 750.4,
-      "temporaryLimits": [
-        {
-          "name": "IT5",
-          "value": 300.0,
-          "acceptableDuration": 2087
-        }
-      ],
       "temporaryLimitsByName": {
         "IT5": {
           "name": "IT5",
@@ -43,18 +36,6 @@
     "selectedOperationalLimitsGroup2": {
       "id": "limit set 1",
       "permanentLimit": 780.6,
-      "temporaryLimits": [
-        {
-          "name": "IT20",
-          "value": 1200.0,
-          "acceptableDuration": 961
-        },
-        {
-          "name": "N/A",
-          "value": 2.147483647E9,
-          "acceptableDuration": 664
-        }
-      ],
       "temporaryLimitsByName": {
         "N/A": {
           "name": "N/A",
@@ -218,13 +199,6 @@
     "selectedOperationalLimitsGroup1": {
       "id": "DEFAULT",
       "permanentLimit": 300.4,
-      "temporaryLimits": [
-        {
-          "name": "IT20",
-          "value": 400.0,
-          "acceptableDuration": 87
-        }
-      ],
       "temporaryLimitsByName": {
         "IT20": {
           "name": "IT20",
@@ -238,13 +212,6 @@
     "selectedOperationalLimitsGroup2": {
       "id": "DEFAULT",
       "permanentLimit": 280.6,
-      "temporaryLimits": [
-        {
-          "name": "N/A",
-          "value": 98.0,
-          "acceptableDuration": 34
-        }
-      ],
       "temporaryLimitsByName": {
         "N/A": {
           "name": "N/A",
