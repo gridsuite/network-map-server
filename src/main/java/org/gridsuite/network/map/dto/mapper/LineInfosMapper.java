@@ -157,10 +157,12 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .voltageLevelId2(terminal2.getVoltageLevel().getId())
                 .i1(nullIfNan(computeIntensity(terminal1, dcPowerFactor)))
                 .i2(nullIfNan(computeIntensity(terminal2, dcPowerFactor)))
+                .p1(nullIfNan(terminal1.getP()))
+                .q1(nullIfNan(terminal1.getQ()))
+                .p2(nullIfNan(terminal2.getP()))
+                .q2(nullIfNan(terminal2.getQ()))
                 .r(line.getR())
-                .x(line.getX())
-                .b1(line.getB1())
-                .b2(line.getB2());
+                .x(line.getX());
 
         line.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId(), ElementInfos.InfoType.TOOLTIP))));
         line.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId(), ElementInfos.InfoType.TOOLTIP))));
