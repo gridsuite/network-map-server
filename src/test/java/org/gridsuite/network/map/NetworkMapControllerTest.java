@@ -2651,6 +2651,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnGeneratorsTooltipData() throws Exception {
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.TOOLTIP, "GEN", resourceToString("/generator-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, InfoType.TOOLTIP, "GEN", resourceToString("/generator-tooltip-data.json"));
+    }
+
+    @Test
     void shouldReturnGeneratorsTabData() throws Exception {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.GENERATOR, InfoType.TAB, null, resourceToString("/generators-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.GENERATOR, InfoType.TAB, null, resourceToString("/generators-tab-data.json"));
