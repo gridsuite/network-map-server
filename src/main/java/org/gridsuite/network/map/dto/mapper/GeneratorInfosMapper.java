@@ -20,6 +20,7 @@ import org.gridsuite.network.map.dto.definition.extension.CoordinatedReactiveCon
 import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
+import org.gridsuite.network.map.dto.definition.generator.GeneratorTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.NonNull;
@@ -47,6 +48,7 @@ public final class GeneratorInfosMapper {
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable, loadRegulatingTerminals);
             case FORM -> toFormInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Generator");
         };
@@ -188,6 +190,31 @@ public final class GeneratorInfosMapper {
         }
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
+        return builder.build();
+    }
+
+    private static GeneratorTooltipInfos toTooltipInfos(Identifiable<?> identifiable) {
+        Generator generator = (Generator) identifiable;
+        Terminal terminal = generator.getTerminal();
+
+        GeneratorStartup generatorStartup = generator.getExtension(GeneratorStartup.class);
+
+        GeneratorTooltipInfos.GeneratorTooltipInfosBuilder<?, ?> builder =
+            GeneratorTooltipInfos.builder()
+                .id(generator.getId())
+                .targetP(generator.getTargetP())
+                .targetQ(nullIfNan(generator.getTargetQ()))
+                .minP(generator.getMinP())
+                .maxP(generator.getMaxP())
+                .plannedActivePowerSetPoint(
+                    generatorStartup != null
+                        ? nullIfNan(generatorStartup.getPlannedActivePowerSetpoint())
+                        : null
+                )
+                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+                .p(nullIfNan(terminal.getP()))
+                .q(nullIfNan(terminal.getQ()));
+
         return builder.build();
     }
 
