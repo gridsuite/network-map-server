@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
+import org.gridsuite.network.map.dto.common.TapChangerData;
 
 @SuperBuilder
 @Getter
@@ -28,6 +29,24 @@ public class TwoWindingsTransformerTooltipInfos extends ElementInfos {
     private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData ratioTapChanger;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData phaseTapChanger;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private CurrentLimitsData currentLimits1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,8 +57,5 @@ public class TwoWindingsTransformerTooltipInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double x;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double b;
 
 }
