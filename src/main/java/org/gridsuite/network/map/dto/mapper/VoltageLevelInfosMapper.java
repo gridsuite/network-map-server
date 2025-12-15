@@ -112,13 +112,15 @@ public final class VoltageLevelInfosMapper {
                 .icc(busIdToIccValues.getOrDefault(b.getId(), 0.0))
                 .build();
         }).toList();
-        return VoltageLevelTooltipInfos.builder()
-            .id(voltageLevel.getId())
-            .name(voltageLevel.getOptionalName().orElse(null))
-            .busInfos(busTooltipInfos)
-            .uMin(voltageLevel.getLowVoltageLimit())
-            .uMax(voltageLevel.getHighVoltageLimit())
-            .build();
+        VoltageLevelTooltipInfos.VoltageLevelTooltipInfosBuilder<?, ?> voltageLevelTooltipInfosBuilder =
+            VoltageLevelTooltipInfos.builder()
+                .id(voltageLevel.getId())
+                .name(voltageLevel.getOptionalName().orElse(null))
+                .busInfos(busTooltipInfos)
+                .uMin(voltageLevel.getLowVoltageLimit())
+                .uMax(voltageLevel.getHighVoltageLimit());
+
+        return voltageLevelTooltipInfosBuilder.build();
     }
 
     private static Double makeNaNNull(Double value) {
