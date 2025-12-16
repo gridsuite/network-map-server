@@ -66,9 +66,6 @@ public class GeneratorFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ReactiveCapabilityCurveMapData> reactiveCapabilityCurvePoints;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean participate;
-
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<ShortCircuitInfos> generatorShortCircuit;
 
