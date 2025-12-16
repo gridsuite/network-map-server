@@ -182,9 +182,9 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
             empty = false;
         }
         if (!CollectionUtils.isEmpty(limits.getTemporaryLimits())) {
-            builder.temporaryLimits(toListDataTemporaryLimit(limits.getTemporaryLimits()));
-
-            if (infoType == ElementInfos.InfoType.TAB) {
+            if (infoType != ElementInfos.InfoType.TAB) {
+                builder.temporaryLimits(toListDataTemporaryLimit(limits.getTemporaryLimits()));
+            } else {
                 builder.temporaryLimitsByName(toMapDataTemporaryLimit(limits.getTemporaryLimits()));
             }
             empty = false;
