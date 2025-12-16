@@ -2196,6 +2196,12 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    void shouldReturnLoadTooltipData() throws Exception {
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.LOAD, InfoType.TOOLTIP, "LOAD", resourceToString("/load-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, InfoType.TOOLTIP, "LOAD", resourceToString("/load-tooltip-data.json"));
+    }
+
+    @Test
     void shouldReturnNotFoundInsteadOfLoadMapData() throws Exception {
         notFoundTestForElementInfos(NETWORK_UUID, null, ElementType.LOAD, InfoType.LIST, "LOAD2ef");
         notFoundTestForElementInfos(NETWORK_UUID, VARIANT_ID, ElementType.LOAD, InfoType.LIST, "LOAD2dqs");
