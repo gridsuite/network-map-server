@@ -59,10 +59,10 @@ public class LineFormInfos extends ElementInfosWithProperties {
     private List<CurrentLimitsData> currentLimits;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup1;
+    private String selectedOperationalLimitsGroupId1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String selectedOperationalLimitsGroup2;
+    private String selectedOperationalLimitsGroupId2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operatingStatus;
