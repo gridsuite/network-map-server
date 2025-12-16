@@ -6,6 +6,9 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPosition;
 import lombok.Builder;
@@ -15,13 +18,13 @@ import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelFormInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelMapInfos;
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfos;
+import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
+import org.springframework.web.util.UriUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 import static org.gridsuite.network.map.dto.mapper.VoltageLevelInfosMapper.TopologyInfos.setDefaultBuilder;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -34,11 +37,23 @@ public final class VoltageLevelInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String busIdToIccValuesStr = infoTypeParameters.getOptionalParameters().getOrDefault(InfoTypeParameters.QUERY_PARAM_BUS_ID_TO_ICC_VALUES, null);
+        Map<String, Double> busIdToIccValues;
+        try {
+            busIdToIccValues = busIdToIccValuesStr != null
+                ? objectMapper.readValue(UriUtils.decode(busIdToIccValuesStr, StandardCharsets.UTF_8), new TypeReference<>() { })
+                : Map.of();
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Invalid JSON: " + busIdToIccValuesStr, e);
+        }
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable);
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
             case MAP -> toMapInfos(identifiable);
+            case TOOLTIP -> toTooltipInfos(identifiable, busIdToIccValues);
             default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "VoltageLevel");
         };
     }
@@ -74,6 +89,42 @@ public final class VoltageLevelInfosMapper {
                 .substationId(voltageLevel.getSubstation().map(Substation::getId).orElse(null))
                 .nominalV(voltageLevel.getNominalV())
                 .build();
+    }
+
+    static VoltageLevelTooltipInfos toTooltipInfos(Identifiable<?> identifiable, Map<String, Double> busIdToIccValues) {
+        VoltageLevel voltageLevel = (VoltageLevel) identifiable;
+
+        List<VoltageLevelTooltipInfos.VoltageLevelBusTooltipInfos> busTooltipInfos = voltageLevel.getBusView().getBusStream().map(b -> {
+            Double loadValue = makeNaNNull(b.getLoadStream().mapToDouble(l -> l.getTerminal().getP()).sum());
+            Double generationValue = makeNaNNull(b.getGeneratorStream().mapToDouble(g -> g.getTerminal().getP()).sum());
+            Double balanceValue =
+                (loadValue == null && generationValue == null)
+                    ? null
+                    : Optional.ofNullable(loadValue).orElse(0.0)
+                    + Optional.ofNullable(generationValue).orElse(0.0);
+            return VoltageLevelTooltipInfos.VoltageLevelBusTooltipInfos.builder()
+                .id(b.getId())
+                .u(makeNaNNull(b.getV()))
+                .angle(makeNaNNull(b.getAngle()))
+                .load(loadValue)
+                .generation(generationValue != null ? Math.abs(generationValue) : null)
+                .balance(balanceValue)
+                .icc(busIdToIccValues.getOrDefault(b.getId(), 0.0))
+                .build();
+        }).toList();
+        VoltageLevelTooltipInfos.VoltageLevelTooltipInfosBuilder<?, ?> voltageLevelTooltipInfosBuilder =
+            VoltageLevelTooltipInfos.builder()
+                .id(voltageLevel.getId())
+                .name(voltageLevel.getOptionalName().orElse(null))
+                .busInfos(busTooltipInfos)
+                .uMin(voltageLevel.getLowVoltageLimit())
+                .uMax(voltageLevel.getHighVoltageLimit());
+
+        return voltageLevelTooltipInfosBuilder.build();
+    }
+
+    private static Double makeNaNNull(Double value) {
+        return Double.isNaN(value) ? null : value;
     }
 
     static VoltageLevelTabInfos toTabInfos(Identifiable<?> identifiable) {
