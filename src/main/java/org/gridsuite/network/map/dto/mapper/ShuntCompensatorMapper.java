@@ -91,6 +91,14 @@ public final class ShuntCompensatorMapper {
                 .properties(getProperties(shuntCompensator))
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)));
 
+        if (terminal.getBusView().getBus() != null) {
+            builder.busV(terminal.getBusView().getBus().getV());
+            builder.busId(terminal.getBusView().getBus().getId());
+        } else if (terminal.getBusView().getConnectableBus() != null) {
+            // TODO : getConnectableBus provoque le chargement du réseau -> à virer ? autre moyen ??
+            builder.busId(terminal.getBusView().getConnectableBus().getId());
+        }
+
         Double bPerSection = null;
         if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {
             bPerSection = shuntCompensator.getModel(ShuntCompensatorLinearModel.class).getBPerSection();

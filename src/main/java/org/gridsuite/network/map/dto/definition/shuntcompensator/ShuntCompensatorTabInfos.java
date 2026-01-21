@@ -62,4 +62,8 @@ public class ShuntCompensatorTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> voltageLevelProperties;
+
+    private String busId;
+
+    private Double busV;
 }
