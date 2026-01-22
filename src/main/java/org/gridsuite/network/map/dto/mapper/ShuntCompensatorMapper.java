@@ -91,11 +91,12 @@ public final class ShuntCompensatorMapper {
                 .properties(getProperties(shuntCompensator))
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)));
 
-        if (terminal.getBusView().getBus() != null) {
-            builder.busV(terminal.getBusView().getBus().getV());
-            builder.busId(terminal.getBusView().getBus().getId());
+        Bus bus = terminal.getBusView().getBus();
+        if (bus != null) {
+            builder.busV(bus.getV());
+            builder.busId(bus.getId());
         } else if (terminal.getBusView().getConnectableBus() != null) {
-            // TODO : getConnectableBus provoque le chargement du réseau -> à virer ? autre moyen ??
+            // TODO : getConnectableBus provoque le chargement du réseau -> regarder dedans par débug pour voir si à virer ? autre moyen ??
             builder.busId(terminal.getBusView().getConnectableBus().getId());
         }
 
