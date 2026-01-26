@@ -2172,7 +2172,8 @@
       },
       "voltageLevelProperties": {
         "Country": "FR"
-      }
+      },
+      "busId":"VLNEW2_0"
     },
     {
       "id": "SHUNT2",
@@ -2193,7 +2194,8 @@
       "targetV": 225.0,
       "substationProperties": {
         "Country": "FR"
-      }
+      },
+      "busId":"VLGEN3_0"
     },
     {
       "id": "SHUNT_VLNB",
@@ -2249,7 +2251,8 @@
       "targetV": 225.0,
       "substationProperties": {
         "Country": "FR"
-      }
+      },
+      "busId":"VLGEN3_0"
     }
   ],
   "staticVarCompensators": [
