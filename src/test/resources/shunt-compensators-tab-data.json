@@ -99,6 +99,7 @@
     "connectablePosition": {
       "connectionDirection": null
     },
-    "targetV": 225.0
+    "targetV": 225.0,
+    "busId":"VLGEN4_0"
   }
 ]
