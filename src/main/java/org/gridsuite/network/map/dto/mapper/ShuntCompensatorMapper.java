@@ -98,10 +98,6 @@ public final class ShuntCompensatorMapper {
                 builder.busV(bus.getV());
             }
             builder.busId(bus.getId());
-        } else if (terminal.getBusView().getConnectableBus() != null) {
-            // TODO : do not merge with this
-            //  getConnectableBus provoque le chargement du réseau -> regarder dedans par débug pour voir si à virer ? autre moyen ??
-            builder.busId(terminal.getBusView().getConnectableBus().getId());
         }
 
         Double bPerSection = null;
