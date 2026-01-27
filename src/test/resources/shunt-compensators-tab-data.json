@@ -85,7 +85,8 @@
       "value": 69.0,
       "validity": true
     },
-    "busId":"VLGEN4_0"
+    "busId":"VLGEN4_0",
+    "busV":3.5
   },
   {
     "id": "SHUNT_NON_LINEAR",
