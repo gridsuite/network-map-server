@@ -353,7 +353,9 @@
       "substationProperties": {
         "Country": "FR"
       },
-      "busId":"VLGEN3_0"
+      "bus": {
+        "id": "VLGEN3_0"
+      }
     },
     {
       "id": "SHUNT3",
@@ -376,7 +378,9 @@
       "substationProperties": {
         "Country": "FR"
       },
-      "busId":"VLGEN3_0"
+      "bus": {
+        "id": "VLGEN3_0"
+      }
     }
   ],
   "staticVarCompensators": [],

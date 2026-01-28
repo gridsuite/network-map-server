@@ -2173,7 +2173,9 @@
       "voltageLevelProperties": {
         "Country": "FR"
       },
-      "busId":"VLNEW2_0"
+      "bus": {
+        "id": "VLNEW2_0"
+      }
     },
     {
       "id": "SHUNT2",
@@ -2195,7 +2197,9 @@
       "substationProperties": {
         "Country": "FR"
       },
-      "busId":"VLGEN3_0"
+      "bus": {
+        "id": "VLGEN3_0"
+      }
     },
     {
       "id": "SHUNT_VLNB",
@@ -2216,7 +2220,9 @@
         "value": 69.0,
         "validity": true
       },
-      "busId":"VLGEN4_0"
+      "bus": {
+        "id": "VLGEN4_0"
+      }
     },
     {
       "id": "SHUNT_NON_LINEAR",
