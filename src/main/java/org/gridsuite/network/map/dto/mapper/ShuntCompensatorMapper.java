@@ -10,6 +10,7 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
@@ -90,6 +91,17 @@ public final class ShuntCompensatorMapper {
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .properties(getProperties(shuntCompensator))
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)));
+
+        Bus bus = terminal.getBusView().getBus();
+        if (bus != null && bus.getId() != null) {
+            // those bus values are only applied if the bus is connected
+            builder.bus(
+                    BusInfos.builder()
+                            .id(bus.getId())
+                            .v(Double.isNaN(bus.getV()) ? null : bus.getV())
+                            .build()
+            );
+        }
 
         Double bPerSection = null;
         if (shuntCompensator.getModel() instanceof ShuntCompensatorLinearModel) {

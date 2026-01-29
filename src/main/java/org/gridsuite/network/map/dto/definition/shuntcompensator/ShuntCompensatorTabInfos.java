@@ -11,6 +11,7 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.extension.InjectionObservabilityInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
@@ -62,4 +63,7 @@ public class ShuntCompensatorTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> voltageLevelProperties;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private BusInfos bus;
 }

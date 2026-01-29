@@ -1948,6 +1948,9 @@
       },
       "voltageLevelProperties": {
         "Country": "FR"
+      },
+      "bus": {
+        "id": "VLNEW2_0"
       }
     },
     {
@@ -1969,6 +1972,9 @@
       "targetV": 225.0,
       "substationProperties": {
         "Country": "FR"
+      },
+      "bus": {
+        "id": "VLGEN3_0"
       }
     },
     {
@@ -1989,6 +1995,9 @@
       "measurementQ": {
         "value": 69.0,
         "validity": true
+      },
+      "bus": {
+        "id": "VLGEN4_0"
       }
     },
     {

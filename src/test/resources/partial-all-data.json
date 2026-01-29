@@ -352,6 +352,9 @@
       "targetV": 225.0,
       "substationProperties": {
         "Country": "FR"
+      },
+      "bus": {
+        "id": "VLGEN3_0"
       }
     }
   ],

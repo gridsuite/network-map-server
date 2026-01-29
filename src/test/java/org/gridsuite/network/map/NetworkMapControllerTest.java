@@ -2732,6 +2732,7 @@ public class NetworkMapControllerTest {
 
     @Test
     void shouldReturnShuntCompensatorTabData() throws Exception {
+        network.getShuntCompensator("SHUNT_VLNB").getTerminal().getBusView().getBus().setV(3.5); // to add a loadflow computed voltage
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.SHUNT_COMPENSATOR, InfoType.TAB, null, resourceToString("/shunt-compensators-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, InfoType.TAB, null, resourceToString("/shunt-compensators-tab-data-in-variant.json"));
     }
