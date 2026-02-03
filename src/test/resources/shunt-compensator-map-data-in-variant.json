@@ -7,13 +7,12 @@
   "targetDeadband": 10.0,
   "sectionCount":2,
   "maximumSectionCount":3,
-  "bperSection":1.0,
   "connectablePosition": {
     "connectionDirection": null
   },
   "busOrBusbarSectionId": "NGEN4",
   "isLinear":true,
-  "bperSection":1.0,
-  "qatNominalV": 576.0
+  "bPerSection" : 1.0,
+  "qAtNominalV" : 576.0
 }
 
