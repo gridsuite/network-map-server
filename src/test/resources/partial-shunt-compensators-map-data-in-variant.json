@@ -9,11 +9,11 @@
     "targetDeadband": 10.0,
     "sectionCount":4,
     "maximumSectionCount":8,
-    "bperSection":5.0,
+    "bPerSection":5.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
     "connectionPosition": 0,
-    "qatNominalV": 253125.0
+    "qAtNominalV": 253125.0
   },
   {
     "id": "SHUNT2",
@@ -24,11 +24,11 @@
     "targetDeadband": 10.0,
     "sectionCount":2,
     "maximumSectionCount":3,
-    "bperSection":1.0,
+    "bPerSection":1.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
     "connectionPosition": 0,
-    "qatNominalV": 576.0
+    "qAtNominalV": 576.0
   },
   {
     "id": "SHUNT3",
@@ -40,10 +40,10 @@
     "targetDeadband": 10.0,
     "sectionCount":2,
     "maximumSectionCount":3,
-    "bperSection":1.0,
+    "bPerSection":1.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
     "connectionPosition": 0,
-    "qatNominalV": 576.0
+    "qAtNominalV": 576.0
   }
 ]

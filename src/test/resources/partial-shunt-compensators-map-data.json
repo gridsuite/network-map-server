@@ -9,10 +9,10 @@
     "targetDeadband": 10.0,
     "sectionCount": 4,
     "maximumSectionCount": 8,
-    "bperSection": 5.0,
+    "bPerSection": 5.0,
     "connectionName": "feederName",
     "connectionDirection": "TOP",
     "connectionPosition": 0,
-    "qatNominalV": 253125.0
+    "qAtNominalV": 253125.0
   }
 ]

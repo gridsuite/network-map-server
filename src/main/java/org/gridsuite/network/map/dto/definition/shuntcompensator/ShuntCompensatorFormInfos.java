@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map.dto.definition.shuntcompensator;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -16,6 +17,11 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
+@JsonAutoDetect(
+        fieldVisibility = JsonAutoDetect.Visibility.ANY,
+        getterVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE
+)
 @SuperBuilder
 @Getter
 public class ShuntCompensatorFormInfos extends ElementInfosWithProperties {
