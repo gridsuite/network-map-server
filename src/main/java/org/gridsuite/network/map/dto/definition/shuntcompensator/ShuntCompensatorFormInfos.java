@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.definition.shuntcompensator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
@@ -34,9 +35,11 @@ public class ShuntCompensatorFormInfos extends ElementInfosWithProperties {
     private Integer sectionCount;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("bPerSection")
     private Double bPerSection;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("qAtNominalV")
     private Double qAtNominalV;
 
     private Integer maximumSectionCount;
