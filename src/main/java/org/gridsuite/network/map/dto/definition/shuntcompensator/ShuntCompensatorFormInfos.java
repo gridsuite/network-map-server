@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.definition.shuntcompensator;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
@@ -17,11 +18,6 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 /**
  * @author AJELLAL Ali <ali.ajellal@rte-france.com>
  */
-@JsonAutoDetect(
-        fieldVisibility = JsonAutoDetect.Visibility.ANY,
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        isGetterVisibility = JsonAutoDetect.Visibility.NONE
-)
 @SuperBuilder
 @Getter
 public class ShuntCompensatorFormInfos extends ElementInfosWithProperties {
@@ -42,10 +38,12 @@ public class ShuntCompensatorFormInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("bPerSection")
+    @Getter(AccessLevel.NONE)
     private Double bPerSection;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("qAtNominalV")
+    @Getter(AccessLevel.NONE)
     private Double qAtNominalV;
 
     private Integer maximumSectionCount;
