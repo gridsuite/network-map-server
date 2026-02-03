@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map.dto.definition.shuntcompensator;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
