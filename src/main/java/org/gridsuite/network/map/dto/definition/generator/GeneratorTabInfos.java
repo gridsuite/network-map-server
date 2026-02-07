@@ -85,6 +85,9 @@ public class GeneratorTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulationTypeText;
+
     private CoordinatedReactiveControlInfos coordinatedReactiveControl;
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)

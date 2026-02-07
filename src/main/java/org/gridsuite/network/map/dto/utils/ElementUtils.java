@@ -216,4 +216,9 @@ public final class ElementUtils {
                 "InfoType '" + infoType + "' is not supported for " + elementTypeName + " elements"
         );
     }
+
+    public enum VoltageRegulationType {
+        LOCAL,
+        DISTANT
+    }
 }
