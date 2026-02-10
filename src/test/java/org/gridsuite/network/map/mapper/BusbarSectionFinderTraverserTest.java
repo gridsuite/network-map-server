@@ -2,7 +2,7 @@ package org.gridsuite.network.map.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BusbarSectionPositionAdder;
-import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
+import com.powsybl.iidm.network.util.BusbarSectionFinderTraverser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
