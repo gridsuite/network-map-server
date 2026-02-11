@@ -217,8 +217,8 @@ public final class ElementUtils {
         );
     }
 
-    public enum VoltageRegulationType {
+    public enum RegulationType {
         LOCAL,
-        DISTANT
+        REMOTE
     }
 }

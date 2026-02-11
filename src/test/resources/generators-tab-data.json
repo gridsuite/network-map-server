@@ -25,7 +25,7 @@
       "minQ": -500.0,
       "maxQ": 500.0
     },
-    "regulationType": "DISTANT",
+    "regulationType": "REMOTE",
     "regulatingTerminalConnectableId": "NHV1_NHV2_1",
     "regulatingTerminalConnectableType": "LINE",
     "regulatingTerminalVlId": "VLHV1",
