@@ -1750,7 +1750,7 @@
         "minQ": -500.0,
         "maxQ": 500.0
       },
-      "regulationTypeText": "DISTANT",
+      "regulationType": "DISTANT",
       "regulatingTerminalConnectableId": "NHV1_NHV2_1",
       "regulatingTerminalConnectableType": "LINE",
       "regulatingTerminalVlId": "VLHV1",
@@ -1820,7 +1820,7 @@
       "maxP": 9999.99,
       "energySource": "OTHER",
       "voltageRegulatorOn": true,
-      "regulationTypeText": "LOCAL",
+      "regulationType": "LOCAL",
       "reactiveCapabilityCurvePoints": [
         {
           "p": 0.0,

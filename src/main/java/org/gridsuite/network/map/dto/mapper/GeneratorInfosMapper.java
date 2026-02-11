@@ -93,14 +93,14 @@ public final class GeneratorInfosMapper {
 
         if (loadRegulatingTerminals) {
             Terminal regulatingTerminal = generator.getRegulatingTerminal();
-            builder.regulationTypeText(VoltageRegulationType.LOCAL.name());
+            builder.regulationType(VoltageRegulationType.LOCAL.name());
             //If there is no regulating terminal in file, regulating terminal voltage level is equal to generator voltage level
             if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
                 builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
                 builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
                 builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
                 builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
-                builder.regulationTypeText(VoltageRegulationType.DISTANT.name());
+                builder.regulationType(VoltageRegulationType.DISTANT.name());
             }
         }
 
