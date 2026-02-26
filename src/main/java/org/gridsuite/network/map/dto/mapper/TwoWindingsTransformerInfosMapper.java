@@ -109,8 +109,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
         final TwoWindingsTransformer twoWT = (TwoWindingsTransformer) identifiable;
         return toTabBuilder((TwoWindingsTransformerTabInfosBuilder<TwoWindingsTransformerTabInfos, ?>) TwoWindingsTransformerTabInfos.builder(), twoWT, dcPowerFactor, loadOperationalLimitGroups)
                 .country(ElementUtils.mapCountry(ElementUtils.findFirstSubstation(List.of(twoWT.getTerminal1(), twoWT.getTerminal2()))))
-                .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
-                .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
+                .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger(), ElementInfos.InfoType.TAB))
+                .ratioTapChanger(toMapData(twoWT.getRatioTapChanger(), ElementInfos.InfoType.TAB))
                 .b(twoWT.getB())
                 .g(twoWT.getG())
                 .ratedU1(twoWT.getRatedU1())
