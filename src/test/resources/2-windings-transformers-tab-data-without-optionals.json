@@ -73,8 +73,8 @@
       "regulatingTerminalConnectableId": "NGEN_NHV1",
       "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
       "regulatingTerminalVlId": "VLGEN",
-      "steps": [
-        {
+      "stepsByTapPosition": {
+        "0" : {
           "index": 0,
           "rho": 0.8500000238418579,
           "r": 0.0,
@@ -83,7 +83,7 @@
           "b": 0.0,
           "alpha": 1.0
         },
-        {
+        "1" : {
           "index": 1,
           "rho": 0.8999999761581421,
           "r": 0.0,
@@ -92,7 +92,7 @@
           "b": 0.0,
           "alpha": 1.0
         }
-      ]
+      }
     },
     "g": 0.0,
     "ratedU1": 24.0,
@@ -138,8 +138,8 @@
       "regulatingTerminalConnectableId": "NHV2_NLOAD",
       "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
       "regulatingTerminalVlId": "VLLOAD",
-      "steps": [
-        {
+      "stepsByTapPosition": {
+        "0" : {
           "index": 0,
           "rho": 0.8505666905244191,
           "r": 0.0,
@@ -147,7 +147,7 @@
           "g": 0.0,
           "b": 0.0
         },
-        {
+        "1" : {
           "index": 1,
           "rho": 1.0006666666666666,
           "r": 0.0,
@@ -155,7 +155,7 @@
           "g": 0.0,
           "b": 0.0
         },
-        {
+        "2" : {
           "index": 2,
           "rho": 1.150766642808914,
           "r": 0.0,
@@ -163,7 +163,7 @@
           "g": 0.0,
           "b": 0.0
         }
-      ]
+      }
     },
     "g": 0.0,
     "ratedU1": 400.0,
