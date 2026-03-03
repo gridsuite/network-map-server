@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * @author Ghazwa Rehili <ghazwa.rehili at rte-france.com>
  */
-// TODO : code to move to powsybl-core or powsybl-network-store
+// TODO : code to be removed and replaced by BusbarSectionFinderTraverser from powsybl-core after the march 2026 release
 public final class BusbarSectionFinderTraverser {
 
     private BusbarSectionFinderTraverser() {
@@ -31,7 +31,9 @@ public final class BusbarSectionFinderTraverser {
 
     public static String findBusbarSectionId(Terminal terminal) {
         BusbarSectionResult result = getBusbarSectionResult(terminal);
-        return result != null ? result.busbarSectionId() : terminal.getVoltageLevel().getNodeBreakerView().getBusbarSections().iterator().next().getId();
+        return result != null ?
+                result.busbarSectionId() :
+                terminal.getVoltageLevel().getNodeBreakerView().getBusbarSectionStream().findFirst().map(BusbarSection::getId).orElse(null);
     }
 
     public static BusbarSectionResult getBusbarSectionResult(Terminal terminal) {
