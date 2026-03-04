@@ -98,25 +98,6 @@ public final class ElementUtils {
         }
     }
 
-    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
-        if (tapChangerStep == null) {
-            return List.of();
-        }
-        return tapChangerStep.entrySet().stream().map(p -> {
-            Integer index = p.getKey();
-            PhaseTapChangerStep v = p.getValue();
-
-            return TapChangerStepData.builder().index(index)
-                    .g(v.getG())
-                    .b(v.getB())
-                    .r(v.getR())
-                    .x(v.getX())
-                    .rho(v.getRho())
-                    .alpha(v.getAlpha())
-                    .build();
-        }).collect(Collectors.toList());
-    }
-
     private static Map<Integer, TapChangerStepData> toMapDataPhaseStepByTapPosition(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
         Map<Integer, TapChangerStepData> result = new HashMap<>();
         if (tapChangerStep == null) {
@@ -124,7 +105,6 @@ public final class ElementUtils {
         }
         tapChangerStep.forEach((index, v) ->
             result.put(index, TapChangerStepData.builder()
-            .index(index)
             .g(v.getG())
             .b(v.getB())
             .r(v.getR())
@@ -185,7 +165,7 @@ public final class ElementUtils {
             return result;
         }
         tapChangerStep.forEach((index, v) ->
-            result.put(index, TapChangerStepData.builder().index(index)
+            result.put(index, TapChangerStepData.builder()
             .g(v.getG())
             .b(v.getB())
             .r(v.getR())
