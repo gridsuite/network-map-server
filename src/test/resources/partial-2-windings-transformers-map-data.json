@@ -26,23 +26,27 @@
       "regulatingTerminalConnectableId": "NGEN_NHV1",
       "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
       "regulatingTerminalVlId": "VLGEN",
-      "steps": [{
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 0.8500000238418579,
-        "alpha": 1,
-        "index": 0
-      }, {
-        "r": 0.0,
-        "x": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "rho": 0.8999999761581421,
-        "alpha": 1,
-        "index": 1
-      }]
+      "steps":
+      {
+        "0" : {
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0,
+          "rho": 0.8500000238418579,
+          "alpha": 1,
+          "index": 0
+        },
+          "1" : {
+          "r": 0.0,
+          "x": 0.0,
+          "g": 0.0,
+          "b": 0.0,
+          "rho": 0.8999999761581421,
+          "alpha": 1,
+          "index": 1
+        }
+      }
     },
     "g": 0.0,
     "b": 0.0,

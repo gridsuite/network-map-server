@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.PhaseTapChanger;
 import lombok.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,10 +53,6 @@ public class TapChangerData {
     private String regulatingTerminalVlId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<TapChangerStepData> steps;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<Integer, TapChangerStepData> stepsByTapPosition;
-
+    private Map<Integer, TapChangerStepData> steps;
 }
 
