@@ -17,28 +17,29 @@
     "regulatingTerminalConnectableId" : "NHV2_NLOAD",
     "regulatingTerminalConnectableType" : "TWO_WINDINGS_TRANSFORMER",
     "regulatingTerminalVlId" : "VLLOAD",
-    "steps" : [ {
-      "index" : 0,
+    "steps": {
+      "0" : {
       "rho" : 0.8505666905244191,
       "r" : 0.0,
       "x" : 0.0,
       "g" : 0.0,
       "b" : 0.0
-    }, {
-      "index" : 1,
+      },
+      "1" : {
       "rho" : 1.0006666666666666,
       "r" : 0.0,
       "x" : 0.0,
       "g" : 0.0,
       "b" : 0.0
-    }, {
-      "index" : 2,
+      },
+      "2" : {
       "rho" : 1.150766642808914,
       "r" : 0.0,
       "x" : 0.0,
       "g" : 0.0,
       "b" : 0.0
-    } ]
+      }
+    }
   },
   "r" : 0.04724999999999999,
   "x" : 4.049724365620455

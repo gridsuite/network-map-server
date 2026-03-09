@@ -26,35 +26,32 @@
     "regulatingTerminalConnectableId": "TWT",
     "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
     "regulatingTerminalVlId": "VLHV1",
-    "steps": [
-      {
-        "r": 1,
-        "x": 4,
-        "g": 0.5,
-        "b": 1.5,
-        "rho": 0.99,
-        "alpha": -10.0,
-        "index": 0
+    "steps": {
+      "0" : {
+      "r": 1,
+      "x": 4,
+      "g": 0.5,
+      "b": 1.5,
+      "rho": 0.99,
+      "alpha": -10.0
       },
-      {
-        "r": 1.2,
-        "x": 4.2,
-        "g": 0.7,
-        "b": 1.7,
-        "rho": 1.01,
-        "alpha": 10.0,
-        "index": 2
+      "1" : {
+      "r": 1.2,
+      "x": 4.2,
+      "g": 0.7,
+      "b": 1.7,
+      "rho": 1.01,
+      "alpha": 10.0
       },
-      {
-        "r": 1.1,
-        "x": 4.1,
-        "g": 0.6,
-        "b": 1.6,
-        "rho": 1.0,
-        "alpha": 0.0,
-        "index": 1
+      "2" : {
+      "r": 1.1,
+      "x": 4.1,
+      "g": 0.6,
+      "b": 1.6,
+      "rho": 1.0,
+      "alpha": 0.0
       }
-    ]
+    }
   },
   "ratioTapChanger3": {
     "lowTapPosition": 0,
@@ -67,32 +64,29 @@
     "regulatingTerminalConnectableId": "TWT",
     "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
     "regulatingTerminalVlId": "VLHV1",
-    "steps": [
-      {
-        "r": 1,
-        "b": 1.5,
-        "g": 0.5,
-        "rho": 0.99,
-        "x": 4,
-        "index": 0
+    "steps": {
+      "0" : {
+      "r": 1,
+      "b": 1.5,
+      "g": 0.5,
+      "rho": 0.99,
+      "x": 4
       },
-      {
-        "r": 1.1,
-        "b": 1.6,
-        "g": 0.6,
-        "rho": 1,
-        "x": 4.1,
-        "index": 1
+      "1" : {
+      "r": 1.1,
+      "b": 1.6,
+      "g": 0.6,
+      "rho": 1,
+      "x": 4.1
       },
-      {
-        "r": 1.2,
-        "x": 4.2,
-        "g": 0.7,
-        "b": 1.7,
-        "rho": 1.01,
-        "index": 2
+      "2" : {
+      "r": 1.2,
+      "x": 4.2,
+      "g": 0.7,
+      "b": 1.7,
+      "rho": 1.01
       }
-    ]
+    }
   },
   "regulationModeName1": "CURRENT_LIMITER",
   "isRegulatingPhase1": true,
