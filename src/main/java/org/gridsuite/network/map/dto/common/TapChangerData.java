@@ -52,6 +52,7 @@ public class TapChangerData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
+    // TapChangerStepData (mapped from powSYBL RatioTapChangerStep or PhaseTapChangerStep) by tap position
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<Integer, TapChangerStepData> steps;
 }
