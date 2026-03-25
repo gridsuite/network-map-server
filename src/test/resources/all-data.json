@@ -1721,7 +1721,7 @@
         "plannedActivePowerSetPoint": 0.3,
         "marginalCost": 3.0,
         "plannedOutageRate": 0.4,
-        "forcedOutageRate": 2.0
+        "forcedOutageRate": 0.5
       },
       "minMaxReactiveLimits": {
         "minQ": -500.0,
@@ -1954,10 +1954,10 @@
       }
     }
   ],
-  "danglingLines": [
+  "boundaryLines": [
     {
-      "id": "DL1",
-      "name": "DL1",
+      "id": "BL1",
+      "name": "BL1",
       "voltageLevelId": "VLGEN",
       "nominalV": 24.0,
       "country": "FR",
@@ -1998,8 +1998,8 @@
       }
     },
     {
-      "id": "DL2",
-      "name": "DL2",
+      "id": "BL2",
+      "name": "BL2",
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
       "country": "FR",
