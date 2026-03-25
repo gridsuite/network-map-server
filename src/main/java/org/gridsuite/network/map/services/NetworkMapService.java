@@ -92,7 +92,7 @@ public class NetworkMapService {
                 .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType, ElementType.TWO_WINDINGS_TRANSFORMER), null))
                 .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType, ElementType.THREE_WINDINGS_TRANSFORMER), null))
                 .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, getInfoTypeParameters(additionalParametersByType, ElementType.BATTERY), null))
-                .danglingLines(getElementsInfos(network, substationsId, ElementType.DANGLING_LINE, getInfoTypeParameters(additionalParametersByType, ElementType.DANGLING_LINE), null))
+                .boundaryLines(getElementsInfos(network, substationsId, ElementType.BOUNDARY_LINE, getInfoTypeParameters(additionalParametersByType, ElementType.BOUNDARY_LINE), null))
                 .tieLines(getTieLinesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.TIE_LINE), null))
                 .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.LCC_CONVERTER_STATION), null))
                 .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, getInfoTypeParameters(additionalParametersByType, ElementType.SHUNT_COMPENSATOR), null))
@@ -194,8 +194,8 @@ public class NetworkMapService {
                     .map(TieLine::getId).toList();
         } else {
             return getVoltageLevelStream(network, substationsIds, nominalVoltages)
-                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(DanglingLine.class))
-                    .map(DanglingLine::getTieLine)
+                    .flatMap(voltageLevel -> voltageLevel.getConnectableStream(BoundaryLine.class))
+                    .map(BoundaryLine::getTieLine)
                     .flatMap(Optional::stream)
                     .map(TieLine::getId)
                     .distinct()
@@ -266,8 +266,8 @@ public class NetworkMapService {
                         .map(network::getSubstation)
                         .flatMap(Substation::getVoltageLevelStream)
                         .filter(voltageLevel -> nominalVoltages == null || nominalVoltages.contains(voltageLevel.getNominalV()))
-                        .flatMap(vl -> vl.getConnectableStream(DanglingLine.class))
-                        .map(DanglingLine::getTieLine)
+                        .flatMap(vl -> vl.getConnectableStream(BoundaryLine.class))
+                        .map(BoundaryLine::getTieLine)
                         .flatMap(Optional::stream)
                         .distinct();
         return tieLines
