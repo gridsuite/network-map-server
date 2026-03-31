@@ -1465,7 +1465,6 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1474,7 +1473,6 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1483,7 +1481,6 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1702,7 +1699,6 @@ public class NetworkMapControllerTest {
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
