@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_BUS_ID_TO_ICC_VALUES;
@@ -1282,6 +1283,17 @@ public class NetworkMapControllerTest {
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
+        // add P on generator and loads on voltageLevel1 to test buses view
+        AtomicInteger i = new AtomicInteger();
+        network2.getGeneratorStream().forEach(generator -> {
+            i.getAndIncrement();
+            generator.getTerminal().setP(10 * i.get());
+        });
+        AtomicInteger j = new AtomicInteger();
+        network2.getLoadStream().forEach(loadEquipment -> {
+            j.getAndIncrement();
+            loadEquipment.getTerminal().setP(5 * j.get());
+        });
 
         Mockito.verifyNoInteractions(networkStoreService);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willReturn(network);
@@ -1690,6 +1702,7 @@ public class NetworkMapControllerTest {
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 

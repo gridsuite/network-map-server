@@ -6,14 +6,15 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Bus;
-import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.*;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_NETWORK_COMPONENTS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
@@ -45,6 +46,8 @@ public final class BusInfosMapper {
                 .voltageLevelId(bus.getVoltageLevel().getId())
                 .nominalVoltage(bus.getVoltageLevel().getNominalV())
                 .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
+                .generations(Math.abs(computeGenerations(bus)))
+                .consumptions(Math.abs(computeConsumptions(bus)))
                 .properties(getProperties(bus))
                 .substationProperties(bus.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .voltageLevelProperties(getProperties(bus.getVoltageLevel()));
@@ -56,5 +59,20 @@ public final class BusInfosMapper {
         }
 
         return builder.build();
+    }
+
+    private static double computeConsumptions(Bus bus) {
+        AtomicReference<Double> consumptions = new AtomicReference<>(0.);
+        bus.getLoadStream().forEach(load -> consumptions.updateAndGet(v -> v + load.getTerminal().getP()));
+        return consumptions.get();
+    }
+
+    private static double computeGenerations(Bus bus) {
+        AtomicReference<Double> generations = new AtomicReference<>(0.);
+        Stream.concat(bus.getGeneratorStream(), bus.getBatteryStream()).forEach(injection ->
+                generations.updateAndGet(v -> v + injection.getTerminal().getP())
+
+        );
+        return generations.get();
     }
 }
