@@ -1287,13 +1287,11 @@ public class NetworkMapControllerTest {
         AtomicInteger i = new AtomicInteger();
         network2.getGeneratorStream().forEach(generator -> {
             i.getAndIncrement();
-            System.out.println(generator.getId());
             generator.getTerminal().setP(10 * i.get());
         });
         AtomicInteger j = new AtomicInteger();
         network2.getLoadStream().forEach(loadEquipment -> {
             j.getAndIncrement();
-            System.out.println(loadEquipment.getId());
             loadEquipment.getTerminal().setP(5 * j.get());
         });
 
