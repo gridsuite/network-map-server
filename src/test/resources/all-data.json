@@ -2434,7 +2434,7 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
-      "generations": "NaN",
+      "generations": 25.0,
       "consumptions": 0.0,
       "country": "FR",
       "substationProperties": {
@@ -2479,7 +2479,7 @@
       "voltageLevelId": "VLLOAD",
       "nominalVoltage": 150.0,
       "generations": 0.0,
-      "consumptions": "NaN"
+      "consumptions": 0.0
     },
     {
       "id": "VLNEW2_0",
@@ -2490,7 +2490,7 @@
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
       "generations": 0.0,
-      "consumptions": "NaN",
+      "consumptions": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
