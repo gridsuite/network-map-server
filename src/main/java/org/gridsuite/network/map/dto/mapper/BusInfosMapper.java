@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.Load;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
@@ -62,19 +63,15 @@ public final class BusInfosMapper {
     }
 
     private static double computeConsumptions(Bus bus) {
-        return absOrNull(bus.getLoadStream()
+        return Math.abs(bus.getLoadStream()
                 .filter(injection -> !Double.isNaN(injection.getTerminal().getP()))
                 .mapToDouble(injection -> injection.getTerminal().getP()).sum());
     }
 
     private static double computeGenerations(Bus bus) {
-        return absOrNull(Stream.concat(bus.getGeneratorStream(), bus.getBatteryStream())
+        return Math.abs(Stream.concat(bus.getGeneratorStream(), bus.getBatteryStream())
                 .filter(injection -> !Double.isNaN(injection.getTerminal().getP()))
                 .mapToDouble(injection -> injection.getTerminal().getP())
                 .sum());
-    }
-
-    private static Double absOrNull(Double value) {
-        return value != null ? Math.abs(value) : null;
     }
 }
