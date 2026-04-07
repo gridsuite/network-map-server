@@ -46,8 +46,8 @@ public final class BusInfosMapper {
                 .voltageLevelId(bus.getVoltageLevel().getId())
                 .nominalVoltage(bus.getVoltageLevel().getNominalV())
                 .country(mapCountry(bus.getVoltageLevel().getSubstation().orElse(null)))
-                .generations(computeGenerations(bus))
-                .consumptions(computeConsumptions(bus))
+                .generation(computeGeneration(bus))
+                .load(computeLoad(bus))
                 .properties(getProperties(bus))
                 .substationProperties(bus.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .voltageLevelProperties(getProperties(bus.getVoltageLevel()));
@@ -61,13 +61,13 @@ public final class BusInfosMapper {
         return builder.build();
     }
 
-    private static double computeConsumptions(Bus bus) {
+    private static double computeLoad(Bus bus) {
         return Math.abs(bus.getLoadStream()
                 .filter(injection -> !Double.isNaN(injection.getTerminal().getP()))
                 .mapToDouble(injection -> injection.getTerminal().getP()).sum());
     }
 
-    private static double computeGenerations(Bus bus) {
+    private static double computeGeneration(Bus bus) {
         return Math.abs(Stream.concat(bus.getGeneratorStream(), bus.getBatteryStream())
                 .filter(injection -> !Double.isNaN(injection.getTerminal().getP()))
                 .mapToDouble(injection -> injection.getTerminal().getP())
