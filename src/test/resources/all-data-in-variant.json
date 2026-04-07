@@ -2456,8 +2456,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
-      "generations": 25.0,
-      "consumptions": 0.0,
+      "generation": 25.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2474,8 +2474,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLHV1",
       "nominalVoltage": 380.0,
-      "generations": 0.0,
-      "consumptions": 0.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2489,8 +2489,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLHV2",
       "nominalVoltage": 380.0,
-      "generations": 0.0,
-      "consumptions": 0.0
+      "generation": 0.0,
+      "load": 0.0
     },
     {
       "id": "VLLOAD_0",
@@ -2500,8 +2500,8 @@
       "connectedComponentNum": 2,
       "voltageLevelId": "VLLOAD",
       "nominalVoltage": 150.0,
-      "generations": 0.0,
-      "consumptions": 0.0
+      "generation": 0.0,
+      "load": 0.0
     },
     {
       "id": "VLNEW2_0",
@@ -2511,8 +2511,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
-      "generations": 0.0,
-      "consumptions": 0.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2529,8 +2529,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
-      "generations": 0.0,
-      "consumptions": 0.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2544,8 +2544,8 @@
       "connectedComponentNum": 1,
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
-      "generations": 0.0,
-      "consumptions": 0.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR"
     },
     {
@@ -2556,8 +2556,8 @@
       "connectedComponentNum": 1,
       "voltageLevelId": "VLGEN7",
       "nominalVoltage": 24.0,
-      "generations": 0.0,
-      "consumptions": 0.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR"
     }
   ],
