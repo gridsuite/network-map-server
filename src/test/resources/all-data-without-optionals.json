@@ -2206,6 +2206,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
+      "generation": 25.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2220,6 +2222,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLHV1",
       "nominalVoltage": 380.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2230,14 +2234,18 @@
       "v": "NaN",
       "angle": "NaN",
       "voltageLevelId": "VLHV2",
-      "nominalVoltage": 380.0
+      "nominalVoltage": 380.0,
+      "generation": 0.0,
+      "load": 0.0
     },
     {
       "id": "VLLOAD_0",
       "v": "NaN",
       "angle": "NaN",
       "voltageLevelId": "VLLOAD",
-      "nominalVoltage": 150.0
+      "nominalVoltage": 150.0,
+      "generation": 0.0,
+      "load": 0.0
     },
     {
       "id": "VLNEW2_0",
@@ -2245,6 +2253,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2259,6 +2269,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2270,6 +2282,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR"
     },
     {
@@ -2278,6 +2292,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN7",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR"
     }
   ],
