@@ -35,6 +35,10 @@ public class BusTabInfos extends ElementInfosWithProperties {
 
     private Double nominalVoltage;
 
+    private Double generation;
+
+    private Double load;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
