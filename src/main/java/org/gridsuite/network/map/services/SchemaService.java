@@ -20,7 +20,7 @@ import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos;
 import org.gridsuite.network.map.dto.definition.branch.twowindingstransformer.TwoWindingsTransformerTabInfos;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 import org.gridsuite.network.map.dto.definition.busbarsection.BusBarSectionTabInfos;
-import org.gridsuite.network.map.dto.definition.danglingline.DanglingLineTabInfos;
+import org.gridsuite.network.map.dto.definition.boundaryline.BoundaryLineTabInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.definition.hvdc.HvdcTabInfos;
 import org.gridsuite.network.map.dto.definition.lccconverterstation.LccConverterStationTabInfos;
@@ -48,7 +48,7 @@ public class SchemaService {
             case BATTERY -> BatteryTabInfos.class;
             case BUS -> BusTabInfos.class;
             case BUSBAR_SECTION -> BusBarSectionTabInfos.class;
-            case DANGLING_LINE -> DanglingLineTabInfos.class;
+            case BOUNDARY_LINE -> BoundaryLineTabInfos.class;
             case GENERATOR -> GeneratorTabInfos.class;
             case HVDC_LINE, HVDC_LINE_LCC, HVDC_LINE_VSC -> HvdcTabInfos.class;
             case LCC_CONVERTER_STATION -> LccConverterStationTabInfos.class;
