@@ -38,5 +38,13 @@
     "connectionPosition": 0,
     "connectionName": "feederName"
   },
-  "busOrBusbarSectionId": "NGEN"
+  "busOrBusbarSectionId": "NGEN",
+  "measurementP": {
+    "value": 50.0,
+    "validity": true
+  },
+  "measurementQ": {
+    "value": 5.0,
+    "validity": true
+  }
 }
