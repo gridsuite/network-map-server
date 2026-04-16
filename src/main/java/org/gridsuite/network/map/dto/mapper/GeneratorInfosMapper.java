@@ -190,7 +190,8 @@ public final class GeneratorInfosMapper {
                 builder.reactiveCapabilityCurvePoints(getReactiveCapabilityCurvePoints(capabilityCurve.getPoints()));
             }
         }
-
+        builder.measurementP(ExtensionUtils.toMeasurement(generator, Type.ACTIVE_POWER, 0))
+                .measurementQ(ExtensionUtils.toMeasurement(generator, Type.REACTIVE_POWER, 0));
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(generator, 0));
         return builder.build();
     }
