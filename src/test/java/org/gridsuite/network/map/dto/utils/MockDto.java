@@ -1,22 +1,13 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
-import com.powsybl.iidm.network.LoadingLimits.TemporaryLimit;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.function.TriConsumer;
 import org.apache.commons.lang3.tuple.Triple;
 import org.mockito.Mockito;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class MockDto {
@@ -97,166 +88,5 @@ public final class MockDto {
         }
         return oDto;
     }
-
-    @Data
-    @AllArgsConstructor
-    public static class TemporaryLimitDtoTest implements TemporaryLimit {
-        private String name;
-        private double value;
-        private int acceptableDuration;
-
-        @Override
-        public boolean isFictitious() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class CurrentLimitsDtoTest implements CurrentLimits {
-        @Accessors(chain = true)
-        private double permanentLimit;
-        private Collection<TemporaryLimit> temporaryLimits;
-
-        public static CurrentLimitsDtoTest build(double permanentLimit, @Nullable Collection<? extends TemporaryLimit> temporaryLimits) {
-            return new CurrentLimitsDtoTest(permanentLimit, temporaryLimits == null ? null : List.copyOf(temporaryLimits)); // generic collections are invariant
-        }
-
-        @Override
-        public TemporaryLimit getTemporaryLimit(int acceptableDuration) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public double getTemporaryLimitValue(int acceptableDuration) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public LoadingLimits setTemporaryLimitValue(int acceptableDuration, double temporaryLimitValue) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public void remove() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public LimitType getLimitType() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class OperationalLimitsGroupDtoTest implements OperationalLimitsGroup {
-        private String id;
-        private Optional<CurrentLimits> currentLimits;
-        private HashMap<String, String>properties;
-
-        public OperationalLimitsGroupDtoTest(String id, CurrentLimits currentLimits) {
-            this(id, Optional.ofNullable(currentLimits), new HashMap<>());
-        }
-
-        @Override
-        public Optional<ActivePowerLimits> getActivePowerLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public Optional<ApparentPowerLimits> getApparentPowerLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public CurrentLimitsAdder newCurrentLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public ActivePowerLimitsAdder newActivePowerLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public ApparentPowerLimitsAdder newApparentPowerLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public CurrentLimitsAdder newCurrentLimits(CurrentLimits currentLimits) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public ActivePowerLimitsAdder newActivePowerLimits(ActivePowerLimits activePowerLimits) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public ApparentPowerLimitsAdder newApparentPowerLimits(ApparentPowerLimits apparentPowerLimits) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public void removeCurrentLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public void removeActivePowerLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public void removeApparentPowerLimits() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public boolean isEmpty() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public boolean hasProperty() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public boolean hasProperty(String key) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public String getProperty(String key) {
-            return properties.get(key);
-        }
-
-        @Override
-        public String getProperty(String key, String defaultValue) {
-            throw new NotImplementedException("Not supported yet.");
-        }
-
-        @Override
-        public String setProperty(String key, String value) {
-            return properties.put(key, value);
-        }
-
-        @Override
-        public boolean removeProperty(String key) {
-            return properties.remove(key) != null;
-        }
-
-        @Override
-        public Set<String> getPropertyNames() {
-            return properties.keySet();
-        }
-
-        @Override
-        public Network getNetwork() {
-            throw new NotImplementedException("Not supported yet.");
-        }
-    }
 }
+

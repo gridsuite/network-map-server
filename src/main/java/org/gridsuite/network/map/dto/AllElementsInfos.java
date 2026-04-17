@@ -26,7 +26,7 @@ public class AllElementsInfos {
     private List<ElementInfos> threeWindingsTransformers;
     private List<ElementInfos> generators;
     private List<ElementInfos> batteries;
-    private List<ElementInfos> danglingLines;
+    private List<ElementInfos> boundaryLines;
     private List<ElementInfos> tieLines;
     private List<ElementInfos> lccConverterStations;
     private List<ElementInfos> shuntCompensators;

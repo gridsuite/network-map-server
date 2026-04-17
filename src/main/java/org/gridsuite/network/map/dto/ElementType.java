@@ -36,7 +36,7 @@ public enum ElementType {
     GENERATOR(Generator.class, GeneratorInfosMapper::toData, Network::getGeneratorStream),
     BATTERY(Battery.class, BatteryInfosMapper::toData, Network::getBatteryStream),
     SHUNT_COMPENSATOR(ShuntCompensator.class, ShuntCompensatorMapper::toData, Network::getShuntCompensatorStream),
-    DANGLING_LINE(DanglingLine.class, DanglingLineInfosMapper::toData, Network::getDanglingLineStream),
+    BOUNDARY_LINE(BoundaryLine.class, BoundaryLineInfosMapper::toData, Network::getBoundaryLineStream),
     STATIC_VAR_COMPENSATOR(StaticVarCompensator.class, StaticVarCompensatorInfosMapper::toData, Network::getStaticVarCompensatorStream),
     LCC_CONVERTER_STATION(LccConverterStation.class, LccConverterStationInfosMapper::toData, Network::getLccConverterStationStream),
     VSC_CONVERTER_STATION(VscConverterStation.class, VscConverterStationInfosMapper::toData, Network::getVscConverterStationStream);
