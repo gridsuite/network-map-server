@@ -16,7 +16,7 @@
     "plannedActivePowerSetPoint": 0.3,
     "marginalCost": 3.0,
     "plannedOutageRate": 0.4,
-    "forcedOutageRate": 2.0
+    "forcedOutageRate": 0.5
   },
   "minMaxReactiveLimits": {
     "minQ": -500.0,

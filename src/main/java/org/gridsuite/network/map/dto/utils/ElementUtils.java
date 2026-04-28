@@ -8,11 +8,11 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import com.powsybl.iidm.network.util.BusbarSectionFinderTraverser;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
-import org.gridsuite.network.map.dto.definition.extension.BusbarSectionFinderTraverser;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.springframework.lang.NonNull;
 
