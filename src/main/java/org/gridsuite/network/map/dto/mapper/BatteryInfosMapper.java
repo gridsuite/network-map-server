@@ -85,6 +85,9 @@ public final class BatteryInfosMapper {
 
         builder.activePowerControl(ExtensionUtils.toActivePowerControl(battery));
 
+        builder.measurementP(ExtensionUtils.toMeasurement(battery, Type.ACTIVE_POWER, 0))
+                .measurementQ(ExtensionUtils.toMeasurement(battery, Type.REACTIVE_POWER, 0));
+
         return builder.build();
     }
 
