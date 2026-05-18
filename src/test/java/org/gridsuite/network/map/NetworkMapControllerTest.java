@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_BUS_ID_TO_ICC_VALUES;
@@ -381,7 +382,7 @@ public class NetworkMapControllerTest {
                 .withPlannedActivePowerSetpoint(0.3)
                 .withMarginalCost(3)
                 .withPlannedOutageRate(0.4)
-                .withForcedOutageRate(2)
+                .withForcedOutageRate(0.5)
                 .add();
         gen.newExtension(MeasurementsAdder.class).add();
         Measurements<Generator> genMeasurements = gen.getExtension(Measurements.class);
@@ -656,9 +657,9 @@ public class NetworkMapControllerTest {
         //add a voltage level without a substation ID
         network.newVoltageLevel().setId("VL").setName("VL").setNominalV(24.0).setTopologyKind(TopologyKind.BUS_BREAKER).add();
         VoltageLevel vl1 = network.getVoltageLevel("VLGEN");
-        DanglingLine dl = vl1.newDanglingLine()
-                .setId("DL1")
-                .setName("DL1")
+        BoundaryLine bl = vl1.newBoundaryLine()
+                .setId("BL1")
+                .setName("BL1")
                 .setR(1)
                 .setX(2)
                 .setB(3)
@@ -669,14 +670,14 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NGEN")
                 .setBus("NGEN")
                 .add();
-        dl.getTerminal().setP(45);
-        dl.getTerminal().setQ(75);
-        dl.newExtension(MeasurementsAdder.class).add();
-        Measurements<DanglingLine> dlMeasurements = dl.getExtension(Measurements.class);
-        dlMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(66).add();
-        dlMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(77).add();
+        bl.getTerminal().setP(45);
+        bl.getTerminal().setQ(75);
+        bl.newExtension(MeasurementsAdder.class).add();
+        Measurements<BoundaryLine> blMeasurements = bl.getExtension(Measurements.class);
+        blMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(66).add();
+        blMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(false).setValue(77).add();
 
-        dl.newExtension(InjectionObservabilityAdder.class)
+        bl.newExtension(InjectionObservabilityAdder.class)
                 .withObservable(true)
                 .withStandardDeviationP(19.65)
                 .withRedundantP(true)
@@ -685,10 +686,10 @@ public class NetworkMapControllerTest {
                 .withStandardDeviationV(2.93)
                 .withRedundantV(true)
                 .add();
-        dl.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
-        DanglingLine dl2 = vlgen3.newDanglingLine()
-                .setId("DL2")
-                .setName("DL2")
+        bl.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
+        BoundaryLine bl2 = vlgen3.newBoundaryLine()
+                .setId("BL2")
+                .setName("BL2")
                 .setR(1)
                 .setX(2)
                 .setB(3)
@@ -699,13 +700,13 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NGEN3")
                 .setBus("NGEN3")
                 .add();
-        dl2.getTerminal().setP(45);
-        dl2.getTerminal().setQ(75);
+        bl2.getTerminal().setP(45);
+        bl2.getTerminal().setQ(75);
         network.newTieLine()
                 .setId("TL1")
                 .setName("TL1")
-                .setDanglingLine1("DL1")
-                .setDanglingLine2("DL2")
+                .setBoundaryLine1("BL1")
+                .setBoundaryLine2("BL2")
                 .add();
         TieLine tieLine = network.getTieLine("TL1");
         tieLine.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
@@ -1282,6 +1283,17 @@ public class NetworkMapControllerTest {
         network.getVariantManager().setWorkingVariant(VariantManagerConstants.INITIAL_VARIANT_ID);
 
         Network network2 = NetworkTest1Factory.create(NETWORK_2_UUID.toString());
+        // add P on generator and loads on voltageLevel1 to test buses view
+        AtomicInteger i = new AtomicInteger();
+        network2.getGeneratorStream().forEach(generator -> {
+            i.getAndIncrement();
+            generator.getTerminal().setP(10 * i.get());
+        });
+        AtomicInteger j = new AtomicInteger();
+        network2.getLoadStream().forEach(loadEquipment -> {
+            j.getAndIncrement();
+            loadEquipment.getTerminal().setP(5 * j.get());
+        });
 
         Mockito.verifyNoInteractions(networkStoreService);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willReturn(network);
@@ -2112,27 +2124,27 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnDanglingIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("DL1", "DL2").toString(), ElementType.DANGLING_LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("DL1", "DL2").toString(), ElementType.DANGLING_LINE, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("DL1", "DL2").toString(), ElementType.DANGLING_LINE, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("DL1", "DL2").toString(), ElementType.DANGLING_LINE, null, List.of(24.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("DL1", "DL2").toString(), ElementType.DANGLING_LINE, List.of("P1", "P3"), null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("DL1", "DL2").toString(), ElementType.DANGLING_LINE, List.of("P1", "P3"), List.of(24.0, 380.0));
+    void shouldReturnBoundaryIds() throws Exception {
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("BL1", "BL2").toString(), ElementType.BOUNDARY_LINE, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("BL1", "BL2").toString(), ElementType.BOUNDARY_LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BL1", "BL2").toString(), ElementType.BOUNDARY_LINE, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BL1", "BL2").toString(), ElementType.BOUNDARY_LINE, null, List.of(24.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BL1", "BL2").toString(), ElementType.BOUNDARY_LINE, List.of("P1", "P3"), null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("BL1", "BL2").toString(), ElementType.BOUNDARY_LINE, List.of("P1", "P3"), List.of(24.0, 380.0));
     }
 
     @Test
-    void shouldReturnNotFoundInsteadOfDanglingLinesMapData() throws Exception {
-        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.DANGLING_LINE, InfoType.LIST, List.of());
-        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.DANGLING_LINE, InfoType.LIST, List.of());
-        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.DANGLING_LINE, InfoType.LIST, List.of("P1", "P2"));
-        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.DANGLING_LINE, InfoType.LIST, List.of("P1", "P2"));
+    void shouldReturnNotFoundInsteadOfBoundaryLinesMapData() throws Exception {
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.BOUNDARY_LINE, InfoType.LIST, List.of());
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.BOUNDARY_LINE, InfoType.LIST, List.of());
+        notFoundTestForElementsInfos(NOT_FOUND_NETWORK_ID, null, ElementType.BOUNDARY_LINE, InfoType.LIST, List.of("P1", "P2"));
+        notFoundTestForElementsInfos(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.BOUNDARY_LINE, InfoType.LIST, List.of("P1", "P2"));
     }
 
     @Test
-    void shouldReturnNotFoundInsteadOfDanglingLinesIds() throws Exception {
-        notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.DANGLING_LINE, List.of(), List.of());
-        notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.DANGLING_LINE, List.of(), List.of());
+    void shouldReturnNotFoundInsteadOfBoundaryLinesIds() throws Exception {
+        notFoundTestForElementsIds(NOT_FOUND_NETWORK_ID, null, ElementType.BOUNDARY_LINE, List.of(), List.of());
+        notFoundTestForElementsIds(NETWORK_UUID, VARIANT_ID_NOT_FOUND, ElementType.BOUNDARY_LINE, List.of(), List.of());
     }
 
     @Test
@@ -2744,11 +2756,11 @@ public class NetworkMapControllerTest {
     }
 
     @Test
-    void shouldReturnDanglingLineTabData() throws Exception {
-        network.getDanglingLine("DL1").getTerminal().getBusView().getBus().setV(27.); // to get a calculated I
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-tab-data.json"));
+    void shouldReturnBoundaryLineTabData() throws Exception {
+        network.getBoundaryLine("BL1").getTerminal().getBusView().getBus().setV(27.); // to get a calculated I
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.BOUNDARY_LINE, InfoType.TAB, null, resourceToString("/boundary-lines-tab-data.json"));
         // Rq: calculated I not present in VARIANT_ID
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.DANGLING_LINE, InfoType.TAB, null, resourceToString("/dangling-lines-variant-tab-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.BOUNDARY_LINE, InfoType.TAB, null, resourceToString("/boundary-lines-variant-tab-data.json"));
     }
 
     @Test

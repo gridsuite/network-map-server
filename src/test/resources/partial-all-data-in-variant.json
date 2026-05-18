@@ -280,10 +280,10 @@
       }
     }
   ],
-  "danglingLines": [
+  "boundaryLines": [
     {
-      "id": "DL2",
-      "name": "DL2",
+      "id": "BL2",
+      "name": "BL2",
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
       "country": "FR",
@@ -411,6 +411,8 @@
       "connectedComponentNum": 0,
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"

@@ -74,6 +74,8 @@ public final class ShuntCompensatorMapper {
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(shuntCompensator, 0));
 
+        builder.measurementQ(ExtensionUtils.toMeasurement(shuntCompensator, Type.REACTIVE_POWER, 0));
+
         return builder.build();
     }
 

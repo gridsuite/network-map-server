@@ -16,8 +16,6 @@ import lombok.*;
 @Getter
 @EqualsAndHashCode
 public class TapChangerStepData {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer index;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double rho;

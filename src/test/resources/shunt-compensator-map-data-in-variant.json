@@ -12,6 +12,10 @@
   },
   "busOrBusbarSectionId": "NGEN4",
   "isLinear":true,
+  "measurementQ":{
+    "value":69.0,
+    "validity":true
+  },
   "bPerSection" : 1.0,
   "qAtNominalV" : 576.0
 }

@@ -796,9 +796,8 @@
         "regulatingTerminalConnectableId": "NGEN_NHV1",
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLGEN",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0" : {
             "rho": 0.8500000238418579,
             "r": 0.0,
             "x": 0.0,
@@ -806,8 +805,7 @@
             "b": 0.0,
             "alpha": 1.0
           },
-          {
-            "index": 1,
+          "1" : {
             "rho": 0.8999999761581421,
             "r": 0.0,
             "x": 0.0,
@@ -815,7 +813,7 @@
             "b": 0.0,
             "alpha": 1.0
           }
-        ]
+        }
       },
       "g": 0.0,
       "ratedU1": 24.0,
@@ -861,32 +859,29 @@
         "regulatingTerminalConnectableId": "NHV2_NLOAD",
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLLOAD",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0" : {
             "rho": 0.8505666905244191,
             "r": 0.0,
             "x": 0.0,
             "g": 0.0,
             "b": 0.0
           },
-          {
-            "index": 1,
+          "1" : {
             "rho": 1.0006666666666666,
             "r": 0.0,
             "x": 0.0,
             "g": 0.0,
             "b": 0.0
           },
-          {
-            "index": 2,
+          "2" : {
             "rho": 1.150766642808914,
             "r": 0.0,
             "x": 0.0,
             "g": 0.0,
             "b": 0.0
           }
-        ]
+        }
       },
       "g": 0.0,
       "ratedU1": 400.0,
@@ -1047,9 +1042,8 @@
         "regulatingTerminalConnectableId": "TWT",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0": {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
@@ -1057,8 +1051,7 @@
             "b": 1.5,
             "alpha": -10.0
           },
-          {
-            "index": 1,
+          "1": {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
@@ -1066,8 +1059,7 @@
             "b": 1.6,
             "alpha": 0.0
           },
-          {
-            "index": 2,
+          "2": {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
@@ -1075,7 +1067,7 @@
             "b": 1.7,
             "alpha": 10.0
           }
-        ]
+        }
       },
       "ratioTapChanger3": {
         "lowTapPosition": 0,
@@ -1088,32 +1080,29 @@
         "regulatingTerminalConnectableId": "TWT",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0": {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
             "g": 0.5,
             "b": 1.5
           },
-          {
-            "index": 1,
+          "1": {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
             "g": 0.6,
             "b": 1.6
           },
-          {
-            "index": 2,
+          "2": {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
             "b": 1.7
           }
-        ]
+        }
       },
       "hasLoadTapChanging3Capabilities": false,
       "targetV3": 220.0,
@@ -1209,32 +1198,29 @@
         "regulatingTerminalConnectableId": "TWT21",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0": {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
             "g": 0.5,
             "b": 1.5
           },
-          {
-            "index": 1,
+          "1": {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
             "g": 0.6,
             "b": 1.6
           },
-          {
-            "index": 2,
+          "2": {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
             "b": 1.7
           }
-        ]
+        }
       },
       "phaseTapChanger2": {
         "lowTapPosition": 0,
@@ -1247,9 +1233,8 @@
         "regulatingTerminalConnectableId": "TWT21",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0": {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
@@ -1257,8 +1242,7 @@
             "b": 1.5,
             "alpha": -10.0
           },
-          {
-            "index": 1,
+          "1": {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
@@ -1266,8 +1250,7 @@
             "b": 1.6,
             "alpha": 0.0
           },
-          {
-            "index": 2,
+          "2": {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
@@ -1275,7 +1258,7 @@
             "b": 1.7,
             "alpha": 10.0
           }
-        ]
+        }
       },
       "hasLoadTapChanging1Capabilities": false,
       "targetV1": 220.0,
@@ -1371,32 +1354,29 @@
         "regulatingTerminalConnectableId": "TWT32",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+          "0": {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
             "g": 0.5,
             "b": 1.5
           },
-          {
-            "index": 1,
+          "1": {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
             "g": 0.6,
             "b": 1.6
           },
-          {
-            "index": 2,
+          "2": {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
             "b": 1.7
           }
-        ]
+        }
       },
       "phaseTapChanger3": {
         "lowTapPosition": 0,
@@ -1409,35 +1389,32 @@
         "regulatingTerminalConnectableId": "TWT32",
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
-        "steps": [
-          {
-            "index": 0,
+        "steps": {
+            "0" : {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
             "g": 0.5,
             "b": 1.5,
             "alpha": -10.0
-          },
-          {
-            "index": 1,
+            },
+            "1" : {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
             "g": 0.6,
             "b": 1.6,
             "alpha": 0.0
-          },
-          {
-            "index": 2,
+            },
+            "2" : {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
             "b": 1.7,
             "alpha": 10.0
-          }
-        ]
+            }
+        } 
       },
       "hasLoadTapChanging2Capabilities": false,
       "targetV2": 220.0,
@@ -1523,7 +1500,7 @@
         "plannedActivePowerSetPoint": 0.3,
         "marginalCost": 3.0,
         "plannedOutageRate": 0.4,
-        "forcedOutageRate": 2.0
+        "forcedOutageRate": 0.5
       },
       "minMaxReactiveLimits": {
         "minQ": -500.0,
@@ -1751,10 +1728,10 @@
       }
     }
   ],
-  "danglingLines": [
+  "boundaryLines": [
     {
-      "id": "DL1",
-      "name": "DL1",
+      "id": "BL1",
+      "name": "BL1",
       "voltageLevelId": "VLGEN",
       "nominalV": 24.0,
       "country": "FR",
@@ -1795,8 +1772,8 @@
       }
     },
     {
-      "id": "DL2",
-      "name": "DL2",
+      "id": "BL2",
+      "name": "BL2",
       "voltageLevelId": "VLGEN3",
       "nominalV": 24.0,
       "country": "FR",
@@ -2229,6 +2206,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN",
       "nominalVoltage": 24.0,
+      "generation": 25.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2243,6 +2222,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLHV1",
       "nominalVoltage": 380.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2253,14 +2234,18 @@
       "v": "NaN",
       "angle": "NaN",
       "voltageLevelId": "VLHV2",
-      "nominalVoltage": 380.0
+      "nominalVoltage": 380.0,
+      "generation": 0.0,
+      "load": 0.0
     },
     {
       "id": "VLLOAD_0",
       "v": "NaN",
       "angle": "NaN",
       "voltageLevelId": "VLLOAD",
-      "nominalVoltage": 150.0
+      "nominalVoltage": 150.0,
+      "generation": 0.0,
+      "load": 0.0
     },
     {
       "id": "VLNEW2_0",
@@ -2268,6 +2253,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLNEW2",
       "nominalVoltage": 225.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2282,6 +2269,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN3",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2293,6 +2282,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN4",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR"
     },
     {
@@ -2301,6 +2292,8 @@
       "angle": "NaN",
       "voltageLevelId": "VLGEN7",
       "nominalVoltage": 24.0,
+      "generation": 0.0,
+      "load": 0.0,
       "country": "FR"
     }
   ],

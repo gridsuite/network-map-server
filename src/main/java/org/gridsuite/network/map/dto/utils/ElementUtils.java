@@ -17,6 +17,7 @@ import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInf
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -97,23 +98,21 @@ public final class ElementUtils {
         }
     }
 
-    private static List<TapChangerStepData> toMapDataPhaseStep(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+    private static Map<Integer, TapChangerStepData> toMapDataPhaseStepByTapPosition(Map<Integer, PhaseTapChangerStep> tapChangerStep) {
+        Map<Integer, TapChangerStepData> result = new HashMap<>();
         if (tapChangerStep == null) {
-            return List.of();
+            return result;
         }
-        return tapChangerStep.entrySet().stream().map(p -> {
-            Integer index = p.getKey();
-            PhaseTapChangerStep v = p.getValue();
-
-            return TapChangerStepData.builder().index(index)
-                    .g(v.getG())
-                    .b(v.getB())
-                    .r(v.getR())
-                    .x(v.getX())
-                    .rho(v.getRho())
-                    .alpha(v.getAlpha())
-                    .build();
-        }).collect(Collectors.toList());
+        tapChangerStep.forEach((index, v) ->
+            result.put(index, TapChangerStepData.builder()
+            .g(v.getG())
+            .b(v.getB())
+            .r(v.getR())
+            .x(v.getX())
+            .rho(v.getRho())
+            .alpha(v.getAlpha())
+            .build()));
+        return result;
     }
 
     public static TapChangerData toMapData(PhaseTapChanger tapChanger) {
@@ -131,9 +130,9 @@ public final class ElementUtils {
                 .targetDeadband(tapChanger.getTargetDeadband())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
-                .steps(toMapDataPhaseStep(tapChanger.getAllSteps()));
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null);
 
+        builder.steps(toMapDataPhaseStepByTapPosition(tapChanger.getAllSteps()));
         builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
         builder.regulationValue(nullIfNan(tapChanger.getRegulationValue()));
         return builder.build();
@@ -152,30 +151,28 @@ public final class ElementUtils {
                 .hasLoadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
                 .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
                 .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null)
-                .steps(toMapDataRatioStep(tapChanger.getAllSteps()));
+                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null);
 
+        builder.steps(toMapDataRatioStep(tapChanger.getAllSteps()));
         builder.targetV(nullIfNan(tapChanger.getTargetV()));
         builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
         return builder.build();
     }
 
-    private static List<TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+    private static Map<Integer, TapChangerStepData> toMapDataRatioStep(Map<Integer, RatioTapChangerStep> tapChangerStep) {
+        Map<Integer, TapChangerStepData> result = new HashMap<>();
         if (tapChangerStep == null) {
-            return List.of();
+            return result;
         }
-        return tapChangerStep.entrySet().stream().map(p -> {
-            Integer index = p.getKey();
-            RatioTapChangerStep v = p.getValue();
-
-            return TapChangerStepData.builder().index(index)
-                    .g(v.getG())
-                    .b(v.getB())
-                    .r(v.getR())
-                    .x(v.getX())
-                    .rho(v.getRho())
-                    .build();
-        }).collect(Collectors.toList());
+        tapChangerStep.forEach((index, v) ->
+            result.put(index, TapChangerStepData.builder()
+            .g(v.getG())
+            .b(v.getB())
+            .r(v.getR())
+            .x(v.getX())
+            .rho(v.getRho())
+            .build()));
+        return result;
     }
 
     public static Country mapCountry(Substation substation) {
