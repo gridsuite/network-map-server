@@ -7,6 +7,14 @@
     "targetQ": 1.0,
     "minP": 50.0,
     "maxP": 70.0,
+    "measurementP": {
+      "value": 12.0,
+      "validity": false
+    },
+    "measurementQ": {
+      "value": 44.0,
+      "validity": true
+    },
     "minMaxReactiveLimits": {
       "minQ": -500.0,
       "maxQ": 500.0
@@ -31,6 +39,14 @@
     "targetQ": 1.0,
     "minP": 50.0,
     "maxP": 70.0,
+    "measurementP": {
+      "value": 34.0,
+      "validity": true
+    },
+    "measurementQ": {
+      "value": 84.0,
+      "validity": true
+    },
     "reactiveCapabilityCurvePoints": [
       { "p": 0.0, "minQ": 6.0, "maxQ": 7.0 },
       { "p": 1.0, "minQ": 4.0, "maxQ": 5.0 },
