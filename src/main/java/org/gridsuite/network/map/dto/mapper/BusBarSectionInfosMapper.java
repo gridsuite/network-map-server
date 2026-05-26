@@ -46,6 +46,7 @@ public final class BusBarSectionInfosMapper {
         if (busbarSectionPosition != null) {
             builder.vertPos(busbarSectionPosition.getBusbarIndex()).horizPos(busbarSectionPosition.getSectionIndex());
         }
+        builder.measurementV(toMeasurement(busbarSection, Type.VOLTAGE, 0));
         return builder.build();
     }
 

@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
+import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+
+import java.util.Optional;
 
 /**
  * @author AJELLAL Ali <ali.ajellal at rte-france.com>
@@ -22,5 +25,8 @@ public class BusBarSectionFormInfos extends ElementInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer horizPos;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<MeasurementsInfos> measurementV;
 
 }
