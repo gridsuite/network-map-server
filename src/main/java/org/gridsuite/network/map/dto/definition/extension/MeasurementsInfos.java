@@ -23,4 +23,3 @@ public class MeasurementsInfos {
     private boolean validity;
 }
 
-

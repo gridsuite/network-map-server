@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.Map;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 @SuperBuilder
 @Getter

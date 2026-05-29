@@ -10,10 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Map;
-
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
+import java.util.Map;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>

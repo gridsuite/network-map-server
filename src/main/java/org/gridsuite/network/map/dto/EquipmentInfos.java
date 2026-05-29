@@ -13,7 +13,7 @@ import java.util.List;
 // TODO : delete and adjust Get network elements endpoint
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 @Builder
 public record EquipmentInfos(ElementType elementType, List<String> substationsIds) {

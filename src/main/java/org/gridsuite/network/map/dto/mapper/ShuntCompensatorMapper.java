@@ -10,16 +10,15 @@ import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
-import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorTabInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
-
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 
 public final class ShuntCompensatorMapper {

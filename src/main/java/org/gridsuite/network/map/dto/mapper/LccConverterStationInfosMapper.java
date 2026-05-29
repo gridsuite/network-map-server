@@ -21,7 +21,7 @@ import static org.gridsuite.network.map.dto.mapper.HvdcInfosMapper.toShuntCompen
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 
 public final class LccConverterStationInfosMapper {

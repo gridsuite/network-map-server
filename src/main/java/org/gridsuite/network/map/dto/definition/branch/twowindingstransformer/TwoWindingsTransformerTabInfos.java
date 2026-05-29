@@ -19,7 +19,7 @@ import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformer
 import java.util.Optional;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 @SuperBuilder
 @Getter

@@ -32,4 +32,3 @@ public class BranchObservabilityInfos {
     private boolean isObservable;
 }
 
-

@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfos;
 
 /**
- * @author Maissa Souissi <maissa.souissi@rte-france.com>
+ * @author Maissa Souissi <maissa.souissi at rte-france.com>
  */
 @SuperBuilder
 @Getter

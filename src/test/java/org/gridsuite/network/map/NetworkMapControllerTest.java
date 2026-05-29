@@ -95,6 +95,7 @@ public class NetworkMapControllerTest {
 
     private Network network;
 
+    @SuppressWarnings("checkstyle:MethodLength")
     @BeforeEach
     void setUp() {
         network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
@@ -335,8 +336,10 @@ public class NetworkMapControllerTest {
         t3Measurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setSide(ThreeSides.TWO).setValid(false).setValue(53).add();
         t3.newExtension(DiscreteMeasurementsAdder.class).add();
         DiscreteMeasurements<TwoWindingsTransformer> t3DiscreteMeasurements = t3.getExtension(DiscreteMeasurements.class);
-        t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11).add();
-        t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7).add();
+        t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11)
+                .add();
+        t3DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7)
+                .add();
         t3.newExtension(BranchObservabilityAdder.class)
                 .withStandardDeviationP1(23.31)
                 .withRedundantP1(true)
@@ -1297,7 +1300,8 @@ public class NetworkMapControllerTest {
 
         Mockito.verifyNoInteractions(networkStoreService);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willReturn(network);
-        given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
+        given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID,
+                PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
@@ -1449,10 +1453,14 @@ public class NetworkMapControllerTest {
 
         threeWindingsTransformer.newExtension(DiscreteMeasurementsAdder.class).add();
         DiscreteMeasurements<ThreeWindingsTransformer> trfDiscreteMeasurements = threeWindingsTransformer.getExtension(DiscreteMeasurements.class);
-        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1).setValid(true).setValue(14).add();
-        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2).setValid(false).setValue(4).add();
-        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3).setValid(false).setValue(12).add();
-        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3).setValid(true).setValue(17).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_1).setValid(true).setValue(
+                14).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_2).setValid(false).setValue(
+                4).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER_3).setValid(false).setValue(
+                12).add();
+        trfDiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER_3).setValid(true).setValue(
+                17).add();
         threeWindingsTransformer.newExtension(OperatingStatusAdder.class).withStatus(OperatingStatus.Status.PLANNED_OUTAGE).add();
     }
 
@@ -1498,7 +1506,8 @@ public class NetworkMapControllerTest {
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    private void succeedingTestForElementInfosWithElementIdAndIccByBusId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, Map<String, Double> iccByBusId, String expectedJson) throws Exception {
+    private void succeedingTestForElementInfosWithElementIdAndIccByBusId(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, Map<String,
+            Double> iccByBusId, String expectedJson) throws Exception {
         MvcResult res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                 .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
@@ -1522,7 +1531,8 @@ public class NetworkMapControllerTest {
 
     }
 
-    private void succeedingTestForElementInfosInDc(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, double dcPowerFactor, String expectedJson) throws Exception {
+    private void succeedingTestForElementInfosInDc(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, String elementId, double dcPowerFactor,
+            String expectedJson) throws Exception {
         MvcResult mvcResult = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", networkUuid, elementId)
                 .queryParam(QUERY_PARAM_VARIANT_ID, variantId)
                 .queryParam(QUERY_PARAM_ELEMENT_TYPE, elementType.name())
@@ -1548,11 +1558,13 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, null, true);
     }
 
-    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson, List<Double> nominalVoltages) throws Exception {
+    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson,
+            List<Double> nominalVoltages) throws Exception {
         succeedingTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, expectedJson, nominalVoltages, true);
     }
 
-    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson, List<Double> nominalVoltages, boolean withOptionalLoading) throws Exception {
+    private void succeedingTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, String expectedJson,
+            List<Double> nominalVoltages, boolean withOptionalLoading) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
@@ -1582,7 +1594,8 @@ public class NetworkMapControllerTest {
         notFoundTestForElementsInfos(networkUuid, variantId, elementType, infoType, substationsIds, null);
     }
 
-    private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds, List<Double> nominalVoltages) throws Exception {
+    private void notFoundTestForElementsInfos(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> substationsIds,
+            List<Double> nominalVoltages) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         queryParams.add(QUERY_PARAM_INFO_TYPE, infoType.name());
@@ -1607,7 +1620,8 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfosByIds(networkUuid, variantId, elementType, infoType, elementIds, expectedJson, true);
     }
 
-    private void succeedingTestForElementsInfosByIds(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> elementIds, String expectedJson, boolean withOptionalLoading) throws Exception {
+    private void succeedingTestForElementsInfosByIds(UUID networkUuid, String variantId, ElementType elementType, InfoType infoType, List<String> elementIds, String expectedJson,
+            boolean withOptionalLoading) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         if (variantId != null) {
             queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
@@ -1644,7 +1658,8 @@ public class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    private void succeedingTestForElementsIds(UUID networkUuid, String variantId, String expectedJson, ElementType elementType, List<String> substationsIds, List<Double> nominalVoltages) throws Exception {
+    private void succeedingTestForElementsIds(UUID networkUuid, String variantId, String expectedJson, ElementType elementType, List<String> substationsIds,
+            List<Double> nominalVoltages) throws Exception {
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add(QUERY_PARAM_VARIANT_ID, variantId);
         queryParams.add(QUERY_PARAM_ELEMENT_TYPE, elementType.name());
@@ -1699,7 +1714,8 @@ public class NetworkMapControllerTest {
         } else {
             body = Map.of();
         }
-        MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all", networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
+        MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/all",
+                networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
@@ -2305,11 +2321,14 @@ public class NetworkMapControllerTest {
     @Test
     void shouldReturnVscConverterStationsIds() throws Exception {
         succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString(), ElementType.VSC_CONVERTER_STATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString(), ElementType.VSC_CONVERTER_STATION, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString(), ElementType.VSC_CONVERTER_STATION, null, List.of(24.0, 150.0, 225.0,
+                380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString(), ElementType.VSC_CONVERTER_STATION, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString(), ElementType.VSC_CONVERTER_STATION, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VSC1", "VSC3", "VSC4", "VSC5", "VSC6", "VSC2").toString(), ElementType.VSC_CONVERTER_STATION, null, List.of(24.0, 150.0, 225.0,
+                380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VSC6", "VSC1", "VSC3", "VSC4", "VSC5").toString(), ElementType.VSC_CONVERTER_STATION, List.of("P1", "P2"), null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VSC6", "VSC1", "VSC3", "VSC4", "VSC5").toString(), ElementType.VSC_CONVERTER_STATION, List.of("P1", "P2"), List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VSC6", "VSC1", "VSC3", "VSC4", "VSC5").toString(), ElementType.VSC_CONVERTER_STATION, List.of("P1", "P2"), List.of(24.0, 150.0,
+                225.0, 380.0));
     }
 
     @Test
@@ -2357,7 +2376,8 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC3", "HVDC4", "HVDC2", "HVDC5").toString(), ElementType.HVDC_LINE, null, null);
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC1", "HVDC5").toString(), ElementType.HVDC_LINE, null, List.of(24.0, 380.0));
         succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC4", "HVDC5", "HVDC3", "HVDC1").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC4", "HVDC5", "HVDC3", "HVDC1").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("HVDC4", "HVDC5", "HVDC3", "HVDC1").toString(), ElementType.HVDC_LINE, List.of("P1", "P3", "P4"), List.of(24.0, 150.0, 225.0,
+                380.0));
     }
 
     @Test
@@ -2470,18 +2490,26 @@ public class NetworkMapControllerTest {
         succeedingTestForElementInfosWithElementId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, resourceToString("/voltage-level-tooltip-data.json"));
         succeedingTestForElementInfosWithElementId(networkWithLFUuid, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, resourceToString("/voltage-level-tooltip-data.json"));
 
-        succeedingTestForElementInfosWithElementIdAndIccByBusId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, Map.of("VLGEN_0", 10.0, "VLGEN_1", 20.0), resourceToString("/voltage-level-tooltip-with-icc-data.json"));
-        succeedingTestForElementInfosWithElementIdAndIccByBusId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, Map.of("VLGEN_0", 10.0, "VLGEN_1", 20.0), resourceToString("/voltage-level-tooltip-with-icc-data.json"));
+        succeedingTestForElementInfosWithElementIdAndIccByBusId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, Map.of("VLGEN_0", 10.0, "VLGEN_1", 20.0),
+                resourceToString("/voltage-level-tooltip-with-icc-data.json"));
+        succeedingTestForElementInfosWithElementIdAndIccByBusId(networkWithLFUuid, null, ElementType.VOLTAGE_LEVEL, InfoType.TOOLTIP, voltageLevelId, Map.of("VLGEN_0", 10.0, "VLGEN_1", 20.0),
+                resourceToString("/voltage-level-tooltip-with-icc-data.json"));
     }
 
     @Test
     void shouldReturnVoltageLevelsIds() throws Exception {
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), null);
-        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(), ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(),
+                ElementType.VOLTAGE_LEVEL, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, null, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(),
+                ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(),
+                ElementType.VOLTAGE_LEVEL, null, null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VL", "VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(),
+                ElementType.VOLTAGE_LEVEL, null, List.of(24.0, 150.0, 225.0, 380.0));
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(),
+                ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), null);
+        succeedingTestForElementsIds(NETWORK_UUID, VARIANT_ID, List.of("VLGEN", "VLHV1", "VLHV2", "VLLOAD", "VLNEW2", "VLGEN3", "VLGEN4", "VLGEN5", "VLGEN6", "VLGEN7").toString(),
+                ElementType.VOLTAGE_LEVEL, List.of("P1", "P2", "P3", "P4", "P5", "P6"), List.of(24.0, 150.0, 225.0, 380.0));
     }
 
     @Test
@@ -2523,7 +2551,8 @@ public class NetworkMapControllerTest {
     @Test
     void shouldReturnVoltageLevelNonSymmetricalBusbarsFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5", resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.VOLTAGE_LEVEL, InfoType.FORM, "VLGEN5",
+                resourceToString("/voltage-level-non-symmetrical-busbars-form-data.json"));
     }
 
     @Test
@@ -2694,14 +2723,18 @@ public class NetworkMapControllerTest {
 
     @Test
     void shouldReturnTwoWindingsTransformerOperatingStatusData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/2-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null,
+                resourceToString("/2-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null,
+                resourceToString("/2-windings-transformer-operating-status-data.json"));
     }
 
     @Test
     void shouldReturnThreeWindingsTransformerOperatingStatusData() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null, resourceToString("/3-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null,
+                resourceToString("/3-windings-transformer-operating-status-data.json"));
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.THREE_WINDINGS_TRANSFORMER, InfoType.OPERATING_STATUS, null,
+                resourceToString("/3-windings-transformer-operating-status-data.json"));
     }
 
     @Test
@@ -2752,7 +2785,8 @@ public class NetworkMapControllerTest {
     @Test
     void shouldReturnShuntCompensatorFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.SHUNT_COMPENSATOR, InfoType.FORM, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, InfoType.FORM, "SHUNT_VLNB", resourceToString("/shunt-compensator-map-data-in-variant.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.SHUNT_COMPENSATOR, InfoType.FORM, "SHUNT_VLNB",
+                resourceToString("/shunt-compensator-map-data-in-variant.json"));
     }
 
     @Test
@@ -2795,22 +2829,29 @@ public class NetworkMapControllerTest {
 
     @Test
     void shouldReturnTwoWindingsTransformerTabDataWithoutOptionals() throws Exception {
-        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data-without-optionals.json"), null, false);
-        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data-without-optionals.json"), null, false);
+        succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data-without-optionals.json"), null,
+                false);
+        succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TAB, null, resourceToString("/2-windings-transformers-tab-data-without-optionals.json"),
+                null, false);
     }
 
     @Test
     void shouldReturnTwoWindingsTransformerFormData() throws Exception {
         succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.FORM, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.FORM, "NGEN_NHV1", resourceToString("/2-windings-transformer-map-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.FORM, "NGEN_NHV1",
+                resourceToString("/2-windings-transformer-map-data.json"));
     }
 
     @Test
     void shouldReturnTwoWindingsTransformerTooltipData() throws Exception {
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NGEN_NHV1", resourceToString("/2-windings-transformer-tooltip-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD", resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
-        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD", resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NGEN_NHV1",
+                resourceToString("/2-windings-transformer-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NGEN_NHV1",
+                resourceToString("/2-windings-transformer-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, null, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD",
+                resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
+        succeedingTestForElementInfosWithElementId(NETWORK_UUID, VARIANT_ID, ElementType.TWO_WINDINGS_TRANSFORMER, InfoType.TOOLTIP, "NHV2_NLOAD",
+                resourceToString("/2-windings-transformer-ratio-tooltip-data.json"));
     }
 
     @Test

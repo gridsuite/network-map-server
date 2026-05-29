@@ -10,12 +10,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.LoadType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Optional;
-
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
+import java.util.Optional;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>

@@ -10,18 +10,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
-import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.common.CurrentLimitsData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
+import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
 import org.gridsuite.network.map.dto.definition.extension.MeasurementsInfos;
 import org.gridsuite.network.map.dto.definition.extension.TwoWindingsTransformerToBeEstimatedInfos;
-
+import java.util.List;
 import java.util.Optional;
 
-import java.util.List;
-
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 @SuperBuilder
 @Getter
