@@ -3,7 +3,11 @@
     "id": "NGEN4",
     "name": "NGEN4",
     "vertPos": 1,
-    "horizPos": 2
+    "horizPos": 2,
+    "measurementV": {
+      "value": 385.0,
+      "validity": true
+    }
   },
   {
     "id": "NGEN5",
