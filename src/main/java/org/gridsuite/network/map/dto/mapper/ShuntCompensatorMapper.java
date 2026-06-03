@@ -49,6 +49,7 @@ public final class ShuntCompensatorMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .isLinear(isLinear)
+                .b(shuntCompensator.getB())
                 .properties(getProperties(shuntCompensator));
 
         builder.busOrBusbarSectionId(getBusOrBusbarSection(terminal));

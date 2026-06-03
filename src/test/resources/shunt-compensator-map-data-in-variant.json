@@ -1,4 +1,5 @@
 {
+  "b": 2.0,
   "id": "SHUNT_VLNB",
   "name": "SHUNT_VLNB",
   "voltageLevelId": "VLGEN4",

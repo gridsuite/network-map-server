@@ -31,6 +31,9 @@ public class ShuntCompensatorFormInfos extends ElementInfosWithProperties {
     private Double q;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double b;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetV;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
