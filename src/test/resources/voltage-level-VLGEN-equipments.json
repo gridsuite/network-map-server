@@ -41,9 +41,9 @@
     "type": "THREE_WINDINGS_TRANSFORMER"
   },
   {
-    "id": "DL1",
-    "name": "DL1",
-    "type": "DANGLING_LINE"
+    "id": "BL1",
+    "name": "BL1",
+    "type": "BOUNDARY_LINE"
   },
   {
     "id": "LINE3",
