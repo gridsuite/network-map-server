@@ -23,4 +23,3 @@ public class TapChangerDiscreteMeasurementsInfos {
     private boolean validity;
 }
 
-

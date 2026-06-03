@@ -29,4 +29,3 @@ public class InjectionObservabilityInfos {
     private boolean isObservable;
 }
 
-

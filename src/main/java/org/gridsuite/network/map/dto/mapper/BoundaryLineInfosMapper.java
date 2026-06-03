@@ -19,7 +19,7 @@ import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 public final class BoundaryLineInfosMapper {
     private BoundaryLineInfosMapper() {

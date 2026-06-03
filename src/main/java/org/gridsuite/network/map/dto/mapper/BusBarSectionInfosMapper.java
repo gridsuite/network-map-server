@@ -22,7 +22,7 @@ import static org.gridsuite.network.map.dto.utils.ElementUtils.handleUnsupported
 import static org.gridsuite.network.map.dto.utils.ExtensionUtils.toMeasurement;
 
 /**
- * @author AJELLAL Ali <ali.ajellal@rte-france.com>
+ * @author AJELLAL Ali <ali.ajellal at rte-france.com>
  */
 
 public final class BusBarSectionInfosMapper {

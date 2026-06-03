@@ -89,15 +89,20 @@ public class NetworkMapService {
                 .lines(getElementsInfos(network, substationsId, ElementType.LINE, getInfoTypeParameters(additionalParametersByType, ElementType.LINE), null))
                 .loads(getElementsInfos(network, substationsId, ElementType.LOAD, getInfoTypeParameters(additionalParametersByType, ElementType.LOAD), null))
                 .generators(getElementsInfos(network, substationsId, ElementType.GENERATOR, getInfoTypeParameters(additionalParametersByType, ElementType.GENERATOR), null))
-                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType, ElementType.TWO_WINDINGS_TRANSFORMER), null))
-                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType, ElementType.THREE_WINDINGS_TRANSFORMER), null))
+                .twoWindingsTransformers(getElementsInfos(network, substationsId, ElementType.TWO_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType,
+                        ElementType.TWO_WINDINGS_TRANSFORMER), null))
+                .threeWindingsTransformers(getElementsInfos(network, substationsId, ElementType.THREE_WINDINGS_TRANSFORMER, getInfoTypeParameters(additionalParametersByType,
+                        ElementType.THREE_WINDINGS_TRANSFORMER), null))
                 .batteries(getElementsInfos(network, substationsId, ElementType.BATTERY, getInfoTypeParameters(additionalParametersByType, ElementType.BATTERY), null))
                 .boundaryLines(getElementsInfos(network, substationsId, ElementType.BOUNDARY_LINE, getInfoTypeParameters(additionalParametersByType, ElementType.BOUNDARY_LINE), null))
                 .tieLines(getTieLinesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.TIE_LINE), null))
-                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.LCC_CONVERTER_STATION), null))
+                .lccConverterStations(getElementsInfos(network, substationsId, ElementType.LCC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.LCC_CONVERTER_STATION),
+                        null))
                 .shuntCompensators(getElementsInfos(network, substationsId, ElementType.SHUNT_COMPENSATOR, getInfoTypeParameters(additionalParametersByType, ElementType.SHUNT_COMPENSATOR), null))
-                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, getInfoTypeParameters(additionalParametersByType, ElementType.STATIC_VAR_COMPENSATOR), null))
-                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.VSC_CONVERTER_STATION), null))
+                .staticVarCompensators(getElementsInfos(network, substationsId, ElementType.STATIC_VAR_COMPENSATOR, getInfoTypeParameters(additionalParametersByType,
+                        ElementType.STATIC_VAR_COMPENSATOR), null))
+                .vscConverterStations(getElementsInfos(network, substationsId, ElementType.VSC_CONVERTER_STATION, getInfoTypeParameters(additionalParametersByType, ElementType.VSC_CONVERTER_STATION),
+                        null))
                 .buses(getBusesInfos(network, substationsId, getInfoTypeParameters(additionalParametersByType, ElementType.BUS)))
                 .busbarSections(getElementsInfos(network, substationsId, ElementType.BUSBAR_SECTION, getInfoTypeParameters(additionalParametersByType, ElementType.BUSBAR_SECTION), null))
                 .branches(getElementsInfos(network, substationsId, ElementType.BRANCH, getInfoTypeParameters(additionalParametersByType, ElementType.BRANCH), null))
@@ -218,7 +223,8 @@ public class NetworkMapService {
                 .toList();
     }
 
-    private static List<ElementInfos> getHvdcLinesInfosByHvdcType(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages, HvdcType type) {
+    private static List<ElementInfos> getHvdcLinesInfosByHvdcType(Network network, @NonNull List<String> substationsId, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages,
+            HvdcType type) {
         Stream<HvdcLine> hvdcLineStream = substationsId.isEmpty()
                 ? network.getHvdcLineStream()
                 : substationsId.stream()
@@ -289,7 +295,8 @@ public class NetworkMapService {
                 .toList();
     }
 
-    private static List<ElementInfos> getElementsInfos(Network network, @NonNull List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    private static List<ElementInfos> getElementsInfos(Network network, @NonNull List<String> substationsIds, ElementType elementType, InfoTypeParameters infoTypeParameters,
+            List<Double> nominalVoltages) {
         if (!elementType.isConnectable()) { // early break if not supported
             throw new IllegalStateException("Unexpected non-connectable element type: " + elementType);
         }
@@ -306,7 +313,8 @@ public class NetworkMapService {
                 .collect(Collectors.toList());
     }
 
-    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType equipmentType, InfoTypeParameters infoTypeParameters, List<Double> nominalVoltages) {
+    public List<ElementInfos> getElementsInfos(UUID networkUuid, String variantId, @NonNull List<String> substationsIds, ElementType equipmentType, InfoTypeParameters infoTypeParameters,
+            List<Double> nominalVoltages) {
         Network network = getNetwork(networkUuid, getPreloadingStrategy(substationsIds), variantId);
         return switch (equipmentType) {
             // types that don't implement `Connectable<>` interface

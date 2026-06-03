@@ -22,4 +22,3 @@ public class ActivePowerControlInfos {
     private Double maxTargetP;
 }
 
-

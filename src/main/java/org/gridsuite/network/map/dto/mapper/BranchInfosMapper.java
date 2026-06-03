@@ -49,7 +49,7 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
         };
     }
 
-    protected static<T extends BranchTabInfos, B extends BranchTabInfosBuilder<T, ?>> B toTabBuilder(
+    protected static <T extends BranchTabInfos, B extends BranchTabInfosBuilder<T, ?>> B toTabBuilder(
         @NonNull final B builder,
         @NonNull final Branch<?> branch,
         @Nullable final Double dcPowerFactor,

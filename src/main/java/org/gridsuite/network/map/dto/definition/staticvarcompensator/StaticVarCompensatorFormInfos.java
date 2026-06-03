@@ -17,7 +17,7 @@ import org.gridsuite.network.map.dto.definition.extension.StandbyAutomatonInfos;
 import java.util.Optional;
 
 /**
- * @author REHILI Ghazwa <ghazwarhili@gmail.com>
+ * @author REHILI Ghazwa <ghazwarhili at gmail.com>
  */
 @SuperBuilder
 @Getter

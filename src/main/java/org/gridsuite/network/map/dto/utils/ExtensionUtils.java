@@ -84,7 +84,8 @@ public final class ExtensionUtils {
                 .map(m -> MeasurementsInfos.builder().value(m.getValue()).validity(m.isValid()).build());
     }
 
-    public static Optional<TapChangerDiscreteMeasurementsInfos> toMeasurementTapChanger(@NonNull final Connectable<?> connectable, @NonNull final DiscreteMeasurement.Type type, @NonNull final TapChanger tapChanger) {
+    public static Optional<TapChangerDiscreteMeasurementsInfos> toMeasurementTapChanger(@NonNull final Connectable<?> connectable, @NonNull final DiscreteMeasurement.Type type,
+            @NonNull final TapChanger tapChanger) {
         return Optional.ofNullable((DiscreteMeasurements<?>) connectable.getExtension(DiscreteMeasurements.class))
                 .flatMap(measurements -> measurements.getDiscreteMeasurements(type)
                         .stream()

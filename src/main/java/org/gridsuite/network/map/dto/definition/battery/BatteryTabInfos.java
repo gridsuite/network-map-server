@@ -11,16 +11,15 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
-import org.gridsuite.network.map.dto.definition.extension.*;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
-
+import org.gridsuite.network.map.dto.definition.extension.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * @author REHILI Ghazwa <ghazwa.rehili@rte-france.com>
+ * @author REHILI Ghazwa <ghazwa.rehili at rte-france.com>
  */
 
 @SuperBuilder

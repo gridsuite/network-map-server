@@ -164,8 +164,10 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .r(line.getR())
                 .x(line.getX());
 
-        line.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId(), ElementInfos.InfoType.TOOLTIP))));
-        line.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId(), ElementInfos.InfoType.TOOLTIP))));
+        line.getSelectedOperationalLimitsGroup1().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits1(toMapDataCurrentLimits(limits, limitsGrp.getId(),
+                ElementInfos.InfoType.TOOLTIP))));
+        line.getSelectedOperationalLimitsGroup2().ifPresent(limitsGrp -> limitsGrp.getCurrentLimits().ifPresent(limits -> builder.currentLimits2(toMapDataCurrentLimits(limits, limitsGrp.getId(),
+                ElementInfos.InfoType.TOOLTIP))));
 
         return builder.build();
     }
