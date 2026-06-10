@@ -9,6 +9,8 @@
     "nominalVoltage": 400.0,
     "country": "FR",
     "load": 5.0,
-    "generation": 10.0
+    "generation": 10.0,
+    "fictitiousP0": 0.0,
+    "fictitiousQ0": 0.0
   }
 ]

@@ -2284,6 +2284,8 @@
       "nominalVoltage": 24.0,
       "generation": 0.0,
       "load": 0.0,
+      "fictitiousP0" : 0.0,
+      "fictitiousQ0" : 0.0,
       "country": "FR"
     },
     {
@@ -2294,6 +2296,8 @@
       "nominalVoltage": 24.0,
       "generation": 0.0,
       "load": 0.0,
+      "fictitiousP0" : 0.0,
+      "fictitiousQ0" : 0.0,
       "country": "FR"
     }
   ],
