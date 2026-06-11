@@ -38,6 +38,12 @@ public class BusTabInfos extends ElementInfosWithProperties {
     private Double load;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double fictitiousP0;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double fictitiousQ0;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

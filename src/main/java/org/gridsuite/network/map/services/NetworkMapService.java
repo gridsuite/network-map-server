@@ -332,7 +332,12 @@ public class NetworkMapService {
 
     public ElementInfos getElementInfos(UUID networkUuid, String variantId, ElementType elementType, InfoTypeParameters infoTypeParameters, String elementId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        Identifiable<?> identifiable = network.getIdentifiable(elementId);
+        Identifiable<?> identifiable;
+        if (elementType == ElementType.BUS) {
+            identifiable = network.getBusView().getBus(elementId);
+        } else {
+            identifiable = network.getIdentifiable(elementId);
+        }
         if (identifiable == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
