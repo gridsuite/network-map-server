@@ -111,6 +111,9 @@ public final class VscConverterStationInfosMapper {
             }
         }
 
+        builder.measurementP(ExtensionUtils.toMeasurement(vscConverterStation, Type.ACTIVE_POWER, 0))
+                .measurementQ(ExtensionUtils.toMeasurement(vscConverterStation, Type.REACTIVE_POWER, 0));
+
         return builder.build();
     }
 }

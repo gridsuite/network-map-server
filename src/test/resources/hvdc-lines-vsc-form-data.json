@@ -36,6 +36,14 @@
       "terminalConnected": true,
       "p": 10.0,
       "q": 30.0,
+      "measurementP": {
+        "value": 16.0,
+        "validity": false
+      },
+      "measurementQ": {
+        "value": 63.0,
+        "validity": false
+      },
       "busOrBusbarSectionId": "NNEW2",
       "reactiveCapabilityCurvePoints": [
         {
@@ -77,6 +85,14 @@
       "terminalConnected": true,
       "p": 10.0,
       "q": 30.0,
+      "measurementP": {
+        "value": 88.0,
+        "validity": true
+      },
+      "measurementQ": {
+        "value": 33.0,
+        "validity": true
+      },
       "busOrBusbarSectionId": "NNEW2",
       "minMaxReactiveLimits": {
         "minQ": 40.0,
