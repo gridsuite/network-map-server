@@ -389,7 +389,7 @@ public class NetworkMapControllerTest {
                 .add();
         gen.newExtension(MeasurementsAdder.class).add();
         Measurements<Generator> genMeasurements = gen.getExtension(Measurements.class);
-        genMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(50).add();
+        genMeasurements.newMeasurement().setType(Measurement.Type.ACTIVE_POWER).setValid(true).setValue(50).putProperty("validity", "0").add();
         genMeasurements.newMeasurement().setType(Measurement.Type.REACTIVE_POWER).setValid(true).setValue(5).add();
 
         gen.newExtension(InjectionObservabilityAdder.class)

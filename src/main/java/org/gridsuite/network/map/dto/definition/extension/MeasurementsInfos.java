@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Map;
+
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
@@ -21,5 +23,8 @@ public class MeasurementsInfos {
     private Double value;
 
     private boolean validity;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, String> properties;
 }
 

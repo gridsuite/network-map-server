@@ -10,8 +10,11 @@ import org.springframework.lang.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public final class ExtensionUtils {
     private ExtensionUtils() { }
@@ -81,7 +84,18 @@ public final class ExtensionUtils {
                         .stream()
                         .filter(m -> m.getSide() == null || m.getSide().getNum() - 1 == index)
                         .findFirst())
-                .map(m -> MeasurementsInfos.builder().value(m.getValue()).validity(m.isValid()).build());
+                .map(m -> MeasurementsInfos.builder()
+                        .value(m.getValue())
+                        .validity(m.isValid())
+                        .properties(getMeasurementProperties(m))
+                        .build());
+    }
+
+    private static Map<String, String> getMeasurementProperties(@NonNull final Measurement measurement) {
+        Map<String, String> properties = measurement.getPropertyNames()
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), measurement::getProperty));
+        return properties.isEmpty() ? null : properties;
     }
 
     public static Optional<TapChangerDiscreteMeasurementsInfos> toMeasurementTapChanger(@NonNull final Connectable<?> connectable, @NonNull final DiscreteMeasurement.Type type,
