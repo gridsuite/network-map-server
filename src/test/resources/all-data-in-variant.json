@@ -1746,7 +1746,10 @@
       },
       "measurementP": {
         "value": 50.0,
-        "validity": true
+        "validity": true,
+        "properties": {
+          "validity": "0"
+        }
       },
       "measurementQ": {
         "value": 5.0,
