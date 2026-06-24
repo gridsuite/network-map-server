@@ -898,7 +898,7 @@
       }
     },
     {
-      "b": 17.0,
+      "b": 1.7E7,
       "id": "NGEN_NHV2",
       "type": "TWO_WINDINGS_TRANSFORMER",
       "voltageLevelId1": "VLGEN",
@@ -986,7 +986,7 @@
         "validity": false
       },
       "country": "FR",
-      "g": 27.0,
+      "g": 2.7E7,
       "ratedU1": 400.0,
       "ratedU2": 158.0,
       "connectablePosition1": {

@@ -111,8 +111,8 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .country(ElementUtils.mapCountry(ElementUtils.findFirstSubstation(List.of(twoWT.getTerminal1(), twoWT.getTerminal2()))))
                 .phaseTapChanger(toMapData(twoWT.getPhaseTapChanger()))
                 .ratioTapChanger(toMapData(twoWT.getRatioTapChanger()))
-                .b(twoWT.getB())
-                .g(twoWT.getG())
+                .b(convertToMicroSiemens(twoWT.getB()))
+                .g(convertToMicroSiemens(twoWT.getG()))
                 .ratedU1(twoWT.getRatedU1())
                 .ratedU2(twoWT.getRatedU2())
                 .ratedS(nullIfNan(twoWT.getRatedS()))
@@ -122,6 +122,10 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .measurementPhaseTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER))
                 .toBeEstimated(toToBeEstimated(twoWT))
                 .build();
+    }
+
+    private static Double convertToMicroSiemens(Double susceptance) {
+        return susceptance * Math.pow(10, 6);
     }
 
     private static TwoWindingsTransformerOperatingStatusInfos toOperatingStatusInfos(Identifiable<?> identifiable) {
