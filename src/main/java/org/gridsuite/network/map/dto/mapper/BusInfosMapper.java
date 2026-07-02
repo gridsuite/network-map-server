@@ -53,8 +53,8 @@ public final class BusInfosMapper {
                 .properties(getProperties(bus))
                 .substationProperties(bus.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .voltageLevelProperties(getProperties(bus.getVoltageLevel()))
-                .fictitiousP0(topologyKind == TopologyKind.NODE_BREAKER ? bus.getFictitiousP0() : null)
-                .fictitiousQ0(topologyKind == TopologyKind.NODE_BREAKER ? bus.getFictitiousQ0() : null);
+                .fictitiousP0(bus.getFictitiousP0())
+                .fictitiousQ0(bus.getFictitiousQ0());
 
         if (shouldLoadNetworkComponents) {
             builder
