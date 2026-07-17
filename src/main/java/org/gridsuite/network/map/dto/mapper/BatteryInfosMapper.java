@@ -96,7 +96,7 @@ public final class BatteryInfosMapper {
                     .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
                     .regulatingTerminalVlId(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getId())
                     .voltageRegulatorOn(voltageRegulation.isVoltageRegulatorOn())
-                    .targetV(voltageRegulation.getTargetV());
+                    .targetV(nullIfNan(voltageRegulation.getTargetV()));
         }
 
         return builder.build();
