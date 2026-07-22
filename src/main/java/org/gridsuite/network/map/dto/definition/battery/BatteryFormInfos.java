@@ -84,5 +84,6 @@ public class BatteryFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String regulatingTerminalVlId;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean voltageRegulatorOn;
 }

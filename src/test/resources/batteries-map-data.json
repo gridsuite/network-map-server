@@ -68,7 +68,6 @@
       "connectionName": "feederName"
     },
     "terminalConnected": false,
-    "busOrBusbarSectionId": "NNEW2",
-    "voltageRegulatorOn": null
+    "busOrBusbarSectionId": "NNEW2"
   }
 ]
