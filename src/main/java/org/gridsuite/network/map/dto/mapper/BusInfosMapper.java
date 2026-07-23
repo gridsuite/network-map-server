@@ -8,7 +8,6 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
-import com.powsybl.iidm.network.TopologyKind;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
@@ -41,7 +40,6 @@ public final class BusInfosMapper {
 
     private static BusTabInfos toTabInfos(Identifiable<?> identifiable, boolean shouldLoadNetworkComponents) {
         Bus bus = (Bus) identifiable;
-        TopologyKind topologyKind = bus.getNetwork().getVoltageLevel(bus.getVoltageLevel().getId()).getTopologyKind();
         BusTabInfos.BusTabInfosBuilder<?, ?> builder = BusTabInfos.builder().id(bus.getId())
                 .angle(bus.getAngle())
                 .v(bus.getV())
@@ -53,8 +51,8 @@ public final class BusInfosMapper {
                 .properties(getProperties(bus))
                 .substationProperties(bus.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null))
                 .voltageLevelProperties(getProperties(bus.getVoltageLevel()))
-                .fictitiousP0(topologyKind == TopologyKind.NODE_BREAKER ? bus.getFictitiousP0() : null)
-                .fictitiousQ0(topologyKind == TopologyKind.NODE_BREAKER ? bus.getFictitiousQ0() : null);
+                .fictitiousP0(bus.getFictitiousP0())
+                .fictitiousQ0(bus.getFictitiousQ0());
 
         if (shouldLoadNetworkComponents) {
             builder

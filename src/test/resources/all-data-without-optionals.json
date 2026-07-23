@@ -2211,6 +2211,8 @@
       "nominalVoltage": 24.0,
       "generation": 25.0,
       "load": 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2227,6 +2229,8 @@
       "nominalVoltage": 380.0,
       "generation": 0.0,
       "load": 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2239,7 +2243,9 @@
       "voltageLevelId": "VLHV2",
       "nominalVoltage": 380.0,
       "generation": 0.0,
-      "load": 0.0
+      "load": 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0
     },
     {
       "id": "VLLOAD_0",
@@ -2248,7 +2254,9 @@
       "voltageLevelId": "VLLOAD",
       "nominalVoltage": 150.0,
       "generation": 0.0,
-      "load": 0.0
+      "load": 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0
     },
     {
       "id": "VLNEW2_0",
@@ -2258,6 +2266,8 @@
       "nominalVoltage": 225.0,
       "generation": 0.0,
       "load": 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
@@ -2274,6 +2284,8 @@
       "nominalVoltage": 24.0,
       "generation": 0.0,
       "load": 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR",
       "substationProperties": {
         "Country": "FR"
