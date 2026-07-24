@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.CurrentLimits;
+import com.powsybl.iidm.network.DetectionKind;
 import com.powsybl.iidm.network.LimitType;
 import com.powsybl.iidm.network.LoadingLimits;
 import jakarta.annotation.Nullable;
@@ -31,6 +32,21 @@ public class CurrentLimitsDtoTest implements CurrentLimits {
 
     public static CurrentLimitsDtoTest build(double permanentLimit, @Nullable Collection<? extends TemporaryLimit> temporaryLimits) {
         return new CurrentLimitsDtoTest(permanentLimit, temporaryLimits == null ? null : List.copyOf(temporaryLimits)); // generic collections are invariant
+    }
+
+    @Override
+    public DetectionKind getDetectionKind() {
+        return DetectionKind.HIGH;
+    }
+
+    @Override
+    public String getPermanentLimitName() {
+        return "";
+    }
+
+    @Override
+    public LoadingLimits setPermanentLimitName(String name) {
+        return this;
     }
 
     @Override
