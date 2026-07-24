@@ -620,6 +620,11 @@ public class NetworkMapControllerTest {
                 .withDirectTransX(1.0)
                 .withStepUpTransformerX(2.0)
                 .add();
+        b1.newExtension(VoltageRegulationAdder.class)
+                .withRegulatingTerminal(gen.getTerminal())
+                .withTargetV(225.0)
+                .withVoltageRegulatorOn(true)
+                .add();
 
         Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
@@ -1475,7 +1480,6 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1484,7 +1488,6 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1493,7 +1496,6 @@ public class NetworkMapControllerTest {
                         .queryParam(QUERY_PARAM_VARIANT_ID, variantId))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(res.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, res.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 

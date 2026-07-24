@@ -39,6 +39,9 @@ public class BatteryFormInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetQ;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
+
     private Double minP;
 
     private Double maxP;
@@ -68,4 +71,19 @@ public class BatteryFormInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<MeasurementsInfos> measurementQ;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean voltageRegulatorOn;
 }

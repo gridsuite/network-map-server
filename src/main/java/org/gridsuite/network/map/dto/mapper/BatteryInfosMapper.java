@@ -9,6 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BatteryShortCircuit;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
+import com.powsybl.iidm.network.extensions.VoltageRegulation;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -87,6 +88,16 @@ public final class BatteryInfosMapper {
 
         builder.measurementP(ExtensionUtils.toMeasurement(battery, Type.ACTIVE_POWER, 0))
                 .measurementQ(ExtensionUtils.toMeasurement(battery, Type.REACTIVE_POWER, 0));
+
+        VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
+        if (voltageRegulation != null) {
+            builder.regulatingTerminalVlName(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getOptionalName().orElse(null))
+                    .regulatingTerminalConnectableId(voltageRegulation.getRegulatingTerminal().getConnectable().getId())
+                    .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
+                    .regulatingTerminalVlId(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getId())
+                    .voltageRegulatorOn(voltageRegulation.isVoltageRegulatorOn())
+                    .targetV(nullIfNan(voltageRegulation.getTargetV()));
+        }
 
         return builder.build();
     }

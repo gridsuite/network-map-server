@@ -5,6 +5,7 @@
     "voltageLevelId": "VLNEW2",
     "targetP": 1.0,
     "targetQ": 1.0,
+    "targetV": 225.0,
     "minP": 50.0,
     "maxP": 70.0,
     "measurementP": {
@@ -29,7 +30,12 @@
     "batteryShortCircuit": {
       "directTransX": 1.0,
       "stepUpTransformerX": 2.0
-    }
+    },
+    "regulatingTerminalVlName": "VLGEN_Name",
+    "regulatingTerminalConnectableId": "GEN",
+    "regulatingTerminalConnectableType": "GENERATOR",
+    "regulatingTerminalVlId": "VLGEN",
+    "voltageRegulatorOn": true
   },
   {
     "id": "BATTERY2",
