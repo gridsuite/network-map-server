@@ -91,11 +91,13 @@ public final class BatteryInfosMapper {
 
         VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
         if (voltageRegulation != null) {
-            builder.regulatingTerminalVlName(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getOptionalName().orElse(null))
-                    .regulatingTerminalConnectableId(voltageRegulation.getRegulatingTerminal().getConnectable().getId())
-                    .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
-                    .regulatingTerminalVlId(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getId())
-                    .voltageRegulatorOn(voltageRegulation.isVoltageRegulatorOn())
+            if (voltageRegulation.getRegulatingTerminal() != null && !voltageRegulation.getRegulatingTerminal().getConnectable().getId().equals(battery.getId())) {
+                builder.regulatingTerminalVlName(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getOptionalName().orElse(null))
+                        .regulatingTerminalConnectableId(voltageRegulation.getRegulatingTerminal().getConnectable().getId())
+                        .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
+                        .regulatingTerminalVlId(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getId());
+            }
+            builder.voltageRegulatorOn(voltageRegulation.isVoltageRegulatorOn())
                     .targetV(nullIfNan(voltageRegulation.getTargetV()));
         }
 
