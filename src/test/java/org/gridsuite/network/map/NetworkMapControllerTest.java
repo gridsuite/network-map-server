@@ -620,6 +620,12 @@ public class NetworkMapControllerTest {
                 .withDirectTransX(1.0)
                 .withStepUpTransformerX(2.0)
                 .add();
+        // b1 voltage regulation set on local terminal
+        b1.newExtension(VoltageRegulationAdder.class)
+                .withTargetV(10)
+                .withRegulatingTerminal(b1.getTerminal())
+                .withVoltageRegulatorOn(false)
+                .add();
 
         Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
@@ -637,6 +643,11 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
+        b2.newExtension(VoltageRegulationAdder.class)
+                .withTargetV(200)
+                .withRegulatingTerminal(network.getGenerator("GEN").getTerminal())
+                .withVoltageRegulatorOn(true)
+                .add();
         b2.newReactiveCapabilityCurve().beginPoint()
                 .setP(0)
                 .setMinQ(6)

@@ -1679,7 +1679,9 @@
       "batteryShortCircuit": {
         "directTransX": 1.0,
         "stepUpTransformerX": 2.0
-      }
+      },
+      "targetV": 10.0,
+      "voltageRegulatorOn": false
     },
     {
       "id": "BATTERY2",
@@ -1728,7 +1730,9 @@
       },
       "substationProperties": {
         "Country": "FR"
-      }
+      },
+      "targetV": 200.0,
+      "voltageRegulatorOn": true
     }
   ],
   "boundaryLines": [
@@ -2299,8 +2303,8 @@
       "nominalVoltage": 24.0,
       "generation": 0.0,
       "load": 0.0,
-      "fictitiousP0" : 0.0,
-      "fictitiousQ0" : 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR"
     },
     {

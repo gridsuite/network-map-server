@@ -295,7 +295,9 @@
       },
       "substationProperties": {
         "Country": "FR"
-      }
+      },
+      "targetV": 200.0,
+      "voltageRegulatorOn": true
     }
   ],
   "boundaryLines": [
