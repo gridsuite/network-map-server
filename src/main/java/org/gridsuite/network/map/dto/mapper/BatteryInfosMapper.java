@@ -93,6 +93,18 @@ public final class BatteryInfosMapper {
         builder.measurementP(ExtensionUtils.toMeasurement(battery, Type.ACTIVE_POWER, 0))
                 .measurementQ(ExtensionUtils.toMeasurement(battery, Type.REACTIVE_POWER, 0));
 
+        VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
+        if (voltageRegulation != null) {
+            if (voltageRegulation.getRegulatingTerminal() != null && !voltageRegulation.getRegulatingTerminal().getConnectable().getId().equals(battery.getId())) {
+                builder.regulatingTerminalVlName(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getOptionalName().orElse(null))
+                        .regulatingTerminalConnectableId(voltageRegulation.getRegulatingTerminal().getConnectable().getId())
+                        .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
+                        .regulatingTerminalVlId(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getId());
+            }
+            builder.voltageRegulatorOn(voltageRegulation.isVoltageRegulatorOn())
+                    .targetV(nullIfNan(voltageRegulation.getTargetV()));
+        }
+
         return builder.build();
     }
 
