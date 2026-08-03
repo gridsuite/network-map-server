@@ -96,6 +96,7 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetV;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean voltageRegulatorOn;
 
 }
