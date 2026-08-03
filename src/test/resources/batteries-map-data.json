@@ -70,10 +70,6 @@
     },
     "busOrBusbarSectionId": "NNEW2",
     "terminalConnected": false,
-    "regulatingTerminalVlName": "VLGEN_Name",
-    "regulatingTerminalConnectableId": "GEN",
-    "regulatingTerminalConnectableType": "GENERATOR",
-    "regulatingTerminalVlId": "VLGEN",
     "voltageRegulatorOn": true
   }
 ]

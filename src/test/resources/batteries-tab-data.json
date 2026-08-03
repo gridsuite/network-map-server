@@ -108,11 +108,7 @@
     "substationProperties": {
       "Country": "FR"
     },
-    "regulatingTerminalConnectableId": "GEN",
-    "regulatingTerminalConnectableType": "GENERATOR",
-    "regulatingTerminalVlName": "VLGEN_Name",
-    "regulatingTerminalVlId": "VLGEN",
-    "regulationType": "REMOTE",
+    "regulationType": "LOCAL",
     "targetV": 200.0,
     "voltageRegulatorOn": true
   }

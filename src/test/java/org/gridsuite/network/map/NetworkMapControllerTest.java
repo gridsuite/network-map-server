@@ -644,7 +644,7 @@ public class NetworkMapControllerTest {
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
         b2.newExtension(VoltageRegulationAdder.class)
                 .withTargetV(200)
-                .withRegulatingTerminal(network.getGenerator("GEN").getTerminal())
+                .withRegulatingTerminal(b2.getTerminal())
                 .withVoltageRegulatorOn(true)
                 .add();
         b2.newReactiveCapabilityCurve().beginPoint()
