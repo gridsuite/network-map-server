@@ -128,7 +128,7 @@ public final class BatteryInfosMapper {
 
         VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
         builder.targetV(voltageRegulation != null ? voltageRegulation.getTargetV() : null);
-        builder.voltageRegulatorOn(voltageRegulation != null ? voltageRegulation.isVoltageRegulatorOn() : false);
+        builder.voltageRegulatorOn(voltageRegulation != null && voltageRegulation.isVoltageRegulatorOn());
 
         if (loadRegulatingTerminals && voltageRegulation != null) {
             Terminal regulatingTerminal = voltageRegulation.getRegulatingTerminal();
