@@ -1596,7 +1596,6 @@ public class NetworkMapControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1650,7 +1649,6 @@ public class NetworkMapControllerTest {
                         .content(objectMapper.writeValueAsString(elementIds)))
                 .andExpect(status().isOk())
                 .andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1729,7 +1727,6 @@ public class NetworkMapControllerTest {
                 networkUuid).queryParams(queryParams).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(body)))
             .andExpect(status().isOk())
             .andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
         JSONAssert.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString(), JSONCompareMode.NON_EXTENSIBLE);
     }
 
