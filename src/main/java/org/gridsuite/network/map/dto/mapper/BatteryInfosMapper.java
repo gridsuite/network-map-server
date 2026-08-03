@@ -134,7 +134,7 @@ public final class BatteryInfosMapper {
             Terminal regulatingTerminal = voltageRegulation.getRegulatingTerminal();
             builder.regulationType(RegulationType.LOCAL.name());
             //If there is no regulating terminal in file, regulating terminal voltage level is equal to battery voltage level
-            if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+            if (regulatingTerminal != null && !regulatingTerminal.equals(terminal)) {
                 builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
                 builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
                 builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
