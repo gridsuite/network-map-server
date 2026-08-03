@@ -642,6 +642,11 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
+        b2.newExtension(VoltageRegulationAdder.class)
+                .withTargetV(200)
+                .withRegulatingTerminal(b2.getTerminal())
+                .withVoltageRegulatorOn(true)
+                .add();
         b2.newReactiveCapabilityCurve().beginPoint()
                 .setP(0)
                 .setMinQ(6)
