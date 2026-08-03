@@ -101,7 +101,10 @@ public class NetworkMapController {
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/buses-or-busbar-sections", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Get buses or busbar sections description for a voltage level")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Buses or Busbar section description")})
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Buses or Busbar section description"),
+        @ApiResponse(responseCode = "404", description = "No voltage level id found")
+    })
     public List<ElementInfos> getVoltageLevelBusesOrBusBarSections(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                             @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                             @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {
@@ -110,7 +113,10 @@ public class NetworkMapController {
 
     @GetMapping(value = "/networks/{networkUuid}/voltage-levels/{voltageLevelId}/feeder-bays", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "get feeder bays and bus bar sections information")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = " feeder bays and bus bar sections information retrieved")})
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "feeder bays and bus bar sections information retrieved"),
+        @ApiResponse(responseCode = "404", description = "No voltage level id found")
+    })
     public Map<String, List<FeederBayInfos>> getFeederBaysInfos(@Parameter(description = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                 @Parameter(description = "Voltage level id") @PathVariable("voltageLevelId") String voltageLevelId,
                                                                 @Parameter(description = "Variant Id") @RequestParam(name = "variantId", required = false) String variantId) {

@@ -45,6 +45,7 @@ import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_
 @Service
 @AllArgsConstructor
 public class NetworkMapService {
+    public static final String VOLTAGE_LEVEL_NOT_FOUND = "Voltage level not found: ";
     private final NetworkStoreService networkStoreService;
 
     private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy, String variantId) {
@@ -127,7 +128,9 @@ public class NetworkMapService {
 
     public List<ElementInfos> getVoltageLevelBusesOrBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        TopologyKind topologyKind = network.getVoltageLevel(voltageLevelId).getTopologyKind();
+        VoltageLevel voltageLevel = Optional.ofNullable(network.getVoltageLevel(voltageLevelId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, VOLTAGE_LEVEL_NOT_FOUND + voltageLevelId));
+        TopologyKind topologyKind = voltageLevel.getTopologyKind();
         return switch (topologyKind) {
             case NODE_BREAKER -> network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
                 .map(ElementInfosMapper::toListInfos).toList();
@@ -138,7 +141,8 @@ public class NetworkMapService {
 
     public BusBarSectionsInfos getBusBarSectionsInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        VoltageLevel voltageLevel = Optional.ofNullable(network.getVoltageLevel(voltageLevelId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, VOLTAGE_LEVEL_NOT_FOUND + voltageLevelId));
         return TopologyUtils.getBusBarSectionsInfos(voltageLevel);
     }
 
