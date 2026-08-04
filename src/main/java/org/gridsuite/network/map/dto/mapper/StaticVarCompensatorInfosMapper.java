@@ -61,7 +61,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .standbyAutomatonInfos(toStandbyAutomaton(staticVarCompensator));
         Terminal regulatingTerminal = staticVarCompensator.getRegulatingTerminal();
         //If there is no regulating terminal in file, regulating terminal voltage level is equal to cspr voltage level
-        if (regulatingTerminal != null && !regulatingTerminal.getVoltageLevel().equals(terminal.getVoltageLevel())) {
+        if (regulatingTerminal != null && !regulatingTerminal.equals(terminal)) {
             builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
             builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
             builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
