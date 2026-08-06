@@ -8,10 +8,12 @@ package org.gridsuite.network.map.dto.definition.bus;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
+import com.powsybl.iidm.network.extensions.ObservabilityArea;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
@@ -29,6 +31,9 @@ public class BusTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer connectedComponentNum;
 
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<Integer> observabilityAreaNumber;
+
     private String voltageLevelId;
 
     private Double nominalVoltage;
@@ -45,6 +50,9 @@ public class BusTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ObservabilityArea.ObservabilityStatus> observabilityStatus;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> substationProperties;

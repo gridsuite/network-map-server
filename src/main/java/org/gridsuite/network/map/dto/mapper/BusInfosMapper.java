@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
+import com.powsybl.iidm.network.extensions.ObservabilityArea;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
@@ -53,6 +54,16 @@ public final class BusInfosMapper {
                 .voltageLevelProperties(getProperties(bus.getVoltageLevel()))
                 .fictitiousP0(bus.getFictitiousP0())
                 .fictitiousQ0(bus.getFictitiousQ0());
+
+
+        ObservabilityArea observabilityArea = bus.getVoltageLevel().getExtension(ObservabilityArea.class);
+        if (observabilityArea != null) {
+            ObservabilityArea.AreaCharacteristics busAreaCharacteristics = observabilityArea.getBusView().getObservabilityArea(bus.getId());
+            if (busAreaCharacteristics != null) {
+                builder.observabilityAreaNumber(Optional.of(busAreaCharacteristics.getAreaNumber()));
+                builder.observabilityStatus(Optional.of(busAreaCharacteristics.getStatus()));
+            }
+        }
 
         if (shouldLoadNetworkComponents) {
             builder
