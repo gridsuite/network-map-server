@@ -642,6 +642,11 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
+        b2.newExtension(VoltageRegulationAdder.class)
+                .withTargetV(200)
+                .withRegulatingTerminal(b2.getTerminal())
+                .withVoltageRegulatorOn(true)
+                .add();
         b2.newReactiveCapabilityCurve().beginPoint()
                 .setP(0)
                 .setMinQ(6)
@@ -1042,7 +1047,7 @@ public class NetworkMapControllerTest {
                 .withRedundantV(true)
                 .add();
 
-        vlnew2.newStaticVarCompensator()
+        StaticVarCompensator svc2 = vlnew2.newStaticVarCompensator()
                 .setId("SVC2")
                 .setName("SVC2")
                 .setRegulating(false)
@@ -1054,6 +1059,7 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        svc2.setRegulatingTerminal(svc2.getTerminal());
 
         Substation p4 = network.newSubstation()
                 .setId("P4")
