@@ -12,7 +12,9 @@
     "generation": 10.0,
     "fictitiousP0": 0.0,
     "fictitiousQ0": 0.0,
-    "observabilityAreaNumber": 1,
-    "observabilityStatus": "OBSERVABLE"
+    "observabilityArea": {
+      "areaNumber": 1,
+      "status": "OBSERVABLE"
+    }
   }
 ]
