@@ -50,6 +50,7 @@
         <jib.from.image>powsybl/java:4.0.0</jib.from.image>
         <jackson-module-jsonSchema.version>2.15.2</jackson-module-jsonSchema.version>
         <gridsuite-dependencies.version>51.1.0</gridsuite-dependencies.version>
+        <powsybl-network-store-override.version>1.50.0</powsybl-network-store-override.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
     </properties>
@@ -108,6 +109,21 @@
                 <version>${gridsuite-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-network-store-client</artifactId>
+                <version>${powsybl-network-store-override.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-network-store-iidm-impl</artifactId>
+                <version>${powsybl-network-store-override.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-network-store-model</artifactId>
+                <version>${powsybl-network-store-override.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
