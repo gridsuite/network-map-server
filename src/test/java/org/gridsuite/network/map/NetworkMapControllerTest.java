@@ -1311,6 +1311,11 @@ public class NetworkMapControllerTest {
             loadEquipment.getTerminal().setP(5 * j.get());
         });
 
+        // Add Observability Area extension for bus test
+        network2.getVoltageLevel("n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1").newExtension(ObservabilityAreaAdder.class)
+                .withObservabilityAreaByBusViewBus("n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1_0", 1, ObservabilityArea.ObservabilityStatus.OBSERVABLE)
+                .add();
+
         Mockito.verifyNoInteractions(networkStoreService);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID,
