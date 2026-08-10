@@ -1047,7 +1047,7 @@ public class NetworkMapControllerTest {
                 .withRedundantV(true)
                 .add();
 
-        vlnew2.newStaticVarCompensator()
+        StaticVarCompensator svc2 = vlnew2.newStaticVarCompensator()
                 .setId("SVC2")
                 .setName("SVC2")
                 .setRegulating(false)
@@ -1059,6 +1059,7 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        svc2.setRegulatingTerminal(svc2.getTerminal());
 
         Substation p4 = network.newSubstation()
                 .setId("P4")
