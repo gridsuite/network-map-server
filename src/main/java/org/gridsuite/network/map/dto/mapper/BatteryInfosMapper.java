@@ -37,14 +37,17 @@ public final class BatteryInfosMapper {
     }
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
-        boolean loadRegulatingTerminals = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
-                .map(Boolean::valueOf).orElse(false);
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable, loadRegulatingTerminals);
+            case TAB -> toTabInfos(identifiable, isLoadRegulatingTerminals(infoTypeParameters));
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Battery");
         };
+    }
+
+    private static boolean isLoadRegulatingTerminals(InfoTypeParameters infoTypeParameters) {
+        return Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
+                .map(Boolean::valueOf).orElse(false);
     }
 
     private static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
