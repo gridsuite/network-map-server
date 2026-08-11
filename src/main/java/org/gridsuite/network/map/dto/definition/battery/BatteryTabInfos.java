@@ -78,4 +78,25 @@ public class BatteryTabInfos extends ElementInfosWithProperties {
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<ShortCircuitInfos> batteryShortCircuit;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalConnectableType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlName;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulatingTerminalVlId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String regulationType;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double targetV;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private boolean voltageRegulatorOn;
+
 }

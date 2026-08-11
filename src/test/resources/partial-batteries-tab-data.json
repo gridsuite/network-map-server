@@ -51,6 +51,13 @@
     "batteryShortCircuit": {
       "directTransX": 1.0,
       "stepUpTransformerX": 2.0
-    }
+    },
+    "regulatingTerminalConnectableId": "GEN",
+    "regulatingTerminalConnectableType": "GENERATOR",
+    "regulatingTerminalVlName": "VLGEN_Name",
+    "regulatingTerminalVlId": "VLGEN",
+    "regulationType": "REMOTE",
+    "targetV": 225.0,
+    "voltageRegulatorOn": true
   }
 ]
