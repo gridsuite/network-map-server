@@ -141,14 +141,14 @@ public class NetworkMapService {
 
     public BusBarSectionsInfos getBusBarSectionsInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        VoltageLevel voltageLevel = Optional.ofNullable(network.getVoltageLevel(voltageLevelId))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, VOLTAGE_LEVEL_NOT_FOUND + voltageLevelId));
+        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
         return TopologyUtils.getBusBarSectionsInfos(voltageLevel);
     }
 
     public Map<String, List<FeederBayInfos>> getFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
-        VoltageLevel voltageLevel = network.getVoltageLevel(voltageLevelId);
+        VoltageLevel voltageLevel = Optional.ofNullable(network.getVoltageLevel(voltageLevelId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, VOLTAGE_LEVEL_NOT_FOUND + voltageLevelId));
         return TopologyUtils.getFeederBaysInfos(voltageLevel);
     }
 
