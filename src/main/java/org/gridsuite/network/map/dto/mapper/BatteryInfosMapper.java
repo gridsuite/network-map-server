@@ -22,8 +22,10 @@ import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_REGULATING_TERMINALS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
 /**
@@ -36,11 +38,16 @@ public final class BatteryInfosMapper {
 
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable);
+            case TAB -> toTabInfos(identifiable, isLoadRegulatingTerminals(infoTypeParameters));
             case FORM -> toFormInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
             default -> throw handleUnsupportedInfoType(infoTypeParameters.getInfoType(), "Battery");
         };
+    }
+
+    private static boolean isLoadRegulatingTerminals(InfoTypeParameters infoTypeParameters) {
+        return Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
+                .map(Boolean::valueOf).orElse(false);
     }
 
     private static List<ReactiveCapabilityCurveMapData> getReactiveCapabilityCurvePoints(Collection<ReactiveCapabilityCurve.Point> points) {
@@ -91,7 +98,7 @@ public final class BatteryInfosMapper {
 
         VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
         if (voltageRegulation != null) {
-            if (voltageRegulation.getRegulatingTerminal() != null && !voltageRegulation.getRegulatingTerminal().getConnectable().getId().equals(battery.getId())) {
+            if (voltageRegulation.getRegulatingTerminal() != null && !voltageRegulation.getRegulatingTerminal().equals(battery.getTerminal())) {
                 builder.regulatingTerminalVlName(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getOptionalName().orElse(null))
                         .regulatingTerminalConnectableId(voltageRegulation.getRegulatingTerminal().getConnectable().getId())
                         .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
@@ -104,7 +111,7 @@ public final class BatteryInfosMapper {
         return builder.build();
     }
 
-    private static BatteryTabInfos toTabInfos(Identifiable<?> identifiable) {
+    private static BatteryTabInfos toTabInfos(Identifiable<?> identifiable, boolean loadRegulatingTerminals) {
         Battery battery = (Battery) identifiable;
         Terminal terminal = battery.getTerminal();
         BatteryTabInfos.BatteryTabInfosBuilder<?, ?> builder = BatteryTabInfos.builder()
@@ -121,6 +128,23 @@ public final class BatteryInfosMapper {
             .p(nullIfNan(terminal.getP()))
             .properties(getProperties(battery))
             .q(nullIfNan(terminal.getQ()));
+
+        VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
+        builder.targetV(voltageRegulation != null ? voltageRegulation.getTargetV() : null);
+        builder.voltageRegulatorOn(voltageRegulation != null && voltageRegulation.isVoltageRegulatorOn());
+
+        if (loadRegulatingTerminals && voltageRegulation != null) {
+            Terminal regulatingTerminal = voltageRegulation.getRegulatingTerminal();
+            builder.regulationType(RegulationType.LOCAL.name());
+            //If there is no regulating terminal in file, regulating terminal voltage level is equal to battery voltage level
+            if (regulatingTerminal != null && !regulatingTerminal.equals(terminal)) {
+                builder.regulatingTerminalVlName(regulatingTerminal.getVoltageLevel().getOptionalName().orElse(null));
+                builder.regulatingTerminalConnectableId(regulatingTerminal.getConnectable().getId());
+                builder.regulatingTerminalConnectableType(regulatingTerminal.getConnectable().getType().name());
+                builder.regulatingTerminalVlId(regulatingTerminal.getVoltageLevel().getId());
+                builder.regulationType(RegulationType.REMOTE.name());
+            }
+        }
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(battery, 0))
                .activePowerControl(ExtensionUtils.toActivePowerControl(battery))

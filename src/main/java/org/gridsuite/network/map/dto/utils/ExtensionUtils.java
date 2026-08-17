@@ -91,6 +91,15 @@ public final class ExtensionUtils {
                         .build());
     }
 
+    public static Optional<ObservabilityAreaInfos> toObservabilityArea(final Bus bus) {
+        return Optional.ofNullable((ObservabilityArea) bus.getVoltageLevel().getExtension(ObservabilityArea.class))
+                .map(observabilityArea -> observabilityArea.getBusView().getObservabilityArea(bus.getId()))
+                .map(areaCharacteristics -> ObservabilityAreaInfos.builder()
+                        .status(areaCharacteristics.getStatus())
+                        .areaNumber(areaCharacteristics.getAreaNumber())
+                        .build());
+    }
+
     private static Map<String, String> getMeasurementProperties(@NonNull final Measurement measurement) {
         Map<String, String> properties = measurement.getPropertyNames()
                 .stream()

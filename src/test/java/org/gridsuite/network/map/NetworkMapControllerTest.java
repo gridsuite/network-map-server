@@ -642,6 +642,11 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
+        b2.newExtension(VoltageRegulationAdder.class)
+                .withTargetV(200)
+                .withRegulatingTerminal(b2.getTerminal())
+                .withVoltageRegulatorOn(true)
+                .add();
         b2.newReactiveCapabilityCurve().beginPoint()
                 .setP(0)
                 .setMinQ(6)
@@ -1042,7 +1047,7 @@ public class NetworkMapControllerTest {
                 .withRedundantV(true)
                 .add();
 
-        vlnew2.newStaticVarCompensator()
+        StaticVarCompensator svc2 = vlnew2.newStaticVarCompensator()
                 .setId("SVC2")
                 .setName("SVC2")
                 .setRegulating(false)
@@ -1054,6 +1059,7 @@ public class NetworkMapControllerTest {
                 .setConnectableBus("NNEW2")
                 .setBus("NNEW2")
                 .add();
+        svc2.setRegulatingTerminal(svc2.getTerminal());
 
         Substation p4 = network.newSubstation()
                 .setId("P4")
@@ -1304,6 +1310,11 @@ public class NetworkMapControllerTest {
             j.getAndIncrement();
             loadEquipment.getTerminal().setP(5 * j.get());
         });
+
+        // Add Observability Area extension for bus test
+        network2.getVoltageLevel("n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1").newExtension(ObservabilityAreaAdder.class)
+                .withObservabilityAreaByBusViewBus("n9828181c-7977-4592-ba19-008976e4254e_voltageLevel1_0", 1, ObservabilityArea.ObservabilityStatus.OBSERVABLE)
+                .add();
 
         Mockito.verifyNoInteractions(networkStoreService);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.ALL_COLLECTIONS_NEEDED_FOR_BUS_VIEW)).willReturn(network);

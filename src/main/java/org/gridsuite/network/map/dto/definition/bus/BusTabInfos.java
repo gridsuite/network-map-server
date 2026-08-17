@@ -11,7 +11,10 @@ import com.powsybl.iidm.network.Country;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
+import org.gridsuite.network.map.dto.definition.extension.ObservabilityAreaInfos;
+
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Hugo Marcellin <hugo.marcelin at rte-france.com>
@@ -45,6 +48,9 @@ public class BusTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Country country;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<ObservabilityAreaInfos> observabilityArea;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> substationProperties;

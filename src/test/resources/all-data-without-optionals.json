@@ -797,7 +797,7 @@
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLGEN",
         "steps": {
-          "0" : {
+          "0": {
             "rho": 0.8500000238418579,
             "r": 0.0,
             "x": 0.0,
@@ -805,7 +805,7 @@
             "b": 0.0,
             "alpha": 1.0
           },
-          "1" : {
+          "1": {
             "rho": 0.8999999761581421,
             "r": 0.0,
             "x": 0.0,
@@ -860,21 +860,21 @@
         "regulatingTerminalConnectableType": "TWO_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLLOAD",
         "steps": {
-          "0" : {
+          "0": {
             "rho": 0.8505666905244191,
             "r": 0.0,
             "x": 0.0,
             "g": 0.0,
             "b": 0.0
           },
-          "1" : {
+          "1": {
             "rho": 1.0006666666666666,
             "r": 0.0,
             "x": 0.0,
             "g": 0.0,
             "b": 0.0
           },
-          "2" : {
+          "2": {
             "rho": 1.150766642808914,
             "r": 0.0,
             "x": 0.0,
@@ -1390,31 +1390,31 @@
         "regulatingTerminalConnectableType": "THREE_WINDINGS_TRANSFORMER",
         "regulatingTerminalVlId": "VLHV1",
         "steps": {
-            "0" : {
+          "0": {
             "rho": 0.99,
             "r": 1.0,
             "x": 4.0,
             "g": 0.5,
             "b": 1.5,
             "alpha": -10.0
-            },
-            "1" : {
+          },
+          "1": {
             "rho": 1.0,
             "r": 1.1,
             "x": 4.1,
             "g": 0.6,
             "b": 1.6,
             "alpha": 0.0
-            },
-            "2" : {
+          },
+          "2": {
             "rho": 1.01,
             "r": 1.2,
             "x": 4.2,
             "g": 0.7,
             "b": 1.7,
             "alpha": 10.0
-            }
-        } 
+          }
+        }
       },
       "hasLoadTapChanging2Capabilities": false,
       "targetV2": 220.0,
@@ -1679,7 +1679,9 @@
       "batteryShortCircuit": {
         "directTransX": 1.0,
         "stepUpTransformerX": 2.0
-      }
+      },
+      "targetV": 225.0,
+      "voltageRegulatorOn": true
     },
     {
       "id": "BATTERY2",
@@ -1728,7 +1730,9 @@
       },
       "substationProperties": {
         "Country": "FR"
-      }
+      },
+      "targetV": 200.0,
+      "voltageRegulatorOn": true
     }
   ],
   "boundaryLines": [
@@ -2299,8 +2303,8 @@
       "nominalVoltage": 24.0,
       "generation": 0.0,
       "load": 0.0,
-      "fictitiousP0" : 0.0,
-      "fictitiousQ0" : 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR"
     },
     {
@@ -2311,8 +2315,8 @@
       "nominalVoltage": 24.0,
       "generation": 0.0,
       "load": 0.0,
-      "fictitiousP0" : 0.0,
-      "fictitiousQ0" : 0.0,
+      "fictitiousP0": 0.0,
+      "fictitiousQ0": 0.0,
       "country": "FR"
     }
   ],

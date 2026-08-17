@@ -12,6 +12,7 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.bus.BusTabInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -59,6 +60,8 @@ public final class BusInfosMapper {
                 .synchronousComponentNum(bus.getSynchronousComponent().getNum())
                 .connectedComponentNum(bus.getConnectedComponent().getNum());
         }
+
+        builder.observabilityArea(ExtensionUtils.toObservabilityArea(bus));
 
         return builder.build();
     }
