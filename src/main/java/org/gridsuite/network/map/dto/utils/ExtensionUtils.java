@@ -16,6 +16,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static org.gridsuite.network.map.dto.utils.ElementUtils.nullIfNan;
+
 public final class ExtensionUtils {
     private ExtensionUtils() { }
 
@@ -39,7 +41,7 @@ public final class ExtensionUtils {
         return Optional.ofNullable((ActivePowerControl<?>) identifiable.getExtension(ActivePowerControl.class))
                 .map(activePowerControl -> ActivePowerControlInfos.builder()
                         .participate(activePowerControl.isParticipate())
-                        .droop(activePowerControl.getDroop())
+                        .droop(nullIfNan(activePowerControl.getDroop()))
                         .maxTargetP(activePowerControl.getMaxTargetP().isPresent() ? activePowerControl.getMaxTargetP().getAsDouble() : null)
                         .build());
     }
