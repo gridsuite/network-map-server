@@ -1,5 +1,8 @@
 spring:
   application:
     name: network-map-server
+  http:
+    converters:
+      preferred-json-mapper: jackson2
 server:
   max-http-header-size: 64000

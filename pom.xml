@@ -49,8 +49,8 @@
         <maven.jib.version>3.5.1</maven.jib.version>
         <jib.from.image>powsybl/java:4.0.0</jib.from.image>
         <jackson-module-jsonSchema.version>2.15.2</jackson-module-jsonSchema.version>
-        <gridsuite-dependencies.version>51.1.0</gridsuite-dependencies.version>
-        <powsybl-network-store-override.version>1.50.0</powsybl-network-store-override.version>
+        <gridsuite-dependencies.version>51.2.0-SNAPSHOT</gridsuite-dependencies.version>
+        <powsybl-network-store-override.version>1.52.0-SNAPSHOT</powsybl-network-store-override.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
     </properties>
@@ -91,15 +91,6 @@
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jsonSchema</artifactId>
                 <version>${jackson-module-jsonSchema.version}</version>
-            </dependency>
-
-            <!-- project specific dependencies (must be before to have priority during resolution)  -->
-            <dependency><!--TODO remove when springboot version will be updated-->
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>5.13.4</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <!-- imports -->
@@ -151,6 +142,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-jackson2</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
@@ -195,6 +190,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
