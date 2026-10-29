@@ -5,7 +5,7 @@
  */
 package org.gridsuite.network.map;
 
-import com.powsybl.network.store.client.RestClientImpl;
+import com.powsybl.network.store.client.ResourceAttributesRestClient;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.services.NetworkMapService;
@@ -46,7 +46,7 @@ class ListHandlingControllerTest {
     private NetworkMapService networkMapService;
 
     @MockitoBean
-    private RestClientImpl restClient;
+    private ResourceAttributesRestClient restClient;
 
     @BeforeEach
     void setUp() {

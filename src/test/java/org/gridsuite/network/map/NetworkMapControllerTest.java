@@ -11,6 +11,7 @@ import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
+import com.powsybl.iidm.network.regulation.RegulationMode;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.iidm.network.test.NetworkTest1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
@@ -620,11 +621,12 @@ public class NetworkMapControllerTest {
                 .withDirectTransX(1.0)
                 .withStepUpTransformerX(2.0)
                 .add();
-        b1.newExtension(VoltageRegulationAdder.class)
-                .withRegulatingTerminal(gen.getTerminal())
-                .withTargetV(225.0)
-                .withVoltageRegulatorOn(true)
-                .add();
+        b1.newVoltageRegulation()
+                .withMode(RegulationMode.VOLTAGE)
+                .withRegulating(true)
+                .withTerminal(gen.getTerminal())
+                .withTargetValue(225.0)
+                .build();
 
         Battery b2 = vlgen3.newBattery()
                 .setId("BATTERY2")
@@ -642,11 +644,11 @@ public class NetworkMapControllerTest {
                 .withDirection(ConnectablePosition.Direction.TOP).add()
                 .add();
         b2.newExtension(ActivePowerControlAdder.class).withParticipate(true).withDroop(3).add();
-        b2.newExtension(VoltageRegulationAdder.class)
-                .withTargetV(200)
-                .withRegulatingTerminal(b2.getTerminal())
-                .withVoltageRegulatorOn(true)
-                .add();
+        b2.setLocalTargetV(200)
+                .newVoltageRegulation()
+                .withMode(RegulationMode.VOLTAGE)
+                .withRegulating(true)
+                .build();
         b2.newReactiveCapabilityCurve().beginPoint()
                 .setP(0)
                 .setMinQ(6)
@@ -1010,7 +1012,7 @@ public class NetworkMapControllerTest {
                 .setId("SVC1")
                 .setName("SVC1")
                 .setRegulating(false)
-                .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
+                .setRegulationMode(RegulationMode.VOLTAGE)
                 .setVoltageSetpoint(200)
                 .setReactivePowerSetpoint(100)
                 .setBmin(2)
@@ -1051,7 +1053,7 @@ public class NetworkMapControllerTest {
                 .setId("SVC2")
                 .setName("SVC2")
                 .setRegulating(false)
-                .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
+                .setRegulationMode(RegulationMode.VOLTAGE)
                 .setVoltageSetpoint(200)
                 .setReactivePowerSetpoint(100)
                 .setBmin(2)

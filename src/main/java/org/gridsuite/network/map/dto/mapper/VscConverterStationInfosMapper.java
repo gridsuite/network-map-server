@@ -48,13 +48,13 @@ public final class VscConverterStationInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
                 .properties(getProperties(vscConverterStation))
-                .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn());
+                .voltageRegulatorOn(vscConverterStation.isRegulating());
 
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
         }
-        if (!Double.isNaN(vscConverterStation.getVoltageSetpoint())) {
-            builder.voltageSetpoint(vscConverterStation.getVoltageSetpoint());
+        if (!Double.isNaN(vscConverterStation.getRegulatingTargetV())) {
+            builder.voltageSetpoint(vscConverterStation.getRegulatingTargetV());
         }
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
@@ -63,8 +63,8 @@ public final class VscConverterStationInfosMapper {
             builder.hvdcLineId(vscConverterStation.getHvdcLine().getId());
         }
 
-        if (!Double.isNaN(vscConverterStation.getReactivePowerSetpoint())) {
-            builder.reactivePowerSetpoint(vscConverterStation.getReactivePowerSetpoint());
+        if (!Double.isNaN(vscConverterStation.getRegulatingTargetQ())) {
+            builder.reactivePowerSetpoint(vscConverterStation.getRegulatingTargetQ());
         }
 
         // voltageLevel and substation properties
@@ -88,9 +88,9 @@ public final class VscConverterStationInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .terminalConnected(terminal.isConnected())
                 .lossFactor(vscConverterStation.getLossFactor())
-                .voltageRegulatorOn(vscConverterStation.isVoltageRegulatorOn())
-                .voltageSetpoint(nullIfNan(vscConverterStation.getVoltageSetpoint()))
-                .reactivePowerSetpoint(nullIfNan(vscConverterStation.getReactivePowerSetpoint()))
+                .voltageRegulatorOn(vscConverterStation.isRegulating())
+                .voltageSetpoint(nullIfNan(vscConverterStation.getRegulatingTargetV()))
+                .reactivePowerSetpoint(nullIfNan(vscConverterStation.getRegulatingTargetQ()))
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .q(nullIfNan(terminal.getQ()))
                 .p(nullIfNan(terminal.getP()))
