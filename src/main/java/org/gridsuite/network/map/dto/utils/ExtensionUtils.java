@@ -122,9 +122,9 @@ public final class ExtensionUtils {
     public static Optional<InjectionObservabilityInfos> toInjectionObservability(@NonNull final Injection<?> injection) {
         return Optional.ofNullable((InjectionObservability<?>) injection.getExtension(InjectionObservability.class))
                 .map(observability -> InjectionObservabilityInfos.builder()
-                        .qualityQ(buildQualityInfos(observability.getQualityQ()))
-                        .qualityP(buildQualityInfos(observability.getQualityP()))
-                        .qualityV(buildQualityInfos(observability.getQualityV()))
+                        .qualityQ(buildQualityInfos(observability.getNullableQualityQ()))
+                        .qualityP(buildQualityInfos(observability.getNullableQualityP()))
+                        .qualityV(buildQualityInfos(observability.getNullableQualityV()))
                         .isObservable(observability.isObservable())
                         .build());
     }

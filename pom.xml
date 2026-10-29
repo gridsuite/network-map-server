@@ -49,8 +49,8 @@
         <maven.jib.version>3.5.1</maven.jib.version>
         <jib.from.image>powsybl/java:4.0.0</jib.from.image>
         <jackson-module-jsonSchema.version>2.15.2</jackson-module-jsonSchema.version>
-        <gridsuite-dependencies.version>51.1.0</gridsuite-dependencies.version>
-        <powsybl-network-store-override.version>1.50.0</powsybl-network-store-override.version>
+        <gridsuite-dependencies.version>51.2.0-SNAPSHOT</gridsuite-dependencies.version>
+        <powsybl-network-store-override.version>1.53.0-SNAPSHOT</powsybl-network-store-override.version>
         <sonar.organization>gridsuite</sonar.organization>
         <sonar.projectKey>org.gridsuite:network-map-server</sonar.projectKey>
     </properties>

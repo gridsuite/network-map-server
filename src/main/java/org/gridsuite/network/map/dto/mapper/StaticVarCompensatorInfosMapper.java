@@ -11,6 +11,8 @@ import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Terminal;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
 import com.powsybl.iidm.network.extensions.StandbyAutomaton;
+import com.powsybl.iidm.network.regulation.RegulationMode;
+import com.powsybl.iidm.network.regulation.VoltageRegulation;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.extension.StandbyAutomatonInfos;
@@ -49,12 +51,12 @@ public final class StaticVarCompensatorInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .nominalV(nullIfNan(terminal.getVoltageLevel().getNominalV()))
-                .regulationMode(staticVarCompensator.getRegulationMode())
+                .regulationMode(getRegulationMode(staticVarCompensator))
                 .isRegulating(staticVarCompensator.isRegulating())
                 .maxSusceptance(nullIfNan(staticVarCompensator.getBmax()))
                 .minSusceptance(nullIfNan(staticVarCompensator.getBmin()))
-                .voltageSetpoint(nullIfNan(staticVarCompensator.getVoltageSetpoint()))
-                .reactivePowerSetpoint(nullIfNan(staticVarCompensator.getReactivePowerSetpoint()))
+                .voltageSetpoint(nullIfNan(staticVarCompensator.getRegulatingTargetV()))
+                .reactivePowerSetpoint(nullIfNan(staticVarCompensator.getRegulatingTargetQ()))
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .properties(getProperties(staticVarCompensator))
                 .connectablePosition(ExtensionUtils.toMapConnectablePosition(staticVarCompensator, 0))
@@ -80,7 +82,7 @@ public final class StaticVarCompensatorInfosMapper {
                 .nominalV(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .properties(getProperties(staticVarCompensator))
-                .regulationMode(staticVarCompensator.getRegulationMode());
+                .regulationMode(getRegulationMode(staticVarCompensator));
 
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
@@ -88,11 +90,11 @@ public final class StaticVarCompensatorInfosMapper {
         if (!Double.isNaN(terminal.getP())) {
             builder.p(terminal.getP());
         }
-        if (!Double.isNaN(staticVarCompensator.getVoltageSetpoint())) {
-            builder.voltageSetpoint(staticVarCompensator.getVoltageSetpoint());
+        if (!Double.isNaN(staticVarCompensator.getRegulatingTargetV())) {
+            builder.voltageSetpoint(staticVarCompensator.getRegulatingTargetV());
         }
-        if (!Double.isNaN(staticVarCompensator.getReactivePowerSetpoint())) {
-            builder.reactivePowerSetpoint(staticVarCompensator.getReactivePowerSetpoint());
+        if (!Double.isNaN(staticVarCompensator.getRegulatingTargetQ())) {
+            builder.reactivePowerSetpoint(staticVarCompensator.getRegulatingTargetQ());
         }
 
         // voltageLevel and substation properties
@@ -104,6 +106,11 @@ public final class StaticVarCompensatorInfosMapper {
         builder.injectionObservability(ExtensionUtils.toInjectionObservability(staticVarCompensator));
 
         return builder.build();
+    }
+
+    private static RegulationMode getRegulationMode(@NonNull final StaticVarCompensator staticVarCompensator) {
+        VoltageRegulation voltageRegulation = staticVarCompensator.getVoltageRegulation();
+        return voltageRegulation != null ? voltageRegulation.getMode() : null;
     }
 
     private static Optional<StandbyAutomatonInfos> toStandbyAutomaton(@NonNull final StaticVarCompensator staticVarCompensator) {
