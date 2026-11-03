@@ -21,6 +21,7 @@ import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTooltipInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.NonNull;
@@ -90,6 +91,18 @@ public final class GeneratorInfosMapper {
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
                 .generatorShortCircuit(ExtensionUtils.toShortCircuit(() -> generator.getExtension(GeneratorShortCircuit.class)))
                 .generatorStartup(toGeneratorStartup(generator));
+
+        Bus bus = terminal.getBusView().getBus();
+        if (bus != null && bus.getId() != null) {
+            // those bus values are only applied if the bus is connected
+            builder.bus(
+                    BusInfos.builder()
+                            .id(bus.getId())
+                            .v(Double.isNaN(bus.getV()) ? null : bus.getV())
+                            .angle(Double.isNaN(bus.getAngle()) ? null : bus.getAngle())
+                            .build()
+            );
+        }
 
         if (loadRegulatingTerminals) {
             Terminal regulatingTerminal = generator.getRegulatingTerminal();
