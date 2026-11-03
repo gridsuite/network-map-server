@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.mapper;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
+import com.powsybl.iidm.network.regulation.VoltageRegulation;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.shuntcompensator.ShuntCompensatorFormInfos;
@@ -64,11 +65,12 @@ public final class ShuntCompensatorMapper {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
-        if (!Double.isNaN(shuntCompensator.getTargetV())) {
-            builder.targetV(shuntCompensator.getTargetV());
+        if (!Double.isNaN(shuntCompensator.getRegulatingTargetV())) {
+            builder.targetV(shuntCompensator.getRegulatingTargetV());
         }
-        if (!Double.isNaN(shuntCompensator.getTargetDeadband())) {
-            builder.targetDeadband(shuntCompensator.getTargetDeadband());
+        VoltageRegulation voltageRegulation = shuntCompensator.getVoltageRegulation();
+        if (voltageRegulation != null && !Double.isNaN(voltageRegulation.getTargetDeadband())) {
+            builder.targetDeadband(voltageRegulation.getTargetDeadband());
         }
 
         builder.connectablePosition(ExtensionUtils.toMapConnectablePosition(shuntCompensator, 0));
@@ -117,8 +119,8 @@ public final class ShuntCompensatorMapper {
         if (!Double.isNaN(terminal.getQ())) {
             builder.q(terminal.getQ());
         }
-        if (!Double.isNaN(shuntCompensator.getTargetV())) {
-            builder.targetV(shuntCompensator.getTargetV());
+        if (!Double.isNaN(shuntCompensator.getRegulatingTargetV())) {
+            builder.targetV(shuntCompensator.getRegulatingTargetV());
         }
 
         // voltageLevel and substation properties

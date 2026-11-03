@@ -75,13 +75,13 @@ public final class GeneratorInfosMapper {
                 .nominalVoltage(terminal.getVoltageLevel().getNominalV())
                 .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
                 .targetP(generator.getTargetP())
-                .targetQ(nullIfNan(generator.getTargetQ()))
-                .targetV(nullIfNan(generator.getTargetV()))
+                .targetQ(nullIfNan(generator.getLocalTargetQ()))
+                .targetV(nullIfNan(generator.getRegulatingTargetV()))
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
                 .ratedS(nullIfNan(generator.getRatedS()))
                 .energySource(generator.getEnergySource())
-                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+                .voltageRegulatorOn(generator.isRegulating())
                 .p(nullIfNan(terminal.getP()))
                 .properties(getProperties(generator))
                 .q(nullIfNan(terminal.getQ()));
@@ -151,13 +151,13 @@ public final class GeneratorInfosMapper {
                 .terminalConnected(terminal.isConnected())
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .targetP(generator.getTargetP())
-                .targetQ(nullIfNan(generator.getTargetQ()))
-                .targetV(nullIfNan(generator.getTargetV()))
+                .targetQ(nullIfNan(generator.getLocalTargetQ()))
+                .targetV(nullIfNan(generator.getRegulatingTargetV()))
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
                 .ratedS(nullIfNan(generator.getRatedS()))
                 .energySource(generator.getEnergySource())
-                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+                .voltageRegulatorOn(generator.isRegulating())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()))
                 .properties(getProperties(generator));
@@ -206,7 +206,7 @@ public final class GeneratorInfosMapper {
             GeneratorTooltipInfos.builder()
                 .id(generator.getId())
                 .targetP(generator.getTargetP())
-                .targetQ(nullIfNan(generator.getTargetQ()))
+                .targetQ(nullIfNan(generator.getLocalTargetQ()))
                 .minP(generator.getMinP())
                 .maxP(generator.getMaxP())
                 .plannedActivePowerSetPoint(
@@ -214,7 +214,7 @@ public final class GeneratorInfosMapper {
                         ? nullIfNan(generatorStartup.getPlannedActivePowerSetpoint())
                         : null
                 )
-                .voltageRegulatorOn(generator.isVoltageRegulatorOn())
+                .voltageRegulatorOn(generator.isRegulating())
                 .p(nullIfNan(terminal.getP()))
                 .q(nullIfNan(terminal.getQ()));
 
