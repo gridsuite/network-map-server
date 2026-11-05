@@ -116,7 +116,10 @@ public final class ExtensionUtils {
                         .stream()
                         .filter(m -> m.getTapChanger() == tapChanger)
                         .findFirst())
-                .map(m -> TapChangerDiscreteMeasurementsInfos.builder().value(m.getValueAsInt()).validity(m.isValid()).build());
+                .map(m -> TapChangerDiscreteMeasurementsInfos.builder()
+                        .value(m.getValueType() == DiscreteMeasurement.ValueType.INT ? m.getValueAsInt() : null)
+                        .validity(m.isValid())
+                        .build());
     }
 
     public static Optional<InjectionObservabilityInfos> toInjectionObservability(@NonNull final Injection<?> injection) {
