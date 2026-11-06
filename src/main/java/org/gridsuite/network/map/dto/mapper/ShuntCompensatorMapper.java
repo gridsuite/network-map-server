@@ -100,6 +100,7 @@ public final class ShuntCompensatorMapper {
                     BusInfos.builder()
                             .id(bus.getId())
                             .v(Double.isNaN(bus.getV()) ? null : bus.getV())
+                            .angle(Double.isNaN(bus.getAngle()) ? null : bus.getAngle())
                             .build()
             );
         }
