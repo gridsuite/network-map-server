@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
@@ -2912,5 +2913,45 @@ public class NetworkMapControllerTest {
         succeedingTestForElementsInfos(NETWORK_UUID, null, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
         succeedingTestForElementsInfos(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.TAB, null, resourceToString("/tie-lines-tab-data.json"));
         succeedingTestForElementInfosInDc(NETWORK_UUID, VARIANT_ID, ElementType.TIE_LINE, InfoType.TAB, "TL1", 0.80, resourceToString("/tie-line-tab-data-dc.json"));
+    }
+
+    private void assertProblemDetailBody(String responseBody, String expectedBusinessErrorCode) throws IOException {
+        JsonNode body = objectMapper.readTree(responseBody);
+        assertEquals(expectedBusinessErrorCode, body.get("businessErrorCode").asText());
+        Assertions.assertTrue(body.has("detail"));
+        Assertions.assertFalse(body.get("detail").asText().isBlank());
+        Assertions.assertTrue(body.has("server"));
+        Assertions.assertFalse(body.get("server").asText().isBlank());
+        Assertions.assertTrue(body.has("timestamp"));
+        Assertions.assertFalse(body.get("timestamp").asText().isBlank());
+    }
+
+    @Test
+    void shouldReturnNetworkNotFoundBusinessErrorCode() throws Exception {
+        String res = mvc.perform(get("/v1/networks/{networkUuid}/countries", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+
+        assertProblemDetailBody(res, "networkMap.networkNotFound");
+    }
+
+    @Test
+    void shouldReturnVoltageLevelNotFoundBusinessErrorCode() throws Exception {
+        String res = mvc.perform(get("/v1/networks/{networkUuid}/voltage-levels/{voltageLevelId}/buses-or-busbar-sections", NETWORK_UUID, "NOT_EXISTING_VL"))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+
+        assertProblemDetailBody(res, "networkMap.voltageLevelNotFound");
+    }
+
+    @Test
+    void shouldReturnElementNotFoundBusinessErrorCode() throws Exception {
+        String res = mvc.perform(get("/v1/networks/{networkUuid}/elements/{elementId}", NETWORK_UUID, "NOT_EXISTING_LINE")
+                        .queryParam(QUERY_PARAM_ELEMENT_TYPE, ElementType.LINE.name())
+                        .queryParam(QUERY_PARAM_INFO_TYPE, InfoType.LIST.name()))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+
+        assertProblemDetailBody(res, "networkMap.elementNotFound");
     }
 }

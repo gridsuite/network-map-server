@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests to assure the {@link NetworkMapController} handle empty {@link List} and {@code null} values the same in endpoints parameters.
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-@WebMvcTest(controllers = NetworkMapController.class)
+@WebMvcTest(controllers = { NetworkMapController.class, PropertyServerNameProvider.class })
 class ListHandlingControllerTest {
     private static final UUID NETWORK_ID = UUID.randomUUID();
 
