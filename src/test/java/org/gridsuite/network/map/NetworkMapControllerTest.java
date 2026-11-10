@@ -80,6 +80,7 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
     public static final String QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS = "loadOperationalLimitGroups";
     public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
+    public static final String QUERY_PARAM_LOAD_GENERATOR_BUS = "loadGeneratorBus";
     public static final String QUERY_PARAM_LOAD_NETWORK_COMPONENTS = "loadNetworkComponents";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
     public static final String QUERY_PARAM_FILTERS = "filters";
@@ -1593,6 +1594,7 @@ public class NetworkMapControllerTest {
         if (withOptionalLoading) {
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_GENERATOR_BUS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_NETWORK_COMPONENTS), String.valueOf(true));
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
@@ -1646,6 +1648,7 @@ public class NetworkMapControllerTest {
         if (withOptionalLoading) {
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_GENERATOR_BUS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_NETWORK_COMPONENTS), String.valueOf(true));
         }
 
@@ -1723,7 +1726,7 @@ public class NetworkMapControllerTest {
                 String.valueOf(ElementType.BRANCH), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
                 String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
                 String.valueOf(ElementType.TWO_WINDINGS_TRANSFORMER), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
-                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true)),
+                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true), QUERY_PARAM_LOAD_GENERATOR_BUS, String.valueOf(true)),
                 String.valueOf(ElementType.BUS), Map.of(QUERY_PARAM_LOAD_NETWORK_COMPONENTS, String.valueOf(true))
             );
         } else {
