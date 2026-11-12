@@ -21,7 +21,6 @@ import org.gridsuite.network.map.dto.definition.extension.GeneratorStartupInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorFormInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTabInfos;
 import org.gridsuite.network.map.dto.definition.generator.GeneratorTooltipInfos;
-import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.springframework.lang.NonNull;
@@ -95,16 +94,7 @@ public final class GeneratorInfosMapper {
                 .generatorStartup(toGeneratorStartup(generator));
 
         if (loadGeneratorBus) {
-            Bus bus = terminal.getBusView().getBus();
-            if (bus != null && bus.getId() != null) {
-                builder.bus(
-                        BusInfos.builder()
-                                .id(bus.getId())
-                                .v(Double.isNaN(bus.getV()) ? null : bus.getV())
-                                .angle(Double.isNaN(bus.getAngle()) ? null : bus.getAngle())
-                                .build()
-                );
-            }
+            builder.bus(toBusInfos(terminal.getBusView().getBus()));
         }
 
         if (loadRegulatingTerminals) {

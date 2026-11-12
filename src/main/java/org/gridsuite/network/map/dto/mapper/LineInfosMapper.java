@@ -6,7 +6,6 @@
  */
 package org.gridsuite.network.map.dto.mapper;
 
-import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Identifiable;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Terminal;
@@ -15,7 +14,6 @@ import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.dto.definition.branch.line.*;
 import org.gridsuite.network.map.dto.definition.branch.line.LineTabInfos.LineTabInfosBuilder;
-import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 
 import java.util.List;
@@ -146,17 +144,6 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .b2(line.getB2())
                 .bus1(loadLineBus ? toBusInfos(line.getTerminal1().getBusView().getBus()) : null)
                 .bus2(loadLineBus ? toBusInfos(line.getTerminal2().getBusView().getBus()) : null)
-                .build();
-    }
-
-    private static BusInfos toBusInfos(Bus bus) {
-        if (bus == null || bus.getId() == null) {
-            return null;
-        }
-        return BusInfos.builder()
-                .id(bus.getId())
-                .v(nullIfNan(bus.getV()))
-                .angle(nullIfNan(bus.getAngle()))
                 .build();
     }
 
