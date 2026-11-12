@@ -9,7 +9,7 @@ package org.gridsuite.network.map.dto.mapper;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.BatteryShortCircuit;
 import com.powsybl.iidm.network.extensions.Measurement.Type;
-import com.powsybl.iidm.network.extensions.VoltageRegulation;
+import com.powsybl.iidm.network.regulation.VoltageRegulation;
 import com.powsybl.network.store.iidm.impl.MinMaxReactiveLimitsImpl;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
@@ -69,7 +69,7 @@ public final class BatteryInfosMapper {
                 .voltageLevelId(terminal.getVoltageLevel().getId())
                 .busOrBusbarSectionId(getBusOrBusbarSection(terminal))
                 .targetP(battery.getTargetP())
-                .targetQ(nullIfNan(battery.getTargetQ()))
+                .targetQ(nullIfNan(battery.getLocalTargetQ()))
                 .minP(battery.getMinP())
                 .maxP(battery.getMaxP())
                 .p(nullIfNan(terminal.getP()))
@@ -96,16 +96,16 @@ public final class BatteryInfosMapper {
         builder.measurementP(ExtensionUtils.toMeasurement(battery, Type.ACTIVE_POWER, 0))
                 .measurementQ(ExtensionUtils.toMeasurement(battery, Type.REACTIVE_POWER, 0));
 
-        VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
+        VoltageRegulation voltageRegulation = battery.getVoltageRegulation();
         if (voltageRegulation != null) {
-            if (voltageRegulation.getRegulatingTerminal() != null && !voltageRegulation.getRegulatingTerminal().equals(battery.getTerminal())) {
-                builder.regulatingTerminalVlName(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getOptionalName().orElse(null))
-                        .regulatingTerminalConnectableId(voltageRegulation.getRegulatingTerminal().getConnectable().getId())
-                        .regulatingTerminalConnectableType(voltageRegulation.getRegulatingTerminal().getConnectable().getType().name())
-                        .regulatingTerminalVlId(voltageRegulation.getRegulatingTerminal().getVoltageLevel().getId());
+            if (voltageRegulation.getTerminal() != null && !voltageRegulation.getTerminal().equals(battery.getTerminal())) {
+                builder.regulatingTerminalVlName(voltageRegulation.getTerminal().getVoltageLevel().getOptionalName().orElse(null))
+                        .regulatingTerminalConnectableId(voltageRegulation.getTerminal().getConnectable().getId())
+                        .regulatingTerminalConnectableType(voltageRegulation.getTerminal().getConnectable().getType().name())
+                        .regulatingTerminalVlId(voltageRegulation.getTerminal().getVoltageLevel().getId());
             }
-            builder.voltageRegulatorOn(voltageRegulation.isVoltageRegulatorOn())
-                    .targetV(nullIfNan(voltageRegulation.getTargetV()));
+            builder.voltageRegulatorOn(battery.isRegulating())
+                    .targetV(nullIfNan(battery.getRegulatingTargetV()));
         }
 
         return builder.build();
@@ -122,19 +122,19 @@ public final class BatteryInfosMapper {
             .nominalVoltage(terminal.getVoltageLevel().getNominalV())
             .country(mapCountry(terminal.getVoltageLevel().getSubstation().orElse(null)))
             .targetP(battery.getTargetP())
-            .targetQ(nullIfNan(battery.getTargetQ()))
+            .targetQ(nullIfNan(battery.getLocalTargetQ()))
             .minP(battery.getMinP())
             .maxP(battery.getMaxP())
             .p(nullIfNan(terminal.getP()))
             .properties(getProperties(battery))
             .q(nullIfNan(terminal.getQ()));
 
-        VoltageRegulation voltageRegulation = battery.getExtension(VoltageRegulation.class);
-        builder.targetV(voltageRegulation != null ? voltageRegulation.getTargetV() : null);
-        builder.voltageRegulatorOn(voltageRegulation != null && voltageRegulation.isVoltageRegulatorOn());
+        VoltageRegulation voltageRegulation = battery.getVoltageRegulation();
+        builder.targetV(voltageRegulation != null ? battery.getRegulatingTargetV() : null);
+        builder.voltageRegulatorOn(battery.isRegulating());
 
         if (loadRegulatingTerminals && voltageRegulation != null) {
-            Terminal regulatingTerminal = voltageRegulation.getRegulatingTerminal();
+            Terminal regulatingTerminal = voltageRegulation.getTerminal();
             builder.regulationType(RegulationType.LOCAL.name());
             //If there is no regulating terminal in file, regulating terminal voltage level is equal to battery voltage level
             if (regulatingTerminal != null && !regulatingTerminal.equals(terminal)) {

@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.utils;
 
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.ConnectablePosition;
+import com.powsybl.iidm.network.regulation.VoltageRegulation;
 import com.powsybl.iidm.network.util.BusbarSectionFinderTraverser;
 import org.gridsuite.network.map.dto.ElementInfos;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
@@ -149,13 +150,14 @@ public final class ElementUtils {
                 .tapPosition(tapChanger.getTapPosition())
                 .isRegulating(tapChanger.isRegulating())
                 .hasLoadTapChangingCapabilities(tapChanger.hasLoadTapChangingCapabilities())
-                .regulatingTerminalConnectableId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getId() : null)
-                .regulatingTerminalConnectableType(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getConnectable().getType().name() : null)
-                .regulatingTerminalVlId(tapChanger.getRegulationTerminal() != null ? tapChanger.getRegulationTerminal().getVoltageLevel().getId() : null);
+                .regulatingTerminalConnectableId(tapChanger.getRegulatingTerminal() != null ? tapChanger.getRegulatingTerminal().getConnectable().getId() : null)
+                .regulatingTerminalConnectableType(tapChanger.getRegulatingTerminal() != null ? tapChanger.getRegulatingTerminal().getConnectable().getType().name() : null)
+                .regulatingTerminalVlId(tapChanger.getRegulatingTerminal() != null ? tapChanger.getRegulatingTerminal().getVoltageLevel().getId() : null);
 
         builder.steps(toMapDataRatioStep(tapChanger.getAllSteps()));
-        builder.targetV(nullIfNan(tapChanger.getTargetV()));
-        builder.targetDeadband(nullIfNan(tapChanger.getTargetDeadband()));
+        builder.targetV(nullIfNan(tapChanger.getRegulatingTargetV()));
+        VoltageRegulation voltageRegulation = tapChanger.getVoltageRegulation();
+        builder.targetDeadband(voltageRegulation != null ? nullIfNan(voltageRegulation.getTargetDeadband()) : null);
         return builder.build();
     }
 
