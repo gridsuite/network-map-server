@@ -283,6 +283,13 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+        t2.newExtension(DiscreteMeasurementsAdder.class).add();
+        DiscreteMeasurements<TwoWindingsTransformer> t2DiscreteMeasurements = t2.getExtension(DiscreteMeasurements.class);
+        t2DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11)
+                .add();
+        t2DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7)
+                .add();
+
         //add substation p0 that is not attached to voltage levels
         Substation p0 = network.newSubstation().setId("P0").add();
         p0 .setCountry(Country.FR);

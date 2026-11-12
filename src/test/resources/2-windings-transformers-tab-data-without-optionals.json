@@ -104,6 +104,14 @@
       "connectionDirection": "BOTTOM",
       "connectionPosition": 0,
       "connectionName": "feederName2"
+    },
+    "measurementRatioTap": {
+      "value": 11,
+      "validity": true
+    },
+    "measurementPhaseTap": {
+      "value": 7,
+      "validity": false
     }
   },
   {

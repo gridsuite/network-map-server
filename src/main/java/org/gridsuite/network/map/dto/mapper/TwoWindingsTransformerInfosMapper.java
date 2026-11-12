@@ -100,6 +100,9 @@ public final class TwoWindingsTransformerInfosMapper extends BranchInfosMapper {
                 .measurementP2(ExtensionUtils.toMeasurement(twoWT, Type.ACTIVE_POWER, 1))
                 .measurementQ2(ExtensionUtils.toMeasurement(twoWT, Type.REACTIVE_POWER, 1));
 
+        builder.measurementRatioTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, TapChanger.RATIO_TAP_CHANGER))
+                .measurementPhaseTap(ExtensionUtils.toMeasurementTapChanger(twoWT, DiscreteMeasurement.Type.TAP_POSITION, TapChanger.PHASE_TAP_CHANGER));
+
         builder.toBeEstimated(toToBeEstimated(twoWT));
 
         return builder.build();
