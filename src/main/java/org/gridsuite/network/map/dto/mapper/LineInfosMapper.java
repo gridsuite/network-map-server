@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
-import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_LINE_BUS;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_BUS;
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -37,7 +37,7 @@ public final class LineInfosMapper extends BranchInfosMapper {
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
             .map(Boolean::valueOf).orElse(false);
-        boolean loadLineBus = Boolean.parseBoolean(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_LINE_BUS));
+        boolean loadLineBus = Boolean.parseBoolean(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_BUS));
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups, loadLineBus);
             case FORM -> toFormInfos(identifiable);

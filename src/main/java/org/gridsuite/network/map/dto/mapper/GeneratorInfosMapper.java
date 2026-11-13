@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_GENERATOR_BUS;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_BUS;
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_REGULATING_TERMINALS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -46,7 +46,7 @@ public final class GeneratorInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         boolean loadRegulatingTerminals = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
             .map(Boolean::valueOf).orElse(false);
-        boolean loadGeneratorBus = Boolean.parseBoolean(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_GENERATOR_BUS));
+        boolean loadGeneratorBus = Boolean.parseBoolean(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_BUS));
         return switch (infoTypeParameters.getInfoType()) {
             case TAB -> toTabInfos(identifiable, loadRegulatingTerminals, loadGeneratorBus);
             case FORM -> toFormInfos(identifiable);
