@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_BUS;
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_REGULATING_TERMINALS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -45,8 +46,9 @@ public final class GeneratorInfosMapper {
     public static ElementInfos toData(Identifiable<?> identifiable, InfoTypeParameters infoTypeParameters) {
         boolean loadRegulatingTerminals = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_REGULATING_TERMINALS))
             .map(Boolean::valueOf).orElse(false);
+        boolean loadGeneratorBus = Boolean.parseBoolean(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_BUS));
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable, loadRegulatingTerminals);
+            case TAB -> toTabInfos(identifiable, loadRegulatingTerminals, loadGeneratorBus);
             case FORM -> toFormInfos(identifiable);
             case TOOLTIP -> toTooltipInfos(identifiable);
             case LIST -> ElementInfosMapper.toInfosWithType(identifiable);
@@ -64,7 +66,7 @@ public final class GeneratorInfosMapper {
                 .collect(Collectors.toList());
     }
 
-    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable, boolean loadRegulatingTerminals) {
+    private static GeneratorTabInfos toTabInfos(Identifiable<?> identifiable, boolean loadRegulatingTerminals, boolean loadGeneratorBus) {
         Generator generator = (Generator) identifiable;
         Terminal terminal = generator.getTerminal();
         GeneratorTabInfos.GeneratorTabInfosBuilder<?, ?> builder = GeneratorTabInfos.builder()
@@ -90,6 +92,10 @@ public final class GeneratorInfosMapper {
                 .coordinatedReactiveControl(toCoordinatedReactiveControl(generator))
                 .generatorShortCircuit(ExtensionUtils.toShortCircuit(() -> generator.getExtension(GeneratorShortCircuit.class)))
                 .generatorStartup(toGeneratorStartup(generator));
+
+        if (loadGeneratorBus) {
+            builder.bus(toBusInfos(terminal.getBusView().getBus()));
+        }
 
         if (loadRegulatingTerminals) {
             Terminal regulatingTerminal = generator.getRegulatingTerminal();
@@ -126,9 +132,9 @@ public final class GeneratorInfosMapper {
 
         builder.isCondenser(generator.isCondenser());
 
-        // substation attrubutes
+        // substation attributes
         builder.substationId(terminal.getVoltageLevel().getSubstation().map(Substation::getId).orElse(null));
-        builder.substationName(terminal.getVoltageLevel().getSubstation().map(Substation::getOptionalName).orElse(null).orElse(null));
+        builder.substationName(terminal.getVoltageLevel().getSubstation().flatMap(Substation::getOptionalName).orElse(null));
         builder.substationProperties(terminal.getVoltageLevel().getSubstation().map(ElementUtils::getProperties).orElse(null));
 
         // voltage level attributes

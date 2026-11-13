@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.definition.branch.BranchTabInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 
 /**
  * @author Slimane Amar <slimane.amar at rte-france.com>
@@ -28,4 +29,10 @@ public class LineTabInfos extends BranchTabInfos {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double b2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private BusInfos bus1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private BusInfos bus2;
 }
