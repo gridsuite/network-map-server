@@ -6,13 +6,17 @@
  */
 package org.gridsuite.network.map;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.powsybl.ws.commons.error.BaseExceptionHandler;
 import org.apache.commons.lang3.tuple.Pair;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.error.NetworkMapExceptionHandler;
 import org.gridsuite.network.map.services.SchemaService;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -28,13 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(SchemaController.class)
-@Import(SchemaService.class)
+@Import({BaseExceptionHandler.class, NetworkMapExceptionHandler.class, PropertyServerNameProvider.class, SchemaService.class})
 class SchemaControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -68,5 +75,21 @@ class SchemaControllerTest {
         } else {
             result.andExpect(status().isNotImplemented());
         }
+    }
+
+    @Test
+    void schemaNotFoundShouldReturnBusinessErrorCode() throws Exception {
+        String res = mockMvc.perform(get("/v1/schemas/{eType}/{iType}", ElementType.GENERATOR, InfoType.FORM))
+                .andExpect(status().isNotImplemented())
+                .andReturn().getResponse().getContentAsString();
+
+        JsonNode body = new ObjectMapper().readTree(res);
+        assertEquals("networkMap.schemaNotFound", body.get("businessErrorCode").asText());
+        assertTrue(body.has("detail"));
+        assertFalse(body.get("detail").asText().isBlank());
+        assertTrue(body.has("server"));
+        assertFalse(body.get("server").asText().isBlank());
+        assertTrue(body.has("timestamp"));
+        assertFalse(body.get("timestamp").asText().isBlank());
     }
 }
