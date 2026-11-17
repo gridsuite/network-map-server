@@ -8,7 +8,7 @@ package org.gridsuite.network.map.dto.definition.staticvarcompensator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
-import com.powsybl.iidm.network.StaticVarCompensator;
+import com.powsybl.iidm.network.regulation.RegulationMode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
@@ -34,7 +34,7 @@ public class StaticVarCompensatorTabInfos extends ElementInfosWithProperties {
 
     private Boolean terminalConnected;
 
-    private StaticVarCompensator.RegulationMode regulationMode;
+    private RegulationMode regulationMode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p;
