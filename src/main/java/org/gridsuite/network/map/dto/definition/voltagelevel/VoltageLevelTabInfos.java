@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.definition.extension.IdentifiableShortCircuitInfos;
+import org.gridsuite.powsybl.extras.iidm.network.extensions.api.VoltageLevelInvalidityAccessor;
 
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +40,9 @@ public class VoltageLevelTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<IdentifiableShortCircuitInfos> identifiableShortCircuit;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private VoltageLevelInvalidityAccessor.InvalidityType invalidityType;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> substationProperties;

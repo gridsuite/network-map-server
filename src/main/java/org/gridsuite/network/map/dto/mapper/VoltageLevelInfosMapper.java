@@ -21,6 +21,7 @@ import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTabInfo
 import org.gridsuite.network.map.dto.definition.voltagelevel.VoltageLevelTooltipInfos;
 import org.gridsuite.network.map.dto.utils.ElementUtils;
 import org.gridsuite.network.map.dto.utils.ExtensionUtils;
+import org.gridsuite.powsybl.extras.iidm.network.extensions.api.VoltageLevelInvalidityAccessor;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -139,6 +140,7 @@ public final class VoltageLevelInfosMapper {
                 .lowVoltageLimit(nullIfNan(voltageLevel.getLowVoltageLimit()))
                 .properties(getProperties(voltageLevel))
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()))
+                .invalidityType(VoltageLevelInvalidityAccessor.getInvalidityType(voltageLevel).orElse(null))
                 .substationProperties(voltageLevel.getSubstation().map(ElementUtils::getProperties).orElse(null));
         builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
 
