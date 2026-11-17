@@ -83,6 +83,9 @@
         "isRedundant": true
       },
       "observable": true
+    },
+    "bus": {
+      "id": "VLGEN_0"
     }
   },
   {
@@ -147,6 +150,9 @@
     },
     "voltageLevelProperties": {
       "Country": "FR"
+    },
+    "bus": {
+      "id": "VLGEN_0"
     }
   }
 ]

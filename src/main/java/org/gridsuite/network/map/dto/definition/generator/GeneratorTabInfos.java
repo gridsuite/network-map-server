@@ -15,6 +15,8 @@ import org.gridsuite.network.map.dto.ElementInfosWithProperties;
 import org.gridsuite.network.map.dto.common.MinMaxReactiveLimitsMapData;
 import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.definition.extension.*;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -129,4 +131,7 @@ public class GeneratorTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<InjectionObservabilityInfos> injectionObservability;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private BusInfos bus;
 }
