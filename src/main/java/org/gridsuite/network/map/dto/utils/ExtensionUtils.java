@@ -4,6 +4,7 @@ import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.iidm.network.extensions.*;
 import com.powsybl.iidm.network.extensions.DiscreteMeasurement.TapChanger;
+import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidity;
 import org.gridsuite.network.map.dto.definition.extension.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -130,6 +131,11 @@ public final class ExtensionUtils {
                         .qualityV(buildQualityInfos(observability.getQualityV()))
                         .isObservable(observability.isObservable())
                         .build());
+    }
+
+    public static Optional<VoltageLevelInvalidity.InvalidityType> toVoltageLevelInvalidityType(@NonNull final VoltageLevel voltageLevel) {
+        return Optional.ofNullable((VoltageLevelInvalidity) voltageLevel.getExtension(VoltageLevelInvalidity.class))
+                .map(VoltageLevelInvalidity::getInvalidityType);
     }
 
     public static ObservabilityQualityInfos buildQualityInfos(@Nullable final ObservabilityQuality<?> quality) {

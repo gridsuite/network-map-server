@@ -16,6 +16,8 @@ import com.powsybl.iidm.network.test.NetworkTest1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
+import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidity;
+import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidityAdder;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
 import org.junit.jupiter.api.AfterAll;
@@ -37,10 +39,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -552,6 +551,9 @@ public class NetworkMapControllerTest {
                 .setId("VLGEN6")
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
+                .add();
+        vlgen6.newExtension(VoltageLevelInvalidityAdder.class)
+                .withInvalidityType(VoltageLevelInvalidity.InvalidityType.NOT_FULLY_DESCRIBED)
                 .add();
         vlgen6.getBusBreakerView().newBus()
                 .setId("NGEN6")
