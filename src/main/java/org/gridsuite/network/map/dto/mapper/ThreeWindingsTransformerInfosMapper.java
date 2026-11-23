@@ -147,7 +147,7 @@ public final class ThreeWindingsTransformerInfosMapper {
             setRatioTapChanger.accept(toMapData(ratioTapChanger));
             setHasLoadTapChangingCapabilities.accept(ratioTapChanger.hasLoadTapChangingCapabilities());
             isRegulatingRatio.accept(ratioTapChanger.isRegulating());
-            setIfNotNan(setTargetV, ratioTapChanger.getTargetV());
+            setIfNotNan(setTargetV, ratioTapChanger.getRegulatingTargetV());
         }
         if (leg.hasPhaseTapChanger()) {
             final PhaseTapChanger phaseTapChanger = leg.getPhaseTapChanger();

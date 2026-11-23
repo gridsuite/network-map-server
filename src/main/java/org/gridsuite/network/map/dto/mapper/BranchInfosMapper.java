@@ -145,10 +145,10 @@ public sealed class BranchInfosMapper permits LineInfosMapper, TieLineInfosMappe
     private static Optional<BranchObservabilityInfos> toBranchObservability(@NonNull final Branch<?> branch) {
         return Optional.ofNullable((BranchObservability<?>) branch.getExtension(BranchObservability.class))
             .map(observability -> BranchObservabilityInfos.builder()
-                .qualityP1(buildQualityInfos(observability.getQualityP1()))
-                .qualityP2(buildQualityInfos(observability.getQualityP2()))
-                .qualityQ1(buildQualityInfos(observability.getQualityQ1()))
-                .qualityQ2(buildQualityInfos(observability.getQualityQ2()))
+                .qualityP1(buildQualityInfos(observability.getNullableQualityP1()))
+                .qualityP2(buildQualityInfos(observability.getNullableQualityP2()))
+                .qualityQ1(buildQualityInfos(observability.getNullableQualityQ1()))
+                .qualityQ2(buildQualityInfos(observability.getNullableQualityQ2()))
                 .isObservable(observability.isObservable())
                 .build());
     }
