@@ -8,6 +8,7 @@ package org.gridsuite.network.map.dto.definition.voltagelevel;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.powsybl.iidm.network.Country;
+import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidity;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.gridsuite.network.map.dto.ElementInfosWithProperties;
@@ -39,6 +40,9 @@ public class VoltageLevelTabInfos extends ElementInfosWithProperties {
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     private Optional<IdentifiableShortCircuitInfos> identifiableShortCircuit;
+
+    @JsonInclude(JsonInclude.Include.NON_ABSENT)
+    private Optional<VoltageLevelInvalidity.InvalidityType> invalidityType;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> substationProperties;
