@@ -17,13 +17,15 @@ import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
 import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidity;
-import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidityAdder;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -45,6 +47,7 @@ import java.util.function.Function;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_BUS_ID_TO_ICC_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -94,9 +97,12 @@ public class NetworkMapControllerTest {
 
     private Network network;
 
+    private MockedStatic<ExtensionUtils> extensionUtilsMock;
+
     @SuppressWarnings("checkstyle:MethodLength")
     @BeforeEach
     void setUp() {
+        extensionUtilsMock = Mockito.mockStatic(ExtensionUtils.class, Mockito.CALLS_REAL_METHODS);
         network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
@@ -552,9 +558,9 @@ public class NetworkMapControllerTest {
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
                 .add();
-        vlgen6.newExtension(VoltageLevelInvalidityAdder.class)
-                .withInvalidityType(VoltageLevelInvalidity.InvalidityType.NOT_FULLY_DESCRIBED)
-                .add();
+        // No VoltageLevelInvalidity implementation is available for network-store
+        extensionUtilsMock.when(() -> ExtensionUtils.toVoltageLevelInvalidityType(argThat(vl -> vl != null && "VLGEN6".equals(vl.getId()))))
+                .thenReturn(Optional.of(VoltageLevelInvalidity.InvalidityType.NOT_FULLY_DESCRIBED));
         vlgen6.getBusBreakerView().newBus()
                 .setId("NGEN6")
                 .add();
@@ -1335,6 +1341,11 @@ public class NetworkMapControllerTest {
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.COLLECTION)).willReturn(network2);
         given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.NONE)).willReturn(network2);
+    }
+
+    @AfterEach
+    void closeMocks() {
+        extensionUtilsMock.close();
     }
 
     @AfterAll
