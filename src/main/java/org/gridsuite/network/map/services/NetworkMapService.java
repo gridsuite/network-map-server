@@ -23,6 +23,7 @@ import org.gridsuite.network.map.dto.definition.topology.SwitchInfos;
 import org.gridsuite.network.map.dto.mapper.ElementInfosMapper;
 import org.gridsuite.network.map.dto.mapper.HvdcInfosMapper;
 import org.gridsuite.network.map.dto.utils.TopologyUtils;
+import org.gridsuite.network.map.error.NetworkMapException;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -45,7 +46,6 @@ import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_
 @Service
 @AllArgsConstructor
 public class NetworkMapService {
-    public static final String VOLTAGE_LEVEL_NOT_FOUND = "Voltage level not found: ";
     private final NetworkStoreService networkStoreService;
 
     private Network getNetwork(UUID networkUuid, PreloadingStrategy strategy, String variantId) {
@@ -55,8 +55,8 @@ public class NetworkMapService {
                 network.getVariantManager().setWorkingVariant(variantId);
             }
             return network;
-        } catch (PowsyblException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (PowsyblException _) {
+            throw NetworkMapException.createNetworkNotFound(networkUuid);
         }
     }
 
@@ -129,7 +129,7 @@ public class NetworkMapService {
     public List<ElementInfos> getVoltageLevelBusesOrBusbarSections(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = Optional.ofNullable(network.getVoltageLevel(voltageLevelId))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, VOLTAGE_LEVEL_NOT_FOUND + voltageLevelId));
+                .orElseThrow(() -> NetworkMapException.createVoltageLevelNotFound(voltageLevelId));
         TopologyKind topologyKind = voltageLevel.getTopologyKind();
         return switch (topologyKind) {
             case NODE_BREAKER -> network.getVoltageLevel(voltageLevelId).getNodeBreakerView().getBusbarSectionStream()
@@ -148,7 +148,7 @@ public class NetworkMapService {
     public Map<String, List<FeederBayInfos>> getFeederBaysInfos(UUID networkUuid, String voltageLevelId, String variantId) {
         Network network = getNetwork(networkUuid, PreloadingStrategy.NONE, variantId);
         VoltageLevel voltageLevel = Optional.ofNullable(network.getVoltageLevel(voltageLevelId))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, VOLTAGE_LEVEL_NOT_FOUND + voltageLevelId));
+                .orElseThrow(() -> NetworkMapException.createVoltageLevelNotFound(voltageLevelId));
         return TopologyUtils.getFeederBaysInfos(voltageLevel);
     }
 
@@ -343,7 +343,7 @@ public class NetworkMapService {
             identifiable = network.getIdentifiable(elementId);
         }
         if (identifiable == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw NetworkMapException.createElementNotFound(elementId);
         }
         return elementType.getInfosGetter().apply(identifiable, infoTypeParameters);
     }
