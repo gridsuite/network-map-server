@@ -14,6 +14,7 @@ import org.gridsuite.network.map.dto.common.ReactiveCapabilityCurveMapData;
 import org.gridsuite.network.map.dto.common.TapChangerData;
 import org.gridsuite.network.map.dto.common.TapChangerStepData;
 import org.gridsuite.network.map.dto.definition.extension.ConnectablePositionInfos;
+import org.gridsuite.network.map.dto.definition.topology.BusInfos;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -34,6 +35,17 @@ public final class ElementUtils {
 
     public static Double nullIfNan(double d) {
         return Double.isNaN(d) ? null : d;
+    }
+
+    public static BusInfos toBusInfos(Bus bus) {
+        if (bus == null || bus.getId() == null) {
+            return null;
+        }
+        return BusInfos.builder()
+                .id(bus.getId())
+                .v(nullIfNan(bus.getV()))
+                .angle(nullIfNan(bus.getAngle()))
+                .build();
     }
 
     public static void setIfNotNan(@NonNull final DoubleConsumer setter, final double value) {

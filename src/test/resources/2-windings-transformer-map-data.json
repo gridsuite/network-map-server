@@ -74,5 +74,13 @@
     "connectionPosition": 0
   },
   "busOrBusbarSectionId1": "NGEN",
-  "busOrBusbarSectionId2": "NHV1"
+  "busOrBusbarSectionId2": "NHV1",
+  "measurementRatioTap": {
+    "value": 11,
+    "validity": true
+  },
+  "measurementPhaseTap": {
+    "value": 7,
+    "validity": false
+  }
 }

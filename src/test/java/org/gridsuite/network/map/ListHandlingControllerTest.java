@@ -5,7 +5,7 @@
  */
 package org.gridsuite.network.map;
 
-import com.powsybl.network.store.client.RestClientImpl;
+import com.powsybl.network.store.client.ResourceAttributesRestClientImpl;
 import org.gridsuite.network.map.dto.ElementType;
 import org.gridsuite.network.map.dto.InfoTypeParameters;
 import org.gridsuite.network.map.services.NetworkMapService;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Tests to assure the {@link NetworkMapController} handle empty {@link List} and {@code null} values the same in endpoints parameters.
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-@WebMvcTest(controllers = NetworkMapController.class)
+@WebMvcTest(controllers = { NetworkMapController.class, PropertyServerNameProvider.class })
 class ListHandlingControllerTest {
     private static final UUID NETWORK_ID = UUID.randomUUID();
 
@@ -46,7 +46,7 @@ class ListHandlingControllerTest {
     private NetworkMapService networkMapService;
 
     @MockitoBean
-    private RestClientImpl restClient;
+    private ResourceAttributesRestClientImpl restClient;
 
     @BeforeEach
     void setUp() {

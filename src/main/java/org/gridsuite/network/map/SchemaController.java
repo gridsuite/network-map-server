@@ -15,13 +15,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.error.NetworkMapException;
 import org.gridsuite.network.map.services.SchemaService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping(value = "/" + NetworkMapApi.API_VERSION + "/schemas")
@@ -39,7 +38,7 @@ public class SchemaController {
         try {
             return schemaService.getSchema(elementType, infoType);
         } catch (final UnsupportedOperationException | JsonMappingException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, "The view " + infoType + " for " + elementType + " type is not available yet.");
+            throw NetworkMapException.createSchemaNotFound(elementType, infoType);
         }
     }
 }
