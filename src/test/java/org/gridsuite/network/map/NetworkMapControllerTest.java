@@ -17,12 +17,16 @@ import com.powsybl.iidm.network.test.NetworkTest1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import com.powsybl.network.store.iidm.impl.NetworkFactoryImpl;
+import com.rte_france.powsybl.iidm.network.extensions.api.VoltageLevelInvalidity;
 import org.gridsuite.network.map.dto.ElementInfos.InfoType;
 import org.gridsuite.network.map.dto.ElementType;
+import org.gridsuite.network.map.dto.utils.ExtensionUtils;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -38,15 +42,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_BUS_ID_TO_ICC_VALUES;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -81,9 +83,9 @@ public class NetworkMapControllerTest {
     public static final String QUERY_PARAM_DC_POWER_FACTOR = "dcPowerFactor";
     public static final String QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS = "loadOperationalLimitGroups";
     public static final String QUERY_PARAM_LOAD_REGULATING_TERMINALS = "loadRegulatingTerminals";
+    public static final String QUERY_PARAM_LOAD_BUS = "loadBus";
     public static final String QUERY_PARAM_LOAD_NETWORK_COMPONENTS = "loadNetworkComponents";
     public static final String QUERY_PARAM_NOMINAL_VOLTAGES = "nominalVoltages";
-    public static final String QUERY_PARAM_FILTERS = "filters";
 
     @Autowired
     private MockMvc mvc;
@@ -96,9 +98,12 @@ public class NetworkMapControllerTest {
 
     private Network network;
 
+    private MockedStatic<ExtensionUtils> extensionUtilsMock;
+
     @SuppressWarnings("checkstyle:MethodLength")
     @BeforeEach
     void setUp() {
+        extensionUtilsMock = Mockito.mockStatic(ExtensionUtils.class, Mockito.CALLS_REAL_METHODS);
         network = EurostagTutorialExample1Factory.createWithMoreGenerators(new NetworkFactoryImpl());
         Line l1 = network.getLine("NHV1_NHV2_1");
         l1.getTerminal1().setP(1.1)
@@ -282,6 +287,13 @@ public class NetworkMapControllerTest {
                 .withOrder(0)
                 .withDirection(ConnectablePosition.Direction.BOTTOM).add()
                 .add();
+        t2.newExtension(DiscreteMeasurementsAdder.class).add();
+        DiscreteMeasurements<TwoWindingsTransformer> t2DiscreteMeasurements = t2.getExtension(DiscreteMeasurements.class);
+        t2DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.RATIO_TAP_CHANGER).setValid(true).setValue(11)
+                .add();
+        t2DiscreteMeasurements.newDiscreteMeasurement().setType(DiscreteMeasurement.Type.TAP_POSITION).setTapChanger(DiscreteMeasurement.TapChanger.PHASE_TAP_CHANGER).setValid(false).setValue(7)
+                .add();
+
         //add substation p0 that is not attached to voltage levels
         Substation p0 = network.newSubstation().setId("P0").add();
         p0 .setCountry(Country.FR);
@@ -547,6 +559,9 @@ public class NetworkMapControllerTest {
                 .setNominalV(24.0)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
                 .add();
+        // No VoltageLevelInvalidity implementation is available for network-store
+        extensionUtilsMock.when(() -> ExtensionUtils.toVoltageLevelInvalidityType(argThat(vl -> vl != null && "VLGEN6".equals(vl.getId()))))
+                .thenReturn(Optional.of(VoltageLevelInvalidity.InvalidityType.NOT_FULLY_DESCRIBED));
         vlgen6.getBusBreakerView().newBus()
                 .setId("NGEN6")
                 .add();
@@ -1329,6 +1344,11 @@ public class NetworkMapControllerTest {
         given(networkStoreService.getNetwork(NETWORK_2_UUID, PreloadingStrategy.NONE)).willReturn(network2);
     }
 
+    @AfterEach
+    void closeMocks() {
+        extensionUtilsMock.close();
+    }
+
     @AfterAll
     static void tearDown() {
         Mockito.validateMockitoUsage();
@@ -1594,6 +1614,7 @@ public class NetworkMapControllerTest {
         if (withOptionalLoading) {
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_BUS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_NETWORK_COMPONENTS), String.valueOf(true));
         }
         MvcResult mvcResult = mvc.perform(post("/v1/networks/{networkUuid}/elements", networkUuid)
@@ -1647,6 +1668,7 @@ public class NetworkMapControllerTest {
         if (withOptionalLoading) {
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_REGULATING_TERMINALS), String.valueOf(true));
+            queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_BUS), String.valueOf(true));
             queryParams.add(String.format(QUERY_FORMAT_ADDITIONAL_PARAMS, QUERY_PARAM_LOAD_NETWORK_COMPONENTS), String.valueOf(true));
         }
 
@@ -1722,9 +1744,9 @@ public class NetworkMapControllerTest {
         if (withOptionalLoading) {
             body = Map.of(
                 String.valueOf(ElementType.BRANCH), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
-                String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
+                String.valueOf(ElementType.LINE), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true), QUERY_PARAM_LOAD_BUS, String.valueOf(true)),
                 String.valueOf(ElementType.TWO_WINDINGS_TRANSFORMER), Map.of(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS, String.valueOf(true)),
-                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true)),
+                String.valueOf(ElementType.GENERATOR), Map.of(QUERY_PARAM_LOAD_REGULATING_TERMINALS, String.valueOf(true), QUERY_PARAM_LOAD_BUS, String.valueOf(true)),
                 String.valueOf(ElementType.BUS), Map.of(QUERY_PARAM_LOAD_NETWORK_COMPONENTS, String.valueOf(true))
             );
         } else {

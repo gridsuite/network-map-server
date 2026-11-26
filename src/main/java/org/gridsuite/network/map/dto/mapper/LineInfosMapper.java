@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_DC_POWERFACTOR;
+import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_BUS;
 import static org.gridsuite.network.map.dto.InfoTypeParameters.QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS;
 import static org.gridsuite.network.map.dto.utils.ElementUtils.*;
 
@@ -36,8 +37,9 @@ public final class LineInfosMapper extends BranchInfosMapper {
         Double dcPowerFactor = dcPowerFactorStr == null ? null : Double.valueOf(dcPowerFactorStr);
         boolean loadOperationalLimitGroups = Optional.ofNullable(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_OPERATIONAL_LIMIT_GROUPS))
             .map(Boolean::valueOf).orElse(false);
+        boolean loadLineBus = Boolean.parseBoolean(infoTypeParameters.getOptionalParameters().get(QUERY_PARAM_LOAD_BUS));
         return switch (infoTypeParameters.getInfoType()) {
-            case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups);
+            case TAB -> toTabInfos(identifiable, dcPowerFactor, loadOperationalLimitGroups, loadLineBus);
             case FORM -> toFormInfos(identifiable);
             case MAP -> toMapInfos(identifiable, dcPowerFactor);
             case LIST -> ElementInfosMapper.toListInfos(identifiable);
@@ -133,13 +135,15 @@ public final class LineInfosMapper extends BranchInfosMapper {
                 .build();
     }
 
-    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, boolean loadOperationalLimitGroups) {
+    private static LineTabInfos toTabInfos(Identifiable<?> identifiable, Double dcPowerFactor, boolean loadOperationalLimitGroups, boolean loadLineBus) {
         final Line line = (Line) identifiable;
         return toTabBuilder((LineTabInfosBuilder<LineTabInfos, ?>) LineTabInfos.builder(), line, dcPowerFactor, loadOperationalLimitGroups)
                 .g1(line.getG1())
                 .b1(line.getB1())
                 .g2(line.getG2())
                 .b2(line.getB2())
+                .bus1(loadLineBus ? toBusInfos(line.getTerminal1().getBusView().getBus()) : null)
+                .bus2(loadLineBus ? toBusInfos(line.getTerminal2().getBusView().getBus()) : null)
                 .build();
     }
 

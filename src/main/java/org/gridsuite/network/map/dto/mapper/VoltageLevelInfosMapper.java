@@ -141,6 +141,7 @@ public final class VoltageLevelInfosMapper {
                 .highVoltageLimit(nullIfNan(voltageLevel.getHighVoltageLimit()))
                 .substationProperties(voltageLevel.getSubstation().map(ElementUtils::getProperties).orElse(null));
         builder.identifiableShortCircuit(ExtensionUtils.toIdentifiableShortCircuit(voltageLevel));
+        builder.invalidityType(ExtensionUtils.toVoltageLevelInvalidityType(voltageLevel));
 
         return builder.build();
     }
